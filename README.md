@@ -17,11 +17,13 @@
 
 ## Developers
 
- - {Dev01} - {Role(s)}
- - {Dev02} - {Role(s)}
- - {Dev03} - {Role(s)}
- - {Dev04} - {Role(s)}
- - {Dev05} - {Role(s)}
+ - Adrián Aroca Mascaraque
+ - Oriol Bernal Martínez
+ - Unai Díaz de Garayo Serrano
+ - David Jesús González López
+ - David Lira Martí
+ - Carlos Megia Zubillaga
+ - Lucas Pérez García
 
 ## License
 

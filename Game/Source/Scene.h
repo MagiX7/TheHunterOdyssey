@@ -1,39 +1,60 @@
 #ifndef __SCENE_H__
 #define __SCENE_H__
 
-#include "Module.h"
+#include "Log.h"
 
 struct SDL_Texture;
+class GuiControl;
 
-class Scene : public Module
+enum class SceneType
+{
+	LOGO,
+	TITLE,
+	GAMEPLAY,
+	ENDING
+};
+
+class Scene
 {
 public:
 
-	Scene();
+	Scene() : active(false), transitionRequired(false) {}
 
 	// Destructor
-	virtual ~Scene();
+	virtual ~Scene() {}
 
 	// Called before render is available
-	bool Awake();
+	bool Awake() { return true; }
 
 	// Called before the first frame
-	bool Start();
-
-	// Called before all Updates
-	bool PreUpdate();
+	virtual bool Load() { return true; }
 
 	// Called each loop iteration
-	bool Update(float dt);
+	virtual bool Update(float dt) { return true; }
 
 	// Called before all Updates
-	bool PostUpdate();
+	virtual void Draw() {}
 
 	// Called before quitting
-	bool CleanUp();
+	virtual bool UnLoad() { return true; }
 
-private:
-	SDL_Texture* img;
+	virtual bool LoadState(pugi::xml_node&) { return true; }
+
+	virtual bool SaveState(pugi::xml_node&) const { return true; }
+
+	void TransitionToScene(SceneType scene)
+	{
+		LOG("Changing Scene");
+		transitionRequired = true;
+		nextScene = scene;
+	}
+
+public:
+	SString name;
+	bool active;
+
+	bool transitionRequired;
+	SceneType nextScene;
 };
 
 #endif // __SCENE_H__
