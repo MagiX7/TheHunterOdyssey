@@ -74,4 +74,4 @@ ipch/
 *.opensdf
 *.db
 *.opendb
-packages/
+!Game/Source/External/EASTL-3.17.06/test/packages/
