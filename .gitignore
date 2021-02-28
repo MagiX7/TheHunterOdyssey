@@ -28,7 +28,8 @@
 !Game/Source/External/SDL/libx86/SDL2main.lib
 !Game/Source/External/SDL_image/libx86/SDL2_image.lib
 !Game/Source/External/SDL_mixer/libx86/SDL2_mixer.lib
-!Game/Source/External/EASTL-3.17.06/
+!Game/Source/External/EASTL-3.17.06/build/Debug/EASTL.lib
+!Game/Source/External/EASTL-3.17.06/build/Release/EASTL.lib
 
 # Executables
 *.exe
@@ -76,4 +77,3 @@ ipch/
 *.db
 *.opendb
 !Game/Source/External/EASTL-3.17.06/test/packages/
-!Game/Source/External/EASTL-3.17.06/build
