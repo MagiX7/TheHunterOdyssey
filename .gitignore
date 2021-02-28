@@ -66,6 +66,7 @@ Thumbs.db
 [Bb]uild
 [Bb]in
 [Dd]ebug/
+!Game/Source/External/EASTL-3.17.06/lib/[Dd]ebug/
 *.sbr
 *.sdf
 obj/
@@ -76,4 +77,3 @@ ipch/
 *.opensdf
 *.db
 *.opendb
-!Game/Source/External/EASTL-3.17.06/test/packages/
