@@ -4,7 +4,7 @@ In order to report a bug, follow this form.
 
 ## Basic steps
 1. Where do you think the bug comes from? (I.e textures, rendering, ...)
-2. What kind of bug is it? (Crash, Gameplay, ...)
+2. What kind of bug is it? (I.e crash, Gameplay, ...)
 
 ## Concrete description
 {Describe the problem as concrete as possible here}
