@@ -11,26 +11,23 @@ SceneMenu::SceneMenu()
 
 bool SceneMenu::Load()
 {
-	guiManager = new GuiManager();
 
 	return true;
 }
 
 bool SceneMenu::Update(float dt)
 {
-	guiManager->Update(dt);
 
 	return true;
 }
 
 void SceneMenu::Draw()
 {
-	guiManager->Draw();
+
 }
 
 bool SceneMenu::UnLoad()
 {
-	guiManager->CleanUp();
 
 	return true;
 }

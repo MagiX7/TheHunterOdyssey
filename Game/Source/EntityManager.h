@@ -4,7 +4,8 @@
 #include "Entity.h"
 
 #include "Point.h"
-#include "List.h"
+#include "Defs.h"
+#include "EASTL/list.h"
 
 class EntityManager
 {
@@ -28,8 +29,8 @@ public:
 	bool SaveState() const;
 
 public:
-	List<Entity*> entities;
-	//eastl::list<Entity*> entities;
+	//List<Entity*> entities;
+	eastl::list<Entity*> entities;
 };
 
 #endif //__ENTITYMANAGER_H__

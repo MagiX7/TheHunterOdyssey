@@ -2,7 +2,7 @@
 #define __APP_H__
 
 #include "Module.h"
-#include "List.h"
+#include "EASTL/list.h"
 #include "PerfTimer.h"
 #include "Timer.h"
 
@@ -95,7 +95,7 @@ private:
 	SString title;
 	SString organization;
 
-	List<Module *> modules;
+	eastl::list<Module*> modules;
 
 	// Save file
 	pugi::xml_document saveLoadFile;

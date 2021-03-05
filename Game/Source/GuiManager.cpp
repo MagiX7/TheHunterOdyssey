@@ -6,6 +6,9 @@
 #include "GuiCheckBox.h"
 #include "GuiSlider.h"
 
+#include "EASTL/iterator.h"
+#include "EASTL/fixed_allocator.h"
+
 GuiControl* GuiManager::CreateGuiControl(GuiControlType type, uint32 id, SDL_Rect bounds, const char* name, SceneMenu* menu)
 {
 	GuiControl* control = nullptr;
@@ -29,22 +32,23 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type, uint32 id, SDL_Rec
 	}
 
 	// Created entities are added to the list
-	if (control != nullptr) controls.Add(control);
+	if (control != nullptr) controls.push_back(control);
 
 	return control;
 }
 
 void GuiManager::DestroyGuiControl(GuiControl* entity)
 {
-	ListItem<GuiControl*>* item = controls.start;
+	eastl::list<GuiControl*>::iterator item = controls.begin().mpNode;
 
-	while (item)
+	while (item.mpNode)
 	{
-		if (item->data == entity)
+		if (item.mpNode->mValue == entity)
 		{
-			controls.Del(item);
+			controls.remove(item.mpNode->mValue);
 			break;
 		}
+		item = item.mpNode->mpNext;
 	}
 }
 
@@ -58,12 +62,12 @@ GuiManager::~GuiManager()
 
 bool GuiManager::Update(float dt)
 {
-	ListItem<GuiControl*>* item = controls.start;
+	eastl::list<GuiControl*>::iterator control = controls.begin().mpNode;
 
-	while (item)
+	while (control != controls.end())
 	{
-		item->data->Update(app->input, dt);
-		item = item->next;
+		control.mpNode->mValue->Update(app->input, dt);
+		control = control.next();
 	}
 
 	return true;
@@ -71,12 +75,12 @@ bool GuiManager::Update(float dt)
 
 bool GuiManager::Draw()
 {
-	ListItem<GuiControl*>* item = controls.start;
+	eastl::list<GuiControl*>::iterator control = controls.begin().mpNode;
 
-	while (item)
+	while (control != controls.end())
 	{
-		item->data->Draw(app->render);
-		item = item->next;
+		control.mpNode->mValue->Draw(app->render);
+		control = control.next();
 	}
 
 	return true;
@@ -84,9 +88,9 @@ bool GuiManager::Draw()
 
 bool GuiManager::CleanUp()
 {
-	ListItem<GuiControl*>* item = controls.start;
+	//ListItem<GuiControl*>* item = controls.start;
 
-	controls.Clear();
+	controls.clear();
 
 	return true;
 }

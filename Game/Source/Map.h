@@ -48,13 +48,13 @@ struct Properties
 	
 	~Properties()
 	{
-		list.Clear();
+		list.clear();
 	}
 
 	// Ask the value of a custom property
 	int GetProperty(const char* name, int default_value = 0) const;
 
-	List<Property*> list;
+	eastl::list<Property*> list;
 };
 
 
@@ -91,9 +91,9 @@ struct MapData
 	int	tileHeight;
 	SDL_Color backgroundColor;
 	MapTypes type;
-	List<TileSet*> tilesets;
+	eastl::list<TileSet*> tilesets;
 
-	List<MapLayer*> layers;
+	eastl::list<MapLayer*> layers;
 };
 
 class Map
@@ -111,7 +111,7 @@ public:
 	// Called each loop iteration
 	void Draw();
 
-	void DrawLayer(Render* render, int num);
+	void DrawLayer(Render* render, MapLayer* layer);
 
 	// Called before quitting
 	bool CleanUp();

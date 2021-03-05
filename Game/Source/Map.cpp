@@ -13,7 +13,7 @@ Map::Map()
 {
 	name.Create("map");
 
-	folder.Create("Assets/Maps/");
+	folder.Create("Assets/Textures/");
 
 	scale = 1;
 	mapLoaded = false;
@@ -26,15 +26,15 @@ Map::~Map()
 
 int Properties::GetProperty(const char* value, int defaultValue) const
 {
-	ListItem<Property*>* prop = list.start;
+	eastl::list<Property*>::iterator prop = list.begin().mpNode;
 
-	while(prop !=NULL)
+	while(prop != list.end())
 	{
-		if (strcmp(value, prop->data->name.GetString()) == 0)
+		if (strcmp(value, prop.mpNode->mValue->name.GetString()) == 0)
 		{
-			return prop->data->value;
+			return prop.mpNode->mValue->value;
 		}
-		prop = prop->next;
+		prop = prop.next();
 	}
 
 	return defaultValue;
@@ -56,17 +56,17 @@ void Map::Draw()
 	camOffset.x = app->render->camera.x;
 	camOffset.y = app->render->camera.y;
 
+	eastl::list<MapLayer*>::iterator item = data.layers.begin();
+
 	// L06: DONE 4: Make sure we draw all the layers and not just the first one
-	for (int i = 0; i < data.layers.Count(); i++)
+	for (item = data.layers.begin(); item != data.layers.end(); item = item.next())
 	{
-		if ((data.layers[i]->properties.GetProperty("Drawable", 1) != 0)) DrawLayer(app->render, i);
+		if ((item.mpNode->mValue->properties.GetProperty("Drawable", 1) != 0)) DrawLayer(app->render, item.mpNode->mValue);
 	}
 }
 
-void Map::DrawLayer(Render* render, int num)
+void Map::DrawLayer(Render* render, MapLayer* layer)
 {
-	MapLayer* layer = data.layers[num];
-
 	for (int y = 0; y < data.height; ++y)
 	{
 		for (int x = 0; x < data.width; ++x)
@@ -149,18 +149,18 @@ SDL_Rect Map::GetTilemapRec(int x, int y) const
 
 TileSet* Map::GetTilesetFromTileId(int id) const
 {
-	ListItem<TileSet*>* item = data.tilesets.start;
-	TileSet* set = item->data;
+	eastl::list<TileSet*>::iterator item = data.tilesets.begin().mpNode;
+	TileSet* set = item.mpNode->mValue;
 
-	while (item)
+	while (item != data.tilesets.end())
 	{
-		if (id < item->data->firstgid)
+		if (id < item.mpNode->mValue->firstgid)
 		{
-			set = item->prev->data;
+			set = item.prev().mpNode->mValue;
 			break;
 		}
-		set = item->data;
-		item = item->next;
+		set = item.mpNode->mValue;
+		item = item.next();
 	}
 
 	return set;
@@ -186,26 +186,24 @@ bool Map::CleanUp()
 	LOG("Unloading map");
 
 	// Remove all tilesets
-	ListItem<TileSet*>* item;
-	item = data.tilesets.start;
+	eastl::list<TileSet*>::iterator item = data.tilesets.begin();
 
-	while (item != NULL)
+	while (item != data.tilesets.end())
 	{
-		RELEASE(item->data);
-		item = item->next;
+		RELEASE(item.mpNode->mValue);
+		item = item.next();
 	}
-	data.tilesets.Clear();
+	data.tilesets.clear();
 
 	// Remove all layers
-	ListItem<MapLayer*>* itemLayer;
-	itemLayer = data.layers.start;
+	eastl::list<MapLayer*>::iterator itemLayer = data.layers.begin();
 
-	while (itemLayer != NULL)
+	while (itemLayer != data.layers.end())
 	{
-		RELEASE(itemLayer->data);
-		itemLayer = itemLayer->next;
+		RELEASE(itemLayer.mpNode->mValue);
+		itemLayer = itemLayer.next();
 	}
-	data.layers.Clear();
+	data.layers.clear();
 
 	// Clean up the pugui tree
 	mapFile.reset();
@@ -240,7 +238,7 @@ bool Map::Load(const char* filename, Textures* tex)
 
 		if (ret == true) ret = LoadTilesetImage(tileset, set, tex);
 
-		data.tilesets.Add(set);
+		data.tilesets.push_back(set);
 	}
 
 	// Load layer info
@@ -252,7 +250,7 @@ bool Map::Load(const char* filename, Textures* tex)
 
 		ret = LoadLayer(layer, lay);
 
-		if (ret == true) data.layers.Add(lay); 
+		if (ret == true) data.layers.push_back(lay); 
 	}
 	
 	if(ret == true)
@@ -266,16 +264,16 @@ bool Map::Load(const char* filename, Textures* tex)
 		LOG("<< END DATA >>\n");
 
 		// L04: TODO 4: LOG the info for each loaded layer
-		ListItem<MapLayer*>* layerList;
-		layerList = data.layers.start;
-		while (layerList != NULL)
+		eastl::list<MapLayer*>::iterator layerList;
+		layerList = data.layers.begin();
+		while (layerList != data.layers.end())
 		{
 			LOG("<< LAYER >>");
-			LOG("Name=%s", layerList->data->name.GetString());
-			LOG("Width=%d", layerList->data->width);
-			LOG("Height=%d", layerList->data->height);
+			LOG("Name=%s", layerList.mpNode->mValue->name.GetString());
+			LOG("Width=%d", layerList.mpNode->mValue->width);
+			LOG("Height=%d", layerList.mpNode->mValue->height);
 			LOG("<< END LAYER >>\n");
-			layerList = layerList->next;
+			layerList = layerList.next();
 		}
 	}
 
@@ -403,7 +401,7 @@ bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 		prop->name = proper.attribute("name").as_string();
 		prop->value = proper.attribute("value").as_bool();
 
-		properties.list.Add(prop);
+		properties.list.push_back(prop);
 	}
 
 	return ret;
@@ -412,12 +410,11 @@ bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 bool Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 {
 	bool ret = false;
-	ListItem<MapLayer*>* item;
-	item = data.layers.start;
+	eastl::list<MapLayer*>::iterator item;
 
-	for (item = data.layers.start; item != NULL; item = item->next)
+	for (item = data.layers.begin().mpNode; item != data.layers.end(); item = item.next())
 	{
-		MapLayer* layer = item->data;
+		MapLayer* layer = item.mpNode->mValue;
 
 		if (layer->properties.GetProperty("Navigation", 0) == 0)
 			continue;

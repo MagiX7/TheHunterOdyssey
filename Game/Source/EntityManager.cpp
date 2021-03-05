@@ -1,6 +1,8 @@
 #include "EntityManager.h"
 
 #include "Log.h"
+#include "EASTL/fixed_allocator.h"
+#include "EASTL/iterator.h"
 
 EntityManager::EntityManager()
 {
@@ -16,14 +18,14 @@ bool EntityManager::Update(float dt)
 {
 	bool ret = true;
 
-	ListItem<Entity*>* item = entities.start;
-	//eastl::list<Entity*>::value_type item = entities.begin().mpNode;
+	//ListItem<Entity*>* item = entities.start;
+	eastl::list<Entity*>::iterator item = entities.begin();
 	
 	// Update Logic
-	while (item)
+	while (item.mpNode)
 	{
-		item->data->Update(dt);
-		item = item->next;
+		item.mpNode->mValue->Update(dt);
+		item = item.mpNode->mpNext;
 	}
 
 	return ret;
@@ -31,13 +33,13 @@ bool EntityManager::Update(float dt)
 
 void EntityManager::Draw()
 {
-	ListItem<Entity*>* item = entities.start;
-	//eastl::list<Entity*>::value_type item = entities.begin().mpNode;
+	//ListItem<Entity*>* item = entities.start;
+	eastl::list<Entity*>::iterator item = entities.begin();
 
-	while (item)
+	while (item.mpNode)
 	{
-		item->data->Draw();
-		item = item->next;
+		item.mpNode->mValue->Draw();
+		item = item.mpNode->mpNext;
 	}
 }
 
@@ -46,13 +48,13 @@ bool EntityManager::UnLoad()
 	LOG("Unloading Entities");
 	bool ret = true;
 
-	ListItem<Entity*>* item = entities.start;
-	//eastl::list<Entity*>::value_type item = entities.begin().mpNode;
+	//ListItem<Entity*>* item = entities.start;
+	eastl::list<Entity*>::iterator item = entities.begin();
 
-	while (item)
+	while (item.mpNode)
 	{
-		item->data->UnLoad();
-		item = item->next;
+		item.mpNode->mValue->UnLoad();
+		item = item.mpNode->mpNext;
 	}
 	
 	return ret;
@@ -71,23 +73,23 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos)
 	}
 
 	// Created entities are added to the list
-	if (entity != nullptr) entities.Add(entity); // Should player be on the list?
+	if (entity != nullptr) entities.push_back(entity); // Should player be on the list?
 
 	return entity;
 }
 
 void EntityManager::DeleteEntity(Entity* entity)
 {
-	ListItem<Entity*>* item = entities.start;
-	//eastl::list<Entity*>::value_type item = entities.begin().mpNode;
+	//ListItem<Entity*>* item = entities.start;
+	eastl::list<Entity*>::iterator item = entities.begin();
 
-	while (item)
+	while (item.mpNode)
 	{
-		if (item->data == entity)
+		if (item.mpNode->mValue == entity)
 		{
-			entities.Del(item);
+			entities.remove(item.mpNode->mValue);
 			break;
 		}
-		item = item->next;
+		item = item.mpNode->mpNext;
 	}
 }

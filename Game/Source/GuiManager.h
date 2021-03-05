@@ -5,6 +5,8 @@
 #include "GuiControl.h"
 
 #include "List.h"
+#include "Defs.h"
+#include "EASTL/list.h"
 
 class GuiManager : public Module
 {
@@ -28,7 +30,8 @@ public:
 
 public:
 
-	List<GuiControl*> controls;
+	//List<GuiControl*> controls;
+	eastl::list<GuiControl*> controls;
 
 	float accumulatedTime = 0.0f;
 	float updateMsCycle = 0.0f;

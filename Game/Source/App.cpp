@@ -12,6 +12,17 @@
 #include <iostream>
 #include <sstream>
 
+// EASTL library
+void* operator new[](size_t size, const char* pName, int flags, unsigned     debugFlags, const char* file, int line)
+{
+	return malloc(size);
+}
+
+void* operator new[](size_t size, size_t alignment, size_t alignmentOffset, const char* pName, int flags, unsigned debugFlags, const char* file, int line)
+{
+	return malloc(size);
+}
+
 // Constructor
 App::App(int argc, char* args[]) : argc(argc), args(args)
 {
@@ -42,21 +53,21 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 App::~App()
 {
 	// Release modules
-	ListItem<Module*>* item = modules.end;
+	eastl::list<Module*>::iterator item = modules.end().prev();
 
-	while(item != NULL)
+	while(item != modules.begin())
 	{
-		RELEASE(item->data);
-		item = item->prev;
+		RELEASE(item.mpNode->mValue);
+		item = item.prev();
 	}
 
-	modules.Clear();
+	modules.clear();
 }
 
 void App::AddModule(Module* module)
 {
 	module->Init();
-	modules.Add(module);
+	modules.push_back(module);
 }
 
 // Called before render is available
@@ -88,17 +99,16 @@ bool App::Awake()
 
 	if (ret == true)
 	{
-		ListItem<Module*>* item;
-		item = modules.start;
+		eastl::list<Module*>::iterator item = modules.begin();
 
-		while ((item != NULL) && (ret == true))
+		while ((item != modules.end()) && (ret == true))
 		{
 			// L01: DONE 5: Add a new argument to the Awake method to receive a pointer to an xml node.
 			// If the section with the module name exists in config.xml, fill the pointer with the valid xml_node
 			// that can be used to read all variables for that module.
 			// Send nullptr if the node does not exist in config.xml
-			ret = item->data->Awake(config.child(item->data->name.GetString()));
-			item = item->next;
+			ret = item.mpNode->mValue->Awake(config.child(item.mpNode->mValue->name.GetString()));
+			item = item.next();
 		}
 	}
 
@@ -113,13 +123,12 @@ bool App::Start()
 	PERF_START(ptimer);
 
 	bool ret = true;
-	ListItem<Module*>* item;
-	item = modules.start;
+	eastl::list<Module*>::iterator item = modules.begin();
 
-	while(item != NULL && ret == true)
+	while(item != modules.end() && ret == true)
 	{
-		ret = item->data->Start();
-		item = item->next;
+		ret = item.mpNode->mValue->Start();
+		item = item.next();
 	}
 
 	PERF_PEEK(ptimer);
@@ -213,17 +222,17 @@ bool App::PreUpdate()
 {
 	bool ret = true;
 
-	ListItem<Module*>* item;
+	eastl::list<Module*>::iterator item;
 	Module* pModule = NULL;
 
-	for(item = modules.start; item != NULL && ret == true; item = item->next)
+	for(item = modules.begin(); item != modules.end() && ret == true; item = item.next())
 	{
-		pModule = item->data;
+		pModule = item.mpNode->mValue;
 
 		if(pModule->active == false)
 			continue;
 
-		ret = item->data->PreUpdate();
+		ret = item.mpNode->mValue->PreUpdate();
 	}
 
 	return ret;
@@ -233,18 +242,17 @@ bool App::PreUpdate()
 bool App::DoUpdate()
 {
 	bool ret = true;
-	ListItem<Module*>* item;
-	item = modules.start;
+	eastl::list<Module*>::iterator item;
 	Module* pModule = NULL;
 
-	for(item = modules.start; item != NULL && ret == true; item = item->next)
+	for(item = modules.begin(); item != modules.end() && ret == true; item = item.next())
 	{
-		pModule = item->data;
+		pModule = item.mpNode->mValue;
 
 		if(pModule->active == false)
 			continue;
 
-		ret = item->data->Update(dt);
+		ret = item.mpNode->mValue->Update(dt);
 	}
 
 	return ret;
@@ -254,17 +262,17 @@ bool App::DoUpdate()
 bool App::PostUpdate()
 {
 	bool ret = true;
-	ListItem<Module*>* item;
+	eastl::list<Module*>::iterator item;
 	Module* pModule = NULL;
 
-	for(item = modules.start; item != NULL && ret == true; item = item->next)
+	for(item = modules.begin(); item != modules.end() && ret == true; item = item.next())
 	{
-		pModule = item->data;
+		pModule = item.mpNode->mValue;
 
 		if(pModule->active == false) 
 			continue;
 
-		ret = item->data->PostUpdate();
+		ret = item.mpNode->mValue->PostUpdate();
 	}
 
 	return ret;
@@ -274,13 +282,12 @@ bool App::PostUpdate()
 bool App::CleanUp()
 {
 	bool ret = true;
-	ListItem<Module*>* item;
-	item = modules.end;
+	eastl::list<Module*>::iterator item = modules.end().prev();
 
-	while(item != NULL && ret == true)
+	while(item != modules.begin() && ret == true)
 	{
-		ret = item->data->CleanUp();
-		item = item->prev;
+		ret = item.mpNode->mValue->CleanUp();
+		item = item.prev();
 	}
 
 	return ret;
@@ -341,13 +348,12 @@ bool App::LoadGame()
 	{
 		saveState = saveLoadFile.child("save_status");
 
-		ListItem<Module*>* item;
-		item = modules.start;
+		eastl::list<Module*>::iterator item = modules.begin();
 
-		while (item != NULL && ret)
+		while (item != modules.end() && ret)
 		{
-			ret = item->data->LoadState(saveState.child(item->data->name.GetString()));
-			item = item->next;
+			ret = item.mpNode->mValue->LoadState(saveState.child(item.mpNode->mValue->name.GetString()));
+			item = item.next();
 		}
 
 		LOG("File loaded successfully!");
@@ -362,16 +368,17 @@ bool App::SaveGame() const
 	saveGameRequested = false;
 	bool ret = true;
 
-	ListItem<Module*>* item = modules.start;
+	eastl::list<Module*>::iterator item = modules.begin().mpNode;
+	
 	pugi::xml_document file;
 
 	auto root = file.append_child("save_status");
 
-	while (item != NULL)
+	while (item != modules.end())
 	{
-		root.append_child(item->data->name.GetString());
-		ret = item->data->SaveState(root.child(item->data->name.GetString()));
-		item = item->next;
+		root.append_child(item.mpNode->mValue->name.GetString());
+		ret = item.mpNode->mValue->SaveState(root.child(item.mpNode->mValue->name.GetString()));
+		item = item.next();
 	}
 
 	bool saveSucceed = file.save_file("save_game.xml", PUGIXML_TEXT("  "));
@@ -379,5 +386,6 @@ bool App::SaveGame() const
 	{
 		LOG("Couldn't save the file. pugi error: %s", pugi::status_internal_error);
 	}
+
 	return ret;
 }

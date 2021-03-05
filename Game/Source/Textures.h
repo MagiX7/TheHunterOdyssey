@@ -3,7 +3,7 @@
 
 #include "Module.h"
 
-#include "List.h"
+#include "EASTL/list.h"
 
 struct SDL_Texture;
 struct SDL_Surface;
@@ -34,7 +34,7 @@ public:
 
 public:
 
-	List<SDL_Texture*> textures;
+	eastl::list<SDL_Texture*> textures;
 };
 
 
