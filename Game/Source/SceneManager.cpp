@@ -15,6 +15,8 @@
 #include "Defs.h"
 #include "Log.h"
 
+#include "Optick/include/optick.h"
+
 #define FADEOUT_TRANSITION_SPEED	2.0f
 #define FADEIN_TRANSITION_SPEED		2.0f
 
@@ -56,6 +58,8 @@ bool SceneManager::Start()
 // Called each loop iteration
 bool SceneManager::Update(float dt)
 {
+	OPTICK_EVENT();
+
 	LOG("Updating Current Scene");
 	bool ret = true;
 
