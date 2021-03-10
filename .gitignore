@@ -30,6 +30,8 @@
 !Game/Source/External/SDL_mixer/libx86/SDL2_mixer.lib
 !Game/Source/External/EASTL-3.17.06/lib/Debug/EASTL.lib
 !Game/Source/External/EASTL-3.17.06/lib/Release/EASTL.lib
+!Game/Source/External/Optick/lib/debug/OptickCore.lib
+!Game/Source/External/Optick/lib/release/OptickCore.lib
 
 # Executables
 *.exe
@@ -67,6 +69,7 @@ Thumbs.db
 [Bb]in
 [Dd]ebug/
 !Game/Source/External/EASTL-3.17.06/lib/[Dd]ebug/
+!Game/Source/External/Optick/lib/[Dd]ebug/
 *.sbr
 *.sdf
 obj/
