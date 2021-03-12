@@ -23,6 +23,9 @@
 SceneManager::SceneManager() : Module()
 {
 	name.Create("scenemanager");
+	onTransition = false;
+	fadeOutCompleted = false;
+	transitionAlpha = 0.0f;
 }
 
 // Destructor

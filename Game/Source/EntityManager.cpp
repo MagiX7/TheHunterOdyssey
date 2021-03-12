@@ -16,31 +16,24 @@ EntityManager::~EntityManager()
 
 bool EntityManager::Update(float dt)
 {
+	LOG("Updating Entities");
 	bool ret = true;
-
-	//ListItem<Entity*>* item = entities.start;
-	eastl::list<Entity*>::iterator item = entities.begin();
 	
 	// Update Logic
-	while (item.mpNode)
-	{
-		item.mpNode->mValue->Update(dt);
-		item = item.mpNode->mpNext;
-	}
+	eastl::list<Entity*>::iterator item;
+	
+	for (item = entities.begin(); item != entities.end(); ++item)
+		(*item)->Update(dt);
 
 	return ret;
 }
 
 void EntityManager::Draw()
 {
-	//ListItem<Entity*>* item = entities.start;
-	eastl::list<Entity*>::iterator item = entities.begin();
-
-	while (item.mpNode)
-	{
-		item.mpNode->mValue->Draw();
-		item = item.mpNode->mpNext;
-	}
+	eastl::list<Entity*>::iterator item;
+	
+	for (item = entities.begin(); item != entities.end(); ++item)
+		(*item)->Draw();
 }
 
 bool EntityManager::UnLoad()
@@ -48,14 +41,10 @@ bool EntityManager::UnLoad()
 	LOG("Unloading Entities");
 	bool ret = true;
 
-	//ListItem<Entity*>* item = entities.start;
 	eastl::list<Entity*>::iterator item = entities.begin();
 
-	while (item.mpNode)
-	{
-		item.mpNode->mValue->UnLoad();
-		item = item.mpNode->mpNext;
-	}
+	for (item = entities.begin(); item != entities.end(); ++item)
+		(*item)->UnLoad();
 	
 	return ret;
 }
@@ -80,16 +69,15 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos)
 
 void EntityManager::DeleteEntity(Entity* entity)
 {
-	//ListItem<Entity*>* item = entities.start;
-	eastl::list<Entity*>::iterator item = entities.begin();
+	LOG("Deleting Entity");
+	eastl::list<Entity*>::iterator item;
 
-	while (item.mpNode)
+	for (item = entities.begin(); item != entities.end(); ++item)
 	{
-		if (item.mpNode->mValue == entity)
+		if (*item == entity)
 		{
-			entities.remove(item.mpNode->mValue);
+			entities.remove(*item);
 			break;
 		}
-		item = item.mpNode->mpNext;
 	}
 }

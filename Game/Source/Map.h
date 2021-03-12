@@ -7,6 +7,14 @@
 
 #include "PugiXml\src\pugixml.hpp"
 
+struct AnimatedTiles
+{
+	eastl::list<int> frames;
+	int maxTime;
+	int timer;
+	bool hasChanged;
+};
+
 // Holds the information of the tileset
 struct TileSet
 {
@@ -24,6 +32,7 @@ struct TileSet
 	int	numTilesHeight;
 	int	offsetX;
 	int	offsetY;
+	eastl::list<AnimatedTiles*> animatedTiles;
 
 	// Receives a tile id and returns it's Rectfind the Rect associated with a specific tile id
 	SDL_Rect GetTileRect(int id) const;
@@ -80,6 +89,12 @@ struct MapLayer
 	{
 		return data[(y * width) + x];
 	}
+
+	inline uint ChangeTile(int x, int y, int newValue)
+	{
+		data[(y * width) + x] = newValue;
+		return data[(y * width) + x];
+	}
 };
 
 // Holds the information of Map node
@@ -107,6 +122,8 @@ public:
 
 	// Called before render is available
 	bool Awake(pugi::xml_node& conf);
+
+	bool Update(float dt);
 
 	// Called each loop iteration
 	void Draw();
@@ -138,6 +155,8 @@ private:
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
 	TileSet* GetTilesetFromTileId(int id) const;
+
+	void UpdateTiles();
 
 public:
 
