@@ -9,6 +9,14 @@
 #include "EASTL/iterator.h"
 #include "EASTL/fixed_allocator.h"
 
+GuiManager::GuiManager()
+{
+}
+
+GuiManager::~GuiManager()
+{
+}
+
 GuiControl* GuiManager::CreateGuiControl(GuiControlType type, uint32 id, SDL_Rect bounds, const char* name, SceneMenu* menu)
 {
 	GuiControl* control = nullptr;
@@ -37,59 +45,42 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type, uint32 id, SDL_Rec
 	return control;
 }
 
-void GuiManager::DestroyGuiControl(GuiControl* entity)
+void GuiManager::DestroyGuiControl(GuiControl* control)
 {
-	eastl::list<GuiControl*>::iterator item = controls.begin().mpNode;
+	eastl::list<GuiControl*>::iterator item;
 
-	while (item.mpNode)
+	for (item = controls.begin(); item != controls.end(); ++item)
 	{
-		if (item.mpNode->mValue == entity)
+		if (*item == control)
 		{
-			controls.remove(item.mpNode->mValue);
+			controls.remove(*item);
 			break;
 		}
-		item = item.mpNode->mpNext;
 	}
-}
-
-GuiManager::GuiManager()
-{
-}
-
-GuiManager::~GuiManager()
-{
 }
 
 bool GuiManager::Update(float dt)
 {
 	eastl::list<GuiControl*>::iterator control = controls.begin().mpNode;
 
-	while (control != controls.end())
-	{
-		control.mpNode->mValue->Update(app->input, dt);
-		control = control.next();
-	}
+	for (control = controls.begin(); control != controls.end(); ++control)
+		(*control)->Update(app->input, dt);
 
 	return true;
 }
 
 bool GuiManager::Draw()
 {
-	eastl::list<GuiControl*>::iterator control = controls.begin().mpNode;
+	eastl::list<GuiControl*>::iterator control;
 
-	while (control != controls.end())
-	{
-		control.mpNode->mValue->Draw(app->render);
-		control = control.next();
-	}
+	for (control = controls.begin(); control != controls.end(); ++control)
+		(*control)->Draw(app->render);
 
 	return true;
 }
 
 bool GuiManager::CleanUp()
 {
-	//ListItem<GuiControl*>* item = controls.start;
-
 	controls.clear();
 
 	return true;

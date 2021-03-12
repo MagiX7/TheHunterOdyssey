@@ -9,9 +9,6 @@
 #include "SDL/include/SDL.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 
-// NOTE: Library linkage is configured in Linker Options
-//#pragma comment(lib, "../Game/Source/External/SDL_mixer/libx86/SDL2_mixer.lib")
-
 Audio::Audio() : Module()
 {
 	music = NULL;
@@ -72,8 +69,8 @@ bool Audio::CleanUp()
 	}
 
 	eastl::list<Mix_Chunk*>::iterator item;
-	for(item = fx.begin(); item != fx.end(); item = item.next())
-		Mix_FreeChunk(item.mpNode->mValue);
+	for(item = fx.begin(); item != fx.end(); ++item)
+		Mix_FreeChunk(*item);
 
 	fx.clear();
 

@@ -4,7 +4,6 @@
 #include "Textures.h"
 
 #include "SceneGameplay.h"
-#include "EntityManager.h"
 
 #include "Audio.h"
 
@@ -29,22 +28,17 @@ bool SceneGameplay::Update(float dt)
 {
 	bool ret = true;
 
-	entityManager->Update(dt);
-
 	return ret;
 }
 
 void SceneGameplay::Draw()
 {
-	entityManager->Draw();
 }
 
 bool SceneGameplay::UnLoad()
 {
 	LOG("Unloading Scene Gameplay");
 	bool ret = true;
-
-	entityManager->UnLoad();
 
 	return ret;
 }

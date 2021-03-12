@@ -30,11 +30,11 @@ int Properties::GetProperty(const char* value, int defaultValue) const
 
 	while(prop != list.end())
 	{
-		if (strcmp(value, prop.mpNode->mValue->name.GetString()) == 0)
+		if (strcmp(value, (*prop)->name.GetString()) == 0)
 		{
-			return prop.mpNode->mValue->value;
+			return (*prop)->value;
 		}
-		prop = prop.next();
+		++prop;
 	}
 
 	return defaultValue;
@@ -48,6 +48,27 @@ bool Map::Awake(pugi::xml_node& config)
 	return ret;
 }
 
+bool Map::Update(float dt)
+{
+	eastl::list<TileSet*>::iterator item = data.tilesets.begin();
+	for (; item != data.tilesets.end(); ++item)
+	{
+		eastl::list<AnimatedTiles*>::iterator tiles = (*item)->animatedTiles.begin();
+		for (; tiles != (*item)->animatedTiles.end(); ++tiles)
+		{
+			if ((*tiles)->timer >= (*tiles)->maxTime)
+			{
+				(*tiles)->timer = 0;
+			}
+			(*tiles)->timer++;
+		}
+	}
+
+	UpdateTiles();
+
+	return true;
+}
+
 // Draw the map (all required layers)
 void Map::Draw()
 {
@@ -56,13 +77,21 @@ void Map::Draw()
 	camOffset.x = app->render->camera.x;
 	camOffset.y = app->render->camera.y;
 
+	// L06: DONE 4: Make sure we draw all the layers and not just the first one
+	
+
+	//for (MapLayer* item : data.layers)
+	//{
+	//	if (item->properties.GetProperty("Drawable", 1) != 0) DrawLayer(app->render, item);
+	//}
+
 	eastl::list<MapLayer*>::iterator item = data.layers.begin();
 
-	// L06: DONE 4: Make sure we draw all the layers and not just the first one
-	for (item = data.layers.begin(); item != data.layers.end(); item = item.next())
+	for (; item != data.layers.end(); ++item)
 	{
-		if ((item.mpNode->mValue->properties.GetProperty("Drawable", 1) != 0)) DrawLayer(app->render, item.mpNode->mValue);
+		if (((*item)->properties.GetProperty("Drawable", 1) != 0)) DrawLayer(app->render, (*item));
 	}
+
 }
 
 void Map::DrawLayer(Render* render, MapLayer* layer)
@@ -76,7 +105,24 @@ void Map::DrawLayer(Render* render, MapLayer* layer)
 			if (tileId > 0)
 			{
 				// L04: DONE 9: Complete the draw function
-				TileSet* tileset = GetTilesetFromTileId(tileId);
+				TileSet* tileset = GetTilesetFromTileId(tileId); 
+				eastl::list<AnimatedTiles*>::iterator anim;
+
+				anim = tileset->animatedTiles.begin();
+
+				for (; anim != tileset->animatedTiles.end(); ++anim)
+				{
+					if ((*anim)->timer >= (*anim)->maxTime)
+					{
+						eastl::list<int>::iterator frames = (*anim)->frames.begin();
+						if (layer->Get(x, y) == (*frames))
+						{
+							layer->ChangeTile(x, y, (*frames.next()));
+							(*anim)->hasChanged = true;
+							break;
+						}
+					}
+				}
 
 				SDL_Rect rec = tileset->GetTileRect(tileId);
 				iPoint pos = MapToWorld(x, y);
@@ -134,7 +180,6 @@ iPoint Map::WorldToMap(int x, int y) const
 		ret.x = x; ret.y = y;
 	}
 
-
 	return ret;
 }
 
@@ -150,20 +195,41 @@ SDL_Rect Map::GetTilemapRec(int x, int y) const
 TileSet* Map::GetTilesetFromTileId(int id) const
 {
 	eastl::list<TileSet*>::iterator item = data.tilesets.begin().mpNode;
-	TileSet* set = item.mpNode->mValue;
+	TileSet* set = (*item);
 
 	while (item != data.tilesets.end())
 	{
-		if (id < item.mpNode->mValue->firstgid)
+		if (id < (*item)->firstgid)
 		{
-			set = item.prev().mpNode->mValue;
+			set = (*item.prev());
 			break;
 		}
-		set = item.mpNode->mValue;
-		item = item.next();
+		set = (*item);
+		++item;
 	}
 
 	return set;
+}
+
+void Map::UpdateTiles()
+{
+	eastl::list<AnimatedTiles*>::iterator anim;
+	eastl::list<TileSet*>::iterator tile = data.tilesets.begin();
+	
+	for (; tile != data.tilesets.end(); ++tile)
+	{
+		anim = (*tile)->animatedTiles.begin();
+		for (; anim != (*tile)->animatedTiles.end(); ++anim)
+		{
+			if ((*anim)->hasChanged)
+			{
+				(*anim)->hasChanged = false;
+				int aux = (*anim)->frames.begin().mpNode->mValue;
+				(*anim)->frames.pop_front();
+				(*anim)->frames.push_back(aux);
+			}
+		}
+	}
 }
 
 // Get relative Tile rectangle
@@ -190,8 +256,8 @@ bool Map::CleanUp()
 
 	while (item != data.tilesets.end())
 	{
-		RELEASE(item.mpNode->mValue);
-		item = item.next();
+		RELEASE((*item));
+		++item;
 	}
 	data.tilesets.clear();
 
@@ -200,8 +266,8 @@ bool Map::CleanUp()
 
 	while (itemLayer != data.layers.end())
 	{
-		RELEASE(itemLayer.mpNode->mValue);
-		itemLayer = itemLayer.next();
+		RELEASE((*itemLayer));
+		++itemLayer;
 	}
 	data.layers.clear();
 
@@ -269,11 +335,11 @@ bool Map::Load(const char* filename, Textures* tex)
 		while (layerList != data.layers.end())
 		{
 			LOG("<< LAYER >>");
-			LOG("Name=%s", layerList.mpNode->mValue->name.GetString());
-			LOG("Width=%d", layerList.mpNode->mValue->width);
-			LOG("Height=%d", layerList.mpNode->mValue->height);
+			LOG("Name=%s", (*layerList)->name.GetString());
+			LOG("Width=%d", (*layerList)->width);
+			LOG("Height=%d", (*layerList)->height);
 			LOG("<< END LAYER >>\n");
-			layerList = layerList.next();
+			++layerList;
 		}
 	}
 
@@ -340,6 +406,17 @@ bool Map::LoadTilesetDetails(pugi::xml_node& tilesetNode, TileSet* set)
 	set->numTilesWidth = set->texWidth / set->tileWidth;
 	set->numTilesHeight = set->texHeight / set->tileHeight;
 
+	for (pugi::xml_node tile = tilesetNode.child("tile"); tile; tile = tile.next_sibling("tile"))
+	{
+		AnimatedTiles* anim = new AnimatedTiles();
+		for (pugi::xml_node frame = tile.child("animation").child("frame"); frame; frame = frame.next_sibling("frame"))
+		{
+			anim->frames.push_back(frame.attribute("tileid").as_uint() + set->firstgid);
+			anim->maxTime = 20;
+		}
+		set->animatedTiles.push_back(anim);
+	}
+
 	return ret;
 }
 
@@ -382,7 +459,7 @@ bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	for (pugi::xml_node tile = node.child("data").first_child(); tile; tile = tile.next_sibling("tile"))
 	{
 		layer->data[i] = tile.attribute("gid").as_uint(0);
-		i++;
+		++i;
 	}
 
 	LoadProperties(node, layer->properties);
@@ -412,9 +489,9 @@ bool Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 	bool ret = false;
 	eastl::list<MapLayer*>::iterator item;
 
-	for (item = data.layers.begin().mpNode; item != data.layers.end(); item = item.next())
+	for (item = data.layers.begin().mpNode; item != data.layers.end(); ++item)
 	{
-		MapLayer* layer = item.mpNode->mValue;
+		MapLayer* layer = (*item);
 
 		if (layer->properties.GetProperty("Navigation", 0) == 0)
 			continue;

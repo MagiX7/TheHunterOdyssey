@@ -87,6 +87,7 @@ bool Input::PreUpdate()
 		{
 			case SDL_QUIT:
 				windowEvents[WE_QUIT] = true;
+				return false;
 			break;
 
 			case SDL_WINDOWEVENT:

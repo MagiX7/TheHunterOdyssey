@@ -3,8 +3,6 @@
 
 #include "Scene.h"
 
-class EntityManager;
-
 class SceneGameplay : public Scene
 {
 public:
@@ -26,8 +24,6 @@ public:
 
 private:
 	SDL_Texture* bg;
-
-	EntityManager* entityManager;
 };
 
 #endif //__SCENEGAMEPLAY_H__

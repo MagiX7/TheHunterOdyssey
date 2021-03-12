@@ -6,7 +6,6 @@
 #include "Log.h"
 
 #include "SDL_image/include/SDL_image.h"
-//#pragma comment(lib, "../Game/Source/External/SDL_image/libx86/SDL2_image.lib")
 
 Textures::Textures() : Module()
 {
@@ -50,10 +49,8 @@ bool Textures::CleanUp()
 	LOG("Freeing textures and Image library");
 	eastl::list<SDL_Texture*>::iterator item;
 
-	for(item = textures.begin(); item != textures.end(); item = item.next())
-	{
-		SDL_DestroyTexture(item.mpNode->mValue);
-	}
+	for(item = textures.begin(); item != textures.end(); ++item)
+		SDL_DestroyTexture(*item);
 
 	textures.clear();
 	IMG_Quit();
@@ -84,12 +81,12 @@ bool Textures::UnLoad(SDL_Texture* texture)
 {
 	eastl::list<SDL_Texture*>::iterator item;
 
-	for(item = textures.begin(); item != textures.end(); item = item.next())
+	for(item = textures.begin(); item != textures.end(); ++item)
 	{
-		if(texture == item.mpNode->mValue)
+		if(texture == *item)
 		{
-			SDL_DestroyTexture(item.mpNode->mValue);
-			textures.remove(item.mpNode->mValue);
+			SDL_DestroyTexture(*item);
+			textures.remove(*item);
 			return true;
 		}
 	}
