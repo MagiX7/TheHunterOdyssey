@@ -1,0 +1,16 @@
+Date: 01/03/2021
+
+Start time: 16:00 pm.
+
+End time: 17:00 pm.
+
+Topics discussed:
+	- Map designer showed and explained the first map prototype.
+	- Village assets decided. 
+	- Items assets decided.
+	- Particle assets temp decided.
+	- Character assets decided.
+	- Background music.
+	- Main plot started.
+
+

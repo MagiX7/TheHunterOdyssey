@@ -1,0 +1,10 @@
+Date: 03/03/2021
+
+Start time: 11:00 am.
+
+End time: 12:10 pm.
+
+Topics discussed:
+	- Naming conventions.
+	- Enemy assets decided.
+	
