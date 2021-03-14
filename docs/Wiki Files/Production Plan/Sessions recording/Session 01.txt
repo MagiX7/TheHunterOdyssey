@@ -1,0 +1,9 @@
+Date: 26/02/2021
+
+Start time: 12:00 pm.
+
+End time: 13:30 pm
+
+Topics discussed:
+	- Assets choosen and game style decided. Also talked about core game pillars and the basic structure of the game (linear map, puzzles, etc).
+	- Github Project setted up.
