@@ -9,7 +9,7 @@
 
 SceneMenu::SceneMenu()
 {
-	state = MenuState::NORMAL;
+	state = MenuState::NONE;
 	showColliders = true;
 }
 
@@ -42,6 +42,11 @@ bool SceneMenu::Update(float dt)
 {
 	switch (state)
 	{
+	case MenuState::NONE:
+	{
+		state = MenuState::NORMAL;
+	}
+	break;
 	case MenuState::NORMAL:
 	{
 		btnNewGame->Update(app->input, dt);

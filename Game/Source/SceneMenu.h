@@ -8,7 +8,8 @@ class Font;
 
 enum class MenuState
 {
-	NORMAL = 0,
+	NONE = 0,
+	NORMAL,
 	OPTIONS,
 	CREDITS,
 	EXIT,
