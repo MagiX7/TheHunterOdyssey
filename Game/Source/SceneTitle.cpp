@@ -20,6 +20,8 @@ bool SceneTitle::Load()
 {
 	LOG("Loading Scene Title");
 	bool ret = true;
+	
+	bg = app->tex->Load("Assets/Textures/Scenes/Title/game_title.png");
 
 	return ret;
 }
@@ -28,17 +30,25 @@ bool SceneTitle::Update(float dt)
 {
 	bool ret = true;
 
+	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+	{
+		TransitionToScene(SceneType::MENU);
+	}
+
 	return ret;
 }
 
 void SceneTitle::Draw()
 {
+	app->render->DrawTexture(bg, 378, 257, NULL);
 }
 
 bool SceneTitle::UnLoad()
 {
 	LOG("Unloading Scene Title");
 	bool ret = true;
+
+	app->tex->UnLoad(bg);
 
 	return ret;
 }

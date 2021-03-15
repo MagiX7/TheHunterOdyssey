@@ -26,7 +26,7 @@ bool SceneLogo::Load()
 	LOG("Loading Scene Logo");
 	bool ret = true;
 
-	logo = app->tex->Load("Assets/textures/scenes/logo/logo.png");
+	logo = app->tex->Load("Assets/Textures/Scenes/Logo/logo.png");
 
 	return ret;
 }
@@ -59,7 +59,7 @@ bool SceneLogo::Update(float dt)
 		if (logoAlpha > 1.0f)
 		{
 			logoAlpha = 1.0f;
-			TransitionToScene(SceneType::MENU);
+			TransitionToScene(SceneType::TITLE);
 		}
 		break;
 	}
