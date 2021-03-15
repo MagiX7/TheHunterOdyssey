@@ -25,7 +25,7 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type, uint32 id, SDL_Rec
 	{
 		// Create the corresponding GuiControl type
 		case GuiControlType::BUTTON: 
-			control = new GuiButton(id, bounds, name); 
+			control = new GuiButton(id, bounds, name, menu); 
 			control->SetObserver(menu);
 			break;
 		case GuiControlType::CHECKBOX: 

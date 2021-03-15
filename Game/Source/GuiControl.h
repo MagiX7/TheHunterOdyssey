@@ -90,7 +90,7 @@ public:
 
     //Font font;              // Text font
 
-    SceneMenu* observer;        // Observer module (it should probably be an array/list)
+    Scene* observer;        // Observer module (it should probably be an array/list)
 };
 
 #endif // __GUICONTROL_H__

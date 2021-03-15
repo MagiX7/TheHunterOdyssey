@@ -9,6 +9,7 @@ class GuiControl;
 enum class SceneType
 {
 	LOGO,
+	MENU,
 	TITLE,
 	GAMEPLAY,
 	ENDING
@@ -41,6 +42,8 @@ public:
 	virtual bool LoadState(pugi::xml_node&) { return true; }
 
 	virtual bool SaveState(pugi::xml_node&) const { return true; }
+
+	virtual bool OnGuiMouseClickEvent(GuiControl* control) { return true; }
 
 	void TransitionToScene(SceneType scene)
 	{

@@ -50,8 +50,8 @@ bool SceneManager::Start()
 	current = new SceneLogo();
 	current->Load();
 
-	menu = new SceneMenu();
-	menu->Load();
+	/*menu = new SceneMenu();
+	menu->Load();*/
 
 	next = nullptr;
 
@@ -77,7 +77,7 @@ bool SceneManager::Update(float dt)
 	if (!onTransition)
 	{
 		ret = current->Update(dt);
-		menu->Update(dt);
+		//menu->Update(dt);
 	}
 	else
 	{
@@ -117,7 +117,7 @@ bool SceneManager::Update(float dt)
 
 	// Draw current scene
 	current->Draw();
-	menu->Draw();
+	//menu->Draw();
 
 	// Draw full screen rectangle in front of everything
 	if (onTransition)
@@ -134,6 +134,7 @@ bool SceneManager::Update(float dt)
 		switch (current->nextScene)
 		{
 		case SceneType::LOGO: next = new SceneLogo(); break;
+		case SceneType::MENU: next = new SceneMenu(); break;
 		case SceneType::TITLE: next = new SceneTitle(); break;
 		case SceneType::GAMEPLAY: next = new SceneGameplay(); break;
 		case SceneType::ENDING: next = new SceneEnding(); break;

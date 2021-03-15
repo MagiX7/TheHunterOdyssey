@@ -2,8 +2,18 @@
 
 #include "Scene.h"
 
+class GuiButton;
 class GuiManager;
 class Font;
+
+enum class MenuState
+{
+	NORMAL = 0,
+	OPTIONS,
+	CREDITS,
+	EXIT,
+	GLOBAL_EXIT,
+};
 
 class SceneMenu : public Scene
 {
@@ -20,10 +30,24 @@ public:
 
 	bool UnLoad() override;
 
-	bool OnGuiMouseClickEvent(GuiControl* control);
+	bool OnGuiMouseClickEvent(GuiControl* control) override;
 
 private:
 	SDL_Texture* bg;
 
+	MenuState state;
+
 	GuiManager* guiManager;
+	
+	// Buttons
+	GuiButton* btnNewGame;
+	GuiButton* btnContinue;
+	GuiButton* btnOptions;
+	GuiButton* btnCredits;
+	GuiButton* btnExit;
+	GuiButton* btnExitYes;
+	GuiButton* btnExitNo;
+
+	// The user wants to exit the game
+	bool isExitPressed;
 };

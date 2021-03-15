@@ -4,11 +4,10 @@
 #include "Module.h"
 #include "GuiControl.h"
 
-#include "List.h"
 #include "Defs.h"
 #include "EASTL/list.h"
 
-class GuiManager : public Module
+class GuiManager
 {
 public:
 
