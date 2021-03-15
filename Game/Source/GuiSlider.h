@@ -14,7 +14,7 @@ public:
     virtual ~GuiSlider();
 
     bool Update(Input* input, float dt);
-    bool Draw(Render* render);
+    bool Draw(Render* render, bool showColliders);
 
 private:
 

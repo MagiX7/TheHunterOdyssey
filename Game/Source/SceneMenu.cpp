@@ -10,6 +10,7 @@
 SceneMenu::SceneMenu()
 {
 	state = MenuState::NORMAL;
+	showColliders = true;
 }
 
 bool SceneMenu::Load()
@@ -82,11 +83,11 @@ void SceneMenu::Draw()
 	{
 	case MenuState::NORMAL:
 		{
-			btnNewGame->Draw(app->render);
-			btnContinue->Draw(app->render);
-			btnOptions->Draw(app->render);
-			btnCredits->Draw(app->render);
-			btnExit->Draw(app->render);
+			btnNewGame->Draw(app->render, showColliders);
+			btnContinue->Draw(app->render, showColliders);
+			btnOptions->Draw(app->render, showColliders);
+			btnCredits->Draw(app->render, showColliders);
+			btnExit->Draw(app->render, showColliders);
 		}
 		break;
 	case MenuState::OPTIONS:
@@ -101,8 +102,8 @@ void SceneMenu::Draw()
 	break;
 	case MenuState::EXIT:
 	{
-		btnExitYes->Draw(app->render);
-		btnExitNo->Draw(app->render);
+		btnExitYes->Draw(app->render, showColliders);
+		btnExitNo->Draw(app->render, showColliders);
 	}
 	break;
 	}

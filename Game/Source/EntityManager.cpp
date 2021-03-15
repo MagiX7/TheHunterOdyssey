@@ -28,12 +28,12 @@ bool EntityManager::Update(float dt)
 	return ret;
 }
 
-void EntityManager::Draw()
+void EntityManager::Draw(bool showColliders)
 {
 	eastl::list<Entity*>::iterator item;
 	
 	for (item = entities.begin(); item != entities.end(); ++item)
-		(*item)->Draw();
+		(*item)->Draw(showColliders);
 }
 
 bool EntityManager::UnLoad()

@@ -74,7 +74,7 @@ bool GuiManager::Draw()
 	eastl::list<GuiControl*>::iterator control;
 
 	for (control = controls.begin(); control != controls.end(); ++control)
-		(*control)->Draw(app->render);
+		//(*control)->Draw(app->render, );
 
 	return true;
 }

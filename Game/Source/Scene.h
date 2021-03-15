@@ -58,6 +58,8 @@ public:
 
 	bool transitionRequired;
 	SceneType nextScene;
+
+	bool showColliders;
 };
 
 #endif // __SCENE_H__

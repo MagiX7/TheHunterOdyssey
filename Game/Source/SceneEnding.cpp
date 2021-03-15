@@ -10,6 +10,8 @@
 SceneEnding::SceneEnding()
 {
 	bg = nullptr;
+
+	showColliders = false;
 }
 
 bool SceneEnding::Load()

@@ -17,6 +17,8 @@ SceneLogo::SceneLogo()
 	state = 0;
 	timeCounter = 0.0f;
 	logoAlpha = 1.0f;
+
+	showColliders = false;
 }
 
 bool SceneLogo::Load()

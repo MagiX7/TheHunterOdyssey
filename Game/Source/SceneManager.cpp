@@ -74,6 +74,8 @@ bool SceneManager::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) app->render->camera.x -= 5 * dt;
 
+	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) current->showColliders = !current->showColliders;
+
 	if (!onTransition)
 	{
 		ret = current->Update(dt);

@@ -3,6 +3,8 @@
 
 #include "Scene.h"
 
+class Player;
+
 class SceneGameplay : public Scene
 {
 public:
@@ -24,6 +26,8 @@ public:
 
 private:
 	SDL_Texture* bg;
+
+	Player* player;
 };
 
 #endif //__SCENEGAMEPLAY_H__

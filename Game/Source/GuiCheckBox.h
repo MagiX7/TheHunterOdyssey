@@ -14,7 +14,7 @@ public:
     virtual ~GuiCheckBox();
 
     bool Update(Input* input, float dt) override;
-    bool Draw(Render* render);
+    bool Draw(Render* render, bool showColliders) override;
 
 private:
 

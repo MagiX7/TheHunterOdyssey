@@ -54,7 +54,7 @@ public:
         return true;
     }
 
-    virtual bool Draw(Render* render)
+    virtual bool Draw(Render* render, bool showColliders)
     {
         return true;
     }

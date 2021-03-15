@@ -14,7 +14,7 @@ public:
     virtual ~GuiButton();
 
     bool Update(Input* input, float dt);
-    bool Draw(Render* render);
+    bool Draw(Render* render, bool showColliders) override;
 
 private:
 

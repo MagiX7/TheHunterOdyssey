@@ -25,7 +25,7 @@ public:
 
 	virtual bool CheckCollisions() { return true; }
 	
-	virtual void Draw() {}
+	virtual void Draw(bool showColliders) {}
 
 	virtual bool UnLoad() { return true; }
 
@@ -34,6 +34,7 @@ public:
 	virtual bool SaveState(pugi::xml_node&) const { return true; }
 
 public:
+	SDL_Rect bounds;
 	SString name;
 	EntityType type;
 };

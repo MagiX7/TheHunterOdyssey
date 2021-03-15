@@ -16,7 +16,7 @@ public:
 
 	bool Update(float dt);
 
-	void Draw();
+	void Draw(bool showColliders);
 
 	bool UnLoad();
 
