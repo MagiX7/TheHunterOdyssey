@@ -1,3 +1,4 @@
+#include "App.h"
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
@@ -22,6 +23,8 @@ bool SceneLogo::Load()
 {
 	LOG("Loading Scene Logo");
 	bool ret = true;
+
+	logo = app->tex->Load("Assets/textures/scenes/logo/logo.png");
 
 	return ret;
 }
@@ -64,12 +67,16 @@ bool SceneLogo::Update(float dt)
 
 void SceneLogo::Draw()
 {
+	app->render->DrawRectangle({ 0,0,1280,720 }, 255, 255, 255, 255);
+	app->render->DrawTexture(logo, 315, 35, NULL);
 }
 
 bool SceneLogo::UnLoad()
 {
 	LOG("Unloading Scene Logo");
 	bool ret = true;
+
+	app->tex->UnLoad(logo);
 
 	return ret;
 }
