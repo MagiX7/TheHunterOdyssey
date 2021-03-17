@@ -15,6 +15,8 @@ public:
 
 	void Draw(bool showColliders) override;
 
+	void HandleInput(float dt);
+
 private:
 
 };

@@ -71,6 +71,9 @@ void SceneLogo::Draw()
 {
 	app->render->DrawRectangle({ 0,0,1280,720 }, 255, 255, 255, 255);
 	app->render->DrawTexture(logo, 315, 35, NULL);
+
+	// Fade in Logo
+	if (state == 1) app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 255 * logoAlpha);
 }
 
 bool SceneLogo::UnLoad()

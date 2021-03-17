@@ -21,7 +21,12 @@ bool SceneTitle::Load()
 	LOG("Loading Scene Title");
 	bool ret = true;
 	
+	// Logo texture loading
 	bg = app->tex->Load("Assets/Textures/Scenes/Title/game_title.png");
+
+	// Music startup
+	// TODO revise this when we change the module audio.
+	app->audio->PlayMusic("Assets/Audio/Music/intro_theme.wav");
 
 	return ret;
 }
@@ -33,6 +38,7 @@ bool SceneTitle::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	{
 		TransitionToScene(SceneType::MENU);
+		app->audio->CleanUp();
 	}
 
 	return ret;
