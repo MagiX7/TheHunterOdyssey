@@ -28,6 +28,9 @@ bool SceneTitle::Load()
 	// TODO revise this when we change the module audio.
 	app->audio->PlayMusic("Assets/Audio/Music/intro_theme.wav");
 
+	// Enter FX
+	enterFx = app->audio->LoadFx("Assets/Audio/Fx/title_enter.wav");
+
 	return ret;
 }
 
@@ -37,8 +40,8 @@ bool SceneTitle::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	{
+		app->audio->PlayFx(enterFx);
 		TransitionToScene(SceneType::MENU);
-		app->audio->Reset();
 	}
 
 	return ret;
@@ -55,6 +58,7 @@ bool SceneTitle::UnLoad()
 	bool ret = true;
 
 	app->tex->UnLoad(bg);
+	
 
 	return ret;
 }

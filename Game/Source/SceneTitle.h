@@ -24,6 +24,8 @@ public:
 
 private:
 	SDL_Texture* bg;
+	
+	int enterFx;
 };
 
 #endif //__SCENETITLE_H__
