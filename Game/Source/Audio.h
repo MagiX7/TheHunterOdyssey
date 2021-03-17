@@ -2,7 +2,7 @@
 #define __AUDIO_H__
 
 #include "Module.h"
-#include "EASTL/list.h"
+#include "EASTL/array.h"
 
 #define DEFAULT_MUSIC_FADE_TIME 2.0f
 
@@ -33,10 +33,12 @@ public:
 	// Play a previously loaded WAV
 	bool PlayFx(unsigned int fx, int repeat = 0);
 
+	void Reset();
+
 private:
 
 	_Mix_Music* music;
-	eastl::list<Mix_Chunk *> fx;
+	eastl::array<Mix_Chunk *> fx;
 };
 
 #endif // __AUDIO_H__

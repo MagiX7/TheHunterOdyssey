@@ -1,8 +1,8 @@
-# {Project Name}
+# The Hunter Odyssey
 
 ## Description
 
-{project description}
+The Hunter Odyssey is our RPG turn-based video game based on the roots of the genre. In that experience, you are a bounty hunter who has heard rumors about the prince from the most important region of the country, who is supposedly kidnapped by a majestuous monster. So, you decide to visit that famous place, with the objective of discovering all the secrets around this case.
 
 ## Key Features
 

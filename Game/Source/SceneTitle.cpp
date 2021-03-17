@@ -38,7 +38,7 @@ bool SceneTitle::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	{
 		TransitionToScene(SceneType::MENU);
-		app->audio->CleanUp();
+		app->audio->Reset();
 	}
 
 	return ret;

@@ -68,11 +68,10 @@ bool Audio::CleanUp()
 		Mix_FreeMusic(music);
 	}
 
-	eastl::list<Mix_Chunk*>::iterator item;
+	eastl::array<Mix_Chunk*>::iterator item;
 	for(item = fx.begin(); item != fx.end(); ++item)
 		Mix_FreeChunk(*item);
 
-	fx.clear();
 
 	Mix_CloseAudio();
 	Mix_Quit();
@@ -151,7 +150,7 @@ unsigned int Audio::LoadFx(const char* path)
 	}
 	else
 	{
-		fx.push_back(chunk);
+		fx.fill(chunk);
 		ret = fx.size();
 	}
 
@@ -166,10 +165,19 @@ bool Audio::PlayFx(unsigned int id, int repeat)
 	if(!active)
 		return false;
 
-	/*if(id > 0 && id <= fx.size())
+	if(id > 0 && id <= fx.size())
 	{
-		Mix_PlayChannel(-1, fx[id - 1], repeat);
-	}*/
+		Mix_PlayChannel(-1, fx.at(id - 1), repeat);
+	}
 
 	return ret;
+}
+
+void Audio::Reset()
+{
+	Mix_FreeMusic(music);
+
+	eastl::array<Mix_Chunk*>::iterator item;
+	for (item = fx.begin(); item != fx.end(); ++item)
+		Mix_FreeChunk(*item);
 }
