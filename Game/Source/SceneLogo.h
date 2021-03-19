@@ -24,6 +24,7 @@ private:
 	int state;
 	float timeCounter;
 	float logoAlpha;
+	int logoFx;
 };
 
 #endif //__SCENELOGO_H__

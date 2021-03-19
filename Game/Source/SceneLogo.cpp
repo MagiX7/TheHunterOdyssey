@@ -25,7 +25,7 @@ bool SceneLogo::Load()
 {
 	LOG("Loading Scene Logo");
 	bool ret = true;
-
+	logoFx = app->audio->LoadFx("Assets/Audio/Fx/logo_intro.wav");
 	logo = app->tex->Load("Assets/Textures/Scenes/Logo/logo.png");
 
 	return ret;
@@ -38,6 +38,7 @@ bool SceneLogo::Update(float dt)
 	switch (state)
 	{
 	case 0:
+		app->audio->PlayFx(logoFx);
 		state = 1;
 		break;
 	case 1:
@@ -80,7 +81,6 @@ bool SceneLogo::UnLoad()
 {
 	LOG("Unloading Scene Logo");
 	bool ret = true;
-
 	app->tex->UnLoad(logo);
 
 	return ret;
