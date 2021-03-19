@@ -14,6 +14,8 @@ SceneTitle::SceneTitle()
 {
 	bg = nullptr;
 
+	// isEntering 
+	isEntering = true;
 }
 
 bool SceneTitle::Load()
@@ -31,12 +33,22 @@ bool SceneTitle::Load()
 	// Enter FX
 	enterFx = app->audio->LoadFx("Assets/Audio/Fx/title_enter.wav");
 
+	// Title FX
+	titleFx = app->audio->LoadFx("Assets/Audio/Fx/hello_man.wav");
+
 	return ret;
 }
 
 bool SceneTitle::Update(float dt)
 {
 	bool ret = true;
+
+	if (isEntering == true)
+	{
+		app->audio->PlayFx(titleFx);
+		isEntering = false;
+	}
+	
 
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	{

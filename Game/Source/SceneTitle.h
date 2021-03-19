@@ -26,6 +26,10 @@ private:
 	SDL_Texture* bg;
 	
 	int enterFx;
+	int titleFx;
+
+	//Check if you are entering in the scene
+	bool isEntering;
 };
 
 #endif //__SCENETITLE_H__
