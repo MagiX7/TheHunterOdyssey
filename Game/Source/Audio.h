@@ -2,7 +2,7 @@
 #define __AUDIO_H__
 
 #include "Module.h"
-#include "EASTL/array.h"
+#include "EASTL/deque.h"
 
 #define DEFAULT_MUSIC_FADE_TIME 2.0f
 
@@ -38,7 +38,10 @@ public:
 private:
 
 	_Mix_Music* music;
-	eastl::array<Mix_Chunk *> fx;
+	eastl::deque<Mix_Chunk *> fx;
+
+	int musicVolume;
+	int fxVolume;
 };
 
 #endif // __AUDIO_H__

@@ -25,6 +25,8 @@ private:
 	float timeCounter;
 	float logoAlpha;
 	int logoFx;
+
+	float drawCounter;
 };
 
 #endif //__SCENELOGO_H__

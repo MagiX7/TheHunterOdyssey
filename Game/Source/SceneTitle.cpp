@@ -14,7 +14,7 @@ SceneTitle::SceneTitle()
 {
 	bg = nullptr;
 
-	// isEntering 
+	// isEntering
 	isEntering = true;
 }
 
@@ -24,7 +24,7 @@ bool SceneTitle::Load()
 	bool ret = true;
 	
 	// Logo texture loading
-	bg = app->tex->Load("Assets/Textures/Scenes/Title/game_title.png");
+	bg = app->tex->Load("Assets/Textures/Scenes/game_title.png");
 
 	// Music startup
 	// TODO revise this when we change the module audio.
@@ -49,7 +49,6 @@ bool SceneTitle::Update(float dt)
 		isEntering = false;
 	}
 	
-
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	{
 		app->audio->PlayFx(enterFx);
@@ -71,7 +70,6 @@ bool SceneTitle::UnLoad()
 
 	app->tex->UnLoad(bg);
 	
-
 	return ret;
 }
 

@@ -1,20 +1,25 @@
 <!-- Config file for the game -->
 <!-- L01: DONE 1: Create configuration file-->
 <config>
-  <app framerate_cap="60">
-    <title>Game Development Testbed</title>
-    <organization>UPC</organization>
-  </app>
+    <app framerate_cap="60">
+        <title>Game Development Testbed</title>
+        <organization>UPC</organization>
+    </app>
 
-  <renderer>
-    <vsync value="false"/>
-  </renderer>
+	<audio>
+		<musicVolume value = "10"/>
+		<fxVolume value = "10"/>
+	</audio>
+	
+    <renderer>
+        <vsync value="false"/>
+    </renderer>
 
-  <window>
-    <resolution width="1280" height="720" scale="1"/>
-    <fullscreen value="false"/>
-    <borderless value="false"/>
-    <resizable value="false"/>
-    <fullscreen_window value="false"/>
-  </window>
+    <window>
+        <resolution width="1280" height="720" scale="1"/>
+        <fullscreen value="false"/>
+        <borderless value="false"/>
+        <resizable value="false"/>
+        <fullscreen_window value="false"/>
+    </window>
 </config>

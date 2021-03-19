@@ -52,6 +52,9 @@ bool Audio::Awake(pugi::xml_node& config)
 		ret = true;
 	}
 
+	musicVolume = config.child("musicVolume").attribute("value").as_int();
+	fxVolume = config.child("fxVolume").attribute("value").as_int();
+
 	return ret;
 }
 
@@ -68,9 +71,9 @@ bool Audio::CleanUp()
 		Mix_FreeMusic(music);
 	}
 
-	eastl::array<Mix_Chunk*>::iterator item;
+	/*eastl::array<Mix_Chunk*>::iterator item;
 	for(item = fx.begin(); item != fx.end(); ++item)
-		Mix_FreeChunk(*item);
+		Mix_FreeChunk(*item);*/
 
 
 	Mix_CloseAudio();
@@ -128,6 +131,8 @@ bool Audio::PlayMusic(const char* path, float fadeTime)
 				ret = false;
 			}
 		}
+
+		Mix_VolumeMusic(musicVolume);
 	}
 
 	LOG("Successfully playing %s", path);
@@ -150,7 +155,7 @@ unsigned int Audio::LoadFx(const char* path)
 	}
 	else
 	{
-		fx.fill(chunk);
+		fx.push_back(chunk);
 		ret = fx.size();
 	}
 
@@ -167,6 +172,7 @@ bool Audio::PlayFx(unsigned int id, int repeat)
 
 	if(id > 0 && id <= fx.size())
 	{
+		Mix_VolumeChunk(fx.at(id-1), fxVolume);
 		Mix_PlayChannel(-1, fx.at(id - 1), repeat);
 	}
 
@@ -177,7 +183,7 @@ void Audio::Reset()
 {
 	Mix_FreeMusic(music);
 
-	eastl::array<Mix_Chunk*>::iterator item;
+	/*eastl::array<Mix_Chunk*>::iterator item;
 	for (item = fx.begin(); item != fx.end(); ++item)
-		Mix_FreeChunk(*item);
+		Mix_FreeChunk(*item);*/
 }
