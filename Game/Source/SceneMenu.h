@@ -48,6 +48,8 @@ private:
 	GuiButton* btnExit;
 	GuiButton* btnExitYes;
 	GuiButton* btnExitNo;
+	GuiButton* btnOptionsBack;
+	GuiButton* btnCreditsBack;
 
 	// The user wants to exit the game
 	bool isExitPressed;

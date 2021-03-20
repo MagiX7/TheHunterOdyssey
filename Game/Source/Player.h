@@ -2,10 +2,17 @@
 
 #include "Entity.h"
 
+enum class PlayerType
+{
+	NONE = 0,
+	HUNTER,
+	WIZARD
+};
+
 class Player : public Entity
 {
 public:
-	Player();
+	Player(PlayerType pType);
 
 	virtual ~Player();
 
@@ -19,4 +26,5 @@ public:
 
 private:
 
+	PlayerType type;
 };

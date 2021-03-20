@@ -8,7 +8,7 @@
 #define SPEED_X 200.0f
 #define SPEED_Y 200.0f
 
-Player::Player() : Entity(EntityType::PLAYER)
+Player::Player(PlayerType pType) : Entity(EntityType::PLAYER), type(pType)
 {
 }
 
@@ -36,7 +36,17 @@ bool Player::Update(float dt)
 
 void Player::Draw(bool showColliders)
 {
-	if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0);
+	switch (type)
+	{
+	case PlayerType::HUNTER:
+		if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0);
+		break;
+	case PlayerType::WIZARD:
+		if (showColliders) app->render->DrawRectangle(bounds, 0, 255, 0);
+		break;
+	}
+	/*if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0);
+	if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0);*/
 }
 
 void Player::HandleInput(float dt)

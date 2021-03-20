@@ -3,8 +3,10 @@
 #include "Render.h"
 #include "Textures.h"
 
-#include "SceneGameplay.h"
 #include "Player.h"
+#include "SceneGameplay.h"
+#include "SwapPlayerScene.h"
+#include "GuiButton.h"
 
 #include "Audio.h"
 
@@ -14,7 +16,7 @@ SceneGameplay::SceneGameplay()
 {
 	name.Create("scenegameplay");
 
-	player = new Player();
+	player = new Player(PlayerType::HUNTER);
 
 	showColliders = false;
 
@@ -28,6 +30,13 @@ bool SceneGameplay::Load()
 
 	player->Load();
 
+	// Startup
+	state = SwapCharState::NONE;
+
+	// Instantiate character swap manager
+	charManager = new CharacterManager(player);
+	charManager->Load();
+
 	return ret;
 }
 
@@ -37,12 +46,37 @@ bool SceneGameplay::Update(float dt)
 
 	player->Update(dt);
 
+	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
+	{
+		state = SwapCharState::NORMAL;
+		
+	}
+
+
+	switch (state)
+	{
+	case SwapCharState::NORMAL:
+		charManager->Update(dt);
+		if (charManager->GetSwap()) player = charManager->GetPlayer();
+		if (charManager->GetExit())
+		{
+			state = SwapCharState::NONE;
+			charManager->SetExit(false);
+		}
+		break;
+	}
+
 	return ret;
 }
 
 void SceneGameplay::Draw()
 {
 	player->Draw(showColliders);
+
+	if (state == SwapCharState::NORMAL)
+	{
+		charManager->Draw(showColliders);
+	}
 }
 
 bool SceneGameplay::UnLoad()
@@ -63,6 +97,18 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 
 bool SceneGameplay::SaveState(pugi::xml_node& save) const
 {
+
+	return true;
+}
+
+bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
+{
+	switch (control->type)
+	{
+	case GuiControlType::BUTTON:
+		if (control->id == 1) CharacterSwap(PlayerType::WIZARD);
+		if (control->id == 2) CharacterSwap(PlayerType::HUNTER);
+	}
 
 	return true;
 }
