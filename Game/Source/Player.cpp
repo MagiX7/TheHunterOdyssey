@@ -45,8 +45,6 @@ void Player::Draw(bool showColliders)
 		if (showColliders) app->render->DrawRectangle(bounds, 0, 255, 0);
 		break;
 	}
-	/*if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0);
-	if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0);*/
 }
 
 void Player::HandleInput(float dt)

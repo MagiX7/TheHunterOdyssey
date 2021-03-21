@@ -66,6 +66,12 @@
     <ClCompile Include="Source\Player.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Source\MainMenu.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CharacterManager.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -171,6 +177,15 @@
     <ClInclude Include="Source\Player.h">
       <Filter>Entities</Filter>
     </ClInclude>
+    <ClInclude Include="Source\MainMenu.h">
+      <Filter>Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Menu.h">
+      <Filter>Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CharacterManager.h">
+      <Filter>Menus</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -193,6 +208,9 @@
     </Filter>
     <Filter Include="GUI">
       <UniqueIdentifier>{2ada86cf-7169-41d3-a3b6-2144e6f33f1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Menus">
+      <UniqueIdentifier>{f9015f66-b5f6-4c9a-8757-2765071b79ed}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

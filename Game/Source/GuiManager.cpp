@@ -17,7 +17,7 @@ GuiManager::~GuiManager()
 {
 }
 
-GuiControl* GuiManager::CreateGuiControl(GuiControlType type, uint32 id, SDL_Rect bounds, const char* name, SceneMenu* menu)
+GuiControl* GuiManager::CreateGuiControl(GuiControlType type, uint32 id, SDL_Rect bounds, const char* name, Menu* menu)
 {
 	GuiControl* control = nullptr;
 

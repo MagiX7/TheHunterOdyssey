@@ -5,7 +5,7 @@
 
 #include "Player.h"
 #include "SceneGameplay.h"
-#include "SwapPlayerScene.h"
+#include "CharacterManager.h"
 #include "GuiButton.h"
 
 #include "Audio.h"
@@ -34,7 +34,7 @@ bool SceneGameplay::Load()
 	state = SwapCharState::NONE;
 
 	// Instantiate character swap manager
-	charManager = new CharacterManager(player);
+	charManager = new CharacterManager(player, this);
 	charManager->Load();
 
 	return ret;
@@ -52,17 +52,10 @@ bool SceneGameplay::Update(float dt)
 		
 	}
 
-
 	switch (state)
 	{
 	case SwapCharState::NORMAL:
 		charManager->Update(dt);
-		if (charManager->GetSwap()) player = charManager->GetPlayer();
-		if (charManager->GetExit())
-		{
-			state = SwapCharState::NONE;
-			charManager->SetExit(false);
-		}
 		break;
 	}
 
@@ -106,9 +99,19 @@ bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
 	switch (control->type)
 	{
 	case GuiControlType::BUTTON:
-		if (control->id == 1) CharacterSwap(PlayerType::WIZARD);
-		if (control->id == 2) CharacterSwap(PlayerType::HUNTER);
+		if (control->id == 1);
+		if (control->id == 2);
 	}
 
 	return true;
+}
+
+void SceneGameplay::ChangeState(SwapCharState type)
+{
+	state = type;
+}
+
+void SceneGameplay::SetPlayer(Player* pl)
+{
+	player = pl;
 }

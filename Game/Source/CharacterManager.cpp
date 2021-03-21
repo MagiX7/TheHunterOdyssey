@@ -1,13 +1,13 @@
 #include "App.h"
-#include "SwapPlayerScene.h"
+#include "CharacterManager.h"
 #include "Player.h"
+
+#include "SceneGameplay.h"
 
 #include "GuiButton.h"
 
-CharacterManager::CharacterManager(Player *pl): player(pl)
+CharacterManager::CharacterManager(Player *pl, SceneGameplay* s) : player(pl), scene(s)
 {
-	swap = false;
-	exit = false;
 }
 
 CharacterManager::~CharacterManager()
@@ -48,10 +48,8 @@ bool CharacterManager::UnLoad()
 	return true;
 }
 
-Player* CharacterManager::CharacterSwap(PlayerType pType)
+void CharacterManager::CharacterSwap(PlayerType pType)
 {
-	swap = true;
-
 	SDL_Rect tempBounds = player->bounds;
 	player->UnLoad();
 	RELEASE(player);
@@ -70,9 +68,8 @@ Player* CharacterManager::CharacterSwap(PlayerType pType)
 	{
 		player->Load();
 		player->bounds = tempBounds;
+		scene->SetPlayer(player);
 	}
-
-	return player;
 }
 
 bool CharacterManager::OnGuiMouseClickEvent(GuiControl* control)
@@ -82,30 +79,8 @@ bool CharacterManager::OnGuiMouseClickEvent(GuiControl* control)
 	case GuiControlType::BUTTON:
 		if (control->id == 1) CharacterSwap(PlayerType::WIZARD);
 		if (control->id == 2) CharacterSwap(PlayerType::HUNTER);
-		if (control->id == 3) exit = true;
+		if (control->id == 3) scene->ChangeState(SwapCharState::NONE);
 	}
 
 	return true;
-}
-
-bool CharacterManager::GetSwap() const
-{
-	return swap;
-}
-
-bool CharacterManager::GetExit()
-{
-	return exit;
-}
-
-void CharacterManager::SetExit(bool setExit)
-{
-	exit = setExit;
-}
-
-Player* CharacterManager::GetPlayer()
-{
-	swap = false;
-
-	return player;
 }

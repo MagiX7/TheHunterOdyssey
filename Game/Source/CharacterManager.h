@@ -1,15 +1,16 @@
 #pragma once
 
-#include "Scene.h"
+#include "Menu.h"
 
 class Player;
+class SceneGameplay;
 class GuiButton;
 enum class PlayerType;
 
-class CharacterManager : public Scene
+class CharacterManager : public Menu
 {
 public:
-	CharacterManager(Player* pl);
+	CharacterManager(Player* pl, SceneGameplay* s);
 	virtual ~CharacterManager();
 
 	bool Load() override;
@@ -20,25 +21,15 @@ public:
 
 	bool UnLoad() override;
 
-	Player* CharacterSwap(PlayerType pType);
+	void CharacterSwap(PlayerType pType);
 
 	bool OnGuiMouseClickEvent(GuiControl* control) override;
 
-	bool GetSwap() const;
-
-	bool GetExit();
-
-	void SetExit(bool setExit);
-
-	Player* GetPlayer();
-
 private:
 	Player* player;
+	SceneGameplay* scene;
 
 	GuiButton* hunterButton;
 	GuiButton* wizardButton;
 	GuiButton* exitButton;
-
-	bool exit;
-	bool swap;
 };

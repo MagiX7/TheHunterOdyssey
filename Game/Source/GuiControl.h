@@ -3,7 +3,7 @@
 
 #include "Input.h"
 #include "Render.h"
-#include "SceneMenu.h"
+#include "Menu.h"
 
 #include "Point.h"
 #include "SString.h"
@@ -65,9 +65,9 @@ public:
         section = { 0, 0, 0, 0 };
     }
 
-    void SetObserver(SceneMenu* module)
+    void SetObserver(Menu* menu)
     {
-        observer = module;
+        observer = menu;
     }
 
     void NotifyObserver()
@@ -90,7 +90,7 @@ public:
 
     //Font font;              // Text font
 
-    Scene* observer;        // Observer module (it should probably be an array/list)
+    Menu* observer;        // Observer module (it should probably be an array/list)
 };
 
 #endif // __GUICONTROL_H__

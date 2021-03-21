@@ -37,6 +37,10 @@ public:
 
 	bool OnGuiMouseClickEvent(GuiControl* control) override;
 
+	void ChangeState(SwapCharState type);
+
+	void SetPlayer(Player* pl);
+
 private:
 	SDL_Texture* bg;
 

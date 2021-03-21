@@ -5,16 +5,17 @@
 class GuiButton;
 class GuiManager;
 class Font;
+class MainMenu;
 
-enum class MenuState
-{
-	NONE = 0,
-	NORMAL,
-	OPTIONS,
-	CREDITS,
-	EXIT,
-	GLOBAL_EXIT,
-};
+//enum class MenuState
+//{
+//	NONE = 0,
+//	NORMAL,
+//	OPTIONS,
+//	CREDITS,
+//	EXIT,
+//	GLOBAL_EXIT,
+//};
 
 class SceneMenu : public Scene
 {
@@ -31,26 +32,26 @@ public:
 
 	bool UnLoad() override;
 
-	bool OnGuiMouseClickEvent(GuiControl* control) override;
+	//bool OnGuiMouseClickEvent(GuiControl* control) override;
 
 private:
 	SDL_Texture* bg;
 
-	MenuState state;
+	//MenuState state;
 
-	GuiManager* guiManager;
+	MainMenu* mainMenu;
 	
 	// Buttons
-	GuiButton* btnNewGame;
-	GuiButton* btnContinue;
-	GuiButton* btnOptions;
-	GuiButton* btnCredits;
-	GuiButton* btnExit;
-	GuiButton* btnExitYes;
-	GuiButton* btnExitNo;
-	GuiButton* btnOptionsBack;
-	GuiButton* btnCreditsBack;
+	//GuiButton* btnNewGame;
+	//GuiButton* btnContinue;
+	//GuiButton* btnOptions;
+	//GuiButton* btnCredits;
+	//GuiButton* btnExit;
+	//GuiButton* btnExitYes;
+	//GuiButton* btnExitNo;
+	//GuiButton* btnOptionsBack;
+	//GuiButton* btnCreditsBack;
 
 	// The user wants to exit the game
-	bool isExitPressed;
+	//bool isExitPressed;
 };

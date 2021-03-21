@@ -25,6 +25,6 @@ public:
 	void HandleInput(float dt);
 
 private:
-
+	
 	PlayerType type;
 };
