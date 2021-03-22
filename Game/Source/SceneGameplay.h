@@ -4,17 +4,17 @@
 #include "Scene.h"
 
 class Player;
-class GuiButton;
-class GuiManager;
 class CharacterManager;
 class Npc;
 
 enum class PlayerType;
 
-enum class SwapCharState
+enum class GameplayMenuState
 {
 	NONE = 0,
-	NORMAL,
+	CHARACTER_SWAP,
+	INVENTORY,
+	PAUSE
 };
 
 class SceneGameplay : public Scene
@@ -36,9 +36,7 @@ public:
 
 	bool SaveState(pugi::xml_node&) const override;
 
-	bool OnGuiMouseClickEvent(GuiControl* control) override;
-
-	void ChangeState(SwapCharState type);
+	void ChangeState(GameplayMenuState type);
 
 	void SetPlayer(Player* pl);
 
@@ -50,7 +48,7 @@ private:
 
 	CharacterManager* charManager;
 
-	SwapCharState state;
+	GameplayMenuState state;
 };
 
 #endif //__SCENEGAMEPLAY_H__

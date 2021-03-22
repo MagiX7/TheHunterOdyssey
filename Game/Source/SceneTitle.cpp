@@ -2,20 +2,23 @@
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
-#include "GuiManager.h"
 
+#include "MainMenu.h"
 #include "SceneTitle.h"
 
 #include "Audio.h"
 
 #include "Log.h"
 
+#define TITLE_FADE_SPEED 1.0f
+
 SceneTitle::SceneTitle()
 {
 	bg = nullptr;
+	state = TitleState::NONE;
+	showColliders = true;
 
-	// isEntering
-	isEntering = true;
+	titleAlpha = 1.0f;
 }
 
 bool SceneTitle::Load()
@@ -36,6 +39,9 @@ bool SceneTitle::Load()
 	// Title FX
 	titleFx = app->audio->LoadFx("Assets/Audio/Fx/hello_man.wav");
 
+	mainMenu = new MainMenu(this);
+	mainMenu->Load();
+
 	return ret;
 }
 
@@ -43,16 +49,43 @@ bool SceneTitle::Update(float dt)
 {
 	bool ret = true;
 
-	if (isEntering == true)
+	switch (state)
 	{
+	case TitleState::NONE:
 		app->audio->PlayFx(titleFx);
-		isEntering = false;
-	}
-	
-	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
-	{
-		app->audio->PlayFx(enterFx);
-		TransitionToScene(SceneType::MENU);
+		state = TitleState::TITLE;
+		break;
+	case TitleState::TITLE:
+		titleAlpha -= (TITLE_FADE_SPEED * dt);
+		if (titleAlpha <= 0.0f)
+		{
+			titleAlpha = 0.0f;
+		}
+
+		if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		{
+			app->audio->PlayFx(enterFx);
+			state = TitleState::FADE;
+		}
+		break;
+	case TitleState::FADE:
+		titleAlpha += (TITLE_FADE_SPEED * dt);
+
+		if (titleAlpha >= 1.0f)
+		{
+			titleAlpha = 1.0f;
+			state = TitleState::MENU;
+		}
+		break;
+	case TitleState::MENU:
+		titleAlpha -= (TITLE_FADE_SPEED * dt);
+
+		if (titleAlpha <= 0.0f)
+		{
+			titleAlpha = 0.0f;
+		}
+		mainMenu->Update(dt);
+		break;
 	}
 
 	return ret;
@@ -60,7 +93,21 @@ bool SceneTitle::Update(float dt)
 
 void SceneTitle::Draw()
 {
-	app->render->DrawTexture(bg, 378, 257, NULL);
+	switch (state)
+	{
+	case TitleState::TITLE:
+		app->render->DrawTexture(bg, 378, 257, NULL);
+		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 255 * titleAlpha);
+		break;
+	case TitleState::FADE:
+		app->render->DrawTexture(bg, 378, 257, NULL);
+		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 255 * titleAlpha);
+		break;
+	case TitleState::MENU:
+		mainMenu->Draw(showColliders);
+		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 255 * titleAlpha);
+		break;
+	}
 }
 
 bool SceneTitle::UnLoad()
@@ -71,15 +118,4 @@ bool SceneTitle::UnLoad()
 	app->tex->UnLoad(bg);
 	
 	return ret;
-}
-
-bool SceneTitle::OnGuiMouseClickEvent(GuiControl* control)
-{
-	switch (control->type)
-	{
-	case GuiControlType::BUTTON: break;
-	case GuiControlType::CHECKBOX: break;
-	case GuiControlType::SLIDER: break;
-	}
-	return true;
 }

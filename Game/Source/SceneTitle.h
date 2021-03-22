@@ -2,7 +2,16 @@
 #define __SCENETITLE_H__
 
 #include "Scene.h"
-#include "GuiControl.h"
+
+class MainMenu;
+
+enum class TitleState
+{
+	NONE = 0,
+	TITLE,
+	FADE,
+	MENU
+};
 
 class SceneTitle : public Scene
 {
@@ -19,17 +28,17 @@ public:
 
 	bool UnLoad() override;
 
-	//TODO
-	bool OnGuiMouseClickEvent(GuiControl* control);
-
 private:
 	SDL_Texture* bg;
 	
 	int enterFx;
 	int titleFx;
 
-	//Check if you are entering in the scene
-	bool isEntering;
+	TitleState state;
+
+	MainMenu* mainMenu;
+
+	float titleAlpha;
 };
 
 #endif //__SCENETITLE_H__

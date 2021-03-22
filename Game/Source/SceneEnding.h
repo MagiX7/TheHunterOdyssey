@@ -18,9 +18,6 @@ public:
 
 	bool UnLoad() override;
 
-	//TODO
-	//bool OnGuiMouseClickEvent(GuiControl* control);
-
 private:
 	SDL_Texture* bg;
 };

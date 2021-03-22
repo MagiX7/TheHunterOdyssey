@@ -17,7 +17,7 @@ bool SceneMenu::Load()
 {
 	/*isExitPressed = false;*/
 
-	mainMenu = new MainMenu(this);
+	//mainMenu = new MainMenu(this);
 	mainMenu->Load();
 	//btnNewGame = new GuiButton(1, { 466, 156, 360, 65 }, "Play", this);
 	//btnContinue = new GuiButton(2, { 466, 242, 360, 65 }, "Continue", this);
@@ -126,20 +126,3 @@ bool SceneMenu::UnLoad()
 
 	return true;
 }
-
-//bool SceneMenu::OnGuiMouseClickEvent(GuiControl* control)
-//{
-//	//switch (control->type)
-//	//{
-//	//case GuiControlType::BUTTON:
-//	//	if (control->id == 1) TransitionToScene(SceneType::GAMEPLAY); // New Game
-//	//	if (control->id == 2) TransitionToScene(SceneType::GAMEPLAY); // Continue
-//	//	if (control->id == 3) state = MenuState::OPTIONS; // Options
-//	//	if (control->id == 4) state = MenuState::CREDITS; // Credits
-//	//	if (control->id == 5) state = MenuState::EXIT; // Exit button pressed
-//	//	if (control->id == 6) state = MenuState::GLOBAL_EXIT; // Yes exit
-//	//	if (control->id == (7 || 8 || 9)) state = MenuState::NORMAL; // Go back to the menu
-//	//}
-//
-//	return true;
-//}

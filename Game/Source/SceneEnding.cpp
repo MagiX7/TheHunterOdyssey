@@ -40,8 +40,3 @@ bool SceneEnding::UnLoad()
 
 	return ret;
 }
-
-//bool SceneEnding::OnGuiMouseClickEvent(GuiControl* control)
-//{
-//	return false;
-//}
