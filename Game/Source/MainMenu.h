@@ -2,7 +2,7 @@
 
 #include "Menu.h"
 
-class SceneMenu;
+class SceneTitle;
 
 enum class MenuState
 {
@@ -19,7 +19,7 @@ class GuiButton;
 class MainMenu : public Menu
 {
 public:
-	MainMenu(SceneMenu* s);
+	MainMenu(SceneTitle* s);
 
 	virtual ~MainMenu();
 
@@ -35,7 +35,7 @@ public:
 
 private:
 	MenuState state;
-	SceneMenu* scene;
+	SceneTitle* scene;
 	
 	// Buttons declaration
 	GuiButton* btnNewGame;

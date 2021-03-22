@@ -43,8 +43,6 @@ public:
 
 	virtual bool SaveState(pugi::xml_node&) const { return true; }
 
-	virtual bool OnGuiMouseClickEvent(GuiControl* control) { return true; }
-
 	void TransitionToScene(SceneType scene)
 	{
 		LOG("Changing Scene");

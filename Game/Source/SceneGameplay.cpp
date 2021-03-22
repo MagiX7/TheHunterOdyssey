@@ -6,7 +6,6 @@
 #include "Player.h"
 #include "SceneGameplay.h"
 #include "CharacterManager.h"
-#include "GuiButton.h"
 
 #include "Audio.h"
 
@@ -31,7 +30,7 @@ bool SceneGameplay::Load()
 	player->Load();
 
 	// Startup
-	state = SwapCharState::NONE;
+	state = GameplayMenuState::NONE;
 
 	// Instantiate character swap manager
 	charManager = new CharacterManager(player, this);
@@ -48,13 +47,12 @@ bool SceneGameplay::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 	{
-		state = SwapCharState::NORMAL;
-		
+		state = GameplayMenuState::CHARACTER_SWAP;
 	}
 
 	switch (state)
 	{
-	case SwapCharState::NORMAL:
+	case GameplayMenuState::CHARACTER_SWAP:
 		charManager->Update(dt);
 		break;
 	}
@@ -66,7 +64,7 @@ void SceneGameplay::Draw()
 {
 	player->Draw(showColliders);
 
-	if (state == SwapCharState::NORMAL)
+	if (state == GameplayMenuState::CHARACTER_SWAP)
 	{
 		charManager->Draw(showColliders);
 	}
@@ -94,19 +92,7 @@ bool SceneGameplay::SaveState(pugi::xml_node& save) const
 	return true;
 }
 
-bool SceneGameplay::OnGuiMouseClickEvent(GuiControl* control)
-{
-	switch (control->type)
-	{
-	case GuiControlType::BUTTON:
-		if (control->id == 1);
-		if (control->id == 2);
-	}
-
-	return true;
-}
-
-void SceneGameplay::ChangeState(SwapCharState type)
+void SceneGameplay::ChangeState(GameplayMenuState type)
 {
 	state = type;
 }

@@ -79,7 +79,7 @@ bool CharacterManager::OnGuiMouseClickEvent(GuiControl* control)
 	case GuiControlType::BUTTON:
 		if (control->id == 1) CharacterSwap(PlayerType::WIZARD);
 		if (control->id == 2) CharacterSwap(PlayerType::HUNTER);
-		if (control->id == 3) scene->ChangeState(SwapCharState::NONE);
+		if (control->id == 3) scene->ChangeState(GameplayMenuState::NONE);
 	}
 
 	return true;

@@ -1,10 +1,10 @@
 #include "App.h"
 #include "MainMenu.h"
 
-#include "SceneMenu.h"
+#include "SceneTitle.h"
 #include "GuiButton.h"
 
-MainMenu::MainMenu(SceneMenu* s)
+MainMenu::MainMenu(SceneTitle* s)
 {
 	state = MenuState::NONE;
 	scene = s;
