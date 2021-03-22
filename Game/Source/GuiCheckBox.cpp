@@ -1,9 +1,15 @@
 #include "GuiCheckBox.h"
+#include "App.h"
+#include "Audio.h"
 
 GuiCheckBox::GuiCheckBox(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::CHECKBOX, id)
 {
     this->bounds = bounds;
     this->text = text;
+    //Load Fx
+    clickFx = app->audio->LoadFx("Assets/Audio/Fx/button_click.wav");
+    focusedFx = app->audio->LoadFx("Assets/Audio/Fx/button_focused.wav");
+    isPlayeable = true;
 }
 
 GuiCheckBox::~GuiCheckBox()
@@ -23,9 +29,19 @@ bool GuiCheckBox::Update(Input* input, float dt)
         {
             state = GuiControlState::FOCUSED;
 
-            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
+            if (isPlayeable == true)
+            {
+                app->audio->PlayFx(focusedFx);
+                isPlayeable = false;
+            }
+
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT || input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
             {
                 state = GuiControlState::PRESSED;
+                if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
+                {
+                    app->audio->PlayFx(clickFx);
+                }
             }
 
             // If mouse button pressed -> Generate event!
@@ -35,7 +51,11 @@ bool GuiCheckBox::Update(Input* input, float dt)
                 NotifyObserver();
             }
         }
-        else state = GuiControlState::NORMAL;
+        else
+        {
+            state = GuiControlState::NORMAL;
+            isPlayeable = true;
+        }
     }
 
     return false;

@@ -25,6 +25,11 @@ private:
 
     int minValue;
     int maxValue;
+
+    //Fx
+    uint clickFx;
+    uint focusedFx;
+    bool isPlayeable;
 };
 
 #endif // __GUISLIDER_H__

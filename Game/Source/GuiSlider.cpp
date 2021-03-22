@@ -1,9 +1,15 @@
 #include "GuiSlider.h"
+#include "App.h"
+#include "Audio.h"
 
 GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::SLIDER, id)
 {
     this->bounds = bounds;
     this->text = text;
+    //Load Fx
+    clickFx = app->audio->LoadFx("Assets/Audio/Fx/button_click.wav");
+    focusedFx = app->audio->LoadFx("Assets/Audio/Fx/button_focused.wav");
+    isPlayeable = true;
 }
 
 GuiSlider::~GuiSlider()
@@ -23,9 +29,28 @@ bool GuiSlider::Update(Input* input, float dt)
         {
             state = GuiControlState::FOCUSED;
 
-            // TODO.
+            if (isPlayeable == true)
+            {
+                app->audio->PlayFx(focusedFx);
+                isPlayeable = false;
+            }
+
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT || input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
+            {
+                state = GuiControlState::PRESSED;
+                if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
+                {
+                    app->audio->PlayFx(clickFx);
+                }
+            }
+
+            //TODO
         }
-        else state = GuiControlState::NORMAL;
+        else
+        {
+            state = GuiControlState::NORMAL;
+            isPlayeable = true;
+        }
     }
 
     return false;
