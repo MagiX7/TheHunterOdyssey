@@ -20,6 +20,9 @@ private:
 
     // Gui Button specific properties
     // Maybe some animation properties for state change?
+    uint clickFx;
+    uint focusedFx;
+    bool isPlayeable;
 };
 
 #endif // __GUIBUTTON_H__

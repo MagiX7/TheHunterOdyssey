@@ -1,4 +1,6 @@
 #include "GuiButton.h"
+#include "App.h"
+#include "Audio.h"
 
 GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text, Menu* listener) : GuiControl(GuiControlType::BUTTON, id)
 {
@@ -6,6 +8,11 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text, Menu* listene
     this->text = text;
     this->state = GuiControlState::NORMAL;
     this->observer = listener;
+
+    //Load Fx
+    clickFx = app->audio->LoadFx("Assets/Audio/Fx/button_click.wav");
+    focusedFx = app->audio->LoadFx("Assets/Audio/Fx/button_focused.wav");
+    isPlayeable = true;
 }
 
 GuiButton::~GuiButton()
@@ -25,7 +32,7 @@ bool GuiButton::Update(Input* input, float dt)
         {
             state = GuiControlState::FOCUSED;
 
-            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
+            if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT || input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
             {
                 state = GuiControlState::PRESSED;
             }
@@ -50,10 +57,20 @@ bool GuiButton::Draw(Render* render, bool showColliders)
     case GuiControlState::DISABLED: if (showColliders) render->DrawRectangle(bounds, 0, 100, 100, 255);
         break;
     case GuiControlState::NORMAL: if (showColliders) render->DrawRectangle(bounds, 255, 0, 0, 255);
+        isPlayeable = true;
         break;
     case GuiControlState::FOCUSED: if (showColliders) render->DrawRectangle(bounds, 255, 255, 0, 255);
+        if (isPlayeable == true)
+        {
+            app->audio->PlayFx(clickFx);
+            isPlayeable = false;
+        }
         break;
     case GuiControlState::PRESSED: if (showColliders) render->DrawRectangle(bounds, 0, 255, 255, 255);
+        if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
+        {
+            app->audio->PlayFx(focusedFx);
+        }
         break;
     case GuiControlState::SELECTED: if (showColliders) render->DrawRectangle(bounds, 0, 255, 0, 255);
         break;
