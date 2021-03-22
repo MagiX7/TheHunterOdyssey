@@ -7,6 +7,7 @@
 #include "SceneGameplay.h"
 #include "CharacterManager.h"
 #include "GuiButton.h"
+#include "Npc.h"
 
 #include "Audio.h"
 
@@ -17,6 +18,7 @@ SceneGameplay::SceneGameplay()
 	name.Create("scenegameplay");
 
 	player = new Player(PlayerType::HUNTER);
+	npc = new Npc(EntityType::NPC);
 
 	showColliders = false;
 
@@ -29,6 +31,7 @@ bool SceneGameplay::Load()
 	bool ret = true;
 
 	player->Load();
+	npc->Load();
 
 	// Startup
 	state = SwapCharState::NONE;
@@ -45,6 +48,7 @@ bool SceneGameplay::Update(float dt)
 	bool ret = true;
 
 	player->Update(dt);
+	npc->Update(dt);
 
 	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 	{
@@ -65,6 +69,7 @@ bool SceneGameplay::Update(float dt)
 void SceneGameplay::Draw()
 {
 	player->Draw(showColliders);
+	npc->Draw(showColliders);
 
 	if (state == SwapCharState::NORMAL)
 	{
@@ -78,6 +83,7 @@ bool SceneGameplay::UnLoad()
 	bool ret = true;
 
 	RELEASE(player);
+	RELEASE(npc);
 
 	return ret;
 }

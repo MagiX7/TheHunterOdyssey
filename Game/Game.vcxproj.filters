@@ -72,6 +72,9 @@
     <ClCompile Include="Source\CharacterManager.cpp">
       <Filter>Menus</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Npc.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -185,6 +188,9 @@
     </ClInclude>
     <ClInclude Include="Source\CharacterManager.h">
       <Filter>Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Npc.h">
+      <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

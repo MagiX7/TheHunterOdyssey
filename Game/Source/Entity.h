@@ -9,6 +9,7 @@ enum class EntityType
 {
 	PLAYER,
 	ENEMY,
+	NPC,
 	ITEM,
 	MAP,
 	UNKNOWN

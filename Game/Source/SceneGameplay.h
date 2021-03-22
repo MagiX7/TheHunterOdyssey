@@ -7,6 +7,7 @@ class Player;
 class GuiButton;
 class GuiManager;
 class CharacterManager;
+class Npc;
 
 enum class PlayerType;
 
@@ -45,6 +46,7 @@ private:
 	SDL_Texture* bg;
 
 	Player* player;
+	Npc* npc;
 
 	CharacterManager* charManager;
 
