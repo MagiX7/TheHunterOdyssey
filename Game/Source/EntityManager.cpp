@@ -75,7 +75,7 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos)
 	case EntityType::PLAYER:entity = new Player(PlayerType::HUNTER); break;
 	case EntityType::ITEM: break;
 	case EntityType::ENEMY: break;
-	case EntityType::NPC: entity = new Npc(EntityType::NPC); break;
+	case EntityType::NPC: entity = new Npc(EntityType::NPC,NpcType::TABERN,pos); break;
 	}
 
 	// Created entities are added to the list
@@ -112,6 +112,7 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad)
 bool EntityManager::SaveState(pugi::xml_node* toSave)
 {
 	eastl::list<Entity*>::iterator item;
+	pugi::xml_node NodeNpc = toSave->append_child("NPCs");
 	pugi::xml_node Node;
 	for (item = entities.begin(); item != entities.end(); ++item)
 	{
@@ -119,9 +120,8 @@ bool EntityManager::SaveState(pugi::xml_node* toSave)
 		switch (item.mpNode->mValue->type)
 		{
 		case EntityType::NPC:
-			Node = toSave->append_child("NPC");
 
-			item.mpNode->mValue->SaveState(Node);
+			item.mpNode->mValue->SaveState(NodeNpc);
 			break;
 		case EntityType::PLAYER:
 			Node = toSave->append_child("player");

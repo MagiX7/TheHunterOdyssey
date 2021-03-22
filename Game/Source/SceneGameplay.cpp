@@ -23,7 +23,8 @@ SceneGameplay::SceneGameplay()
 
 	player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, position);
 	entityManager->CreateEntity(EntityType::NPC, position);
-
+	position = { 12,45 };
+	entityManager->CreateEntity(EntityType::NPC, position);
 	/*player = new Player(PlayerType::HUNTER);
 	npc = new Npc(EntityType::NPC);*/
 

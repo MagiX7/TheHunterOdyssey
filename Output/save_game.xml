@@ -7,11 +7,20 @@
   <scenemanager>
     <scenegameplay>
       <entities>
+        <NPCs>
+          <NPC>
+            <bounds X="0" Y="0" W="32" H="32" />
+            <NpcType type="TABERN" />
+          </NPC>
+          <NPC>
+            <bounds X="12" Y="45" W="32" H="32" />
+            <NpcType type="TABERN" />
+          </NPC>
+        </NPCs>
         <player>
           <bounds X="50" Y="400" W="16" H="32" />
           <playerType type="HUNTER" />
         </player>
-        <NPC />
       </entities>
     </scenegameplay>
   </scenemanager>
