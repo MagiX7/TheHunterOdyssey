@@ -32,9 +32,19 @@ bool GuiButton::Update(Input* input, float dt)
         {
             state = GuiControlState::FOCUSED;
 
+            if (isPlayeable == true)
+            {
+                app->audio->PlayFx(focusedFx);
+                isPlayeable = false;
+            }
+
             if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT || input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
             {
                 state = GuiControlState::PRESSED;
+                if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
+                {
+                    app->audio->PlayFx(clickFx);
+                }
             }
 
             // If mouse button pressed -> Generate event!
@@ -43,7 +53,11 @@ bool GuiButton::Update(Input* input, float dt)
                 NotifyObserver();
             }
         }
-        else state = GuiControlState::NORMAL;
+        else
+        {
+            state = GuiControlState::NORMAL;
+            isPlayeable = true;
+        }
     }
 
     return false;
@@ -57,20 +71,10 @@ bool GuiButton::Draw(Render* render, bool showColliders)
     case GuiControlState::DISABLED: if (showColliders) render->DrawRectangle(bounds, 0, 100, 100, 255);
         break;
     case GuiControlState::NORMAL: if (showColliders) render->DrawRectangle(bounds, 255, 0, 0, 255);
-        isPlayeable = true;
         break;
     case GuiControlState::FOCUSED: if (showColliders) render->DrawRectangle(bounds, 255, 255, 0, 255);
-        if (isPlayeable == true)
-        {
-            app->audio->PlayFx(clickFx);
-            isPlayeable = false;
-        }
         break;
     case GuiControlState::PRESSED: if (showColliders) render->DrawRectangle(bounds, 0, 255, 255, 255);
-        if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
-        {
-            app->audio->PlayFx(focusedFx);
-        }
         break;
     case GuiControlState::SELECTED: if (showColliders) render->DrawRectangle(bounds, 0, 255, 0, 255);
         break;
