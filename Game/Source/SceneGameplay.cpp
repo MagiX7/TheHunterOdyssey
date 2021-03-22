@@ -5,6 +5,7 @@
 
 #include "Player.h"
 #include "SceneGameplay.h"
+#include "SceneBattle.h"
 #include "CharacterManager.h"
 #include "Npc.h"
 
@@ -33,11 +34,18 @@ bool SceneGameplay::Load()
 	npc->Load();
 
 	// Startup
-	state = GameplayMenuState::NONE;
+	menuState = GameplayMenuState::NONE;
+	gameState = GameplayState::NONE;
+
 
 	// Instantiate character swap manager
 	charManager = new CharacterManager(player, this);
 	charManager->Load();
+
+	// Instantiate and load scene battle
+	sceneBattle = new SceneBattle(player, player);
+	sceneBattle->Load();
+
 
 	return ret;
 }
@@ -46,15 +54,27 @@ bool SceneGameplay::Update(float dt)
 {
 	bool ret = true;
 
-	player->Update(dt);
-	npc->Update(dt);
-
 	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 	{
-		state = GameplayMenuState::CHARACTER_SWAP;
+		menuState = GameplayMenuState::CHARACTER_SWAP;
 	}
 
-	switch (state)
+	switch (gameState)
+	{
+	case GameplayState::NONE:
+		gameState = GameplayState::ROAMING;
+		break;
+	case GameplayState::ROAMING:
+		player->Update(dt);
+		npc->Update(dt);
+		if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) gameState = GameplayState::BATTLE;
+		break;
+	case GameplayState::BATTLE:
+		sceneBattle->Update(dt);
+		break;
+	}
+
+	switch (menuState)
 	{
 	case GameplayMenuState::CHARACTER_SWAP:
 		charManager->Update(dt);
@@ -66,13 +86,22 @@ bool SceneGameplay::Update(float dt)
 
 void SceneGameplay::Draw()
 {
-	player->Draw(showColliders);
-	npc->Draw(showColliders);
-
-	if (state == GameplayMenuState::CHARACTER_SWAP)
+	if (menuState == GameplayMenuState::CHARACTER_SWAP)
 	{
 		charManager->Draw(showColliders);
 	}
+
+	switch (gameState)
+	{
+	case GameplayState::ROAMING:
+		player->Draw(showColliders);
+		npc->Draw(showColliders);
+		break;
+	case GameplayState::BATTLE:
+		sceneBattle->Draw(showColliders);
+		break;
+	}
+
 }
 
 bool SceneGameplay::UnLoad()
@@ -100,7 +129,7 @@ bool SceneGameplay::SaveState(pugi::xml_node& save) const
 
 void SceneGameplay::ChangeState(GameplayMenuState type)
 {
-	state = type;
+	menuState = type;
 }
 
 void SceneGameplay::SetPlayer(Player* pl)

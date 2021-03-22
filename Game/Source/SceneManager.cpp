@@ -10,7 +10,6 @@
 #include "SceneTitle.h"
 #include "SceneGameplay.h"
 #include "SceneEnding.h"
-#include "SceneMenu.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -132,7 +131,6 @@ bool SceneManager::Update(float dt)
 		{
 		case SceneType::LOGO: next = new SceneLogo(); break;
 		case SceneType::TITLE: next = new SceneTitle(); break;
-		case SceneType::MENU: next = new SceneMenu(); break;
 		case SceneType::GAMEPLAY: next = new SceneGameplay(); break;
 		case SceneType::ENDING: next = new SceneEnding(); break;
 		default: break;

@@ -6,6 +6,7 @@
 class Player;
 class CharacterManager;
 class Npc;
+class SceneBattle;
 
 enum class PlayerType;
 
@@ -15,6 +16,13 @@ enum class GameplayMenuState
 	CHARACTER_SWAP,
 	INVENTORY,
 	PAUSE
+};
+
+enum class GameplayState
+{
+	NONE = 0,
+	ROAMING,
+	BATTLE
 };
 
 class SceneGameplay : public Scene
@@ -48,7 +56,11 @@ private:
 
 	CharacterManager* charManager;
 
-	GameplayMenuState state;
+	SceneBattle* sceneBattle;
+
+	GameplayMenuState menuState;
+
+	GameplayState gameState;
 };
 
 #endif //__SCENEGAMEPLAY_H__
