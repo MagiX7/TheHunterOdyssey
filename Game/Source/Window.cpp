@@ -6,12 +6,23 @@
 
 #include "SDL/include/SDL.h"
 
+Window* Window::instance = nullptr;
 
 Window::Window() : Module()
 {
 	window = NULL;
 	screenSurface = NULL;
 	name.Create("window");
+}
+
+Window* Window::Get()
+{
+	if (instance == nullptr)
+	{
+		instance = new Window();
+	}
+
+	return instance;
 }
 
 // Destructor

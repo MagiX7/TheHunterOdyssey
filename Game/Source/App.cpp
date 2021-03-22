@@ -24,8 +24,6 @@ void* operator new[](size_t size, size_t alignment, size_t alignmentOffset, cons
 App::App(int argc, char* args[]) : argc(argc), args(args)
 {
 	PERF_START(ptimer);
-
-	win = new Window();
 	input = new Input();
 	render = new Render();
 	tex = new Textures();
@@ -34,7 +32,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
-	AddModule(win);
+	AddModule(Window::Get());
 	AddModule(input);
 	AddModule(tex);
 	AddModule(audio);
@@ -192,7 +190,7 @@ void App::FinishUpdate()
 	sprintf_s(title, 256, "Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %I64u ",
 		averageFps, lastFrameMs, framesOnLastUpdate, dt, secondsSinceStartup, frameCount);
 
-	win->SetTitle(title);
+	Window::Get()->SetTitle(title);
 
 	// L08: DONE 2: Use SDL_Delay to make sure you get your capped framerate
 	if ((cappedMs > 0) && (lastFrameMs < cappedMs))

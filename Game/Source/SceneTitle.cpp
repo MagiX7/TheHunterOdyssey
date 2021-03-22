@@ -84,7 +84,7 @@ bool SceneTitle::Update(float dt)
 		{
 			titleAlpha = 0.0f;
 		}
-		mainMenu->Update(dt);
+		ret = mainMenu->Update(dt);
 		break;
 	}
 

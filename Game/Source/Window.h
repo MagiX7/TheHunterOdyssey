@@ -9,8 +9,10 @@ struct SDL_Surface;
 class Window : public Module
 {
 public:
+	Window(const Window&) = delete;
+	void operator=(const Window&) = delete;
 
-	Window();
+	static Window* Get();
 
 	// Destructor
 	virtual ~Window();
@@ -30,7 +32,12 @@ public:
 	// Retrieve window scale
 	uint GetScale() const;
 
+private:
+	Window();
+	static Window* instance;
+
 public:
+
 	// The window we'll be rendering to
 	SDL_Window* window;
 

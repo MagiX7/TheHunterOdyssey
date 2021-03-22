@@ -139,7 +139,7 @@ bool SceneManager::Update(float dt)
 	}
 
 	// Quit the game
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) ret = false;
+	//if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) ret = false;
 
 	return ret;
 }
