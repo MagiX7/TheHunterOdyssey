@@ -47,6 +47,25 @@ void Player::Draw(bool showColliders)
 	}
 }
 
+bool Player::SaveState(pugi::xml_node& node) 
+{
+	pugi::xml_node auxiliar1 = node.append_child("bounds");
+	auxiliar1.append_attribute("X").set_value(bounds.x);
+	auxiliar1.append_attribute("Y").set_value(bounds.y);
+	auxiliar1.append_attribute("W").set_value(bounds.w);
+	auxiliar1.append_attribute("H").set_value(bounds.h);
+
+	auxiliar1=node.append_child("playerType");
+	const char* typeName="/";
+
+	if (type == PlayerType::HUNTER) {typeName = "HUNTER";}
+	else if(type == PlayerType::WIZARD){typeName = "WIZARD";}
+	else if(type == PlayerType::NONE) { typeName = "NONE"; }
+
+	auxiliar1.append_attribute("type").set_value(typeName);
+	return true;
+}
+
 void Player::HandleInput(float dt)
 {
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)

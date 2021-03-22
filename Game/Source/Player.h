@@ -24,6 +24,7 @@ public:
 
 	void HandleInput(float dt);
 
+	bool SaveState(pugi::xml_node& node);
 private:
 	
 	PlayerType type;

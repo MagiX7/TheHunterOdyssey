@@ -7,7 +7,7 @@ class Player;
 class CharacterManager;
 class Npc;
 class SceneBattle;
-
+class EntityManager;
 enum class PlayerType;
 
 enum class GameplayMenuState
@@ -52,7 +52,6 @@ private:
 	SDL_Texture* bg;
 
 	Player* player;
-	Npc* npc;
 
 	CharacterManager* charManager;
 
@@ -61,6 +60,8 @@ private:
 	GameplayMenuState menuState;
 
 	GameplayState gameState;
+
+	EntityManager* entityManager;
 };
 
 #endif //__SCENEGAMEPLAY_H__

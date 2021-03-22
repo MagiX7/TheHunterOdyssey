@@ -24,10 +24,11 @@ public:
 
 	void DeleteEntity(Entity* entity);
 
-	bool LoadState();
+	bool LoadState(pugi::xml_node* toLoad);
 
-	bool SaveState() const;
+	bool SaveState(pugi::xml_node* toSave);
 
+	bool Load();
 public:
 	//List<Entity*> entities;
 	eastl::list<Entity*> entities;

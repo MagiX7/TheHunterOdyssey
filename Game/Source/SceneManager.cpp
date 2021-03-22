@@ -159,7 +159,7 @@ bool SceneManager::LoadState(pugi::xml_node& load)
 	bool ret = true;
 	
 	//TODO
-	//current->LoadState(load.child(current->name.GetString()));
+	current->LoadState(load.child(current->name.GetString()));
 
 	return ret;
 }
@@ -170,7 +170,7 @@ bool SceneManager::SaveState(pugi::xml_node& save) const
 	bool ret = true;
 
 	//TODO
-	//current->SaveState(save.append_child(current->name.GetString()));
+	current->SaveState(save.append_child(current->name.GetString()));
 
 	return ret;
 }

@@ -2,7 +2,7 @@
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
-
+#include "EntityManager.h"
 #include "Player.h"
 #include "SceneGameplay.h"
 #include "SceneBattle.h"
@@ -17,8 +17,15 @@ SceneGameplay::SceneGameplay()
 {
 	name.Create("scenegameplay");
 
-	player = new Player(PlayerType::HUNTER);
-	npc = new Npc(EntityType::NPC);
+	entityManager = new EntityManager();
+
+	iPoint position = { 0,0 };
+
+	player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, position);
+	entityManager->CreateEntity(EntityType::NPC, position);
+
+	/*player = new Player(PlayerType::HUNTER);
+	npc = new Npc(EntityType::NPC);*/
 
 	showColliders = false;
 
@@ -30,8 +37,7 @@ bool SceneGameplay::Load()
 	LOG("Loading Scene Gameplay");
 	bool ret = true;
 
-	player->Load();
-	npc->Load();
+	entityManager->Load();
 
 	// Startup
 	menuState = GameplayMenuState::NONE;
@@ -54,6 +60,11 @@ bool SceneGameplay::Update(float dt)
 {
 	bool ret = true;
 
+	if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+	{
+		app->SaveGameRequest();
+	}
+
 	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
 	{
 		menuState = GameplayMenuState::CHARACTER_SWAP;
@@ -65,8 +76,9 @@ bool SceneGameplay::Update(float dt)
 		gameState = GameplayState::ROAMING;
 		break;
 	case GameplayState::ROAMING:
-		player->Update(dt);
-		npc->Update(dt);
+		/*player->Update(dt);
+		npc->Update(dt);*/
+		entityManager->Update(dt);
 		if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) gameState = GameplayState::BATTLE;
 		break;
 	case GameplayState::BATTLE:
@@ -94,8 +106,9 @@ void SceneGameplay::Draw()
 	switch (gameState)
 	{
 	case GameplayState::ROAMING:
-		player->Draw(showColliders);
-		npc->Draw(showColliders);
+		/*player->Draw(showColliders);
+		npc->Draw(showColliders);*/
+		entityManager->Draw(showColliders);
 		break;
 	case GameplayState::BATTLE:
 		sceneBattle->Draw(showColliders);
@@ -109,21 +122,25 @@ bool SceneGameplay::UnLoad()
 	LOG("Unloading Scene Gameplay");
 	bool ret = true;
 
-	RELEASE(player);
-	RELEASE(npc);
-
+	/*RELEASE(player);
+	RELEASE(npc);*/
+	entityManager->UnLoad();
 	return ret;
 }
 
 bool SceneGameplay::LoadState(pugi::xml_node& load)
 {
-
+	pugi::xml_node toLoadEntites = load.child("entities");
+	
+	entityManager->LoadState(&toLoadEntites);
 	return true;
 }
 
 bool SceneGameplay::SaveState(pugi::xml_node& save) const
 {
+	pugi::xml_node toSaveEntites = save.append_child("entities");
 
+	entityManager->SaveState(&toSaveEntites);
 	return true;
 }
 
