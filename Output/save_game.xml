@@ -6,7 +6,7 @@
   <audio />
   <scenemanager>
     <scenegameplay>
-      <entities>
+      <entities amount="4">
         <NPCs>
           <NPC>
             <bounds X="0" Y="0" W="32" H="32" />
@@ -14,7 +14,11 @@
           </NPC>
           <NPC>
             <bounds X="12" Y="45" W="32" H="32" />
-            <NpcType type="TABERN" />
+            <NpcType type="TOWN" />
+          </NPC>
+          <NPC>
+            <bounds X="24" Y="56" W="32" H="32" />
+            <NpcType type="WIZARD" />
           </NPC>
         </NPCs>
         <player>

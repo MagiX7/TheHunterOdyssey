@@ -30,13 +30,10 @@ public:
 
 	virtual bool UnLoad() { return true; }
 
-	virtual bool LoadState(pugi::xml_node& node) { return true; }
+	//virtual bool LoadState(pugi::xml_node& node) { return true; }
 
-	virtual bool SaveState(pugi::xml_node& node) 
-	{ 
-		return true; 
-	}
-
+	virtual bool SaveState(pugi::xml_node& node){return true;} 
+	
 public:
 	SDL_Rect bounds;
 	SString name;

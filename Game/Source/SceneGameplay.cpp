@@ -22,9 +22,18 @@ SceneGameplay::SceneGameplay()
 	iPoint position = { 0,0 };
 
 	player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, position);
-	entityManager->CreateEntity(EntityType::NPC, position);
+	player->setPlayerType(PlayerType::HUNTER);
+
+	Npc* generalNpc = nullptr;
+	generalNpc=(Npc*)entityManager->CreateEntity(EntityType::NPC, position);
+	generalNpc->setNpcType(NpcType::TABERN);
 	position = { 12,45 };
-	entityManager->CreateEntity(EntityType::NPC, position);
+	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC, position);
+	generalNpc->setNpcType(NpcType::TOWN);
+
+	position = { 24,56 };
+	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC, position);
+	generalNpc->setNpcType(NpcType::WIZARD);
 	/*player = new Player(PlayerType::HUNTER);
 	npc = new Npc(EntityType::NPC);*/
 
@@ -64,6 +73,11 @@ bool SceneGameplay::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
 	{
 		app->SaveGameRequest();
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)
+	{
+		app->LoadGameRequest();
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
