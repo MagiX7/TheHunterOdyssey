@@ -66,6 +66,10 @@ bool Player::SaveState(pugi::xml_node& node)
 	return true;
 }
 
+void Player::setPlayerType(PlayerType Type) 
+{
+	type = Type;
+}
 void Player::HandleInput(float dt)
 {
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
