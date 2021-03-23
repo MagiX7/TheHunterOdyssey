@@ -60,8 +60,3 @@ bool Npc::SaveState(pugi::xml_node& node)
 	auxiliar1.append_attribute("type").set_value(typeName);
 	return true;
 }
-void Npc::setNpcType(NpcType Type) 
-{
-
-	npcType = Type;
-}

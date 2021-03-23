@@ -21,7 +21,6 @@ public:
 	void Draw(bool showColliders) override;
 	bool UnLoad() override;
 	bool SaveState(pugi::xml_node& node);
-	void setNpcType(NpcType Type);
 	NpcType npcType;
 
 };
