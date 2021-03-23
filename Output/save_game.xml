@@ -6,8 +6,8 @@
   <audio />
   <scenemanager>
     <scenegameplay>
-      <entities amount="4">
-        <NPCs>
+      <entities>
+        <NPCs amount="3">
           <NPC>
             <bounds X="0" Y="0" W="32" H="32" />
             <NpcType type="TABERN" />
@@ -21,7 +21,7 @@
             <NpcType type="WIZARD" />
           </NPC>
         </NPCs>
-        <player>
+        <player amount="1">
           <bounds X="50" Y="400" W="16" H="32" />
           <playerType type="HUNTER" />
         </player>
