@@ -103,6 +103,7 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad)
 {
 	UnLoad();
 	eastl::list<Entity*>::iterator item;
+	item = entities.begin();
 	const char* string = "/";
 
 	int amount=toLoad->attribute("amount").as_int();
@@ -111,6 +112,7 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad)
 	pugi::xml_node Node;
 	pugi::xml_node NodeNpcAuxiliar= NodeNpc.child("NPC");;
 	Npc* npcNode = nullptr;
+
 	for (int a=0;a< amount;a++)
 	{
 		switch (item.mpNode->mValue->type)
@@ -152,6 +154,7 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad)
 			break;
 
 		}
+		item++;
 	}
 	return true;
 }
