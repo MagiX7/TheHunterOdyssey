@@ -31,7 +31,7 @@ bool SceneTitle::Load()
 
 	// Music startup
 	// TODO revise this when we change the module audio.
-	app->audio->PlayMusic("Assets/Audio/Music/intro_theme.wav");
+	app->audio->PlayMusic("Assets/Audio/Music/intro_theme.ogg");
 
 	// Enter FX
 	enterFx = app->audio->LoadFx("Assets/Audio/Fx/title_enter.wav");

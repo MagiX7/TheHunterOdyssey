@@ -62,6 +62,8 @@ bool SceneGameplay::Load()
 	sceneBattle = new SceneBattle(player, player);
 	sceneBattle->Load();
 
+	// Start music
+	app->audio->PlayMusic("Assets/Audio/Music/village_theme_1.ogg");
 
 	return ret;
 }
