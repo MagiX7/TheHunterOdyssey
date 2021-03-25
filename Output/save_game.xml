@@ -22,7 +22,7 @@
           </NPC>
         </NPCs>
         <player amount="1">
-          <bounds X="50" Y="400" W="16" H="32" />
+          <bounds X="0" Y="0" W="16" H="32" />
           <playerType type="HUNTER" />
         </player>
       </entities>

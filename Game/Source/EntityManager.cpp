@@ -8,7 +8,6 @@
 
 EntityManager::EntityManager()
 {
-	int a = 0;
 }
 
 EntityManager::~EntityManager()
@@ -98,12 +97,25 @@ void EntityManager::DeleteEntity(Entity* entity)
 		}
 	}
 }
+void EntityManager::DeleteAllEntities() 
+{
 
+	LOG("Deleting All Entities");
+	eastl::list<Entity*>::iterator item;
+
+	for (item = entities.begin(); item != entities.end(); ++item)
+	{
+		entities.remove(*item);
+
+		
+	}
+
+}
 bool EntityManager::LoadState(pugi::xml_node* toLoad)
 {
-	UnLoad();
+	DeleteAllEntities();
 
-	const char* string = "/";
+	
 
 	int amount=toLoad->attribute("amount").as_int();
 	int npcAmount = toLoad->child("NPCs").attribute("amount").as_int();
@@ -120,7 +132,7 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad)
 		case (int)EntityType::NPC:
 			for (int a = 0; a < npcAmount;a++) {
 				npcNode = nullptr;
-
+				SString string;
 				string = NodeNpcAuxiliar.child("NpcType").attribute("type").as_string();
 				NpcType npcType;
 				if (string == "TABERN") {
@@ -145,9 +157,11 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad)
 		case (int)EntityType::PLAYER:
 
 			for (int a = 0; a < playerAmount; a++) {
+				SString string;
 				Node = toLoad->child("player");
 				string = Node.child("playerType").attribute("type").as_string();
 				PlayerType plType;
+
 				if (string == "HUNTER") { plType = PlayerType::HUNTER; }
 				else if (string == "WIZARD") { plType = PlayerType::WIZARD; }
 				else { plType = PlayerType::NONE; }

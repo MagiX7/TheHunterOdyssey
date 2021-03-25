@@ -24,6 +24,8 @@ public:
 
 	void DeleteEntity(Entity* entity);
 
+	void DeleteAllEntities();
+
 	bool LoadState(pugi::xml_node* toLoad);
 
 	bool SaveState(pugi::xml_node* toSave);

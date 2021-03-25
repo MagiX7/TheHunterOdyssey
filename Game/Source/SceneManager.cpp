@@ -168,7 +168,7 @@ bool SceneManager::SaveState(pugi::xml_node& save) const
 {
 	LOG("Saving Scene Manager");
 	bool ret = true;
-
+	
 	//TODO
 	current->SaveState(save.append_child(current->name.GetString()));
 

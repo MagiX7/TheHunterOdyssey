@@ -10,6 +10,8 @@
 
 Player::Player(PlayerType pType) : Entity(EntityType::PLAYER), type(pType)
 {
+	bounds.w = 16;
+	bounds.h = 32;
 }
 
 Player::~Player()
@@ -20,7 +22,7 @@ bool Player::Load()
 {
 	bool ret = true;
 
-	bounds = { 0, 0, 16, 32 };
+	//bounds = { 0, 0, 16, 32 };
 
 	return ret;
 }

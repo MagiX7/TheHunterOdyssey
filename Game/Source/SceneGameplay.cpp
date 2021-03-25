@@ -142,6 +142,8 @@ bool SceneGameplay::UnLoad()
 	/*RELEASE(player);
 	RELEASE(npc);*/
 	entityManager->UnLoad();
+	entityManager->DeleteAllEntities();
+	
 	return ret;
 }
 
