@@ -13,7 +13,7 @@ Map::Map()
 {
 	name.Create("map");
 
-	folder.Create("Assets/Textures/");
+	folder.Create("Assets/Textures/Maps/");
 
 	scale = 1;
 	mapLoaded = false;

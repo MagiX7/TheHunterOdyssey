@@ -8,6 +8,7 @@
 #include "SceneBattle.h"
 #include "CharacterManager.h"
 #include "Npc.h"
+#include "Map.h"
 
 #include "Audio.h"
 
@@ -37,6 +38,8 @@ SceneGameplay::SceneGameplay()
 	/*player = new Player(PlayerType::HUNTER);
 	npc = new Npc(EntityType::NPC);*/
 
+
+
 	showColliders = false;
 
 	bg = nullptr;
@@ -62,8 +65,18 @@ bool SceneGameplay::Load()
 	sceneBattle = new SceneBattle(player, player);
 	sceneBattle->Load();
 
+
 	// Start music
 	app->audio->PlayMusic("Assets/Audio/Music/village_theme_1.ogg");
+
+	textures = new Textures();
+
+	textures->Load("Assets/Textures/Maps/map_tileset.png");
+	textures->Load("Assets/Textures/Maps/hitboxes.png");
+
+	map = new Map();
+
+	map->Load("town_map.tmx", textures);
 
 	return ret;
 }
@@ -110,6 +123,8 @@ bool SceneGameplay::Update(float dt)
 		break;
 	}
 
+	map->Update(dt);
+
 	return ret;
 }
 
@@ -131,6 +146,8 @@ void SceneGameplay::Draw()
 		sceneBattle->Draw(showColliders);
 		break;
 	}
+
+	map->Draw();
 
 }
 
