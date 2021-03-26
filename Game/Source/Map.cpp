@@ -101,8 +101,9 @@ void Map::DrawLayer(Render* render, MapLayer* layer)
 		for (int x = 0; x < data.width; ++x)
 		{
 			int tileId = layer->Get(x, y);
+			bool draw = layer->properties.GetProperty("draw");
 
-			if (tileId > 0)
+			if (tileId > 0 && draw)
 			{
 				// L04: DONE 9: Complete the draw function
 				TileSet* tileset = GetTilesetFromTileId(tileId); 
