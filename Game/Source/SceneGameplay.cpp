@@ -144,7 +144,7 @@ bool SceneGameplay::Update(float dt)
 
 void SceneGameplay::Draw()
 {
-	//map->Draw();
+	map->Draw();
 
 	if (menuState == GameplayMenuState::CHARACTER_SWAP)
 	{
