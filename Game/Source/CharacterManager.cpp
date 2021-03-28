@@ -20,6 +20,16 @@ bool CharacterManager::Load()
 	wizardButton = new GuiButton(2, { 466, 250, 360, 64 }, "SwapWizard", this);
 	exitButton = new GuiButton(3, { 600, 350, 64, 64 }, "Exit", this);
 
+	switch (player->playerType)
+	{
+	case PlayerType::HUNTER:
+		hunterButton->state = GuiControlState::DISABLED;
+		break;
+	case PlayerType::WIZARD:
+		wizardButton->state = GuiControlState::DISABLED;
+		break;
+	}
+
 	return true;
 }
 
@@ -48,39 +58,38 @@ bool CharacterManager::UnLoad()
 	return true;
 }
 
-void CharacterManager::CharacterSwap(PlayerType pType)
-{
-	SDL_Rect tempBounds = player->bounds;
-	player->UnLoad();
-	RELEASE(player);
-
-	switch (pType)
-	{
-	case PlayerType::HUNTER:
-		player = new Player(PlayerType::HUNTER);
-		break;
-	case PlayerType::WIZARD:
-		player = new Player(PlayerType::WIZARD);
-		break;
-	}
-
-	if (player != nullptr)
-	{
-		player->Load();
-		player->bounds = tempBounds;
-		scene->SetPlayer(player);
-	}
-}
-
 bool CharacterManager::OnGuiMouseClickEvent(GuiControl* control)
 {
 	switch (control->type)
 	{
 	case GuiControlType::BUTTON:
-		if (control->id == 1) scene->CharacterSwap(PlayerType::WIZARD);
-		if (control->id == 2) scene->CharacterSwap(PlayerType::HUNTER);
-		if (control->id == 3) scene->ChangeState(GameplayMenuState::NONE);
+		if (control->id == 1)
+		{
+			scene->CharacterSwap(PlayerType::HUNTER);
+			ChangeButtonState(PlayerType::HUNTER);
+		}
+		else if (control->id == 2)
+		{
+			scene->CharacterSwap(PlayerType::WIZARD);
+			ChangeButtonState(PlayerType::WIZARD);
+		}
+		else if (control->id == 3) scene->ChangeState(GameplayMenuState::NONE);
 	}
 
 	return true;
+}
+
+void CharacterManager::ChangeButtonState(PlayerType type)
+{
+	switch (type)
+	{
+	case PlayerType::HUNTER:
+		hunterButton->state = GuiControlState::DISABLED;
+		wizardButton->state = GuiControlState::NORMAL;
+		break;
+	case PlayerType::WIZARD:
+		hunterButton->state = GuiControlState::NORMAL;
+		wizardButton->state = GuiControlState::DISABLED;
+		break;
+	}
 }

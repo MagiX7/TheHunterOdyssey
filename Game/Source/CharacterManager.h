@@ -21,9 +21,9 @@ public:
 
 	bool UnLoad() override;
 
-	void CharacterSwap(PlayerType pType);
-
 	bool OnGuiMouseClickEvent(GuiControl* control) override;
+
+	void ChangeButtonState(PlayerType type);
 
 private:
 	Player* player;

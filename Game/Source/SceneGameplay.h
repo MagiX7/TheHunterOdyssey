@@ -50,12 +50,11 @@ public:
 
 	void CharacterSwap(PlayerType pType);
 
-	void SetPlayer(Player* pl);
+private:
+	void HandleInput(float dt);
 
 private:
 	SDL_Texture* bg;
-
-	Textures* textures;
 
 	Player* currentPlayer;
 	Player* player1;

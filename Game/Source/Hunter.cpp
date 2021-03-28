@@ -24,6 +24,7 @@ bool Hunter::Load()
 bool Hunter::Update(float dt)
 {
 	HandleInput(dt);
+
 	return true;
 }
 

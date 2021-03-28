@@ -126,7 +126,7 @@ public:
 	bool Update(float dt);
 
 	// Called each loop iteration
-	void Draw();
+	void Draw(bool showColliders);
 
 	void DrawLayer(Render* render, MapLayer* layer);
 

@@ -70,7 +70,7 @@ bool Map::Update(float dt)
 }
 
 // Draw the map (all required layers)
-void Map::Draw()
+void Map::Draw(bool showColliders)
 {
 	if (mapLoaded == false) return;
 
@@ -89,7 +89,7 @@ void Map::Draw()
 
 	for (; item != data.layers.end(); ++item)
 	{
-		if (((*item)->properties.GetProperty("Drawable", 1) != 0)) DrawLayer(app->render, (*item));
+		if (((*item)->properties.GetProperty("draw", 1) != 0) || showColliders) DrawLayer(app->render, (*item));
 	}
 
 }
@@ -101,9 +101,8 @@ void Map::DrawLayer(Render* render, MapLayer* layer)
 		for (int x = 0; x < data.width; ++x)
 		{
 			int tileId = layer->Get(x, y);
-			bool draw = layer->properties.GetProperty("draw");
 
-			if (tileId > 0 && draw)
+			if (tileId > 0)
 			{
 				// L04: DONE 9: Complete the draw function
 				TileSet* tileset = GetTilesetFromTileId(tileId); 

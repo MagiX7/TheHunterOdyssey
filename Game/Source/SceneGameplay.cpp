@@ -50,8 +50,6 @@ SceneGameplay::SceneGameplay()
 	/*player = new Player(PlayerType::HUNTER);
 	npc = new Npc(EntityType::NPC);*/
 
-
-
 	showColliders = false;
 
 	bg = nullptr;
@@ -68,7 +66,6 @@ bool SceneGameplay::Load()
 	menuState = GameplayMenuState::NONE;
 	gameState = GameplayState::NONE;
 
-
 	// Instantiate character swap manager
 	charManager = new CharacterManager(player1, this);
 	charManager->Load();
@@ -76,14 +73,8 @@ bool SceneGameplay::Load()
 	// Start music
 	app->audio->PlayMusic("Assets/Audio/Music/village_theme_1.ogg");
 
-	textures = new Textures();
-
-	textures->Load("Assets/Textures/Maps/map_tileset.png");
-	textures->Load("Assets/Textures/Maps/hitboxes.png");
-
 	map = new Map();
-
-	map->Load("town_map.tmx", textures);
+	map->Load("town_map.tmx", app->tex);
 
 	return ret;
 }
@@ -92,39 +83,18 @@ bool SceneGameplay::Update(float dt)
 {
 	bool ret = true;
 
-	if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
-	{
-		app->SaveGameRequest();
-	}
-
-	if (app->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)
-	{
-		app->LoadGameRequest();
-	}
-
-	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN)
-	{
-		menuState = GameplayMenuState::CHARACTER_SWAP;
-	}
-
 	switch (gameState)
 	{
 	case GameplayState::NONE:
 		gameState = GameplayState::ROAMING;
 		break;
 	case GameplayState::ROAMING:
+		map->Update(dt);
+		HandleInput(dt);
 		currentPlayer->Update(dt);
 		/*npc->Update(dt);*/
 		//entityManager->Update(dt);
-		if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
-		{
-			// Instantiate and load scene battle
-			sceneBattle = new SceneBattle(player1, player2);
-			sceneBattle->Load();
-
-			gameState = GameplayState::BATTLE;
-		}
-			break;
+		break;
 	case GameplayState::BATTLE:
 		sceneBattle->Update(dt);
 		break;
@@ -137,34 +107,25 @@ bool SceneGameplay::Update(float dt)
 		break;
 	}
 
-	map->Update(dt);
-
 	return ret;
 }
 
 void SceneGameplay::Draw()
 {
-	//map->Draw();
-
-	if (menuState == GameplayMenuState::CHARACTER_SWAP)
-	{
-		charManager->Draw(showColliders);
-	}
-
 	switch (gameState)
 	{
 	case GameplayState::ROAMING:
 		/*player->Draw(showColliders);
 		npc->Draw(showColliders);*/
 		//entityManager->Draw(showColliders);
+		map->Draw(showColliders);
 		currentPlayer->Draw(showColliders);
+		if (menuState == GameplayMenuState::CHARACTER_SWAP) charManager->Draw(showColliders);
 		break;
 	case GameplayState::BATTLE:
 		sceneBattle->Draw(showColliders);
 		break;
 	}
-
-
 }
 
 bool SceneGameplay::UnLoad()
@@ -220,7 +181,20 @@ void SceneGameplay::ChangeState(GameplayMenuState type)
 	menuState = type;
 }
 
-void SceneGameplay::SetPlayer(Player* pl)
+void SceneGameplay::HandleInput(float dt)
 {
-	player1 = pl;
+	if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+	{
+		// Instantiate and load scene battle
+		sceneBattle = new SceneBattle(player1, player2);
+		sceneBattle->Load();
+
+		gameState = GameplayState::BATTLE;
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN) app->LoadGameRequest();
+
+	if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN) app->SaveGameRequest();
+
+	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN) menuState = GameplayMenuState::CHARACTER_SWAP;
 }

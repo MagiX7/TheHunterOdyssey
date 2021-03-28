@@ -116,14 +116,14 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 	{
 	case GuiControlType::BUTTON:
 		if (control->id == 1) scene->TransitionToScene(SceneType::GAMEPLAY); // New Game
-		if (control->id == 2) scene->TransitionToScene(SceneType::GAMEPLAY); // Continue
-		if (control->id == 3) state = MenuState::OPTIONS; // Options
-		if (control->id == 4) state = MenuState::CREDITS; // Credits
-		if (control->id == 5) state = MenuState::EXIT; // Exit button pressed
-		if (control->id == 6) state = MenuState::GLOBAL_EXIT; // Yes exit
-		if (control->id == 7) state = MenuState::NORMAL; // Go back to the menu
-		if (control->id == 8) state = MenuState::NORMAL; // Go back to the menu
-		if (control->id == 9) state = MenuState::NORMAL; // Go back to the menu
+		else if (control->id == 2) scene->TransitionToScene(SceneType::GAMEPLAY); // Continue
+		else if (control->id == 3) state = MenuState::OPTIONS; // Options
+		else if (control->id == 4) state = MenuState::CREDITS; // Credits
+		else if (control->id == 5) state = MenuState::EXIT; // Exit button pressed
+		else if (control->id == 6) state = MenuState::GLOBAL_EXIT; // Yes exit
+		else if (control->id == 7) state = MenuState::NORMAL; // Go back to the menu
+		else if (control->id == 8) state = MenuState::NORMAL; // Go back to the menu
+		else if (control->id == 9) state = MenuState::NORMAL; // Go back to the menu
 	}
 
 	return false;
