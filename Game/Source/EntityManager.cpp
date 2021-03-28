@@ -167,7 +167,7 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad)
 				else { plType = PlayerType::NONE; }
 
 				Player* player = (Player*)CreateEntity(EntityType::PLAYER, { Node.child("bounds").attribute("X").as_int(),Node.child("bounds").attribute("Y").as_int() });
-				player->setPlayerType(plType);
+				player->SetPlayerType(plType);
 			}
 			break;
 

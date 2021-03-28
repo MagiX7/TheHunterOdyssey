@@ -48,6 +48,8 @@ public:
 
 	void ChangeState(GameplayMenuState type);
 
+	void CharacterSwap(PlayerType pType);
+
 	void SetPlayer(Player* pl);
 
 private:
@@ -55,7 +57,9 @@ private:
 
 	Textures* textures;
 
+	Player* currentPlayer;
 	Player* player;
+	Player* player2;
 
 	CharacterManager* charManager;
 

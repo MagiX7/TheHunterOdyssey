@@ -14,9 +14,11 @@ SceneBattle::~SceneBattle()
 
 bool SceneBattle::Load()
 {
+	player1->stance = PlayerStance::BATTLE;
 	player1->bounds.x = 50;
 	player1->bounds.y = 350;
 
+	player2->stance = PlayerStance::BATTLE;
 	player2->bounds.x = 50;
 	player2->bounds.y = 400;
 
@@ -25,8 +27,8 @@ bool SceneBattle::Load()
 
 bool SceneBattle::Update(float dt)
 {
-	/*player1->Update(dt);
-	player2->Update(dt);*/
+	player1->Update(dt);
+	player2->Update(dt);
 
 	return true;
 }

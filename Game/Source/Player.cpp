@@ -8,7 +8,7 @@
 #define SPEED_X 200.0f
 #define SPEED_Y 200.0f
 
-Player::Player(PlayerType pType) : Entity(EntityType::PLAYER), type(pType)
+Player::Player(PlayerType pType) : Entity(EntityType::PLAYER), playerType(pType)
 {
 	bounds.w = 16;
 	bounds.h = 32;
@@ -38,7 +38,7 @@ bool Player::Update(float dt)
 
 void Player::Draw(bool showColliders)
 {
-	switch (type)
+	switch (playerType)
 	{
 	case PlayerType::HUNTER:
 		if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0);
@@ -60,17 +60,17 @@ bool Player::SaveState(pugi::xml_node& node)
 	auxiliar1=node.append_child("playerType");
 	const char* typeName="/";
 
-	if (type == PlayerType::HUNTER) {typeName = "HUNTER";}
-	else if(type == PlayerType::WIZARD){typeName = "WIZARD";}
-	else if(type == PlayerType::NONE) { typeName = "NONE"; }
+	if (playerType == PlayerType::HUNTER) {typeName = "HUNTER";}
+	else if(playerType == PlayerType::WIZARD){typeName = "WIZARD";}
+	else if(playerType == PlayerType::NONE) { typeName = "NONE"; }
 
 	auxiliar1.append_attribute("type").set_value(typeName);
 	return true;
 }
 
-void Player::setPlayerType(PlayerType Type) 
+void Player::SetPlayerType(PlayerType Type) 
 {
-	type = Type;
+	playerType = Type;
 }
 void Player::HandleInput(float dt)
 {

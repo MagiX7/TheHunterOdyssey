@@ -2,11 +2,23 @@
 
 #include "Entity.h"
 
+#define SPEED_X 200.0f
+#define SPEED_Y 200.0f
+
+class SDL_Texture;
+
 enum class PlayerType
 {
 	NONE = 0,
 	HUNTER,
 	WIZARD
+};
+
+enum class PlayerStance
+{
+	NONE = 0,
+	ROAMING,
+	BATTLE
 };
 
 class Player : public Entity
@@ -16,18 +28,23 @@ public:
 
 	virtual ~Player();
 
-	bool Load() override;
+	virtual bool Load() override;
 	
-	bool Update(float dt) override;
+	virtual bool Update(float dt) override;
 
-	void Draw(bool showColliders) override;
+	virtual void Draw(bool showColliders) override;
 
-	void HandleInput(float dt);
+	virtual void HandleInput(float dt);
 
-	bool SaveState(pugi::xml_node& node);
+	virtual bool SaveState(pugi::xml_node& node);
 
-	void setPlayerType(PlayerType Type);
-private:
-	
-	PlayerType type;
+	virtual void SetPlayerType(PlayerType Type);
+
+public:
+	SDL_Rect bounds;
+	PlayerType playerType;
+	PlayerStance stance;
+
+protected:
+	SDL_Texture* texture;
 };

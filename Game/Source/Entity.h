@@ -8,6 +8,8 @@
 enum class EntityType
 {
 	PLAYER,
+	HUNTER,
+	WIZARD,
 	ENEMY,
 	NPC,
 	ITEM,

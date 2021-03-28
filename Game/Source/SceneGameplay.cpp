@@ -23,7 +23,12 @@ SceneGameplay::SceneGameplay()
 	iPoint position = { 0,0 };
 
 	player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, position);
-	player->setPlayerType(PlayerType::HUNTER);
+	player->SetPlayerType(PlayerType::HUNTER);
+
+	player2 = (Player*)entityManager->CreateEntity(EntityType::PLAYER, position);
+	player2->SetPlayerType(PlayerType::WIZARD);
+
+	currentPlayer = player;
 
 	Npc* generalNpc = nullptr;
 	generalNpc=(Npc*)entityManager->CreateEntity(EntityType::NPC, position);
@@ -106,9 +111,9 @@ bool SceneGameplay::Update(float dt)
 		gameState = GameplayState::ROAMING;
 		break;
 	case GameplayState::ROAMING:
-		/*player->Update(dt);
-		npc->Update(dt);*/
-		entityManager->Update(dt);
+		currentPlayer->Update(dt);
+		/*npc->Update(dt);*/
+		//entityManager->Update(dt);
 		if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) gameState = GameplayState::BATTLE;
 		break;
 	case GameplayState::BATTLE:
@@ -130,6 +135,8 @@ bool SceneGameplay::Update(float dt)
 
 void SceneGameplay::Draw()
 {
+	map->Draw();
+
 	if (menuState == GameplayMenuState::CHARACTER_SWAP)
 	{
 		charManager->Draw(showColliders);
@@ -140,14 +147,14 @@ void SceneGameplay::Draw()
 	case GameplayState::ROAMING:
 		/*player->Draw(showColliders);
 		npc->Draw(showColliders);*/
-		entityManager->Draw(showColliders);
+		//entityManager->Draw(showColliders);
+		currentPlayer->Draw(showColliders);
 		break;
 	case GameplayState::BATTLE:
 		sceneBattle->Draw(showColliders);
 		break;
 	}
 
-	map->Draw();
 
 }
 
@@ -166,9 +173,9 @@ bool SceneGameplay::UnLoad()
 
 bool SceneGameplay::LoadState(pugi::xml_node& load)
 {
-	pugi::xml_node toLoadEntites = load.child("entities");
+	pugi::xml_node toLoadEntities = load.child("entities");
 	
-	entityManager->LoadState(&toLoadEntites);
+	entityManager->LoadState(&toLoadEntities);
 	return true;
 }
 
