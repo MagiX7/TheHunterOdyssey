@@ -4,6 +4,8 @@
 #include "Textures.h"
 #include "EntityManager.h"
 #include "Player.h"
+#include "Wizard.h"
+#include "Hunter.h"
 #include "SceneGameplay.h"
 #include "SceneBattle.h"
 #include "CharacterManager.h"
@@ -22,13 +24,18 @@ SceneGameplay::SceneGameplay()
 
 	iPoint position = { 0,0 };
 
-	player = (Player*)entityManager->CreateEntity(EntityType::PLAYER, position);
-	player->SetPlayerType(PlayerType::HUNTER);
+	/*player1 = (Player*)entityManager->CreateEntity(EntityType::PLAYER, position);
+	player1->SetPlayerType(PlayerType::HUNTER);
+	player1->Load();
 
 	player2 = (Player*)entityManager->CreateEntity(EntityType::PLAYER, position);
 	player2->SetPlayerType(PlayerType::WIZARD);
+	player2->Load();*/
 
-	currentPlayer = player;
+	player1 = new Hunter();
+	player2 = new Wizard();
+
+	currentPlayer = player1;
 
 	Npc* generalNpc = nullptr;
 	generalNpc=(Npc*)entityManager->CreateEntity(EntityType::NPC, position);
@@ -63,13 +70,8 @@ bool SceneGameplay::Load()
 
 
 	// Instantiate character swap manager
-	charManager = new CharacterManager(player, this);
+	charManager = new CharacterManager(player1, this);
 	charManager->Load();
-
-	// Instantiate and load scene battle
-	sceneBattle = new SceneBattle(player, player);
-	sceneBattle->Load();
-
 
 	// Start music
 	app->audio->PlayMusic("Assets/Audio/Music/village_theme_1.ogg");
@@ -114,8 +116,15 @@ bool SceneGameplay::Update(float dt)
 		currentPlayer->Update(dt);
 		/*npc->Update(dt);*/
 		//entityManager->Update(dt);
-		if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) gameState = GameplayState::BATTLE;
-		break;
+		if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+		{
+			// Instantiate and load scene battle
+			sceneBattle = new SceneBattle(player1, player2);
+			sceneBattle->Load();
+
+			gameState = GameplayState::BATTLE;
+		}
+			break;
 	case GameplayState::BATTLE:
 		sceneBattle->Update(dt);
 		break;
@@ -135,7 +144,7 @@ bool SceneGameplay::Update(float dt)
 
 void SceneGameplay::Draw()
 {
-	map->Draw();
+	//map->Draw();
 
 	if (menuState == GameplayMenuState::CHARACTER_SWAP)
 	{
@@ -171,6 +180,25 @@ bool SceneGameplay::UnLoad()
 	return ret;
 }
 
+void SceneGameplay::CharacterSwap(PlayerType player)
+{
+	SDL_Rect tmpBounds = currentPlayer->bounds;
+	if (player != currentPlayer->playerType)
+	{
+		switch (player)
+		{
+		case PlayerType::HUNTER:
+			currentPlayer = player1;
+			break;
+		case PlayerType::WIZARD:
+			currentPlayer = player2;
+			break;
+		}
+	}
+
+	currentPlayer->bounds = tmpBounds;
+}
+
 bool SceneGameplay::LoadState(pugi::xml_node& load)
 {
 	pugi::xml_node toLoadEntities = load.child("entities");
@@ -194,5 +222,5 @@ void SceneGameplay::ChangeState(GameplayMenuState type)
 
 void SceneGameplay::SetPlayer(Player* pl)
 {
-	player = pl;
+	player1 = pl;
 }

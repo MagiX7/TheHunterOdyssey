@@ -29,4 +29,5 @@ public:
 private:
 	Player* player1;
 	Player* player2;
+
 };

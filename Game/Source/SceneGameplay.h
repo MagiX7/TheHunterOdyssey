@@ -58,7 +58,7 @@ private:
 	Textures* textures;
 
 	Player* currentPlayer;
-	Player* player;
+	Player* player1;
 	Player* player2;
 
 	CharacterManager* charManager;
