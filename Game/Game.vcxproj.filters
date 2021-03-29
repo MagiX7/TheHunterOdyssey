@@ -81,6 +81,8 @@
     <ClCompile Include="Source\Hunter.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Source\DialogueManager.cpp" />
+    <ClCompile Include="Source\Dialogue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -204,6 +206,8 @@
     <ClInclude Include="Source\Hunter.h">
       <Filter>Entities</Filter>
     </ClInclude>
+    <ClInclude Include="Source\DialogueManager.h" />
+    <ClInclude Include="Source\Dialogue.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

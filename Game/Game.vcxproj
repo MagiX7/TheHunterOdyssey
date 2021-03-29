@@ -95,6 +95,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Dialogue.cpp" />
+    <ClCompile Include="Source\DialogueManager.cpp" />
     <ClCompile Include="Source\EntityManager.cpp" />
     <ClCompile Include="Source\Font.cpp" />
     <ClCompile Include="Source\GuiButton.cpp" />
@@ -121,6 +123,8 @@
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\Window.cpp" />
     <ClCompile Include="Source\Wizard.cpp" />
+    <ClInclude Include="Source\Dialogue.h" />
+    <ClInclude Include="Source\DialogueManager.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\EntityManager.h" />
     <ClInclude Include="Source\Font.h" />

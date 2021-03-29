@@ -11,6 +11,7 @@
 #include "CharacterManager.h"
 #include "Npc.h"
 #include "Map.h"
+#include "DialogueManager.h"
 
 #include "Audio.h"
 
@@ -76,6 +77,9 @@ bool SceneGameplay::Load()
 	map = new Map();
 	map->Load("town_map.tmx", app->tex);
 
+	dialogueManager = new DialogueManager();
+	dialogueManager->Start();
+
 	return ret;
 }
 
@@ -126,6 +130,9 @@ void SceneGameplay::Draw()
 		sceneBattle->Draw(showColliders);
 		break;
 	}
+
+	//dialogueManager->Draw();
+
 }
 
 bool SceneGameplay::UnLoad()
