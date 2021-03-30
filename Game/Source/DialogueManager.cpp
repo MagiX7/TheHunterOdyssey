@@ -30,6 +30,7 @@ bool DialogueManager::Start()
 		current = LoadDialogue(0);
 
 		letterCount = 0;
+		printText = false;
 
 	}
 
@@ -38,85 +39,59 @@ bool DialogueManager::Start()
 
 bool DialogueManager::Update(float dt)
 {
-	if (app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
-	{
-		//int offsetY = 0;
-		//int w = font->GetCharRec(32).w;
-		//int h = font->GetCharRec(32).h;
-		//int len = (*(*current->nodes.begin())->options.begin())->text.length();
-		//// Set the bounds to draw
-		//(*(*current->nodes.begin())->options.begin())->bounds = { 0,110 + offsetY,w * len , h };
-		//(*current->nodes.begin())->currentOption = (*(*current->nodes.begin())->options.begin());
-		
-		lastUserInput = 1;
-		
-		current->currentNode->currentOption = (*(*current->nodes.begin())->options.begin());
+	bool ret = true;
 
-	}
-	else if (app->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
-	{
-		lastUserInput = 2;
-		current->currentNode->currentOption = (*(*current->nodes.begin())->options.begin().next());
-	}
-	else if (app->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
-	{
-		lastUserInput = 3;
-		current->currentNode->currentOption = (*(*current->nodes.begin())->options.begin().next().next());
-	}
-	
-	// If player presses enter, means he has chosen an option
-	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
-	{
-		NpcNode* aux = GetNodeById(current->currentNode->currentOption->nextNodeId);
-		RELEASE(current->currentNode);
-		current->currentNode = LoadNode(aux->id);
-		current->currentNode->currentOption = (*aux->options.begin());
+	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) printText = true;
 
+	if (current->currentNode->dialogFinished == true && current->currentNode->id >= 0)
+	{
+		if (app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+		{
+			lastUserInput = 1;
+			current->currentNode->currentOption = (*(*current->nodes.begin())->options.begin());
+		}
+		else if (app->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
+		{
+			lastUserInput = 2;
+			current->currentNode->currentOption = (*(*current->nodes.begin())->options.begin().next());
+		}
+		else if (app->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
+		{
+			lastUserInput = 3;
+			current->currentNode->currentOption = (*(*current->nodes.begin())->options.begin().next().next());
+		}
+
+		// If player presses enter, means he has chosen an option
+		if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		{
+			NpcNode* aux = GetNodeById(current->currentNode->currentOption->nextNodeId);
+			RELEASE(current->currentNode);
+			current->currentNode = LoadNode(aux->id);
+			current->currentNode->Reset();
+			letterCount = 0;
+			current->textToPrint.clear();
+			current->currentNode->currentOption = (*aux->options.begin());
+		}
+	}
+	if (current->currentNode->id == -1)
+	{
+		if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		{
+			// Dialog finished
+			printText = false;
+			ret = false;
+		}
 	}
 
-	return true;
+	return ret;
 }
 
 void DialogueManager::Draw()
 {
-	eastl::list<DialogueOption*>::iterator it = (*current->nodes.begin())->options.begin();
-	while ((*it)->id != current->currentNode->currentOption->id)
+	if (printText == true && current->currentNode->id >= -1)
 	{
-		it = it.next();
+		current->Draw(letterCount, font);
 	}
-
-	SDL_Rect r;
-	switch ((*it)->id)
-	{
-	case 0:
-		r = { 0,110,400,50 };
-		break;
-	case 1:
-		r = { 0,110 + 55,400,50 };
-		break;
-	case 2:
-		r = { 0,110 + 115,400,50 };
-	}
-	app->render->DrawRectangle(r, 255, 255, 255, 120);
-
-	// Render npc text
-	app->render->DrawText(font, current->currentNode->text.c_str(), 0, 0, 100, 5, { 255,255,255 });
-
-	// Render options for the player
-	eastl::list<DialogueOption*>::iterator optionsIterator = current->currentNode->options.begin();
-	if (current->nodes.size() > 1)
-	{
-		int offsetY = 0;
-		for (; optionsIterator != (*current->currentNode).options.end(); ++optionsIterator)
-		{
-			app->render->DrawText(font, (*optionsIterator)->text.c_str(), 0, 110 + offsetY, 50, 5, { 0,255,0,255 });
-			offsetY += 60;
-		}
-	}
-}
-
-void DialogueManager::DeleteDialogue(int id)
-{
 }
 
 NpcNode* DialogueManager::LoadNode(int id)
@@ -154,7 +129,6 @@ NpcNode* DialogueManager::GetNodeById(int id)
 
 	return (*it);
 }
-
 
 Dialogue* DialogueManager::LoadDialogue(int id)
 {

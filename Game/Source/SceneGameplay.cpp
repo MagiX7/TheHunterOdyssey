@@ -113,7 +113,9 @@ bool SceneGameplay::Update(float dt)
 		currentPlayer->Update(dt);
 		/*npc->Update(dt);*/
 		//entityManager->Update(dt);
-		//dialogueManager->Update(dt);
+		dialogueManager->Update(dt);
+		//bool dialogEnded = dialogueManager->Update(dt);
+		//if(dialogEnded == false) gameState = salir del dialogo
 		break;
 	case GameplayState::BATTLE:
 		sceneBattle->Update(dt);
@@ -147,7 +149,7 @@ void SceneGameplay::Draw()
 		break;
 	}
 
-	//dialogueManager->Draw();
+	dialogueManager->Draw();
 
 }
 

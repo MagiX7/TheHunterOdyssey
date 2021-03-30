@@ -20,5 +20,8 @@
 			<option id="0" nextNodeId="-1" text="vamos a la biblioteca nocturna"/>
 			<option id="1" nextNodeId="-1" text="ooooooooOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO..."/>
 		</node>
+		<node id ="-1">
+			<npc_text text ="Press enter to back"/>
+		</node>
 	</npc>
 </dialogues>

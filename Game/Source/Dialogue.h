@@ -27,18 +27,20 @@ public:
 class NpcNode
 {
 public:
-	NpcNode(eastl::string ttext) : text(ttext) {}
+	NpcNode(eastl::string ttext) : text(ttext), stopDialog(false), dialogFinished(false) {}
 	virtual ~NpcNode() {};
+
+	void Reset();
 
 public:
 	int id;
 	int letterCount;
 	bool stopDialog;
+	bool dialogFinished;
 
 	eastl::string text; // npc_text
 	eastl::list<DialogueOption*> options; // All the possible options
 	DialogueOption* currentOption;
-
 };
 
 class Dialogue
@@ -47,7 +49,7 @@ public:
 	Dialogue(int dialogueId);
 	virtual ~Dialogue();
 
-	void Draw(int& count);
+	void Draw(int& count, Font* font);
 	bool CleanUp();
 
 	void TriggerDialog(int id);
@@ -55,7 +57,9 @@ public:
 
 public:
 	int id;
+	bool isDialogueActive;
+	eastl::string textToPrint;
+
 	NpcNode* currentNode;
 	eastl::list<NpcNode*> nodes;
-	bool isDialogueActive;
 };
