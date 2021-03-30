@@ -10,10 +10,10 @@ class SDL_Texture;
 enum class PlayerType
 {
 	NONE = 0,
-	THIEF,
-	WARRIOR,
 	HUNTER,
-	WIZARD
+	WIZARD,
+	THIEF, 
+	WARRIOR
 };
 
 enum class PlayerStance
@@ -26,7 +26,7 @@ enum class PlayerStance
 class Player : public Entity
 {
 public:
-	Player(EntityType type, iPoint position);
+	Player(PlayerType t, EntityType type, iPoint position);
 
 	virtual ~Player();
 

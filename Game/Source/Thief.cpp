@@ -5,10 +5,9 @@
 
 #include "Thief.h"
 
-Thief::Thief(iPoint position) : Player(EntityType::THIEF,position)
+Thief::Thief(iPoint position) : Player(PlayerType::THIEF, EntityType::THIEF,position)
 {
 	stance = PlayerStance::ROAMING;
-	playerType = PlayerType::THIEF;
 	healthPoints = 1500;
 	manaPoints = 500;
 	name = "Thief";

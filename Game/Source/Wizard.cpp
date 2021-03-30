@@ -5,11 +5,10 @@
 
 #include "Wizard.h"
 
-Wizard::Wizard(iPoint position) : Player(EntityType::HUNTER, position)
+Wizard::Wizard(iPoint position) : Player(PlayerType::WIZARD, EntityType::HUNTER, position)
 {
 	//bounds = { 0,0, 16,32 };
 	stance = PlayerStance::ROAMING;
-	playerType = PlayerType::WIZARD;
 	healthPoints = 1000;
 	manaPoints = 5000;
 	name = "Wizard";

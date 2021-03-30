@@ -17,22 +17,22 @@ SceneBattle::~SceneBattle()
 
 bool SceneBattle::Load()
 {
-	battleMenu = new BattleMenu(playerList);
-	battleMenu->Load();
-
 	eastl::list<Player*>::iterator it = playerList.begin();
 	for (int i = 0; it != playerList.end(); ++it, ++i)
 	{
 		(*it)->stance = PlayerStance::BATTLE;
 		(*it)->bounds.x = 400;
-		(*it)->bounds.y = 350 + (i * 50);
+		(*it)->bounds.y = 221 + (i * 50);
 	}
 	
 	for (int i = 0; i < numEnemies; ++i)
 	{
-		Golem* enemy = new Golem(iPoint(650,350+(i*50)));
+		Golem* enemy = new Golem(iPoint(650,250+(i*50)));
 		enemyList.push_back(enemy);
 	}
+
+	battleMenu = new BattleMenu(playerList, enemyList);
+	battleMenu->Load();
 
 	return true;
 }

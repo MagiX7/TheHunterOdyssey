@@ -10,6 +10,7 @@ class SceneBattle;
 class EntityManager;
 class Map;
 class DialogueManager;
+class PauseMenu;
 enum class PlayerType;
 
 enum class GameplayMenuState
@@ -73,6 +74,7 @@ private:
 
 	DialogueManager* dialogueManager;
 
+	PauseMenu* pause;
 };
 
 #endif //__SCENEGAMEPLAY_H__

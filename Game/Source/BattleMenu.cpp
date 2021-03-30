@@ -1,10 +1,12 @@
 #include "App.h"
 #include "Font.h"
 #include "BattleMenu.h"
-#include "Hunter.h"
+
+#include "Enemy.h"
+#include "Player.h"
 #include "Input.h"
 
-BattleMenu::BattleMenu(eastl::list<Player*> list) : playerList(list)
+BattleMenu::BattleMenu(eastl::list<Player*> list, eastl::list<Enemy*> enList) : playerList(list), enemyList(enList), type(BattleState::NONE)
 {
 }
 
@@ -21,27 +23,65 @@ bool BattleMenu::Load()
 	btnDefense = new GuiButton(3, { 72, 580, 204, 43 }, "Defense", this);
 	btnObject = new GuiButton(4, { 72, 630, 204, 43 }, "Object", this);
 
+	current = (*enemyList.begin());
+
 	return true;
 }
 
 bool BattleMenu::Update(float dt)
 {
-	btnAttack->Update(app->input, dt);
-	btnAbility->Update(app->input, dt);
-	btnDefense->Update(app->input, dt);
-	btnObject->Update(app->input, dt);
+	switch (type)
+	{
+	case BattleState::NONE:
+		type = BattleState::DEFAULT;
+		break;
+	case BattleState::DEFAULT:
+		btnAttack->Update(app->input, dt);
+		btnAbility->Update(app->input, dt);
+		btnDefense->Update(app->input, dt);
+		btnObject->Update(app->input, dt);
+		break;
+	case BattleState::ATTACK:
+		HandleInput(app->input);
+		break;
+	case BattleState::ABILITY:
+		HandleInput(app->input);
+		break;
+	case BattleState::DEFENSE:
+		break;
+	case BattleState::OBJECT:
+		break;
+	}
 
 	return true;
 }
 
 void BattleMenu::Draw(bool showColliders)
 {
-	btnAttack->Draw(app->render, showColliders);
-	btnAbility->Draw(app->render, showColliders);
-	btnDefense->Draw(app->render, showColliders);
-	btnObject->Draw(app->render, showColliders);
+	switch (type)
+	{
+	case BattleState::NONE:
+		type = BattleState::DEFAULT;
+		break;
+	case BattleState::DEFAULT:
+		btnAttack->Draw(app->render, showColliders);
+		btnAbility->Draw(app->render, showColliders);
+		btnDefense->Draw(app->render, showColliders);
+		btnObject->Draw(app->render, showColliders);
+		break;
+	case BattleState::ATTACK:
+		app->render->DrawRectangle({ current->bounds.x + 100, current->bounds.y, 32, 16 }, 255, 0, 0);
+		break;
+	case BattleState::ABILITY:
+		app->render->DrawRectangle({ current->bounds.x + 100, current->bounds.y, 32, 16 }, 255, 0, 0);
+		break;
+	case BattleState::DEFENSE:
+		break;
+	case BattleState::OBJECT:
+		break;
+	}
 
-	DrawStats();
+	if (type != BattleState::NONE) DrawStats();
 }
 
 bool BattleMenu::UnLoad()
@@ -60,10 +100,10 @@ bool BattleMenu::OnGuiMouseClickEvent(GuiControl* control)
 	{
 	case GuiControlType::BUTTON:
 		// TODO implement functionality for buttons
-		if (control->id == 1);
-		if (control->id == 2);
-		if (control->id == 3);
-		if (control->id == 4);
+		if (control->id == 1) type = BattleState::ATTACK;
+		else if (control->id == 2) type = BattleState::ABILITY;
+		else if (control->id == 3) type = BattleState::DEFENSE;
+		else if (control->id == 4) type = BattleState::OBJECT;
 		break;
 	}
 	return true;
@@ -71,7 +111,6 @@ bool BattleMenu::OnGuiMouseClickEvent(GuiControl* control)
 
 void BattleMenu::DrawStats()
 {
-
 	eastl::list<Player*>::iterator it = playerList.begin();
 
 	for (int i = 0; it != playerList.end(); ++it, ++i)
@@ -83,5 +122,43 @@ void BattleMenu::DrawStats()
 		points = std::to_string((*it)->GetManaPoints());
 		app->render->DrawText(font, "MP", 1130, 500 + (i * 50), 25, 2, { 255,255,255 });
 		app->render->DrawText(font, points.c_str(), 1160, 500 + (i * 50), 25, 2, { 255,255,255 });
+	}
+}
+
+void BattleMenu::HandleInput(Input* input)
+{
+	if (input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	{
+		eastl::list<Enemy*>::iterator it = enemyList.begin();
+		for (; it != enemyList.end(); ++it)
+		{
+			if (current == (*enemyList.end().prev()))
+			{
+				current = (*enemyList.begin());
+				break;
+			}
+			else if ((*it) == current)
+			{
+				current = (*it.next());
+				break;
+			}
+		}
+	}
+	else if (input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+	{
+		eastl::list<Enemy*>::iterator it = enemyList.begin();
+		for (; it != enemyList.end(); ++it)
+		{
+			if (current == (*enemyList.begin()))
+			{
+				current = (*enemyList.end().prev());
+				break;
+			}
+			else if ((*it) == current)
+			{
+				current = (*it.prev());
+				break;
+			}
+		}
 	}
 }

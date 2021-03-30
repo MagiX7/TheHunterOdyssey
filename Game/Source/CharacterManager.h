@@ -29,7 +29,9 @@ private:
 	Player* player;
 	SceneGameplay* scene;
 
-	GuiButton* hunterButton;
-	GuiButton* wizardButton;
-	GuiButton* exitButton;
+	GuiButton* btnHunter;
+	GuiButton* btnWizard;
+	GuiButton* btnThief;
+	GuiButton* btnWarrior;
+	GuiButton* btnExit;
 };

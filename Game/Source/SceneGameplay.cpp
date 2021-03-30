@@ -14,6 +14,7 @@
 #include "Npc.h"
 #include "Map.h"
 #include "DialogueManager.h"
+#include "PauseMenu.h"
 
 #include "Audio.h"
 
@@ -71,6 +72,8 @@ SceneGameplay::SceneGameplay()
 	/*player = new Player(PlayerType::HUNTER);
 	npc = new Npc(EntityType::NPC);*/
 
+	pause = new PauseMenu(this);
+
 	showColliders = false;
 
 	bg = nullptr;
@@ -100,6 +103,8 @@ bool SceneGameplay::Load()
 	dialogueManager = new DialogueManager();
 	dialogueManager->Start();
 
+	pause->Load();
+
 	return ret;
 }
 
@@ -118,7 +123,7 @@ bool SceneGameplay::Update(float dt)
 		currentPlayer->Update(dt);
 		/*npc->Update(dt);*/
 		//entityManager->Update(dt);
-		dialogueManager->Update(dt);
+		//dialogueManager->Update(dt);
 		//bool dialogEnded = dialogueManager->Update(dt);
 		//if(dialogEnded == false) gameState = salir del dialogo
 		break;
@@ -131,6 +136,9 @@ bool SceneGameplay::Update(float dt)
 	{
 	case GameplayMenuState::CHARACTER_SWAP:
 		charManager->Update(dt);
+		break;
+	case GameplayMenuState::PAUSE:
+		ret = pause->Update(dt);
 		break;
 	}
 
@@ -148,14 +156,14 @@ void SceneGameplay::Draw()
 		//map->Draw(showColliders);
 		currentPlayer->Draw(showColliders);
 		if (menuState == GameplayMenuState::CHARACTER_SWAP) charManager->Draw(showColliders);
+		if (menuState == GameplayMenuState::PAUSE) pause->Draw(showColliders);
 		break;
 	case GameplayState::BATTLE:
 		sceneBattle->Draw(showColliders);
 		break;
 	}
 
-	dialogueManager->Draw();
-
+	//dialogueManager->Draw();
 }
 
 bool SceneGameplay::UnLoad()
@@ -227,4 +235,6 @@ void SceneGameplay::HandleInput(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN) app->SaveGameRequest();
 
 	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN) menuState = GameplayMenuState::CHARACTER_SWAP;
+	
+	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) menuState = GameplayMenuState::PAUSE;
 }

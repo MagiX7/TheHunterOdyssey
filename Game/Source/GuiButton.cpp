@@ -50,7 +50,7 @@ bool GuiButton::Update(Input* input, float dt)
             // If mouse button pressed -> Generate event!
             if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP)
             {
-                NotifyObserver();
+                if (NotifyObserver() == false) return false;
             }
         }
         else
@@ -60,7 +60,7 @@ bool GuiButton::Update(Input* input, float dt)
         }
     }
 
-    return false;
+    return true;
 }
 
 bool GuiButton::Draw(Render* render, bool showColliders)

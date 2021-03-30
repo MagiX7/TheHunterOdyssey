@@ -5,11 +5,10 @@
 
 #include "Hunter.h"
 
-Hunter::Hunter(iPoint position) : Player(EntityType::HUNTER, position)
+Hunter::Hunter(iPoint position) : Player(PlayerType::HUNTER, EntityType::HUNTER, position)
 {
 	//bounds = { 0,0, 16,32 };
 	stance = PlayerStance::ROAMING;
-	playerType = PlayerType::HUNTER;
 	healthPoints = 2500;
 	manaPoints = 1000;
 	name = "Hunter";

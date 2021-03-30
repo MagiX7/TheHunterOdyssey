@@ -8,7 +8,7 @@
 #define SPEED_X 200.0f
 #define SPEED_Y 200.0f
 
-Player::Player(EntityType type, iPoint position) : Entity(type)
+Player::Player(PlayerType t, EntityType type, iPoint position) : Entity(type), playerType(t)
 {
 	bounds.x= position.x;
 	bounds.y = position.y;

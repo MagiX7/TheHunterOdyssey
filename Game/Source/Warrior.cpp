@@ -5,11 +5,9 @@
 
 #include "Warrior.h"
 
-Warrior::Warrior(iPoint position) : Player(EntityType::WARRIOR,position)
+Warrior::Warrior(iPoint position) : Player(PlayerType::WARRIOR, EntityType::WARRIOR,position)
 {
-	
 	stance = PlayerStance::ROAMING;
-	playerType = PlayerType::WARRIOR;
 	healthPoints = 3500;
 	manaPoints = 500;
 	name = "Warrior";
