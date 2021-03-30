@@ -4,6 +4,10 @@
 #include "EASTL/array.h"
 #include "EASTL/list.h"
 
+#include "SDL/include/SDL_rect.h"
+
+class NpcNode;
+
 class DialogueOption
 {
 public:
@@ -12,8 +16,12 @@ public:
 
 public:
 	eastl::string text;
+	NpcNode* nextNode;
+
 	int id;
-	int nextId;
+	int nextNodeId;
+
+	SDL_Rect bounds;
 };
 
 class NpcNode
@@ -23,8 +31,13 @@ public:
 	virtual ~NpcNode() {};
 
 public:
+	int id;
+	int letterCount;
+	bool stopDialog;
+
 	eastl::string text; // npc_text
 	eastl::list<DialogueOption*> options; // All the possible options
+	DialogueOption* currentOption;
 
 };
 
@@ -34,7 +47,7 @@ public:
 	Dialogue(int dialogueId);
 	virtual ~Dialogue();
 
-	void Draw();
+	void Draw(int& count);
 	bool CleanUp();
 
 	void TriggerDialog(int id);

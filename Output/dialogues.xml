@@ -2,9 +2,9 @@
 	<npc id ="0">
 		<node id ="0">
 			<npc_text text ="mucho texto crack"/>
-			<option id="0" nextNodeId="1" text="chupala"/>
+			<option id="0" nextNodeId="3" text="chupala"/>
 			<option id="1" nextNodeId="2" text="Pos toma un pin"/>
-			<option id="2" nextNodeId="3" text="ERES RETRASAO"/>
+			<option id="2" nextNodeId="1" text="ERES RETRASAO"/>
 		</node>
 		<node id ="1">
 			<npc_text text ="No, chupala TTTTTTU"/>

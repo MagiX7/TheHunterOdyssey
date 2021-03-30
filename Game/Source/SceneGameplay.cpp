@@ -98,6 +98,7 @@ bool SceneGameplay::Update(float dt)
 		currentPlayer->Update(dt);
 		/*npc->Update(dt);*/
 		//entityManager->Update(dt);
+		dialogueManager->Update(dt);
 		break;
 	case GameplayState::BATTLE:
 		sceneBattle->Update(dt);
@@ -122,7 +123,7 @@ void SceneGameplay::Draw()
 		/*player->Draw(showColliders);
 		npc->Draw(showColliders);*/
 		//entityManager->Draw(showColliders);
-		map->Draw(showColliders);
+		//map->Draw(showColliders);
 		currentPlayer->Draw(showColliders);
 		if (menuState == GameplayMenuState::CHARACTER_SWAP) charManager->Draw(showColliders);
 		break;
@@ -131,7 +132,7 @@ void SceneGameplay::Draw()
 		break;
 	}
 
-	//dialogueManager->Draw();
+	dialogueManager->Draw();
 
 }
 

@@ -18,6 +18,8 @@ public:
 	Dialogue* LoadDialogue(int id); // Load the "npc" node
 	void DeleteDialogue(int id);
 
+	NpcNode* LoadNode(int id);
+	NpcNode* GetNodeById(int id);
 
 private:
 	pugi::xml_document file;
@@ -27,5 +29,8 @@ private:
 	eastl::list<Dialogue*> dialogues;
 
 	Font* font;
+	
+	int lastUserInput;
+	int letterCount;
 
 };

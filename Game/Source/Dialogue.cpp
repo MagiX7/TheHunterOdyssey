@@ -1,8 +1,10 @@
+#include "App.h"
+#include "DialogueManager.h"
 #include "Dialogue.h"
 
 DialogueOption::DialogueOption()
 {
-	id = 0; nextId = 0;
+	id = 0; nextNodeId = 0;
 }
 
 DialogueOption::~DialogueOption()
@@ -18,7 +20,7 @@ Dialogue::~Dialogue()
 {
 }
 
-void Dialogue::Draw()
+void Dialogue::Draw(int& count)
 {
 
 }
