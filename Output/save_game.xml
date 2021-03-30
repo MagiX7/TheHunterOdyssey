@@ -9,7 +9,7 @@
       <entities>
         <NPCs amount="3">
           <NPC>
-            <bounds X="0" Y="0" W="32" H="32" />
+            <bounds X="4" Y="4" W="32" H="32" />
             <NpcType type="TABERN" />
           </NPC>
           <NPC>
@@ -18,13 +18,27 @@
           </NPC>
           <NPC>
             <bounds X="24" Y="56" W="32" H="32" />
-            <NpcType type="WIZARD" />
+            <NpcType type="NPC_WIZARD" />
           </NPC>
         </NPCs>
-        <player amount="1">
-          <bounds X="0" Y="0" W="16" H="32" />
-          <playerType type="HUNTER" />
-        </player>
+        <players amount="4">
+          <player>
+            <bounds X="0" Y="0" W="16" H="32" />
+            <playerType type="HUNTER" />
+          </player>
+          <player>
+            <bounds X="18" Y="90" W="16" H="32" />
+            <playerType type="WIZARD" />
+          </player>
+          <player>
+            <bounds X="12" Y="45" W="16" H="32" />
+            <playerType type="THIEF" />
+          </player>
+          <player>
+            <bounds X="13" Y="56" W="16" H="32" />
+            <playerType type="WARRIOR" />
+          </player>
+        </players>
       </entities>
     </scenegameplay>
   </scenemanager>

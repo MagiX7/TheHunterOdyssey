@@ -5,11 +5,11 @@
 
 #include "Wizard.h"
 
-Wizard::Wizard() : Player(PlayerType::WIZARD)
+Wizard::Wizard(iPoint position) : Player(EntityType::HUNTER, position)
 {
-	bounds = { 0,0, 16,32 };
+	//bounds = { 0,0, 16,32 };
 	stance = PlayerStance::ROAMING;
-
+	playerType = PlayerType::WIZARD;
 	healthPoints = 1000;
 	manaPoints = 5000;
 	name = "Wizard";
@@ -70,19 +70,15 @@ void Wizard::HandleInput(float dt)
 
 bool Wizard::SaveState(pugi::xml_node& node)
 {
-	pugi::xml_node auxiliar1 = node.append_child("bounds");
-	auxiliar1.append_attribute("X").set_value(bounds.x);
-	auxiliar1.append_attribute("Y").set_value(bounds.y);
-	auxiliar1.append_attribute("W").set_value(bounds.w);
-	auxiliar1.append_attribute("H").set_value(bounds.h);
-
+	Player::SaveState(node);
+	pugi::xml_node auxiliar1;
 	auxiliar1 = node.append_child("playerType");
 
 	auxiliar1.append_attribute("type").set_value("WIZARD");
 
+
+	
+
 	return true;
 }
 
-void Wizard::SetPlayerType(PlayerType Type)
-{
-}

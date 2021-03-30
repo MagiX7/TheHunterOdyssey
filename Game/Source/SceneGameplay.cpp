@@ -40,29 +40,34 @@ SceneGameplay::SceneGameplay()
 	player3 = new Thief();
 	player4 = new Warrior();*/
 
-	Player* player = new Hunter();
+	Player* player = nullptr;
+	player=(Player*)entityManager->CreateEntity(EntityType::HUNTER, position);
 	currentPlayer = player;
 	playerList.push_back(player);
 
-	player = new Wizard();
+	position = { 18,90 };
+	player = (Player*)entityManager->CreateEntity(EntityType::WIZARD, position);
 	playerList.push_back(player);
 
-	player = new Thief();
+	position = { 12,45 };
+	player = (Player*)entityManager->CreateEntity(EntityType::THIEF, position);
 	playerList.push_back(player);
 
-	player = new Warrior();
+	position = { 13,56 };
+	player = (Player*)entityManager->CreateEntity(EntityType::WARRIOR, position);
 	playerList.push_back(player);
 
 	Npc* generalNpc = nullptr;
-	generalNpc=(Npc*)entityManager->CreateEntity(EntityType::NPC, position);
-	generalNpc->setNpcType(NpcType::TABERN);
+	position = { 4,4 };
+	generalNpc=(Npc*)entityManager->CreateEntity(EntityType::TABERN, position);
+
 	position = { 12,45 };
-	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC, position);
-	generalNpc->setNpcType(NpcType::TOWN);
+	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position);
+
 
 	position = { 24,56 };
-	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC, position);
-	generalNpc->setNpcType(NpcType::WIZARD);
+	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position);
+
 	/*player = new Player(PlayerType::HUNTER);
 	npc = new Npc(EntityType::NPC);*/
 

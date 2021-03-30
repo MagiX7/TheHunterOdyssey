@@ -5,11 +5,11 @@
 
 #include "Warrior.h"
 
-Warrior::Warrior() : Player(PlayerType::HUNTER)
+Warrior::Warrior(iPoint position) : Player(EntityType::WARRIOR,position)
 {
-	bounds = { 0,0, 16,32 };
+	
 	stance = PlayerStance::ROAMING;
-
+	playerType = PlayerType::WARRIOR;
 	healthPoints = 3500;
 	manaPoints = 500;
 	name = "Warrior";
@@ -72,9 +72,11 @@ void Warrior::HandleInput(float dt)
 
 bool Warrior::SaveState(pugi::xml_node& node)
 {
+	Player::SaveState(node);
+	pugi::xml_node auxiliar1;
+	auxiliar1 = node.append_child("playerType");
+
+	auxiliar1.append_attribute("type").set_value("WARRIOR");
 	return true;
 }
 
-void Warrior::SetPlayerType(PlayerType Type)
-{
-}

@@ -7,7 +7,7 @@ class SDL_Texture;
 class Hunter : public Player
 {
 public:
-	Hunter();
+	Hunter(iPoint position);
 	virtual ~Hunter();
 
 	bool Load() override;
@@ -22,7 +22,6 @@ public:
 
 	bool SaveState(pugi::xml_node& node) override;
 
-	void SetPlayerType(PlayerType Type) override;
 
 private:
 	SDL_Texture* texture;

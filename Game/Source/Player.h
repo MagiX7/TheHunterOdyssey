@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Entity.h"
-
+#include"Point.h"
 #define SPEED_X 200.0f
 #define SPEED_Y 200.0f
 
@@ -10,6 +10,8 @@ class SDL_Texture;
 enum class PlayerType
 {
 	NONE = 0,
+	THIEF,
+	WARRIOR,
 	HUNTER,
 	WIZARD
 };
@@ -24,7 +26,7 @@ enum class PlayerStance
 class Player : public Entity
 {
 public:
-	Player(PlayerType pType);
+	Player(EntityType type, iPoint position);
 
 	virtual ~Player();
 
@@ -38,7 +40,6 @@ public:
 
 	virtual bool SaveState(pugi::xml_node& node);
 
-	virtual void SetPlayerType(PlayerType Type);
 
 	int GetHealthPoints() const { return healthPoints; }
 	int GetManaPoints() const { return manaPoints; }

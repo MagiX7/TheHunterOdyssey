@@ -8,8 +8,10 @@
 #define SPEED_X 200.0f
 #define SPEED_Y 200.0f
 
-Player::Player(PlayerType pType) : Entity(EntityType::PLAYER), playerType(pType)
+Player::Player(EntityType type, iPoint position) : Entity(type)
 {
+	bounds.x= position.x;
+	bounds.y = position.y;
 	bounds.w = 16;
 	bounds.h = 32;
 }
@@ -56,22 +58,9 @@ bool Player::SaveState(pugi::xml_node& node)
 	auxiliar1.append_attribute("Y").set_value(bounds.y);
 	auxiliar1.append_attribute("W").set_value(bounds.w);
 	auxiliar1.append_attribute("H").set_value(bounds.h);
-
-	auxiliar1=node.append_child("playerType");
-	const char* typeName="/";
-
-	if (playerType == PlayerType::HUNTER) {typeName = "HUNTER";}
-	else if(playerType == PlayerType::WIZARD){typeName = "WIZARD";}
-	else if(playerType == PlayerType::NONE) { typeName = "NONE"; }
-
-	auxiliar1.append_attribute("type").set_value(typeName);
 	return true;
 }
 
-void Player::SetPlayerType(PlayerType Type) 
-{
-	playerType = Type;
-}
 void Player::HandleInput(float dt)
 {
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)

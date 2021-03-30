@@ -5,11 +5,11 @@
 
 #include "Hunter.h"
 
-Hunter::Hunter() : Player(PlayerType::HUNTER)
+Hunter::Hunter(iPoint position) : Player(EntityType::HUNTER, position)
 {
-	bounds = { 0,0, 16,32 };
+	//bounds = { 0,0, 16,32 };
 	stance = PlayerStance::ROAMING;
-
+	playerType = PlayerType::HUNTER;
 	healthPoints = 2500;
 	manaPoints = 1000;
 	name = "Hunter";
@@ -72,9 +72,10 @@ void Hunter::HandleInput(float dt)
 
 bool Hunter::SaveState(pugi::xml_node& node)
 {
-	return true;
-}
+	Player::SaveState(node);
+	pugi::xml_node auxiliar1;
+	auxiliar1 = node.append_child("playerType");
 
-void Hunter::SetPlayerType(PlayerType Type)
-{
+	auxiliar1.append_attribute("type").set_value("HUNTER");
+	return true;
 }

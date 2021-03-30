@@ -95,6 +95,15 @@
     <ClCompile Include="Source\Thief.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Source\NpcWizard.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tabern.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Town.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -233,6 +242,15 @@
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="Source\Thief.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NpcWizard.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tabern.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Town.h">
       <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Player.h"
+#include "Npc.h"
 
 class SDL_Texture;
 
-class Thief : public Player
+class NpcWizard : public Npc
 {
 public:
-	Thief(iPoint position);
-	virtual ~Thief();
+	NpcWizard(iPoint position);
+	virtual ~NpcWizard();
 
 	bool Load() override;
 
@@ -18,7 +18,7 @@ public:
 
 	bool UnLoad() override;
 
-	void HandleInput(float dt) override;
+
 
 	bool SaveState(pugi::xml_node& node) override;
 

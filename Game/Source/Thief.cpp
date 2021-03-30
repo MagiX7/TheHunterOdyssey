@@ -5,11 +5,10 @@
 
 #include "Thief.h"
 
-Thief::Thief() : Player(PlayerType::HUNTER)
+Thief::Thief(iPoint position) : Player(EntityType::THIEF,position)
 {
-	bounds = { 0,0, 16,32 };
 	stance = PlayerStance::ROAMING;
-
+	playerType = PlayerType::THIEF;
 	healthPoints = 1500;
 	manaPoints = 500;
 	name = "Thief";
@@ -72,9 +71,11 @@ void Thief::HandleInput(float dt)
 
 bool Thief::SaveState(pugi::xml_node& node)
 {
+	Player::SaveState(node);
+	pugi::xml_node auxiliar1;
+	auxiliar1 = node.append_child("playerType");
+
+	auxiliar1.append_attribute("type").set_value("THIEF");
 	return true;
 }
 
-void Thief::SetPlayerType(PlayerType Type)
-{
-}

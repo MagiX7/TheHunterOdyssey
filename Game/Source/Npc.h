@@ -13,7 +13,7 @@ enum class NpcType
 class Npc : public Entity
 {
 public:
-	Npc(EntityType type,NpcType Type, iPoint position);
+	Npc(EntityType type, iPoint position);
 	~Npc();
 
 	bool Load() override;
@@ -21,7 +21,7 @@ public:
 	void Draw(bool showColliders) override;
 	bool UnLoad() override;
 	bool SaveState(pugi::xml_node& node);
-	void setNpcType(NpcType Type);
+
 	NpcType npcType;
 
 };

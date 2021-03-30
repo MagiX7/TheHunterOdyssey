@@ -113,6 +113,7 @@
     <ClCompile Include="Source\MainMenu.cpp" />
     <ClCompile Include="Source\Map.cpp" />
     <ClCompile Include="Source\Npc.cpp" />
+    <ClCompile Include="Source\NpcWizard.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\Render.cpp" />
     <ClCompile Include="Source\SceneBattle.cpp" />
@@ -122,8 +123,10 @@
     <ClCompile Include="Source\SceneManager.cpp" />
     <ClCompile Include="Source\SceneTitle.cpp" />
     <ClCompile Include="Source\CharacterManager.cpp" />
+    <ClCompile Include="Source\Tabern.cpp" />
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\Thief.cpp" />
+    <ClCompile Include="Source\Town.cpp" />
     <ClCompile Include="Source\Warrior.cpp" />
     <ClCompile Include="Source\Window.cpp" />
     <ClCompile Include="Source\Wizard.cpp" />
@@ -145,6 +148,7 @@
     <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\Menu.h" />
     <ClInclude Include="Source\Npc.h" />
+    <ClInclude Include="Source\NpcWizard.h" />
     <ClInclude Include="Source\PerfTimer.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Queue.h" />
@@ -161,9 +165,11 @@
     <ClInclude Include="Source\SceneManager.h" />
     <ClInclude Include="Source\SceneTitle.h" />
     <ClInclude Include="Source\CharacterManager.h" />
+    <ClInclude Include="Source\Tabern.h" />
     <ClInclude Include="Source\Textures.h" />
     <ClInclude Include="Source\Thief.h" />
     <ClInclude Include="Source\Timer.h" />
+    <ClInclude Include="Source\Town.h" />
     <ClInclude Include="Source\Warrior.h" />
     <ClInclude Include="Source\Window.h" />
     <ClInclude Include="Source\Defs.h" />

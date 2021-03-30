@@ -5,7 +5,7 @@
 class Wizard : public Player
 {
 public:
-	Wizard();
+	Wizard(iPoint position);
 	virtual ~Wizard();
 
 	bool Load() override;
@@ -19,6 +19,4 @@ public:
 	void HandleInput(float dt) override;
 
 	bool SaveState(pugi::xml_node& node) override;
-
-	void SetPlayerType(PlayerType Type) override;
 };

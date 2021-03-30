@@ -1,7 +1,13 @@
 #include "EntityManager.h"
-
+#include"NpcWizard.h"
+#include"Tabern.h"
+#include"Town.h"
+#include"Wizard.h"
+#include"Hunter.h"
+#include"Thief.h"
 #include "Npc.h"
 #include"player.h"
+#include"Warrior.h"
 #include "Log.h"
 #include "EASTL/fixed_allocator.h"
 #include "EASTL/iterator.h"
@@ -71,10 +77,43 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos)
 
 	switch (type)
 	{
-	case EntityType::PLAYER:entity = new Player(PlayerType::HUNTER); break;
+	case EntityType::HUNTER:
+
+		entity = new Hunter(pos);
+
+		break;
+	case EntityType::WIZARD:
+
+		entity = new Wizard(pos);
+		break;
+	case EntityType::NPC_WIZARD:
+
+		entity = new NpcWizard(pos);
+
+		break;
+	case EntityType::TABERN:
+
+		entity = new Tabern(pos);
+
+		break;
+	case EntityType::TOWN:
+
+		entity = new Town(pos);
+
+		break;
+	case EntityType::WARRIOR:
+
+		entity = new Warrior(pos);
+
+		break;
+	case EntityType::THIEF:
+
+		entity = new Thief(pos);
+
+		break;
 	case EntityType::ITEM: break;
 	case EntityType::ENEMY: break;
-	case EntityType::NPC: entity = new Npc(EntityType::NPC,NpcType::TABERN,pos); break;
+
 	}
 
 	// Created entities are added to the list
@@ -115,42 +154,42 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad)
 {
 	DeleteAllEntities();
 
-	
 
-	int amount=toLoad->attribute("amount").as_int();
+
+	int amount = toLoad->attribute("amount").as_int();
 	int npcAmount = toLoad->child("NPCs").attribute("amount").as_int();
-	int playerAmount=toLoad->child("player").attribute("amount").as_int();
+	int playerAmount = toLoad->child("players").attribute("amount").as_int();
 	pugi::xml_node NodeNpc = toLoad->child("NPCs");
-	pugi::xml_node Node;
-	pugi::xml_node NodeNpcAuxiliar= NodeNpc.child("NPC");
+	pugi::xml_node NodePlayer = toLoad->child("players");
+	pugi::xml_node NodePlayerAuxiliar = NodePlayer.child("player");
+	pugi::xml_node NodeNpcAuxiliar = NodeNpc.child("NPC");
 	Npc* npcNode = nullptr;
 
-	for (int a=0;a< (int)EntityType::UNKNOWN;a++)
+	for (int a = 0; a < (int)EntityType::UNKNOWN; a++)
 	{
 		switch (a)
 		{
 		case (int)EntityType::NPC:
-			for (int a = 0; a < npcAmount;a++) {
+			for (int a = 0; a < npcAmount; a++) {
 				npcNode = nullptr;
 				SString string;
 				string = NodeNpcAuxiliar.child("NpcType").attribute("type").as_string();
-				NpcType npcType;
+				EntityType npcType;
 				if (string == "TABERN") {
-					npcType = NpcType::TABERN;
+					npcType = EntityType::TABERN;
 				}
 				else if (string == "TOWN") {
-					npcType = NpcType::TOWN;
+					npcType = EntityType::TOWN;
 				}
-				else if (string == "WIZARD") {
-					npcType = NpcType::WIZARD;
+				else if (string == "NPC_WIZARD") {
+					npcType = EntityType::NPC_WIZARD;
 				}
 				else {
-					npcType = NpcType::NONE;
+					npcType = EntityType::UNKNOWN;
 				}
 
 
-				npcNode = (Npc*)CreateEntity(EntityType::NPC, { NodeNpcAuxiliar.child("bounds").attribute("X").as_int(),NodeNpcAuxiliar.child("bounds").attribute("Y").as_int() });
-				npcNode->setNpcType(npcType);
+				npcNode = (Npc*)CreateEntity(npcType, { NodeNpcAuxiliar.child("bounds").attribute("X").as_int(),NodeNpcAuxiliar.child("bounds").attribute("Y").as_int() });
 				NodeNpcAuxiliar = NodeNpcAuxiliar.next_sibling();
 			}
 			break;
@@ -158,21 +197,22 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad)
 
 			for (int a = 0; a < playerAmount; a++) {
 				SString string;
-				Node = toLoad->child("player");
-				string = Node.child("playerType").attribute("type").as_string();
-				PlayerType plType;
+				string = NodePlayerAuxiliar.child("playerType").attribute("type").as_string();
+				EntityType plType;
 
-				if (string == "HUNTER") { plType = PlayerType::HUNTER; }
-				else if (string == "WIZARD") { plType = PlayerType::WIZARD; }
-				else { plType = PlayerType::NONE; }
+				if (string == "HUNTER") { plType = EntityType::HUNTER; }
+				else if (string == "WIZARD") { plType = EntityType::WIZARD; }
+				else if (string == "WARRIOR") { plType = EntityType::WARRIOR; }
+				else if (string == "THIEF") { plType = EntityType::THIEF; }
+				else { plType = EntityType::UNKNOWN; }
 
-				Player* player = (Player*)CreateEntity(EntityType::PLAYER, { Node.child("bounds").attribute("X").as_int(),Node.child("bounds").attribute("Y").as_int() });
-				player->SetPlayerType(plType);
+				Player* player = (Player*)CreateEntity(plType, { NodePlayerAuxiliar.child("bounds").attribute("X").as_int(),NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() });
+				NodePlayerAuxiliar = NodePlayerAuxiliar.next_sibling();
 			}
 			break;
 
 		}
-		
+
 	}
 	return true;
 }
@@ -181,40 +221,92 @@ bool EntityManager::SaveState(pugi::xml_node* toSave)
 {
 	eastl::list<Entity*>::iterator item;
 	pugi::xml_node NodeNpc = toSave->append_child("NPCs");
-	pugi::xml_node Node;
+	pugi::xml_node NodeNpcAuxiliar;
+	pugi::xml_node NodePlayers = toSave->append_child("players");
+	pugi::xml_node NodePlayersAuxiliar;
 
-	int npcAmount=0;
-	int playerAmount=0;
+	int npcAmount = 0;
+	int playerAmount = 0;
 
 	for (item = entities.begin(); item != entities.end(); ++item)
 	{
 		switch (item.mpNode->mValue->type)
 		{
-		case EntityType::NPC:
+		case EntityType::NPC_WIZARD:
 			npcAmount++;
 			break;
-		case EntityType::PLAYER:
+		case EntityType::TABERN:
+			npcAmount++;
+			break;
+		case EntityType::TOWN:
+			npcAmount++;
+			break;
+		case EntityType::HUNTER:
+			playerAmount++;
+			break;
+		case EntityType::WIZARD:
+			playerAmount++;
+			break;
+		case EntityType::THIEF:
+			playerAmount++;
+			break;
+		case EntityType::WARRIOR:
 			playerAmount++;
 			break;
 		}
 
 	}
+
 	NodeNpc.append_attribute("amount").set_value(npcAmount);
+	NodePlayers.append_attribute("amount").set_value(playerAmount);
+
 	for (item = entities.begin(); item != entities.end(); ++item)
 	{
-		
+
 		switch (item.mpNode->mValue->type)
 		{
-		case EntityType::NPC:
+		case EntityType::NPC_WIZARD:
 
-			item.mpNode->mValue->SaveState(NodeNpc);
-			break;
-		case EntityType::PLAYER:
-			Node = toSave->append_child("player");
-			Node.append_attribute("amount").set_value(playerAmount);
-			item.mpNode->mValue->SaveState(Node);
-			break;
+			NodeNpcAuxiliar = NodeNpc.append_child("NPC");
+			item.mpNode->mValue->SaveState(NodeNpcAuxiliar);
 
+			break;
+		case EntityType::TABERN:
+
+			NodeNpcAuxiliar = NodeNpc.append_child("NPC");
+			item.mpNode->mValue->SaveState(NodeNpcAuxiliar);
+
+			break;
+		case EntityType::TOWN:
+
+			NodeNpcAuxiliar = NodeNpc.append_child("NPC");
+			item.mpNode->mValue->SaveState(NodeNpcAuxiliar);
+
+			break;
+		case EntityType::HUNTER:
+
+			NodePlayersAuxiliar = NodePlayers.append_child("player");
+			item.mpNode->mValue->SaveState(NodePlayersAuxiliar);
+
+			break;
+		case EntityType::WIZARD:
+
+			NodePlayersAuxiliar = NodePlayers.append_child("player");
+			item.mpNode->mValue->SaveState(NodePlayersAuxiliar);
+
+			break;
+		case EntityType::WARRIOR:
+
+			NodePlayersAuxiliar = NodePlayers.append_child("player");
+			item.mpNode->mValue->SaveState(NodePlayersAuxiliar);
+
+			break;
+		case EntityType::THIEF:
+
+			NodePlayersAuxiliar = NodePlayers.append_child("player");
+			item.mpNode->mValue->SaveState(NodePlayersAuxiliar);
+
+			break;
 		}
 	}
 	return true;
