@@ -5,6 +5,8 @@
 #include "EntityManager.h"
 #include "Player.h"
 #include "Wizard.h"
+#include "Warrior.h"
+#include "Thief.h"
 #include "Hunter.h"
 #include "SceneGameplay.h"
 #include "SceneBattle.h"
@@ -33,10 +35,23 @@ SceneGameplay::SceneGameplay()
 	player2->SetPlayerType(PlayerType::WIZARD);
 	player2->Load();*/
 
-	player1 = new Hunter();
+	/*player1 = new Hunter();
 	player2 = new Wizard();
+	player3 = new Thief();
+	player4 = new Warrior();*/
 
-	currentPlayer = player1;
+	Player* player = new Hunter();
+	currentPlayer = player;
+	playerList.push_back(player);
+
+	player = new Wizard();
+	playerList.push_back(player);
+
+	player = new Thief();
+	playerList.push_back(player);
+
+	player = new Warrior();
+	playerList.push_back(player);
 
 	Npc* generalNpc = nullptr;
 	generalNpc=(Npc*)entityManager->CreateEntity(EntityType::NPC, position);
@@ -68,7 +83,7 @@ bool SceneGameplay::Load()
 	gameState = GameplayState::NONE;
 
 	// Instantiate character swap manager
-	charManager = new CharacterManager(player1, this);
+	charManager = new CharacterManager(currentPlayer, this);
 	charManager->Load();
 
 	// Start music
@@ -98,7 +113,7 @@ bool SceneGameplay::Update(float dt)
 		currentPlayer->Update(dt);
 		/*npc->Update(dt);*/
 		//entityManager->Update(dt);
-		dialogueManager->Update(dt);
+		//dialogueManager->Update(dt);
 		break;
 	case GameplayState::BATTLE:
 		sceneBattle->Update(dt);
@@ -132,7 +147,7 @@ void SceneGameplay::Draw()
 		break;
 	}
 
-	dialogueManager->Draw();
+	//dialogueManager->Draw();
 
 }
 
@@ -154,14 +169,14 @@ void SceneGameplay::CharacterSwap(PlayerType player)
 	SDL_Rect tmpBounds = currentPlayer->bounds;
 	if (player != currentPlayer->playerType)
 	{
-		switch (player)
+		eastl::list<Player*>::iterator it = playerList.begin();
+		for (; it != playerList.end(); ++it)
 		{
-		case PlayerType::HUNTER:
-			currentPlayer = player1;
-			break;
-		case PlayerType::WIZARD:
-			currentPlayer = player2;
-			break;
+			if ((*it)->playerType == player)
+			{
+				currentPlayer = (*it);
+				break;
+			}
 		}
 	}
 
@@ -194,7 +209,7 @@ void SceneGameplay::HandleInput(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
 	{
 		// Instantiate and load scene battle
-		sceneBattle = new SceneBattle(player1, player2);
+		sceneBattle = new SceneBattle(playerList, 3);
 		sceneBattle->Load();
 
 		gameState = GameplayState::BATTLE;

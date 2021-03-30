@@ -9,6 +9,10 @@ Wizard::Wizard() : Player(PlayerType::WIZARD)
 {
 	bounds = { 0,0, 16,32 };
 	stance = PlayerStance::ROAMING;
+
+	healthPoints = 1000;
+	manaPoints = 5000;
+	name = "Wizard";
 }
 
 Wizard::~Wizard()

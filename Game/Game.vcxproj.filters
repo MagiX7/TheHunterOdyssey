@@ -83,6 +83,18 @@
     </ClCompile>
     <ClCompile Include="Source\DialogueManager.cpp" />
     <ClCompile Include="Source\Dialogue.cpp" />
+    <ClCompile Include="Source\Golem.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BattleMenu.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Warrior.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Thief.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -208,6 +220,21 @@
     </ClInclude>
     <ClInclude Include="Source\DialogueManager.h" />
     <ClInclude Include="Source\Dialogue.h" />
+    <ClInclude Include="Source\Enemy.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Golem.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BattleMenu.h">
+      <Filter>Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Warrior.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Thief.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

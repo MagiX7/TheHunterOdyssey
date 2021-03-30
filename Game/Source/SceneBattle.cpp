@@ -2,9 +2,12 @@
 #include "Render.h"
 
 #include "SceneBattle.h"
+#include "BattleMenu.h"
 #include "Player.h"
+#include "Enemy.h"
+#include "Golem.h"
 
-SceneBattle::SceneBattle(Player* p1, Player* p2) : player1(p1), player2(p2)
+SceneBattle::SceneBattle(eastl::list<Player*> list, int enemies) : playerList(list), numEnemies(enemies)
 {
 }
 
@@ -14,32 +17,66 @@ SceneBattle::~SceneBattle()
 
 bool SceneBattle::Load()
 {
-	player1->stance = PlayerStance::BATTLE;
-	player1->bounds.x = 50;
-	player1->bounds.y = 350;
+	battleMenu = new BattleMenu(playerList);
+	battleMenu->Load();
 
-	player2->stance = PlayerStance::BATTLE;
-	player2->bounds.x = 50;
-	player2->bounds.y = 400;
+	eastl::list<Player*>::iterator it = playerList.begin();
+	for (int i = 0; it != playerList.end(); ++it, ++i)
+	{
+		(*it)->stance = PlayerStance::BATTLE;
+		(*it)->bounds.x = 400;
+		(*it)->bounds.y = 350 + (i * 50);
+	}
+	
+	for (int i = 0; i < numEnemies; ++i)
+	{
+		Golem* enemy = new Golem(iPoint(650,350+(i*50)));
+		enemyList.push_back(enemy);
+	}
 
 	return true;
 }
 
 bool SceneBattle::Update(float dt)
 {
-	player1->Update(dt);
-	player2->Update(dt);
+	eastl::list<Player*>::iterator item = playerList.begin();
+	for (; item != playerList.end(); ++item)
+	{
+		(*item)->Update(dt);
+	}
+
+	eastl::list<Enemy*>::iterator it = enemyList.begin();
+	for (; it != enemyList.end(); ++it)
+	{
+		(*it)->Update(dt);
+	}
+
+	battleMenu->Update(dt);
 
 	return true;
 }
 
 void SceneBattle::Draw(bool colliders)
 {
-	player1->Draw(colliders);
-	player2->Draw(colliders);
+	eastl::list<Player*>::iterator item = playerList.begin();
+	for (; item != playerList.end(); ++item)
+	{
+		(*item)->Draw(colliders);
+	}
+	
+	eastl::list<Enemy*>::iterator it = enemyList.begin();
+	for (; it != enemyList.end(); ++it)
+	{
+		(*it)->Draw(colliders);
+	}
+
+	battleMenu->Draw(colliders);
 }
 
 bool SceneBattle::UnLoad()
 {
+	battleMenu->UnLoad();
+	RELEASE(battleMenu);
+
 	return true;
 }

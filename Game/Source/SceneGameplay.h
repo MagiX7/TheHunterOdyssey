@@ -57,8 +57,7 @@ private:
 	SDL_Texture* bg;
 
 	Player* currentPlayer;
-	Player* player1;
-	Player* player2;
+	eastl::list<Player*> playerList;
 
 	CharacterManager* charManager;
 

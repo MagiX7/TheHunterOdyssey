@@ -40,11 +40,19 @@ public:
 
 	virtual void SetPlayerType(PlayerType Type);
 
+	int GetHealthPoints() const { return healthPoints; }
+	int GetManaPoints() const { return manaPoints; }
+	std::string GetName() const { return name; }
+
 public:
-	SDL_Rect bounds;
 	PlayerType playerType;
 	PlayerStance stance;
 
 protected:
 	SDL_Texture* texture;
+
+	int healthPoints;
+	int manaPoints;
+
+	std::string name;
 };

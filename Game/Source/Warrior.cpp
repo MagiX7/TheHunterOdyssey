@@ -3,49 +3,49 @@
 #include "Render.h"
 #include "Textures.h"
 
-#include "Hunter.h"
+#include "Warrior.h"
 
-Hunter::Hunter() : Player(PlayerType::HUNTER)
+Warrior::Warrior() : Player(PlayerType::HUNTER)
 {
 	bounds = { 0,0, 16,32 };
 	stance = PlayerStance::ROAMING;
 
-	healthPoints = 2500;
-	manaPoints = 1000;
-	name = "Hunter";
+	healthPoints = 3500;
+	manaPoints = 500;
+	name = "Warrior";
 }
 
-Hunter::~Hunter()
+Warrior::~Warrior()
 {
 }
 
-bool Hunter::Load()
+bool Warrior::Load()
 {
-	texture = app->tex->Load("Assets/Textures/hunter_spritesheet.png");
+	texture = app->tex->Load("Assets/Textures/");
 
 	return true;
 }
 
-bool Hunter::Update(float dt)
+bool Warrior::Update(float dt)
 {
 	HandleInput(dt);
 
 	return true;
 }
 
-void Hunter::Draw(bool showColliders)
+void Warrior::Draw(bool showColliders)
 {
-	if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0);
+	if (showColliders) app->render->DrawRectangle(bounds, 0, 0, 255);
 	SDL_Rect textureRect = { 23, 14, 51,81 };
 	app->render->DrawTexture(texture, bounds.x, bounds.y, &textureRect);
 }
 
-bool Hunter::UnLoad()
+bool Warrior::UnLoad()
 {
 	return true;
 }
 
-void Hunter::HandleInput(float dt)
+void Warrior::HandleInput(float dt)
 {
 	switch (stance)
 	{
@@ -70,11 +70,11 @@ void Hunter::HandleInput(float dt)
 	}
 }
 
-bool Hunter::SaveState(pugi::xml_node& node)
+bool Warrior::SaveState(pugi::xml_node& node)
 {
 	return true;
 }
 
-void Hunter::SetPlayerType(PlayerType Type)
+void Warrior::SetPlayerType(PlayerType Type)
 {
 }
