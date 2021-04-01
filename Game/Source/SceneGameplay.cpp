@@ -42,7 +42,7 @@ SceneGameplay::SceneGameplay()
 	player4 = new Warrior();*/
 
 	Player* player = nullptr;
-	player=(Player*)entityManager->CreateEntity(EntityType::HUNTER, position);
+	player = (Player*)entityManager->CreateEntity(EntityType::HUNTER, position);
 	currentPlayer = player;
 	playerList.push_back(player);
 
@@ -64,7 +64,6 @@ SceneGameplay::SceneGameplay()
 
 	position = { 12,45 };
 	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position);
-
 
 	position = { 24,56 };
 	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position);
