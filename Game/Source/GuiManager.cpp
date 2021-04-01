@@ -29,7 +29,7 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type, uint32 id, SDL_Rec
 			control->SetObserver(menu);
 			break;
 		case GuiControlType::CHECKBOX: 
-			control = new GuiCheckBox(id, bounds, name);
+			control = new GuiCheckBox(id, bounds, name, menu);
 			control->SetObserver(menu);
 			break;
 		case GuiControlType::SLIDER: 

@@ -42,6 +42,8 @@ bool SceneTitle::Load()
 	mainMenu = new MainMenu(this);
 	mainMenu->Load();
 
+	font = new Font("Assets/Font/font3.xml", app->tex);
+
 	return ret;
 }
 
@@ -96,11 +98,13 @@ void SceneTitle::Draw()
 	switch (state)
 	{
 	case TitleState::TITLE:
-		app->render->DrawTexture(bg, 378, 257, NULL);
+		app->render->DrawTexture(bg, 378, 230, NULL);
+		app->render->DrawText(font, "Press ENTER to continue", 450, 516, 36, 5, { 255,255,255 });
 		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 255 * titleAlpha);
 		break;
 	case TitleState::FADE:
-		app->render->DrawTexture(bg, 378, 257, NULL);
+		app->render->DrawTexture(bg, 378, 230, NULL);
+		app->render->DrawText(font, "Press ENTER to continue", 450, 516, 36, 5, { 255,255,255 });
 		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 255 * titleAlpha);
 		break;
 	case TitleState::MENU:
@@ -114,6 +118,8 @@ bool SceneTitle::UnLoad()
 {
 	LOG("Unloading Scene Title");
 	bool ret = true;
+	
+	RELEASE(font);
 
 	app->tex->UnLoad(bg);
 	

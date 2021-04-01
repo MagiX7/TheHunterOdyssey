@@ -68,15 +68,48 @@ bool GuiButton::Draw(Render* render, bool showColliders)
     // Draw the right button depending on state
     switch (state)
     {
-    case GuiControlState::DISABLED: if (showColliders) render->DrawRectangle(bounds, 0, 100, 100, 255);
+    case GuiControlState::DISABLED:
+        if (showColliders)
+        {
+            render->DrawTexture(texture, bounds.x, bounds.y, &section);
+            render->DrawRectangle(bounds, 150, 150, 150, 150);
+        }
+
         break;
-    case GuiControlState::NORMAL: if (showColliders) render->DrawRectangle(bounds, 255, 0, 0, 255);
+    case GuiControlState::NORMAL:
+
+        if (showColliders)
+        {
+            render->DrawTexture(texture, bounds.x, bounds.y, &section);
+        }
+
         break;
-    case GuiControlState::FOCUSED: if (showColliders) render->DrawRectangle(bounds, 255, 255, 0, 255);
+    case GuiControlState::FOCUSED:
+
+        if (showColliders)
+        {
+            render->DrawTexture(texture, bounds.x, bounds.y, &section);
+            render->DrawRectangle(bounds, 255, 255, 0, 150);
+        }
+
         break;
-    case GuiControlState::PRESSED: if (showColliders) render->DrawRectangle(bounds, 0, 255, 255, 255);
+    case GuiControlState::PRESSED:
+
+        if (showColliders)
+        {
+            render->DrawTexture(texture, bounds.x, bounds.y, &section);
+            render->DrawRectangle(bounds, 0, 255, 255, 150);
+        }
+
         break;
-    case GuiControlState::SELECTED: if (showColliders) render->DrawRectangle(bounds, 0, 255, 0, 255);
+    case GuiControlState::SELECTED:
+
+        if (showColliders)
+        {
+            render->DrawTexture(texture, bounds.x, bounds.y, &section);
+            render->DrawRectangle(bounds, 0, 255, 0, 150);
+        }
+
         break;
     default:
         break;

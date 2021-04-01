@@ -1,7 +1,10 @@
 #pragma once
 
 #include "Menu.h"
-
+#include "Font.h"
+#include "GuiButton.h"
+#include "GuiCheckBox.h"
+#include "GuiSlider.h"
 class SceneTitle;
 
 enum class MenuState
@@ -35,6 +38,9 @@ public:
 private:
 	MenuState state;
 	SceneTitle* scene;
+
+	SDL_Texture* guiTex;
+	SDL_Texture* bg;
 	
 	// Buttons declaration
 	GuiButton* btnNewGame;
@@ -46,4 +52,8 @@ private:
 	GuiButton* btnExitNo;
 	GuiButton* btnOptionsBack;
 	GuiButton* btnCreditsBack;
+	GuiCheckBox* checkfullscreen;
+	GuiCheckBox* checkVSync;
+
+	Font* font;
 };

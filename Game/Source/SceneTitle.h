@@ -38,6 +38,8 @@ private:
 
 	MainMenu* mainMenu;
 
+	Font* font;
+
 	float titleAlpha;
 };
 

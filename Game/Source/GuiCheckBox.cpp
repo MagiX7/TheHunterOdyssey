@@ -2,10 +2,12 @@
 #include "App.h"
 #include "Audio.h"
 
-GuiCheckBox::GuiCheckBox(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::CHECKBOX, id)
+GuiCheckBox::GuiCheckBox(uint32 id, SDL_Rect bounds, const char* text, Menu* listener) : GuiControl(GuiControlType::CHECKBOX, id)
 {
     this->bounds = bounds;
     this->text = text;
+    this->observer = listener;
+
     //Load Fx
     clickFx = app->audio->LoadFx("Assets/Audio/Fx/button_click.wav");
     focusedFx = app->audio->LoadFx("Assets/Audio/Fx/button_focused.wav");
@@ -64,17 +66,56 @@ bool GuiCheckBox::Update(Input* input, float dt)
 bool GuiCheckBox::Draw(Render* render, bool showColliders)
 {
     // Draw the right button depending on state
+    SDL_Rect checkSection = { section.x + 35, section.y + 10, 16, 12 };
+
     switch (state)
     {
-    case GuiControlState::DISABLED: if (showColliders) render->DrawRectangle(bounds, 100, 100, 100, 255);
+    case GuiControlState::DISABLED:
+    {
+        if (showColliders)
+        {
+            render->DrawTexture(texture, bounds.x, bounds.y, &section);
+            if (checked) render->DrawTexture(texture, bounds.x + 8, bounds.y + 10, &checkSection);
+            render->DrawRectangle(bounds, 150, 150, 150, 150);
+        }
+    } break;
+    case GuiControlState::NORMAL:
+
+        if (showColliders)
+        {
+            render->DrawTexture(texture, bounds.x, bounds.y, &section);
+            if (checked) render->DrawTexture(texture, bounds.x + 8, bounds.y + 10, &checkSection);
+        }
+
         break;
-    case GuiControlState::NORMAL: if (showColliders) render->DrawRectangle(bounds, 0, 255, 0, 255);
+    case GuiControlState::FOCUSED:
+
+        if (showColliders)
+        {
+            render->DrawTexture(texture, bounds.x, bounds.y, &section);
+            if (checked) render->DrawTexture(texture, bounds.x + 8, bounds.y + 10, &checkSection);
+            render->DrawRectangle(bounds, 255, 255, 0, 150);
+        }
         break;
-    case GuiControlState::FOCUSED: if (showColliders) render->DrawRectangle(bounds, 255, 255, 0, 255);
+    case GuiControlState::PRESSED:
+
+        if (showColliders)
+        {
+            render->DrawTexture(texture, bounds.x, bounds.y, &section);
+            if (checked) render->DrawTexture(texture, bounds.x + 8, bounds.y + 10, &checkSection);
+            render->DrawRectangle(bounds, 0, 255, 255, 150);
+        }
+
         break;
-    case GuiControlState::PRESSED: if (showColliders) render->DrawRectangle(bounds, 0, 255, 255, 255);
-        break;
-    case GuiControlState::SELECTED: if (showColliders) render->DrawRectangle(bounds, 0, 255, 0, 255);
+    case GuiControlState::SELECTED:
+
+        if (showColliders)
+        {
+            render->DrawTexture(texture, bounds.x, bounds.y, &section);
+            if (checked) render->DrawTexture(texture, bounds.x + 8, bounds.y + 10, &checkSection);
+            render->DrawRectangle(bounds, 0, 255, 0, 150);
+        }
+
         break;
     default:
         break;
