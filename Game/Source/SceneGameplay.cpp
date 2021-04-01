@@ -165,8 +165,8 @@ void SceneGameplay::Draw()
 	case GameplayState::ROAMING:
 		/*player->Draw(showColliders);
 		npc->Draw(showColliders);*/
+		map->Draw(showColliders);
 		entityManager->Draw(showColliders);
-		//map->Draw(showColliders);
 		currentPlayer->Draw(showColliders);
 		if (menuState == GameplayMenuState::CHARACTER_SWAP) charManager->Draw(showColliders);
 		if (menuState == GameplayMenuState::PAUSE) pause->Draw(showColliders);

@@ -44,7 +44,9 @@ bool Bat::CheckCollisions()
 
 void Bat::Draw(bool showColliders)
 {
-	app->render->DrawRectangle(bounds, 0, 0, 255, 255);
+	if (showColliders)
+		app->render->DrawRectangle(bounds, 0, 0, 255, 255);
+
 	SDL_Rect rect = { 4,5,bounds.w,bounds.h };
 	app->render->DrawTexture(texture, bounds.x, bounds.y, &rect);
 
