@@ -1,12 +1,14 @@
 #include "App.h"
 #include "Render.h"
+#include "Textures.h"
 
 #include "Skull.h"
 
 
 Skull::Skull(iPoint pos) : Enemy(EntityType::SKULL)
 {
-	bounds = { pos.x, pos.y, 16, 32 };
+	bounds = { pos.x, pos.y, 29, 29 };
+	texture = app->tex->Load("Assets/Textures/Enemies/floating_skull.png");
 }
 
 Skull::~Skull()
@@ -33,6 +35,9 @@ bool Skull::CheckCollisions()
 void Skull::Draw(bool showColliders)
 {
 	app->render->DrawRectangle(bounds, 0, 0, 255, 255);
+
+	SDL_Rect rect = { 5,7,bounds.w,bounds.h };
+	app->render->DrawTexture(texture, bounds.x, bounds.y, &rect);
 }
 
 bool Skull::UnLoad()

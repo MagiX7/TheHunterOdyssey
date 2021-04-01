@@ -72,15 +72,12 @@ SceneGameplay::SceneGameplay()
 
 	position = { 100,100 };
 	Entity* skull = entityManager->CreateEntity(EntityType::SKULL, position);
-	skull->texture = app->tex->Load("Assets/Textures/Enemies/floating_skull.png");
 
 	position = { 200,200 };
 	Entity* golem = entityManager->CreateEntity(EntityType::GOLEM, position);
-	golem->texture = app->tex->Load("Assets/Textures/Enemies/golem.png");
 
 	position = { 300,300 };
 	Entity* bat = entityManager->CreateEntity(EntityType::BAT, position);
-	bat->texture = app->tex->Load("Assets/Textures/Enemies/flying_eye.png");
 
 	/*player = new Player(PlayerType::HUNTER);
 	npc = new Npc(EntityType::NPC);*/

@@ -1,12 +1,14 @@
 #include "App.h"
 #include "Render.h"
+#include "Textures.h"
 
 #include "Bat.h"
 
 
-Bat::Bat(iPoint pos) : Enemy(EntityType::SKULL)
+Bat::Bat(iPoint pos) : Enemy(EntityType::BAT)
 {
-	bounds = { pos.x, pos.y, 16, 32 };
+	bounds = { pos.x, pos.y, 37, 33 };
+	texture = app->tex->Load("Assets/Textures/Enemies/flying_eye.png");
 }
 
 Bat::~Bat()
@@ -33,6 +35,8 @@ bool Bat::CheckCollisions()
 void Bat::Draw(bool showColliders)
 {
 	app->render->DrawRectangle(bounds, 0, 0, 255, 255);
+	SDL_Rect rect = { 4,5,bounds.w,bounds.h };
+	app->render->DrawTexture(texture, bounds.x, bounds.y, &rect);
 }
 
 bool Bat::UnLoad()
