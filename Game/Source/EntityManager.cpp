@@ -5,6 +5,9 @@
 #include"Wizard.h"
 #include"Hunter.h"
 #include"Thief.h"
+#include "Bat.h"
+#include "Golem.h"
+#include "Skull.h"
 #include "Npc.h"
 #include"player.h"
 #include"Warrior.h"
@@ -94,6 +97,21 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos)
 	case EntityType::TABERN:
 
 		entity = new Tabern(pos);
+
+		break;
+	case EntityType::BAT:
+
+		entity = new Bat(pos);
+
+		break;
+	case EntityType::GOLEM:
+
+		entity = new Golem(pos);
+
+		break;
+	case EntityType::SKULL:
+
+		entity = new Skull(pos);
 
 		break;
 	case EntityType::TOWN:

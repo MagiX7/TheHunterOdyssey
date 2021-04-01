@@ -95,6 +95,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Bat.cpp" />
     <ClCompile Include="Source\BattleMenu.cpp" />
     <ClCompile Include="Source\Dialogue.cpp" />
     <ClCompile Include="Source\DialogueManager.cpp" />
@@ -124,6 +125,7 @@
     <ClCompile Include="Source\SceneManager.cpp" />
     <ClCompile Include="Source\SceneTitle.cpp" />
     <ClCompile Include="Source\CharacterManager.cpp" />
+    <ClCompile Include="Source\Skull.cpp" />
     <ClCompile Include="Source\Tabern.cpp" />
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\Thief.cpp" />
@@ -131,6 +133,7 @@
     <ClCompile Include="Source\Warrior.cpp" />
     <ClCompile Include="Source\Window.cpp" />
     <ClCompile Include="Source\Wizard.cpp" />
+    <ClInclude Include="Source\Bat.h" />
     <ClInclude Include="Source\BattleMenu.h" />
     <ClInclude Include="Source\Dialogue.h" />
     <ClInclude Include="Source\DialogueManager.h" />
@@ -167,6 +170,7 @@
     <ClInclude Include="Source\SceneManager.h" />
     <ClInclude Include="Source\SceneTitle.h" />
     <ClInclude Include="Source\CharacterManager.h" />
+    <ClInclude Include="Source\Skull.h" />
     <ClInclude Include="Source\Tabern.h" />
     <ClInclude Include="Source\Textures.h" />
     <ClInclude Include="Source\Thief.h" />

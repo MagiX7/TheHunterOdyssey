@@ -5,7 +5,8 @@
 class Enemy : public Entity
 {
 public:
-	Enemy() : Entity(EntityType::GOLEM){}
+	Enemy(EntityType type) : Entity(type){}
+
 	virtual ~Enemy(){}
 
 private:

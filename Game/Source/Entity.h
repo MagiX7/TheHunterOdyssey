@@ -5,6 +5,8 @@
 #include "PugiXml/src/pugixml.hpp"
 #include "SString.h"
 
+struct SDL_Texture;
+
 enum class EntityType
 {
 	PLAYER,
@@ -14,6 +16,8 @@ enum class EntityType
 	WARRIOR,
 	ENEMY,
 	GOLEM,
+	SKULL,
+	BAT,
 	NPC,
 	TABERN,
 	NPC_WIZARD,
@@ -46,6 +50,7 @@ public:
 	SDL_Rect bounds;
 	SString name;
 	EntityType type;
+	SDL_Texture* texture;
 };
 
 #endif //__ENTITY_H__

@@ -68,6 +68,20 @@ SceneGameplay::SceneGameplay()
 	position = { 24,56 };
 	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position);
 
+	//Create Enemies
+
+	position = { 100,100 };
+	Entity* skull = entityManager->CreateEntity(EntityType::SKULL, position);
+	skull->texture = app->tex->Load("Assets/Textures/Enemies/floating_skull.png");
+
+	position = { 200,200 };
+	Entity* golem = entityManager->CreateEntity(EntityType::GOLEM, position);
+	golem->texture = app->tex->Load("Assets/Textures/Enemies/golem.png");
+
+	position = { 300,300 };
+	Entity* bat = entityManager->CreateEntity(EntityType::BAT, position);
+	bat->texture = app->tex->Load("Assets/Textures/Enemies/flying_eye.png");
+
 	/*player = new Player(PlayerType::HUNTER);
 	npc = new Npc(EntityType::NPC);*/
 
@@ -151,7 +165,7 @@ void SceneGameplay::Draw()
 	case GameplayState::ROAMING:
 		/*player->Draw(showColliders);
 		npc->Draw(showColliders);*/
-		//entityManager->Draw(showColliders);
+		entityManager->Draw(showColliders);
 		//map->Draw(showColliders);
 		currentPlayer->Draw(showColliders);
 		if (menuState == GameplayMenuState::CHARACTER_SWAP) charManager->Draw(showColliders);

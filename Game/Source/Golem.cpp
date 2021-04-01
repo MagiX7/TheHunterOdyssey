@@ -4,7 +4,7 @@
 #include "Golem.h"
 
 
-Golem::Golem(iPoint pos)
+Golem::Golem(iPoint pos) : Enemy(EntityType::SKULL)
 {
 	bounds = { pos.x, pos.y, 16, 32 };
 }

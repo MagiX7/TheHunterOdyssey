@@ -107,6 +107,12 @@
     <ClCompile Include="Source\PauseMenu.cpp">
       <Filter>Menus</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Bat.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Skull.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -258,6 +264,12 @@
     </ClInclude>
     <ClInclude Include="Source\PauseMenu.h">
       <Filter>Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Bat.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Skull.h">
+      <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
