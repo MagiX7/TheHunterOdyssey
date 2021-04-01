@@ -42,7 +42,8 @@ private:
 	eastl::list<Player*> playerList;
 	eastl::list<Enemy*> enemyList;
 
-	Enemy* current;
+	Enemy* currEnemy;
+	Player* currPlayer;
 
 	GuiButton* btnAttack;
 	GuiButton* btnAbility;

@@ -81,4 +81,140 @@
 			</walk_up>
 		</overworld>
 	</thief>
+  <warrior>
+    <overworld>
+      <walk_front>
+        <pushback x ="11" y="9" w="34" h="38"/>
+        <pushback x ="68" y="9" w="33" h="38"/>
+        <pushback x ="124" y="9" w="33" h="38"/>
+      </walk_front>
+
+      <walk_left>
+        <pushback x ="14" y="63" w="28" h ="38"/>
+        <pushback x ="70" y="63" w="28" h ="38"/>
+        <pushback x ="127" y="63" w="28" h ="38"/>
+      </walk_left>
+
+      <walk_right>
+        <pushback x ="14" y="119" w="28" h ="38"/>
+        <pushback x ="70" y="119" w="28" h ="38"/>
+        <pushback x ="127" y="119" w="28" h ="38"/>
+      </walk_right>
+
+      <walk_up>
+        <pushback x ="11" y="178" w="34" h ="38"/>
+        <pushback x ="68" y="178" w="30" h ="38"/>
+        <pushback x ="124" y="178" w="33" h ="38"/>
+      </walk_up>
+    </overworld>
+    <battlers>
+      <idle>
+        <pushback x ="18" y="16" w="41" h ="59"/>
+        <pushback x ="94" y="16" w="40" h ="59"/>
+        <pushback x ="168" y="16" w="40" h ="59"/>
+      </idle>
+      
+      <left_arm_stabbing>
+        <pushback x ="244" y="16" w="40" h ="59"/>
+        <pushback x ="319" y="16" w="40" h ="59"/>
+        <pushback x ="394" y="16" w="40" h ="59"/>
+      </left_arm_stabbing>
+      
+      <flee>
+        <pushback x ="466" y="16" w="40" h ="59"/>
+        <pushback x ="541" y="16" w="40" h ="59"/>
+        <pushback x ="616" y="16" w="40" h ="59"/>
+      </flee>
+      
+      <ready_attack>
+        <pushback x ="18" y="91" w="41" h ="59"/>
+        <pushback x ="94" y="91" w="40" h ="59"/>
+        <pushback x ="169" y="91" w="40" h ="59"/>
+      </ready_attack>
+      
+      <right_arm_swinging>
+        <pushback x ="244" y="91" w="40" h ="59"/>
+        <pushback x ="319" y="91" w="40" h ="59"/>
+        <pushback x ="394" y="91" w="40" h ="59"/>
+      </right_arm_swinging>
+      
+      <victory>
+        <pushback x ="469" y="91" w="40" h ="59"/>
+        <pushback x ="544" y="91" w="40" h ="59"/>
+        <pushback x ="619" y="91" w="40" h ="59"/>
+      </victory>
+      
+      <ready_magic>
+        <pushback x ="18" y="166" w="41" h ="59"/>
+        <pushback x ="94" y="166" w="40" h ="59"/>
+        <pushback x ="169" y="166" w="40" h ="59"/>
+      </ready_magic>
+      
+      <left_arm_shooting>
+        <pushback x ="244" y="166" w="40" h ="59"/>
+        <pushback x ="319" y="166" w="40" h ="59"/>
+        <pushback x ="394" y="166" w="40" h ="59"/>
+      </left_arm_shooting>
+      
+      <caution>
+        <pushback x ="471" y="166" w="38" h ="59"/>
+        <pushback x ="546" y="166" w="38" h ="59"/>
+        <pushback x ="621" y="166" w="38" h ="59"/>
+      </caution>
+      
+      <defense>
+        <pushback x ="18" y="241" w="41" h ="59"/>
+        <pushback x ="94" y="241" w="40" h ="59"/>
+        <pushback x ="169" y="241" w="40" h ="59"/>
+      </defense>
+      
+      <special>
+        <pushback x ="244" y="241" w="40" h ="59"/>
+        <pushback x ="319" y="241" w="40" h ="59"/>
+        <pushback x ="394" y="241" w="40" h ="59"/>
+      </special>
+      
+      <abnormal_state>
+        <pushback x ="471" y="241" w="38" h ="59"/>
+        <pushback x ="546" y="241" w="38" h ="59"/>
+        <pushback x ="621" y="241" w="38" h ="59"/>
+      </abnormal_state>
+      
+      <damage_taken>
+        <pushback x ="18" y="316" w="43" h ="59"/>
+        <pushback x ="94" y="316" w="42" h ="59"/>
+        <pushback x ="169" y="316" w="42" h ="59"/>
+      </damage_taken>
+      
+      <use_magic>
+        <pushback x ="244" y="316" w="40" h ="59"/>
+        <pushback x ="319" y="316" w="40" h ="59"/>
+        <pushback x ="394" y="316" w="40" h ="59"/>
+      </use_magic>
+      
+      <sleep>
+        <pushback x ="471" y="316" w="38" h ="59"/>
+        <pushback x ="546" y="316" w="38" h ="59"/>
+        <pushback x ="621" y="316" w="38" h ="59"/>
+      </sleep>
+      
+      <evade>
+        <pushback x ="18" y="391" w="41" h ="59"/>
+        <pushback x ="94" y="391" w="40" h ="59"/>
+        <pushback x ="169" y="391" w="40" h ="59"/>
+      </evade>
+      
+      <use_item>
+        <pushback x ="244" y="391" w="40" h ="59"/>
+        <pushback x ="319" y="391" w="40" h ="59"/>
+        <pushback x ="394" y="391" w="40" h ="59"/>
+      </use_item>
+      
+      <ko>
+        <pushback x ="459" y="391" w="57" h ="59"/>
+        <pushback x ="534" y="391" w="57" h ="59"/>
+        <pushback x ="609" y="391" w="57" h ="59"/>
+      </ko>
+    </battlers>
+  </warrior>
 </animations>

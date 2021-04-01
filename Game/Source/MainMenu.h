@@ -10,8 +10,7 @@ enum class MenuState
 	NORMAL,
 	OPTIONS,
 	CREDITS,
-	EXIT,
-	GLOBAL_EXIT,
+	EXIT
 };
 
 class GuiButton;

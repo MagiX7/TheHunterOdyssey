@@ -31,6 +31,8 @@ bool MainMenu::Load()
 
 bool MainMenu::Update(float dt)
 {
+	bool ret = true;
+
 	switch (state)
 	{
 	case MenuState::NONE:
@@ -59,18 +61,13 @@ bool MainMenu::Update(float dt)
 	break;
 	case MenuState::EXIT:
 	{
-		btnExitYes->Update(app->input, dt);
+		ret = btnExitYes->Update(app->input, dt);
 		btnExitNo->Update(app->input, dt);
-	}
-	break;
-	case MenuState::GLOBAL_EXIT:
-	{
-		return false;
 	}
 	break;
 	}
 
-	return true;
+	return ret;
 }
 
 void MainMenu::Draw(bool showColliders)
@@ -120,11 +117,11 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 		else if (control->id == 3) state = MenuState::OPTIONS; // Options
 		else if (control->id == 4) state = MenuState::CREDITS; // Credits
 		else if (control->id == 5) state = MenuState::EXIT; // Exit button pressed
-		else if (control->id == 6) state = MenuState::GLOBAL_EXIT; // Yes exit
+		else if (control->id == 6) return false; // Yes exit
 		else if (control->id == 7) state = MenuState::NORMAL; // Go back to the menu
 		else if (control->id == 8) state = MenuState::NORMAL; // Go back to the menu
 		else if (control->id == 9) state = MenuState::NORMAL; // Go back to the menu
 	}
 
-	return false;
+	return true;
 }

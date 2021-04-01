@@ -23,7 +23,8 @@ bool BattleMenu::Load()
 	btnDefense = new GuiButton(3, { 72, 580, 204, 43 }, "Defense", this);
 	btnObject = new GuiButton(4, { 72, 630, 204, 43 }, "Object", this);
 
-	current = (*enemyList.begin());
+	currEnemy = (*enemyList.begin());
+	currPlayer = (*playerList.begin());
 
 	return true;
 }
@@ -70,10 +71,12 @@ void BattleMenu::Draw(bool showColliders)
 		btnObject->Draw(app->render, showColliders);
 		break;
 	case BattleState::ATTACK:
-		app->render->DrawRectangle({ current->bounds.x + 100, current->bounds.y, 32, 16 }, 255, 0, 0);
+		app->render->DrawRectangle({ currEnemy->bounds.x + 100, currEnemy->bounds.y, 32, 16 }, 255, 0, 0);
+		app->render->DrawRectangle({ currPlayer->bounds.x - 100, currPlayer->bounds.y, 32, 16 }, 0, 255, 0);
 		break;
 	case BattleState::ABILITY:
-		app->render->DrawRectangle({ current->bounds.x + 100, current->bounds.y, 32, 16 }, 255, 0, 0);
+		app->render->DrawRectangle({ currEnemy->bounds.x + 100, currEnemy->bounds.y, 32, 16 }, 255, 0, 0);
+		app->render->DrawRectangle({ currPlayer->bounds.x - 100, currPlayer->bounds.y, 32, 16 }, 0, 255, 0);
 		break;
 	case BattleState::DEFENSE:
 		break;
@@ -132,14 +135,14 @@ void BattleMenu::HandleInput(Input* input)
 		eastl::list<Enemy*>::iterator it = enemyList.begin();
 		for (; it != enemyList.end(); ++it)
 		{
-			if (current == (*enemyList.end().prev()))
+			if (currEnemy == (*enemyList.end().prev()))
 			{
-				current = (*enemyList.begin());
+				currEnemy = (*enemyList.begin());
 				break;
 			}
-			else if ((*it) == current)
+			else if ((*it) == currEnemy)
 			{
-				current = (*it.next());
+				currEnemy = (*it.next());
 				break;
 			}
 		}
@@ -149,14 +152,14 @@ void BattleMenu::HandleInput(Input* input)
 		eastl::list<Enemy*>::iterator it = enemyList.begin();
 		for (; it != enemyList.end(); ++it)
 		{
-			if (current == (*enemyList.begin()))
+			if (currEnemy == (*enemyList.begin()))
 			{
-				current = (*enemyList.end().prev());
+				currEnemy = (*enemyList.end().prev());
 				break;
 			}
-			else if ((*it) == current)
+			else if ((*it) == currEnemy)
 			{
-				current = (*it.prev());
+				currEnemy = (*it.prev());
 				break;
 			}
 		}

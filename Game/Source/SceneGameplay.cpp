@@ -94,7 +94,7 @@ bool SceneGameplay::Load()
 	charManager->Load();
 
 	// Start music
-	app->audio->PlayMusic("Assets/Audio/Music/village_theme_1.ogg");
+	app->audio->PlayMusic("Assets/Audio/Music/village_theme_1.ogg", 0);
 
 	map = new Map();
 	map->Load("town_map.tmx", app->tex);
@@ -235,5 +235,5 @@ void SceneGameplay::HandleInput(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN) menuState = GameplayMenuState::CHARACTER_SWAP;
 	
-	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) menuState = GameplayMenuState::PAUSE;
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) menuState = GameplayMenuState::PAUSE;
 }
