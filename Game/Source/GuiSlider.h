@@ -10,26 +10,26 @@ class GuiSlider : public GuiControl
 {
 public:
 
-    GuiSlider(uint32 id, SDL_Rect bounds, const char *text);
-    virtual ~GuiSlider();
+	GuiSlider(uint32 id, SDL_Rect bounds, const char *text);
+	virtual ~GuiSlider();
 
-    bool Update(Input* input, float dt);
-    bool Draw(Render* render, bool showColliders);
+	bool Update(Input* input, float dt);
+	bool Draw(Render* render, bool showColliders);
 
 private:
 
-    // GuiSlider specific properties
-    // Maybe some animation properties for state change?
-    SDL_Rect slider;
-    int value;
+	// GuiSlider specific properties
+	// Maybe some animation properties for state change?
+	SDL_Rect slider;
+	int value;
 
-    int minValue;
-    int maxValue;
+	int minValue;
+	int maxValue;
 
-    //Fx
-    uint clickFx;
-    uint focusedFx;
-    bool isPlayeable;
+	//Fx
+	uint clickFx;
+	uint focusedFx;
+	bool isPlayeable;
 };
 
 #endif // __GUISLIDER_H__

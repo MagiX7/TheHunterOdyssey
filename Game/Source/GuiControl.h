@@ -12,85 +12,85 @@
 
 enum class GuiControlType
 {
-    BUTTON,
-    TOGGLE,
-    CHECKBOX,
-    SLIDER,
-    SLIDERBAR,
-    COMBOBOX,
-    DROPDOWNBOX,
-    INPUTBOX,
-    VALUEBOX,
-    SPINNER
+	BUTTON,
+	TOGGLE,
+	CHECKBOX,
+	SLIDER,
+	SLIDERBAR,
+	COMBOBOX,
+	DROPDOWNBOX,
+	INPUTBOX,
+	VALUEBOX,
+	SPINNER
 };
 
 enum class GuiControlState
 {
-    DISABLED,
-    NORMAL,
-    FOCUSED,
-    PRESSED,
-    SELECTED
+	DISABLED,
+	NORMAL,
+	FOCUSED,
+	PRESSED,
+	SELECTED
 };
 
 class GuiControl
 {
 public:
 
-    GuiControl(GuiControlType type, uint32 id) : type(type), id(id), state(GuiControlState::NORMAL) {}
+	GuiControl(GuiControlType type, uint32 id) : type(type), id(id), state(GuiControlState::NORMAL) {}
 
-    GuiControl(GuiControlType type, SDL_Rect bounds, const char* text) :
-        type(type),
-        state(GuiControlState::NORMAL),
-        bounds(bounds),
-        text(text) 
-    {
-        color.r = 255; color.g = 255; color.b = 255;
-        texture = NULL;
-    }
+	GuiControl(GuiControlType type, SDL_Rect bounds, const char* text) :
+		type(type),
+		state(GuiControlState::NORMAL),
+		bounds(bounds),
+		text(text) 
+	{
+		color.r = 255; color.g = 255; color.b = 255;
+		texture = NULL;
+	}
 
-    virtual bool Update(Input* input, float dt)
-    {
-        return true;
-    }
+	virtual bool Update(Input* input, float dt)
+	{
+		return true;
+	}
 
-    virtual bool Draw(Render* render, bool showColliders)
-    {
-        return true;
-    }
+	virtual bool Draw(Render* render, bool showColliders)
+	{
+		return true;
+	}
 
-    void SetTexture(SDL_Texture* tex)
-    {
-        texture = tex;
-        section = { 0, 0, 0, 0 };
-    }
+	void SetTexture(SDL_Texture* tex)
+	{
+		texture = tex;
+		section = { 0, 0, 0, 0 };
+	}
 
-    void SetObserver(Menu* menu)
-    {
-        observer = menu;
-    }
+	void SetObserver(Menu* menu)
+	{
+		observer = menu;
+	}
 
-    bool NotifyObserver()
-    {
-        return observer->OnGuiMouseClickEvent(this);
-    }
+	bool NotifyObserver()
+	{
+		return observer->OnGuiMouseClickEvent(this);
+	}
 
 public:
 
-    uint32 id;
-    GuiControlType type;
-    GuiControlState state;
+	uint32 id;
+	GuiControlType type;
+	GuiControlState state;
 
-    SString text;           // Control text (if required)
-    SDL_Rect bounds;        // Position and size
-    SDL_Color color;        // Tint color
+	SString text;		   // Control text (if required)
+	SDL_Rect bounds;		// Position and size
+	SDL_Color color;		// Tint color
 
-    SDL_Texture* texture;   // Texture atlas reference
-    SDL_Rect section;       // Texture atlas base section
+	SDL_Texture* texture;   // Texture atlas reference
+	SDL_Rect section;	   // Texture atlas base section
 
-    //Font font;              // Text font
+	//Font font;			  // Text font
 
-    Menu* observer;        // Observer module (it should probably be an array/list)
+	Menu* observer;		// Observer module (it should probably be an array/list)
 };
 
 #endif // __GUICONTROL_H__
