@@ -9,6 +9,13 @@ Bat::Bat(iPoint pos) : Enemy(EntityType::BAT)
 {
 	bounds = { pos.x, pos.y, 37, 33 };
 	texture = app->tex->Load("Assets/Textures/Enemies/flying_eye.png");
+	name = "Bat";
+
+	health = 100.0f;
+	mana = 50.0f;
+	damage = 20.0f;
+	defense = 20.0f;
+	speed = 10.0f;
 }
 
 Bat::~Bat()

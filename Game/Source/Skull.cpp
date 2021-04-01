@@ -9,6 +9,13 @@ Skull::Skull(iPoint pos) : Enemy(EntityType::SKULL)
 {
 	bounds = { pos.x, pos.y, 29, 29 };
 	texture = app->tex->Load("Assets/Textures/Enemies/floating_skull.png");
+	name = "Skull";
+
+	health = 100.0f;
+	mana = 50.0f;
+	damage = 20.0f;
+	defense = 20.0f;
+	speed = 10.0f;
 }
 
 Skull::~Skull()

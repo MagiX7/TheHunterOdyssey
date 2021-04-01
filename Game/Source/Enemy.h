@@ -9,8 +9,11 @@ public:
 
 	virtual ~Enemy(){}
 
-private:
+protected:
 	float health;
 	float mana;
+	float damage;
+	float defense;
+	float speed;
 	
 };

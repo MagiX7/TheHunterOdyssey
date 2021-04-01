@@ -9,6 +9,13 @@ Golem::Golem(iPoint pos) : Enemy(EntityType::GOLEM)
 {
 	bounds = { pos.x, pos.y, 49, 47 };
 	texture = app->tex->Load("Assets/Textures/Enemies/golem.png");
+	name = "Golem";
+	
+	health = 100.0f;
+	mana = 50.0f;
+	damage = 20.0f;
+	defense = 20.0f;
+	speed = 10.0f;
 }
 
 Golem::~Golem()
