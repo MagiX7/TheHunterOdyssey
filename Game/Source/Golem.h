@@ -2,6 +2,9 @@
 
 #include "Enemy.h"
 
+class Font;
+
+
 class Golem : public Enemy
 {
 public:
@@ -23,5 +26,6 @@ public:
 	bool SaveState(pugi::xml_node& node) override;
 
 private:
+	Font* font;
 
 };

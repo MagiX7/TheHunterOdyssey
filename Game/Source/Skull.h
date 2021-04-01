@@ -2,6 +2,8 @@
 
 #include "Enemy.h"
 
+class Font;
+
 class Skull : public Enemy
 {
 public:
@@ -23,5 +25,7 @@ public:
 	bool SaveState(pugi::xml_node& node) override;
 
 private:
+
+	Font* font;
 
 };

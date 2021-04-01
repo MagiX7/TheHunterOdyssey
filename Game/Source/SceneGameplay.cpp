@@ -71,11 +71,11 @@ SceneGameplay::SceneGameplay()
 	//Create Enemies
 
 	Enemy* skull = nullptr;
-	position = { 100,100 };
+	position = { 300,100 };
 	skull = (Enemy*)entityManager->CreateEntity(EntityType::SKULL, position);
 
 	Enemy* golem = nullptr;
-	position = { 200,200 };
+	position = { 300,200 };
 	golem = (Enemy*)entityManager->CreateEntity(EntityType::GOLEM, position);
 
 	Enemy* bat = nullptr;
