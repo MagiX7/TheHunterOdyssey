@@ -16,8 +16,8 @@ MainMenu::~MainMenu()
 
 bool MainMenu::Load()
 {
-	guiTex = app->tex->Load("Assets/Textures/UI/gui_textures.png");
-	bg = app->tex->Load("Assets/Textures/UI/menus_textures.png");
+	guiTex = app->tex->Load("Assets/Textures/UI/gui_main_menu.png");
+	bg = app->tex->Load("Assets/Textures/UI/main_menu_textures.png");
 
 	btnNewGame = new GuiButton(1, { 380, 36, 520, 117 }, "New Game", this);
 	btnNewGame->section = { 0,0,520,117 };
@@ -139,6 +139,8 @@ void MainMenu::Draw(bool showColliders)
 	break;
 	case MenuState::CREDITS:
 	{
+		section = { 0,0,1280,720 };
+		app->render->DrawTexture(bg, 0, 0, &section);
 		btnCreditsBack->Draw(app->render, showColliders);
 		app->render->DrawText(font, btnCreditsBack->text.GetString(), 1045, 625, 36, 2, { 0,0,0,255 });
 	}

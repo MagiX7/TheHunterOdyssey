@@ -2,10 +2,12 @@
 #include "App.h"
 #include "Audio.h"
 
-GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::SLIDER, id)
+GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text, Menu* listener) : GuiControl(GuiControlType::SLIDER, id)
 {
 	this->bounds = bounds;
 	this->text = text;
+	this->observer = listener;
+
 	//Load Fx
 	clickFx = app->audio->LoadFx("Assets/Audio/Fx/button_click.wav");
 	focusedFx = app->audio->LoadFx("Assets/Audio/Fx/button_focused.wav");

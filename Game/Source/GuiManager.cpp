@@ -33,7 +33,7 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type, uint32 id, SDL_Rec
 			control->SetObserver(menu);
 			break;
 		case GuiControlType::SLIDER: 
-			control = new GuiSlider(id, bounds, name);
+			control = new GuiSlider(id, bounds, name, menu);
 			control->SetObserver(menu);
 			break;
 		default: break;

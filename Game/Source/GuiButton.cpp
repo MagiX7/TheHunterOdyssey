@@ -72,6 +72,7 @@ bool GuiButton::Draw(Render* render, bool showColliders)
 		render->DrawTexture(texture, bounds.x, bounds.y, &section);
 
 		if (showColliders) render->DrawRectangle(bounds, 150, 150, 150, 150);
+		else render->DrawRectangle(bounds, 150, 150, 150, 150);
 		break;
 	case GuiControlState::NORMAL:
 		render->DrawTexture(texture, bounds.x, bounds.y, &section);
@@ -81,20 +82,20 @@ bool GuiButton::Draw(Render* render, bool showColliders)
 	case GuiControlState::FOCUSED:
 		render->DrawTexture(texture, bounds.x, bounds.y, &section);
 		
-		if (showColliders == false)
-		render->DrawRectangle(bounds, 255, 255, 0, 150);
-		
 		if (showColliders) render->DrawRectangle(bounds, 255, 255, 0, 150);   
+		else render->DrawRectangle(bounds, 255, 255, 0, 150);
 		break;
 	case GuiControlState::PRESSED:
 		render->DrawTexture(texture, bounds.x, bounds.y, &section);
 
 		if (showColliders) render->DrawRectangle(bounds, 0, 255, 255, 150);
+		else render->DrawRectangle(bounds, 0, 255, 255, 150);
 		break;
 	case GuiControlState::SELECTED:
 		render->DrawTexture(texture, bounds.x, bounds.y, &section);
 
 		if (showColliders) render->DrawRectangle(bounds, 0, 255, 0, 150);
+		else render->DrawRectangle(bounds, 0, 255, 0, 150);
 		break;
 	default:
 		break;
