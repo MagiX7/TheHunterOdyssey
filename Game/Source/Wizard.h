@@ -19,4 +19,8 @@ public:
 	void HandleInput(float dt) override;
 
 	bool SaveState(pugi::xml_node& node) override;
+
+	void Attack(Enemy* enemy) override;
+
+	void GetDamage(int dmg) override;
 };

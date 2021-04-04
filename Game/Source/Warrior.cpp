@@ -4,12 +4,15 @@
 #include "Textures.h"
 
 #include "Warrior.h"
+#include "Enemy.h"
 
 Warrior::Warrior(iPoint position) : Player(PlayerType::WARRIOR, EntityType::WARRIOR,position)
 {
 	stance = PlayerStance::ROAMING;
 	healthPoints = 3500;
 	manaPoints = 500;
+	meleeDamage = 100;
+	magicDamage = 0;
 	name = "Warrior";
 }
 
@@ -76,5 +79,15 @@ bool Warrior::SaveState(pugi::xml_node& node)
 
 	auxiliar1.append_attribute("type").set_value("WARRIOR");
 	return true;
+}
+
+void Warrior::Attack(Enemy* enemy)
+{
+	enemy->GetDamage(meleeDamage);
+}
+
+void Warrior::GetDamage(int dmg)
+{
+	healthPoints -= dmg;
 }
 

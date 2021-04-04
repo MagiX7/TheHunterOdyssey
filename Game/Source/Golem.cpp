@@ -4,6 +4,7 @@
 #include "Font.h"
 
 #include "Golem.h"
+#include "Player.h"
 
 
 Golem::Golem(iPoint pos) : Enemy(EntityType::GOLEM)
@@ -12,11 +13,11 @@ Golem::Golem(iPoint pos) : Enemy(EntityType::GOLEM)
 	texture = app->tex->Load("Assets/Textures/Enemies/golem.png");
 	name = "Golem";
 	
-	health = 100.0f;
-	mana = 50.0f;
-	damage = 20.0f;
-	defense = 20.0f;
-	speed = 10.0f;
+	health = 600;
+	mana = 50;
+	damage = 20;
+	defense = 20;
+	speed = 10;
 
 	font = new Font("Assets/Font/font3.xml", app->tex);
 }
@@ -55,17 +56,18 @@ void Golem::Draw(bool showColliders)
 
 	char tmp[32] = { 0 };
 
-	sprintf_s(tmp, 32, "Health: %.0f", health);
+	sprintf_s(tmp, 32, "Health: %i", health);
 	color = { 0,255,0,255 };
 	app->render->DrawText(font, tmp, bounds.x + bounds.w + 5, bounds.y, 15, 5, color);
 
-	sprintf_s(tmp, 32, "Mana: %.0f", mana);
+	sprintf_s(tmp, 32, "Mana: %i", mana);
 	color = { 0,0,255,255 };
 	app->render->DrawText(font, tmp, bounds.x + bounds.w + 5, bounds.y + 20, 15, 5, color);
 }
 
 bool Golem::UnLoad()
 {
+	app->tex->UnLoad(texture);
 	return true;
 }
 
@@ -77,4 +79,19 @@ bool Golem::LoadState(pugi::xml_node& node)
 bool Golem::SaveState(pugi::xml_node& node)
 {
 	return true;
+}
+
+void Golem::GetDamage(int dmg)
+{
+	health -= dmg;
+
+	if (health <= 0)
+	{
+		health = 0;
+	}
+}
+
+void Golem::Attack(Player* player)
+{
+	player->GetDamage(damage);
 }

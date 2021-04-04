@@ -2,9 +2,11 @@
 #include "Font.h"
 #include "BattleMenu.h"
 
+
 #include "Enemy.h"
 #include "Player.h"
 #include "Input.h"
+#include <time.h>
 
 BattleMenu::BattleMenu(eastl::list<Player*> list, eastl::list<Enemy*> enList) : playerList(list), enemyList(enList), type(BattleState::NONE)
 {
@@ -25,6 +27,8 @@ bool BattleMenu::Load()
 
 	currEnemy = (*enemyList.begin());
 	currPlayer = (*playerList.begin());
+
+	srand(time(NULL));
 
 	return true;
 }
@@ -47,6 +51,9 @@ bool BattleMenu::Update(float dt)
 		break;
 	case BattleState::ABILITY:
 		HandleInput(app->input);
+		break;
+	case BattleState::ENEMY_TURN:
+		EnemyTurn();
 		break;
 	case BattleState::DEFENSE:
 		break;
@@ -77,6 +84,9 @@ void BattleMenu::Draw(bool showColliders)
 	case BattleState::ABILITY:
 		app->render->DrawRectangle({ currEnemy->bounds.x + 100, currEnemy->bounds.y, 32, 16 }, 255, 0, 0);
 		app->render->DrawRectangle({ currPlayer->bounds.x - 100, currPlayer->bounds.y, 32, 16 }, 0, 255, 0);
+		break;
+	case BattleState::ENEMY_TURN:
+
 		break;
 	case BattleState::DEFENSE:
 		break;
@@ -164,4 +174,59 @@ void BattleMenu::HandleInput(Input* input)
 			}
 		}
 	}
+	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+	{
+		currPlayer->Attack(currEnemy);
+		if (currEnemy->GetHealth() <= 0) EraseEnemy();
+
+		eastl::list<Player*>::iterator it = playerList.begin();
+		for (int i = 0; it != playerList.end(); ++it, ++i)
+		{
+			if (currPlayer == (*playerList.end().prev()))
+			{
+				currPlayer = (*playerList.begin());
+				type = BattleState::ENEMY_TURN;
+				break;
+			}
+			else if ((*it) == currPlayer)
+			{
+				currPlayer = (*it.next());
+				type = BattleState::DEFAULT;
+				break;
+			}
+		}
+	}
+}
+
+void BattleMenu::EraseEnemy()
+{
+	eastl::list<Enemy*>::iterator it = enemyList.begin();
+	for (;it != enemyList.end(); ++it)
+	{
+		if ((*it) == currEnemy)
+		{
+			currEnemy = (*it.next());
+			(*it)->UnLoad();
+			RELEASE((*it));
+			enemyList.erase(it);
+			break;
+		}
+	}
+}
+
+void BattleMenu::EnemyTurn()
+{
+	eastl::list<Enemy*>::iterator it = enemyList.begin();
+	for (; it != enemyList.end(); ++it)
+	{
+		int randNum = rand() % playerList.size();
+		eastl::list<Player*>::iterator pIt = playerList.begin();
+		
+		for (int i = 0; i < randNum; ++i)
+		{
+			++pIt;
+		}
+		(*it)->Attack((*pIt));
+	}
+	type = BattleState::DEFAULT;
 }

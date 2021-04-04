@@ -11,7 +11,8 @@ enum class BattleState
 	ATTACK,
 	ABILITY,
 	DEFENSE,
-	OBJECT
+	OBJECT,
+	ENEMY_TURN
 };
 
 class Player;
@@ -35,7 +36,12 @@ public:
 
 private:
 	void DrawStats();
+
 	void HandleInput(Input* input);
+
+	void EraseEnemy();
+
+	void EnemyTurn();
 
 private:
 	BattleState type;

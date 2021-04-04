@@ -4,6 +4,7 @@
 #include "Textures.h"
 
 #include "Hunter.h"
+#include "Enemy.h"
 
 Hunter::Hunter(iPoint position) : Player(PlayerType::HUNTER, EntityType::HUNTER, position)
 {
@@ -11,6 +12,8 @@ Hunter::Hunter(iPoint position) : Player(PlayerType::HUNTER, EntityType::HUNTER,
 	stance = PlayerStance::ROAMING;
 	healthPoints = 2500;
 	manaPoints = 1000;
+	meleeDamage = 75;
+	magicDamage = 10;
 	name = "Hunter";
 }
 
@@ -77,4 +80,14 @@ bool Hunter::SaveState(pugi::xml_node& node)
 
 	auxiliar1.append_attribute("type").set_value("HUNTER");
 	return true;
+}
+
+void Hunter::Attack(Enemy* enemy)
+{
+	enemy->GetDamage(meleeDamage);
+}
+
+void Hunter::GetDamage(int dmg)
+{
+	healthPoints -= dmg;
 }

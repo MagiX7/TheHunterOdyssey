@@ -4,12 +4,15 @@
 #include "Textures.h"
 
 #include "Thief.h"
+#include "Enemy.h"
 
 Thief::Thief(iPoint position) : Player(PlayerType::THIEF, EntityType::THIEF,position)
 {
 	stance = PlayerStance::ROAMING;
 	healthPoints = 1500;
 	manaPoints = 500;
+	meleeDamage = 50;
+	magicDamage = 15;
 	name = "Thief";
 }
 
@@ -76,5 +79,15 @@ bool Thief::SaveState(pugi::xml_node& node)
 
 	auxiliar1.append_attribute("type").set_value("THIEF");
 	return true;
+}
+
+void Thief::Attack(Enemy* enemy)
+{
+	enemy->GetDamage(meleeDamage);
+}
+
+void Thief::GetDamage(int dmg)
+{
+	healthPoints -= dmg;
 }
 

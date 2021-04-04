@@ -4,6 +4,7 @@
 #include "Textures.h"
 
 #include "Wizard.h"
+#include "Enemy.h"
 
 Wizard::Wizard(iPoint position) : Player(PlayerType::WIZARD, EntityType::HUNTER, position)
 {
@@ -11,6 +12,8 @@ Wizard::Wizard(iPoint position) : Player(PlayerType::WIZARD, EntityType::HUNTER,
 	stance = PlayerStance::ROAMING;
 	healthPoints = 1000;
 	manaPoints = 5000;
+	meleeDamage = 1;
+	magicDamage = 350;
 	name = "Wizard";
 }
 
@@ -79,5 +82,15 @@ bool Wizard::SaveState(pugi::xml_node& node)
 	
 
 	return true;
+}
+
+void Wizard::Attack(Enemy* enemy)
+{
+	enemy->GetDamage(meleeDamage);
+}
+
+void Wizard::GetDamage(int dmg)
+{
+	healthPoints -= dmg;
 }
 

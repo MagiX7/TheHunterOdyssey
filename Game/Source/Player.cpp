@@ -61,6 +61,14 @@ bool Player::SaveState(pugi::xml_node& node)
 	return true;
 }
 
+void Player::Attack(Enemy* enemy)
+{
+}
+
+void Player::GetDamage(int dmg)
+{
+}
+
 void Player::HandleInput(float dt)
 {
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)

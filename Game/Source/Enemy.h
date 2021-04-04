@@ -2,6 +2,8 @@
 
 #include "Entity.h"
 
+class Player;
+
 class Enemy : public Entity
 {
 public:
@@ -9,11 +11,17 @@ public:
 
 	virtual ~Enemy(){}
 
+	virtual void GetDamage(int dmg) {}
+	
+	virtual void Attack(Player* player) {}
+
+	int GetHealth() const { return health; }
+
 protected:
-	float health;
-	float mana;
-	float damage;
-	float defense;
+	int health;
+	int mana;
+	int damage;
+	int defense;
 	float speed;
 	
 };

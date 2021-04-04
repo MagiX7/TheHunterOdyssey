@@ -12,11 +12,11 @@ Bat::Bat(iPoint pos) : Enemy(EntityType::BAT)
 	texture = app->tex->Load("Assets/Textures/Enemies/flying_eye.png");
 	name = "Bat";
 
-	health = 20.0f;
-	mana = 80.0f;
-	damage = 20.0f;
-	defense = 20.0f;
-	speed = 10.0f;
+	health = 20;
+	mana = 80;
+	damage = 20;
+	defense = 20;
+	speed = 10;
 
 	font = new Font("Assets/Font/font3.xml", app->tex);
 }
@@ -55,11 +55,11 @@ void Bat::Draw(bool showColliders)
 
 	char tmp[32] = { 0 };
 
-	sprintf_s(tmp, 32, "Health: %.0f", health);
+	sprintf_s(tmp, 32, "Health: %i", health);
 	color = { 0,255,0,255 };
 	app->render->DrawText(font, tmp, bounds.x + bounds.w + 5, bounds.y, 15, 5, color);
 
-	sprintf_s(tmp, 32, "Mana: %.0f", mana);
+	sprintf_s(tmp, 32, "Mana: %i", mana);
 	color = { 0,0,255,255 };
 	app->render->DrawText(font, tmp, bounds.x + bounds.w + 5, bounds.y + 20, 15, 5, color);
 }

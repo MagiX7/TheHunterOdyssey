@@ -6,6 +6,7 @@
 #define SPEED_Y 200.0f
 
 class SDL_Texture;
+class Enemy;
 
 enum class PlayerType
 {
@@ -40,6 +41,9 @@ public:
 
 	virtual bool SaveState(pugi::xml_node& node);
 
+	virtual void Attack(Enemy* enemy);
+	
+	virtual void GetDamage(int dmg);
 
 	int GetHealthPoints() const { return healthPoints; }
 	int GetManaPoints() const { return manaPoints; }
@@ -54,6 +58,8 @@ protected:
 
 	int healthPoints;
 	int manaPoints;
+	int meleeDamage;
+	int magicDamage;
 
 	std::string name;
 };
