@@ -19,12 +19,13 @@ public:
 
 	NpcNode* LoadNode(int id);
 	NpcNode* GetNodeById(int id);
-
+	Dialogue* current;
+	bool printText;
 private:
 	pugi::xml_document file;
 	pugi::xml_node root;
 
-	Dialogue* current;
+	
 	eastl::list<Dialogue*> dialogues;
 
 	Font* font;
@@ -32,6 +33,6 @@ private:
 	int lastUserInput;
 	int letterCount;
 
-	bool printText;
+	
 
 };

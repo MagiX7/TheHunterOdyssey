@@ -2,7 +2,7 @@
 #define __SCENEGAMEPLAY_H__
 
 #include "Scene.h"
-
+#include"EASTL/list.h"
 class Player;
 class CharacterManager;
 class Npc;
@@ -11,6 +11,7 @@ class EntityManager;
 class Map;
 class DialogueManager;
 class PauseMenu;
+
 enum class PlayerType;
 
 enum class GameplayMenuState
@@ -51,13 +52,16 @@ public:
 
 	void CharacterSwap(PlayerType pType);
 
+	Player* getCurrentPlayer();
+	DialogueManager* dialogueManager;
 private:
+
 	void HandleInput(float dt);
 
-private:
 	SDL_Texture* bg;
 
 	Player* currentPlayer;
+	
 	eastl::list<Player*> playerList;
 
 	CharacterManager* charManager;
@@ -72,7 +76,7 @@ private:
 
 	Map* map;
 
-	DialogueManager* dialogueManager;
+	
 
 	PauseMenu* pause;
 };

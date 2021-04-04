@@ -73,7 +73,7 @@ bool EntityManager::UnLoad()
 	return ret;
 }
 
-Entity* EntityManager::CreateEntity(EntityType type, iPoint pos)
+Entity* EntityManager::CreateEntity(EntityType type, iPoint pos,SceneGameplay* Scene)
 {
 	/*LOG("Creating %s", type);*/
 	Entity* entity = nullptr;
@@ -92,17 +92,19 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos)
 	case EntityType::NPC_WIZARD:
 
 		entity = new NpcWizard(pos);
-
+		entity->scene = Scene;
+		entity->Load();
 		break;
 	case EntityType::TABERN:
 
 		entity = new Tabern(pos);
-
+		entity->scene = Scene;
+		entity->Load();
 		break;
 	case EntityType::BAT:
 
 		entity = new Bat(pos);
-
+		
 		break;
 	case EntityType::GOLEM:
 
@@ -117,7 +119,8 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos)
 	case EntityType::TOWN:
 
 		entity = new Town(pos);
-
+		entity->scene = Scene;
+		entity->Load();
 		break;
 	case EntityType::WARRIOR:
 

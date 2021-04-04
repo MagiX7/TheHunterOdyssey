@@ -3,7 +3,7 @@
 #include "Render.h"
 #include "Textures.h"
 #include "EntityManager.h"
-#include "Player.h"
+#include"Player.h"
 #include "Wizard.h"
 #include "Warrior.h"
 #include "Thief.h"
@@ -15,7 +15,7 @@
 #include "Map.h"
 #include "DialogueManager.h"
 #include "PauseMenu.h"
-
+#include"List.h"
 #include "Audio.h"
 
 #include "Log.h"
@@ -27,7 +27,8 @@ SceneGameplay::SceneGameplay()
 	entityManager = new EntityManager();
 
 	iPoint position = { 0,0 };
-
+	dialogueManager = new DialogueManager();
+	dialogueManager->Start();
 	/*player1 = (Player*)entityManager->CreateEntity(EntityType::PLAYER, position);
 	player1->SetPlayerType(PlayerType::HUNTER);
 	player1->Load();
@@ -59,14 +60,14 @@ SceneGameplay::SceneGameplay()
 	playerList.push_back(player);
 
 	Npc* generalNpc = nullptr;
-	position = { 4,4 };
-	generalNpc=(Npc*)entityManager->CreateEntity(EntityType::TABERN, position);
+	position = { 500,500 };
+	generalNpc=(Npc*)entityManager->CreateEntity(EntityType::TABERN, position, this);
 
-	position = { 12,45 };
-	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position);
+	position = { 200,200 };
+	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position,this);
 
-	position = { 24,56 };
-	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position);
+	position = { 400,400 };
+	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, this);
 
 	//Create Enemies
 
@@ -91,7 +92,10 @@ SceneGameplay::SceneGameplay()
 
 	bg = nullptr;
 }
-
+Player* SceneGameplay::getCurrentPlayer()
+{
+	return currentPlayer;
+}
 bool SceneGameplay::Load()
 {
 	LOG("Loading Scene Gameplay");
@@ -113,8 +117,7 @@ bool SceneGameplay::Load()
 	map = new Map();
 	map->Load("town_map.tmx", app->tex);
 
-	dialogueManager = new DialogueManager();
-	dialogueManager->Start();
+	
 
 	pause->Load();
 
@@ -135,7 +138,7 @@ bool SceneGameplay::Update(float dt)
 		HandleInput(dt);
 		currentPlayer->Update(dt);
 		/*npc->Update(dt);*/
-		//entityManager->Update(dt);
+		entityManager->Update(dt);
 		//dialogueManager->Update(dt);
 		//bool dialogEnded = dialogueManager->Update(dt);
 		//if(dialogEnded == false) gameState = salir del dialogo
@@ -167,7 +170,7 @@ void SceneGameplay::Draw()
 		npc->Draw(showColliders);*/
 		map->Draw(showColliders);
 		entityManager->Draw(showColliders);
-		currentPlayer->Draw(showColliders);
+		currentPlayer->Draw(true);
 		if (menuState == GameplayMenuState::CHARACTER_SWAP) charManager->Draw(showColliders);
 		if (menuState == GameplayMenuState::PAUSE) pause->Draw(showColliders);
 		break;

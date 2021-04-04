@@ -4,7 +4,8 @@
 #include "SDL/include/SDL_rect.h"
 #include "PugiXml/src/pugixml.hpp"
 #include "SString.h"
-
+#include"SceneGameplay.h"
+#include"Scene.h"
 struct SDL_Texture;
 
 enum class EntityType
@@ -51,6 +52,7 @@ public:
 	SString name;
 	EntityType type;
 	SDL_Texture* texture;
+	SceneGameplay* scene;
 };
 
 #endif //__ENTITY_H__

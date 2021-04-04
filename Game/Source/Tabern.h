@@ -22,6 +22,4 @@ public:
 	bool SaveState(pugi::xml_node& node) override;
 
 
-private:
-	SDL_Texture* texture;
 };

@@ -217,4 +217,58 @@
       </ko>
     </battlers>
   </warrior>
+  <town>
+    <overworld>
+      <walk_front>
+        <pushback x ="446" y="11" w="43" h="49"/>
+        <pushback x ="518" y="11" w="43" h="49"/>
+        <pushback x ="590" y="11" w="43" h="49"/>
+      </walk_front>
+
+      <walk_left>
+        <pushback x ="449" y="80" w="37" h ="49"/>
+        <pushback x ="521" y="80" w="37" h ="49"/>
+        <pushback x ="593" y="80" w="37" h ="49"/>
+      </walk_left>
+
+      <walk_right>
+        <pushback x ="449" y="152" w="37" h ="49"/>
+        <pushback x ="521" y="152" w="37" h ="49"/>
+        <pushback x ="593" y="152" w="37" h ="49"/>
+      </walk_right>
+
+      <walk_up>
+        <pushback x ="446" y="227" w="43" h ="49"/>
+        <pushback x ="518" y="227" w="43" h ="49"/>
+        <pushback x ="590" y="227" w="43" h ="49"/>
+      </walk_up>
+    </overworld>
+  </town>
+  <npc_wizard>
+    <overworld>
+      <walk_front>
+        <pushback x ="14" y="11" w="46" h="49"/>
+        <pushback x ="86" y="11" w="46" h="49"/>
+        <pushback x ="158" y="11" w="46" h="49"/>
+      </walk_front>
+
+      <walk_left>
+        <pushback x ="14" y="80" w="46" h ="49"/>
+        <pushback x ="86" y="80" w="46" h ="49"/>
+        <pushback x ="158" y="80" w="46" h ="49"/>
+      </walk_left>
+
+      <walk_right>
+        <pushback x ="11" y="152" w="46" h ="49"/>
+        <pushback x ="84" y="152" w="46" h ="49"/>
+        <pushback x ="155" y="152" w="46" h ="49"/>
+      </walk_right>
+
+      <walk_up>
+        <pushback x ="11" y="227" w="46" h ="49"/>
+        <pushback x ="83" y="227" w="46" h ="49"/>
+        <pushback x ="155" y="227" w="46" h ="49"/>
+      </walk_up>
+    </overworld>
+  </npc_wizard>
 </animations>

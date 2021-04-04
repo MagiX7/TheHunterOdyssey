@@ -24,4 +24,29 @@
 			<npc_text text ="Press enter to back"/>
 		</node>
 	</npc>
+  <npc id ="1">
+    <node id ="0">
+      <npc_text text ="esto es una prueba"/>
+      <option id="0" nextNodeId="3" text="me comes los huevos"/>
+      <option id="1" nextNodeId="2" text="dale bro"/>
+      <option id="2" nextNodeId="1" text="ERES RETRASAO"/>
+    </node>
+    <node id ="1">
+      <npc_text text ="No, chupala TTTTTTU"/>
+      <option id="0" nextNodeId="-1" text="Pues me piro, ahi te quedas"/>
+      <option id="1" nextNodeId="-1" text="Pues paya que voy e"/>
+    </node>
+    <node id="2">
+      <npc_text text ="Pos me lo quedo imbecil"/>
+      <option id="0" nextNodeId ="-1" text="pues hasta luego bro"/>
+    </node>
+    <node id="3">
+      <npc_text text="TU MADRE ES RETRASADA"/>
+      <option id="0" nextNodeId="-1" text="vamos a la biblioteca nocturna"/>
+      <option id="1" nextNodeId="-1" text="rt"/>
+    </node>
+    <node id ="-1">
+      <npc_text text ="Press enter to back"/>
+    </node>
+  </npc>
 </dialogues>

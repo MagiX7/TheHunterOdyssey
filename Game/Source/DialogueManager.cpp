@@ -27,7 +27,7 @@ bool DialogueManager::Start()
 	{
 		root = file.child("dialogues");
 		font = new Font("Assets/Font/font3.xml", app->tex);
-		current = LoadDialogue(0);
+		//current = LoadDialogue(0);
 
 		letterCount = 0;
 		printText = false;
@@ -136,6 +136,7 @@ Dialogue* DialogueManager::LoadDialogue(int id)
 
 	// Search the dialogue with the npc we want to load
 	pugi::xml_node npcNode = root.child("npc");
+
 	while (npcNode.attribute("id").as_int() != id)
 		npcNode = npcNode.next_sibling("npc");
 

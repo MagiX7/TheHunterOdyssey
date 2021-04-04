@@ -2,7 +2,7 @@
 #define __ENTITYMANAGER_H__
 
 #include "Entity.h"
-
+#include"SceneGameplay.h"
 #include "Point.h"
 #include "Defs.h"
 #include "EASTL/list.h"
@@ -20,7 +20,7 @@ public:
 
 	bool UnLoad();
 
-	Entity* CreateEntity(EntityType type, iPoint position);
+	Entity* CreateEntity(EntityType type, iPoint position,SceneGameplay* Scene=nullptr);
 
 	void DeleteEntity(Entity* entity);
 

@@ -1,7 +1,7 @@
 #pragma once
-
+#define FIND_RADIOUS 10
 #include "Entity.h"
-
+#include"Font.h"
 enum class NpcType
 {
 	NONE = 0,
@@ -23,5 +23,9 @@ public:
 	bool SaveState(pugi::xml_node& node);
 
 	NpcType npcType;
-
+protected:
+	bool talkStart;
+	bool drawPtext;
+	Font* font;
+	SDL_Texture* texture;
 };

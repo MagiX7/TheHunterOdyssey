@@ -2,6 +2,7 @@
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
+#include"DialogueManager.h"
 
 #include "Town.h"
 
@@ -9,6 +10,8 @@ Town::Town(iPoint position) :Npc(EntityType::TOWN, position)
 {
 	/*bounds = { 0,0, 16,32 };
 	type = EntityType::TOWN;*/
+	texture = app->tex->Load("Assets/Textures/Npc/Town.png");
+	
 }
 
 Town::~Town()
@@ -17,22 +20,25 @@ Town::~Town()
 
 bool Town::Load()
 {
-	//texture = app->tex->Load("Assets/Textures/hunter_spritesheet.png");
+	//scene->dialogueManager->LoadDialogue(0);
 	return true;
 }
 
 bool Town::Update(float dt)
 {
-
+	Npc::Update(dt);
 
 	return true;
 }
 
 void Town::Draw(bool showColliders)
 {
+	Npc::Draw(showColliders);
 	if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0);
-	SDL_Rect textureRect = { 23, 14, 51,81 };
+	SDL_Rect textureRect = { 446, 11, 43,49  };
 	app->render->DrawTexture(texture, bounds.x, bounds.y, &textureRect);
+	
+	
 }
 
 bool Town::UnLoad()

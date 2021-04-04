@@ -1,5 +1,5 @@
 #pragma once
-
+#include"Font.h"
 #include "Npc.h"
 
 class SDL_Texture;
@@ -23,6 +23,6 @@ public:
 	bool SaveState(pugi::xml_node& node) override;
 
 
-private:
-	SDL_Texture* texture;
+
+	
 };
