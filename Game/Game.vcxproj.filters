@@ -271,6 +271,9 @@
     <ClInclude Include="Source\Skull.h">
       <Filter>Entities</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Animation.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

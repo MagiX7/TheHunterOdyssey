@@ -4,8 +4,12 @@
 #include "SDL/include/SDL_rect.h"
 #include "PugiXml/src/pugixml.hpp"
 #include "SString.h"
+
+#include "Animation.h"
 #include"SceneGameplay.h"
 #include"Scene.h"
+
+
 struct SDL_Texture;
 
 enum class EntityType
@@ -53,6 +57,8 @@ public:
 	EntityType type;
 	SDL_Texture* texture;
 	SceneGameplay* scene;
+
+	Animation* currentAnim;
 };
 
 #endif //__ENTITY_H__

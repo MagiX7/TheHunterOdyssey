@@ -4,6 +4,8 @@
 #include "Menu.h"
 #include "GuiButton.h"
 
+class SceneBattle;
+
 enum class BattleState
 {
 	NONE = 0,
@@ -21,7 +23,7 @@ class Enemy;
 class BattleMenu : public Menu
 {
 public:
-	BattleMenu(eastl::list<Player*> list, eastl::list<Enemy*> enList);
+	BattleMenu(SceneBattle* s);
 	virtual ~BattleMenu();
 
 	bool Load() override;
@@ -37,7 +39,7 @@ public:
 private:
 	void DrawStats();
 
-	void HandleInput(Input* input);
+	bool HandleInput(Input* input);
 
 	void EraseEnemy();
 
@@ -45,8 +47,6 @@ private:
 
 private:
 	BattleState type;
-	eastl::list<Player*> playerList;
-	eastl::list<Enemy*> enemyList;
 
 	Enemy* currEnemy;
 	Player* currPlayer;
@@ -57,4 +57,6 @@ private:
 	GuiButton* btnObject;
 
 	Font* font;
+
+	SceneBattle* sceneBattle;
 };

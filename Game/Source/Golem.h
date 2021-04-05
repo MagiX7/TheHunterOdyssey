@@ -32,4 +32,7 @@ public:
 private:
 	Font* font;
 
+	Animation idleAnim;
+	Animation glowingAnim;
+	Animation melee;
 };

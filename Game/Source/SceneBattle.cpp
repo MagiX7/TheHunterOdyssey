@@ -2,12 +2,13 @@
 #include "Render.h"
 
 #include "SceneBattle.h"
+#include "SceneGameplay.h"
 #include "BattleMenu.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Golem.h"
 
-SceneBattle::SceneBattle(eastl::list<Player*> list, int enemies) : playerList(list), numEnemies(enemies)
+SceneBattle::SceneBattle(eastl::list<Player*> list, int enemies, SceneGameplay* s) : playerList(list), numEnemies(enemies), scene(s)
 {
 }
 
@@ -31,7 +32,7 @@ bool SceneBattle::Load()
 		enemyList.push_back(enemy);
 	}
 
-	battleMenu = new BattleMenu(playerList, enemyList);
+	battleMenu = new BattleMenu(this);
 	battleMenu->Load();
 
 	return true;
@@ -39,6 +40,7 @@ bool SceneBattle::Load()
 
 bool SceneBattle::Update(float dt)
 {
+	bool ret = true;
 	eastl::list<Player*>::iterator item = playerList.begin();
 	for (; item != playerList.end(); ++item)
 	{
@@ -51,9 +53,9 @@ bool SceneBattle::Update(float dt)
 		(*it)->Update(dt);
 	}
 
-	battleMenu->Update(dt);
+	ret = battleMenu->Update(dt);
 
-	return true;
+	return ret;
 }
 
 void SceneBattle::Draw(bool colliders)
@@ -77,6 +79,14 @@ bool SceneBattle::UnLoad()
 {
 	battleMenu->UnLoad();
 	RELEASE(battleMenu);
+
+	eastl::list<Player*>::iterator item = playerList.begin();
+	for (; item != playerList.end(); ++item)
+	{
+		(*item)->stance = PlayerStance::ROAMING;
+	}
+
+	enemyList.clear();
 
 	return true;
 }

@@ -144,7 +144,12 @@ bool SceneGameplay::Update(float dt)
 		//if(dialogEnded == false) gameState = salir del dialogo
 		break;
 	case GameplayState::BATTLE:
-		sceneBattle->Update(dt);
+		if (sceneBattle->Update(dt) == false)
+		{
+			sceneBattle->UnLoad();
+			RELEASE(sceneBattle);
+			gameState = GameplayState::ROAMING;
+		}
 		break;
 	}
 
@@ -240,7 +245,7 @@ void SceneGameplay::HandleInput(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
 	{
 		// Instantiate and load scene battle
-		sceneBattle = new SceneBattle(playerList, 3);
+		sceneBattle = new SceneBattle(playerList, 3, this);
 		sceneBattle->Load();
 
 		gameState = GameplayState::BATTLE;

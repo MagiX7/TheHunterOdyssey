@@ -1,6 +1,7 @@
 #include "App.h"
 #include "Font.h"
 #include "BattleMenu.h"
+#include "SceneBattle.h"
 
 
 #include "Enemy.h"
@@ -8,7 +9,7 @@
 #include "Input.h"
 #include <time.h>
 
-BattleMenu::BattleMenu(eastl::list<Player*> list, eastl::list<Enemy*> enList) : playerList(list), enemyList(enList), type(BattleState::NONE)
+BattleMenu::BattleMenu(SceneBattle* s) : type(BattleState::NONE), sceneBattle(s)
 {
 }
 
@@ -25,8 +26,8 @@ bool BattleMenu::Load()
 	btnDefense = new GuiButton(3, { 72, 580, 204, 43 }, "Defense", this);
 	btnObject = new GuiButton(4, { 72, 630, 204, 43 }, "Object", this);
 
-	currEnemy = (*enemyList.begin());
-	currPlayer = (*playerList.begin());
+	currEnemy = (*sceneBattle->enemyList.begin());
+	currPlayer = (*sceneBattle->playerList.begin());
 
 	srand(time(NULL));
 
@@ -35,6 +36,7 @@ bool BattleMenu::Load()
 
 bool BattleMenu::Update(float dt)
 {
+	bool ret = true;
 	switch (type)
 	{
 	case BattleState::NONE:
@@ -47,10 +49,10 @@ bool BattleMenu::Update(float dt)
 		btnObject->Update(app->input, dt);
 		break;
 	case BattleState::ATTACK:
-		HandleInput(app->input);
+		ret = HandleInput(app->input);
 		break;
 	case BattleState::ABILITY:
-		HandleInput(app->input);
+		ret = HandleInput(app->input);
 		break;
 	case BattleState::ENEMY_TURN:
 		EnemyTurn();
@@ -61,7 +63,7 @@ bool BattleMenu::Update(float dt)
 		break;
 	}
 
-	return true;
+	return ret;
 }
 
 void BattleMenu::Draw(bool showColliders)
@@ -124,9 +126,9 @@ bool BattleMenu::OnGuiMouseClickEvent(GuiControl* control)
 
 void BattleMenu::DrawStats()
 {
-	eastl::list<Player*>::iterator it = playerList.begin();
+	eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
 
-	for (int i = 0; it != playerList.end(); ++it, ++i)
+	for (int i = 0; it != sceneBattle->playerList.end(); ++it, ++i)
 	{
 		app->render->DrawText(font, (*it)->GetName().c_str(), 850, 500+(i*50), 25, 2, { 255,255,255 });
 		app->render->DrawText(font, "HP", 1000, 500 + (i * 50), 25, 2, { 255,255,255 });
@@ -138,16 +140,16 @@ void BattleMenu::DrawStats()
 	}
 }
 
-void BattleMenu::HandleInput(Input* input)
+bool BattleMenu::HandleInput(Input* input)
 {
 	if (input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 	{
-		eastl::list<Enemy*>::iterator it = enemyList.begin();
-		for (; it != enemyList.end(); ++it)
+		eastl::list<Enemy*>::iterator it = sceneBattle->enemyList.begin();
+		for (; it != sceneBattle->enemyList.end(); ++it)
 		{
-			if (currEnemy == (*enemyList.end().prev()))
+			if (currEnemy == (*sceneBattle->enemyList.end().prev()))
 			{
-				currEnemy = (*enemyList.begin());
+				currEnemy = (*sceneBattle->enemyList.begin());
 				break;
 			}
 			else if ((*it) == currEnemy)
@@ -159,12 +161,12 @@ void BattleMenu::HandleInput(Input* input)
 	}
 	else if (input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 	{
-		eastl::list<Enemy*>::iterator it = enemyList.begin();
-		for (; it != enemyList.end(); ++it)
+		eastl::list<Enemy*>::iterator it = sceneBattle->enemyList.begin();
+		for (; it != sceneBattle->enemyList.end(); ++it)
 		{
-			if (currEnemy == (*enemyList.begin()))
+			if (currEnemy == (*sceneBattle->enemyList.begin()))
 			{
-				currEnemy = (*enemyList.end().prev());
+				currEnemy = (*sceneBattle->enemyList.end().prev());
 				break;
 			}
 			else if ((*it) == currEnemy)
@@ -177,38 +179,48 @@ void BattleMenu::HandleInput(Input* input)
 	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	{
 		currPlayer->Attack(currEnemy);
-		if (currEnemy->GetHealth() <= 0) EraseEnemy();
-
-		eastl::list<Player*>::iterator it = playerList.begin();
-		for (int i = 0; it != playerList.end(); ++it, ++i)
+		if (currEnemy->GetHealth() <= 0)
 		{
-			if (currPlayer == (*playerList.end().prev()))
+			EraseEnemy();
+		}
+		if (sceneBattle->enemyList.size() == 0)
+		{
+			return false;
+		}
+		else
+		{
+			eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
+			for (int i = 0; it != sceneBattle->playerList.end(); ++it, ++i)
 			{
-				currPlayer = (*playerList.begin());
-				type = BattleState::ENEMY_TURN;
-				break;
-			}
-			else if ((*it) == currPlayer)
-			{
-				currPlayer = (*it.next());
-				type = BattleState::DEFAULT;
-				break;
+				if (currPlayer == (*sceneBattle->playerList.end().prev()))
+				{
+					currPlayer = (*sceneBattle->playerList.begin());
+					type = BattleState::ENEMY_TURN;
+					break;
+				}
+				else if ((*it) == currPlayer)
+				{
+					currPlayer = (*it.next());
+					type = BattleState::DEFAULT;
+					break;
+				}
 			}
 		}
 	}
+	return true;
 }
 
 void BattleMenu::EraseEnemy()
 {
-	eastl::list<Enemy*>::iterator it = enemyList.begin();
-	for (;it != enemyList.end(); ++it)
+	eastl::list<Enemy*>::iterator it = sceneBattle->enemyList.begin();
+	for (;it != sceneBattle->enemyList.end(); ++it)
 	{
 		if ((*it) == currEnemy)
 		{
 			currEnemy = (*it.next());
 			(*it)->UnLoad();
 			RELEASE((*it));
-			enemyList.erase(it);
+			sceneBattle->enemyList.erase(it);
 			break;
 		}
 	}
@@ -216,11 +228,11 @@ void BattleMenu::EraseEnemy()
 
 void BattleMenu::EnemyTurn()
 {
-	eastl::list<Enemy*>::iterator it = enemyList.begin();
-	for (; it != enemyList.end(); ++it)
+	eastl::list<Enemy*>::iterator it = sceneBattle->enemyList.begin();
+	for (; it != sceneBattle->enemyList.end(); ++it)
 	{
-		int randNum = rand() % playerList.size();
-		eastl::list<Player*>::iterator pIt = playerList.begin();
+		int randNum = rand() % sceneBattle->playerList.size();
+		eastl::list<Player*>::iterator pIt = sceneBattle->playerList.begin();
 		
 		for (int i = 0; i < randNum; ++i)
 		{

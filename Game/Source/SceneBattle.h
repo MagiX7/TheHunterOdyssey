@@ -5,11 +5,12 @@
 class Player;
 class Enemy;
 class BattleMenu;
+class SceneGameplay;
 
 class SceneBattle : public Scene
 {
 public:
-	SceneBattle(eastl::list<Player*> list, int enemies);
+	SceneBattle(eastl::list<Player*> list, int enemies, SceneGameplay* s);
 	virtual ~SceneBattle();
 
 	// Called before the first frame
@@ -28,11 +29,15 @@ public:
 
 	bool SaveState(pugi::xml_node&) const { return true; }*/
 
+public:
+	eastl::list<Enemy*> enemyList;
+	eastl::list<Player*> playerList;
+
 private:
 	int numEnemies;
 
-	eastl::list<Enemy*> enemyList;
-	eastl::list<Player*> playerList;
+	// Reference for the scene
+	SceneGameplay* scene;
 
 	// Menu
 	BattleMenu* battleMenu;
