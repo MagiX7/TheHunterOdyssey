@@ -17,7 +17,7 @@ public:
 
 	Dialogue* LoadDialogue(int id); // Load the "npc" node
 
-	NpcNode* LoadNode(int id);
+	NpcNode* LoadNode(int id, pugi::xml_node node);
 	NpcNode* GetNodeById(int id);
 	Dialogue* current;
 	bool printText;

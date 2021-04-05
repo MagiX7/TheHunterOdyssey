@@ -41,6 +41,7 @@ bool Npc::Update(float dt)
 		drawPtext = true;
 		if (app->input->GetKey(SDL_SCANCODE_O) == KeyState::KEY_DOWN)
 		{
+			scene->dialogueManager->current = scene->dialogueManager->LoadDialogue(dialogeId);
 			scene->dialogueManager->printText = true;
 			drawPtext = false;
 			talkStart = true;

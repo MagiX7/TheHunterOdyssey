@@ -65,8 +65,9 @@ bool DialogueManager::Update(float dt)
 		if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 		{
 			NpcNode* aux = GetNodeById(current->currentNode->currentOption->nextNodeId);
+			/*current->currentNode=current->currentNode.*/
 			RELEASE(current->currentNode);
-			current->currentNode = LoadNode(aux->id);
+			current->currentNode = aux;
 			current->currentNode->Reset();
 			letterCount = 0;
 			current->textToPrint.clear();
@@ -94,17 +95,17 @@ void DialogueManager::Draw()
 	}
 }
 
-NpcNode* DialogueManager::LoadNode(int id)
+NpcNode* DialogueManager::LoadNode(int id, pugi::xml_node node)
 {
-	pugi::xml_node n = root.child("npc").first_child();
-	
-	// Find the node
-	while (n.attribute("id").as_int() != id)
-		n = n.next_sibling("node");
+	//pugi::xml_node n = root.child("npc").first_child();
+	//
+	//// Find the node
+	//while (n.attribute("id").as_int() != id)
+	//	n = n.next_sibling("node");
 
-	NpcNode* tmp = new NpcNode(n.child("npc_text").attribute("text").as_string());
-	tmp->id = n.attribute("id").as_int();
-	for (pugi::xml_node m = n.child("option"); m; m = m.next_sibling("option"))
+	NpcNode* tmp = new NpcNode(node.child("npc_text").attribute("text").as_string());
+	tmp->id = node.attribute("id").as_int();
+	for (pugi::xml_node m = node.child("option"); m; m = m.next_sibling("option"))
 	{
 		DialogueOption* option = new DialogueOption();
 		option->text = m.attribute("text").as_string();
@@ -139,13 +140,13 @@ Dialogue* DialogueManager::LoadDialogue(int id)
 
 	while (npcNode.attribute("id").as_int() != id)
 		npcNode = npcNode.next_sibling("npc");
-
+	int a = npcNode.attribute("id").as_int();
 	// Load the npc text + all the possible options
 	NpcNode* tmp = nullptr;
 	
 	for (pugi::xml_node n = npcNode.child("node"); n; n = n.next_sibling("node"))
 	{
-		tmp = LoadNode(n.attribute("id").as_int());
+		tmp = LoadNode(n.attribute("id").as_int(),n);
 		ret->nodes.push_back(tmp);
 	}
 	

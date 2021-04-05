@@ -24,6 +24,7 @@ public:
 
 	NpcType npcType;
 protected:
+	int dialogeId;
 	bool talkStart;
 	bool drawPtext;
 	Font* font;

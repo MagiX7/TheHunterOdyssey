@@ -11,7 +11,7 @@ Town::Town(iPoint position) :Npc(EntityType::TOWN, position)
 	/*bounds = { 0,0, 16,32 };
 	type = EntityType::TOWN;*/
 	texture = app->tex->Load("Assets/Textures/Npc/Town.png");
-	
+	dialogeId = 0;
 }
 
 Town::~Town()
@@ -20,7 +20,7 @@ Town::~Town()
 
 bool Town::Load()
 {
-	//scene->dialogueManager->LoadDialogue(0);
+	//scene->dialogueManager->current = scene->dialogueManager->LoadDialogue(0);
 	return true;
 }
 

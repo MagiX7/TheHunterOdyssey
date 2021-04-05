@@ -9,33 +9,33 @@
       <entities>
         <NPCs amount="3">
           <NPC>
-            <bounds X="4" Y="4" W="32" H="32" />
+            <bounds X="500" Y="500" W="32" H="32" />
             <NpcType type="TABERN" />
           </NPC>
           <NPC>
-            <bounds X="12" Y="45" W="32" H="32" />
+            <bounds X="200" Y="200" W="32" H="32" />
             <NpcType type="TOWN" />
           </NPC>
           <NPC>
-            <bounds X="24" Y="56" W="32" H="32" />
+            <bounds X="400" Y="400" W="32" H="32" />
             <NpcType type="NPC_WIZARD" />
           </NPC>
         </NPCs>
         <players amount="4">
           <player>
-            <bounds X="30" Y="9" W="16" H="32" />
+            <bounds X="388" Y="422" W="16" H="32" />
             <playerType type="HUNTER" />
           </player>
           <player>
-            <bounds X="18" Y="90" W="16" H="32" />
+            <bounds X="212" Y="301" W="16" H="32" />
             <playerType type="WIZARD" />
           </player>
           <player>
-            <bounds X="12" Y="45" W="16" H="32" />
+            <bounds X="206" Y="256" W="16" H="32" />
             <playerType type="THIEF" />
           </player>
           <player>
-            <bounds X="13" Y="56" W="16" H="32" />
+            <bounds X="207" Y="267" W="16" H="32" />
             <playerType type="WARRIOR" />
           </player>
         </players>

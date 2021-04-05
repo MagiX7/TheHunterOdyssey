@@ -11,7 +11,7 @@ NpcWizard::NpcWizard(iPoint position):Npc(EntityType::NPC_WIZARD,position)
 	//type = EntityType::NPC_WIZARD;
 	texture = app->tex->Load("Assets/Textures/Npc/Wizard.png");
 
-	
+	dialogeId = 1;
 }
 
 NpcWizard::~NpcWizard()
@@ -20,7 +20,7 @@ NpcWizard::~NpcWizard()
 
 bool NpcWizard::Load()
 {
-	scene->dialogueManager->current=scene->dialogueManager->LoadDialogue(1);
+	
 	
 	return true;
 }

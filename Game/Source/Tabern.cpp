@@ -10,6 +10,7 @@ Tabern::Tabern(iPoint position) :Npc(EntityType::TABERN, position)
 	/*bounds = { 0,0, 16,32 };
 	type = EntityType::TABERN;*/
 	texture = app->tex->Load("Assets/Textures/Npc/Tabern.png");
+	dialogeId = 0;
 }
 
 Tabern::~Tabern()
