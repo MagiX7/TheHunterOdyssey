@@ -31,7 +31,7 @@ bool DialogueManager::Start()
 
 		letterCount = 0;
 		printText = false;
-
+		current = nullptr;
 	}
 
 	return true;
@@ -42,59 +42,63 @@ bool DialogueManager::Update(float dt)
 	bool ret = true;
 
 	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) printText = true;
-
-	if (current->currentNode->dialogFinished == true && current->currentNode->id >= 0)
+	
+	if (current != nullptr)
 	{
-		if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+		if (current->currentNode->dialogFinished == true && current->currentNode->id >= 0)
 		{
-			eastl::list<DialogueOption*>::iterator it = current->currentNode->options.begin();
-			for (int i = 0; i < current->currentNode->optionsNum; ++i, ++it)
+			if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
 			{
-				if ((*it)->id == current->currentNode->currentOption->id + 1)
+				eastl::list<DialogueOption*>::iterator it = current->currentNode->options.begin();
+				for (int i = 0; i < current->currentNode->optionsNum; ++i, ++it)
 				{
-					current->currentNode->currentOption = (*it);
-					break;
+					if ((*it)->id == current->currentNode->currentOption->id + 1)
+					{
+						current->currentNode->currentOption = (*it);
+						break;
+					}
 				}
+			}
+
+			if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
+			{
+				eastl::list<DialogueOption*>::iterator it = current->currentNode->options.begin();
+				for (int i = 0; i < current->currentNode->optionsNum; ++i, ++it)
+				{
+					if ((*it)->id == current->currentNode->currentOption->id - 1)
+					{
+						current->currentNode->currentOption = (*it);
+						break;
+					}
+				}
+			}
+
+			// If player presses enter, means he has chosen an option
+			if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+			{
+				NpcNode* aux = GetNodeById(current->currentNode->currentOption->nextNodeId);
+				/*current->currentNode=current->currentNode.*/
+				RELEASE(current->currentNode);
+				current->currentNode = aux;
+				current->currentNode->Reset();
+				letterCount = 0;
+				current->textToPrint.clear();
+				current->currentNode->currentOption = (*aux->options.begin());
 			}
 		}
 
-		if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
+		if (current->currentNode->id == -1)
 		{
-			eastl::list<DialogueOption*>::iterator it = current->currentNode->options.begin();
-			for (int i = 0; i < current->currentNode->optionsNum; ++i, ++it)
+			if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 			{
-				if ((*it)->id == current->currentNode->currentOption->id - 1)
-				{
-					current->currentNode->currentOption = (*it);
-					break;
-				}
+				// Dialog finished
+				isDialogueActive = false;
+				printText = false;
+				ret = false;
 			}
 		}
-		
-		// If player presses enter, means he has chosen an option
-		if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
-		{
-			NpcNode* aux = GetNodeById(current->currentNode->currentOption->nextNodeId);
-			/*current->currentNode=current->currentNode.*/
-			RELEASE(current->currentNode);
-			current->currentNode = aux;
-			current->currentNode->Reset();
-			letterCount = 0;
-			current->textToPrint.clear();
-			current->currentNode->currentOption = (*aux->options.begin());
-		}
 	}
-	if (current->currentNode->id == -1)
-	{
-		if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
-		{
-			// Dialog finished
-			isDialogueActive = false;
-			printText = false;
-			ret = false;
-		}
-	}
-
+	
 	return ret;
 }
 
@@ -105,9 +109,11 @@ void DialogueManager::Draw()
 		current->Draw(letterCount, font);
 	}
 	
-	SDL_Rect r = { current->currentNode->currentOption->bounds.x,  current->currentNode->currentOption->bounds.y, 400,50 };
-	app->render->DrawRectangle(r, 255, 255, 255, 120);
-
+	if (current != nullptr)
+	{
+		SDL_Rect r = { current->currentNode->currentOption->bounds.x,  current->currentNode->currentOption->bounds.y, 400,50 };
+		app->render->DrawRectangle(r, 255, 255, 255, 120);
+	}
 }
 
 NpcNode* DialogueManager::LoadNode(int id, pugi::xml_node node)

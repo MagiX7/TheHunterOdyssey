@@ -46,6 +46,8 @@ bool PauseMenu::Load()
 
 	font = new Font("Assets/Font/font3.xml", app->tex);
 	
+	state = PauseState::DEFAULT;
+
 	return true;
 }
 

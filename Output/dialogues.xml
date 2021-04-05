@@ -24,29 +24,30 @@
 			<npc_text text ="Press enter to back"/>
 		</node>
 	</npc>
-  <npc id ="1">
-    <node id ="0">
-      <npc_text text ="esto es una prueba"/>
-      <option id="0" nextNodeId="3" text="me comes los huevos"/>
-      <option id="1" nextNodeId="2" text="dale bro"/>
-      <option id="2" nextNodeId="1" text="Esta es la opcion 3"/>
-    </node>
-    <node id ="1">
-      <npc_text text ="esto es la segunda respuesta"/>
-      <option id="0" nextNodeId="-1" text="me la suda"/>
-      <option id="1" nextNodeId="-1" text="no se que poner"/>
-    </node>
+	
+	<npc id ="1">
+		<node id ="0">
+		 <npc_text text ="esto es una prueba"/>
+		 <option id="0" nextNodeId="3" text="me comes los huevos"/>
+		 <option id="1" nextNodeId="2" text="dale bro"/>
+		 <option id="2" nextNodeId="1" text="Esta es la opcion 3"/>
+	 </node>
+	 <node id ="1">
+		  <npc_text text ="esto es la segunda respuesta"/>
+		  <option id="0" nextNodeId="-1" text="me la suda"/>
+		  <option id="1" nextNodeId="-1" text="no se que poner"/>
+	</node>
     <node id="2">
-      <npc_text text ="este es el final ya"/>
-      <option id="0" nextNodeId ="-1" text="dale adios"/>
-    </node>
+		<npc_text text ="este es el final ya"/>
+		<option id="0" nextNodeId ="-1" text="dale adios"/>
+	</node>
     <node id="3">
-      <npc_text text="ostia txori bat"/>
-      <option id="0" nextNodeId="-1" text="viva MrLuigui001"/>
-      <option id="1" nextNodeId="-1" text="rt"/>
+		<npc_text text="ostia txori bat"/>
+		 <option id="0" nextNodeId="-1" text="viva MrLuigui001"/>
+		  <option id="1" nextNodeId="-1" text="rt"/>
     </node>
     <node id ="-1">
-      <npc_text text ="Press enter to back"/>
+		  <npc_text text ="Press enter to back"/>
     </node>
   </npc>
 </dialogues>

@@ -178,8 +178,6 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad)
 {
 	DeleteAllEntities();
 
-
-
 	int amount = toLoad->attribute("amount").as_int();
 	int npcAmount = toLoad->child("NPCs").attribute("amount").as_int();
 	int playerAmount = toLoad->child("players").attribute("amount").as_int();
@@ -211,7 +209,6 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad)
 				else {
 					npcType = EntityType::UNKNOWN;
 				}
-
 
 				npcNode = (Npc*)CreateEntity(npcType, { NodeNpcAuxiliar.child("bounds").attribute("X").as_int(),NodeNpcAuxiliar.child("bounds").attribute("Y").as_int() });
 				NodeNpcAuxiliar = NodeNpcAuxiliar.next_sibling();
