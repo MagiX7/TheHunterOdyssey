@@ -73,7 +73,7 @@ bool EntityManager::UnLoad()
 	return ret;
 }
 
-Entity* EntityManager::CreateEntity(EntityType type, iPoint pos,SceneGameplay* Scene)
+Entity* EntityManager::CreateEntity(EntityType type, iPoint pos)
 {
 	/*LOG("Creating %s", type);*/
 	Entity* entity = nullptr;
@@ -92,13 +92,15 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos,SceneGameplay* S
 	case EntityType::NPC_WIZARD:
 
 		entity = new NpcWizard(pos);
-		entity->scene = Scene;
+		npcs.push_back((Npc*)entity);
+		//entity->scene = Scene;
 		entity->Load();
 		break;
 	case EntityType::TABERN:
 
 		entity = new Tabern(pos);
-		entity->scene = Scene;
+		npcs.push_back((Npc*)entity);
+		//entity->scene = Scene;
 		entity->Load();
 		break;
 	case EntityType::BAT:
@@ -119,7 +121,8 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos,SceneGameplay* S
 	case EntityType::TOWN:
 
 		entity = new Town(pos);
-		entity->scene = Scene;
+		npcs.push_back((Npc*)entity);
+		//entity->scene = Scene;
 		entity->Load();
 		break;
 	case EntityType::WARRIOR:
@@ -156,6 +159,8 @@ void EntityManager::DeleteEntity(Entity* entity)
 			break;
 		}
 	}
+
+	npcs.clear();
 }
 void EntityManager::DeleteAllEntities() 
 {
@@ -166,8 +171,6 @@ void EntityManager::DeleteAllEntities()
 	for (item = entities.begin(); item != entities.end(); ++item)
 	{
 		entities.remove(*item);
-
-		
 	}
 
 }

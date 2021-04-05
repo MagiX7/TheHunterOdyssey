@@ -1,10 +1,12 @@
 #include "App.h"
+#include "Textures.h"
 #include "Render.h"
-#include"Input.h"
+#include "Input.h"
 #include "Npc.h"
-#include"DialogueManager.h"
-#include"Player.h"
-#include"SceneGameplay.h"
+#include "DialogueManager.h"
+#include "Player.h"
+#include "SceneGameplay.h"
+
 Npc::Npc(EntityType type, iPoint position) : Entity(type)
 {
 	drawPtext=false;
@@ -15,7 +17,6 @@ Npc::Npc(EntityType type, iPoint position) : Entity(type)
 	font = new Font("Assets/Font/font3.xml", app->tex);
 	drawPtext = false;
 
-	
 }
 
 Npc::~Npc()
@@ -29,30 +30,13 @@ bool Npc::Load()
 
 bool Npc::Update(float dt)
 {
-	Player*auxiliar=scene->getCurrentPlayer();
-	if (talkStart) 
-	{		
-		scene->dialogueManager->Update(dt);
-		
-	}
-	
-	if (auxiliar->bounds.x< bounds.x + ((bounds.w + FIND_RADIOUS) * 2) && auxiliar->bounds.x > bounds.x - (bounds.w + FIND_RADIOUS) && auxiliar->bounds.y< bounds.y + ((bounds.h + FIND_RADIOUS) * 2) && auxiliar->bounds.y > bounds.y - (bounds.h + FIND_RADIOUS))
-	{
-		drawPtext = true;
-		if (app->input->GetKey(SDL_SCANCODE_O) == KeyState::KEY_DOWN)
-		{
-			scene->dialogueManager->current = scene->dialogueManager->LoadDialogue(dialogeId);
-			scene->dialogueManager->printText = true;
-			drawPtext = false;
-			talkStart = true;
-		}
-	}else
-	{ 
-		
-		drawPtext = false; 
-		talkStart = false;
-	}
+	//Player* auxiliar = scene->getCurrentPlayer();
 
+	//if (talkStart) 
+	//{		
+	//	scene->dialogueManager->Update(dt);
+	//}
+	
 	
 
 	return true;
@@ -60,22 +44,18 @@ bool Npc::Update(float dt)
 
 void Npc::Draw(bool showColliders)
 {
-	if (talkStart) 
-	{
-		scene->dialogueManager->Draw();
-	}
-	else 
-	{
-		if (showColliders)
-			app->render->DrawRectangle(bounds, 255, 255, 255, 255);
-		if (drawPtext)app->render->DrawText(font, "Press O to talk", bounds.x - 30, bounds.y - 30, 20, 5, { 255,255,255 });
-	}
+	if (showColliders)
+		app->render->DrawRectangle(bounds, 255, 255, 255, 255);
+
+	if (drawPtext) app->render->DrawText(font, "Press O to talk", bounds.x - 30, bounds.y - 30, 20, 5, { 255,255,255 });
 }
 
 bool Npc::UnLoad()
 {
+	RELEASE(font);
 	return true;
 }
+
 bool Npc::SaveState(pugi::xml_node& node)
 {
 	pugi::xml_node auxiliar1 = node.append_child("bounds");
@@ -85,4 +65,21 @@ bool Npc::SaveState(pugi::xml_node& node)
 	auxiliar1.append_attribute("H").set_value(bounds.h);
 	
 	return true;
+}
+
+bool Npc::CheckCollision(Player* player)
+{
+	if (player->bounds.x < bounds.x + ((bounds.w + FIND_RADIOUS) * 2) && player->bounds.x > bounds.x - (bounds.w + FIND_RADIOUS) && player->bounds.y< bounds.y + ((bounds.h + FIND_RADIOUS) * 2) && player->bounds.y > bounds.y - (bounds.h + FIND_RADIOUS))
+	{
+		drawPtext = true;
+
+		if(app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
+			return true;
+	}
+	else
+	{
+		drawPtext = false;
+		talkStart = false;
+		return false;
+	}
 }

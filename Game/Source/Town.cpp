@@ -37,15 +37,12 @@ void Town::Draw(bool showColliders)
 	if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0);
 	SDL_Rect textureRect = { 446, 11, 43,49  };
 	app->render->DrawTexture(texture, bounds.x, bounds.y, &textureRect);
-	
-	
 }
 
 bool Town::UnLoad()
 {
 	return true;
 }
-
 
 bool Town::SaveState(pugi::xml_node& node)
 {
@@ -56,4 +53,3 @@ bool Town::SaveState(pugi::xml_node& node)
 	auxiliar1.append_attribute("type").set_value("TOWN");
 	return true;
 }
-

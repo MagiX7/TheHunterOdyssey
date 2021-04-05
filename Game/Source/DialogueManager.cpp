@@ -45,22 +45,32 @@ bool DialogueManager::Update(float dt)
 
 	if (current->currentNode->dialogFinished == true && current->currentNode->id >= 0)
 	{
-		if (app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+		if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
 		{
-			lastUserInput = 1;
-			current->currentNode->currentOption = (*(*current->nodes.begin())->options.begin());
-		}
-		else if (app->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
-		{
-			lastUserInput = 2;
-			current->currentNode->currentOption = (*(*current->nodes.begin())->options.begin().next());
-		}
-		else if (app->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
-		{
-			lastUserInput = 3;
-			current->currentNode->currentOption = (*(*current->nodes.begin())->options.begin().next().next());
+			eastl::list<DialogueOption*>::iterator it = current->currentNode->options.begin();
+			for (int i = 0; i < current->currentNode->optionsNum; ++i, ++it)
+			{
+				if ((*it)->id == current->currentNode->currentOption->id + 1)
+				{
+					current->currentNode->currentOption = (*it);
+					break;
+				}
+			}
 		}
 
+		if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
+		{
+			eastl::list<DialogueOption*>::iterator it = current->currentNode->options.begin();
+			for (int i = 0; i < current->currentNode->optionsNum; ++i, ++it)
+			{
+				if ((*it)->id == current->currentNode->currentOption->id - 1)
+				{
+					current->currentNode->currentOption = (*it);
+					break;
+				}
+			}
+		}
+		
 		// If player presses enter, means he has chosen an option
 		if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 		{
@@ -79,6 +89,7 @@ bool DialogueManager::Update(float dt)
 		if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 		{
 			// Dialog finished
+			isDialogueActive = false;
 			printText = false;
 			ret = false;
 		}
@@ -93,6 +104,10 @@ void DialogueManager::Draw()
 	{
 		current->Draw(letterCount, font);
 	}
+	
+	SDL_Rect r = { current->currentNode->currentOption->bounds.x,  current->currentNode->currentOption->bounds.y, 400,50 };
+	app->render->DrawRectangle(r, 255, 255, 255, 120);
+
 }
 
 NpcNode* DialogueManager::LoadNode(int id, pugi::xml_node node)
@@ -105,6 +120,7 @@ NpcNode* DialogueManager::LoadNode(int id, pugi::xml_node node)
 
 	NpcNode* tmp = new NpcNode(node.child("npc_text").attribute("text").as_string());
 	tmp->id = node.attribute("id").as_int();
+	int i = 0;
 	for (pugi::xml_node m = node.child("option"); m; m = m.next_sibling("option"))
 	{
 		DialogueOption* option = new DialogueOption();
@@ -112,11 +128,13 @@ NpcNode* DialogueManager::LoadNode(int id, pugi::xml_node node)
 		option->id = m.attribute("id").as_int();
 		option->nextNodeId = m.attribute("nextNodeId").as_int();
 		option->bounds.x = 0;
-		option->bounds.y = 110;
+		option->bounds.y = 110 + i;
 		option->bounds.w = 200;
 		option->bounds.h = 50;
 
 		tmp->options.push_back(option);
+		++tmp->optionsNum;
+		i += 55;
 	}
 
 	return tmp;
@@ -165,10 +183,12 @@ Dialogue* DialogueManager::LoadDialogue(int id)
 	}
 
 	// Set current option to later draw the box (visual feedback)
-	(*ret->nodes.begin())->currentOption = new DialogueOption();
+	//(*ret->nodes.begin())->currentOption = new DialogueOption();
 	(*ret->nodes.begin())->currentOption = (*(*ret->nodes.begin())->options.begin());
 
 	ret->currentNode = (*ret->nodes.begin());
+
+	isDialogueActive = true;
 
 	return ret;
 }

@@ -60,58 +60,58 @@
     <ClCompile Include="Source\GuiManager.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Player.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Source\MainMenu.cpp">
       <Filter>Menus</Filter>
     </ClCompile>
     <ClCompile Include="Source\CharacterManager.cpp">
       <Filter>Menus</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Npc.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Source\SceneBattle.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Wizard.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Hunter.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Source\DialogueManager.cpp" />
     <ClCompile Include="Source\Dialogue.cpp" />
-    <ClCompile Include="Source\Golem.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Source\BattleMenu.cpp">
       <Filter>Menus</Filter>
     </ClCompile>
     <ClCompile Include="Source\Warrior.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Thief.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\NpcWizard.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Tabern.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Town.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Source\PauseMenu.cpp">
       <Filter>Menus</Filter>
     </ClCompile>
     <ClCompile Include="Source\Bat.cpp">
-      <Filter>Entities</Filter>
+      <Filter>Entities\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Golem.cpp">
+      <Filter>Entities\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Source\Skull.cpp">
-      <Filter>Entities</Filter>
+      <Filter>Entities\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Npc.cpp">
+      <Filter>Entities\Npcs</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NpcWizard.cpp">
+      <Filter>Entities\Npcs</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tabern.cpp">
+      <Filter>Entities\Npcs</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hunter.cpp">
+      <Filter>Entities\Players</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Player.cpp">
+      <Filter>Entities\Players</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Thief.cpp">
+      <Filter>Entities\Players</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Wizard.cpp">
+      <Filter>Entities\Players</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Town.cpp">
+      <Filter>Entities\Npcs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -212,9 +212,6 @@
     <ClInclude Include="Source\GuiManager.h">
       <Filter>GUI</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Player.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Source\MainMenu.h">
       <Filter>Menus</Filter>
     </ClInclude>
@@ -224,55 +221,58 @@
     <ClInclude Include="Source\CharacterManager.h">
       <Filter>Menus</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Npc.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Source\SceneBattle.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Wizard.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hunter.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DialogueManager.h" />
     <ClInclude Include="Source\Dialogue.h" />
-    <ClInclude Include="Source\Enemy.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Golem.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Source\BattleMenu.h">
       <Filter>Menus</Filter>
     </ClInclude>
     <ClInclude Include="Source\Warrior.h">
       <Filter>Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Thief.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\NpcWizard.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Tabern.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Town.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Source\PauseMenu.h">
       <Filter>Menus</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Bat.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Skull.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Animation.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Bat.h">
+      <Filter>Entities\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy.h">
+      <Filter>Entities\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Golem.h">
+      <Filter>Entities\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Skull.h">
+      <Filter>Entities\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Npc.h">
+      <Filter>Entities\Npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NpcWizard.h">
+      <Filter>Entities\Npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tabern.h">
+      <Filter>Entities\Npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hunter.h">
+      <Filter>Entities\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player.h">
+      <Filter>Entities\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Thief.h">
+      <Filter>Entities\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Wizard.h">
+      <Filter>Entities\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Town.h">
+      <Filter>Entities\Npcs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -299,6 +299,15 @@
     </Filter>
     <Filter Include="Menus">
       <UniqueIdentifier>{f9015f66-b5f6-4c9a-8757-2765071b79ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Npcs">
+      <UniqueIdentifier>{caad5b68-ded2-40bf-9bc6-926c42201086}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Enemies">
+      <UniqueIdentifier>{6fa114b7-1653-416c-97a6-40c826e43904}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Players">
+      <UniqueIdentifier>{f24a245d-6990-4902-b599-a4bbfdd3d050}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

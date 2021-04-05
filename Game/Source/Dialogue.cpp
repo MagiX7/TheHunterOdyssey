@@ -36,29 +36,6 @@ void Dialogue::Draw(int& count, Font* font)
 
 	app->render->DrawText(font, textToPrint.c_str(), 0, 0, 100, 5, { 255,255,255 });
 
-	eastl::list<DialogueOption*>::iterator it = (*nodes.begin())->options.begin();
-	while ((*it)->id != currentNode->currentOption->id)
-	{
-		it = it.next();
-	}
-
-	SDL_Rect r;
-	switch ((*it)->id)
-	{
-	case 0:
-		r = { 0,110,400,50 };
-		break;
-	case 1:
-		r = { 0,110 + 55,400,50 };
-		break;
-	case 2:
-		r = { 0,110 + 115,400,50 };
-	}
-	app->render->DrawRectangle(r, 255, 255, 255, 120);
-
-	// Render npc text
-	//app->render->DrawText(font, currentNode->text.c_str(), 0, 0, 100, 5, { 255,255,255 });
-
 	// Render options for the player
 	eastl::list<DialogueOption*>::iterator optionsIterator = currentNode->options.begin();
 	if (nodes.size() > 1)
@@ -92,4 +69,21 @@ void NpcNode::Reset()
 	this->dialogFinished = false;
 	this->letterCount = 0;
 	this->stopDialog = false;
+}
+
+DialogueOption* NpcNode::SetCurrentOptionById(int id)
+{
+	eastl::list<DialogueOption*>::iterator it = options.begin();
+	int i = 0;
+	while (it != options.end())
+	{
+		if (id == i)
+		{
+			currentOption = (*it);
+			return (*it);
+		}
+		++i;
+		++it;
+	}
+	return nullptr;
 }

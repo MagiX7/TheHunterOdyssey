@@ -26,7 +26,8 @@ enum class GameplayState
 {
 	NONE = 0,
 	ROAMING,
-	BATTLE
+	BATTLE,
+	DIALOG
 };
 
 class SceneGameplay : public Scene
@@ -52,11 +53,17 @@ public:
 
 	void CharacterSwap(PlayerType pType);
 
+	bool CheckDialogue();
+
+private:
+	void HandleInput(float dt);
+
+public:
 	Player* getCurrentPlayer();
 	DialogueManager* dialogueManager;
+
 private:
 
-	void HandleInput(float dt);
 
 	SDL_Texture* bg;
 
@@ -75,8 +82,6 @@ private:
 	EntityManager* entityManager;
 
 	Map* map;
-
-	
 
 	PauseMenu* pause;
 };

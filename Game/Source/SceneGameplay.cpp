@@ -20,6 +20,8 @@
 
 #include "Log.h"
 
+#define NPC_RADIUS 10
+
 SceneGameplay::SceneGameplay()
 {
 	name.Create("scenegameplay");
@@ -27,8 +29,7 @@ SceneGameplay::SceneGameplay()
 	entityManager = new EntityManager();
 
 	iPoint position = { 0,0 };
-	dialogueManager = new DialogueManager();
-	dialogueManager->Start();
+
 	/*player1 = (Player*)entityManager->CreateEntity(EntityType::PLAYER, position);
 	player1->SetPlayerType(PlayerType::HUNTER);
 	player1->Load();
@@ -61,13 +62,13 @@ SceneGameplay::SceneGameplay()
 
 	Npc* generalNpc = nullptr;
 	position = { 500,500 };
-	generalNpc=(Npc*)entityManager->CreateEntity(EntityType::TABERN, position, this);
+	generalNpc=(Npc*)entityManager->CreateEntity(EntityType::TABERN, position);
 
 	position = { 200,200 };
-	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position,this);
+	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position);
 
 	position = { 400,400 };
-	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, this);
+	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position);
 
 	//Create Enemies
 
@@ -117,7 +118,8 @@ bool SceneGameplay::Load()
 	map = new Map();
 	map->Load("town_map.tmx", app->tex);
 
-	
+	dialogueManager = new DialogueManager();
+	dialogueManager->Start();
 
 	pause->Load();
 
@@ -136,12 +138,19 @@ bool SceneGameplay::Update(float dt)
 	case GameplayState::ROAMING:
 		map->Update(dt);
 		HandleInput(dt);
-		currentPlayer->Update(dt);
-		/*npc->Update(dt);*/
-		entityManager->Update(dt);
-		//dialogueManager->Update(dt);
-		//bool dialogEnded = dialogueManager->Update(dt);
-		//if(dialogEnded == false) gameState = salir del dialogo
+		
+		if (dialogueManager->isDialogueActive == false)
+		{
+			currentPlayer->Update(dt);
+			/*npc->Update(dt);*/
+			entityManager->Update(dt);
+			CheckDialogue();
+		}
+		else
+		{
+			dialogueManager->Update(dt);
+		}
+
 		break;
 	case GameplayState::BATTLE:
 		if (sceneBattle->Update(dt) == false)
@@ -171,11 +180,11 @@ void SceneGameplay::Draw()
 	switch (gameState)
 	{
 	case GameplayState::ROAMING:
-		/*player->Draw(showColliders);
-		npc->Draw(showColliders);*/
 		map->Draw(showColliders);
 		entityManager->Draw(showColliders);
 		currentPlayer->Draw(true);
+		if (dialogueManager->isDialogueActive)
+			dialogueManager->Draw();
 		if (menuState == GameplayMenuState::CHARACTER_SWAP) charManager->Draw(showColliders);
 		if (menuState == GameplayMenuState::PAUSE) pause->Draw(showColliders);
 		break;
@@ -183,8 +192,6 @@ void SceneGameplay::Draw()
 		sceneBattle->Draw(showColliders);
 		break;
 	}
-
-	//dialogueManager->Draw();
 }
 
 bool SceneGameplay::UnLoad()
@@ -217,6 +224,29 @@ void SceneGameplay::CharacterSwap(PlayerType player)
 	}
 
 	currentPlayer->bounds = tmpBounds;
+}
+
+bool SceneGameplay::CheckDialogue()
+{
+	bool ret = false;
+	eastl::list<Npc*>::iterator it = entityManager->npcs.begin();
+	while (it != entityManager->npcs.end())
+	{
+		ret = (*it)->CheckCollision(currentPlayer);
+		if (ret) break;
+
+		++it;
+	}
+
+	if (ret)
+	{
+		dialogueManager->current = dialogueManager->LoadDialogue((*it)->dialogeId);
+		dialogueManager->isDialogueActive = true;
+		dialogueManager->printText = true;
+		(*it)->drawPtext = false;
+		(*it)->talkStart = true;
+	}
+	return ret;
 }
 
 bool SceneGameplay::LoadState(pugi::xml_node& load)

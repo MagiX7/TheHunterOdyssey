@@ -56,7 +56,7 @@ public:
 	SString name;
 	EntityType type;
 	SDL_Texture* texture;
-	SceneGameplay* scene;
+	//SceneGameplay* scene;
 
 	Animation* currentAnim;
 };

@@ -19,12 +19,16 @@ public:
 
 	NpcNode* LoadNode(int id, pugi::xml_node node);
 	NpcNode* GetNodeById(int id);
+
+public:
 	Dialogue* current;
 	bool printText;
+	bool isDialogueActive;
+
 private:
+	// Pugi stuff to load dialogues
 	pugi::xml_document file;
 	pugi::xml_node root;
-
 	
 	eastl::list<Dialogue*> dialogues;
 
@@ -32,7 +36,4 @@ private:
 	
 	int lastUserInput;
 	int letterCount;
-
-	
-
 };

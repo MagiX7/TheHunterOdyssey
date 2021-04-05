@@ -31,6 +31,7 @@ public:
 	virtual ~NpcNode() {};
 
 	void Reset();
+	DialogueOption* SetCurrentOptionById(int id);
 
 public:
 	int id;
@@ -38,6 +39,7 @@ public:
 	bool stopDialog;
 	bool dialogFinished;
 
+	int optionsNum = 0;
 	eastl::string text; // npc_text
 	eastl::list<DialogueOption*> options; // All the possible options
 	DialogueOption* currentOption;

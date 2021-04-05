@@ -1,7 +1,9 @@
 #pragma once
-#define FIND_RADIOUS 10
 #include "Entity.h"
 #include"Font.h"
+
+#define FIND_RADIOUS 10
+
 enum class NpcType
 {
 	NONE = 0,
@@ -22,8 +24,11 @@ public:
 	bool UnLoad() override;
 	bool SaveState(pugi::xml_node& node);
 
+	bool CheckCollision(Player* player);
+
+public:
 	NpcType npcType;
-protected:
+
 	int dialogeId;
 	bool talkStart;
 	bool drawPtext;
