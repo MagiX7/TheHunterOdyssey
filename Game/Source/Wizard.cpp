@@ -2,6 +2,7 @@
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
+#include "GuiButton.h"
 
 #include "Wizard.h"
 #include "Enemy.h"
@@ -11,9 +12,10 @@ Wizard::Wizard(iPoint position) : Player(PlayerType::WIZARD, EntityType::HUNTER,
 	//bounds = { 0,0, 16,32 };
 	stance = PlayerStance::ROAMING;
 	healthPoints = 1000;
+	defense = 5;
 	manaPoints = 5000;
 	meleeDamage = 1;
-	magicDamage = 350;
+	magicDamage = 5;
 	name = "Wizard";
 }
 
@@ -78,9 +80,6 @@ bool Wizard::SaveState(pugi::xml_node& node)
 
 	auxiliar1.append_attribute("type").set_value("WIZARD");
 
-
-	
-
 	return true;
 }
 
@@ -91,6 +90,28 @@ void Wizard::Attack(Enemy* enemy)
 
 void Wizard::GetDamage(int dmg)
 {
-	healthPoints -= dmg;
+	healthPoints -= dmg * dmg / (dmg + defense);
 }
 
+void Wizard::Ability(Enemy* enemy, int currentAbility)
+{
+	switch (currentAbility)
+	{
+	case 1:
+		enemy->GetDamage(magicDamage + 10);
+		LOG("Casting FIRE");
+		break;
+	case 2:
+		enemy->GetDamage(magicDamage);
+		LOG("Casting WATER");
+		break;
+	case 3:
+		enemy->GetDamage(magicDamage);
+		LOG("Casting THUNDER");
+		break;
+	case 4:
+		enemy->GetDamage(magicDamage);
+		LOG("Casting GRAVITY");
+		break;
+	}
+}

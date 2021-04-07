@@ -7,6 +7,7 @@
 
 class SDL_Texture;
 class Enemy;
+class BattleMenu;
 
 enum class PlayerType
 {
@@ -42,12 +43,17 @@ public:
 	virtual bool SaveState(pugi::xml_node& node);
 
 	virtual void Attack(Enemy* enemy);
+
+	virtual void Ability(Enemy* enemy, int currentAbility);
 	
 	virtual void GetDamage(int dmg);
 
 	int GetHealthPoints() const { return healthPoints; }
 	int GetManaPoints() const { return manaPoints; }
 	std::string GetName() const { return name; }
+	int GetAbilitySelected() const { return currentAbilitySelected; }
+	void SetAbilitySelected(int num) { currentAbilitySelected = num; }
+
 
 public:
 	PlayerType playerType;
@@ -60,6 +66,8 @@ protected:
 	int manaPoints;
 	int meleeDamage;
 	int magicDamage;
+	int defense;
+	int currentAbilitySelected;
 
 	std::string name;
 };

@@ -14,6 +14,7 @@ Player::Player(PlayerType t, EntityType type, iPoint position) : Entity(type), p
 	bounds.y = position.y;
 	bounds.w = 16;
 	bounds.h = 32;
+	currentAbilitySelected = 0;
 }
 
 Player::~Player()
@@ -62,6 +63,10 @@ bool Player::SaveState(pugi::xml_node& node)
 }
 
 void Player::Attack(Enemy* enemy)
+{
+}
+
+void Player::Ability(Enemy* enemy, int currentAbility)
 {
 }
 

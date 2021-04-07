@@ -10,6 +10,7 @@ Thief::Thief(iPoint position) : Player(PlayerType::THIEF, EntityType::THIEF,posi
 {
 	stance = PlayerStance::ROAMING;
 	healthPoints = 1500;
+	defense = 10;
 	manaPoints = 500;
 	meleeDamage = 50;
 	magicDamage = 15;
@@ -88,6 +89,30 @@ void Thief::Attack(Enemy* enemy)
 
 void Thief::GetDamage(int dmg)
 {
-	healthPoints -= dmg;
+	healthPoints -= dmg * dmg / (dmg + defense);
+}
+
+void Thief::Ability(Enemy* enemy, int currentAbility)
+{
+	switch (currentAbility)
+	{
+	case 1:
+		enemy->GetDamage(magicDamage + 1);
+		LOG("Casting STEAL");
+		break;
+	case 2:
+		enemy->GetDamage(magicDamage);
+		LOG("Casting BOMB");
+		break;
+	case 3:
+		enemy->GetDamage(magicDamage + rand() % 200);
+		LOG("Casting USE STEALED");
+		break;
+	case 4:
+		enemy->GetDamage(magicDamage + 200);
+		LOG("Casting LUCKY");
+		break;
+	}
+
 }
 

@@ -26,6 +26,8 @@ public:
 
 	void GetDamage(int dmg) override;
 
+	void Ability(Enemy* enemy, int currentAbility) override;
+
 
 private:
 	SDL_Texture* texture;

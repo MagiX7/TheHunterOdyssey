@@ -2,6 +2,8 @@
 
 #include "Player.h"
 
+class GuiButton;
+
 class Wizard : public Player
 {
 public:
@@ -23,4 +25,13 @@ public:
 	void Attack(Enemy* enemy) override;
 
 	void GetDamage(int dmg) override;
+	
+	void Ability(Enemy* enemy, int currentAbility) override;
+
+private:
+
+	int fire = 1;
+	int water = 2;
+	int thunder = 3;
+	int gravity = 4;
 };

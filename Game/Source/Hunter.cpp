@@ -12,6 +12,7 @@ Hunter::Hunter(iPoint position) : Player(PlayerType::HUNTER, EntityType::HUNTER,
 	stance = PlayerStance::ROAMING;
 	healthPoints = 2500;
 	manaPoints = 1000;
+	defense = 15;
 	meleeDamage = 75;
 	magicDamage = 10;
 	name = "Hunter";
@@ -89,5 +90,28 @@ void Hunter::Attack(Enemy* enemy)
 
 void Hunter::GetDamage(int dmg)
 {
-	healthPoints -= dmg;
+	healthPoints -= dmg * dmg / (dmg + defense);
+}
+
+void Hunter::Ability(Enemy* enemy, int currentAbility)
+{
+	switch (currentAbility)
+	{
+	case 1:
+		enemy->GetDamage(magicDamage + 10);
+		LOG("Casting STEADY SHOT");
+		break;
+	case 2:
+		enemy->GetDamage(magicDamage);
+		LOG("Casting SERPENT SHOT");
+		break;
+	case 3:
+		enemy->GetDamage(magicDamage + meleeDamage + 50);
+		LOG("Casting EXPLOSIVE SHOT");
+		break;
+	case 4:
+		enemy->GetDamage(magicDamage);
+		LOG("Casting BOLA");
+		break;
+	}
 }

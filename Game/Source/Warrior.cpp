@@ -10,6 +10,7 @@ Warrior::Warrior(iPoint position) : Player(PlayerType::WARRIOR, EntityType::WARR
 {
 	stance = PlayerStance::ROAMING;
 	healthPoints = 3500;
+	defense = 20;
 	manaPoints = 500;
 	meleeDamage = 100;
 	magicDamage = 0;
@@ -88,6 +89,29 @@ void Warrior::Attack(Enemy* enemy)
 
 void Warrior::GetDamage(int dmg)
 {
-	healthPoints -= dmg;
+	healthPoints -= dmg * dmg / (dmg + defense);
 }
 
+void Warrior::Ability(Enemy* enemy, int currentAbility)
+{
+	switch (currentAbility)
+	{
+	case 1:
+		enemy->GetDamage(meleeDamage + 500);
+		LOG("Casting EXECUTE");
+		break;
+	case 2:
+		enemy->GetDamage(magicDamage);
+		LOG("Casting TAUNT");
+		break;
+	case 3:
+		enemy->GetDamage(magicDamage + rand() % 200);
+		LOG("Casting PROTECT");
+		break;
+	case 4:
+		enemy->GetDamage(magicDamage + 200);
+		LOG("Casting WAR CRY");
+		break;
+	}
+
+}

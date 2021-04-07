@@ -87,7 +87,7 @@ bool Golem::SaveState(pugi::xml_node& node)
 
 void Golem::GetDamage(int dmg)
 {
-	health -= dmg;
+	health -= dmg * dmg / (dmg + defense);
 
 	if (health <= 0)
 	{
