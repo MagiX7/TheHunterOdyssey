@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Window.h"
 #include "MainMenu.h"
 
 #include "SceneTitle.h"
@@ -22,34 +23,44 @@ bool MainMenu::Load(Font* font)
 	btnNewGame = new GuiButton(1, { 380, 36, 520, 117 }, "New Game", this, font);
 	btnNewGame->section = { 0,0,520,117 };
 	btnNewGame->texture = guiTex;
+
 	btnContinue = new GuiButton(2, { 380, 174, 520, 117 }, "Continue", this, font);
 	btnContinue->section = { 0,0,520,117 };
 	btnContinue->texture = guiTex;
+
 	btnOptions = new GuiButton(3, { 380, 305, 520, 117 }, "Options", this, font);
 	btnOptions->section = { 0,0,520,117 };
 	btnOptions->texture = guiTex;
+
 	btnCredits = new GuiButton(4, { 380, 440, 520, 117 }, "Credits", this, font);
 	btnCredits->section = { 0,0,520,117 };
 	btnCredits->texture = guiTex;
+
 	btnExit = new GuiButton(5, { 380, 574, 520, 117 }, "Exit", this, font);
 	btnExit->section = { 0,0,520,117 };
 	btnExit->texture = guiTex;
+
 	btnExitYes = new GuiButton(6, { 383, 332, 216, 51 }, "Yes", this, font);
 	btnExitYes->section = { 0,135,216,51 };
 	btnExitYes->texture = guiTex;
+
 	btnExitNo = new GuiButton(7, { 679, 332, 216, 51 }, "No", this, font);
 	btnExitNo->section = { 0,135,216,51 };
 	btnExitNo->texture = guiTex;
+
 	btnOptionsBack = new GuiButton(8, { 970, 615, 216, 51 }, "Back", this, font);
 	btnOptionsBack->section = { 0,199,216,51 };
 	btnOptionsBack->texture = guiTex;
+
 	btnCreditsBack = new GuiButton(9, { 970, 615, 216, 51 }, "Back", this, font);
 	btnCreditsBack->section = { 0,199,216,51 };
 	btnCreditsBack->texture = guiTex;
-	checkfullscreen = new GuiCheckBox(10, { 103,366,32,32 }, "Fullscreen", this);
-	checkfullscreen->section = { 528,5,32,32 };
-	checkfullscreen->texture = guiTex;
-	checkVSync = new GuiCheckBox(10, { 103,462,32,32 }, "VSync", this);
+
+	// Check-boxes
+	checkFullscreen = new GuiCheckBox(10, { 94,318,185,32 }, "Fullscreen", this);
+	checkFullscreen->section = { 528,5,32,32 };
+	checkFullscreen->texture = guiTex;
+	checkVSync = new GuiCheckBox(11, { 94,419,120,32 }, "VSync", this);
 	checkVSync->section = { 528,5,32,32 };
 	checkVSync->texture = guiTex;
 
@@ -79,7 +90,7 @@ bool MainMenu::Update(float dt)
 	case MenuState::OPTIONS:
 	{
 		btnOptionsBack->Update(app->input, dt);
-		checkfullscreen->Update(app->input, dt);
+		checkFullscreen->Update(app->input, dt);
 		checkVSync->Update(app->input, dt);
 	}
 	break;
@@ -125,13 +136,13 @@ void MainMenu::Draw(Font* font, bool showColliders)
 		section = { 0,0,1280,720 };
 		app->render->DrawTexture(bg, 0, 0, &section);
 		btnOptionsBack->Draw(app->render, showColliders);
-		checkfullscreen->Draw(app->render, showColliders);
+		checkFullscreen->Draw(app->render, showColliders);
 		checkVSync->Draw(app->render, showColliders);
 		app->render->DrawText(font, btnOptionsBack->text.GetString(), 1045, 625, 36, 5, { 0,0,0,255 });
 		app->render->DrawText(font, btnOptions->text.GetString(), 535, 55, 64, 5, { 0,0,0,255 });
 		app->render->DrawText(font, "Music volume", 103, 124, 24, 5, { 0,0,0,255 });
 		app->render->DrawText(font, "FX volume", 103, 224, 24, 5, { 0,0,0,255 });
-		app->render->DrawText(font, checkfullscreen->text.GetString(), 103, 324, 24, 5, { 0,0,0,255 });
+		app->render->DrawText(font, checkFullscreen->text.GetString(), 103, 324, 24, 5, { 0,0,0,255 });
 		app->render->DrawText(font, checkVSync->text.GetString(), 103, 424, 24, 5, { 0,0,0,255 });
 	}
 	break;
@@ -172,7 +183,7 @@ bool MainMenu::UnLoad()
 	RELEASE(btnCreditsBack);
 	RELEASE(btnExitYes);
 	RELEASE(btnExitNo);
-	RELEASE(checkfullscreen);
+	RELEASE(checkFullscreen);
 	RELEASE(checkVSync);
 
 	RELEASE(font);
@@ -185,6 +196,7 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 	switch (control->type)
 	{
 	case GuiControlType::BUTTON:
+	{
 		if (control->id == 1) scene->TransitionToScene(SceneType::GAMEPLAY); // New Game
 		else if (control->id == 2) scene->TransitionToScene(SceneType::GAMEPLAY); // Continue
 		else if (control->id == 3) state = MenuState::OPTIONS; // Options
@@ -194,9 +206,18 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 		else if (control->id == 7) state = MenuState::NORMAL; // Go back to the menu
 		else if (control->id == 8) state = MenuState::NORMAL; // Go back to the menu
 		else if (control->id == 9) state = MenuState::NORMAL; // Go back to the menu
-		else if (control->id == 10); // Fullscreen
-		else if (control->id == 11); // VSync
 	}
-
+	case GuiControlType::CHECKBOX:
+	{
+		if (control->id == 10) // Fullscreen
+		{
+			Window::Get()->fullscreenWindow = !Window::Get()->fullscreenWindow;
+			Window::Get()->SetFullscreen();
+		}
+		else if (control->id == 11); // Vsync
+	}
+	default: break;
+	}
+	
 	return true;
 }

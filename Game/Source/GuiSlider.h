@@ -29,7 +29,7 @@ private:
 	//Fx
 	uint clickFx;
 	uint focusedFx;
-	bool isPlayeable;
+	bool isPlayable;
 };
 
 #endif // __GUISLIDER_H__

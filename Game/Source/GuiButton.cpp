@@ -13,7 +13,7 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text, Menu* listene
 	//Load Fx
 	clickFx = app->audio->LoadFx("Assets/Audio/Fx/button_click.wav");
 	focusedFx = app->audio->LoadFx("Assets/Audio/Fx/button_focused.wav");
-	isPlayeable = true;
+	isPlayable = true;
 }
 
 GuiButton::~GuiButton()
@@ -35,10 +35,10 @@ bool GuiButton::Update(Input* input, float dt)
 		{
 			state = GuiControlState::FOCUSED;
 
-			if (isPlayeable == true)
+			if (isPlayable == true)
 			{
 				app->audio->PlayFx(focusedFx);
-				isPlayeable = false;
+				isPlayable = false;
 			}
 
 			if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT || input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
@@ -59,7 +59,7 @@ bool GuiButton::Update(Input* input, float dt)
 		else
 		{
 			state = GuiControlState::NORMAL;
-			isPlayeable = true;
+			isPlayable = true;
 		}
 	}
 
@@ -88,7 +88,7 @@ bool GuiButton::Draw(Render* render, bool showColliders, int size, SDL_Color col
 		render->DrawTexture(texture, bounds.x, bounds.y, &section);
 		//render->DrawCenterText(font, text.GetString(), bounds, size, 5, color);
 		
-		if (showColliders) render->DrawRectangle(bounds, 255, 255, 0, 150);   
+		if (showColliders) render->DrawRectangle(bounds, 255, 255, 0, 150);
 		else render->DrawRectangle(bounds, 255, 255, 0, 150);
 		break;
 	case GuiControlState::PRESSED:

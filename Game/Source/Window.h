@@ -32,6 +32,9 @@ public:
 	// Retrieve window scale
 	uint GetScale() const;
 
+	// Set window fullscreen
+	void SetFullscreen();
+
 private:
 	Window();
 	static Window* instance;
@@ -44,6 +47,7 @@ public:
 	// The surface contained by the window
 	SDL_Surface* screenSurface;
 
+	bool fullscreenWindow;
 private:
 	SString title;
 	uint width;

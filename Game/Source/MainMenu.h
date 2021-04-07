@@ -52,7 +52,7 @@ private:
 	GuiButton* btnExitNo;
 	GuiButton* btnOptionsBack;
 	GuiButton* btnCreditsBack;
-	GuiCheckBox* checkfullscreen;
+	GuiCheckBox* checkFullscreen;
 	GuiCheckBox* checkVSync;
 
 	Font* font;

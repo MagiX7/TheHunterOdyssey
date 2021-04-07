@@ -25,7 +25,7 @@ private:
 	//Fx
 	uint clickFx;
 	uint focusedFx;
-	bool isPlayeable;
+	bool isPlayable;
 };
 
 #endif // __GUICHECKBOX_H__

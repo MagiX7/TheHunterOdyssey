@@ -24,7 +24,7 @@ private:
 	//Fx
 	uint clickFx;
 	uint focusedFx;
-	bool isPlayeable;
+	bool isPlayable;
 
 	Font* font;
 };

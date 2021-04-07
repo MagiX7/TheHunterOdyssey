@@ -11,7 +11,7 @@ GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text, Menu* listene
 	//Load Fx
 	clickFx = app->audio->LoadFx("Assets/Audio/Fx/button_click.wav");
 	focusedFx = app->audio->LoadFx("Assets/Audio/Fx/button_focused.wav");
-	isPlayeable = true;
+	isPlayable = true;
 }
 
 GuiSlider::~GuiSlider()
@@ -31,10 +31,10 @@ bool GuiSlider::Update(Input* input, float dt)
 		{
 			state = GuiControlState::FOCUSED;
 
-			if (isPlayeable == true)
+			if (isPlayable == true)
 			{
 				app->audio->PlayFx(focusedFx);
-				isPlayeable = false;
+				isPlayable = false;
 			}
 
 			if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT || input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
@@ -51,7 +51,7 @@ bool GuiSlider::Update(Input* input, float dt)
 		else
 		{
 			state = GuiControlState::NORMAL;
-			isPlayeable = true;
+			isPlayable = true;
 		}
 	}
 
