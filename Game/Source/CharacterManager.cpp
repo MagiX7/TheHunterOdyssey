@@ -14,13 +14,13 @@ CharacterManager::~CharacterManager()
 {
 }
 
-bool CharacterManager::Load()
+bool CharacterManager::Load(Font* font)
 {
-	btnHunter = new GuiButton(1, { 466, 150, 360, 64 }, "SwapHunter", this);
-	btnWizard = new GuiButton(2, { 466, 250, 360, 64 }, "SwapWizard", this);
-	btnThief = new GuiButton(3, { 466, 350, 360, 64 }, "SwapThief", this);
-	btnWarrior = new GuiButton(4, { 466, 450, 360, 64 }, "SwapWarrior", this);
-	btnExit = new GuiButton(5, { 600, 550, 64, 64 }, "Exit", this);
+	btnHunter = new GuiButton(1, { 466, 150, 360, 64 }, "SwapHunter", this, font);
+	btnWizard = new GuiButton(2, { 466, 250, 360, 64 }, "SwapWizard", this, font);
+	btnThief = new GuiButton(3, { 466, 350, 360, 64 }, "SwapThief", this, font);
+	btnWarrior = new GuiButton(4, { 466, 450, 360, 64 }, "SwapWarrior", this, font);
+	btnExit = new GuiButton(5, { 600, 550, 64, 64 }, "Exit", this, font);
 
 	switch (player->playerType)
 	{
@@ -52,7 +52,7 @@ bool CharacterManager::Update(float dt)
 	return true;
 }
 
-void CharacterManager::Draw(bool showColliders)
+void CharacterManager::Draw(Font* font, bool showColliders)
 {
 	btnHunter->Draw(app->render, showColliders);
 	btnWizard->Draw(app->render, showColliders);

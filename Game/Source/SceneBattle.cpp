@@ -10,6 +10,7 @@
 
 SceneBattle::SceneBattle(eastl::list<Player*> list, int enemies, SceneGameplay* s) : playerList(list), numEnemies(enemies), scene(s)
 {
+	battleMenu = new BattleMenu(this);
 }
 
 SceneBattle::~SceneBattle()
@@ -18,6 +19,8 @@ SceneBattle::~SceneBattle()
 
 bool SceneBattle::Load()
 {
+	font = new Font("Assets/Font/font3.xml", app->tex);
+
 	eastl::list<Player*>::iterator it = playerList.begin();
 	for (int i = 0; it != playerList.end(); ++it, ++i)
 	{
@@ -32,8 +35,7 @@ bool SceneBattle::Load()
 		enemyList.push_back(enemy);
 	}
 
-	battleMenu = new BattleMenu(this);
-	battleMenu->Load();
+	battleMenu->Load(font);
 
 	return true;
 }
@@ -72,7 +74,7 @@ void SceneBattle::Draw(bool colliders)
 		(*it)->Draw(colliders);
 	}
 
-	battleMenu->Draw(colliders);
+	battleMenu->Draw(font, colliders);
 }
 
 bool SceneBattle::UnLoad()
@@ -87,6 +89,7 @@ bool SceneBattle::UnLoad()
 	}
 
 	enemyList.clear();
+
 
 	return true;
 }

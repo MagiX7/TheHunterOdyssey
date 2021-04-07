@@ -15,37 +15,35 @@ PauseMenu::~PauseMenu()
 {
 }
 
-bool PauseMenu::Load()
+bool PauseMenu::Load(Font* font)
 {
 	guiTex = app->tex->Load("Assets/Textures/UI/gui_pause_menu.png");
 
-	btnResume = new GuiButton(1, { 505, 223, 270, 64 }, "Resume Game", this);
+	btnResume = new GuiButton(1, { 505, 223, 270, 64 }, "Resume Game", this, font);
 	btnResume->section = { 430,0,270,64 };
 	btnResume->texture = guiTex;
-	btnLoadSave = new GuiButton(2, { 505, 308, 270, 64 }, "Load/Save", this);
+	btnLoadSave = new GuiButton(2, { 505, 308, 270, 64 }, "Load/Save", this, font);
 	btnLoadSave->section = { 430,0,270,64 };
 	btnLoadSave->texture = guiTex;
-	btnSave = new GuiButton(6, { 505, 256, 270, 64 }, "Save", this);
+	btnSave = new GuiButton(6, { 505, 256, 270, 64 }, "Save", this, font);
 	btnSave->section = { 430,0,270,64 };
 	btnSave->texture = guiTex;
-	btnLoad = new GuiButton(7, { 505, 341, 270, 64 }, "Load", this);
+	btnLoad = new GuiButton(7, { 505, 341, 270, 64 }, "Load", this, font);
 	btnLoad->section = { 430,0,270,64 };
 	btnLoad->texture = guiTex;
-	btnBack = new GuiButton(8, { 505, 528, 270, 64 }, "Back", this);
+	btnBack = new GuiButton(8, { 505, 528, 270, 64 }, "Back", this, font);
 	btnBack->section = { 430,0,270,64 };
 	btnBack->texture = guiTex;
-	btnOptions = new GuiButton(3, { 505, 393, 270, 64 }, "Options", this);
+	btnOptions = new GuiButton(3, { 505, 393, 270, 64 }, "Options", this, font);
 	btnOptions->section = { 430,0,270,64 };
 	btnOptions->texture = guiTex;
-	btnReturnTitle = new GuiButton(4, { 505, 478, 270, 64 }, "Return to Title", this);
+	btnReturnTitle = new GuiButton(4, { 505, 478, 270, 64 }, "Return to Title", this, font);
 	btnReturnTitle->section = { 430,0,270,64 };
 	btnReturnTitle->texture = guiTex;
-	btnExit = new GuiButton(5, { 505, 563, 270, 64 }, "Exit Game", this);
+	btnExit = new GuiButton(5, { 505, 563, 270, 64 }, "Exit Game", this, font);
 	btnExit->section = { 430,0,270,64 };
 	btnExit->texture = guiTex;
 
-	font = new Font("Assets/Font/font3.xml", app->tex);
-	
 	state = PauseState::DEFAULT;
 
 	return true;
@@ -76,7 +74,7 @@ bool PauseMenu::Update(float dt)
 	return ret;
 }
 
-void PauseMenu::Draw(bool showColliders)
+void PauseMenu::Draw(Font* font, bool showColliders)
 {
 	SDL_Rect section;
 

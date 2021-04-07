@@ -51,7 +51,22 @@ void Dialogue::Draw(int& count, Font* font)
 
 bool Dialogue::CleanUp()
 {
+	textToPrint.clear();
+	eastl::list<NpcNode*>::iterator it = nodes.begin();
+	eastl::list<DialogueOption*>::iterator item;
 
+	for (; it != nodes.end(); ++it)
+	{
+		(*it)->text.clear();
+		
+		for (item = (*it)->options.begin(); item != (*it)->options.end(); ++item)
+		{
+			(*item)->text.clear();
+		}
+		(*it)->options.clear();
+	}
+
+	nodes.clear();
 	return true;
 }
 

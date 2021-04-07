@@ -3,7 +3,7 @@
 #include "Render.h"
 #include "Textures.h"
 #include "EntityManager.h"
-#include"Player.h"
+#include "Player.h"
 #include "Wizard.h"
 #include "Warrior.h"
 #include "Thief.h"
@@ -15,7 +15,6 @@
 #include "Map.h"
 #include "DialogueManager.h"
 #include "PauseMenu.h"
-#include"List.h"
 #include "Audio.h"
 
 #include "Log.h"
@@ -93,14 +92,18 @@ SceneGameplay::SceneGameplay()
 
 	bg = nullptr;
 }
+
 Player* SceneGameplay::getCurrentPlayer()
 {
 	return currentPlayer;
 }
+
 bool SceneGameplay::Load()
 {
 	LOG("Loading Scene Gameplay");
 	bool ret = true;
+
+	font = new Font("Assets/Font/font3.xml", app->tex);
 
 	entityManager->Load();
 
@@ -110,7 +113,7 @@ bool SceneGameplay::Load()
 
 	// Instantiate character swap manager
 	charManager = new CharacterManager(currentPlayer, this);
-	charManager->Load();
+	charManager->Load(font);
 
 	// Start music
 	app->audio->PlayMusic("Assets/Audio/Music/village_theme_1.ogg", 0);
@@ -121,7 +124,7 @@ bool SceneGameplay::Load()
 	dialogueManager = new DialogueManager();
 	dialogueManager->Start();
 
-	pause->Load();
+	pause->Load(font);
 
 	return ret;
 }
@@ -185,8 +188,8 @@ void SceneGameplay::Draw()
 		currentPlayer->Draw(true);
 		if (dialogueManager->isDialogueActive)
 			dialogueManager->Draw();
-		if (menuState == GameplayMenuState::CHARACTER_SWAP) charManager->Draw(showColliders);
-		if (menuState == GameplayMenuState::PAUSE) pause->Draw(showColliders);
+		if (menuState == GameplayMenuState::CHARACTER_SWAP) charManager->Draw(font, showColliders);
+		if (menuState == GameplayMenuState::PAUSE) pause->Draw(font, showColliders);
 		break;
 	case GameplayState::BATTLE:
 		sceneBattle->Draw(showColliders);

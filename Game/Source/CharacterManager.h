@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Menu.h"
+#include "Font.h"
 
 class Player;
 class SceneGameplay;
@@ -13,11 +14,11 @@ public:
 	CharacterManager(Player* pl, SceneGameplay* s);
 	virtual ~CharacterManager();
 
-	bool Load() override;
+	bool Load(Font* font) override;
 
 	bool Update(float dt) override;
 
-	void Draw(bool showColliders);
+	void Draw(Font* font, bool showColliders);
 
 	bool UnLoad() override;
 
@@ -28,6 +29,7 @@ public:
 private:
 	Player* player;
 	SceneGameplay* scene;
+	Font* font;
 
 	GuiButton* btnHunter;
 	GuiButton* btnWizard;

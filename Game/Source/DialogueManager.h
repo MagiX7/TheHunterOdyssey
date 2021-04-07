@@ -14,6 +14,7 @@ public:
 	bool Start();
 	bool Update(float dt);
 	void Draw();
+	bool UnLoad();
 
 	Dialogue* LoadDialogue(int id); // Load the "npc" node
 

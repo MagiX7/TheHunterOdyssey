@@ -68,6 +68,10 @@ void Skull::Draw(bool showColliders)
 
 bool Skull::UnLoad()
 {
+	font->UnLoad(app->tex);
+
+	RELEASE(font);
+
 	return true;
 }
 

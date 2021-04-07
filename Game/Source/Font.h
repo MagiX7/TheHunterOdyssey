@@ -18,6 +18,8 @@ public:
 	SDL_Texture* GetTextureAtlas();
 	SDL_Rect GetCharRec(int value);
 
+	bool UnLoad(Textures* tex);
+
 private:
 	
 	bool fontLoaded;

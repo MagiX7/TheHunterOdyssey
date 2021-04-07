@@ -251,3 +251,44 @@ bool Render::DrawText(Font* font, const char* text, int x, int y, int size, int 
 
 	return ret;
 }
+
+bool Render::DrawCenterText(Font* font, const char* text, SDL_Rect bounds, int size, int spacing, SDL_Color tint) const
+{
+	bool ret = true;
+
+	int length = strlen(text);
+	int posX = bounds.x;
+	int posY = bounds.y;
+
+	float scale = (float)size / font->GetCharRec(32).h;
+
+	SDL_SetTextureColorMod(font->GetTextureAtlas(), tint.r, tint.g, tint.b);
+	int textW = 0;
+	for (int i = 0; i < length; ++i)
+	{
+		textW += ((float)font->GetCharRec(text[i]).w * scale + spacing);
+	}
+
+	if (bounds.w != 0)
+	{
+		int a = (bounds.w - textW) / 2;
+		posX = bounds.x + a;
+	}
+	if (bounds.h != 0)
+	{
+		int b = (bounds.h - size) / 1.75f;
+		posY = bounds.y + b;
+	}
+
+	for (int i = 0; i < length; ++i)
+	{
+		SDL_Rect recGlyph = font->GetCharRec(text[i]);
+		SDL_Rect recDest = { posX, posY, (scale * recGlyph.w), size };
+
+		SDL_RenderCopyEx(renderer, font->GetTextureAtlas(), &recGlyph, &recDest, 0.0, { 0 }, SDL_RendererFlip::SDL_FLIP_NONE);
+
+		posX += ((float)recGlyph.w * scale + spacing);
+	}
+
+	return ret;
+}

@@ -84,8 +84,10 @@ bool App::Awake()
 		configApp = config.child("app");
 
 		// L01: DONE 4: Read the title from the config file
+		//title = configApp.child("title").child_value();
 		title.Create(configApp.child("title").child_value());
 		organization.Create(configApp.child("organization").child_value());
+		//organization = configApp.child("organization").child_value();
 
 		int cap = configApp.attribute("framerate_cap").as_int(-1);
 		if (cap > 0) cappedMs = 1000 / cap;

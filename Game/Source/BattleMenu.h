@@ -4,8 +4,6 @@
 #include "Menu.h"
 #include "GuiButton.h"
 
-class SceneBattle;
-
 enum class BattleState
 {
 	NONE = 0,
@@ -17,6 +15,7 @@ enum class BattleState
 	ENEMY_TURN
 };
 
+class SceneBattle;
 class Player;
 class Enemy;
 
@@ -26,11 +25,11 @@ public:
 	BattleMenu(SceneBattle* s);
 	virtual ~BattleMenu();
 
-	bool Load() override;
+	bool Load(Font* font) override;
 
 	bool Update(float dt) override;
 
-	void Draw(bool showColliders) override;
+	void Draw(Font* font, bool showColliders) override;
 
 	bool UnLoad() override;
 

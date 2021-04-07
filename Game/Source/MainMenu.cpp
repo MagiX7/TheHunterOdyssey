@@ -14,36 +14,36 @@ MainMenu::~MainMenu()
 {
 }
 
-bool MainMenu::Load()
+bool MainMenu::Load(Font* font)
 {
 	guiTex = app->tex->Load("Assets/Textures/UI/gui_main_menu.png");
 	bg = app->tex->Load("Assets/Textures/UI/main_menu_textures.png");
 
-	btnNewGame = new GuiButton(1, { 380, 36, 520, 117 }, "New Game", this);
+	btnNewGame = new GuiButton(1, { 380, 36, 520, 117 }, "New Game", this, font);
 	btnNewGame->section = { 0,0,520,117 };
 	btnNewGame->texture = guiTex;
-	btnContinue = new GuiButton(2, { 380, 174, 520, 117 }, "Continue", this);
+	btnContinue = new GuiButton(2, { 380, 174, 520, 117 }, "Continue", this, font);
 	btnContinue->section = { 0,0,520,117 };
 	btnContinue->texture = guiTex;
-	btnOptions = new GuiButton(3, { 380, 305, 520, 117 }, "Options", this);
+	btnOptions = new GuiButton(3, { 380, 305, 520, 117 }, "Options", this, font);
 	btnOptions->section = { 0,0,520,117 };
 	btnOptions->texture = guiTex;
-	btnCredits = new GuiButton(4, { 380, 440, 520, 117 }, "Credits", this);
+	btnCredits = new GuiButton(4, { 380, 440, 520, 117 }, "Credits", this, font);
 	btnCredits->section = { 0,0,520,117 };
 	btnCredits->texture = guiTex;
-	btnExit = new GuiButton(5, { 380, 574, 520, 117 }, "Exit", this);
+	btnExit = new GuiButton(5, { 380, 574, 520, 117 }, "Exit", this, font);
 	btnExit->section = { 0,0,520,117 };
 	btnExit->texture = guiTex;
-	btnExitYes = new GuiButton(6, { 383, 332, 216, 51 }, "Yes", this);
+	btnExitYes = new GuiButton(6, { 383, 332, 216, 51 }, "Yes", this, font);
 	btnExitYes->section = { 0,135,216,51 };
 	btnExitYes->texture = guiTex;
-	btnExitNo = new GuiButton(7, { 679, 332, 216, 51 }, "No", this);
+	btnExitNo = new GuiButton(7, { 679, 332, 216, 51 }, "No", this, font);
 	btnExitNo->section = { 0,135,216,51 };
 	btnExitNo->texture = guiTex;
-	btnOptionsBack = new GuiButton(8, { 970, 615, 216, 51 }, "Back", this);
+	btnOptionsBack = new GuiButton(8, { 970, 615, 216, 51 }, "Back", this, font);
 	btnOptionsBack->section = { 0,199,216,51 };
 	btnOptionsBack->texture = guiTex;
-	btnCreditsBack = new GuiButton(9, { 970, 615, 216, 51 }, "Back", this);
+	btnCreditsBack = new GuiButton(9, { 970, 615, 216, 51 }, "Back", this, font);
 	btnCreditsBack->section = { 0,199,216,51 };
 	btnCreditsBack->texture = guiTex;
 	checkfullscreen = new GuiCheckBox(10, { 103,366,32,32 }, "Fullscreen", this);
@@ -52,8 +52,6 @@ bool MainMenu::Load()
 	checkVSync = new GuiCheckBox(10, { 103,462,32,32 }, "VSync", this);
 	checkVSync->section = { 528,5,32,32 };
 	checkVSync->texture = guiTex;
-
-	font = new Font("Assets/Font/font3.xml", app->tex);
 
 	return true;
 }
@@ -101,7 +99,7 @@ bool MainMenu::Update(float dt)
 	return ret;
 }
 
-void MainMenu::Draw(bool showColliders)
+void MainMenu::Draw(Font* font, bool showColliders)
 {
 	SDL_Rect section;
 	switch (state)
@@ -161,6 +159,10 @@ void MainMenu::Draw(bool showColliders)
 
 bool MainMenu::UnLoad()
 {
+	app->tex->UnLoad(guiTex);
+	app->tex->UnLoad(bg);
+	font->UnLoad(app->tex);
+
 	RELEASE(btnNewGame);
 	RELEASE(btnContinue);
 	RELEASE(btnOptions);

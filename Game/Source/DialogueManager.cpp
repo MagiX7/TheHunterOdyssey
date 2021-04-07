@@ -116,6 +116,15 @@ void DialogueManager::Draw()
 	}
 }
 
+bool DialogueManager::UnLoad()
+{
+	font->UnLoad(app->tex);
+
+	RELEASE(font);
+
+	return true;
+}
+
 NpcNode* DialogueManager::LoadNode(int id, pugi::xml_node node)
 {
 	//pugi::xml_node n = root.child("npc").first_child();

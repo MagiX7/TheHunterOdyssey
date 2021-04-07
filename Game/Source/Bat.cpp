@@ -66,6 +66,10 @@ void Bat::Draw(bool showColliders)
 
 bool Bat::UnLoad()
 {
+	font->UnLoad(app->tex);
+
+	RELEASE(font);
+
 	return true;
 }
 

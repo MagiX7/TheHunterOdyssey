@@ -16,7 +16,7 @@ SceneTitle::SceneTitle()
 {
 	bg = nullptr;
 	state = TitleState::NONE;
-	showColliders = true;
+	showColliders = false;
 
 	titleAlpha = 1.0f;
 }
@@ -39,10 +39,10 @@ bool SceneTitle::Load()
 	// Title FX
 	titleFx = app->audio->LoadFx("Assets/Audio/Fx/hello_man.wav");
 
-	mainMenu = new MainMenu(this);
-	mainMenu->Load();
-
 	font = new Font("Assets/Font/font3.xml", app->tex);
+	
+	mainMenu = new MainMenu(this);
+	mainMenu->Load(font);
 
 	return ret;
 }
@@ -108,7 +108,7 @@ void SceneTitle::Draw()
 		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 255 * titleAlpha);
 		break;
 	case TitleState::MENU:
-		mainMenu->Draw(showColliders);
+		mainMenu->Draw(font, showColliders);
 		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 255 * titleAlpha);
 		break;
 	}
@@ -118,10 +118,11 @@ bool SceneTitle::UnLoad()
 {
 	LOG("Unloading Scene Title");
 	bool ret = true;
+
+	font->UnLoad(app->tex);
+	app->tex->UnLoad(bg);
 	
 	RELEASE(font);
 
-	app->tex->UnLoad(bg);
-	
 	return ret;
 }

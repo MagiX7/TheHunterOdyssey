@@ -20,11 +20,11 @@ public:
 
 	virtual ~PauseMenu();
 
-	bool Load() override;
+	bool Load(Font* font) override;
 
 	bool Update(float dt) override;
 
-	void Draw(bool showColliders) override;
+	void Draw(Font* font, bool showColliders) override;
 
 	bool UnLoad() override;
 
@@ -44,6 +44,4 @@ private:
 	GuiButton* btnOptions;
 	GuiButton* btnReturnTitle;
 	GuiButton* btnExit;
-
-	Font* font;
 };

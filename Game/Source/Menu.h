@@ -1,6 +1,7 @@
 #pragma once
 
 class GuiControl;
+class Font;
 
 class Menu
 {
@@ -9,11 +10,11 @@ public:
 
 	virtual ~Menu() {}
 
-	virtual bool Load() { return true; }
+	virtual bool Load(Font* font) { return true; }
 
 	virtual bool Update(float dt) { return true; }
 
-	virtual void Draw(bool showColliders) {}
+	virtual void Draw(Font* font, bool showColliders) {}
 
 	virtual bool UnLoad() { return true; }
 

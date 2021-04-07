@@ -17,14 +17,12 @@ BattleMenu::~BattleMenu()
 {
 }
 
-bool BattleMenu::Load()
+bool BattleMenu::Load(Font* font)
 {
-	font = new Font("Assets/Font/font3.xml", app->tex);
-
-	btnAttack = new GuiButton(1, { 72, 480, 204, 43 }, "Attack", this);
-	btnAbility = new GuiButton(2, { 72, 530, 204, 43 }, "Ability", this);
-	btnDefense = new GuiButton(3, { 72, 580, 204, 43 }, "Defense", this);
-	btnObject = new GuiButton(4, { 72, 630, 204, 43 }, "Object", this);
+	btnAttack = new GuiButton(1, { 72, 480, 204, 43 }, "Attack", this, font);
+	btnAbility = new GuiButton(2, { 72, 530, 204, 43 }, "Ability", this, font);
+	btnDefense = new GuiButton(3, { 72, 580, 204, 43 }, "Defense", this, font);
+	btnObject = new GuiButton(4, { 72, 630, 204, 43 }, "Object", this, font);
 
 	currEnemy = (*sceneBattle->enemyList.begin());
 	currPlayer = (*sceneBattle->playerList.begin());
@@ -66,7 +64,7 @@ bool BattleMenu::Update(float dt)
 	return ret;
 }
 
-void BattleMenu::Draw(bool showColliders)
+void BattleMenu::Draw(Font* font, bool showColliders)
 {
 	switch (type)
 	{
@@ -101,10 +99,17 @@ void BattleMenu::Draw(bool showColliders)
 
 bool BattleMenu::UnLoad()
 {
+	font->UnLoad(app->tex);
+
 	RELEASE(btnAttack);
 	RELEASE(btnAbility);
 	RELEASE(btnDefense);
 	RELEASE(btnObject);
+	RELEASE(font);
+
+	currEnemy = nullptr;
+	currPlayer = nullptr;
+	sceneBattle = nullptr;
 
 	return true;
 }

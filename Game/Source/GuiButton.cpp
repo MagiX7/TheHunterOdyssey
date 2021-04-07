@@ -2,12 +2,13 @@
 #include "App.h"
 #include "Audio.h"
 
-GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text, Menu* listener) : GuiControl(GuiControlType::BUTTON, id)
+GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text, Menu* listener, Font* font) : GuiControl(GuiControlType::BUTTON, id)
 {
 	this->bounds = bounds;
 	this->text = text;
 	this->state = GuiControlState::NORMAL;
 	this->observer = listener;
+	this->font = font;
 
 	//Load Fx
 	clickFx = app->audio->LoadFx("Assets/Audio/Fx/button_click.wav");
@@ -63,36 +64,41 @@ bool GuiButton::Update(Input* input, float dt)
 	return true;
 }
 
-bool GuiButton::Draw(Render* render, bool showColliders)
+bool GuiButton::Draw(Render* render, bool showColliders, int size, SDL_Color color)
 {
 	// Draw the right button depending on state
 	switch (state)
 	{
 	case GuiControlState::DISABLED:
 		render->DrawTexture(texture, bounds.x, bounds.y, &section);
+		//render->DrawCenterText(font, text.GetString(), bounds, size, 5, color);
 
 		if (showColliders) render->DrawRectangle(bounds, 150, 150, 150, 150);
 		else render->DrawRectangle(bounds, 150, 150, 150, 150);
 		break;
 	case GuiControlState::NORMAL:
 		render->DrawTexture(texture, bounds.x, bounds.y, &section);
+		//render->DrawCenterText(font, text.GetString(), bounds, size, 5, color);
 
 		if (showColliders) render->DrawRectangle(bounds, 255, 0, 0, 150);
 		break;
 	case GuiControlState::FOCUSED:
 		render->DrawTexture(texture, bounds.x, bounds.y, &section);
+		//render->DrawCenterText(font, text.GetString(), bounds, size, 5, color);
 		
 		if (showColliders) render->DrawRectangle(bounds, 255, 255, 0, 150);   
 		else render->DrawRectangle(bounds, 255, 255, 0, 150);
 		break;
 	case GuiControlState::PRESSED:
 		render->DrawTexture(texture, bounds.x, bounds.y, &section);
+		//render->DrawCenterText(font, text.GetString(), bounds, size, 5, color);
 
 		if (showColliders) render->DrawRectangle(bounds, 0, 255, 255, 150);
 		else render->DrawRectangle(bounds, 0, 255, 255, 150);
 		break;
 	case GuiControlState::SELECTED:
 		render->DrawTexture(texture, bounds.x, bounds.y, &section);
+		//render->DrawCenterText(font, text.GetString(), bounds, size, 5, color);
 
 		if (showColliders) render->DrawRectangle(bounds, 0, 255, 0, 150);
 		else render->DrawRectangle(bounds, 0, 255, 0, 150);

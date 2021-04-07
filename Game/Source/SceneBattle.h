@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Scene.h"
+#include "EASTL/list.h"
 
 class Player;
 class Enemy;
@@ -38,6 +39,7 @@ private:
 
 	// Reference for the scene
 	SceneGameplay* scene;
+	Font* font;
 
 	// Menu
 	BattleMenu* battleMenu;

@@ -3,6 +3,8 @@
 
 #include "Scene.h"
 #include"EASTL/list.h"
+#include "Font.h"
+
 class Player;
 class CharacterManager;
 class Npc;
@@ -11,7 +13,6 @@ class EntityManager;
 class Map;
 class DialogueManager;
 class PauseMenu;
-
 enum class PlayerType;
 
 enum class GameplayMenuState
@@ -63,8 +64,6 @@ public:
 	DialogueManager* dialogueManager;
 
 private:
-
-
 	SDL_Texture* bg;
 
 	Player* currentPlayer;
@@ -84,6 +83,8 @@ private:
 	Map* map;
 
 	PauseMenu* pause;
+
+	Font* font;
 };
 
 #endif //__SCENEGAMEPLAY_H__

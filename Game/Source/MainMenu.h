@@ -25,11 +25,11 @@ public:
 
 	virtual ~MainMenu();
 
-	bool Load() override;
+	bool Load(Font* font) override;
 
 	bool Update(float dt) override;
 
-	void Draw(bool showColliders) override;
+	void Draw(Font* font, bool showColliders) override;
 
 	bool UnLoad() override;
 
