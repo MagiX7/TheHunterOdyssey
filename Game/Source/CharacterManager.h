@@ -29,7 +29,6 @@ public:
 private:
 	Player* player;
 	SceneGameplay* scene;
-	Font* font;
 
 	GuiButton* btnHunter;
 	GuiButton* btnWizard;

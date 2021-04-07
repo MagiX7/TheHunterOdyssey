@@ -49,8 +49,9 @@ App::~App()
 {
 	// Release modules
 	eastl::list<Module*>::iterator item;
+	eastl::list<Module*>::iterator it = modules.begin().prev();
 
-	for (item = modules.end().prev(); item != modules.begin(); --item)
+	for (item = modules.end().prev(); item != it; --item)
 	{
 		RELEASE(*item);
 	}
@@ -96,8 +97,9 @@ bool App::Awake()
 	if (ret == true)
 	{
 		eastl::list<Module*>::iterator item;
+		eastl::list<Module*>::iterator it = modules.end();
 
-		for (item = modules.begin(); item != modules.end() && ret; ++item)
+		for (item = modules.begin(); item != it && ret; ++item)
 		{
 			ret = (*item)->Awake(config.child((*item)->name.GetString()));
 		}
@@ -115,8 +117,9 @@ bool App::Start()
 
 	bool ret = true;
 	eastl::list<Module*>::iterator item;
+	eastl::list<Module*>::iterator it = modules.end();
 
-	for (item = modules.begin(); item != modules.end() && ret; ++item)
+	for (item = modules.begin(); item != it && ret; ++item)
 	{
 		ret = (*item)->Start();
 	}
@@ -210,9 +213,10 @@ bool App::PreUpdate()
 	bool ret = true;
 
 	eastl::list<Module*>::iterator item;
+	eastl::list<Module*>::iterator it = modules.end();
 	Module* pModule = NULL;
 
-	for(item = modules.begin(); item != modules.end() && ret == true; ++item)
+	for(item = modules.begin(); item != it && ret == true; ++item)
 	{
 		pModule = *item;
 
@@ -230,9 +234,10 @@ bool App::DoUpdate()
 {
 	bool ret = true;
 	eastl::list<Module*>::iterator item;
+	eastl::list<Module*>::iterator it = modules.end();
 	Module* pModule = NULL;
 
-	for(item = modules.begin(); item != modules.end() && ret == true; ++item)
+	for(item = modules.begin(); item != it && ret == true; ++item)
 	{
 		pModule = *item;
 
@@ -250,9 +255,10 @@ bool App::PostUpdate()
 {
 	bool ret = true;
 	eastl::list<Module*>::iterator item;
+	eastl::list<Module*>::iterator it = modules.end();
 	Module* pModule = NULL;
 
-	for(item = modules.begin(); item != modules.end() && ret == true; ++item)
+	for(item = modules.begin(); item != it && ret == true; ++item)
 	{
 		pModule = *item;
 
@@ -270,8 +276,9 @@ bool App::CleanUp()
 {
 	bool ret = true;
 	eastl::list<Module*>::iterator item;
+	eastl::list<Module*>::iterator it = modules.begin().prev();
 
-	for (item = modules.end().prev(); item != modules.begin() && ret == true; --item)
+	for (item = modules.end().prev(); item != it && ret == true; --item)
 	{
 		ret = (*item)->CleanUp();
 	}

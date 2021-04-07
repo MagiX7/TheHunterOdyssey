@@ -84,18 +84,18 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		section = { 0,0,430,650 };
 		app->render->DrawTexture(guiTex, 425, 48, &section);
 
-		btnResume->Draw(app->render, showColliders);
-		btnLoadSave->Draw(app->render, showColliders);
-		btnOptions->Draw(app->render, showColliders);
-		btnReturnTitle->Draw(app->render, showColliders);
-		btnExit->Draw(app->render, showColliders);
+		btnResume->Draw(app->render, showColliders, 36, {0, 0, 0, 255});
+		btnLoadSave->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
+		btnOptions->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
+		btnReturnTitle->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
+		btnExit->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
 
 		app->render->DrawText(font, "PAUSE", 552, 121, 72, 5, { 255,255,255,255 });
-		app->render->DrawText(font, btnResume->text.GetString(), 529, 239, 36, 5, { 0,0,0,255 });
-		app->render->DrawText(font, btnLoadSave->text.GetString(), 549, 324, 36, 5, { 0,0,0,255 });
-		app->render->DrawText(font, btnOptions->text.GetString(), 578, 409, 36, 5, { 0,0,0,255 });
-		app->render->DrawText(font, btnReturnTitle->text.GetString(), 515, 494, 36, 5, { 0,0,0,255 });
-		app->render->DrawText(font, btnExit->text.GetString(), 559, 579, 36, 5, { 0,0,0,255 });
+		//app->render->DrawText(font, btnResume->text.GetString(), 529, 239, 36, 5, { 0,0,0,255 });
+		//app->render->DrawText(font, btnLoadSave->text.GetString(), 549, 324, 36, 5, { 0,0,0,255 });
+		//app->render->DrawText(font, btnOptions->text.GetString(), 578, 409, 36, 5, { 0,0,0,255 });
+		//app->render->DrawText(font, btnReturnTitle->text.GetString(), 515, 494, 36, 5, { 0,0,0,255 });
+		//app->render->DrawText(font, btnExit->text.GetString(), 559, 579, 36, 5, { 0,0,0,255 });
 		break;
 	case PauseState::OPTIONS:
 		break;
@@ -103,20 +103,22 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		section = { 0,0,430,650 };
 		app->render->DrawTexture(guiTex, 425, 48, &section);
 
-		btnSave->Draw(app->render, showColliders);
-		btnLoad->Draw(app->render, showColliders);
-		btnBack->Draw(app->render, showColliders);
+		btnSave->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
+		btnLoad->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
+		btnBack->Draw(app->render, showColliders, 36, {0, 0, 0, 255});
 
 		app->render->DrawText(font, "PAUSE", 552, 121, 72, 5, { 255,255,255,255 });
-		app->render->DrawText(font, btnSave->text.GetString(), 601, 272, 36, 5, { 0,0,0,255 });
-		app->render->DrawText(font, btnLoad->text.GetString(), 601, 357, 36, 5, { 0,0,0,255 });
-		app->render->DrawText(font, btnBack->text.GetString(), 602, 544, 36, 5, { 0,0,0,255 });
+		//app->render->DrawText(font, btnSave->text.GetString(), 601, 272, 36, 5, { 0,0,0,255 });
+		//app->render->DrawText(font, btnLoad->text.GetString(), 601, 357, 36, 5, { 0,0,0,255 });
+		//app->render->DrawText(font, btnBack->text.GetString(), 602, 544, 36, 5, { 0,0,0,255 });
 		break;
 	}
 }
 
 bool PauseMenu::UnLoad()
 {
+	app->tex->UnLoad(guiTex);
+
 	RELEASE(btnResume);
 	RELEASE(btnLoadSave);
 	RELEASE(btnSave);

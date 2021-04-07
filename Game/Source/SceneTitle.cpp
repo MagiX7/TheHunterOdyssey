@@ -99,12 +99,14 @@ void SceneTitle::Draw()
 	{
 	case TitleState::TITLE:
 		app->render->DrawTexture(bg, 378, 230, NULL);
-		app->render->DrawText(font, "Press ENTER to continue", 450, 516, 36, 5, { 255,255,255 });
+		app->render->DrawCenterText(font, "Press ENTER to continue", { 0, 400, 1280, 320 }, 36, 5, { 255,255,255,255 });
+		//app->render->DrawText(font, "Press ENTER to continue", 450, 516, 36, 5, { 255,255,255 });
 		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 255 * titleAlpha);
 		break;
 	case TitleState::FADE:
 		app->render->DrawTexture(bg, 378, 230, NULL);
-		app->render->DrawText(font, "Press ENTER to continue", 450, 516, 36, 5, { 255,255,255 });
+		app->render->DrawCenterText(font, "Press ENTER to continue", { 0, 400, 1280, 320 }, 36, 5, { 255,255,255,255 });
+		//app->render->DrawText(font, "Press ENTER to continue", 450, 516, 36, 5, { 255,255,255 });
 		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 255 * titleAlpha);
 		break;
 	case TitleState::MENU:

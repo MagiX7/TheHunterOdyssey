@@ -271,14 +271,19 @@ bool Render::DrawCenterText(Font* font, const char* text, SDL_Rect bounds, int s
 
 	if (bounds.w != 0)
 	{
-		int a = (bounds.w - textW) / 2;
+		int a = (bounds.w - (textW - spacing)) / 2;
 		posX = bounds.x + a;
 	}
 	if (bounds.h != 0)
 	{
-		int b = (bounds.h - size) / 1.75f;
+		int b = (bounds.h - size) / 2;
 		posY = bounds.y + b;
 	}
+	
+	if (size == 64) 
+		posY += 7;
+	else if (size == 36) 
+		posY += 4;
 
 	for (int i = 0; i < length; ++i)
 	{

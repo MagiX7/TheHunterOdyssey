@@ -124,21 +124,21 @@ void MainMenu::Draw(Font* font, bool showColliders)
 		btnCredits->Draw(app->render, showColliders);
 		btnExit->Draw(app->render, showColliders);
 		app->render->DrawTexture(bg, 734, 720, &section);
-		app->render->DrawText(font, btnNewGame->text.GetString(), 521, 65, 64, 5, { 255,255,255,255 });
-		app->render->DrawText(font, btnContinue->text.GetString(), 530, 202, 64, 5, { 255,255,255,255 });
-		app->render->DrawText(font, btnOptions->text.GetString(), 548, 332, 64, 5, { 255,255,255,255 });
-		app->render->DrawText(font, btnCredits->text.GetString(), 550, 467, 64, 5, { 255,255,255,255 });
-		app->render->DrawText(font, btnExit->text.GetString(), 596, 603, 64, 5, { 255,255,255,255 });
+		//app->render->DrawText(font, btnNewGame->text.GetString(), 521, 65, 64, 5, { 255,255,255,255 });
+		//app->render->DrawText(font, btnContinue->text.GetString(), 530, 202, 64, 5, { 255,255,255,255 });
+		//app->render->DrawText(font, btnOptions->text.GetString(), 548, 332, 64, 5, { 255,255,255,255 });
+		//app->render->DrawText(font, btnCredits->text.GetString(), 550, 467, 64, 5, { 255,255,255,255 });
+		//app->render->DrawText(font, btnExit->text.GetString(), 596, 603, 64, 5, { 255,255,255,255 });
 	}
 	break;
 	case MenuState::OPTIONS:
 	{
 		section = { 0,0,1280,720 };
 		app->render->DrawTexture(bg, 0, 0, &section);
-		btnOptionsBack->Draw(app->render, showColliders);
+		btnOptionsBack->Draw(app->render, showColliders, 36, {0, 0, 0, 255});
 		checkFullscreen->Draw(app->render, showColliders);
 		checkVSync->Draw(app->render, showColliders);
-		app->render->DrawText(font, btnOptionsBack->text.GetString(), 1045, 625, 36, 5, { 0,0,0,255 });
+		//app->render->DrawText(font, btnOptionsBack->text.GetString(), 1045, 625, 36, 5, { 0,0,0,255 });
 		app->render->DrawText(font, btnOptions->text.GetString(), 535, 55, 64, 5, { 0,0,0,255 });
 		app->render->DrawText(font, "Music volume", 103, 124, 24, 5, { 0,0,0,255 });
 		app->render->DrawText(font, "FX volume", 103, 224, 24, 5, { 0,0,0,255 });

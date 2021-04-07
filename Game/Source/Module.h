@@ -14,6 +14,8 @@ public:
 	Module() : active(false)
 	{}
 
+	virtual ~Module() {}
+
 	void Init()
 	{
 		active = true;
