@@ -75,6 +75,7 @@ bool Audio::CleanUp()
 	for(item = fx.begin(); item != fx.end(); ++item)
 		Mix_FreeChunk(*item);*/
 
+	fx.clear();
 
 	Mix_CloseAudio();
 	Mix_Quit();
@@ -184,16 +185,11 @@ bool Audio::UnLoadFx(int index)
 	if(index > 0 && index <= fx.size())
 		Mix_FreeChunk(fx.at(index - 1));
 
-	eastl::erase(fx, fx.at(index - 1));
-
 	return true;
 }
 
 void Audio::Reset()
 {
 	Mix_FreeMusic(music);
-
-	/*eastl::array<Mix_Chunk*>::iterator item;
-	for (item = fx.begin(); item != fx.end(); ++item)
-		Mix_FreeChunk(*item);*/
+	fx.clear();
 }

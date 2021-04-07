@@ -49,6 +49,8 @@ public:
 		texture = NULL;
 	}
 
+	virtual ~GuiControl() {}
+
 	virtual bool Update(Input* input, float dt)
 	{
 		return true;
