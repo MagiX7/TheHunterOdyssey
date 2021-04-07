@@ -72,4 +72,6 @@ private:
 	GuiButton* btnObjectSlot4;
 
 	SceneBattle* sceneBattle;
+
+	SDL_Texture* guiTex;
 };

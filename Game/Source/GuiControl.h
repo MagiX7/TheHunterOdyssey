@@ -89,6 +89,7 @@ public:
 
 	SDL_Texture* texture;   // Texture atlas reference
 	SDL_Rect section;	   // Texture atlas base section
+	SDL_Rect sectionFocused;
 
 	//Font font;			  // Text font
 

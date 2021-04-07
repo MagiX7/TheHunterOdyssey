@@ -23,38 +23,47 @@ bool MainMenu::Load(Font* font)
 	btnNewGame = new GuiButton(1, { 380, 36, 520, 117 }, "New Game", this, font);
 	btnNewGame->section = { 0,0,520,117 };
 	btnNewGame->texture = guiTex;
+	btnNewGame->alineation = 1;
 
 	btnContinue = new GuiButton(2, { 380, 174, 520, 117 }, "Continue", this, font);
 	btnContinue->section = { 0,0,520,117 };
 	btnContinue->texture = guiTex;
+	btnContinue->alineation = 1;
 
 	btnOptions = new GuiButton(3, { 380, 305, 520, 117 }, "Options", this, font);
 	btnOptions->section = { 0,0,520,117 };
 	btnOptions->texture = guiTex;
+	btnOptions->alineation = 1;
 
 	btnCredits = new GuiButton(4, { 380, 440, 520, 117 }, "Credits", this, font);
 	btnCredits->section = { 0,0,520,117 };
 	btnCredits->texture = guiTex;
+	btnCredits->alineation = 1;
 
 	btnExit = new GuiButton(5, { 380, 574, 520, 117 }, "Exit", this, font);
 	btnExit->section = { 0,0,520,117 };
 	btnExit->texture = guiTex;
+	btnExit->alineation = 1;
 
 	btnExitYes = new GuiButton(6, { 383, 332, 216, 51 }, "Yes", this, font);
 	btnExitYes->section = { 0,135,216,51 };
 	btnExitYes->texture = guiTex;
+	btnExitYes->alineation = 1;
 
 	btnExitNo = new GuiButton(7, { 679, 332, 216, 51 }, "No", this, font);
 	btnExitNo->section = { 0,135,216,51 };
 	btnExitNo->texture = guiTex;
+	btnExitNo->alineation = 1;
 
 	btnOptionsBack = new GuiButton(8, { 970, 615, 216, 51 }, "Back", this, font);
 	btnOptionsBack->section = { 0,199,216,51 };
 	btnOptionsBack->texture = guiTex;
+	btnOptionsBack->alineation = 1;
 
 	btnCreditsBack = new GuiButton(9, { 970, 615, 216, 51 }, "Back", this, font);
 	btnCreditsBack->section = { 0,199,216,51 };
 	btnCreditsBack->texture = guiTex;
+	btnCreditsBack->alineation = 1;
 
 	// Check-boxes
 	checkFullscreen = new GuiCheckBox(10, { 94,318,185,32 }, "Fullscreen", this);
@@ -118,11 +127,11 @@ void MainMenu::Draw(Font* font, bool showColliders)
 	case MenuState::NORMAL:
 	{
 		section = { 729,0,271,106 };
-		btnNewGame->Draw(app->render, showColliders);
-		btnContinue->Draw(app->render, showColliders);
-		btnOptions->Draw(app->render, showColliders);
-		btnCredits->Draw(app->render, showColliders);
-		btnExit->Draw(app->render, showColliders);
+		btnNewGame->Draw(app->render, showColliders, 64, { 255,255,255,255 });
+		btnContinue->Draw(app->render, showColliders, 64, { 255,255,255,255 });
+		btnOptions->Draw(app->render, showColliders, 64, { 255,255,255,255 });
+		btnCredits->Draw(app->render, showColliders, 64, { 255,255,255,255 });
+		btnExit->Draw(app->render, showColliders, 64, { 255,255,255,255 });
 		app->render->DrawTexture(bg, 734, 720, &section);
 		//app->render->DrawText(font, btnNewGame->text.GetString(), 521, 65, 64, 5, { 255,255,255,255 });
 		//app->render->DrawText(font, btnContinue->text.GetString(), 530, 202, 64, 5, { 255,255,255,255 });
@@ -151,18 +160,18 @@ void MainMenu::Draw(Font* font, bool showColliders)
 		section = { 0,0,1280,720 };
 		app->render->DrawTexture(bg, 0, 0, &section);
 		btnCreditsBack->Draw(app->render, showColliders);
-		app->render->DrawText(font, btnCreditsBack->text.GetString(), 1045, 625, 36, 2, { 0,0,0,255 });
+		//app->render->DrawText(font, btnCreditsBack->text.GetString(), 1045, 625, 36, 2, { 0,0,0,255 });
 	}
 	break;
 	case MenuState::EXIT:
 	{
 		section = { 0,720,734,488 };
 		app->render->DrawTexture(bg, 272, 79, &section);
-		btnExitYes->Draw(app->render, showColliders);
-		btnExitNo->Draw(app->render, showColliders);
+		btnExitYes->Draw(app->render, showColliders, 36, { 255,255,255,255 });
+		btnExitNo->Draw(app->render, showColliders, 36, { 255,255,255,255 });
 		app->render->DrawText(font, "Are you sure?", 501, 217, 48, 5, { 255,255,255,255 });
-		app->render->DrawText(font, btnExitYes->text.GetString(), 465, 345, 36, 5, { 255,255,255,255 });
-		app->render->DrawText(font, btnExitNo->text.GetString(), 767, 345, 36, 5, { 255,255,255,255 });
+		//app->render->DrawText(font, btnExitYes->text.GetString(), 465, 345, 36, 5, { 255,255,255,255 });
+		//app->render->DrawText(font, btnExitNo->text.GetString(), 767, 345, 36, 5, { 255,255,255,255 });
 	}
 	break;
 	}

@@ -16,6 +16,8 @@ public:
 	bool Update(Input* input, float dt);
 	bool Draw(Render* render, bool showColliders, int size = 64, SDL_Color color = {255, 255, 255, 255});
 
+	int alineation;
+
 private:
 
 	// Gui Button specific properties
