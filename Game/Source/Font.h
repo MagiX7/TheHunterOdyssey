@@ -18,6 +18,8 @@ public:
 	SDL_Texture* GetTextureAtlas();
 	SDL_Rect GetCharRec(int value);
 
+	inline int GetBaseSize() { return baseSize; }
+
 	bool UnLoad(Textures* tex);
 
 private:

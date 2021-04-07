@@ -18,6 +18,8 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text, Menu* listene
 
 GuiButton::~GuiButton()
 {
+	app->audio->UnLoadFx(clickFx);
+	app->audio->UnLoadFx(focusedFx);
 }
 
 bool GuiButton::Update(Input* input, float dt)

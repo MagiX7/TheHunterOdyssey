@@ -179,6 +179,16 @@ bool Audio::PlayFx(unsigned int id, int repeat)
 	return ret;
 }
 
+bool Audio::UnLoadFx(int index)
+{
+	if(index > 0 && index <= fx.size())
+		Mix_FreeChunk(fx.at(index - 1));
+
+	eastl::erase(fx, fx.at(index - 1));
+
+	return true;
+}
+
 void Audio::Reset()
 {
 	Mix_FreeMusic(music);

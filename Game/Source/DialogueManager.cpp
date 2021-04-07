@@ -111,7 +111,9 @@ void DialogueManager::Draw()
 	
 	if (current != nullptr)
 	{
-		SDL_Rect r = { current->currentNode->currentOption->bounds.x,  current->currentNode->currentOption->bounds.y, 400,50 };
+		//SDL_Rect r = { current->currentNode->currentOption->bounds.x,  current->currentNode->currentOption->bounds.y, 400,50 };
+		SDL_Rect r = { current->currentNode->currentOption->bounds.x,  current->currentNode->currentOption->bounds.y,
+			current->currentNode->currentOption->bounds.w,current->currentNode->currentOption->bounds.h };
 		app->render->DrawRectangle(r, 255, 255, 255, 120);
 	}
 }
@@ -127,12 +129,6 @@ bool DialogueManager::UnLoad()
 
 NpcNode* DialogueManager::LoadNode(int id, pugi::xml_node node)
 {
-	//pugi::xml_node n = root.child("npc").first_child();
-	//
-	//// Find the node
-	//while (n.attribute("id").as_int() != id)
-	//	n = n.next_sibling("node");
-
 	NpcNode* tmp = new NpcNode(node.child("npc_text").attribute("text").as_string());
 	tmp->id = node.attribute("id").as_int();
 	int i = 0;
@@ -142,14 +138,16 @@ NpcNode* DialogueManager::LoadNode(int id, pugi::xml_node node)
 		option->text = m.attribute("text").as_string();
 		option->id = m.attribute("id").as_int();
 		option->nextNodeId = m.attribute("nextNodeId").as_int();
-		option->bounds.x = 0;
-		option->bounds.y = 110 + i;
-		option->bounds.w = 200;
+		option->bounds.x = 155;
+		option->bounds.y = 300 + i;
+		//option->bounds.w = 400;
+		int offset = font->GetBaseSize();
+		option->bounds.w = option->text.size() * offset;
 		option->bounds.h = 50;
 
 		tmp->options.push_back(option);
 		++tmp->optionsNum;
-		i += 55;
+		i += 58;
 	}
 
 	return tmp;

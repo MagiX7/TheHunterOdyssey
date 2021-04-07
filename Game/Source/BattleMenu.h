@@ -36,7 +36,7 @@ public:
 	bool OnGuiMouseClickEvent(GuiControl* control) override;
 
 private:
-	void DrawStats();
+	void DrawStats(Font* font);
 
 	bool HandleInput(Input* input);
 
@@ -54,8 +54,6 @@ private:
 	GuiButton* btnAbility;
 	GuiButton* btnDefense;
 	GuiButton* btnObject;
-
-	Font* font;
 
 	SceneBattle* sceneBattle;
 };

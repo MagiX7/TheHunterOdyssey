@@ -89,8 +89,6 @@ SceneGameplay::SceneGameplay()
 	pause = new PauseMenu(this);
 
 	showColliders = false;
-
-	bg = nullptr;
 }
 
 Player* SceneGameplay::getCurrentPlayer()
@@ -125,6 +123,8 @@ bool SceneGameplay::Load()
 	dialogueManager->Start();
 
 	pause->Load(font);
+
+	bgDialog = app->tex->Load("Assets/Textures/dialog_background.png");
 
 	return ret;
 }
@@ -187,9 +187,23 @@ void SceneGameplay::Draw()
 		entityManager->Draw(showColliders);
 		currentPlayer->Draw(true);
 		if (dialogueManager->isDialogueActive)
+		{
+			app->render->DrawRectangle({ 0,0,1280, 720 }, 0, 0, 0, 150);
+			uint x = 640;
+			uint y = 410;
+			uint w, h;
+			app->tex->GetSize(bgDialog, w, h);
+			x -= w / 2;
+			y -= h / 2;
+			app->render->DrawTexture(bgDialog, (int)x, (int)y - 50, NULL);
 			dialogueManager->Draw();
+		}
 		if (menuState == GameplayMenuState::CHARACTER_SWAP) charManager->Draw(font, showColliders);
-		if (menuState == GameplayMenuState::PAUSE) pause->Draw(font, showColliders);
+		if (menuState == GameplayMenuState::PAUSE)
+		{
+			app->render->DrawRectangle({ 0,0,1280, 720 }, 0, 0, 0, 150);
+			pause->Draw(font, showColliders);
+		}
 		break;
 	case GameplayState::BATTLE:
 		sceneBattle->Draw(showColliders);

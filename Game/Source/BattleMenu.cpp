@@ -94,18 +94,15 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		break;
 	}
 
-	if (type != BattleState::NONE) DrawStats();
+	if (type != BattleState::NONE) DrawStats(font);
 }
 
 bool BattleMenu::UnLoad()
 {
-	font->UnLoad(app->tex);
-
 	RELEASE(btnAttack);
 	RELEASE(btnAbility);
 	RELEASE(btnDefense);
 	RELEASE(btnObject);
-	RELEASE(font);
 
 	currEnemy = nullptr;
 	currPlayer = nullptr;
@@ -129,7 +126,7 @@ bool BattleMenu::OnGuiMouseClickEvent(GuiControl* control)
 	return true;
 }
 
-void BattleMenu::DrawStats()
+void BattleMenu::DrawStats(Font* font)
 {
 	eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
 

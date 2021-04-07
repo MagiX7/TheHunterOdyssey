@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "EASTL/deque.h"
+#include "EASTL/iterator.h"
 
 #define DEFAULT_MUSIC_FADE_TIME 2.0f
 
@@ -32,6 +33,8 @@ public:
 
 	// Play a previously loaded WAV
 	bool PlayFx(unsigned int fx, int repeat = 0);
+
+	bool UnLoadFx(int index);
 
 	void Reset();
 

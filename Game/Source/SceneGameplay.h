@@ -64,7 +64,7 @@ public:
 	DialogueManager* dialogueManager;
 
 private:
-	SDL_Texture* bg;
+	SDL_Texture* bgDialog;
 
 	Player* currentPlayer;
 	
