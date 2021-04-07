@@ -29,6 +29,11 @@ bool BattleMenu::Load(Font* font)
 	btnAbilitySlot3 = new GuiButton(7, { 72, 565, 204, 43 }, "Ability3", this, font);
 	btnAbilitySlot4 = new GuiButton(8, { 314, 565, 204, 43 }, "Ability4", this, font);
 
+	btnObjectSlot1 = new GuiButton(9, { 72, 500, 204, 43 }, "Object1", this, font);
+	btnObjectSlot2 = new GuiButton(10, { 314, 500, 204, 43 }, "Object2", this, font);
+	btnObjectSlot3 = new GuiButton(11, { 72, 565, 204, 43 }, "Object3", this, font);
+	btnObjectSlot4 = new GuiButton(12, { 314, 565, 204, 43 }, "Object4", this, font);
+
 	currEnemy = (*sceneBattle->enemyList.begin());
 	currPlayer = (*sceneBattle->playerList.begin());
 
@@ -70,6 +75,10 @@ bool BattleMenu::Update(float dt)
 	case BattleState::DEFENSE:
 		break;
 	case BattleState::OBJECT:
+		btnObjectSlot1->Update(app->input, dt);
+		btnObjectSlot2->Update(app->input, dt);
+		btnObjectSlot3->Update(app->input, dt);
+		btnObjectSlot4->Update(app->input, dt);
 		break;
 	}
 
@@ -109,6 +118,10 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 	case BattleState::DEFENSE:
 		break;
 	case BattleState::OBJECT:
+		btnObjectSlot1->Draw(app->render, showColliders);
+		btnObjectSlot2->Draw(app->render, showColliders);
+		btnObjectSlot3->Draw(app->render, showColliders);
+		btnObjectSlot4->Draw(app->render, showColliders);
 		break;
 	}
 
@@ -126,6 +139,11 @@ bool BattleMenu::UnLoad()
 	RELEASE(btnAbilitySlot2);
 	RELEASE(btnAbilitySlot3);
 	RELEASE(btnAbilitySlot4);
+
+	RELEASE(btnObjectSlot1);
+	RELEASE(btnObjectSlot2);
+	RELEASE(btnObjectSlot3);
+	RELEASE(btnObjectSlot4);
 
 	currEnemy = nullptr;
 	currPlayer = nullptr;
@@ -163,6 +181,26 @@ bool BattleMenu::OnGuiMouseClickEvent(GuiControl* control)
 		{
 			type = BattleState::ABILITY;
 			currPlayer->SetAbilitySelected(4);
+		}
+		else if (control->id == 9)
+		{
+			type = BattleState::OBJECT;
+			currPlayer->UseObject(1);
+		}
+		else if (control->id == 10)
+		{
+			type = BattleState::OBJECT;
+			currPlayer->UseObject(2);
+		}
+		else if (control->id == 11)
+		{
+			type = BattleState::OBJECT;
+			currPlayer->UseObject(3);
+		}
+		else if (control->id == 12)
+		{
+			type = BattleState::OBJECT;
+			currPlayer->UseObject(4);
 		}
 		break;
 	}

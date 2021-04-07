@@ -45,15 +45,19 @@ public:
 	virtual void Attack(Enemy* enemy);
 
 	virtual void Ability(Enemy* enemy, int currentAbility);
+
+	virtual void UseObject(int currentObject);
 	
 	virtual void GetDamage(int dmg);
 
+	// Getters
 	int GetHealthPoints() const { return healthPoints; }
 	int GetManaPoints() const { return manaPoints; }
-	std::string GetName() const { return name; }
 	int GetAbilitySelected() const { return currentAbilitySelected; }
-	void SetAbilitySelected(int num) { currentAbilitySelected = num; }
+	std::string GetName() const { return name; }
 
+	// Setters
+	void SetAbilitySelected(int num) { currentAbilitySelected = num; }
 
 public:
 	PlayerType playerType;
@@ -62,12 +66,12 @@ public:
 protected:
 	SDL_Texture* texture;
 
+	std::string name;
+
 	int healthPoints;
 	int manaPoints;
 	int meleeDamage;
 	int magicDamage;
 	int defense;
 	int currentAbilitySelected;
-
-	std::string name;
 };

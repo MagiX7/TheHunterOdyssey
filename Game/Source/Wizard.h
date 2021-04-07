@@ -28,6 +28,8 @@ public:
 	
 	void Ability(Enemy* enemy, int currentAbility) override;
 
+	void UseObject(int currentObject) override;
+
 private:
 
 	int fire = 1;

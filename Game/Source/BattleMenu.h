@@ -53,15 +53,23 @@ private:
 	Enemy* currEnemy;
 	Player* currPlayer;
 
+	// Menu buttons
 	GuiButton* btnAttack;
 	GuiButton* btnAbility;
 	GuiButton* btnDefense;
 	GuiButton* btnObject;
 
+	// Ability buttons
 	GuiButton* btnAbilitySlot1;
 	GuiButton* btnAbilitySlot2;
 	GuiButton* btnAbilitySlot3;
 	GuiButton* btnAbilitySlot4;
+
+	// Object buttons
+	GuiButton* btnObjectSlot1;
+	GuiButton* btnObjectSlot2;
+	GuiButton* btnObjectSlot3;
+	GuiButton* btnObjectSlot4;
 
 	SceneBattle* sceneBattle;
 };

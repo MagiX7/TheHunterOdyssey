@@ -115,3 +115,19 @@ void Warrior::Ability(Enemy* enemy, int currentAbility)
 	}
 
 }
+
+void Warrior::UseObject(int currentObject)
+{
+	switch (currentObject)
+	{
+	case 1:
+		// TODO Object functionality
+		break;
+	case 2:
+		// TODO Object functionality
+		break;
+	case 3:
+		// TODO Object functionality
+		break;
+	}
+}

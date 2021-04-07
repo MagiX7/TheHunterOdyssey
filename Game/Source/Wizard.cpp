@@ -115,3 +115,19 @@ void Wizard::Ability(Enemy* enemy, int currentAbility)
 		break;
 	}
 }
+
+void Wizard::UseObject(int currentObject)
+{
+	switch (currentObject)
+	{
+	case 1:
+		// TODO Object functionality
+		break;
+	case 2:
+		// TODO Object functionality
+		break;
+	case 3:
+		// TODO Object functionality
+		break;
+	}
+}

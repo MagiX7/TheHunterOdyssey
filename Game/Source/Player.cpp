@@ -70,6 +70,10 @@ void Player::Ability(Enemy* enemy, int currentAbility)
 {
 }
 
+void Player::UseObject(int currentObject)
+{
+}
+
 void Player::GetDamage(int dmg)
 {
 }
