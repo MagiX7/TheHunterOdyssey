@@ -37,4 +37,6 @@ private:
 	
 	int lastUserInput;
 	int letterCount;
+
+	int alpha;
 };

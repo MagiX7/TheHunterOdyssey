@@ -104,18 +104,25 @@ bool DialogueManager::Update(float dt)
 
 void DialogueManager::Draw()
 {
+	if (current != nullptr)
+	{
+		alpha+= 5;
+
+		if (alpha >= 255)
+		{
+			alpha = 0;
+		}
+		//SDL_Rect r = { current->currentNode->currentOption->bounds.x,  current->currentNode->currentOption->bounds.y, 400,50 };
+		SDL_Rect r = { current->currentNode->currentOption->bounds.x,  current->currentNode->currentOption->bounds.y,
+			current->currentNode->currentOption->bounds.w,current->currentNode->currentOption->bounds.h };
+		app->render->DrawRectangle(r, 0, 0, 150, alpha);
+	}
+
 	if (printText == true && current->currentNode->id >= -1)
 	{
 		current->Draw(letterCount, font);
 	}
 	
-	if (current != nullptr)
-	{
-		//SDL_Rect r = { current->currentNode->currentOption->bounds.x,  current->currentNode->currentOption->bounds.y, 400,50 };
-		SDL_Rect r = { current->currentNode->currentOption->bounds.x,  current->currentNode->currentOption->bounds.y,
-			current->currentNode->currentOption->bounds.w,current->currentNode->currentOption->bounds.h };
-		app->render->DrawRectangle(r, 255, 255, 255, 120);
-	}
 }
 
 bool DialogueManager::UnLoad()
