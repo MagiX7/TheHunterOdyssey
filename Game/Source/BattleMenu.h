@@ -12,6 +12,7 @@ enum class BattleState
 	ABILITY_SELECT,
 	ABILITY,
 	DEFENSE,
+	OBJECT_SELECT,
 	OBJECT,
 	ENEMY_TURN
 };
@@ -43,6 +44,8 @@ private:
 
 	bool HandleAbilities(Input* input, int currentAbility);
 
+	bool HandleObjects(Input* input, int currentObject);
+
 	void EraseEnemy();
 
 	void EnemyTurn();
@@ -52,6 +55,8 @@ private:
 
 	Enemy* currEnemy;
 	Player* currPlayer;
+
+	Player* tempPlayer;
 
 	// Menu buttons
 	GuiButton* btnAttack;

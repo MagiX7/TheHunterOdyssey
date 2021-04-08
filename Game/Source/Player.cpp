@@ -70,11 +70,16 @@ void Player::Ability(Enemy* enemy, int currentAbility)
 {
 }
 
-void Player::UseObject(int currentObject)
+
+void Player::UseObject(Player* player, int currentObject)
 {
 }
 
 void Player::GetDamage(int dmg)
+{
+}
+
+void Player::GetHealed(int heal)
 {
 }
 

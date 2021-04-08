@@ -28,12 +28,6 @@ public:
 	
 	void Ability(Enemy* enemy, int currentAbility) override;
 
-	void UseObject(int currentObject) override;
+	void UseObject(Player* player, int currentObject) override;
 
-private:
-
-	int fire = 1;
-	int water = 2;
-	int thunder = 3;
-	int gravity = 4;
 };

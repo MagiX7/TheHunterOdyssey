@@ -116,7 +116,7 @@ void Warrior::Ability(Enemy* enemy, int currentAbility)
 
 }
 
-void Warrior::UseObject(int currentObject)
+void Warrior::UseObject(Player* player, int currentObject)
 {
 	switch (currentObject)
 	{

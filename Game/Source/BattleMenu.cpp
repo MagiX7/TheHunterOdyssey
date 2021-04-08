@@ -101,11 +101,14 @@ bool BattleMenu::Update(float dt)
 		break;
 	case BattleState::DEFENSE:
 		break;
-	case BattleState::OBJECT:
+	case BattleState::OBJECT_SELECT:
 		btnObjectSlot1->Update(app->input, dt);
 		btnObjectSlot2->Update(app->input, dt);
 		btnObjectSlot3->Update(app->input, dt);
 		btnObjectSlot4->Update(app->input, dt);
+		break;
+	case BattleState::OBJECT:
+		ret = HandleObjects(app->input, currPlayer->GetObjectSelected());
 		break;
 	}
 
@@ -146,12 +149,18 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 
 		break;
 	case BattleState::DEFENSE:
+
+		break;
+	case BattleState::OBJECT_SELECT:
+		btnObjectSlot1->Draw(app->render, showColliders, 25, { 0,0,0,255 });
+		btnObjectSlot2->Draw(app->render, showColliders, 25, { 0,0,0,255 });
+		btnObjectSlot3->Draw(app->render, showColliders, 25, { 0,0,0,255 });
+		btnObjectSlot4->Draw(app->render, showColliders, 25, { 0,0,0,255 });
+
+		app->render->DrawRectangle({ currPlayer->bounds.x - 100, currPlayer->bounds.y, 32, 16 }, 0, 255, 0);
 		break;
 	case BattleState::OBJECT:
-		btnObjectSlot1->Draw(app->render, showColliders);
-		btnObjectSlot2->Draw(app->render, showColliders);
-		btnObjectSlot3->Draw(app->render, showColliders);
-		btnObjectSlot4->Draw(app->render, showColliders);
+		app->render->DrawRectangle({ currPlayer->bounds.x - 100, currPlayer->bounds.y, 32, 16 }, 0, 255, 0);
 		break;
 	}
 
@@ -191,7 +200,11 @@ bool BattleMenu::OnGuiMouseClickEvent(GuiControl* control)
 		if (control->id == 1) type = BattleState::ATTACK;
 		else if (control->id == 2) type = BattleState::ABILITY_SELECT;
 		else if (control->id == 3) type = BattleState::DEFENSE;
-		else if (control->id == 4) type = BattleState::OBJECT;
+		else if (control->id == 4)
+		{
+			type = BattleState::OBJECT_SELECT;
+			tempPlayer = currPlayer;
+		}
 		else if (control->id == 5)
 		{
 			type = BattleState::ABILITY;
@@ -215,22 +228,22 @@ bool BattleMenu::OnGuiMouseClickEvent(GuiControl* control)
 		else if (control->id == 9)
 		{
 			type = BattleState::OBJECT;
-			currPlayer->UseObject(1);
+			currPlayer->SetObjectSelected(1);
 		}
 		else if (control->id == 10)
 		{
 			type = BattleState::OBJECT;
-			currPlayer->UseObject(2);
+			currPlayer->SetObjectSelected(2);
 		}
 		else if (control->id == 11)
 		{
 			type = BattleState::OBJECT;
-			currPlayer->UseObject(3);
+			currPlayer->SetObjectSelected(3);
 		}
 		else if (control->id == 12)
 		{
 			type = BattleState::OBJECT;
-			currPlayer->UseObject(4);
+			currPlayer->SetObjectSelected(4);
 		}
 		break;
 	}
@@ -389,6 +402,68 @@ bool BattleMenu::HandleAbilities(Input* input, int currentAbility)
 					type = BattleState::DEFAULT;
 					break;
 				}
+			}
+		}
+	}
+	return true;
+}
+
+bool BattleMenu::HandleObjects(Input* input, int currentObject)
+{
+	if (input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	{
+		eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
+		for (; it != sceneBattle->playerList.end(); ++it)
+		{
+			if (currPlayer == (*sceneBattle->playerList.end().prev()))
+			{
+				currPlayer = (*sceneBattle->playerList.begin());
+				break;
+			}
+			else if ((*it) == currPlayer)
+			{
+				currPlayer = (*it.next());
+				break;
+			}
+		}
+	}
+	else if (input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+	{
+		eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
+		for (; it != sceneBattle->playerList.end(); ++it)
+		{
+			if (currPlayer == (*sceneBattle->playerList.begin()))
+			{
+				currPlayer = (*sceneBattle->playerList.end().prev());
+				break;
+			}
+			else if ((*it) == currPlayer)
+			{
+				currPlayer = (*it.prev());
+				break;
+			}
+		}
+	}
+	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+	{
+		currPlayer->UseObject(currPlayer, currentObject);
+
+		currPlayer = tempPlayer;
+		tempPlayer = nullptr;
+		eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
+		for (int i = 0; it != sceneBattle->playerList.end(); ++it, ++i)
+		{
+			if (currPlayer == (*sceneBattle->playerList.end().prev()))
+			{
+				currPlayer = (*sceneBattle->playerList.begin());
+				type = BattleState::ENEMY_TURN;
+				break;
+			}
+			else if ((*it) == currPlayer)
+			{
+				currPlayer = (*it.next());
+				type = BattleState::DEFAULT;
+				break;
 			}
 		}
 	}

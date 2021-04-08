@@ -116,7 +116,7 @@ void Wizard::Ability(Enemy* enemy, int currentAbility)
 	}
 }
 
-void Wizard::UseObject(int currentObject)
+void Wizard::UseObject(Player* player, int currentObject)
 {
 	switch (currentObject)
 	{

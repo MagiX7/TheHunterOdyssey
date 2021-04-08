@@ -116,7 +116,7 @@ void Thief::Ability(Enemy* enemy, int currentAbility)
 
 }
 
-void Thief::UseObject(int currentObject)
+void Thief::UseObject(Player* player, int currentObject)
 {
 	switch (currentObject)
 	{

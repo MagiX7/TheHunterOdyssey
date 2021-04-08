@@ -116,12 +116,14 @@ void Hunter::Ability(Enemy* enemy, int currentAbility)
 	}
 }
 
-void Hunter::UseObject(int currentObject)
+void Hunter::UseObject(Player* player, int currentObject)
 {
 	switch (currentObject)
 	{
 	case 1:
 		// TODO Object functionality
+		player->GetHealed(500);
+		LOG("USING ULTRA POTION");
 		break;
 	case 2:
 		// TODO Object functionality
@@ -130,4 +132,9 @@ void Hunter::UseObject(int currentObject)
 		// TODO Object functionality
 		break;
 	}
+}
+
+void Hunter::GetHealed(int heal)
+{
+	healthPoints += heal;
 }

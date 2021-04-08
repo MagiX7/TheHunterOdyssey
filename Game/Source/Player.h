@@ -45,19 +45,23 @@ public:
 	virtual void Attack(Enemy* enemy);
 
 	virtual void Ability(Enemy* enemy, int currentAbility);
-
-	virtual void UseObject(int currentObject);
+	
+	virtual void UseObject(Player* player, int currentObject);
 	
 	virtual void GetDamage(int dmg);
+
+	virtual void GetHealed(int heal);
 
 	// Getters
 	int GetHealthPoints() const { return healthPoints; }
 	int GetManaPoints() const { return manaPoints; }
 	int GetAbilitySelected() const { return currentAbilitySelected; }
+	int GetObjectSelected() const { return currentObjectSelected; }
 	std::string GetName() const { return name; }
 
 	// Setters
 	void SetAbilitySelected(int num) { currentAbilitySelected = num; }
+	void SetObjectSelected(int num) { currentObjectSelected = num; }
 
 public:
 	PlayerType playerType;
@@ -74,4 +78,5 @@ protected:
 	int magicDamage;
 	int defense;
 	int currentAbilitySelected;
+	int currentObjectSelected;
 };

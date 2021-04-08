@@ -28,8 +28,9 @@ public:
 
 	void Ability(Enemy* enemy, int currentAbility) override;
 
-	void UseObject(int currentObject) override;
+	void UseObject(Player* player, int currentObject) override;
 
+	void GetHealed(int heal) override;
 
 private:
 	SDL_Texture* texture;
