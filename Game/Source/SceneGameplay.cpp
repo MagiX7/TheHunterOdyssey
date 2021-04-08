@@ -71,7 +71,7 @@ SceneGameplay::SceneGameplay()
 
 	//Create Enemies
 
-	Enemy* skull = nullptr;
+	/*Enemy* skull = nullptr;
 	position = { 300,100 };
 	skull = (Enemy*)entityManager->CreateEntity(EntityType::SKULL, position);
 
@@ -81,7 +81,7 @@ SceneGameplay::SceneGameplay()
 
 	Enemy* bat = nullptr;
 	position = { 300,300 };
-	bat = (Enemy*)entityManager->CreateEntity(EntityType::BAT, position);
+	bat = (Enemy*)entityManager->CreateEntity(EntityType::BAT, position);*/
 
 	/*player = new Player(PlayerType::HUNTER);
 	npc = new Npc(EntityType::NPC);*/
@@ -332,6 +332,27 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect)
 				{
 					return true;
 				}
+				if (((*map->data.layers.end().prev())->Get(i, j) == 771) && CheckCollision(map->GetTilemapRec(i, j), rect))
+				{
+					iPoint position = { 560,400 };
+					currentPlayer->bounds.x = position.x;
+					currentPlayer->bounds.y = position.y;
+					map->Load("house1.tmx", app->tex);
+				}
+				/*if (((*map->data.layers.end().prev())->Get(i, j) == 772) && CheckCollision(map->GetTilemapRec(i, j), rect))
+				{
+					iPoint position = { 560,400 };
+					currentPlayer->bounds.x = position.x;
+					currentPlayer->bounds.y = position.y;
+					map->Load("house2.tmx", app->tex);
+				}
+				if (((*map->data.layers.end().prev())->Get(i, j) == 773) && CheckCollision(map->GetTilemapRec(i, j), rect))
+				{
+					iPoint position = { 560,400 };
+					currentPlayer->bounds.x = position.x;
+					currentPlayer->bounds.y = position.y;
+					map->Load("house3.tmx", app->tex);
+				}*/
 			}
 		}
 	}

@@ -23,19 +23,19 @@
         </NPCs>
         <players amount="4">
           <player>
-            <bounds X="388" Y="422" W="16" H="32" />
+            <bounds X="638" Y="437" W="16" H="32" />
             <playerType type="HUNTER" />
           </player>
           <player>
-            <bounds X="212" Y="301" W="16" H="32" />
+            <bounds X="18" Y="90" W="16" H="32" />
             <playerType type="WIZARD" />
           </player>
           <player>
-            <bounds X="206" Y="256" W="16" H="32" />
+            <bounds X="12" Y="45" W="16" H="32" />
             <playerType type="THIEF" />
           </player>
           <player>
-            <bounds X="207" Y="267" W="16" H="32" />
+            <bounds X="13" Y="56" W="16" H="32" />
             <playerType type="WARRIOR" />
           </player>
         </players>

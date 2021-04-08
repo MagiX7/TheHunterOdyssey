@@ -6940,7 +6940,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="3" name="Hitboxes" width="48" height="48" visible="0">
+ <layer id="3" name="Hitboxes" width="48" height="48">
   <properties>
    <property name="draw" type="bool" value="false"/>
   </properties>
@@ -8051,7 +8051,7 @@
    <tile gid="770"/>
    <tile gid="769"/>
    <tile gid="769"/>
-   <tile gid="771"/>
+   <tile gid="772"/>
    <tile gid="769"/>
    <tile gid="769"/>
    <tile gid="769"/>
@@ -8589,7 +8589,7 @@
    <tile gid="770"/>
    <tile gid="769"/>
    <tile gid="769"/>
-   <tile gid="771"/>
+   <tile gid="773"/>
    <tile gid="769"/>
    <tile gid="769"/>
    <tile gid="769"/>
