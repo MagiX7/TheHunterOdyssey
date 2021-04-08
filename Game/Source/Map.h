@@ -169,7 +169,6 @@ private:
 	bool mapLoaded;
 
 	uint32 scale;
-	iPoint camOffset;
 
 	SString name;
 };

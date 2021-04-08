@@ -13,6 +13,7 @@ class EntityManager;
 class Map;
 class DialogueManager;
 class PauseMenu;
+class Render;
 enum class PlayerType;
 
 enum class GameplayMenuState
@@ -58,6 +59,9 @@ public:
 
 private:
 	void HandleInput(float dt);
+	bool CollisionMapEntity(SDL_Rect rect);
+	bool CheckCollision(SDL_Rect rec1, SDL_Rect rec2);
+	void CameraFollow(Render* render);
 
 public:
 	Player* getCurrentPlayer();

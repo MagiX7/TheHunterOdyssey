@@ -17,10 +17,19 @@ CharacterManager::~CharacterManager()
 bool CharacterManager::Load(Font* font)
 {
 	btnHunter = new GuiButton(1, { 466, 150, 360, 64 }, "Hunter", this, font);
+	btnHunter->alineation = 1;
+
 	btnWizard = new GuiButton(2, { 466, 250, 360, 64 }, "Wizard", this, font);
+	btnWizard->alineation = 1;
+
 	btnThief = new GuiButton(3, { 466, 350, 360, 64 }, "Thief", this, font);
+	btnThief->alineation = 1;
+
 	btnWarrior = new GuiButton(4, { 466, 450, 360, 64 }, "Warrior", this, font);
+	btnWarrior->alineation = 1;
+
 	btnExit = new GuiButton(5, { 600, 550, 64, 64 }, "Exit", this, font);
+	btnExit->alineation = 1;
 
 	switch (player->playerType)
 	{

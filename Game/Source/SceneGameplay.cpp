@@ -27,7 +27,7 @@ SceneGameplay::SceneGameplay()
 
 	entityManager = new EntityManager();
 
-	iPoint position = { 0,0 };
+	iPoint position = { 50,350 };
 
 	/*player1 = (Player*)entityManager->CreateEntity(EntityType::PLAYER, position);
 	player1->SetPlayerType(PlayerType::HUNTER);
@@ -139,21 +139,33 @@ bool SceneGameplay::Update(float dt)
 		gameState = GameplayState::ROAMING;
 		break;
 	case GameplayState::ROAMING:
-		map->Update(dt);
-		HandleInput(dt);
-		
-		if (dialogueManager->isDialogueActive == false)
+		switch (menuState)
 		{
-			currentPlayer->Update(dt);
-			/*npc->Update(dt);*/
-			entityManager->Update(dt);
-			CheckDialogue();
+		case GameplayMenuState::NONE:
+			map->Update(dt);
+			HandleInput(dt);
+			if (dialogueManager->isDialogueActive == false)
+			{
+				SDL_Rect tmpBounds = currentPlayer->bounds;
+				currentPlayer->Update(dt);
+				if (CollisionMapEntity(currentPlayer->bounds) == true) currentPlayer->bounds = tmpBounds;
+				CameraFollow(app->render);
+				/*npc->Update(dt);*/
+				entityManager->Update(dt);
+				CheckDialogue();
+			}
+			else
+			{
+				dialogueManager->Update(dt);
+			}
+			break;
+		case GameplayMenuState::CHARACTER_SWAP:
+			charManager->Update(dt);
+			break;
+		case GameplayMenuState::PAUSE:
+			ret = pause->Update(dt);
+			break;
 		}
-		else
-		{
-			dialogueManager->Update(dt);
-		}
-
 		break;
 	case GameplayState::BATTLE:
 		if (sceneBattle->Update(dt) == false)
@@ -195,13 +207,17 @@ void SceneGameplay::Draw()
 			app->tex->GetSize(bgDialog, w, h);
 			x -= w / 2;
 			y -= h / 2;
-			app->render->DrawTexture(bgDialog, (int)x, (int)y - 50, NULL);
+			app->render->DrawTexture(bgDialog, -app->render->camera.x + (int)x, -app->render->camera.y + (int)y - 50, NULL);
 			dialogueManager->Draw();
 		}
-		if (menuState == GameplayMenuState::CHARACTER_SWAP) charManager->Draw(font, showColliders);
+		if (menuState == GameplayMenuState::CHARACTER_SWAP)
+		{
+			app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 150);
+			charManager->Draw(font, showColliders);
+		}
 		if (menuState == GameplayMenuState::PAUSE)
 		{
-			app->render->DrawRectangle({ 0,0,1280, 720 }, 0, 0, 0, 150);
+			app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 150);
 			pause->Draw(font, showColliders);
 		}
 		break;
@@ -239,7 +255,6 @@ void SceneGameplay::CharacterSwap(PlayerType player)
 			}
 		}
 	}
-
 	currentPlayer->bounds = tmpBounds;
 }
 
@@ -304,6 +319,63 @@ void SceneGameplay::HandleInput(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN) menuState = GameplayMenuState::CHARACTER_SWAP;
 	
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		menuState = GameplayMenuState::PAUSE;
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) menuState = GameplayMenuState::PAUSE;
+}
+
+bool SceneGameplay::CollisionMapEntity(SDL_Rect rect)
+{
+	iPoint pos = map->WorldToMap(rect.x, rect.y);
+
+	int x = pos.x + (rect.w / map->data.tileWidth);
+	int y = pos.y + (rect.h / map->data.tileHeight);
+	if (rect.w < map->data.tileWidth) x = pos.x + 1;
+	if (rect.h < map->data.tileHeight) y = pos.y + 1;
+
+	// Only check adyacent tiles
+	for (int j = pos.y; j <= y; j++)
+	{
+		for (int i = pos.x; i <= x; i++)
+		{
+			if (i >= 0 && j >= 0)
+			{
+				if (((*map->data.layers.end().prev())->Get(i, j) == 769) && CheckCollision(map->GetTilemapRec(i, j), rect))
+				{
+					return true;
+				}
+			}
+		}
+	}
+
+	return false;
+}
+
+bool SceneGameplay::CheckCollision(SDL_Rect rec1, SDL_Rect rec2)
+{
+	if ((rec1.x < (rec2.x + rec2.w) && (rec1.x + rec1.w) > rec2.x) &&
+		(rec1.y < (rec2.y + rec2.h) && (rec1.y + rec1.h) > rec2.y)) return true;
+
+	else return false;
+}
+
+void SceneGameplay::CameraFollow(Render* render)
+{
+	int midPlayerPosX = (currentPlayer->bounds.w / 2) + currentPlayer->bounds.x;
+	int midPlayerPosY = (currentPlayer->bounds.h / 2) + currentPlayer->bounds.y;
+	if (midPlayerPosX > -render->camera.x + (render->camera.w / 2) || midPlayerPosX < -render->camera.x + (render->camera.w / 2))
+	{
+		render->camera.x = -(midPlayerPosX - (render->camera.w / 2));
+	}
+
+	if (midPlayerPosY > -render->camera.y + (render->camera.h / 2) || midPlayerPosY < -render->camera.y + (render->camera.h / 2))
+	{
+		render->camera.y = -(midPlayerPosY - (render->camera.h / 2));
+	}
+
+	int mapWidth = map->data.width * map->data.tileWidth;
+	int mapHeight = map->data.height * map->data.tileHeight;
+	if (-render->camera.x + render->camera.w >= mapWidth) render->camera.x = -(mapWidth - render->camera.w);
+	if (-render->camera.x <= 0) render->camera.x = 0;
+
+	if (-render->camera.y + render->camera.h >= mapHeight) render->camera.y = -(mapHeight - render->camera.h);
+	if (-render->camera.y <= 0) render->camera.y = 0;
 }

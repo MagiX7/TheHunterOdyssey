@@ -22,27 +22,42 @@ bool PauseMenu::Load(Font* font)
 	btnResume = new GuiButton(1, { 505, 223, 270, 64 }, "Resume Game", this, font);
 	btnResume->section = { 430,0,270,64 };
 	btnResume->texture = guiTex;
+	btnResume->alineation = 1;
+
 	btnLoadSave = new GuiButton(2, { 505, 308, 270, 64 }, "Load/Save", this, font);
 	btnLoadSave->section = { 430,0,270,64 };
 	btnLoadSave->texture = guiTex;
-	btnSave = new GuiButton(6, { 505, 256, 270, 64 }, "Save", this, font);
-	btnSave->section = { 430,0,270,64 };
-	btnSave->texture = guiTex;
-	btnLoad = new GuiButton(7, { 505, 341, 270, 64 }, "Load", this, font);
-	btnLoad->section = { 430,0,270,64 };
-	btnLoad->texture = guiTex;
-	btnBack = new GuiButton(8, { 505, 528, 270, 64 }, "Back", this, font);
-	btnBack->section = { 430,0,270,64 };
-	btnBack->texture = guiTex;
+	btnLoadSave->alineation = 1;
+
 	btnOptions = new GuiButton(3, { 505, 393, 270, 64 }, "Options", this, font);
 	btnOptions->section = { 430,0,270,64 };
 	btnOptions->texture = guiTex;
+	btnOptions->alineation = 1;
+
 	btnReturnTitle = new GuiButton(4, { 505, 478, 270, 64 }, "Return to Title", this, font);
 	btnReturnTitle->section = { 430,0,270,64 };
 	btnReturnTitle->texture = guiTex;
+	btnReturnTitle->alineation = 1;
+
 	btnExit = new GuiButton(5, { 505, 563, 270, 64 }, "Exit Game", this, font);
 	btnExit->section = { 430,0,270,64 };
 	btnExit->texture = guiTex;
+	btnExit->alineation = 1;
+
+	btnSave = new GuiButton(6, { 505, 256, 270, 64 }, "Save", this, font);
+	btnSave->section = { 430,0,270,64 };
+	btnSave->texture = guiTex;
+	btnSave->alineation = 1;
+
+	btnLoad = new GuiButton(7, { 505, 341, 270, 64 }, "Load", this, font);
+	btnLoad->section = { 430,0,270,64 };
+	btnLoad->texture = guiTex;
+	btnLoad->alineation = 1;
+
+	btnBack = new GuiButton(8, { 505, 528, 270, 64 }, "Back", this, font);
+	btnBack->section = { 430,0,270,64 };
+	btnBack->texture = guiTex;
+	btnBack->alineation = 1;
 
 	state = PauseState::DEFAULT;
 
@@ -82,7 +97,7 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 	{
 	case PauseState::DEFAULT:
 		section = { 0,0,430,650 };
-		app->render->DrawTexture(guiTex, 425, 48, &section);
+		app->render->DrawTexture(guiTex, -app->render->camera.x + 425, -app->render->camera.y + 48, &section);
 
 		btnResume->Draw(app->render, showColliders, 36, {0, 0, 0, 255});
 		btnLoadSave->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
@@ -101,7 +116,7 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		break;
 	case PauseState::SAVE:
 		section = { 0,0,430,650 };
-		app->render->DrawTexture(guiTex, 425, 48, &section);
+		app->render->DrawTexture(guiTex, -app->render->camera.x + 425, -app->render->camera.y + 48, &section);
 
 		btnSave->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
 		btnLoad->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
