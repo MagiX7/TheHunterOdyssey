@@ -74,9 +74,6 @@ void Map::Draw(bool showColliders)
 {
 	if (mapLoaded == false) return;
 
-	camOffset.x = app->render->camera.x;
-	camOffset.y = app->render->camera.y;
-
 	// L06: DONE 4: Make sure we draw all the layers and not just the first one
 	
 
@@ -186,8 +183,7 @@ iPoint Map::WorldToMap(int x, int y) const
 SDL_Rect Map::GetTilemapRec(int x, int y) const
 {
 	iPoint pos = MapToWorld(x, y);
-	SDL_Rect rec = { pos.x * scale + camOffset.x, pos.y * scale + camOffset.y,
-					 data.tileWidth * scale, data.tileHeight * scale };
+	SDL_Rect rec = { pos.x * scale, pos.y * scale, data.tileWidth * scale, data.tileHeight * scale };
 
 	return rec;
 }
