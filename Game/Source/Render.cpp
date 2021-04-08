@@ -228,7 +228,7 @@ bool Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, Uin
 	return ret;
 }
 
-bool Render::DrawText(Font* font, const char* text, int x, int y, int size, int spacing, SDL_Color tint) const
+bool Render::DrawText(Font* font, const char* text, int x, int y, int size, int spacing, SDL_Color tint, int maxX) const
 {
 	bool ret = true;
 
@@ -247,12 +247,21 @@ bool Render::DrawText(Font* font, const char* text, int x, int y, int size, int 
 		SDL_RenderCopyEx(renderer, font->GetTextureAtlas(), &recGlyph, &recDest, 0.0, { 0 }, SDL_RendererFlip::SDL_FLIP_NONE);
 
 		posX += ((float)recGlyph.w * scale + spacing);
+		
+		if (maxX > 0)
+		{
+			if (recDest.x + recDest.w >= maxX - 30) // 30 stands for an offset
+			{
+				y += size + 5;
+				posX = x;
+			}
+		}
 	}
 
 	return ret;
 }
 
-bool Render::DrawCenterText(Font* font, const char* text, SDL_Rect bounds, int size, int spacing, SDL_Color tint) const
+bool Render::DrawCenterText(Font* font, const char* text, SDL_Rect bounds, int size, int spacing, SDL_Color tint, int maxDistance) const
 {
 	bool ret = true;
 
@@ -285,6 +294,7 @@ bool Render::DrawCenterText(Font* font, const char* text, SDL_Rect bounds, int s
 	else if (size == 36) 
 		posY += 4;
 
+	int a = (bounds.w - (textW - spacing)) / 2;
 	for (int i = 0; i < length; ++i)
 	{
 		SDL_Rect recGlyph = font->GetCharRec(text[i]);
@@ -292,7 +302,17 @@ bool Render::DrawCenterText(Font* font, const char* text, SDL_Rect bounds, int s
 
 		SDL_RenderCopyEx(renderer, font->GetTextureAtlas(), &recGlyph, &recDest, 0.0, { 0 }, SDL_RendererFlip::SDL_FLIP_NONE);
 
+		if (maxDistance > -1)
+		{
+			if (recDest.x + recDest.w >= maxDistance)
+			{
+				posY += recDest.h;
+				posX = bounds.x + a;
+			}
+		}
+
 		posX += ((float)recGlyph.w * scale + spacing);
+
 	}
 
 	return ret;

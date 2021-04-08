@@ -68,8 +68,6 @@ public:
 	DialogueManager* dialogueManager;
 
 private:
-	SDL_Texture* bgDialog;
-
 	Player* currentPlayer;
 	
 	eastl::list<Player*> playerList;

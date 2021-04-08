@@ -124,8 +124,6 @@ bool SceneGameplay::Load()
 
 	pause->Load(font);
 
-	bgDialog = app->tex->Load("Assets/Textures/dialog_background.png");
-
 	return ret;
 }
 
@@ -191,13 +189,6 @@ void SceneGameplay::Draw()
 		if (dialogueManager->isDialogueActive)
 		{
 			app->render->DrawRectangle({ 0,0,1280, 720 }, 0, 0, 0, 150);
-			uint x = 640;
-			uint y = 410;
-			uint w, h;
-			app->tex->GetSize(bgDialog, w, h);
-			x -= w / 2;
-			y -= h / 2;
-			app->render->DrawTexture(bgDialog, -app->render->camera.x + (int)x, -app->render->camera.y + (int)y - 50, NULL);
 			dialogueManager->Draw();
 		}
 		if (menuState == GameplayMenuState::CHARACTER_SWAP)

@@ -1,7 +1,7 @@
 <dialogues>
 	<npc id ="0">
 		<node id ="0">
-			<npc_text text ="mucho texto crack"/>
+			<npc_text text ="Mucho texto crack no me caleintes la cabeza los dialogos son jodidamente deificiles quien invento esto, me lo voy a cargar!"/>
 			<option id="0" nextNodeId="3" text="chupala"/>
 			<option id="1" nextNodeId="2" text="Pos toma un pin"/>
 			<option id="2" nextNodeId="1" text="ERES RETRASAO"/>
