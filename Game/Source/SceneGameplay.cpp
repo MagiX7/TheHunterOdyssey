@@ -151,7 +151,7 @@ bool SceneGameplay::Update(float dt)
 				if (CollisionMapEntity(currentPlayer->bounds) == true) currentPlayer->bounds = tmpBounds;
 				CameraFollow(app->render);
 				/*npc->Update(dt);*/
-				entityManager->Update(dt);
+				//entityManager->Update(dt);
 				CheckDialogue();
 			}
 			else
@@ -174,16 +174,6 @@ bool SceneGameplay::Update(float dt)
 			RELEASE(sceneBattle);
 			gameState = GameplayState::ROAMING;
 		}
-		break;
-	}
-
-	switch (menuState)
-	{
-	case GameplayMenuState::CHARACTER_SWAP:
-		charManager->Update(dt);
-		break;
-	case GameplayMenuState::PAUSE:
-		ret = pause->Update(dt);
 		break;
 	}
 
