@@ -16,6 +16,7 @@ Wizard::Wizard(iPoint position) : Player(PlayerType::WIZARD, EntityType::HUNTER,
 	manaPoints = 5000;
 	meleeDamage = 1;
 	magicDamage = 5;
+	isDefending = false;
 	name = "Wizard";
 }
 
@@ -90,7 +91,15 @@ void Wizard::Attack(Enemy* enemy)
 
 void Wizard::GetDamage(int dmg)
 {
-	healthPoints -= dmg * dmg / (dmg + defense);
+	if (isDefending == false)
+	{
+		healthPoints -= dmg * dmg / (dmg + defense);
+	}
+	else
+	{
+		healthPoints -= (dmg * dmg / (dmg + defense)) * 0.75;
+		isDefending = false;
+	}
 }
 
 void Wizard::Ability(Enemy* enemy, int currentAbility)
@@ -130,4 +139,9 @@ void Wizard::UseObject(Player* player, int currentObject)
 		// TODO Object functionality
 		break;
 	}
+}
+
+void Wizard::SetDefend(bool option)
+{
+	isDefending = option;
 }

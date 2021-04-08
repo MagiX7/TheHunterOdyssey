@@ -46,6 +46,8 @@ private:
 
 	bool HandleObjects(Input* input, int currentObject);
 
+	bool HandleDefense(Input* input);
+
 	void EraseEnemy();
 
 	void EnemyTurn();

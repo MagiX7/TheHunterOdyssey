@@ -52,11 +52,14 @@ public:
 
 	virtual void GetHealed(int heal);
 
+	virtual void SetDefend(bool option);
+
 	// Getters
 	int GetHealthPoints() const { return healthPoints; }
 	int GetManaPoints() const { return manaPoints; }
 	int GetAbilitySelected() const { return currentAbilitySelected; }
 	int GetObjectSelected() const { return currentObjectSelected; }
+	bool GetDefend() const { return isDefending; }
 	std::string GetName() const { return name; }
 
 	// Setters
@@ -71,6 +74,8 @@ protected:
 	SDL_Texture* texture;
 
 	std::string name;
+
+	bool isDefending;
 
 	int healthPoints;
 	int manaPoints;

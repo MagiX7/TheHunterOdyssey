@@ -15,6 +15,7 @@ Hunter::Hunter(iPoint position) : Player(PlayerType::HUNTER, EntityType::HUNTER,
 	defense = 15;
 	meleeDamage = 75;
 	magicDamage = 10;
+	isDefending = false;
 	name = "Hunter";
 }
 
@@ -90,7 +91,14 @@ void Hunter::Attack(Enemy* enemy)
 
 void Hunter::GetDamage(int dmg)
 {
-	healthPoints -= dmg * dmg / (dmg + defense);
+	if (isDefending == false)
+	{
+		healthPoints -= dmg * dmg / (dmg + defense);
+	}
+	else
+	{
+		healthPoints -= (dmg * dmg / (dmg + defense)) * 0.99;
+	}
 }
 
 void Hunter::Ability(Enemy* enemy, int currentAbility)
@@ -137,4 +145,9 @@ void Hunter::UseObject(Player* player, int currentObject)
 void Hunter::GetHealed(int heal)
 {
 	healthPoints += heal;
+}
+
+void Hunter::SetDefend(bool option)
+{
+	isDefending = option;
 }

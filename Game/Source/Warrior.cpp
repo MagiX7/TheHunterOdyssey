@@ -14,6 +14,7 @@ Warrior::Warrior(iPoint position) : Player(PlayerType::WARRIOR, EntityType::WARR
 	manaPoints = 500;
 	meleeDamage = 100;
 	magicDamage = 0;
+	isDefending = false;
 	name = "Warrior";
 }
 
@@ -89,7 +90,15 @@ void Warrior::Attack(Enemy* enemy)
 
 void Warrior::GetDamage(int dmg)
 {
-	healthPoints -= dmg * dmg / (dmg + defense);
+	if (isDefending == false)
+	{
+		healthPoints -= dmg * dmg / (dmg + defense);
+	}
+	else
+	{
+		healthPoints -= (dmg * dmg / (dmg + defense)) * 0.9;
+		isDefending = false;
+	}
 }
 
 void Warrior::Ability(Enemy* enemy, int currentAbility)
@@ -130,4 +139,9 @@ void Warrior::UseObject(Player* player, int currentObject)
 		// TODO Object functionality
 		break;
 	}
+}
+
+void Warrior::SetDefend(bool option)
+{
+	isDefending = option;
 }

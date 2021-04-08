@@ -14,6 +14,7 @@ Thief::Thief(iPoint position) : Player(PlayerType::THIEF, EntityType::THIEF,posi
 	manaPoints = 500;
 	meleeDamage = 50;
 	magicDamage = 15;
+	isDefending = false;
 	name = "Thief";
 }
 
@@ -89,7 +90,15 @@ void Thief::Attack(Enemy* enemy)
 
 void Thief::GetDamage(int dmg)
 {
-	healthPoints -= dmg * dmg / (dmg + defense);
+	if (isDefending == false)
+	{
+		healthPoints -= dmg * dmg / (dmg + defense);
+	}
+	else
+	{
+		healthPoints -= (dmg * dmg / (dmg + defense)) * 0.5;
+		isDefending = false;
+	}
 }
 
 void Thief::Ability(Enemy* enemy, int currentAbility)
@@ -130,5 +139,10 @@ void Thief::UseObject(Player* player, int currentObject)
 		// TODO Object functionality
 		break;
 	}
+}
+
+void Thief::SetDefend(bool option)
+{
+	isDefending = option;
 }
 

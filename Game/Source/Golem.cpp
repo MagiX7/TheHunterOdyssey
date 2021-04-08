@@ -15,7 +15,7 @@ Golem::Golem(iPoint pos) : Enemy(EntityType::GOLEM)
 	
 	health = 10;
 	mana = 50;
-	damage = 20;
+	damage = 1000;
 	defense = 20;
 	speed = 10;
 

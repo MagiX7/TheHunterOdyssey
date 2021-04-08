@@ -32,6 +32,8 @@ public:
 
 	void GetHealed(int heal) override;
 
+	void SetDefend(bool option) override;
+
 private:
 	SDL_Texture* texture;
 };

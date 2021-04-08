@@ -83,6 +83,10 @@ void Player::GetHealed(int heal)
 {
 }
 
+void Player::SetDefend(bool option)
+{
+}
+
 void Player::HandleInput(float dt)
 {
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)

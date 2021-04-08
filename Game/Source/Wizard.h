@@ -30,4 +30,6 @@ public:
 
 	void UseObject(Player* player, int currentObject) override;
 
+	void SetDefend(bool option) override;
+
 };
