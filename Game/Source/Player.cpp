@@ -34,7 +34,9 @@ bool Player::Update(float dt)
 {
 	bool ret = true;
 
-	HandleInput(dt);
+	GamePad& pad = app->input->pads[0];
+	pad.enabled = true;
+	HandleInput(dt, pad);
 
 	return ret;
 }
@@ -87,21 +89,21 @@ void Player::SetDefend(bool option)
 {
 }
 
-void Player::HandleInput(float dt)
+void Player::HandleInput(float dt, GamePad& pad)
 {
-	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || pad.up == true)
 	{
 		bounds.y -= SPEED_Y * dt;
 	}
-	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || pad.down == true)
 	{
 		bounds.y += SPEED_Y * dt;
 	}
-	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || pad.left == true)
 	{
 		bounds.x -= SPEED_X * dt;
 	}
-	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || pad.right == true)
 	{
 		bounds.x += SPEED_X * dt;
 	}

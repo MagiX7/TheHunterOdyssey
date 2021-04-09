@@ -62,7 +62,9 @@ bool Warrior::Update(float dt)
 {
 	currentAnim->speed = 10.0f * dt;
 
-	HandleInput(dt);
+	GamePad& pad = app->input->pads[0];
+	pad.enabled = true;
+	HandleInput(dt, pad);
 
 	currentAnim->Update();
 
@@ -80,12 +82,12 @@ bool Warrior::UnLoad()
 	return true;
 }
 
-void Warrior::HandleInput(float dt)
+void Warrior::HandleInput(float dt, GamePad& pad)
 {
 	switch (stance)
 	{
 	case PlayerStance::ROAMING:
-		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || pad.up == true)
 		{
 			bounds.y -= SPEED_Y * dt;
 			if (currentAnim != &walkUp)
@@ -94,7 +96,7 @@ void Warrior::HandleInput(float dt)
 				currentAnim = &walkUp;
 			}
 		}
-		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || pad.down == true)
 		{
 			bounds.y += SPEED_Y * dt;
 			if (currentAnim != &walkDown)
@@ -103,7 +105,7 @@ void Warrior::HandleInput(float dt)
 				currentAnim = &walkDown;
 			}
 		}
-		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || pad.left == true)
 		{
 			bounds.x -= SPEED_X * dt;
 			if (currentAnim != &walkLeft)
@@ -112,7 +114,7 @@ void Warrior::HandleInput(float dt)
 				currentAnim = &walkLeft;
 			}
 		}
-		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || pad.right == true)
 		{
 			bounds.x += SPEED_X * dt;
 			if (currentAnim != &walkRight)

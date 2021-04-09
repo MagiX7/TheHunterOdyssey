@@ -8,6 +8,7 @@
 class SDL_Texture;
 class Enemy;
 class BattleMenu;
+class GamePad;
 
 enum class PlayerType
 {
@@ -38,7 +39,7 @@ public:
 
 	virtual void Draw(bool showColliders) override;
 
-	virtual void HandleInput(float dt);
+	virtual void HandleInput(float dt, GamePad& pad);
 
 	virtual bool SaveState(pugi::xml_node& node);
 

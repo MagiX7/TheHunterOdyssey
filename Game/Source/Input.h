@@ -5,7 +5,7 @@
 
 //#define NUM_KEYS 352
 #define NUM_MOUSE_BUTTONS 5
-#define MAX_PADS 4
+#define MAX_PADS 10
 //#define LAST_KEYS_PRESSED_BUFFER 50
 
 struct _SDL_GameController;
@@ -106,11 +106,12 @@ private:
 	bool windowEvents[WE_COUNT];
 	KeyState*	keyboard;
 	KeyState mouseButtons[NUM_MOUSE_BUTTONS];
-	GamePad pads[MAX_PADS];
 	int	mouseMotionX;
 	int mouseMotionY;
 	int mouseX;
 	int mouseY;
+public:
+	GamePad pads[MAX_PADS];
 };
 
 #endif // __INPUT_H__
