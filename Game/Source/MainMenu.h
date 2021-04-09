@@ -5,6 +5,9 @@
 #include "GuiButton.h"
 #include "GuiCheckBox.h"
 #include "GuiSlider.h"
+
+#include "EASTL/list.h"
+
 class SceneTitle;
 
 enum class MenuState
@@ -35,6 +38,8 @@ public:
 
 	bool OnGuiMouseClickEvent(GuiControl* control) override;
 
+	void HandleInput();
+
 private:
 	MenuState state;
 	SceneTitle* scene;
@@ -54,6 +59,10 @@ private:
 	GuiButton* btnCreditsBack;
 	GuiCheckBox* checkFullscreen;
 	GuiCheckBox* checkVSync;
+
+	eastl::list<GuiButton*> buttons;
+	GuiButton* currentButton;
+	GuiButton* lastButton;
 
 	Font* font;
 };

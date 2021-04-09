@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Render.h"
 #include "Window.h"
 #include "MainMenu.h"
 
@@ -65,10 +66,20 @@ bool MainMenu::Load(Font* font)
 	btnCreditsBack->texture = guiTex;
 	btnCreditsBack->alineation = 1;
 
+	buttons.push_back(btnNewGame);
+	buttons.push_back(btnContinue);
+	buttons.push_back(btnOptions);
+	buttons.push_back(btnCredits);
+	buttons.push_back(btnExit);
+	currentButton = (*buttons.begin());
+	lastButton = nullptr;
+
+
 	// Check-boxes
 	checkFullscreen = new GuiCheckBox(10, { 94,318,185,32 }, "Fullscreen", this);
 	checkFullscreen->section = { 528,5,32,32 };
 	checkFullscreen->texture = guiTex;
+
 	checkVSync = new GuiCheckBox(11, { 94,419,120,32 }, "VSync", this);
 	checkVSync->section = { 528,5,32,32 };
 	checkVSync->texture = guiTex;
@@ -80,6 +91,8 @@ bool MainMenu::Update(float dt)
 {
 	bool ret = true;
 
+	HandleInput();
+
 	switch (state)
 	{
 	case MenuState::NONE:
@@ -89,29 +102,29 @@ bool MainMenu::Update(float dt)
 	break;
 	case MenuState::NORMAL:
 	{
-		btnNewGame->Update(app->input, dt);
-		btnContinue->Update(app->input, dt);
-		btnOptions->Update(app->input, dt);
-		btnCredits->Update(app->input, dt);
-		btnExit->Update(app->input, dt);
+		btnNewGame->Update(app->input, dt, currentButton->id);
+		btnContinue->Update(app->input, dt, currentButton->id);
+		btnOptions->Update(app->input, dt, currentButton->id);
+		btnCredits->Update(app->input, dt, currentButton->id);
+		btnExit->Update(app->input, dt, currentButton->id);
 	}
 	break;
 	case MenuState::OPTIONS:
 	{
-		btnOptionsBack->Update(app->input, dt);
+		btnOptionsBack->Update(app->input, dt, currentButton->id);
 		checkFullscreen->Update(app->input, dt);
 		checkVSync->Update(app->input, dt);
 	}
 	break;
 	case MenuState::CREDITS:
 	{
-		btnCreditsBack->Update(app->input, dt);
+		btnCreditsBack->Update(app->input, dt, currentButton->id);
 	}
 	break;
 	case MenuState::EXIT:
 	{
-		ret = btnExitYes->Update(app->input, dt);
-		btnExitNo->Update(app->input, dt);
+		ret = btnExitYes->Update(app->input, dt, currentButton->id);
+		btnExitNo->Update(app->input, dt, currentButton->id);
 	}
 	break;
 	}
@@ -197,6 +210,8 @@ bool MainMenu::UnLoad()
 
 	RELEASE(font);
 
+	buttons.clear();
+
 	return true;
 }
 
@@ -208,13 +223,71 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 	{
 		if (control->id == 1) scene->TransitionToScene(SceneType::GAMEPLAY); // New Game
 		else if (control->id == 2) scene->TransitionToScene(SceneType::GAMEPLAY); // Continue
-		else if (control->id == 3) state = MenuState::OPTIONS; // Options
-		else if (control->id == 4) state = MenuState::CREDITS; // Credits
-		else if (control->id == 5) state = MenuState::EXIT; // Exit button pressed
+		else if (control->id == 3) // Options
+		{
+			state = MenuState::OPTIONS;
+			buttons.clear();
+			buttons.push_back(btnOptionsBack);
+			
+			lastButton = currentButton;
+			currentButton = (*buttons.begin());
+		}
+		else if (control->id == 4) // Credits
+		{
+			state = MenuState::CREDITS;
+			buttons.clear();
+			buttons.push_back(btnCreditsBack);
+
+			lastButton = currentButton;
+			currentButton = (*buttons.begin());
+		}
+		else if (control->id == 5) // Exit button pressed
+		{
+			state = MenuState::EXIT;
+			buttons.clear();
+			buttons.push_back(btnExitYes);
+			buttons.push_back(btnExitNo);
+
+			lastButton = currentButton;
+			currentButton = (*buttons.end().prev());
+		}
 		else if (control->id == 6) return false; // Yes exit
-		else if (control->id == 7) state = MenuState::NORMAL; // Go back to the menu
-		else if (control->id == 8) state = MenuState::NORMAL; // Go back to the menu
-		else if (control->id == 9) state = MenuState::NORMAL; // Go back to the menu
+		else if (control->id == 7) // Go back to the menu
+		{
+			state = MenuState::NORMAL;
+			buttons.clear();
+			buttons.push_back(btnNewGame);
+			buttons.push_back(btnContinue);
+			buttons.push_back(btnOptions);
+			buttons.push_back(btnCredits);
+			buttons.push_back(btnExit);
+
+			currentButton = lastButton;
+		}
+		else if (control->id == 8) // Go back to the menu
+		{
+			state = MenuState::NORMAL;
+			buttons.clear();
+			buttons.push_back(btnNewGame);
+			buttons.push_back(btnContinue);
+			buttons.push_back(btnOptions);
+			buttons.push_back(btnCredits);
+			buttons.push_back(btnExit);
+			
+			currentButton = lastButton;
+		}
+		else if (control->id == 9) // Go back to the menu
+		{
+			state = MenuState::NORMAL;
+			buttons.clear();
+			buttons.push_back(btnNewGame);
+			buttons.push_back(btnContinue);
+			buttons.push_back(btnOptions);
+			buttons.push_back(btnCredits);
+			buttons.push_back(btnExit);
+
+			currentButton = lastButton;
+		}
 	}
 	case GuiControlType::CHECKBOX:
 	{
@@ -229,4 +302,41 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 	}
 	
 	return true;
+}
+
+void MainMenu::HandleInput()
+{
+	int key1 = SDL_SCANCODE_DOWN;
+	int key2 = SDL_SCANCODE_UP;
+	
+	if (state == MenuState::EXIT)
+	{
+		key1 = SDL_SCANCODE_RIGHT;
+		key2 = SDL_SCANCODE_LEFT;
+	}
+
+	if (app->input->GetKey(key1) == KEY_DOWN)
+	{
+		eastl::list<GuiButton*>::iterator it = buttons.begin();
+		for (int i = 0; i < buttons.size(); ++i, ++it)
+		{
+			if ((*it)->id == currentButton->id + 1)
+			{
+				currentButton = (*it);
+				break;
+			}
+		}
+	}
+	else if (app->input->GetKey(key2) == KEY_DOWN)
+	{
+		eastl::list<GuiButton*>::iterator it = buttons.begin();
+		for (int i = 0; i < buttons.size(); ++i, ++it)
+		{
+			if ((*it)->id == currentButton->id - 1)
+			{
+				currentButton = (*it);
+				break;
+			}
+		}
+	}
 }

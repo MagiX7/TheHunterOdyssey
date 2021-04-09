@@ -25,7 +25,7 @@ GuiButton::~GuiButton()
 	app->audio->UnLoadFx(focusedFx);
 }
 
-bool GuiButton::Update(Input* input, float dt)
+bool GuiButton::Update(Input* input, float dt, int id)
 {
 	if (state != GuiControlState::DISABLED)
 	{
@@ -33,8 +33,8 @@ bool GuiButton::Update(Input* input, float dt)
 		input->GetMousePosition(mouseX, mouseY);
 
 		// Check collision between mouse and button bounds
-		if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 
-			(mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)))
+		if (((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 
+			(mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h))) || this->id == id)
 		{
 			state = GuiControlState::FOCUSED;
 
@@ -44,17 +44,19 @@ bool GuiButton::Update(Input* input, float dt)
 				isPlayable = false;
 			}
 
-			if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT || input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
+			//if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT || input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
+			if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT || input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN
+				|| input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->GetKey(SDL_SCANCODE_RETURN) == KEY_REPEAT)
 			{
 				state = GuiControlState::PRESSED;
-				if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
+				if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN || input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 				{
 					app->audio->PlayFx(clickFx);
 				}
 			}
 
 			// If mouse button pressed -> Generate event!
-			if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP)
+			if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP || input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP)
 			{
 				if (NotifyObserver() == false) return false;
 			}

@@ -68,7 +68,7 @@ bool PauseMenu::Update(float dt)
 {
 	bool ret = true;
 	
-	switch (state)
+	/*switch (state)
 	{
 	case PauseState::DEFAULT:
 		btnResume->Update(app->input, dt);
@@ -84,7 +84,7 @@ bool PauseMenu::Update(float dt)
 		btnLoad->Update(app->input, dt);
 		btnBack->Update(app->input, dt);
 		break;
-	}
+	}*/
 
 	return ret;
 }

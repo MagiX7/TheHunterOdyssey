@@ -52,11 +52,11 @@ bool CharacterManager::Load(Font* font)
 
 bool CharacterManager::Update(float dt)
 {
-	btnHunter->Update(app->input, dt);
+	/*btnHunter->Update(app->input, dt);
 	btnWizard->Update(app->input, dt);
 	btnThief->Update(app->input, dt);
 	btnWarrior->Update(app->input, dt);
-	btnExit->Update(app->input, dt);
+	btnExit->Update(app->input, dt);*/
 
 	return true;
 }

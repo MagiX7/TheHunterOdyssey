@@ -72,46 +72,46 @@ bool BattleMenu::Load(Font* font)
 bool BattleMenu::Update(float dt)
 {
 	bool ret = true;
-	switch (type)
-	{
-	case BattleState::NONE:
-		type = BattleState::DEFAULT;
-		break;
-	case BattleState::DEFAULT:
-		btnAttack->Update(app->input, dt);
-		btnAbility->Update(app->input, dt);
-		btnDefense->Update(app->input, dt);
-		btnObject->Update(app->input, dt);
-		break;
-	case BattleState::ATTACK:
-		ret = HandleInput(app->input);
-		break;
-	case BattleState::ABILITY_SELECT:
-		btnAbilitySlot1->Update(app->input, dt);
-		btnAbilitySlot2->Update(app->input, dt);
-		btnAbilitySlot3->Update(app->input, dt);
-		btnAbilitySlot4->Update(app->input, dt);
-		//ret = HandleAbilities(app->input);
-		break;
-	case BattleState::ABILITY:
-		ret = HandleAbilities(app->input, currPlayer->GetAbilitySelected());
-		break;
-	case BattleState::ENEMY_TURN:
-		EnemyTurn();
-		break;
-	case BattleState::DEFENSE:
-		ret = HandleDefense(app->input);
-		break;
-	case BattleState::OBJECT_SELECT:
-		btnObjectSlot1->Update(app->input, dt);
-		btnObjectSlot2->Update(app->input, dt);
-		btnObjectSlot3->Update(app->input, dt);
-		btnObjectSlot4->Update(app->input, dt);
-		break;
-	case BattleState::OBJECT:
-		ret = HandleObjects(app->input, currPlayer->GetObjectSelected());
-		break;
-	}
+	//switch (type)
+	//{
+	//case BattleState::NONE:
+	//	type = BattleState::DEFAULT;
+	//	break;
+	//case BattleState::DEFAULT:
+	//	btnAttack->Update(app->input, dt);
+	//	btnAbility->Update(app->input, dt);
+	//	btnDefense->Update(app->input, dt);
+	//	btnObject->Update(app->input, dt);
+	//	break;
+	//case BattleState::ATTACK:
+	//	ret = HandleInput(app->input);
+	//	break;
+	//case BattleState::ABILITY_SELECT:
+	//	btnAbilitySlot1->Update(app->input, dt);
+	//	btnAbilitySlot2->Update(app->input, dt);
+	//	btnAbilitySlot3->Update(app->input, dt);
+	//	btnAbilitySlot4->Update(app->input, dt);
+	//	//ret = HandleAbilities(app->input);
+	//	break;
+	//case BattleState::ABILITY:
+	//	ret = HandleAbilities(app->input, currPlayer->GetAbilitySelected());
+	//	break;
+	//case BattleState::ENEMY_TURN:
+	//	EnemyTurn();
+	//	break;
+	//case BattleState::DEFENSE:
+	//	ret = HandleDefense(app->input);
+	//	break;
+	//case BattleState::OBJECT_SELECT:
+	//	btnObjectSlot1->Update(app->input, dt);
+	//	btnObjectSlot2->Update(app->input, dt);
+	//	btnObjectSlot3->Update(app->input, dt);
+	//	btnObjectSlot4->Update(app->input, dt);
+	//	break;
+	//case BattleState::OBJECT:
+	//	ret = HandleObjects(app->input, currPlayer->GetObjectSelected());
+	//	break;
+	//}
 
 	return ret;
 }
