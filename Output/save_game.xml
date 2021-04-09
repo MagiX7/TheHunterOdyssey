@@ -21,24 +21,7 @@
             <NpcType type="NPC_WIZARD" />
           </NPC>
         </NPCs>
-        <players amount="4">
-          <player>
-            <bounds X="638" Y="437" W="16" H="32" />
-            <playerType type="HUNTER" />
-          </player>
-          <player>
-            <bounds X="18" Y="90" W="16" H="32" />
-            <playerType type="WIZARD" />
-          </player>
-          <player>
-            <bounds X="12" Y="45" W="16" H="32" />
-            <playerType type="THIEF" />
-          </player>
-          <player>
-            <bounds X="13" Y="56" W="16" H="32" />
-            <playerType type="WARRIOR" />
-          </player>
-        </players>
+        <players amount="0" />
       </entities>
     </scenegameplay>
   </scenemanager>

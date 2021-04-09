@@ -333,25 +333,52 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect)
 				}
 				if (((*map->data.layers.end().prev())->Get(i, j) == 771) && CheckCollision(map->GetTilemapRec(i, j), rect))
 				{
-					iPoint position = { 560,400 };
+					iPoint position = { 625,480};
 					currentPlayer->bounds.x = position.x;
 					currentPlayer->bounds.y = position.y;
+					map->CleanUp();
 					map->Load("house1.tmx", app->tex);
+					if (((*map->data.layers.end().prev())->Get(i, j) == 771) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						iPoint position = { 97,505 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("town_map.tmx", app->tex);
+					}
 				}
-				/*if (((*map->data.layers.end().prev())->Get(i, j) == 772) && CheckCollision(map->GetTilemapRec(i, j), rect))
+				if (((*map->data.layers.end().prev())->Get(i, j) == 772) && CheckCollision(map->GetTilemapRec(i, j), rect))
 				{
-					iPoint position = { 560,400 };
+					iPoint position = { 625,480 };
 					currentPlayer->bounds.x = position.x;
 					currentPlayer->bounds.y = position.y;
+					map->CleanUp();
 					map->Load("house2.tmx", app->tex);
+					if (((*map->data.layers.end().prev())->Get(i, j) == 772) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						iPoint position = { 560,400 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("town_map.tmx", app->tex);
+					}
 				}
 				if (((*map->data.layers.end().prev())->Get(i, j) == 773) && CheckCollision(map->GetTilemapRec(i, j), rect))
 				{
-					iPoint position = { 560,400 };
+					iPoint position = { 625,480 };
 					currentPlayer->bounds.x = position.x;
 					currentPlayer->bounds.y = position.y;
+					map->CleanUp();
 					map->Load("house3.tmx", app->tex);
-				}*/
+					if (((*map->data.layers.end().prev())->Get(i, j) == 773) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						iPoint position = { 625,480 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("house3.tmx", app->tex);
+					}
+				}
 			}
 		}
 	}

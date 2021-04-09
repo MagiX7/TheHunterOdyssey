@@ -2523,7 +2523,7 @@
    <tile gid="149"/>
    <tile gid="4"/>
    <tile gid="245"/>
-   <tile gid="6"/>
+   <tile gid="245"/>
    <tile gid="53"/>
    <tile/>
    <tile gid="766"/>
@@ -3899,7 +3899,7 @@
    <tile gid="375"/>
    <tile gid="376"/>
    <tile/>
-   <tile gid="9"/>
+   <tile/>
    <tile/>
    <tile gid="198"/>
    <tile gid="199"/>
@@ -3947,7 +3947,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="105"/>
+   <tile/>
    <tile/>
    <tile gid="198"/>
    <tile gid="199"/>
@@ -6940,7 +6940,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="3" name="Hitboxes" width="48" height="48">
+ <layer id="3" name="Hitboxes" width="48" height="48" opacity="0.5">
   <properties>
    <property name="draw" type="bool" value="false"/>
   </properties>
@@ -7136,13 +7136,13 @@
    <tile gid="770"/>
    <tile gid="769"/>
    <tile gid="769"/>
-   <tile gid="770"/>
+   <tile gid="769"/>
    <tile gid="770"/>
    <tile gid="770"/>
    <tile gid="769"/>
    <tile gid="769"/>
    <tile gid="770"/>
-   <tile gid="769"/>
+   <tile gid="770"/>
    <tile gid="770"/>
    <tile gid="770"/>
    <tile gid="770"/>
@@ -8060,7 +8060,7 @@
    <tile gid="770"/>
    <tile gid="770"/>
    <tile gid="770"/>
-   <tile gid="769"/>
+   <tile gid="770"/>
    <tile gid="770"/>
    <tile gid="770"/>
    <tile gid="769"/>
@@ -8285,14 +8285,14 @@
    <tile gid="770"/>
    <tile gid="770"/>
    <tile gid="770"/>
-   <tile gid="769"/>
    <tile gid="770"/>
    <tile gid="770"/>
    <tile gid="770"/>
    <tile gid="770"/>
    <tile gid="770"/>
    <tile gid="770"/>
-   <tile gid="769"/>
+   <tile gid="770"/>
+   <tile gid="770"/>
    <tile gid="769"/>
    <tile gid="769"/>
    <tile gid="770"/>
@@ -8518,7 +8518,7 @@
    <tile gid="769"/>
    <tile gid="769"/>
    <tile gid="770"/>
-   <tile gid="769"/>
+   <tile gid="770"/>
    <tile gid="770"/>
    <tile gid="770"/>
    <tile gid="769"/>
@@ -8566,7 +8566,7 @@
    <tile gid="770"/>
    <tile gid="770"/>
    <tile gid="770"/>
-   <tile gid="769"/>
+   <tile gid="770"/>
    <tile gid="770"/>
    <tile gid="770"/>
    <tile gid="769"/>
@@ -8607,7 +8607,7 @@
    <tile gid="770"/>
    <tile gid="770"/>
    <tile gid="770"/>
-   <tile gid="769"/>
+   <tile gid="770"/>
    <tile gid="770"/>
    <tile gid="769"/>
    <tile gid="770"/>
