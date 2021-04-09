@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Textures.h"
 #include "Render.h"
 #include "DialogueManager.h"
 #include "Dialogue.h"
@@ -35,8 +36,8 @@ void Dialogue::Draw(int& count, Font* font)
 		else currentNode->dialogFinished = true;
 	}
 
-	//app->render->DrawText(font, textToPrint.c_str(), 272, 208, 100, 5, { 0,0,0,255 });
-	app->render->DrawCenterText(font, textToPrint.c_str(), { 140,-40,1000,420 }, 50, 5, { 0,0,0,255 });
+	app->render->DrawText(font, textToPrint.c_str(), 70, 115, 40, 5, { 0,0,0,255 }, 630);
+	//app->render->DrawCenterText(font, textToPrint.c_str(), { 140,-40,1000,420 }, 40, 5, { 0,0,0,255 });
 
 	// Render options for the player
 	eastl::list<DialogueOption*>::iterator optionsIterator = currentNode->options.begin();
@@ -45,7 +46,7 @@ void Dialogue::Draw(int& count, Font* font)
 		int offsetY = 0;
 		for (; optionsIterator != (*currentNode).options.end(); ++optionsIterator)
 		{
-			app->render->DrawText(font, (*optionsIterator)->text.c_str(), 160, 300 + offsetY, 50, 5, { 150,150,150,255 });
+			app->render->DrawText(font, (*optionsIterator)->text.c_str(), 685, 218 + offsetY, 50, 5, { 150,150,150,255 });
 			offsetY += 60;
 		}
 	}

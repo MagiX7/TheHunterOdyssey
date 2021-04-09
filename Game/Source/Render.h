@@ -6,6 +6,7 @@
 #include "Point.h"
 
 #include "SDL/include/SDL.h"
+#include "EASTL/string.h"
 
 class Font;
 
@@ -52,6 +53,7 @@ public:
 	SDL_Rect camera;
 	SDL_Rect viewport;
 	SDL_Color background;
+
 };
 
 #endif // __RENDER_H__

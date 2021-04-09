@@ -232,6 +232,8 @@ bool Render::DrawText(Font* font, const char* text, int x, int y, int size, int 
 {
 	bool ret = true;
 
+	bool noMoreJumps = false;
+
 	int length = strlen(text);
 	int posX = x;
 
@@ -239,23 +241,68 @@ bool Render::DrawText(Font* font, const char* text, int x, int y, int size, int 
 
 	SDL_SetTextureColorMod(font->GetTextureAtlas(), tint.r, tint.g, tint.b);
 
-	for (int i = 0; i < length; i++)
+	eastl::string tmp;
+	int tmpLen = 0;
+	int firstTmpLetterPosition = 0;
+	for (int i = 0; i < length + 1; i++)
 	{
 		SDL_Rect recGlyph = font->GetCharRec(text[i]);
 		SDL_Rect recDest = { posX, y, (scale * recGlyph.w), size };
-
-		SDL_RenderCopyEx(renderer, font->GetTextureAtlas(), &recGlyph, &recDest, 0.0, { 0 }, SDL_RendererFlip::SDL_FLIP_NONE);
-
-		posX += ((float)recGlyph.w * scale + spacing);
 		
-		if (maxX > 0)
+		if (text[i] != ' ' && text[i] != '\0')
 		{
-			if (recDest.x + recDest.w >= maxX - 30) // 30 stands for an offset
+			tmp.push_back(text[i]);
+			++tmpLen;
+
+			if (tmpLen == 1 && maxX > 0) firstTmpLetterPosition = posX; /*+ recGlyph.w;*/
+
+			if (text[i + 1] == ' ')
 			{
-				y += size + 5;
-				posX = x;
+				tmp.push_back(text[i + 1]);
+				++tmpLen;
+			}
+
+			if (maxX > 0)
+			{
+
+				if ((tmpLen * (recDest.w + spacing)) + firstTmpLetterPosition >= maxX && noMoreJumps == false)
+				{
+					noMoreJumps = true;
+					y += size + 5;
+					posX = x;
+				}
+
+				/*if (recDest.x + recDest.w >= maxX - 30)
+				{
+					y += size + 5;
+					posX = x;
+				}*/
 			}
 		}
+		else // Print the text
+		{
+			for (int j = 0; j < tmp.length(); ++j)
+			{
+				recGlyph = font->GetCharRec(tmp[j]);
+				recDest.x = posX;
+				recDest.w = scale * recGlyph.w;
+				SDL_RenderCopyEx(renderer, font->GetTextureAtlas(), &recGlyph, &recDest, 0.0, { 0 }, SDL_RendererFlip::SDL_FLIP_NONE);
+				posX += ((float)recGlyph.w * scale + spacing);
+			}
+			firstTmpLetterPosition = posX;
+			tmp.clear();
+			tmpLen = 0;
+			noMoreJumps = false;
+		}
+
+		//if (maxX > 0)
+		//{
+		//	if (recDest.x + recDest.w >= maxX - 30) // 30 stands for an offset
+		//	{
+		//		y += size + 5;
+		//		posX = x;
+		//	}
+		//}
 	}
 
 	return ret;

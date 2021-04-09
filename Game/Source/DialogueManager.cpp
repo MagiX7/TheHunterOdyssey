@@ -27,11 +27,13 @@ bool DialogueManager::Start()
 	{
 		root = file.child("dialogues");
 		font = new Font("Assets/Font/font3.xml", app->tex);
+		texture = app->tex->Load("Assets/Textures/dialogue_background.png");
 		//current = LoadDialogue(0);
 
 		letterCount = 0;
 		printText = false;
 		current = nullptr;
+		alpha = 150;
 	}
 
 	return true;
@@ -40,6 +42,8 @@ bool DialogueManager::Start()
 bool DialogueManager::Update(float dt)
 {
 	bool ret = true;
+
+	alpha += 100 * dt;
 
 	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) printText = true;
 	
@@ -106,7 +110,14 @@ void DialogueManager::Draw()
 {
 	if (current != nullptr)
 	{
-		alpha+= 5;
+		// Draw the background for the npc text
+		SDL_Rect sect = { 0,0,612, 479 };
+		app->render->DrawTexture(texture, 50, 100, &sect);
+
+		// Draw the background for the player options
+		sect = { 615, 137, 556, 203 };
+		app->render->DrawTexture(texture, 670, 200, &sect);
+
 
 		if (alpha >= 255)
 		{
@@ -116,13 +127,13 @@ void DialogueManager::Draw()
 		SDL_Rect r = { current->currentNode->currentOption->bounds.x,  current->currentNode->currentOption->bounds.y,
 			current->currentNode->currentOption->bounds.w,current->currentNode->currentOption->bounds.h };
 		app->render->DrawRectangle(r, 0, 0, 150, alpha);
+		
+		
+		if (printText == true && current->currentNode->id >= -1)
+		{
+			current->Draw(letterCount, font);
+		}
 	}
-
-	if (printText == true && current->currentNode->id >= -1)
-	{
-		current->Draw(letterCount, font);
-	}
-	
 }
 
 bool DialogueManager::UnLoad()
@@ -145,8 +156,8 @@ NpcNode* DialogueManager::LoadNode(int id, pugi::xml_node node)
 		option->text = m.attribute("text").as_string();
 		option->id = m.attribute("id").as_int();
 		option->nextNodeId = m.attribute("nextNodeId").as_int();
-		option->bounds.x = 155;
-		option->bounds.y = 300 + i;
+		option->bounds.x = 680;
+		option->bounds.y = 215 + i;
 		//option->bounds.w = 400;
 		int offset = font->GetBaseSize();
 		option->bounds.w = option->text.size() * offset;

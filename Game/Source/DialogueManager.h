@@ -27,6 +27,8 @@ public:
 	bool isDialogueActive;
 
 private:
+	SDL_Texture* texture;
+
 	// Pugi stuff to load dialogues
 	pugi::xml_document file;
 	pugi::xml_node root;
