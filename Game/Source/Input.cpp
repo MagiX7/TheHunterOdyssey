@@ -16,12 +16,14 @@ Input::Input() : Module()
 	keyboard = new KeyState[MAX_KEYS];
 	memset(keyboard, KEY_IDLE, sizeof(KeyState) * MAX_KEYS);
 	memset(mouseButtons, KEY_IDLE, sizeof(KeyState) * NUM_MOUSE_BUTTONS);
-	memset(&pads[0], 0, sizeof(GamePad) * MAX_PADS);
+	
+	pads = new GamePad();
 }
 
 // Destructor
 Input::~Input()
 {
+	RELEASE(pads);
 	delete[] keyboard;
 }
 
@@ -166,15 +168,14 @@ bool Input::CleanUp()
 {
 	LOG("Quitting SDL event subsystem");
 
-	for (uint i = 0; i < MAX_PADS; ++i)
-	{
-		if (pads[i].haptic != nullptr)
+	
+		if (pads->haptic != nullptr)
 		{
-			SDL_HapticStopAll(pads[i].haptic);
-			SDL_HapticClose(pads[i].haptic);
+			SDL_HapticStopAll(pads[0].haptic);
+			SDL_HapticClose(pads[0].haptic);
 		}
-		if (pads[i].controller != nullptr) SDL_GameControllerClose(pads[i].controller);
-	}
+		if (pads->controller != nullptr) SDL_GameControllerClose(pads->controller);
+	
 
 	SDL_QuitSubSystem(SDL_INIT_HAPTIC);
 	SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER);
@@ -186,15 +187,14 @@ void Input::HandleDeviceConnection(int index)
 {
 	if (SDL_IsGameController(index))
 	{
-		for (int i = 0; i < MAX_PADS; ++i)
-		{
-			GamePad& pad = pads[i];
+		
+			GamePad& pad = pads[0];
 
 			if (pad.enabled == false)
 			{
 				if (pad.controller = SDL_GameControllerOpen(index))
 				{
-					LOG("Found a gamepad with id %i named %s", i, SDL_GameControllerName(pad.controller));
+					LOG("Found a gamepad with id %i named %s", 0, SDL_GameControllerName(pad.controller));
 					pad.enabled = true;
 					pad.l_dz = pad.r_dz = 0.1f;
 					pad.haptic = SDL_HapticOpen(index);
@@ -203,31 +203,29 @@ void Input::HandleDeviceConnection(int index)
 					pad.index = SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(pad.controller));
 				}
 			}
-		}
+		
 	}
 }
 
 void Input::HandleDeviceRemoval(int index)
 {
 	// If an existing gamepad has the given index, deactivate all SDL device functionallity
-	for (int i = 0; i < MAX_PADS; ++i)
-	{
-		GamePad& pad = pads[i];
+	
+		GamePad& pad = *pads;
 		if (pad.enabled && pad.index == index)
 		{
 			SDL_HapticClose(pad.haptic);
 			SDL_GameControllerClose(pad.controller);
 			memset(&pad, 0, sizeof(GamePad));
 		}
-	}
+	
 }
 
 void Input::UpdateGamepadsInput()
 {
 	// Iterate through all active gamepads and update all input data
-	for (int i = 0; i < MAX_PADS; ++i)
-	{
-		GamePad& pad = pads[i];
+
+		GamePad& pad = *pads;
 
 		if (pad.enabled == true)
 		{
@@ -265,7 +263,7 @@ void Input::UpdateGamepadsInput()
 			if (pad.rumble_countdown > 0)
 				pad.rumble_countdown--;
 		}
-	}
+	
 }
 
 bool Input::ShakeController(int id, int duration, float strength)
@@ -273,7 +271,7 @@ bool Input::ShakeController(int id, int duration, float strength)
 	bool ret = false;
 
 	// Check if the given id is valid within the array bounds
-	if (id < 0 || id >= MAX_PADS) return ret;
+	if (id < 0 || id >= 0) return ret;
 
 	// Check if the gamepad is active and allows rumble
 	GamePad& pad = pads[id];
@@ -304,7 +302,7 @@ bool Input::ShakeController(int id, int duration, float strength)
 const char* Input::GetControllerName(int id) const
 {
 	// Check if the given id has a valid controller
-	if (id >= 0 && id < MAX_PADS && pads[id].enabled == true && pads[id].controller != nullptr)
+	if (id >= 0 && id < 1 && pads[id].enabled == true && pads[id].controller != nullptr)
 		return SDL_GameControllerName(pads[id].controller);
 
 	return "unplugged";

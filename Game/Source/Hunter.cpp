@@ -61,11 +61,9 @@ bool Hunter::Load()
 
 bool Hunter::Update(float dt)
 {
-	GamePad& pad = app->input->pads[0];
-
 	currentAnim->speed = 10.0f * dt;
 
-	HandleInput(dt,pad);
+	HandleInput(dt);
 
 	currentAnim->Update();
 
@@ -83,13 +81,13 @@ bool Hunter::UnLoad()
 	return true;
 }
 
-void Hunter::HandleInput(float dt, GamePad& pad)
+void Hunter::HandleInput(float dt)
 {
 
 	switch (stance)
 	{
 	case PlayerStance::ROAMING:
-		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || pad.up == true)
+		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || app->input->pads->up == true)
 		{
 			bounds.y -= SPEED_Y * dt;
 			if (currentAnim != &walkUp)
@@ -98,7 +96,7 @@ void Hunter::HandleInput(float dt, GamePad& pad)
 				currentAnim = &walkUp;
 			}
 		}
-		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || pad.down == true)
+		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || app->input->pads->down == true)
 		{
 			bounds.y += SPEED_Y * dt;
 			if (currentAnim != &walkDown)
@@ -107,7 +105,7 @@ void Hunter::HandleInput(float dt, GamePad& pad)
 				currentAnim = &walkDown;
 			}
 		}
-		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || pad.left == true)
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || app->input->pads->left == true)
 		{
 			bounds.x -= SPEED_X * dt;
 			if (currentAnim != &walkLeft)
@@ -116,7 +114,7 @@ void Hunter::HandleInput(float dt, GamePad& pad)
 				currentAnim = &walkLeft;
 			}
 		}
-		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || pad.right == true)
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || app->input->pads->right == true)
 		{
 			bounds.x += SPEED_X * dt;
 			if (currentAnim != &walkRight)

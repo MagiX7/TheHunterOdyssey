@@ -3,7 +3,6 @@
 #include "Player.h"
 
 class GuiButton;
-class GamePad;
 
 class Wizard : public Player
 {
@@ -19,7 +18,7 @@ public:
 
 	bool UnLoad() override;
 
-	void HandleInput(float dt, GamePad& pad) override;
+	void HandleInput(float dt) override;
 
 	bool SaveState(pugi::xml_node& node) override;
 

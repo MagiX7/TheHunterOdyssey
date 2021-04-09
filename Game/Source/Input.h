@@ -5,7 +5,6 @@
 
 //#define NUM_KEYS 352
 #define NUM_MOUSE_BUTTONS 5
-#define MAX_PADS 10
 //#define LAST_KEYS_PRESSED_BUFFER 50
 
 struct _SDL_GameController;
@@ -31,6 +30,10 @@ enum KeyState
 
 struct GamePad
 {
+	GamePad()
+	{
+		start = back = guide = x = y = a = b = l1 = r1 = l3 = r3 = up = down = left = right = false;
+	}
 	//Input data
 	bool start, back, guide;
 	bool x, y, a, b, l1, r1, l3, r3;
@@ -111,7 +114,7 @@ private:
 	int mouseX;
 	int mouseY;
 public:
-	GamePad pads[MAX_PADS];
+	GamePad* pads;
 };
 
 #endif // __INPUT_H__

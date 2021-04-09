@@ -315,7 +315,7 @@ void MainMenu::HandleInput()
 		key2 = SDL_SCANCODE_LEFT;
 	}
 
-	if (app->input->GetKey(key1) == KEY_DOWN)
+	if (app->input->GetKey(key1) == KEY_DOWN || app->input->pads->down)
 	{
 		eastl::list<GuiButton*>::iterator it = buttons.begin();
 		for (int i = 0; i < buttons.size(); ++i, ++it)
@@ -327,7 +327,7 @@ void MainMenu::HandleInput()
 			}
 		}
 	}
-	else if (app->input->GetKey(key2) == KEY_DOWN)
+	else if (app->input->GetKey(key2) == KEY_DOWN || app->input->pads->up)
 	{
 		eastl::list<GuiButton*>::iterator it = buttons.begin();
 		for (int i = 0; i < buttons.size(); ++i, ++it)

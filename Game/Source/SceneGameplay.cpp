@@ -308,7 +308,7 @@ void SceneGameplay::HandleInput(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN) menuState = GameplayMenuState::CHARACTER_SWAP;
 	
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) menuState = GameplayMenuState::PAUSE;
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || app->input->pads->start) menuState = GameplayMenuState::PAUSE;
 }
 
 bool SceneGameplay::CollisionMapEntity(SDL_Rect rect)

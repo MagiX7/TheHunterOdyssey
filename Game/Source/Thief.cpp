@@ -62,9 +62,7 @@ bool Thief::Update(float dt)
 {
 	currentAnim->speed = 10.0f * dt;
 
-	GamePad& pad = app->input->pads[0];
-
-	HandleInput(dt, pad);
+	HandleInput(dt);
 
 	currentAnim->Update();
 
@@ -82,12 +80,12 @@ bool Thief::UnLoad()
 	return true;
 }
 
-void Thief::HandleInput(float dt, GamePad& pad)
+void Thief::HandleInput(float dt)
 {
 	switch (stance)
 	{
 	case PlayerStance::ROAMING:
-		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || pad.up == true)
+		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || app->input->pads->up == true)
 		{
 			bounds.y -= SPEED_Y * dt;
 			if (currentAnim != &walkUp)
@@ -96,7 +94,7 @@ void Thief::HandleInput(float dt, GamePad& pad)
 				currentAnim = &walkUp;
 			}
 		}
-		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || pad.down == true)
+		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || app->input->pads->down == true)
 		{
 			bounds.y += SPEED_Y * dt;
 			if (currentAnim != &walkDown)
@@ -105,7 +103,7 @@ void Thief::HandleInput(float dt, GamePad& pad)
 				currentAnim = &walkDown;
 			}
 		}
-		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || pad.left == true)
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || app->input->pads->left == true)
 		{
 			bounds.x -= SPEED_X * dt;
 			if (currentAnim != &walkLeft)
@@ -114,7 +112,7 @@ void Thief::HandleInput(float dt, GamePad& pad)
 				currentAnim = &walkLeft;
 			}
 		}
-		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || pad.right == true)
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || app->input->pads->right == true)
 		{
 			bounds.x += SPEED_X * dt;
 			if (currentAnim != &walkRight)
