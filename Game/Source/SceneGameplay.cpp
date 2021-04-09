@@ -204,7 +204,7 @@ void SceneGameplay::Draw()
 		currentPlayer->Draw(showColliders);
 		if (dialogueManager->isDialogueActive)
 		{
-			app->render->DrawRectangle({ 0,0,1280, 720 }, 0, 0, 0, 150);
+			app->render->DrawRectangle({ -(app->render->camera.x),-(app->render->camera.y),1280, 720 }, 0, 0, 0, 150);
 			dialogueManager->Draw();
 		}
 		if (menuState == GameplayMenuState::CHARACTER_SWAP)

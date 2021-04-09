@@ -8,8 +8,8 @@
 #include "SceneGameplay.h"
 #include<time.h>
 
-#define SPEED_X 100.0f
-#define SPEED_Y 100.0f
+#define SPEED_X 60.0f
+#define SPEED_Y 60.0f
 Npc::Npc(EntityType type, iPoint position) : Entity(type)
 {
 	drawPtext = false;
@@ -91,7 +91,7 @@ void Npc::Draw(bool showColliders)
 	if (showColliders)
 		app->render->DrawRectangle(bounds, 255, 255, 255, 255);
 
-	if (drawPtext) app->render->DrawText(font, "Press O to talk", bounds.x - 30, bounds.y - 30, 20, 5, { 255,255,255 });
+	if (drawPtext) app->render->DrawText(font, "Press O to talk", (bounds.x - 30)- (app->render->camera.x * (-1)), (bounds.y - 30) - (app->render->camera.y*(-1)), 20, 5, { 255,255,255 });
 }
 
 bool Npc::UnLoad()

@@ -112,11 +112,11 @@ void DialogueManager::Draw()
 	{
 		// Draw the background for the npc text
 		SDL_Rect sect = { 0,0,612, 479 };
-		app->render->DrawTexture(texture, 50, 100, &sect);
+		app->render->DrawTexture(texture, 50 - (app->render->camera.x ), 100 - (app->render->camera.y), &sect);
 
 		// Draw the background for the player options
 		sect = { 615, 137, 556, 203 };
-		app->render->DrawTexture(texture, 670, 200, &sect);
+		app->render->DrawTexture(texture, 670 - (app->render->camera.x ), 200 - (app->render->camera.y ), &sect);
 
 
 		if (alpha >= 255)
@@ -124,7 +124,7 @@ void DialogueManager::Draw()
 			alpha = 0;
 		}
 		//SDL_Rect r = { current->currentNode->currentOption->bounds.x,  current->currentNode->currentOption->bounds.y, 400,50 };
-		SDL_Rect r = { current->currentNode->currentOption->bounds.x,  current->currentNode->currentOption->bounds.y,
+		SDL_Rect r = {  current->currentNode->currentOption->bounds.x+(app->render->camera.x * (-1))  , current->currentNode->currentOption->bounds.y+(app->render->camera.y * (-1)) ,
 			current->currentNode->currentOption->bounds.w,current->currentNode->currentOption->bounds.h };
 
 		app->render->DrawRectangle(r, 149, 255, 255, alpha);
