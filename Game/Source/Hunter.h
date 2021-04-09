@@ -7,7 +7,7 @@ class SDL_Texture;
 class Hunter : public Player
 {
 public:
-	Hunter(iPoint position);
+	Hunter(iPoint position, pugi::xml_node anim);
 	virtual ~Hunter();
 
 	bool Load() override;
@@ -36,4 +36,13 @@ public:
 
 private:
 	SDL_Texture* texture;
+
+	Animation idleDown;
+	Animation idleLeft;
+	Animation idleRight;
+	Animation idleUp;
+	Animation walkDown;
+	Animation walkLeft;
+	Animation walkRight;
+	Animation walkUp;
 };

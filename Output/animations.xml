@@ -3,108 +3,108 @@
 	<hunter>
 		<overworld>
 			<walk_front>
-				<pushback x ="9" y="7" w="38" h="40"/>
-				<pushback x ="66" y="7" w="37" h="40"/>
-				<pushback x ="122" y="7" w="37" h="40"/>
+				<pushback x ="10" y="10" w="30" h="32"/>
+				<pushback x ="50" y="10" w="30" h="32"/>
+				<pushback x ="90" y="10" w="30" h="32"/>
 			</walk_front>
 
 			<walk_left>
-				<pushback x ="12" y="61" w="35" h ="40"/>
-				<pushback x ="68" y="63" w="30" h ="40"/>
-				<pushback x ="124" y="61" w="35" h ="40"/>
+				<pushback x ="10" y="52" w="28" h ="32"/>
+				<pushback x ="50" y="52" w="24" h ="32"/>
+				<pushback x ="90" y="52" w="28" h ="32"/>
 			</walk_left>
 
 			<walk_right>
-				<pushback x ="9" y="117" w="36" h ="40"/>
-				<pushback x ="70" y="120" w="31" h ="39"/>
-				<pushback x ="122" y="117" w="35" h ="40"/>
+				<pushback x ="10" y="94" w="28" h ="32"/>
+				<pushback x ="50" y="94" w="24" h ="32"/>
+				<pushback x ="90" y="94" w="28" h ="32"/>
 			</walk_right>
 
 			<walk_up>
-				<pushback x ="9" y="176" w="38" h ="41"/>
-				<pushback x ="66" y="176" w="37" h ="40"/>
-				<pushback x ="122" y="176" w="37" h ="40"/>
+				<pushback x ="10" y="136" w="30" h ="32"/>
+				<pushback x ="50" y="136" w="30" h ="32"/>
+				<pushback x ="90" y="136" w="30" h ="32"/>
 			</walk_up>
 		</overworld>
 	</hunter>
 	<wizard>
 		<overworld>
 			<walk_front>
-				<pushback x ="9" y="232" w="38" h="40"/>
-				<pushback x ="65" y="232" w="38" h="40"/>
-				<pushback x ="121" y="232" w="38" h="40"/>
+        <pushback x ="10" y="10" w="30" h="32"/>
+        <pushback x ="50" y="10" w="30" h="32"/>
+        <pushback x ="90" y="10" w="30" h="32"/>
 			</walk_front>
 
 			<walk_left>
-				<pushback x ="11" y="286" w="37" h ="39"/>
-				<pushback x ="67" y="288" w="43" h ="40"/>
-				<pushback x ="125" y="286" w="34" h ="39"/>
+        <pushback x ="10" y="52" w="28" h ="32"/>
+        <pushback x ="50" y="52" w="26" h ="32"/>
+        <pushback x ="90" y="52" w="28" h ="32"/>
 			</walk_left>
 
 			<walk_right>
-				<pushback x ="9" y="342" w="36" h ="40"/>
-				<pushback x ="67" y="345" w="43" h ="40"/>
-				<pushback x ="121" y="342" w="36" h ="40"/>
+        <pushback x ="10" y="94" w="28" h ="32"/>
+        <pushback x ="50" y="94" w="26" h ="32"/>
+        <pushback x ="90" y="94" w="28" h ="32"/>
 			</walk_right>
 
 			<walk_up>
-				<pushback x ="9" y="401" w="38" h ="40"/>
-				<pushback x ="65" y="401" w="38" h ="40"/>
-				<pushback x ="121" y="401" w="38" h ="40"/>
+        <pushback x ="10" y="136" w="30" h ="32"/>
+        <pushback x ="50" y="136" w="30" h ="32"/>
+        <pushback x ="90" y="136" w="30" h ="32"/>
 			</walk_up>
 		</overworld>
 	</wizard>
 	<thief>
 		<overworld>
 			<walk_front>
-				<pushback x ="12" y="2" w="37" h="45"/>
-				<pushback x ="68" y="2" w="37" h="45"/>
-				<pushback x ="125" y="2" w="36" h="45"/>
+				<pushback x ="10" y="10" w="27" h="32"/>
+				<pushback x ="46" y="10" w="27" h="32"/>
+				<pushback x ="83" y="10" w="27" h="32"/>
 			</walk_front>
 
 			<walk_left>
-				<pushback x ="12" y="56" w="37" h ="45"/>
-				<pushback x ="68" y="59" w="35" h ="44"/>
-				<pushback x ="124" y="56" w="38" h ="45"/>
+				<pushback x ="10" y="51" w="27" h ="32"/>
+				<pushback x ="46" y="51" w="27" h ="32"/>
+				<pushback x ="83" y="51" w="27" h ="32"/>
 			</walk_left>
 
 			<walk_right>
-				<pushback x ="9" y="112" w="38" h ="45"/>
-				<pushback x ="68" y="115" w="35" h ="44"/>
-				<pushback x ="122" y="112" w="37" h ="45"/>
+				<pushback x ="10" y="93" w="27" h ="32"/>
+				<pushback x ="46" y="93" w="25" h ="32"/>
+				<pushback x ="83" y="93" w="27" h ="32"/>
 			</walk_right>
 
 			<walk_up>
-				<pushback x ="14" y="171" w="33" h ="45"/>
-				<pushback x ="70" y="171" w="33" h ="45"/>
-				<pushback x ="127" y="171" w="32" h ="45"/>
+				<pushback x ="10" y="136" w="24" h ="32"/>
+				<pushback x ="46" y="136" w="24" h ="32"/>
+				<pushback x ="83" y="136" w="24" h ="32"/>
 			</walk_up>
 		</overworld>
 	</thief>
   <warrior>
     <overworld>
       <walk_front>
-        <pushback x ="11" y="9" w="34" h="38"/>
-        <pushback x ="68" y="9" w="33" h="38"/>
-        <pushback x ="124" y="9" w="33" h="38"/>
+        <pushback x ="10" y="10" w="29" h="32"/>
+        <pushback x ="49" y="10" w="28" h="32"/>
+        <pushback x ="87" y="10" w="28" h="32"/>
       </walk_front>
 
       <walk_left>
-        <pushback x ="14" y="63" w="28" h ="38"/>
-        <pushback x ="70" y="63" w="28" h ="38"/>
-        <pushback x ="127" y="63" w="28" h ="38"/>
+        <pushback x ="10" y="52" w="24" h ="32"/>
+        <pushback x ="49" y="52" w="24" h ="32"/>
+        <pushback x ="87" y="52" w="24" h ="32"/>
       </walk_left>
 
       <walk_right>
-        <pushback x ="14" y="119" w="28" h ="38"/>
-        <pushback x ="70" y="119" w="28" h ="38"/>
-        <pushback x ="127" y="119" w="28" h ="38"/>
+        <pushback x ="10" y="94" w="24" h ="32"/>
+        <pushback x ="49" y="94" w="24" h ="32"/>
+        <pushback x ="87" y="94" w="24" h ="32"/>
       </walk_right>
 
       <walk_up>
-        <pushback x ="11" y="178" w="34" h ="38"/>
-        <pushback x ="68" y="178" w="30" h ="38"/>
-        <pushback x ="124" y="178" w="33" h ="38"/>
+        <pushback x ="10" y="136" w="29" h ="32"/>
+        <pushback x ="49" y="136" w="25" h ="32"/>
+        <pushback x ="87" y="136" w="28" h ="32"/>
       </walk_up>
     </overworld>
     <battlers>

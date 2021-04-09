@@ -7,7 +7,7 @@ class SDL_Texture;
 class Thief : public Player
 {
 public:
-	Thief(iPoint position);
+	Thief(iPoint position, pugi::xml_node anim);
 	virtual ~Thief();
 
 	bool Load() override;
@@ -35,4 +35,13 @@ public:
 
 private:
 	SDL_Texture* texture;
+
+	Animation idleDown;
+	Animation idleLeft;
+	Animation idleRight;
+	Animation idleUp;
+	Animation walkDown;
+	Animation walkLeft;
+	Animation walkRight;
+	Animation walkUp;
 };

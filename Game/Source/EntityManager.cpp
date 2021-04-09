@@ -82,12 +82,12 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos)
 	{
 	case EntityType::HUNTER:
 
-		entity = new Hunter(pos);
+		//entity = new Hunter(pos);
 
 		break;
 	case EntityType::WIZARD:
 
-		entity = new Wizard(pos);
+		//entity = new Wizard(pos);
 		break;
 	case EntityType::NPC_WIZARD:
 
@@ -127,12 +127,12 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos)
 		break;
 	case EntityType::WARRIOR:
 
-		entity = new Warrior(pos);
+		//entity = new Warrior(pos);
 
 		break;
 	case EntityType::THIEF:
 
-		entity = new Thief(pos);
+		//entity = new Thief(pos);
 
 		break;
 	case EntityType::ITEM: break;

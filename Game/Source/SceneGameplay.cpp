@@ -41,22 +41,30 @@ SceneGameplay::SceneGameplay()
 	player2 = new Wizard();
 	player3 = new Thief();
 	player4 = new Warrior();*/
+	pugi::xml_document animations;
+	pugi::xml_node anims;
+	pugi::xml_parse_result result = animations.load_file("animations.xml");
+
+	if (result == NULL) 
+		LOG("Could not load xml file: %s. pugi error: %s", CONFIG_FILENAME, result.description());
+	else 
+		anims = animations.child("animations");
 
 	Player* player = nullptr;
-	player = (Player*)entityManager->CreateEntity(EntityType::HUNTER, position);
+	player = new Hunter(position, anims);
 	currentPlayer = player;
 	playerList.push_back(player);
 
 	position = { 18,90 };
-	player = (Player*)entityManager->CreateEntity(EntityType::WIZARD, position);
+	player = new Wizard(position, anims);
 	playerList.push_back(player);
 
 	position = { 12,45 };
-	player = (Player*)entityManager->CreateEntity(EntityType::THIEF, position);
+	player = new Thief(position, anims);
 	playerList.push_back(player);
 
 	position = { 13,56 };
-	player = (Player*)entityManager->CreateEntity(EntityType::WARRIOR, position);
+	player = new Warrior(position, anims);
 	playerList.push_back(player);
 
 	Npc* generalNpc = nullptr;
@@ -141,9 +149,9 @@ bool SceneGameplay::Update(float dt)
 		{
 		case GameplayMenuState::NONE:
 			map->Update(dt);
-			HandleInput(dt);
 			if (dialogueManager->isDialogueActive == false)
 			{
+				HandleInput(dt);
 				SDL_Rect tmpBounds = currentPlayer->bounds;
 				currentPlayer->Update(dt);
 				if (CollisionMapEntity(currentPlayer->bounds) == true) currentPlayer->bounds = tmpBounds;
@@ -185,7 +193,7 @@ void SceneGameplay::Draw()
 	case GameplayState::ROAMING:
 		map->Draw(showColliders);
 		entityManager->Draw(showColliders);
-		currentPlayer->Draw(true);
+		currentPlayer->Draw(showColliders);
 		if (dialogueManager->isDialogueActive)
 		{
 			app->render->DrawRectangle({ 0,0,1280, 720 }, 0, 0, 0, 150);

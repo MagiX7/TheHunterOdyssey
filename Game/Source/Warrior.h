@@ -7,7 +7,7 @@ class SDL_Texture;
 class Warrior : public Player
 {
 public:
-	Warrior(iPoint position);
+	Warrior(iPoint position, pugi::xml_node anim);
 	virtual ~Warrior();
 
 	bool Load() override;
@@ -35,4 +35,13 @@ public:
 
 private:
 	SDL_Texture* texture;
+
+	Animation idleDown;
+	Animation idleLeft;
+	Animation idleRight;
+	Animation idleUp;
+	Animation walkDown;
+	Animation walkLeft;
+	Animation walkRight;
+	Animation walkUp;
 };

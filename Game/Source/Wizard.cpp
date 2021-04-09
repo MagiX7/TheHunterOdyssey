@@ -7,7 +7,7 @@
 #include "Wizard.h"
 #include "Enemy.h"
 
-Wizard::Wizard(iPoint position) : Player(PlayerType::WIZARD, EntityType::HUNTER, position)
+Wizard::Wizard(iPoint position, pugi::xml_node anim) : Player(PlayerType::WIZARD, EntityType::HUNTER, position)
 {
 	//bounds = { 0,0, 16,32 };
 	stance = PlayerStance::ROAMING;
@@ -18,6 +18,36 @@ Wizard::Wizard(iPoint position) : Player(PlayerType::WIZARD, EntityType::HUNTER,
 	magicDamage = 5;
 	isDefending = false;
 	name = "Wizard";
+
+	pugi::xml_node player = anim.child("wizard").child("overworld");
+
+	for (pugi::xml_node n = player.child("walk_front").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		walkDown.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
+	for (pugi::xml_node n = player.child("walk_left").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		walkLeft.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
+	for (pugi::xml_node n = player.child("walk_right").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		walkRight.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
+	for (pugi::xml_node n = player.child("walk_up").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		walkUp.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
+	idleDown.PushBack(walkDown.frames[0]);
+	idleLeft.PushBack(walkLeft.frames[0]);
+	idleRight.PushBack(walkRight.frames[0]);
+	idleUp.PushBack(walkUp.frames[0]);
+
+	currentAnim = &idleDown;
+	texture = app->tex->Load("Assets/textures/Players/wizard2.png");
 }
 
 Wizard::~Wizard()
@@ -27,20 +57,24 @@ Wizard::~Wizard()
 bool Wizard::Load()
 {
 	// TODO implement textures for wizard. 
-	//app->tex->Load();
 	return true;
 }
 
 bool Wizard::Update(float dt)
 {
+	currentAnim->speed = 10.0f * dt;
+
 	HandleInput(dt);
+
+	currentAnim->Update();
 
 	return true;
 }
 
 void Wizard::Draw(bool showColliders)
 {
-	if (showColliders) app->render->DrawRectangle(bounds, 0, 255, 0);
+	//if (showColliders) app->render->DrawRectangle(bounds, 0, 255, 0);
+	app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
 }
 
 bool Wizard::UnLoad()
@@ -56,18 +90,47 @@ void Wizard::HandleInput(float dt)
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 		{
 			bounds.y -= SPEED_Y * dt;
+			if (currentAnim != &walkUp)
+			{
+				walkUp.Reset();
+				currentAnim = &walkUp;
+			}
 		}
 		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 		{
 			bounds.y += SPEED_Y * dt;
+			if (currentAnim != &walkDown)
+			{
+				walkDown.Reset();
+				currentAnim = &walkDown;
+			}
 		}
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
 			bounds.x -= SPEED_X * dt;
+			if (currentAnim != &walkLeft)
+			{
+				walkLeft.Reset();
+				currentAnim = &walkLeft;
+			}
 		}
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
 			bounds.x += SPEED_X * dt;
+			if (currentAnim != &walkRight)
+			{
+				walkRight.Reset();
+				currentAnim = &walkRight;
+			}
+		}
+
+		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && app->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE &&
+			app->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE && app->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE)
+		{
+			if (currentAnim == &walkDown) currentAnim = &idleDown;
+			else if (currentAnim == &walkLeft) currentAnim = &idleLeft;
+			else if (currentAnim == &walkRight) currentAnim = &idleRight;
+			else if (currentAnim == &walkUp) currentAnim = &idleUp;
 		}
 		break;
 	}

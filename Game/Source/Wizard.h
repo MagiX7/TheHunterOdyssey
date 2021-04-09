@@ -7,7 +7,7 @@ class GuiButton;
 class Wizard : public Player
 {
 public:
-	Wizard(iPoint position);
+	Wizard(iPoint position, pugi::xml_node anim);
 	virtual ~Wizard();
 
 	bool Load() override;
@@ -32,4 +32,13 @@ public:
 
 	void SetDefend(bool option) override;
 
+private:
+	Animation idleDown;
+	Animation idleLeft;
+	Animation idleRight;
+	Animation idleUp;
+	Animation walkDown;
+	Animation walkLeft;
+	Animation walkRight;
+	Animation walkUp;
 };
