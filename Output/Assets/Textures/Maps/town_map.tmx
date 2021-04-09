@@ -7,8 +7,8 @@
   <grid orientation="orthogonal" width="64" height="64"/>
   <image source="map_tileset.png" width="1536" height="512"/>
  </tileset>
- <tileset firstgid="769" name="hitboxes" tilewidth="32" tileheight="32" tilecount="10" columns="10">
-  <image source="hitboxes.png" width="320" height="32"/>
+ <tileset firstgid="769" name="hitboxes" tilewidth="32" tileheight="32" tilecount="14" columns="14">
+  <image source="hitboxes.png" width="448" height="32"/>
  </tileset>
  <layer id="1" name="Suelo" width="48" height="48">
   <properties>
@@ -6940,7 +6940,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="3" name="Hitboxes" width="48" height="48" opacity="0.5">
+ <layer id="3" name="Hitboxes" width="48" height="48" visible="0" opacity="0.5">
   <properties>
    <property name="draw" type="bool" value="false"/>
   </properties>
@@ -7726,11 +7726,11 @@
    <tile gid="770"/>
    <tile gid="769"/>
    <tile gid="769"/>
+   <tile gid="777"/>
+   <tile gid="777"/>
    <tile gid="769"/>
    <tile gid="769"/>
    <tile gid="769"/>
-   <tile gid="769"/>
-   <tile gid="769"/>
    <tile gid="770"/>
    <tile gid="770"/>
    <tile gid="770"/>
@@ -7821,7 +7821,7 @@
    <tile gid="770"/>
    <tile gid="769"/>
    <tile gid="769"/>
-   <tile gid="771"/>
+   <tile gid="776"/>
    <tile gid="769"/>
    <tile gid="769"/>
    <tile gid="769"/>
@@ -7977,7 +7977,7 @@
    <tile gid="769"/>
    <tile gid="769"/>
    <tile gid="769"/>
-   <tile gid="771"/>
+   <tile gid="775"/>
    <tile gid="769"/>
    <tile gid="769"/>
    <tile gid="769"/>
@@ -8532,7 +8532,7 @@
    <tile gid="769"/>
    <tile gid="769"/>
    <tile gid="769"/>
-   <tile gid="771"/>
+   <tile gid="774"/>
    <tile gid="769"/>
    <tile gid="769"/>
    <tile gid="770"/>
