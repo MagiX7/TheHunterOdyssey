@@ -159,7 +159,7 @@ void Hunter::GetDamage(int dmg)
 	}
 	else
 	{
-		healthPoints -= (dmg * dmg / (dmg + defense)) * 0.99;
+		healthPoints -= (dmg * dmg / (dmg + defense)) * 0.15;
 	}
 }
 

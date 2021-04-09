@@ -157,7 +157,7 @@ void Warrior::GetDamage(int dmg)
 	}
 	else
 	{
-		healthPoints -= (dmg * dmg / (dmg + defense)) * 0.9;
+		healthPoints -= (dmg * dmg / (dmg + defense)) * 0.01;
 		isDefending = false;
 	}
 }

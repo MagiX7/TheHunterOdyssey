@@ -35,4 +35,6 @@ private:
 	Animation idleAnim;
 	Animation glowingAnim;
 	Animation melee;
+
+	bool attack;
 };

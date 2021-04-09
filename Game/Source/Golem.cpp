@@ -13,11 +13,16 @@ Golem::Golem(iPoint pos) : Enemy(EntityType::GOLEM)
 	texture = app->tex->Load("Assets/Textures/Enemies/golem.png");
 	name = "Golem";
 	
+	battlePos = pos;
 	health = 10;
 	mana = 50;
 	damage = 1000;
 	defense = 20;
 	speed = 10;
+
+	attack = false;
+
+	currentState = EnemyState::NORMAL;
 
 	font = new Font("Assets/Font/font3.xml", app->tex);
 }
@@ -28,13 +33,48 @@ Golem::~Golem()
 
 bool Golem::Load()
 {
-	
-
 	return true;
 }
 
 bool Golem::Update(float dt)
 {
+	switch (currentState)
+	{
+	case EnemyState::NORMAL:
+
+		break;
+	case EnemyState::ATTACKING:
+		if (attack == false)
+		{
+			if (bounds.x != target->bounds.x) bounds.x -= 100 * dt;
+			if (bounds.y > target->bounds.y) bounds.y -= 100 * dt;
+			if (bounds.y < target->bounds.y) bounds.y += 100 * dt;
+			
+			if (bounds.x == target->bounds.x && bounds.y == target->bounds.y)
+			{
+				attack = true;
+				target->GetDamage(damage);
+			}
+		}
+		else
+		{
+			if (bounds.x < battlePos.x) bounds.x += 200 * dt;
+			if (bounds.x > battlePos.x) bounds.x -= 200 * dt;
+			if (bounds.y > battlePos.y) bounds.y -= 100 * dt;
+			if (bounds.y < battlePos.y) bounds.y += 100 * dt;
+			if (bounds.x == battlePos.x && bounds.y == battlePos.y)
+			{
+				currentState = EnemyState::ATTACK_FINISHED;
+				attack = false;
+			}
+		}
+
+		break;
+	case EnemyState::ATTACK_FINISHED:
+
+		break;
+	}
+
 	return true;
 }
 
@@ -97,5 +137,7 @@ void Golem::GetDamage(int dmg)
 
 void Golem::Attack(Player* player)
 {
-	player->GetDamage(damage);
+	currentState = EnemyState::ATTACKING;
+	target = player;
+	//player->GetDamage(damage);
 }

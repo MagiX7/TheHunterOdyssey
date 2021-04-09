@@ -72,46 +72,46 @@ bool BattleMenu::Load(Font* font)
 bool BattleMenu::Update(float dt)
 {
 	bool ret = true;
-	//switch (type)
-	//{
-	//case BattleState::NONE:
-	//	type = BattleState::DEFAULT;
-	//	break;
-	//case BattleState::DEFAULT:
-	//	btnAttack->Update(app->input, dt);
-	//	btnAbility->Update(app->input, dt);
-	//	btnDefense->Update(app->input, dt);
-	//	btnObject->Update(app->input, dt);
-	//	break;
-	//case BattleState::ATTACK:
-	//	ret = HandleInput(app->input);
-	//	break;
-	//case BattleState::ABILITY_SELECT:
-	//	btnAbilitySlot1->Update(app->input, dt);
-	//	btnAbilitySlot2->Update(app->input, dt);
-	//	btnAbilitySlot3->Update(app->input, dt);
-	//	btnAbilitySlot4->Update(app->input, dt);
-	//	//ret = HandleAbilities(app->input);
-	//	break;
-	//case BattleState::ABILITY:
-	//	ret = HandleAbilities(app->input, currPlayer->GetAbilitySelected());
-	//	break;
-	//case BattleState::ENEMY_TURN:
-	//	EnemyTurn();
-	//	break;
-	//case BattleState::DEFENSE:
-	//	ret = HandleDefense(app->input);
-	//	break;
-	//case BattleState::OBJECT_SELECT:
-	//	btnObjectSlot1->Update(app->input, dt);
-	//	btnObjectSlot2->Update(app->input, dt);
-	//	btnObjectSlot3->Update(app->input, dt);
-	//	btnObjectSlot4->Update(app->input, dt);
-	//	break;
-	//case BattleState::OBJECT:
-	//	ret = HandleObjects(app->input, currPlayer->GetObjectSelected());
-	//	break;
-	//}
+	switch (type)
+	{
+	case BattleState::NONE:
+		type = BattleState::DEFAULT;
+		break;
+	case BattleState::DEFAULT:
+		btnAttack->Update(app->input, dt, -1);
+		btnAbility->Update(app->input, dt, -1);
+		btnDefense->Update(app->input, dt, -1);
+		btnObject->Update(app->input, dt, -1);
+		break;
+	case BattleState::ATTACK:
+		ret = HandleInput(app->input);
+		break;
+	case BattleState::ABILITY_SELECT:
+		btnAbilitySlot1->Update(app->input, dt, -1);
+		btnAbilitySlot2->Update(app->input, dt, -1);
+		btnAbilitySlot3->Update(app->input, dt, -1);
+		btnAbilitySlot4->Update(app->input, dt, -1);
+		//ret = HandleAbilities(app->input);
+		break;
+	case BattleState::ABILITY:
+		ret = HandleAbilities(app->input, currPlayer->GetAbilitySelected());
+		break;
+	case BattleState::ENEMY_TURN:
+		EnemyTurn();
+		break;
+	case BattleState::DEFENSE:
+		ret = HandleDefense(app->input);
+		break;
+	case BattleState::OBJECT_SELECT:
+		btnObjectSlot1->Update(app->input, dt, -1);
+		btnObjectSlot2->Update(app->input, dt, -1);
+		btnObjectSlot3->Update(app->input, dt, -1);
+		btnObjectSlot4->Update(app->input, dt, -1);
+		break;
+	case BattleState::OBJECT:
+		ret = HandleObjects(app->input, currPlayer->GetObjectSelected());
+		break;
+	}
 
 	return ret;
 }
@@ -512,25 +512,44 @@ void BattleMenu::EraseEnemy()
 
 void BattleMenu::EnemyTurn()
 {
-	eastl::list<Enemy*>::iterator it = sceneBattle->enemyList.begin();
-	for (; it != sceneBattle->enemyList.end(); ++it)
+	int randNum = rand() % sceneBattle->playerList.size();
+	eastl::list<Player*>::iterator pIt = sceneBattle->playerList.begin();
+
+	for (int i = 0; i < randNum; ++i)
 	{
-		int randNum = rand() % sceneBattle->playerList.size();
-		eastl::list<Player*>::iterator pIt = sceneBattle->playerList.begin();
-		
-		for (int i = 0; i < randNum; ++i)
+		++pIt;
+	}
+
+	int num = 0;
+
+	eastl::list<Enemy*>::iterator eIt = sceneBattle->enemyList.begin();
+	for (; eIt != sceneBattle->enemyList.end(); ++eIt)
+	{
+		if ((*eIt)->GetCurrentState() == EnemyState::ATTACKING) break;
+		else if ((*eIt)->GetCurrentState() == EnemyState::NORMAL)
 		{
-			++pIt;
+			(*eIt)->Attack((*pIt));
+			break;
 		}
-		//(*it)->Attack((*pIt));
-		(*it)->Attack((currPlayer));
+		else if ((*eIt)->GetCurrentState() == EnemyState::ATTACK_FINISHED)
+		{
+			num++;
+		}
 	}
 
-	eastl::list<Player*>::iterator itPlayer = sceneBattle->playerList.begin();
-	for (; itPlayer != sceneBattle->playerList.end(); ++itPlayer)
+	if (num == sceneBattle->enemyList.size())
 	{
-		(*itPlayer)->SetDefend(false);
-	}
+		eastl::list<Player*>::iterator itPlayer = sceneBattle->playerList.begin();
+		for (; itPlayer != sceneBattle->playerList.end(); ++itPlayer)
+		{
+			(*itPlayer)->SetDefend(false);
+		}
+		type = BattleState::DEFAULT;
 
-	type = BattleState::DEFAULT;
+		eastl::list<Enemy*>::iterator eIt = sceneBattle->enemyList.begin();
+		for (; eIt != sceneBattle->enemyList.end(); ++eIt)
+		{
+			(*eIt)->SetCurrentState(EnemyState::NORMAL);
+		}
+	}
 }
