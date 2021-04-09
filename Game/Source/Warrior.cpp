@@ -63,7 +63,7 @@ bool Warrior::Update(float dt)
 	currentAnim->speed = 10.0f * dt;
 
 	GamePad& pad = app->input->pads[0];
-	pad.enabled = true;
+
 	HandleInput(dt, pad);
 
 	currentAnim->Update();

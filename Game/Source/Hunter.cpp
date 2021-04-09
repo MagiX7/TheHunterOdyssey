@@ -63,8 +63,6 @@ bool Hunter::Update(float dt)
 {
 	GamePad& pad = app->input->pads[0];
 
-	pad.enabled = true;
-
 	currentAnim->speed = 10.0f * dt;
 
 	HandleInput(dt,pad);

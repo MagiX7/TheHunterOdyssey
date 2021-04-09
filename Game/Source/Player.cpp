@@ -35,7 +35,7 @@ bool Player::Update(float dt)
 	bool ret = true;
 
 	GamePad& pad = app->input->pads[0];
-	pad.enabled = true;
+
 	HandleInput(dt, pad);
 
 	return ret;
