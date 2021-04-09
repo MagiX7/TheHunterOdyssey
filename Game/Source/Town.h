@@ -7,7 +7,7 @@ class SDL_Texture;
 class Town : public Npc
 {
 public:
-	Town(iPoint position);
+	Town(iPoint position, pugi::xml_node anim);
 	virtual ~Town();
 
 	bool Load() override;

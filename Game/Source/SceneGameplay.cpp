@@ -68,14 +68,21 @@ SceneGameplay::SceneGameplay()
 	playerList.push_back(player);
 
 	Npc* generalNpc = nullptr;
-	position = { 500,500 };
-	generalNpc=(Npc*)entityManager->CreateEntity(EntityType::TABERN, position);
+	/*position = { 500,500 };
+	generalNpc=(Npc*)entityManager->CreateEntity(EntityType::TABERN, position,anims);*/
 
-	position = { 200,200 };
-	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position);
+	position = { 200,250 };
+	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position, anims);
 
-	position = { 400,400 };
-	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position);
+	position = { 700,1060 };
+	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position, anims);
+	//generalNpc->NpcMove(false);
+
+	position = { 700,810 };
+	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TABERN, position, anims);
+
+	position = { 500,350 };
+	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims);
 
 	//Create Enemies
 
@@ -154,10 +161,11 @@ bool SceneGameplay::Update(float dt)
 				HandleInput(dt);
 				SDL_Rect tmpBounds = currentPlayer->bounds;
 				currentPlayer->Update(dt);
-				if (CollisionMapEntity(currentPlayer->bounds) == true) currentPlayer->bounds = tmpBounds;
+				if (CollisionMapEntity(currentPlayer->bounds,currentPlayer->type) == true) currentPlayer->bounds = tmpBounds;
 				CameraFollow(app->render);
 				/*npc->Update(dt);*/
-				//entityManager->Update(dt);
+				entityManager->Update(dt);
+				entityManager->checkEntityColision(this);
 				CheckDialogue();
 			}
 			else
@@ -311,10 +319,13 @@ void SceneGameplay::HandleInput(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || app->input->pads->start) menuState = GameplayMenuState::PAUSE;
 }
 
-bool SceneGameplay::CollisionMapEntity(SDL_Rect rect)
+bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 {
 	iPoint pos = map->WorldToMap(rect.x, rect.y);
-
+	if (rect.x > map->data.width* map->data.tileWidth)return true;
+	else if (rect.x < 0)return true;
+	else if (rect.y > map->data.tileWidth* map->data.height)return true;
+	else if (rect.y < 0)return true;
 	int x = pos.x + (rect.w / map->data.tileWidth);
 	int y = pos.y + (rect.h / map->data.tileHeight);
 	if (rect.w < map->data.tileWidth) x = pos.x + 1;
@@ -333,117 +344,119 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect)
 				{
 					return true;
 				}
-				if (((*map->data.layers.end().prev())->Get(i, j) == 771) && CheckCollision(map->GetTilemapRec(i, j), rect))
-				{
-					iPoint position = { 625,480};
-					currentPlayer->bounds.x = position.x;
-					currentPlayer->bounds.y = position.y;
-					map->CleanUp();
-					map->Load("house1.tmx", app->tex);
-				}
-				if (((*map->data.layers.end().prev())->Get(i, j) == 771) && CheckCollision(map->GetTilemapRec(i, j), rect))
-				{
-					iPoint position = { 97,505 };
-					currentPlayer->bounds.x = position.x;
-					currentPlayer->bounds.y = position.y;
-					map->CleanUp();
-					map->Load("town_map.tmx", app->tex);
-				}
-				if (((*map->data.layers.end().prev())->Get(i, j) == 772) && CheckCollision(map->GetTilemapRec(i, j), rect))
-				{
-					iPoint position = { 625,480 };
-					currentPlayer->bounds.x = position.x;
-					currentPlayer->bounds.y = position.y;
-					map->CleanUp();
-					map->Load("house2.tmx", app->tex);
-				}
-				if (((*map->data.layers.end().prev())->Get(i, j) == 772) && CheckCollision(map->GetTilemapRec(i, j), rect))
-				{
-					iPoint position = { 70,765 };
-					currentPlayer->bounds.x = position.x;
-					currentPlayer->bounds.y = position.y;
-					map->CleanUp();
-					map->Load("town_map.tmx", app->tex);
-				}
-				if (((*map->data.layers.end().prev())->Get(i, j) == 773) && CheckCollision(map->GetTilemapRec(i, j), rect))
-				{
-					iPoint position = { 625,480 };
-					currentPlayer->bounds.x = position.x;
-					currentPlayer->bounds.y = position.y;
-					map->CleanUp();
-					map->Load("house3.tmx", app->tex);
-				}
-				if (((*map->data.layers.end().prev())->Get(i, j) == 773) && CheckCollision(map->GetTilemapRec(i, j), rect))
-				{
-					iPoint position = { 380,1120 };
-					currentPlayer->bounds.x = position.x;
-					currentPlayer->bounds.y = position.y;
-					map->CleanUp();
-					map->Load("town_map.tmx", app->tex);
-				}
-				if (((*map->data.layers.end().prev())->Get(i, j) == 774) && CheckCollision(map->GetTilemapRec(i, j), rect))
-				{
-					iPoint position = { 625,430 };
-					currentPlayer->bounds.x = position.x;
-					currentPlayer->bounds.y = position.y;
-					map->CleanUp();
-					map->Load("cave_house.tmx", app->tex);
-				}
-				if (((*map->data.layers.end().prev())->Get(i, j) == 6) && CheckCollision(map->GetTilemapRec(i, j), rect))
-				{
-					iPoint position = { 97,1100 };
-					currentPlayer->bounds.x = position.x;
-					currentPlayer->bounds.y = position.y;
-					map->CleanUp();
-					map->Load("town_map.tmx", app->tex);
-				}
-				if (((*map->data.layers.end().prev())->Get(i, j) == 775) && CheckCollision(map->GetTilemapRec(i, j), rect))
-				{
-					iPoint position = { 655,430 };
-					currentPlayer->bounds.x = position.x;
-					currentPlayer->bounds.y = position.y;
-					map->CleanUp();
-					map->Load("pub.tmx", app->tex);
-				}
-				if (((*map->data.layers.end().prev())->Get(i, j) == 7) && CheckCollision(map->GetTilemapRec(i, j), rect))
-				{
-					iPoint position = { 755,710 };
-					currentPlayer->bounds.x = position.x;
-					currentPlayer->bounds.y = position.y;
-					map->CleanUp();
-					map->Load("town_map.tmx", app->tex);
-				}
-				if (((*map->data.layers.end().prev())->Get(i, j) == 776) && CheckCollision(map->GetTilemapRec(i, j), rect))
-				{
-					iPoint position = { 630,450 };
-					currentPlayer->bounds.x = position.x;
-					currentPlayer->bounds.y = position.y;
-					map->CleanUp();
-					map->Load("adventurer_house.tmx", app->tex);
-				}
-				if (((*map->data.layers.end().prev())->Get(i, j) == 1544) && CheckCollision(map->GetTilemapRec(i, j), rect))
-				{
-					iPoint position = { 385,600 };
-					currentPlayer->bounds.x = position.x;
-					currentPlayer->bounds.y = position.y;
-					map->CleanUp();
-					map->Load("town_map.tmx", app->tex);
-				}
-				if (((*map->data.layers.end().prev())->Get(i, j) == 777) && CheckCollision(map->GetTilemapRec(i, j), rect))
-				{
-					iPoint position = { 760,300 };
-					currentPlayer->bounds.x = position.x;
-					currentPlayer->bounds.y = position.y;
-					map->CleanUp();
-					map->Load("adventurer_house.tmx", app->tex);
-				}
-				if (((*map->data.layers.end().prev())->Get(i, j) == 1545) && CheckCollision(map->GetTilemapRec(i, j), rect))
-				{
-					iPoint position = { 385,600 };
-					currentPlayer->bounds.x = position.x;
-					currentPlayer->bounds.y = position.y;
-					map->CleanUp();
-					map->Load("town_map.tmx", app->tex);
+				if (type != EntityType::TOWN && type != EntityType::TABERN && type != EntityType::NPC_WIZARD) {
+					if (((*map->data.layers.end().prev())->Get(i, j) == 771) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						iPoint position = { 625,480 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("house1.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 771) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						iPoint position = { 97,505 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("town_map.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 772) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						iPoint position = { 625,480 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("house2.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 772) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						iPoint position = { 70,765 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("town_map.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 773) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						iPoint position = { 625,480 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("house3.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 773) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						iPoint position = { 380,1120 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("town_map.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 774) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						iPoint position = { 625,430 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("cave_house.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 6) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						iPoint position = { 97,1100 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("town_map.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 775) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						iPoint position = { 655,430 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("pub.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 7) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						iPoint position = { 755,710 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("town_map.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 776) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						iPoint position = { 630,450 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("adventurer_house.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 1544) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						iPoint position = { 385,600 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("town_map.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 777) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						iPoint position = { 760,300 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("adventurer_house.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 1545) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						iPoint position = { 385,600 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("town_map.tmx", app->tex);
+					}
 				}
 			}
 		}

@@ -5,12 +5,44 @@
 #include"DialogueManager.h"
 #include "Tabern.h"
 
-Tabern::Tabern(iPoint position) :Npc(EntityType::TABERN, position)
+Tabern::Tabern(iPoint position, pugi::xml_node anim) :Npc(EntityType::TABERN, position)
 {
 	/*bounds = { 0,0, 16,32 };
 	type = EntityType::TABERN;*/
 	texture = app->tex->Load("Assets/Textures/Npc/Tabern.png");
 	dialogeId = 0;
+
+	state = NpcState::WALLKING_RIGHT;
+	pugi::xml_node player = anim.child("tabern").child("overworld");
+
+	for (pugi::xml_node n = player.child("walk_front").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		walkDown.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
+	for (pugi::xml_node n = player.child("walk_left").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		walkLeft.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
+	for (pugi::xml_node n = player.child("walk_right").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		walkRight.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
+	for (pugi::xml_node n = player.child("walk_up").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		walkUp.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
+	idleDown.PushBack(walkDown.frames[0]);
+	idleLeft.PushBack(walkLeft.frames[0]);
+	idleRight.PushBack(walkRight.frames[0]);
+	idleUp.PushBack(walkUp.frames[0]);
+
+
+
+	currentAnim = &idleDown;
 }
 
 Tabern::~Tabern()
@@ -35,7 +67,7 @@ void Tabern::Draw(bool showColliders)
 	Npc::Draw(showColliders);
 	if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0);
 	SDL_Rect textureRect = { 449, 5, 46,55 };
-	app->render->DrawTexture(texture, bounds.x, bounds.y, &textureRect);
+	app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
 }
 
 bool Tabern::UnLoad()

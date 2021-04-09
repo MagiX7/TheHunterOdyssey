@@ -5,13 +5,44 @@
 #include"DialogueManager.h"
 #include "NpcWizard.h"
 
-NpcWizard::NpcWizard(iPoint position):Npc(EntityType::NPC_WIZARD,position)
+NpcWizard::NpcWizard(iPoint position, pugi::xml_node anim):Npc(EntityType::NPC_WIZARD,position)
 {
 	//bounds = { 0,0, 16,32 };
 	//type = EntityType::NPC_WIZARD;
 	texture = app->tex->Load("Assets/Textures/Npc/Wizard.png");
 
 	dialogeId = 1;
+	state = NpcState::WALLKING_RIGHT;
+	pugi::xml_node player = anim.child("npc_wizard").child("overworld");
+
+	for (pugi::xml_node n = player.child("walk_front").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		walkDown.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
+	for (pugi::xml_node n = player.child("walk_left").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		walkLeft.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
+	for (pugi::xml_node n = player.child("walk_right").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		walkRight.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
+	for (pugi::xml_node n = player.child("walk_up").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		walkUp.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
+	idleDown.PushBack(walkDown.frames[0]);
+	idleLeft.PushBack(walkLeft.frames[0]);
+	idleRight.PushBack(walkRight.frames[0]);
+	idleUp.PushBack(walkUp.frames[0]);
+
+
+
+	currentAnim = &idleDown;
 }
 
 NpcWizard::~NpcWizard()
@@ -37,7 +68,7 @@ void NpcWizard::Draw(bool showColliders)
 	Npc::Draw(showColliders);
 	if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0);
 	SDL_Rect textureRect = { 14, 11, 46,49 };
-	app->render->DrawTexture(texture, bounds.x, bounds.y, &textureRect);
+	app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
 }
 
 bool NpcWizard::UnLoad()

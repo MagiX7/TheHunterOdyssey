@@ -6,7 +6,7 @@ class SDL_Texture;
 class Tabern : public Npc
 {
 public:
-	Tabern(iPoint position);
+	Tabern(iPoint position, pugi::xml_node anim);
 	virtual ~Tabern();
 
 	bool Load() override;

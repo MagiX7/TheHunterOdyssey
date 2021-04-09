@@ -15,7 +15,7 @@ class DialogueManager;
 class PauseMenu;
 class Render;
 enum class PlayerType;
-
+enum class EntityType;
 enum class GameplayMenuState
 {
 	NONE = 0,
@@ -56,10 +56,12 @@ public:
 	void CharacterSwap(PlayerType pType);
 
 	bool CheckDialogue();
+	
+	bool CollisionMapEntity(SDL_Rect rect, EntityType type);
 
 private:
 	void HandleInput(float dt);
-	bool CollisionMapEntity(SDL_Rect rect);
+	
 	bool CheckCollision(SDL_Rect rec1, SDL_Rect rec2);
 	void CameraFollow(Render* render);
 

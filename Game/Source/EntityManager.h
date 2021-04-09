@@ -20,7 +20,7 @@ public:
 
 	bool UnLoad();
 
-	Entity* CreateEntity(EntityType type, iPoint position);
+	Entity* CreateEntity(EntityType type, iPoint position, pugi::xml_node anim);
 
 	void DeleteEntity(Entity* entity);
 
@@ -31,6 +31,8 @@ public:
 	bool SaveState(pugi::xml_node* toSave);
 
 	bool Load();
+
+	bool checkEntityColision(SceneGameplay* scene);
 public:
 	//List<Entity*> entities;
 	eastl::list<Entity*> entities;

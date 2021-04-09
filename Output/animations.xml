@@ -271,4 +271,31 @@
       </walk_up>
     </overworld>
   </npc_wizard>
+  <tabern>
+    <overworld>
+      <walk_front>
+        <pushback x ="17" y="5" w="46" h="55"/>
+        <pushback x ="86" y="5" w="46" h="55"/>
+        <pushback x ="158" y="5" w="46" h="55"/>
+      </walk_front>
+
+      <walk_left>
+        <pushback x ="14" y="74" w="46" h ="55"/>
+        <pushback x ="86" y="74" w="46" h ="55"/>
+        <pushback x ="158" y="74" w="46" h ="55"/>
+      </walk_left>
+
+      <walk_right>
+        <pushback x ="11" y="149" w="46" h ="55"/>
+        <pushback x ="86" y="149" w="46" h ="55"/>
+        <pushback x ="158" y="149" w="46" h ="55"/>
+      </walk_right>
+
+      <walk_up>
+        <pushback x ="17" y="221" w="46" h ="55"/>
+        <pushback x ="89" y="221" w="46" h ="55"/>
+        <pushback x ="161" y="221" w="46" h ="55"/>
+      </walk_up>
+    </overworld>
+  </tabern>
 </animations>

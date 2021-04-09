@@ -72,8 +72,22 @@ bool EntityManager::UnLoad()
 	
 	return ret;
 }
+bool EntityManager::checkEntityColision(SceneGameplay* scene)
+{
+	eastl::list<Entity*>::iterator item;
 
-Entity* EntityManager::CreateEntity(EntityType type, iPoint pos)
+	for (item = entities.begin(); item != entities.end(); ++item)
+	{
+		if (scene->CollisionMapEntity((*item)->bounds, (*item)->type))
+		{
+			(*item)->onCollision();
+		}
+	}
+
+
+	return true;
+}
+Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node anim)
 {
 	/*LOG("Creating %s", type);*/
 	Entity* entity = nullptr;
@@ -91,14 +105,14 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos)
 		break;
 	case EntityType::NPC_WIZARD:
 
-		entity = new NpcWizard(pos);
+		entity = new NpcWizard(pos, anim);
 		npcs.push_back((Npc*)entity);
 		//entity->scene = Scene;
 		entity->Load();
 		break;
 	case EntityType::TABERN:
 
-		entity = new Tabern(pos);
+		entity = new Tabern(pos, anim);
 		npcs.push_back((Npc*)entity);
 		//entity->scene = Scene;
 		entity->Load();
@@ -106,7 +120,7 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos)
 	case EntityType::BAT:
 
 		entity = new Bat(pos);
-		
+
 		break;
 	case EntityType::GOLEM:
 
@@ -120,7 +134,7 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos)
 		break;
 	case EntityType::TOWN:
 
-		entity = new Town(pos);
+		entity = new Town(pos, anim);
 		npcs.push_back((Npc*)entity);
 		//entity->scene = Scene;
 		entity->Load();
@@ -178,6 +192,10 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad)
 {
 	DeleteAllEntities();
 
+	pugi::xml_document animations;
+	pugi::xml_node anims;
+	pugi::xml_parse_result result = animations.load_file("animations.xml");
+
 	int amount = toLoad->attribute("amount").as_int();
 	int npcAmount = toLoad->child("NPCs").attribute("amount").as_int();
 	int playerAmount = toLoad->child("players").attribute("amount").as_int();
@@ -210,7 +228,7 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad)
 					npcType = EntityType::UNKNOWN;
 				}
 
-				npcNode = (Npc*)CreateEntity(npcType, { NodeNpcAuxiliar.child("bounds").attribute("X").as_int(),NodeNpcAuxiliar.child("bounds").attribute("Y").as_int() });
+				npcNode = (Npc*)CreateEntity(npcType, { NodeNpcAuxiliar.child("bounds").attribute("X").as_int(),NodeNpcAuxiliar.child("bounds").attribute("Y").as_int() }, anims);
 				NodeNpcAuxiliar = NodeNpcAuxiliar.next_sibling();
 			}
 			break;
@@ -227,7 +245,7 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad)
 				else if (string == "THIEF") { plType = EntityType::THIEF; }
 				else { plType = EntityType::UNKNOWN; }
 
-				Player* player = (Player*)CreateEntity(plType, { NodePlayerAuxiliar.child("bounds").attribute("X").as_int(),NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() });
+				Player* player = (Player*)CreateEntity(plType, { NodePlayerAuxiliar.child("bounds").attribute("X").as_int(),NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims);
 				NodePlayerAuxiliar = NodePlayerAuxiliar.next_sibling();
 			}
 			break;

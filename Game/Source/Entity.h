@@ -51,6 +51,7 @@ public:
 
 	virtual bool SaveState(pugi::xml_node& node){return true;} 
 	
+	virtual void onCollision() {}
 public:
 	SDL_Rect bounds;
 	SString name;
