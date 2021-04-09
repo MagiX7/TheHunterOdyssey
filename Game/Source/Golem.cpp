@@ -46,7 +46,8 @@ bool Golem::Update(float dt)
 	case EnemyState::ATTACKING:
 		if (attack == false)
 		{
-			if (bounds.x != target->bounds.x) bounds.x -= 100 * dt;
+			if (bounds.x < target->bounds.x) bounds.x += 100 * dt;
+			if (bounds.x > target->bounds.x) bounds.x -= 100 * dt;
 			if (bounds.y > target->bounds.y) bounds.y -= 100 * dt;
 			if (bounds.y < target->bounds.y) bounds.y += 100 * dt;
 			
