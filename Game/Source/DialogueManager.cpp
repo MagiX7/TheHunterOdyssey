@@ -126,8 +126,8 @@ void DialogueManager::Draw()
 		//SDL_Rect r = { current->currentNode->currentOption->bounds.x,  current->currentNode->currentOption->bounds.y, 400,50 };
 		SDL_Rect r = { current->currentNode->currentOption->bounds.x,  current->currentNode->currentOption->bounds.y,
 			current->currentNode->currentOption->bounds.w,current->currentNode->currentOption->bounds.h };
-		app->render->DrawRectangle(r, 0, 0, 150, alpha);
-		
+
+		app->render->DrawRectangle(r, 149, 255, 255, alpha);
 		
 		if (printText == true && current->currentNode->id >= -1)
 		{
