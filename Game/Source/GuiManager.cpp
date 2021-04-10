@@ -17,7 +17,7 @@ GuiManager::~GuiManager()
 {
 }
 
-GuiControl* GuiManager::CreateGuiControl(GuiControlType type, uint32 id, SDL_Rect bounds, const char* name, Menu* menu)
+GuiControl* GuiManager::CreateGuiControl(GuiControlType type, uint32 id, SDL_Rect bounds, const char* name, Menu* menu, int min, int max, int value)
 {
 	GuiControl* control = nullptr;
 
@@ -33,7 +33,7 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type, uint32 id, SDL_Rec
 			control->SetObserver(menu);
 			break;
 		case GuiControlType::SLIDER: 
-			control = new GuiSlider(id, bounds, name, menu);
+			control = new GuiSlider(id, bounds, name, menu, min, max, value);
 			control->SetObserver(menu);
 			break;
 		default: break;

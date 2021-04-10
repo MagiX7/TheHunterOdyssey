@@ -59,6 +59,8 @@ private:
 	GuiButton* btnCreditsBack;
 	GuiCheckBox* checkFullscreen;
 	GuiCheckBox* checkVSync;
+	GuiSlider* slideMusicVolume;
+	GuiSlider* slideFXVolume;
 
 	Font* font;
 };

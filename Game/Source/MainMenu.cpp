@@ -5,6 +5,7 @@
 
 #include "SceneTitle.h"
 #include "Textures.h"
+#include "Audio.h"
 
 MainMenu::MainMenu(SceneTitle* s)
 {
@@ -80,9 +81,18 @@ bool MainMenu::Load(Font* font)
 	checkFullscreen->section = { 528,5,32,32 };
 	checkFullscreen->texture = guiTex;
 
-	checkVSync = new GuiCheckBox(11, { 94,419,120,32 }, "VSync", this);
+	checkVSync = new GuiCheckBox(11, { 94,378,120,32 }, "VSync", this);
 	checkVSync->section = { 528,5,32,32 };
 	checkVSync->texture = guiTex;
+
+	// Sliders	
+	slideMusicVolume = new GuiSlider(12, { 103,162,339,46 }, "Music Volume", this, 0, 128, 50);
+	slideMusicVolume->section = { 223,138,339,46 };
+	slideMusicVolume->texture = guiTex;
+
+	slideFXVolume = new GuiSlider(13, { 103,258,339,46 }, "FX Volume", this, 0, 128, 50);
+	slideFXVolume->section = { 223,138,339,46 };
+	slideFXVolume->texture = guiTex;
 
 	return true;
 }
@@ -114,6 +124,8 @@ bool MainMenu::Update(float dt)
 		btnOptionsBack->Update(app->input, dt, currentButton->id);
 		checkFullscreen->Update(app->input, dt);
 		checkVSync->Update(app->input, dt);
+		slideMusicVolume->Update(app->input, dt);
+		slideFXVolume->Update(app->input, dt);
 	}
 	break;
 	case MenuState::CREDITS:
@@ -139,13 +151,13 @@ void MainMenu::Draw(Font* font, bool showColliders)
 	{
 	case MenuState::NORMAL:
 	{
-		section = { 729,0,271,106 };
+		section = { 734,720,271,106 };
 		btnNewGame->Draw(app->render, showColliders, 64, { 255,255,255,255 });
 		btnContinue->Draw(app->render, showColliders, 64, { 255,255,255,255 });
 		btnOptions->Draw(app->render, showColliders, 64, { 255,255,255,255 });
 		btnCredits->Draw(app->render, showColliders, 64, { 255,255,255,255 });
 		btnExit->Draw(app->render, showColliders, 64, { 255,255,255,255 });
-		app->render->DrawTexture(bg, 734, 720, &section);
+		app->render->DrawTexture(bg, 987, 588, &section);
 		//app->render->DrawText(font, btnNewGame->text.GetString(), 521, 65, 64, 5, { 255,255,255,255 });
 		//app->render->DrawText(font, btnContinue->text.GetString(), 530, 202, 64, 5, { 255,255,255,255 });
 		//app->render->DrawText(font, btnOptions->text.GetString(), 548, 332, 64, 5, { 255,255,255,255 });
@@ -160,19 +172,21 @@ void MainMenu::Draw(Font* font, bool showColliders)
 		btnOptionsBack->Draw(app->render, showColliders, 36, {0, 0, 0, 255});
 		checkFullscreen->Draw(app->render, showColliders);
 		checkVSync->Draw(app->render, showColliders);
+		slideMusicVolume->Draw(app->render, showColliders);
+		slideFXVolume->Draw(app->render, showColliders);
 		//app->render->DrawText(font, btnOptionsBack->text.GetString(), 1045, 625, 36, 5, { 0,0,0,255 });
 		app->render->DrawText(font, btnOptions->text.GetString(), 535, 55, 64, 5, { 0,0,0,255 });
 		app->render->DrawText(font, "Music volume", 103, 124, 24, 5, { 0,0,0,255 });
 		app->render->DrawText(font, "FX volume", 103, 224, 24, 5, { 0,0,0,255 });
 		app->render->DrawText(font, checkFullscreen->text.GetString(), 103, 324, 24, 5, { 0,0,0,255 });
-		app->render->DrawText(font, checkVSync->text.GetString(), 103, 424, 24, 5, { 0,0,0,255 });
+		app->render->DrawText(font, checkVSync->text.GetString(), 103, 384, 24, 5, { 0,0,0,255 });
 	}
 	break;
 	case MenuState::CREDITS:
 	{
 		section = { 0,0,1280,720 };
 		app->render->DrawTexture(bg, 0, 0, &section);
-		btnCreditsBack->Draw(app->render, showColliders);
+		btnCreditsBack->Draw(app->render, showColliders, 36, { 0,0,0,225 });
 		//app->render->DrawText(font, btnCreditsBack->text.GetString(), 1045, 625, 36, 2, { 0,0,0,255 });
 	}
 	break;
@@ -207,6 +221,8 @@ bool MainMenu::UnLoad()
 	RELEASE(btnExitNo);
 	RELEASE(checkFullscreen);
 	RELEASE(checkVSync);
+	RELEASE(slideMusicVolume);
+	RELEASE(slideFXVolume);
 
 	RELEASE(font);
 
@@ -297,6 +313,11 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 			Window::Get()->SetFullscreen();
 		}
 		else if (control->id == 11); // Vsync
+	}
+	case GuiControlType::SLIDER:
+	{
+		if (control->id == 12) app->audio->SetMusicVolume(slideMusicVolume->GetValue());
+		else if (control->id == 13) app->audio->SetFxVolume(slideFXVolume->GetValue());
 	}
 	default: break;
 	}

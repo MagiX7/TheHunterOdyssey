@@ -193,3 +193,14 @@ void Audio::Reset()
 	Mix_FreeMusic(music);
 	fx.clear();
 }
+
+void Audio::SetMusicVolume(int index)
+{
+	musicVolume = index;
+	Mix_VolumeMusic(musicVolume);
+}
+
+void Audio::SetFxVolume(int index)
+{
+	fxVolume = index;
+}

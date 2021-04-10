@@ -2,11 +2,14 @@
 #include "App.h"
 #include "Audio.h"
 
-GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text, Menu* listener) : GuiControl(GuiControlType::SLIDER, id)
+GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text, Menu* listener, int min, int max, int value) : GuiControl(GuiControlType::SLIDER, id)
 {
 	this->bounds = bounds;
 	this->text = text;
 	this->observer = listener;
+	this->minValue = min;
+	this->maxValue = max;
+	this->value = value;
 
 	//Load Fx
 	clickFx = app->audio->LoadFx("Assets/Audio/Fx/button_click.wav");
@@ -37,16 +40,28 @@ bool GuiSlider::Update(Input* input, float dt)
 				isPlayable = false;
 			}
 
-			if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT || input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
+			if ((mouseX > bounds.x) && (mouseX < bounds.x + 46) && app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
 			{
 				state = GuiControlState::PRESSED;
-				if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
-				{
-					app->audio->PlayFx(clickFx);
-				}
+				SubstractValue();
+				NotifyObserver();
 			}
-
-			//TODO
+			else if ((mouseX < bounds.x + bounds.w) && (mouseX > bounds.x + bounds.w - 46) && app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
+			{
+				state = GuiControlState::PRESSED;
+				AddValue();
+				NotifyObserver();
+			}
+			else if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT || input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
+			{
+				state = GuiControlState::PRESSED;
+				if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
+				{
+					CalculeValue(input);
+					NotifyObserver();
+				}
+				else if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)	app->audio->PlayFx(clickFx);
+			}
 		}
 		else
 		{
@@ -60,22 +75,71 @@ bool GuiSlider::Update(Input* input, float dt)
 
 bool GuiSlider::Draw(Render* render, bool showColliders)
 {
+	if (this->value > 221) this->value = 220;
+	else if (this->value < 0) this->value = 0;
+	slider = { section.x + 59, section.y + section.h + 5, this->value, 32 };
+
 	// Draw the right button depending on state
 	switch (state)
 	{
-	case GuiControlState::DISABLED: if (showColliders) render->DrawRectangle(bounds, 100, 100, 100, 255);
+	case GuiControlState::DISABLED: 
+		render->DrawTexture(texture, -render->camera.x + bounds.x, -render->camera.y + bounds.y, &section);
+		render->DrawTexture(texture, -render->camera.x + bounds.x + 59, -render->camera.y + bounds.y + 6, &slider);
+		if (showColliders) render->DrawRectangle(bounds, 100, 100, 100, 255);
 		break;
-	case GuiControlState::NORMAL: if (showColliders) render->DrawRectangle(bounds, 0, 255, 0, 255);
+	case GuiControlState::NORMAL: 
+		render->DrawTexture(texture, -render->camera.x + bounds.x, -render->camera.y + bounds.y, &section);
+		render->DrawTexture(texture, -render->camera.x + bounds.x + 59, -render->camera.y + bounds.y + 6, &slider);
+		if (showColliders) render->DrawRectangle(bounds, 0, 255, 0, 255);
 		break;
-	case GuiControlState::FOCUSED: if (showColliders) render->DrawRectangle(bounds, 255, 255, 0, 255);
+	case GuiControlState::FOCUSED: 
+		render->DrawTexture(texture, -render->camera.x + bounds.x, -render->camera.y + bounds.y, &section);
+		render->DrawTexture(texture, -render->camera.x + bounds.x + 59, -render->camera.y + bounds.y + 6, &slider);
+		if (showColliders) render->DrawRectangle(bounds, 255, 255, 0, 255);
 		break;
-	case GuiControlState::PRESSED: if (showColliders) render->DrawRectangle(bounds, 0, 255, 255, 255);
+	case GuiControlState::PRESSED: 
+		render->DrawTexture(texture, -render->camera.x + bounds.x, -render->camera.y + bounds.y, &section);
+		render->DrawTexture(texture, -render->camera.x + bounds.x + 59, -render->camera.y + bounds.y + 6, &slider);
+		if (showColliders) render->DrawRectangle(bounds, 0, 255, 255, 255);
 		break;
-	case GuiControlState::SELECTED: if (showColliders) render->DrawRectangle(bounds, 0, 255, 0, 255);
+	case GuiControlState::SELECTED: 
+		render->DrawTexture(texture, -render->camera.x + bounds.x, -render->camera.y + bounds.y, &section);
+		render->DrawTexture(texture, -render->camera.x + bounds.x + 59, -render->camera.y + bounds.y + 6, &slider);
+		if (showColliders) render->DrawRectangle(bounds, 0, 255, 0, 255);
 		break;
 	default:
 		break;
 	}
 
 	return false;
+}
+
+void GuiSlider::AddValue()
+{
+	if (value < 221) this->value += 2;
+}
+
+void GuiSlider::SubstractValue()
+{
+	if (value >= 2) this->value -= 2;
+}
+
+void GuiSlider::CalculeValue(Input* input)
+{
+	int mouseX, mouseY;
+	input->GetMousePosition(mouseX, mouseY);
+
+	this->value = mouseX - bounds.x - 62;
+}
+
+int GuiSlider::GetValue() const
+{
+	int auxValue = this->value / 2;
+	return auxValue;
+}
+
+void GuiSlider::SetValue(int value)
+{
+	this->value = value * 2;
+	NotifyObserver();
 }
