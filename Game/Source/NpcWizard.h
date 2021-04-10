@@ -7,7 +7,7 @@ class SDL_Texture;
 class NpcWizard : public Npc
 {
 public:
-	NpcWizard(iPoint position, pugi::xml_node anim);
+	NpcWizard(iPoint position, pugi::xml_node anim, int id);
 	virtual ~NpcWizard();
 
 	bool Load() override;

@@ -72,7 +72,7 @@ bool EntityManager::UnLoad()
 	
 	return ret;
 }
-bool EntityManager::checkEntityColision(SceneGameplay* scene)
+bool EntityManager::CheckEntityColision(SceneGameplay* scene)
 {
 	eastl::list<Entity*>::iterator item;
 
@@ -84,10 +84,9 @@ bool EntityManager::checkEntityColision(SceneGameplay* scene)
 		}
 	}
 
-
 	return true;
 }
-Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node anim)
+Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node anim, int id)
 {
 	/*LOG("Creating %s", type);*/
 	Entity* entity = nullptr;
@@ -104,15 +103,17 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node 
 		//entity = new Wizard(pos);
 		break;
 	case EntityType::NPC_WIZARD:
-
-		entity = new NpcWizard(pos, anim);
+		if (id > -1)
+			entity = new NpcWizard(pos, anim, id);
+		
 		npcs.push_back((Npc*)entity);
 		//entity->scene = Scene;
 		entity->Load();
 		break;
 	case EntityType::TABERN:
-
-		entity = new Tabern(pos, anim);
+		if (id > -1)
+			entity = new Tabern(pos, anim, id);
+		
 		npcs.push_back((Npc*)entity);
 		//entity->scene = Scene;
 		entity->Load();
@@ -133,8 +134,9 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node 
 
 		break;
 	case EntityType::TOWN:
+		if(id > -1)
+			entity = new Town(pos, anim, id);
 
-		entity = new Town(pos, anim);
 		npcs.push_back((Npc*)entity);
 		//entity->scene = Scene;
 		entity->Load();

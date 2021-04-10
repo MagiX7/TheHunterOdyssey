@@ -45,7 +45,7 @@ bool DialogueManager::Update(float dt)
 
 	alpha += 100 * dt;
 
-	if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) printText = true;
+	//if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) printText = true;
 	
 	if (current != nullptr)
 	{
@@ -96,6 +96,7 @@ bool DialogueManager::Update(float dt)
 			if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 			{
 				// Dialog finished
+				//current->currentNode->dialogFinished = false;
 				isDialogueActive = false;
 				printText = false;
 				ret = false;
@@ -118,20 +119,26 @@ void DialogueManager::Draw()
 		sect = { 615, 137, 556, 203 };
 		app->render->DrawTexture(texture, 670 - (app->render->camera.x ), 200 - (app->render->camera.y ), &sect);
 
-
-		if (alpha >= 255)
+		if (current->currentNode->dialogFinished)
 		{
-			alpha = 0;
-		}
-		//SDL_Rect r = { current->currentNode->currentOption->bounds.x,  current->currentNode->currentOption->bounds.y, 400,50 };
-		SDL_Rect r = {  current->currentNode->currentOption->bounds.x+(app->render->camera.x * (-1))  , current->currentNode->currentOption->bounds.y+(app->render->camera.y * (-1)) ,
-			current->currentNode->currentOption->bounds.w,current->currentNode->currentOption->bounds.h };
+			if (alpha >= 255)
+			{
+				alpha = 0;
+			}
+			//SDL_Rect r = { current->currentNode->currentOption->bounds.x,  current->currentNode->currentOption->bounds.y, 400,50 };
+			SDL_Rect r = { current->currentNode->currentOption->bounds.x + (app->render->camera.x * (-1))  , current->currentNode->currentOption->bounds.y + (app->render->camera.y * (-1)) ,
+				current->currentNode->currentOption->bounds.w,current->currentNode->currentOption->bounds.h };
 
-		app->render->DrawRectangle(r, 149, 255, 255, alpha);
-		
+			app->render->DrawRectangle(r, 149, 255, 255, alpha);
+		}
+
 		if (printText == true && current->currentNode->id >= -1)
 		{
 			current->Draw(letterCount, font);
+		}
+		else if (current->currentNode->id == -1)
+		{
+			printText = false;
 		}
 	}
 }
@@ -174,8 +181,11 @@ NpcNode* DialogueManager::LoadNode(int id, pugi::xml_node node)
 NpcNode* DialogueManager::GetNodeById(int id)
 {
 	eastl::list<NpcNode*>::iterator it = current->nodes.begin();
-	while (((*it)->id != id) && (it != current->nodes.end()))
-		it = it.next();
+	if (current->nodes.size() > 1)
+	{
+		while (((*it)->id != id) && (it != current->nodes.end()))
+			it = it.next();
+	}
 
 	return (*it);
 }

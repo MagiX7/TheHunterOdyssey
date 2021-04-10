@@ -5,13 +5,12 @@
 #include"DialogueManager.h"
 #include "NpcWizard.h"
 
-NpcWizard::NpcWizard(iPoint position, pugi::xml_node anim):Npc(EntityType::NPC_WIZARD,position)
+NpcWizard::NpcWizard(iPoint position, pugi::xml_node anim, int id):Npc(EntityType::NPC_WIZARD,position, id)
 {
 	//bounds = { 0,0, 16,32 };
 	//type = EntityType::NPC_WIZARD;
 	texture = app->tex->Load("Assets/Textures/Npc/Wizard.png");
 
-	dialogeId = 1;
 	state = NpcState::WALLKING_RIGHT;
 	pugi::xml_node player = anim.child("npc_wizard").child("overworld");
 

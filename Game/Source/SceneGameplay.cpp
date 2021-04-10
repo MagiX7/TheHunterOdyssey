@@ -72,17 +72,17 @@ SceneGameplay::SceneGameplay()
 	generalNpc=(Npc*)entityManager->CreateEntity(EntityType::TABERN, position,anims);*/
 
 	position = { 200,250 };
-	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position, anims);
+	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position, anims, 0);
 
 	position = { 700,1060 };
-	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position, anims);
+	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position, anims, 3);
 	//generalNpc->NpcMove(false);
 
 	position = { 700,810 };
-	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TABERN, position, anims);
+	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TABERN, position, anims, 2);
 
 	position = { 500,350 };
-	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims);
+	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 1);
 
 	//Create Enemies
 
@@ -165,7 +165,7 @@ bool SceneGameplay::Update(float dt)
 				CameraFollow(app->render);
 				/*npc->Update(dt);*/
 				entityManager->Update(dt);
-				entityManager->checkEntityColision(this);
+				entityManager->CheckEntityColision(this);
 				CheckDialogue();
 			}
 			else

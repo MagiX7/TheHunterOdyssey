@@ -10,7 +10,7 @@
 
 #define SPEED_X 60.0f
 #define SPEED_Y 60.0f
-Npc::Npc(EntityType type, iPoint position) : Entity(type)
+Npc::Npc(EntityType type, iPoint position, int id) : Entity(type), dialogeId(id)
 {
 	drawPtext = false;
 	bounds.x = position.x;

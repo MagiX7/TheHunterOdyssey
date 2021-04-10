@@ -27,7 +27,7 @@ enum class NpcType
 class Npc : public Entity
 {
 public:
-	Npc(EntityType type, iPoint position);
+	Npc(EntityType type, iPoint position, int id);
 	~Npc();
 
 	bool Load() override;

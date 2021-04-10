@@ -2,16 +2,15 @@
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
-#include"DialogueManager.h"
+#include "DialogueManager.h"
 
 #include "Town.h"
 
-Town::Town(iPoint position, pugi::xml_node anim) :Npc(EntityType::TOWN, position)
+Town::Town(iPoint position, pugi::xml_node anim, int id) : Npc(EntityType::TOWN, position, id)
 {
 	/*bounds = { 0,0, 16,32 };
 	type = EntityType::TOWN;*/
 	texture = app->tex->Load("Assets/Textures/Npc/Town.png");
-	dialogeId = 0;
 
 	state = NpcState::WALLKING_RIGHT;
 	pugi::xml_node player = anim.child("town").child("overworld");

@@ -1,5 +1,6 @@
 #pragma once
-#include"Font.h"
+
+#include "Font.h"
 #include "Npc.h"
 
 class SDL_Texture;
@@ -7,7 +8,7 @@ class SDL_Texture;
 class Town : public Npc
 {
 public:
-	Town(iPoint position, pugi::xml_node anim);
+	Town(iPoint position, pugi::xml_node anim, int id);
 	virtual ~Town();
 
 	bool Load() override;
@@ -18,11 +19,6 @@ public:
 
 	bool UnLoad() override;
 
-	
-
 	bool SaveState(pugi::xml_node& node) override;
 
-
-
-	
 };

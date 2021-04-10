@@ -1,36 +1,43 @@
 <dialogues>
 	<npc id ="0">
 		<node id ="0">
-			<npc_text text ="Mucho texto crack no me caleintes la cabeza los dialogos son jodidamente deificiles quien invento esto, me lo voy a cargar!"/>
-			<option id="0" nextNodeId="3" text="chupala"/>
-			<option id="1" nextNodeId="2" text="Pos toma un pin"/>
-			<option id="2" nextNodeId="1" text="ERES RETRASAO"/>
+			<npc_text text ="Hello!, who are you? I can't recognize your face. Hmmm..."/>
+			<option id="0" nextNodeId="1" text="I came here because of the king's announcement."/>
+			<option id="1" nextNodeId="4" text="It's not your business wheather I'm here or not."/>
 		</node>
 		<node id ="1">
-			<npc_text text ="No, chupala TTTTTTU"/>
-			<option id="0" nextNodeId="-1" text="Pues me piro, ahi te quedas"/>
-			<option id="1" nextNodeId="-1" text="Pues paya que voy e"/>
+			<npc_text text ="Oh, so you want to fight The Monster? Good luck with it. Nobody could beat him. Lots of strangers came here but no one returned. Guess what happened to them..."/>
+			<option id="0" nextNodeId="2" text="Yes, I want and I'm going to. I'm not scared of that creature."/>
+			<option id="1" nextNodeId="3" text="How much people are we talking about?"/>
 		</node>
 		<node id="2">
-			<npc_text text ="Pos me lo quedo imbecil"/>
-			<option id="0" nextNodeId ="-1" text="pues hasta luego bro"/>
+			<npc_text text ="Then I would suggest you to get some people that helps you."/>
+			<option id="0" nextNodeId ="-1" text="Alright, thank you for the advice!"/>
 		</node>
 		<node id="3">
-			<npc_text text="TU MADRE ES RETRASADA"/>
-			<option id="0" nextNodeId="-1" text="vamos a la biblioteca nocturna"/>
-			<option id="1" nextNodeId="-1" text="ooooooooOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO..."/>
+			<npc_text text="Lots, uncountables."/>
+			<option id="0" nextNodeId="-1" text="I suppose I will accept the challenge"/>
+			<option id="1" nextNodeId="-1" text="I'm not like the rest."/>
 		</node>
-		<node id ="-1">
+		<node id="4">
+			<npc_text text="Oh, I'm sorry... Anyways, you look a bit disappointing to solve the Kingdom's problem."/>
+			<option id="0" nextNodeId="-1" text="Whatever you say."/>
+			<option id="1" nextNodeId="-1" text="You look disappointing!"/>
+		</node>
+		<node id ="-1"> <!-- Keep this here to avoid crashes -->
 			<npc_text text ="Press enter to back"/>
 		</node>
 	</npc>
-	
+
+	<!-- Next NPC -->
+
+	<!--
 	<npc id ="1">
 		<node id ="0">
-		 <npc_text text ="esto es una prueba"/>
-		 <option id="0" nextNodeId="3" text="me comes los huevos"/>
-		 <option id="1" nextNodeId="2" text="dale bro"/>
-		 <option id="2" nextNodeId="1" text="Esta es la opcion 3"/>
+			<npc_text text ="esto es una prueba"/>
+			<option id="0" nextNodeId="3" text="me comes los huevos"/>
+			<option id="1" nextNodeId="2" text="dale bro"/>
+			<option id="2" nextNodeId="1" text="Esta es la opcion 3"/>
 	 </node>
 	 <node id ="1">
 		  <npc_text text ="esto es la segunda respuesta"/>
@@ -46,8 +53,93 @@
 		 <option id="0" nextNodeId="-1" text="viva MrLuigui001"/>
 		  <option id="1" nextNodeId="-1" text="rt"/>
     </node>
-    <node id ="-1">
-		  <npc_text text ="Press enter to back"/>
+    <node id ="-1"> Keep this here to avoid crashes
+		 <npc_text text ="Press enter to back"/>
     </node>
-  </npc>
+	</npc>
+	-->
+	
+	<!-- Next NPC -->
+	
+	<npc id ="1">
+		<node id ="0">
+			<npc_text text ="Don't talk to me, I'm really busy at the moment."/>
+			<option id="0" nextNodeId="-1" text="Ok, have a good day."/>
+		</node>
+		<node id ="-1"> <!-- Keep this here to avoid crashes -->
+			<npc_text text ="Press enter to back"/>
+		</node>
+	</npc>
+
+	<!-- Next NPC -->
+	<npc id ="2">
+		<node id ="0">
+			<npc_text text ="Hello Mr. How are you today?"/>
+			<option id ="0" nextNodeId="1" text="I'm good, thank you. What about you?"/>
+			<option id ="1" nextNodeId="2" text="I'm feeling nervous."/>
+		</node>
+		<node id="1">
+			<npc_text text ="I'm fine. I need to go and do some stuff. Will I see you later around here?
+							And by the way, i heard that a hunter or something like that is coming to the town to fight The Monster. I can't wait to meet him!!"/>
+			<option id="0" nextNodeId="-1" text="Hmm... Yeah yeah... Me too"/>
+			<option id="1" nextNodeId="3" text="I am that hunter you are talking about :)"/>
+		</node>
+		<node id="2">
+			<npc_text text ="Why? Tell me."/>
+			<option id="0" nextNodeId="3" text="Because I came here to kill The Monster and get the bounty."/>
+			<option id="1" nextNodeId="4" text="Because I don't know where i can eat."/>
+		</node>
+		<node id="3">
+			<npc_text text="WOOOOOOOOOOAAAH, THERE'S NO WAY, ARE YOU THE HUNTER?!? REALLY??!??! Can I shake your hand? Please."/>
+			<option id="0" nextNodeId="-1" text="Yes, why not."/>
+			<option id="1" nextNodeId="-1" text="No, I'm sorry."/>
+		</node>
+		<node id="4">
+			<npc_text text="Well, if you want I can invite you to my house honey, I have food there. :3"/>
+			<option id="0" nextNodeId="5" text="Ahm, it would be great. You don't mind?"/>
+			<option id="1" nextNodeId="-1" text="Ahm, no thank you... I will find something..."/>
+		</node>
+		<node id="5">
+			<npc_text text="Yeah, really, I don't mind."/>
+			<option id="0" nextNodeId="-1" text="Alright let's go."/>
+		</node>
+		<node id ="-1"> <!-- Keep this here to avoid crashes -->
+			<npc_text text ="Press enter to back"/>
+		</node>
+	</npc>
+
+	<!-- Next NPC -->
+
+	<npc id ="3">
+		<node id="0">
+			<npc_text text="The developers of this game told me they are suffering a lot with the main library. It's name is something like SDL or whatever. They told me they dislike it! It's too complicated!"/>
+			<option id="0" nextNodeId="1" text="It's normal, i feel them."/>
+			<option id="1" nextNodeId="2" text="Well I don't think the same. SDL is cool."/>
+		</node>
+		<node id="1">
+			<npc_text text="I know another library that is way easier to use and implement. It's called Rasmib, Raymib, Reylib... Whatever... Do you know the which one I am referring to?."/>
+			<option id="0" nextNodeId="3" text="Hmmmmmmm... I don't know, no. Should I search for it?"/>
+			<option id="1" nextNodeId="4" text="Of course I do, it's called Raylib, and it is awesome!"/>
+		</node>
+		<node id="2">
+			<npc_text text="Eeeewww... I can't talk anymore with you after what you said. Bye."/>
+			<option id="0" nextNodeId="-1" text="Aaaaahhmm... Bye..."/>
+		</node>
+		<node id="3">
+			<npc_text text="Definitely, you should."/>
+			<option id="0" nextNodeId="-1" text="Ok, I will. Thank you. Bye"/>
+		</node>
+		<node id="4">
+			<npc_text text="That is awesome. The developer has been working a lot of years on it!"/>
+			<option id="0" nextNodeId="5" text="Really? Woah. It's incredible."/>
+		</node>
+		<node id="5">
+			<npc_text text="Yes it is. Well, I gotta go, see you later! Glad to meet you!"/>
+			<option id="0" nextNodeId="-1" text="Same, see you later!"/>
+		</node>
+		<node id ="-1"> <!-- Keep this here to avoid crashes -->
+			<npc_text text ="Press enter to back"/>
+		</node>
+	</npc>
+
 </dialogues>

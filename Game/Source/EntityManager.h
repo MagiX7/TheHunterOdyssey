@@ -20,7 +20,7 @@ public:
 
 	bool UnLoad();
 
-	Entity* CreateEntity(EntityType type, iPoint position, pugi::xml_node anim);
+	Entity* CreateEntity(EntityType type, iPoint position, pugi::xml_node anim, int id= -1);
 
 	void DeleteEntity(Entity* entity);
 
@@ -32,7 +32,7 @@ public:
 
 	bool Load();
 
-	bool checkEntityColision(SceneGameplay* scene);
+	bool CheckEntityColision(SceneGameplay* scene);
 public:
 	//List<Entity*> entities;
 	eastl::list<Entity*> entities;
