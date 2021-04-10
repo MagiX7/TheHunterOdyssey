@@ -264,19 +264,12 @@ bool Render::DrawText(Font* font, const char* text, int x, int y, int size, int 
 
 			if (maxX > 0)
 			{
-
 				if ((tmpLen * (recDest.w + spacing)) + firstTmpLetterPosition >= maxX && noMoreJumps == false)
 				{
 					noMoreJumps = true;
 					y += size + 5;
 					posX = x;
 				}
-
-				/*if (recDest.x + recDest.w >= maxX - 30)
-				{
-					y += size + 5;
-					posX = x;
-				}*/
 			}
 		}
 		else // Print the text

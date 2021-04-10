@@ -26,6 +26,8 @@ public:
 
 	void ChangeButtonState(PlayerType type);
 
+	void HandleInput();
+
 private:
 	Player* player;
 	SceneGameplay* scene;

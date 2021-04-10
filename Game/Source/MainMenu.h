@@ -60,9 +60,5 @@ private:
 	GuiCheckBox* checkFullscreen;
 	GuiCheckBox* checkVSync;
 
-	eastl::list<GuiButton*> buttons;
-	GuiButton* currentButton;
-	GuiButton* lastButton;
-
 	Font* font;
 };

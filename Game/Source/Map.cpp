@@ -252,20 +252,24 @@ bool Map::CleanUp()
 
 	while (item != data.tilesets.end())
 	{
+		// Important, to unload the texture
+		app->tex->UnLoad((*item)->texture);
 		RELEASE((*item));
 		++item;
 	}
 	data.tilesets.clear();
 
-	// Remove all layers
+	// Remove all layers along with the properties
 	eastl::list<MapLayer*>::iterator itemLayer = data.layers.begin();
 
 	while (itemLayer != data.layers.end())
 	{
+		(*itemLayer)->properties.list.clear();
 		RELEASE((*itemLayer));
 		++itemLayer;
 	}
 	data.layers.clear();
+
 
 	// Clean up the pugui tree
 	mapFile.reset();

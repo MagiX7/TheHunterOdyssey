@@ -59,6 +59,14 @@ bool PauseMenu::Load(Font* font)
 	btnBack->texture = guiTex;
 	btnBack->alineation = 1;
 
+	buttons.push_back(btnResume);
+	buttons.push_back(btnLoadSave);
+	buttons.push_back(btnOptions);
+	buttons.push_back(btnReturnTitle);
+	buttons.push_back(btnExit);
+	currentButton = (*buttons.begin());
+	lastButton = nullptr;
+
 	state = PauseState::DEFAULT;
 
 	return true;
@@ -68,23 +76,25 @@ bool PauseMenu::Update(float dt)
 {
 	bool ret = true;
 	
-	/*switch (state)
+	HandleInput();
+
+	switch (state)
 	{
 	case PauseState::DEFAULT:
-		btnResume->Update(app->input, dt);
-		btnLoadSave->Update(app->input, dt);
-		btnOptions->Update(app->input, dt);
-		btnReturnTitle->Update(app->input, dt);
-		ret = btnExit->Update(app->input, dt);
+		btnResume->Update(app->input, dt, currentButton->id);
+		btnLoadSave->Update(app->input, dt, currentButton->id);
+		btnOptions->Update(app->input, dt, currentButton->id);
+		btnReturnTitle->Update(app->input, dt, currentButton->id);
+		ret = btnExit->Update(app->input, dt, currentButton->id);
 		break;
 	case PauseState::OPTIONS:
 		break;
 	case PauseState::SAVE:
-		btnSave->Update(app->input, dt);
-		btnLoad->Update(app->input, dt);
-		btnBack->Update(app->input, dt);
+		btnSave->Update(app->input, dt, currentButton->id);
+		btnLoad->Update(app->input, dt, currentButton->id);
+		btnBack->Update(app->input, dt, currentButton->id);
 		break;
-	}*/
+	}
 
 	return ret;
 }
@@ -143,6 +153,8 @@ bool PauseMenu::UnLoad()
 	RELEASE(btnReturnTitle);
 	RELEASE(btnExit);
 
+	buttons.clear();
+
 	return true;
 }
 
@@ -152,14 +164,65 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 	{
 	case GuiControlType::BUTTON:
 		if (control->id == 1) scene->ChangeState(GameplayMenuState::NONE);
-		else if (control->id == 2) state = PauseState::SAVE;
+		else if (control->id == 2)
+		{
+			state = PauseState::SAVE;
+			
+			buttons.clear();
+			buttons.push_back(btnSave);
+			buttons.push_back(btnLoad);
+			buttons.push_back(btnBack);
+			lastButton = currentButton;
+			currentButton = (*buttons.begin());
+
+		}
 		else if (control->id == 3) state = PauseState::OPTIONS;
 		else if (control->id == 4) scene->TransitionToScene(SceneType::TITLE);
 		else if (control->id == 5) return false;
 		else if (control->id == 6); // Save Game
 		else if (control->id == 7); // Load Game
-		else if (control->id == 8) state = PauseState::DEFAULT;
+		else if (control->id == 8)
+		{
+			state = PauseState::DEFAULT;
+			
+			buttons.clear();
+			buttons.push_back(btnResume);
+			buttons.push_back(btnLoadSave);
+			buttons.push_back(btnOptions);
+			buttons.push_back(btnReturnTitle);
+			buttons.push_back(btnExit);
+
+			currentButton = lastButton;
+		}
 	}
 	
 	return true;
+}
+
+void PauseMenu::HandleInput()
+{
+	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || app->input->pads->down)
+	{
+		eastl::list<GuiButton*>::iterator it = buttons.begin();
+		for (int i = 0; i < buttons.size(); ++i, ++it)
+		{
+			if ((*it)->id == currentButton->id + 1)
+			{
+				currentButton = (*it);
+				break;
+			}
+		}
+	}
+	else if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || app->input->pads->up)
+	{
+		eastl::list<GuiButton*>::iterator it = buttons.begin();
+		for (int i = 0; i < buttons.size(); ++i, ++it)
+		{
+			if ((*it)->id == currentButton->id - 1)
+			{
+				currentButton = (*it);
+				break;
+			}
+		}
+	}
 }

@@ -30,6 +30,8 @@ public:
 
 	bool OnGuiMouseClickEvent(GuiControl* control) override;
 
+	void HandleInput();
+
 private:
 	PauseState state;
 	SceneGameplay* scene;
@@ -44,4 +46,5 @@ private:
 	GuiButton* btnOptions;
 	GuiButton* btnReturnTitle;
 	GuiButton* btnExit;
+
 };

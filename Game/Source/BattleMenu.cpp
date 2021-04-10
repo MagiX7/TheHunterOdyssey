@@ -269,7 +269,7 @@ void BattleMenu::DrawStats(Font* font)
 
 bool BattleMenu::HandleInput(Input* input)
 {
-	if (input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
 	{
 		eastl::list<Enemy*>::iterator it = sceneBattle->enemyList.begin();
 		for (; it != sceneBattle->enemyList.end(); ++it)
@@ -286,7 +286,7 @@ bool BattleMenu::HandleInput(Input* input)
 			}
 		}
 	}
-	else if (input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+	else if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
 	{
 		eastl::list<Enemy*>::iterator it = sceneBattle->enemyList.begin();
 		for (; it != sceneBattle->enemyList.end(); ++it)
@@ -501,10 +501,11 @@ void BattleMenu::EraseEnemy()
 	{
 		if ((*it) == currEnemy)
 		{
-			currEnemy = (*it.next());
+			//currEnemy = (*it.next());
 			(*it)->UnLoad();
 			RELEASE((*it));
 			sceneBattle->enemyList.erase(it);
+			currEnemy = (*sceneBattle->enemyList.begin()); // Fixed current enemy assign. Before, if you killed the 3rd enemy (the last one) it crashed.
 			break;
 		}
 	}
