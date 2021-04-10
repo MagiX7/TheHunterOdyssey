@@ -38,7 +38,7 @@ bool Npc::Load()
 bool Npc::Update(float dt)
 {
 	lastPosition = bounds;
-	currentAnim->speed = 10.0f * dt;
+	currentAnim->speed = 7.0f * dt;
 	if (stateTimer > stateMaxTimer)
 	{
 		state = getNewState();

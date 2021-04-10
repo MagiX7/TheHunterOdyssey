@@ -113,6 +113,9 @@
     <ClCompile Include="Source\Town.cpp">
       <Filter>Entities\Npcs</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Ray.cpp">
+      <Filter>Entities\Npcs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -272,6 +275,9 @@
       <Filter>Entities\Players</Filter>
     </ClInclude>
     <ClInclude Include="Source\Town.h">
+      <Filter>Entities\Npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Ray.h">
       <Filter>Entities\Npcs</Filter>
     </ClInclude>
   </ItemGroup>

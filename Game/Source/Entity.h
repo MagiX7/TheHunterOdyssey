@@ -27,6 +27,7 @@ enum class EntityType
 	TABERN,
 	NPC_WIZARD,
 	TOWN,
+	RAY,
 	ITEM,
 	MAP,
 	UNKNOWN

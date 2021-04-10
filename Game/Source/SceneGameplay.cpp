@@ -75,7 +75,7 @@ SceneGameplay::SceneGameplay()
 	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position, anims, 0);
 
 	position = { 700,1060 };
-	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position, anims, 3);
+	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::RAY, position, anims, 3);
 	//generalNpc->NpcMove(false);
 
 	position = { 700,810 };

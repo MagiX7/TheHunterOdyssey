@@ -117,6 +117,7 @@
     <ClCompile Include="Source\NpcWizard.cpp" />
     <ClCompile Include="Source\PauseMenu.cpp" />
     <ClCompile Include="Source\Player.cpp" />
+    <ClCompile Include="Source\Ray.cpp" />
     <ClCompile Include="Source\Render.cpp" />
     <ClCompile Include="Source\SceneBattle.cpp" />
     <ClCompile Include="Source\SceneEnding.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="Source\PerfTimer.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Queue.h" />
+    <ClInclude Include="Source\Ray.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\Audio.h" />
     <ClInclude Include="Source\Input.h" />

@@ -2,6 +2,7 @@
 #include"NpcWizard.h"
 #include"Tabern.h"
 #include"Town.h"
+#include"Ray.h"
 #include"Wizard.h"
 #include"Hunter.h"
 #include"Thief.h"
@@ -136,6 +137,14 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node 
 	case EntityType::TOWN:
 		if(id > -1)
 			entity = new Town(pos, anim, id);
+
+		npcs.push_back((Npc*)entity);
+		//entity->scene = Scene;
+		entity->Load();
+		break;
+	case EntityType::RAY:
+		if (id > -1)
+			entity = new Ray(pos, anim, id);
 
 		npcs.push_back((Npc*)entity);
 		//entity->scene = Scene;
