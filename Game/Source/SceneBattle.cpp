@@ -25,6 +25,7 @@ bool SceneBattle::Load()
 	for (int i = 0; it != playerList.end(); ++it, ++i)
 	{
 		(*it)->stance = PlayerStance::BATTLE;
+		(*it)->SetIdleBattle();
 		(*it)->bounds.x = 400;
 		(*it)->bounds.y = 221 + (i * 50);
 	}

@@ -12,8 +12,8 @@ Player::Player(PlayerType t, EntityType type, iPoint position) : Entity(type), p
 {
 	bounds.x= position.x;
 	bounds.y = position.y;
-	bounds.w = 25;
-	bounds.h = 20;
+	bounds.w = 32;
+	bounds.h = 32;
 	currentAbilitySelected = 0;
 }
 

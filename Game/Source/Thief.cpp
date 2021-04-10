@@ -39,13 +39,24 @@ Thief::Thief(iPoint position, pugi::xml_node anim) : Player(PlayerType::THIEF, E
 		walkUp.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
 	}
 
+	player = anim.child("thief").child("battlers");
+
+	for (pugi::xml_node n = player.child("idle").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		idleBattle.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
+	for (pugi::xml_node n = player.child("death").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		death.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
 	idleDown.PushBack(walkDown.frames[0]);
 	idleLeft.PushBack(walkLeft.frames[0]);
 	idleRight.PushBack(walkRight.frames[0]);
 	idleUp.PushBack(walkUp.frames[0]);
 
 	currentAnim = &idleDown;
-	texture = app->tex->Load("Assets/Textures/Players/thief_overworld.png");
 }
 
 Thief::~Thief()
@@ -54,6 +65,8 @@ Thief::~Thief()
 
 bool Thief::Load()
 {
+	texture = app->tex->Load("Assets/Textures/Players/thief_overworld.png");
+	battlerTexture = app->tex->Load("Assets/Textures/Players/battler_thief.png");
 
 	return true;
 }
@@ -61,6 +74,16 @@ bool Thief::Load()
 bool Thief::Update(float dt)
 {
 	currentAnim->speed = 10.0f * dt;
+
+	switch (stance)
+	{
+	case PlayerStance::BATTLE:
+		if (healthPoints <= 0)
+		{
+			healthPoints = 0;
+			currentAnim = &death;
+		}
+	}
 
 	HandleInput(dt);
 
@@ -71,8 +94,9 @@ bool Thief::Update(float dt)
 
 void Thief::Draw(bool showColliders)
 {
-	if (showColliders) app->render->DrawRectangle(bounds, 255,165,0);
-	app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+	if (showColliders) app->render->DrawRectangle(bounds, 255, 165, 0, 150);
+	if (stance == PlayerStance::ROAMING) app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+	else if (stance == PlayerStance::BATTLE) app->render->DrawTexture(battlerTexture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
 }
 
 bool Thief::UnLoad()

@@ -33,12 +33,4 @@ public:
 	void SetDefend(bool option) override;
 
 private:
-	Animation idleDown;
-	Animation idleLeft;
-	Animation idleRight;
-	Animation idleUp;
-	Animation walkDown;
-	Animation walkLeft;
-	Animation walkRight;
-	Animation walkUp;
 };

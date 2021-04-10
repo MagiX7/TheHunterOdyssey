@@ -29,18 +29,6 @@ SceneGameplay::SceneGameplay()
 
 	iPoint position = { 260,290 };
 
-	/*player1 = (Player*)entityManager->CreateEntity(EntityType::PLAYER, position);
-	player1->SetPlayerType(PlayerType::HUNTER);
-	player1->Load();
-
-	player2 = (Player*)entityManager->CreateEntity(EntityType::PLAYER, position);
-	player2->SetPlayerType(PlayerType::WIZARD);
-	player2->Load();*/
-
-	/*player1 = new Hunter();
-	player2 = new Wizard();
-	player3 = new Thief();
-	player4 = new Warrior();*/
 	pugi::xml_document animations;
 	pugi::xml_node anims;
 	pugi::xml_parse_result result = animations.load_file("animations.xml");
@@ -119,6 +107,10 @@ bool SceneGameplay::Load()
 	font = new Font("Assets/Font/font3.xml", app->tex);
 
 	entityManager->Load();
+
+	eastl::list<Player*>::iterator it = playerList.begin();
+	for (; it != playerList.end(); ++it)
+		(*it)->Load();
 
 	// Startup
 	menuState = GameplayMenuState::NONE;

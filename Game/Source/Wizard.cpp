@@ -41,13 +41,24 @@ Wizard::Wizard(iPoint position, pugi::xml_node anim) : Player(PlayerType::WIZARD
 		walkUp.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
 	}
 
+	player = anim.child("wizard").child("battlers");
+
+	for (pugi::xml_node n = player.child("idle").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		idleBattle.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
+	for (pugi::xml_node n = player.child("death").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		death.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
 	idleDown.PushBack(walkDown.frames[0]);
 	idleLeft.PushBack(walkLeft.frames[0]);
 	idleRight.PushBack(walkRight.frames[0]);
 	idleUp.PushBack(walkUp.frames[0]);
 
 	currentAnim = &idleDown;
-	texture = app->tex->Load("Assets/textures/Players/wizard2.png");
 }
 
 Wizard::~Wizard()
@@ -57,12 +68,25 @@ Wizard::~Wizard()
 bool Wizard::Load()
 {
 	// TODO implement textures for wizard. 
+	texture = app->tex->Load("Assets/Textures/Players/wizard2.png");
+	battlerTexture = app->tex->Load("Assets/Textures/Players/battler_wizard.png");
+
 	return true;
 }
 
 bool Wizard::Update(float dt)
 {
 	currentAnim->speed = 10.0f * dt;
+
+	switch (stance)
+	{
+	case PlayerStance::BATTLE:
+		if (healthPoints <= 0)
+		{
+			healthPoints = 0;
+			currentAnim = &death;
+		}
+	}
 
 	HandleInput(dt);
 
@@ -73,8 +97,9 @@ bool Wizard::Update(float dt)
 
 void Wizard::Draw(bool showColliders)
 {
-	//if (showColliders) app->render->DrawRectangle(bounds, 0, 255, 0);
-	app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+	if (showColliders) app->render->DrawRectangle(bounds, 0, 255, 0, 150);
+	if (stance == PlayerStance::ROAMING) app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+	else if (stance == PlayerStance::BATTLE) app->render->DrawTexture(battlerTexture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
 }
 
 bool Wizard::UnLoad()

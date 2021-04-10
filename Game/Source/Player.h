@@ -54,6 +54,11 @@ public:
 
 	virtual void SetDefend(bool option);
 
+	virtual void SetIdleBattle()
+	{
+		currentAnim = &idleBattle;
+	}
+
 	// Getters
 	int GetHealthPoints() const { return healthPoints; }
 	int GetManaPoints() const { return manaPoints; }
@@ -72,6 +77,7 @@ public:
 
 protected:
 	SDL_Texture* texture;
+	SDL_Texture* battlerTexture;
 
 	std::string name;
 
@@ -84,4 +90,17 @@ protected:
 	int defense;
 	int currentAbilitySelected;
 	int currentObjectSelected;
+
+	//Animations
+	Animation idleDown;
+	Animation idleLeft;
+	Animation idleRight;
+	Animation idleUp;
+	Animation walkDown;
+	Animation walkLeft;
+	Animation walkRight;
+	Animation walkUp;
+
+	Animation idleBattle;
+	Animation death;
 };
