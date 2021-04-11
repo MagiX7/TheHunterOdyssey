@@ -10,7 +10,8 @@ enum class PauseState
 {
 	DEFAULT = 0,
 	OPTIONS,
-	SAVE
+	SAVE,
+	EXIT
 };
 
 class PauseMenu : public Menu
@@ -46,5 +47,11 @@ private:
 	GuiButton* btnOptions;
 	GuiButton* btnReturnTitle;
 	GuiButton* btnExit;
-
+	GuiButton* btnExitYes;
+	GuiButton* btnExitNo;
+	GuiSlider* slideMusicVolume;
+	GuiSlider* slideFXVolume;
+	GuiCheckBox* checkFullscreen;
+	GuiCheckBox* checkVSync;
+	GuiButton* btnOptionsBack;
 };

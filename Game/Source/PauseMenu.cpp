@@ -6,6 +6,8 @@
 
 #include "PauseMenu.h"
 #include "Textures.h"
+#include "Audio.h"
+#include "Window.h"
 
 PauseMenu::PauseMenu(SceneGameplay* s) : scene(s)
 {
@@ -59,6 +61,37 @@ bool PauseMenu::Load(Font* font)
 	btnBack->texture = guiTex;
 	btnBack->alineation = 1;
 
+	btnOptionsBack = new GuiButton(9, { 930, 561, 270, 64 }, "Back", this, font);
+	btnOptionsBack->section = { 430,0,270,64 };
+	btnOptionsBack->texture = guiTex;
+	btnOptionsBack->alineation = 1;
+
+	slideMusicVolume = new GuiSlider(10, { 897,198,339,46 }, "Music volume", this, 0, 128, app->audio->GetMusicVolume());
+	slideMusicVolume->section = { 440,83,339,46 };
+	slideMusicVolume->texture = guiTex;
+
+	slideFXVolume = new GuiSlider(11, { 897,313,339,46 }, "FX volume", this, 0, 128, app->audio->GetFxVolume());
+	slideFXVolume->section = { 440,83,339,46 };
+	slideFXVolume->texture = guiTex;
+
+	checkFullscreen = new GuiCheckBox(12, { 1151,396,32,32 }, "Fullscreen", this);
+	checkFullscreen->section = { 440,192,32,32 };
+	checkFullscreen->texture = guiTex;
+
+	checkVSync = new GuiCheckBox(13, { 1114,469,32,32 }, "VSync", this);
+	checkVSync->section = { 440,192,32,32 };
+	checkVSync->texture = guiTex;
+
+	btnExitYes = new GuiButton(14, { 505, 256, 270, 64 }, "Yes", this, font);
+	btnExitYes->section = { 430,0,270,64 };
+	btnExitYes->texture = guiTex;
+	btnExitYes->alineation = 1;
+
+	btnExitNo = new GuiButton(15, { 505, 341, 270, 64 }, "No", this, font);
+	btnExitNo->section = { 430,0,270,64 };
+	btnExitNo->texture = guiTex;
+	btnExitNo->alineation = 1;
+
 	buttons.push_back(btnResume);
 	buttons.push_back(btnLoadSave);
 	buttons.push_back(btnOptions);
@@ -88,11 +121,25 @@ bool PauseMenu::Update(float dt)
 		ret = btnExit->Update(app->input, dt, currentButton->id);
 		break;
 	case PauseState::OPTIONS:
+		btnResume->Update(app->input, dt, currentButton->id);
+		btnLoadSave->Update(app->input, dt, currentButton->id);
+		btnOptions->Update(app->input, dt, currentButton->id);
+		btnReturnTitle->Update(app->input, dt, currentButton->id);
+		btnExit->Update(app->input, dt, currentButton->id);
+		btnOptionsBack->Update(app->input, dt, currentButton->id);
+		slideMusicVolume->Update(app->input, dt);
+		slideFXVolume->Update(app->input, dt);
+		checkFullscreen->Update(app->input, dt);
+		checkVSync->Update(app->input, dt);
 		break;
 	case PauseState::SAVE:
 		btnSave->Update(app->input, dt, currentButton->id);
 		btnLoad->Update(app->input, dt, currentButton->id);
 		btnBack->Update(app->input, dt, currentButton->id);
+		break;
+	case PauseState::EXIT:
+		ret = btnExitYes->Update(app->input, dt, currentButton->id);
+		btnExitNo->Update(app->input, dt, currentButton->id);
 		break;
 	}
 
@@ -123,6 +170,29 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		//app->render->DrawText(font, btnExit->text.GetString(), 559, 579, 36, 5, { 0,0,0,255 });
 		break;
 	case PauseState::OPTIONS:
+		section = { 0,0,430,650 };
+		app->render->DrawTexture(guiTex, -app->render->camera.x + 425, -app->render->camera.y + 48, &section);
+
+		btnResume->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
+		btnLoadSave->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
+		btnOptions->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
+		btnReturnTitle->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
+		btnExit->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
+
+		app->render->DrawText(font, "PAUSE", 552, 121, 72, 5, { 255,255,255,255 });
+
+		app->render->DrawTexture(guiTex, -app->render->camera.x + 850, -app->render->camera.y + 48, &section);
+
+		btnOptionsBack->Draw(app->render, showColliders, 36, { 0,0,0,225 });
+		slideMusicVolume->Draw(app->render, showColliders);
+		slideFXVolume->Draw(app->render, showColliders);
+		checkFullscreen->Draw(app->render, showColliders);
+		checkVSync->Draw(app->render, showColliders);
+
+		app->render->DrawText(font, "Music volume", 954, 150, 36, 5, { 255,255,255,255 });
+		app->render->DrawText(font, "FX volume", 982, 264, 36, 5, { 255,255,255,255 });
+		app->render->DrawText(font, "Fullscreen", 944, 386, 36, 5, { 255,255,255,255 });
+		app->render->DrawText(font, "VSync", 985, 459, 36, 5, { 255,255,255,255 });
 		break;
 	case PauseState::SAVE:
 		section = { 0,0,430,650 };
@@ -136,6 +206,15 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		//app->render->DrawText(font, btnSave->text.GetString(), 601, 272, 36, 5, { 0,0,0,255 });
 		//app->render->DrawText(font, btnLoad->text.GetString(), 601, 357, 36, 5, { 0,0,0,255 });
 		//app->render->DrawText(font, btnBack->text.GetString(), 602, 544, 36, 5, { 0,0,0,255 });
+		break;
+	case PauseState::EXIT:
+		section = { 0,0,430,650 };
+		app->render->DrawTexture(guiTex, -app->render->camera.x + 425, -app->render->camera.y + 48, &section);
+		
+		btnExitYes->Draw(app->render, showColliders, 36, { 0,0,0,225 });
+		btnExitNo->Draw(app->render, showColliders, 36, { 0,0,0,225 });
+
+		app->render->DrawText(font, "Are you sure?", 507, 147, 40, 5, { 255,255,255,255 });
 		break;
 	}
 }
@@ -152,6 +231,13 @@ bool PauseMenu::UnLoad()
 	RELEASE(btnOptions);
 	RELEASE(btnReturnTitle);
 	RELEASE(btnExit);
+	RELEASE(btnOptionsBack);
+	RELEASE(slideMusicVolume);
+	RELEASE(slideFXVolume);
+	RELEASE(checkFullscreen);
+	RELEASE(checkVSync);
+	RELEASE(btnExitYes);
+	RELEASE(btnExitNo);
 
 	buttons.clear();
 
@@ -163,11 +249,16 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 	switch (control->type)
 	{
 	case GuiControlType::BUTTON:
-		if (control->id == 1) scene->ChangeState(GameplayMenuState::NONE);
+	{
+		if (control->id == 1)
+		{
+			state = PauseState::DEFAULT;
+			scene->ChangeState(GameplayMenuState::NONE);
+		}
 		else if (control->id == 2)
 		{
 			state = PauseState::SAVE;
-			
+
 			buttons.clear();
 			buttons.push_back(btnSave);
 			buttons.push_back(btnLoad);
@@ -176,15 +267,32 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 			currentButton = (*buttons.begin());
 
 		}
-		else if (control->id == 3) state = PauseState::OPTIONS;
+		else if (control->id == 3)
+		{
+			state = PauseState::OPTIONS;
+
+			buttons.clear();
+			buttons.push_back(btnOptionsBack);
+			lastButton = currentButton;
+			currentButton = (*buttons.begin());
+		}
 		else if (control->id == 4) scene->TransitionToScene(SceneType::TITLE);
-		else if (control->id == 5) return false;
+		else if (control->id == 5)
+		{
+			state = PauseState::EXIT;
+
+			buttons.clear();
+			buttons.push_back(btnExitYes);
+			buttons.push_back(btnExitNo);
+			lastButton = currentButton;
+			currentButton = (*buttons.begin());
+		}
 		else if (control->id == 6); // Save Game
 		else if (control->id == 7); // Load Game
 		else if (control->id == 8)
 		{
 			state = PauseState::DEFAULT;
-			
+
 			buttons.clear();
 			buttons.push_back(btnResume);
 			buttons.push_back(btnLoadSave);
@@ -194,6 +302,48 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 
 			currentButton = lastButton;
 		}
+		else if (control->id == 9)
+		{
+			state = PauseState::DEFAULT;
+
+			buttons.clear();
+			buttons.push_back(btnResume);
+			buttons.push_back(btnLoadSave);
+			buttons.push_back(btnOptions);
+			buttons.push_back(btnReturnTitle);
+			buttons.push_back(btnExit);
+
+			currentButton = lastButton;
+		}
+		else if (control->id == 14)	return false;
+		else if (control->id == 15)
+		{
+			state = PauseState::DEFAULT;
+
+			buttons.clear();
+			buttons.push_back(btnResume);
+			buttons.push_back(btnLoadSave);
+			buttons.push_back(btnOptions);
+			buttons.push_back(btnReturnTitle);
+			buttons.push_back(btnExit);
+
+			currentButton = lastButton;
+		}
+	}
+	case GuiControlType::SLIDER:
+	{
+		if (control->id == 10) app->audio->SetMusicVolume(slideMusicVolume->GetValue()); // Music Volume
+		else if (control->id == 11) app->audio->SetFxVolume(slideFXVolume->GetValue()); // FX Volume
+	}
+	case GuiControlType::CHECKBOX:
+	{
+	if (control->id == 12) // Fullscreen
+	{
+		Window::Get()->fullscreenWindow = !Window::Get()->fullscreenWindow;
+		Window::Get()->SetFullscreen();
+	}
+	else if (control->id == 13); // VSync
+	}
 	}
 	
 	return true;

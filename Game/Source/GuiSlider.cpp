@@ -9,7 +9,7 @@ GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text, Menu* listene
 	this->observer = listener;
 	this->minValue = min;
 	this->maxValue = max;
-	this->value = value;
+	this->value = value * 2;
 
 	//Load Fx
 	clickFx = app->audio->LoadFx("Assets/Audio/Fx/button_click.wav");

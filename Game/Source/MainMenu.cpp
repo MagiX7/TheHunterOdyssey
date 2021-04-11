@@ -86,11 +86,11 @@ bool MainMenu::Load(Font* font)
 	checkVSync->texture = guiTex;
 
 	// Sliders	
-	slideMusicVolume = new GuiSlider(12, { 103,162,339,46 }, "Music Volume", this, 0, 128, 50);
+	slideMusicVolume = new GuiSlider(12, { 103,162,339,46 }, "Music Volume", this, 0, 128, app->audio->GetMusicVolume());
 	slideMusicVolume->section = { 223,138,339,46 };
 	slideMusicVolume->texture = guiTex;
 
-	slideFXVolume = new GuiSlider(13, { 103,258,339,46 }, "FX Volume", this, 0, 128, 50);
+	slideFXVolume = new GuiSlider(13, { 103,258,339,46 }, "FX Volume", this, 0, 128, app->audio->GetFxVolume());
 	slideFXVolume->section = { 223,138,339,46 };
 	slideFXVolume->texture = guiTex;
 
