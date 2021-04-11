@@ -21,7 +21,18 @@ SceneTitle::SceneTitle()
 
 	currIt = 0;
 	totalIt = 180;
-	easingActivated = true;
+	titleEasingActivated = true;
+
+	currItEnterY = 0;
+	totalItEnterY = 120;
+	enterEasingActivatedY = true;
+
+	currItEnterX = 0;
+	totalItEnterX = 60;
+	enterEasingActivatedX = true;
+
+	text_x = 420;
+	text_y = 540;
 
 	section = { 0, 0, 161, 116 };
 	section2 = {174, 0, 349, 123};
@@ -74,8 +85,8 @@ bool SceneTitle::Update(float dt)
 		state = TitleState::TITLE;
 		break;
 	case TitleState::TITLE:
-
-		if (easingActivated)
+		//TITLE
+		if (titleEasingActivated)
 		{
 			the_x = easing->elasticEaseOut(currIt, 0, 378, totalIt);
 			hunter_x = easing->elasticEaseOut(currIt, 1280, -728, totalIt);
@@ -87,8 +98,108 @@ bool SceneTitle::Update(float dt)
 			}
 			else
 			{
-				easingActivated = false;
+				titleEasingActivated = false;
 				currIt = 0;
+			}
+		}
+		//ENTER Y
+		if (enterEasingActivatedY)
+		{
+			text_y = easing->sineEaseInOut(currItEnterY, 540, 30, totalItEnterY);
+			
+			if (currItEnterY < totalItEnterY)
+			{
+				currItEnterY++;
+			}
+			else
+			{
+				enterEasingActivatedY = false;
+				enterEasingActivated2Y = true;
+				currItEnterY = 0;
+			}
+		}
+		if (enterEasingActivated2Y)
+		{
+			text_y = easing->sineEaseInOut(currItEnterY, 570, -30, totalItEnterY);
+
+			if (currItEnterY < totalItEnterY)
+			{
+				currItEnterY++;
+			}
+			else
+			{
+				enterEasingActivatedY = true;
+				enterEasingActivated2Y = false;
+				currItEnterY = 0;
+			}
+		}
+		//ENTER X
+		if (enterEasingActivatedX)
+		{
+			text_x = easing->sineEaseInOut(currItEnterX, 420, 30, totalItEnterX);
+
+			if (currItEnterX < totalItEnterX)
+			{
+				currItEnterX++;
+			}
+			else
+			{
+				enterEasingActivatedX = false;
+				enterEasingActivated2X = true;
+				enterEasingActivated3X = false;
+				enterEasingActivated4X = false;
+				currItEnterX = 0;
+			}
+		}
+		if (enterEasingActivated2X)
+		{
+			text_x = easing->sineEaseInOut(currItEnterX, 450, -30, totalItEnterX);
+
+			if (currItEnterX < totalItEnterX)
+			{
+				currItEnterX++;
+			}
+			else
+			{
+				enterEasingActivatedX = false;
+				enterEasingActivated2X = false;
+				enterEasingActivated3X = true;
+				enterEasingActivated4X = false;
+				currItEnterX = 0;
+			}
+		}
+		if (enterEasingActivated3X)
+		{
+			text_x = easing->sineEaseInOut(currItEnterX, 420, -30, totalItEnterX);
+
+			if (currItEnterX < totalItEnterX)
+			{
+				currItEnterX++;
+			}
+			else
+			{
+				enterEasingActivatedX = false;
+				enterEasingActivated2X = false;
+				enterEasingActivated3X = false;
+				enterEasingActivated4X = true;
+				currItEnterX = 0;
+			}
+		}
+		if (enterEasingActivated4X)
+		{
+			text_x = easing->sineEaseInOut(currItEnterX, 390, 30, totalItEnterX);
+
+			if (currItEnterX < totalItEnterX)
+			{
+				currItEnterX++;
+			}
+			else
+			{
+				enterEasingActivatedX = true;
+				enterEasingActivated2X = false;
+				enterEasingActivated3X = false;
+				enterEasingActivated4X = false;
+				currItEnterX = 0;
 			}
 		}
 
@@ -137,7 +248,7 @@ void SceneTitle::Draw()
 		app->render->DrawTexture(bg, the_x, 230, &section);
 		app->render->DrawTexture(bg, hunter_x, 230, &section2);
 		app->render->DrawTexture(bg, 467, odyssey_y, &section3);
-		app->render->DrawCenterText(font, "Press ENTER to continue", { 0, 400, 1280, 320 }, 36, 5, { 255,255,255,255 });
+		app->render->DrawText(font, "Press ENTER to continue", text_x, text_y, 36, 5, { 255,255,255,255 });
 		//app->render->DrawText(font, "Press ENTER to continue", 450, 516, 36, 5, { 255,255,255 });
 		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 255 * titleAlpha);
 		break;

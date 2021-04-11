@@ -44,12 +44,26 @@ private:
 	Font* font;
 
 	float titleAlpha;
+	//TITLE EASING
 	float the_x;
 	float hunter_x;
 	float odyssey_y;
 	float currIt;
 	float totalIt;
-	bool easingActivated;
+	bool titleEasingActivated;
+	//ENTER EASING
+	bool enterEasingActivatedY;
+	bool enterEasingActivated2Y;
+	bool enterEasingActivatedX;
+	bool enterEasingActivated2X;
+	bool enterEasingActivated3X;
+	bool enterEasingActivated4X;
+	float text_x;
+	float text_y;
+	float currItEnterY;
+	float totalItEnterY;	
+	float currItEnterX;
+	float totalItEnterX;
 
 	SDL_Rect section;
 	SDL_Rect section2;
