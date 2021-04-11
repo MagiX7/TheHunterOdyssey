@@ -5,6 +5,7 @@
 
 class MainMenu;
 class Easing;
+class SDL_Rect;
 
 enum class TitleState
 {
@@ -42,9 +43,16 @@ private:
 	Font* font;
 
 	float titleAlpha;
-	float position_x;
+	float the_x;
+	float hunter_x;
+	float odyssey_y;
 	float currIt;
+	float totalIt;
 	bool easingActivated;
+
+	SDL_Rect section;
+	SDL_Rect section2;
+	SDL_Rect section3;
 
 	Easing* easing;
 };

@@ -18,8 +18,14 @@ SceneTitle::SceneTitle()
 	bg = nullptr;
 	state = TitleState::NONE;
 	showColliders = false;
+
 	currIt = 0;
+	totalIt = 180;
 	easingActivated = true;
+
+	section = { 0, 0, 161, 116 };
+	section2 = {174, 0, 349, 123};
+	section3 = {87, 123, 348, 100};
 
 	titleAlpha = 1.0f;
 }
@@ -70,9 +76,11 @@ bool SceneTitle::Update(float dt)
 
 		if (easingActivated)
 		{
-			position_x = easing->bounceEaseOut(currIt, 0, 378, 180);
-
-			if (currIt < 180)
+			the_x = easing->bounceEaseOut(currIt, 0, 378, totalIt);
+			hunter_x = easing->bounceEaseOut(currIt, 1280, -728, totalIt);
+			odyssey_y = easing->bounceEaseOut(currIt, 720, -367, totalIt);
+			
+			if (currIt < totalIt)
 			{
 				currIt++;
 			}
@@ -123,7 +131,9 @@ void SceneTitle::Draw()
 	switch (state)
 	{
 	case TitleState::TITLE:
-		app->render->DrawTexture(bg, position_x, 230, NULL);
+		app->render->DrawTexture(bg, the_x, 230, &section);
+		app->render->DrawTexture(bg, hunter_x, 230, &section2);
+		app->render->DrawTexture(bg, 467, odyssey_y, &section3);
 		app->render->DrawCenterText(font, "Press ENTER to continue", { 0, 400, 1280, 320 }, 36, 5, { 255,255,255,255 });
 		//app->render->DrawText(font, "Press ENTER to continue", 450, 516, 36, 5, { 255,255,255 });
 		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 255 * titleAlpha);
