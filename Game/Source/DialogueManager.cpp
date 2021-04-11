@@ -31,6 +31,7 @@ bool DialogueManager::Start()
 		//current = LoadDialogue(0);
 
 		letterCount = 0;
+		isDialogueActive = false;
 		printText = false;
 		current = nullptr;
 		alpha = 150;
