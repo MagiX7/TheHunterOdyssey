@@ -105,7 +105,7 @@ bool SceneTitle::Update(float dt)
 		//ENTER Y
 		if (enterEasingActivatedY)
 		{
-			text_y = easing->sineEaseInOut(currItEnterY, 540, 30, totalItEnterY);
+			text_y = easing->sineEaseInOut(currItEnterY, 540, 15, totalItEnterY);
 			
 			if (currItEnterY < totalItEnterY)
 			{
@@ -120,7 +120,7 @@ bool SceneTitle::Update(float dt)
 		}
 		if (enterEasingActivated2Y)
 		{
-			text_y = easing->sineEaseInOut(currItEnterY, 570, -30, totalItEnterY);
+			text_y = easing->sineEaseInOut(currItEnterY, 555, -15, totalItEnterY);
 
 			if (currItEnterY < totalItEnterY)
 			{
@@ -136,7 +136,7 @@ bool SceneTitle::Update(float dt)
 		//ENTER X
 		if (enterEasingActivatedX)
 		{
-			text_x = easing->sineEaseInOut(currItEnterX, 420, 30, totalItEnterX);
+			text_x = easing->sineEaseOut(currItEnterX, 420, 10, totalItEnterX);
 
 			if (currItEnterX < totalItEnterX)
 			{
@@ -153,7 +153,7 @@ bool SceneTitle::Update(float dt)
 		}
 		if (enterEasingActivated2X)
 		{
-			text_x = easing->sineEaseInOut(currItEnterX, 450, -30, totalItEnterX);
+			text_x = easing->sineEaseIn(currItEnterX, 430, -10, totalItEnterX);
 
 			if (currItEnterX < totalItEnterX)
 			{
@@ -170,7 +170,7 @@ bool SceneTitle::Update(float dt)
 		}
 		if (enterEasingActivated3X)
 		{
-			text_x = easing->sineEaseInOut(currItEnterX, 420, -30, totalItEnterX);
+			text_x = easing->sineEaseOut(currItEnterX, 420, -10, totalItEnterX);
 
 			if (currItEnterX < totalItEnterX)
 			{
@@ -187,7 +187,7 @@ bool SceneTitle::Update(float dt)
 		}
 		if (enterEasingActivated4X)
 		{
-			text_x = easing->sineEaseInOut(currItEnterX, 390, 30, totalItEnterX);
+			text_x = easing->sineEaseIn(currItEnterX, 410, 10, totalItEnterX);
 
 			if (currItEnterX < totalItEnterX)
 			{
