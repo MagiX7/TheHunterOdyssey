@@ -92,6 +92,16 @@ bool PauseMenu::Load(Font* font)
 	btnExitNo->texture = guiTex;
 	btnExitNo->alineation = 1;
 
+	btnReturnTitleYes = new GuiButton(16, { 505, 256, 270, 64 }, "Yes", this, font);
+	btnReturnTitleYes->section = { 430,0,270,64 };
+	btnReturnTitleYes->texture = guiTex;
+	btnReturnTitleYes->alineation = 1;
+
+	btnReturnTitleNo = new GuiButton(17, { 505, 341, 270, 64 }, "No", this, font);
+	btnReturnTitleNo->section = { 430,0,270,64 };
+	btnReturnTitleNo->texture = guiTex;
+	btnReturnTitleNo->alineation = 1;
+
 	buttons.push_back(btnResume);
 	buttons.push_back(btnLoadSave);
 	buttons.push_back(btnOptions);
@@ -136,6 +146,10 @@ bool PauseMenu::Update(float dt)
 		btnSave->Update(app->input, dt, currentButton->id);
 		btnLoad->Update(app->input, dt, currentButton->id);
 		btnBack->Update(app->input, dt, currentButton->id);
+		break;
+	case PauseState::RETURNTITLE:
+		btnReturnTitleYes->Update(app->input, dt, currentButton->id);
+		btnReturnTitleNo->Update(app->input, dt, currentButton->id);
 		break;
 	case PauseState::EXIT:
 		ret = btnExitYes->Update(app->input, dt, currentButton->id);
@@ -207,6 +221,15 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		//app->render->DrawText(font, btnLoad->text.GetString(), 601, 357, 36, 5, { 0,0,0,255 });
 		//app->render->DrawText(font, btnBack->text.GetString(), 602, 544, 36, 5, { 0,0,0,255 });
 		break;
+	case PauseState::RETURNTITLE:
+		section = { 0,0,430,650 };
+		app->render->DrawTexture(guiTex, -app->render->camera.x + 425, -app->render->camera.y + 48, &section);
+
+		btnReturnTitleYes->Draw(app->render, showColliders, 36, { 0,0,0,225 });
+		btnReturnTitleNo->Draw(app->render, showColliders, 36, { 0,0,0,225 });
+
+		app->render->DrawText(font, "Are you sure?", 507, 147, 40, 5, { 255,255,255,255 });
+		break;
 	case PauseState::EXIT:
 		section = { 0,0,430,650 };
 		app->render->DrawTexture(guiTex, -app->render->camera.x + 425, -app->render->camera.y + 48, &section);
@@ -238,6 +261,8 @@ bool PauseMenu::UnLoad()
 	RELEASE(checkVSync);
 	RELEASE(btnExitYes);
 	RELEASE(btnExitNo);
+	RELEASE(btnReturnTitleYes);
+	RELEASE(btnReturnTitleNo);
 
 	buttons.clear();
 
@@ -276,7 +301,16 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 			lastButton = currentButton;
 			currentButton = (*buttons.begin());
 		}
-		else if (control->id == 4) scene->TransitionToScene(SceneType::TITLE);
+		else if (control->id == 4)
+		{
+			state = PauseState::RETURNTITLE;
+
+			buttons.clear();
+			buttons.push_back(btnReturnTitleYes);
+			buttons.push_back(btnReturnTitleNo);
+			lastButton = currentButton;
+			currentButton = (*buttons.end().prev());
+		}
 		else if (control->id == 5)
 		{
 			state = PauseState::EXIT;
@@ -317,6 +351,20 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 		}
 		else if (control->id == 14)	return false;
 		else if (control->id == 15)
+		{
+			state = PauseState::DEFAULT;
+
+			buttons.clear();
+			buttons.push_back(btnResume);
+			buttons.push_back(btnLoadSave);
+			buttons.push_back(btnOptions);
+			buttons.push_back(btnReturnTitle);
+			buttons.push_back(btnExit);
+
+			currentButton = lastButton;
+		}
+		else if (control->id == 16)	scene->TransitionToScene(SceneType::TITLE);
+		else if (control->id == 17)
 		{
 			state = PauseState::DEFAULT;
 

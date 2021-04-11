@@ -11,6 +11,7 @@ enum class PauseState
 	DEFAULT = 0,
 	OPTIONS,
 	SAVE,
+	RETURNTITLE,
 	EXIT
 };
 
@@ -46,6 +47,8 @@ private:
 	GuiButton* btnBack;
 	GuiButton* btnOptions;
 	GuiButton* btnReturnTitle;
+	GuiButton* btnReturnTitleYes;
+	GuiButton* btnReturnTitleNo;
 	GuiButton* btnExit;
 	GuiButton* btnExitYes;
 	GuiButton* btnExitNo;

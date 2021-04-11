@@ -40,6 +40,9 @@ bool GuiSlider::Update(Input* input, float dt)
 				isPlayable = false;
 			}
 
+			if ((mouseX > bounds.x) && (mouseX < bounds.x + 46)) this->sectionFocused = { section.x, section.y + section.h + 5, 46, 42 };
+			else if ((mouseX < bounds.x + bounds.w) && (mouseX > bounds.x + bounds.w - 46)) this->sectionFocused = { section.x + section.w - 46, section.y + section.h + 5, 46, 42 };
+
 			if ((mouseX > bounds.x) && (mouseX < bounds.x + 46) && app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT)
 			{
 				state = GuiControlState::PRESSED;
@@ -79,6 +82,9 @@ bool GuiSlider::Draw(Render* render, bool showColliders)
 	else if (this->value < 0) this->value = 0;
 	slider = { section.x + 59, section.y + section.h + 5, this->value, 32 };
 
+	int mouseX, mouseY;
+	app->input->GetMousePosition(mouseX, mouseY);
+
 	// Draw the right button depending on state
 	switch (state)
 	{
@@ -100,6 +106,8 @@ bool GuiSlider::Draw(Render* render, bool showColliders)
 	case GuiControlState::PRESSED: 
 		render->DrawTexture(texture, -render->camera.x + bounds.x, -render->camera.y + bounds.y, &section);
 		render->DrawTexture(texture, -render->camera.x + bounds.x + 59, -render->camera.y + bounds.y + 6, &slider);
+		if ((mouseX > bounds.x) && (mouseX < bounds.x + 46)) render->DrawTexture(texture, -render->camera.x + bounds.x, -render->camera.y + bounds.y, &sectionFocused);
+		else if ((mouseX < bounds.x + bounds.w) && (mouseX > bounds.x + bounds.w - 46)) render->DrawTexture(texture, -render->camera.x + bounds.x + bounds.w - 46, -render->camera.y + bounds.y, &sectionFocused);
 		if (showColliders) render->DrawRectangle(bounds, 0, 255, 255, 255);
 		break;
 	case GuiControlState::SELECTED: 
