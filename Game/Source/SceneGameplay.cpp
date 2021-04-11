@@ -293,7 +293,7 @@ void SceneGameplay::ChangeState(GameplayMenuState type)
 
 void SceneGameplay::HandleInput(float dt)
 {
-	if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+	if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN || app->input->pads->x)
 	{
 		// Instantiate and load scene battle
 		sceneBattle = new SceneBattle(playerList, 3, this);
@@ -306,7 +306,7 @@ void SceneGameplay::HandleInput(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN) app->SaveGameRequest();
 
-	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN) menuState = GameplayMenuState::CHARACTER_SWAP;
+	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN || app->input->pads->y) menuState = GameplayMenuState::CHARACTER_SWAP;
 	
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || app->input->pads->start) menuState = GameplayMenuState::PAUSE;
 }

@@ -51,7 +51,7 @@ bool DialogueManager::Update(float dt)
 	{
 		if (current->currentNode->dialogFinished == true && current->currentNode->id >= 0)
 		{
-			if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+			if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || app->input->pads->down)
 			{
 				eastl::list<DialogueOption*>::iterator it = current->currentNode->options.begin();
 				for (int i = 0; i < current->currentNode->optionsNum; ++i, ++it)
@@ -64,7 +64,7 @@ bool DialogueManager::Update(float dt)
 				}
 			}
 
-			if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
+			if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || app->input->pads->up)
 			{
 				eastl::list<DialogueOption*>::iterator it = current->currentNode->options.begin();
 				for (int i = 0; i < current->currentNode->optionsNum; ++i, ++it)
@@ -78,7 +78,7 @@ bool DialogueManager::Update(float dt)
 			}
 
 			// If player presses enter, means he has chosen an option
-			if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+			if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || app->input->pads->a)
 			{
 				NpcNode* aux = GetNodeById(current->currentNode->currentOption->nextNodeId);
 				/*current->currentNode=current->currentNode.*/
@@ -93,7 +93,7 @@ bool DialogueManager::Update(float dt)
 
 		if (current->currentNode->id == -1)
 		{
-			if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+			if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || app->input->pads->a)
 			{
 				// Dialog finished
 				//current->currentNode->dialogFinished = false;

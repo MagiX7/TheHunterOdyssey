@@ -50,7 +50,7 @@ bool GuiButton::Update(Input* input, float dt, int id)
 				|| input->pads->a == true)
 			{
 				state = GuiControlState::PRESSED;
-				if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN || input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+				if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN || input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pads->a)
 				{
 					app->audio->PlayFx(clickFx);
 				}

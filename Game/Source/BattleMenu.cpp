@@ -269,7 +269,7 @@ void BattleMenu::DrawStats(Font* font)
 
 bool BattleMenu::HandleInput(Input* input)
 {
-	if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+	if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || input->pads->down)
 	{
 		eastl::list<Enemy*>::iterator it = sceneBattle->enemyList.begin();
 		for (; it != sceneBattle->enemyList.end(); ++it)
@@ -286,7 +286,7 @@ bool BattleMenu::HandleInput(Input* input)
 			}
 		}
 	}
-	else if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
+	else if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->pads->up)
 	{
 		eastl::list<Enemy*>::iterator it = sceneBattle->enemyList.begin();
 		for (; it != sceneBattle->enemyList.end(); ++it)
@@ -303,7 +303,7 @@ bool BattleMenu::HandleInput(Input* input)
 			}
 		}
 	}
-	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pads->a)
 	{
 		currPlayer->Attack(currEnemy);
 		
@@ -340,7 +340,7 @@ bool BattleMenu::HandleInput(Input* input)
 
 bool BattleMenu::HandleAbilities(Input* input, int currentAbility)
 {
-	if (input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	if (input->GetKey(SDL_SCANCODE_S) == KEY_DOWN || input->pads->down)
 	{
 		eastl::list<Enemy*>::iterator it = sceneBattle->enemyList.begin();
 		for (; it != sceneBattle->enemyList.end(); ++it)
@@ -357,7 +357,7 @@ bool BattleMenu::HandleAbilities(Input* input, int currentAbility)
 			}
 		}
 	}
-	else if (input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+	else if (input->GetKey(SDL_SCANCODE_W) == KEY_DOWN || input->pads->up)
 	{
 		eastl::list<Enemy*>::iterator it = sceneBattle->enemyList.begin();
 		for (; it != sceneBattle->enemyList.end(); ++it)
@@ -374,7 +374,7 @@ bool BattleMenu::HandleAbilities(Input* input, int currentAbility)
 			}
 		}
 	}
-	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pads->a)
 	{
 		currPlayer->Ability(currEnemy, currentAbility);
 
@@ -411,7 +411,7 @@ bool BattleMenu::HandleAbilities(Input* input, int currentAbility)
 
 bool BattleMenu::HandleObjects(Input* input, int currentObject)
 {
-	if (input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	if (input->GetKey(SDL_SCANCODE_S) == KEY_DOWN || input->pads->down)
 	{
 		eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
 		for (; it != sceneBattle->playerList.end(); ++it)
@@ -428,7 +428,7 @@ bool BattleMenu::HandleObjects(Input* input, int currentObject)
 			}
 		}
 	}
-	else if (input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+	else if (input->GetKey(SDL_SCANCODE_W) == KEY_DOWN || input->pads->up)
 	{
 		eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
 		for (; it != sceneBattle->playerList.end(); ++it)
@@ -445,7 +445,7 @@ bool BattleMenu::HandleObjects(Input* input, int currentObject)
 			}
 		}
 	}
-	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pads->a)
 	{
 		currPlayer->UseObject(currPlayer, currentObject);
 

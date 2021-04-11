@@ -64,7 +64,7 @@ bool SceneTitle::Update(float dt)
 			titleAlpha = 0.0f;
 		}
 
-		if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || app->input->pads->a)
 		{
 			app->audio->PlayFx(enterFx);
 			state = TitleState::FADE;
