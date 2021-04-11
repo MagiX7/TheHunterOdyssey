@@ -76,9 +76,9 @@ bool SceneTitle::Update(float dt)
 
 		if (easingActivated)
 		{
-			the_x = easing->bounceEaseOut(currIt, 0, 378, totalIt);
-			hunter_x = easing->bounceEaseOut(currIt, 1280, -728, totalIt);
-			odyssey_y = easing->bounceEaseOut(currIt, 720, -367, totalIt);
+			the_x = easing->elasticEaseOut(currIt, 0, 378, totalIt);
+			hunter_x = easing->elasticEaseOut(currIt, 1280, -728, totalIt);
+			odyssey_y = easing->elasticEaseOut(currIt, 720, -367, totalIt);
 			
 			if (currIt < totalIt)
 			{
