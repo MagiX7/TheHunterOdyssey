@@ -26,6 +26,7 @@ The Hunter Odyssey is our RPG turn-based video game based on the roots of the ge
  - Left joystick to move the player.
  - Y to open the inventory.
  - Start button to open the menu.
+
    In Menu - inventory - combat:
  - A to accept.
  - B to decline or going back.
