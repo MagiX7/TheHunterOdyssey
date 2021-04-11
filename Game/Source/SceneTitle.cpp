@@ -36,6 +36,7 @@ bool SceneTitle::Load()
 	bool ret = true;
 	
 	// Logo texture loading
+	bgText = app->tex->Load("Assets/Textures/Scenes/battle_bg.png");
 	bg = app->tex->Load("Assets/Textures/Scenes/game_title.png");
 
 	// Music startup
@@ -131,6 +132,8 @@ void SceneTitle::Draw()
 	switch (state)
 	{
 	case TitleState::TITLE:
+		app->render->DrawTexture(bgText, 0, 0);
+
 		app->render->DrawTexture(bg, the_x, 230, &section);
 		app->render->DrawTexture(bg, hunter_x, 230, &section2);
 		app->render->DrawTexture(bg, 467, odyssey_y, &section3);
