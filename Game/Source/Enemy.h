@@ -23,9 +23,9 @@ public:
 	
 	virtual void Attack(Player* player) {}
 
-	int GetHealth() const { return health; }
+	inline int GetHealth() const { return health; }
 
-	virtual bool AnimationFinished()
+	virtual inline bool AnimationFinished()
 	{
 		return deathAnim.HasFinished();
 	}

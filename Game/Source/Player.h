@@ -22,7 +22,8 @@ enum class PlayerStance
 {
 	NONE = 0,
 	ROAMING,
-	BATTLE
+	BATTLE,
+	ATTACKING
 };
 
 class Player : public Entity
@@ -59,6 +60,8 @@ public:
 		currentAnim = &idleBattle;
 	}
 
+	virtual void Travel (iPoint destination, float dt) {}
+
 	virtual void SetIdleRoaming() {}
 
 	// Getters
@@ -76,6 +79,7 @@ public:
 public:
 	PlayerType playerType;
 	PlayerStance stance;
+	iPoint battlePos;
 
 protected:
 	SDL_Texture* texture;
@@ -83,7 +87,11 @@ protected:
 
 	std::string name;
 
+	// Enemy target
+	Enemy* target;
+
 	bool isDefending;
+	bool attack;
 
 	int healthPoints;
 	int manaPoints;

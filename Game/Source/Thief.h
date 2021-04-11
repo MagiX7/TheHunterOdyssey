@@ -37,6 +37,8 @@ public:
 		currentAnim = &idleDown;
 	}
 
+	void Travel(iPoint destination, float dt) override;
+
 private:
 	SDL_Texture* texture;
 

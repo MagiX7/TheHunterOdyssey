@@ -142,12 +142,14 @@ void SceneTitle::Draw()
 		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 255 * titleAlpha);
 		break;
 	case TitleState::FADE:
+		app->render->DrawTexture(bgText, 0, 0);
 		app->render->DrawTexture(bg, 378, 230, NULL);
 		app->render->DrawCenterText(font, "Press ENTER to continue", { 0, 400, 1280, 320 }, 36, 5, { 255,255,255,255 });
 		//app->render->DrawText(font, "Press ENTER to continue", 450, 516, 36, 5, { 255,255,255 });
 		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 255 * titleAlpha);
 		break;
 	case TitleState::MENU:
+		app->render->DrawTexture(bgText, 0, 0);
 		mainMenu->Draw(font, showColliders);
 		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 255 * titleAlpha);
 		break;
