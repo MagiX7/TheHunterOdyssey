@@ -74,9 +74,6 @@
     <ClCompile Include="Source\BattleMenu.cpp">
       <Filter>Menus</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Warrior.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Source\PauseMenu.cpp">
       <Filter>Menus</Filter>
     </ClCompile>
@@ -118,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="Source\Easings.cpp">
       <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Warrior.cpp">
+      <Filter>Entities\Players</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -235,9 +235,6 @@
     <ClInclude Include="Source\BattleMenu.h">
       <Filter>Menus</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Warrior.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Source\PauseMenu.h">
       <Filter>Menus</Filter>
     </ClInclude>
@@ -285,6 +282,9 @@
     </ClInclude>
     <ClInclude Include="Source\Easings.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Warrior.h">
+      <Filter>Entities\Players</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -31,6 +31,7 @@ bool SceneBattle::Load()
 		(*it)->SetIdleBattle();
 		(*it)->bounds.x = 400;
 		(*it)->bounds.y = 221 + (i * 50);
+		(*it)->battlePos = iPoint((*it)->bounds.x, (*it)->bounds.y);
 	}
 	
 	for (int i = 0; i < numEnemies; ++i)

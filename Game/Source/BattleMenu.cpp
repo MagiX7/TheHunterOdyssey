@@ -98,7 +98,9 @@ bool BattleMenu::Update(float dt)
 		ret = HandleAbilities(app->input, currPlayer->GetAbilitySelected());
 		break;
 	case BattleState::ENEMY_TURN:
+		if((*sceneBattle->playerList.end().prev())->stance == PlayerStance::BATTLE)
 		EnemyTurn();
+
 		break;
 	case BattleState::DEFENSE:
 		ret = HandleDefense(app->input);
@@ -114,7 +116,8 @@ bool BattleMenu::Update(float dt)
 		break;
 	}
 
-	if (enemyKilled) EraseEnemy();
+	EraseEnemy();
+
 	if (sceneBattle->enemyList.size() == 0) ret = false;
 
 	return ret;
@@ -146,6 +149,8 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		btnAbilitySlot2->Draw(app->render, showColliders, 25, { 0,0,0,225 });
 		btnAbilitySlot3->Draw(app->render, showColliders, 25, { 0,0,0,225 });
 		btnAbilitySlot4->Draw(app->render, showColliders, 25, { 0,0,0,225 });
+		app->render->DrawRectangle({ currPlayer->bounds.x - 100, currPlayer->bounds.y, 32, 16 }, 0, 255, 0);
+
 		break;
 	case BattleState::ABILITY:
 		app->render->DrawRectangle({ currPlayer->bounds.x - 100, currPlayer->bounds.y, 32, 16 }, 0, 255, 0);
@@ -311,11 +316,7 @@ bool BattleMenu::HandleInput(Input* input)
 	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pads->a)
 	{
 		currPlayer->Attack(currEnemy);
-		
-		if (currEnemy->GetHealth() <= 0)
-		{
-			enemyKilled = true;
-		}
+	
 		if (sceneBattle->enemyList.size() != 0)
 		{
 			eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
@@ -500,7 +501,7 @@ void BattleMenu::EraseEnemy()
 	eastl::list<Enemy*>::iterator it = sceneBattle->enemyList.begin();
 	for (;it != sceneBattle->enemyList.end(); ++it)
 	{
-		if ((*it)->AnimationFinished() == true)
+		if ((*it)->AnimationFinished() && (*it)->GetHealth() <= 0)
 		{
 			//currEnemy = (*it.next());
 			(*it)->UnLoad();

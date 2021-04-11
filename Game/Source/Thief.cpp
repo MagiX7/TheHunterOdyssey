@@ -15,6 +15,7 @@ Thief::Thief(iPoint position, pugi::xml_node anim) : Player(PlayerType::THIEF, E
 	meleeDamage = 50;
 	magicDamage = 15;
 	isDefending = false;
+	attack = false;
 	name = "Thief";
 
 	pugi::xml_node player = anim.child("thief").child("overworld");
@@ -83,6 +84,28 @@ bool Thief::Update(float dt)
 			healthPoints = 0;
 			currentAnim = &death;
 		}
+		break;
+	case PlayerStance::ATTACKING:
+		if (attack == false)
+		{
+			Travel(iPoint(target->bounds.x, target->bounds.y), dt);
+
+			if (bounds.x == target->bounds.x && bounds.y == target->bounds.y)
+			{
+				attack = true;
+				target->GetDamage(meleeDamage);
+			}
+		}
+		else
+		{
+			Travel(iPoint(battlePos.x, battlePos.y), dt);
+
+			if (bounds.x == battlePos.x && bounds.y == battlePos.y)
+			{
+				stance = PlayerStance::BATTLE;
+				attack = false;
+			}
+		}
 	}
 
 	HandleInput(dt);
@@ -96,11 +119,16 @@ void Thief::Draw(bool showColliders)
 {
 	if (showColliders) app->render->DrawRectangle(bounds, 255, 165, 0, 150);
 	if (stance == PlayerStance::ROAMING) app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
-	else if (stance == PlayerStance::BATTLE) app->render->DrawTexture(battlerTexture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+	else if (stance == PlayerStance::BATTLE || stance == PlayerStance::ATTACKING) app->render->DrawTexture(battlerTexture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
 }
 
 bool Thief::UnLoad()
 {
+	app->tex->UnLoad(texture);
+	app->tex->UnLoad(battlerTexture);
+
+	RELEASE(currentAnim);
+
 	return true;
 }
 
@@ -170,7 +198,11 @@ bool Thief::SaveState(pugi::xml_node& node)
 
 void Thief::Attack(Enemy* enemy)
 {
-	enemy->GetDamage(meleeDamage);
+	if (healthPoints > 0)
+	{
+		stance = PlayerStance::ATTACKING;
+		target = enemy;
+	}
 }
 
 void Thief::GetDamage(int dmg)
@@ -229,5 +261,13 @@ void Thief::UseObject(Player* player, int currentObject)
 void Thief::SetDefend(bool option)
 {
 	isDefending = option;
+}
+
+void Thief::Travel(iPoint destination, float dt)
+{
+	if (bounds.x < destination.x) bounds.x += 200 * dt;
+	if (bounds.x > destination.x) bounds.x -= 200 * dt;
+	if (bounds.y > destination.y) bounds.y -= 200 * dt;
+	if (bounds.y < destination.y) bounds.y += 200 * dt;
 }
 
