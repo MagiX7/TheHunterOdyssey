@@ -6,24 +6,39 @@ The Hunter Odyssey is our RPG turn-based video game based on the roots of the ge
 
 ## Key Features
 
- - {Feature01}
- - {Feature02}
- - {Feature03}
- - {Feature04}
+ - Branching dialogues.
+ - Character swapping in-game.
+ - Turn Based Combat.
+ - Navigable locations like houses or tarberns.
+ - NPCs AI.
+ - Puzzles.
+ - Inventory system.
+ - Items, such as potions, armors, weapons...
  
 ## Controls
 
- - {ControlsScheme}
+### Keyboard
+ - W,A,S,D to move the player.
+ - E open inventory.
+ - In menus, arrows to interact with the different buttons.
 
+### Gamepad (XBOX keys)
+ - Left joystick to move the player.
+ - Y to open the inventory.
+ - Start button to open the menu.
+   In Menu - inventory - combat:
+ - A to accept.
+ - B to decline or going back.
+ - Left joystick and pad to move the selection 
 ## Developers
 
- - Adrián Aroca Mascaraque
- - Oriol Bernal Martínez
- - Unai Díaz de Garayo Serrano
- - David Jesús González López
- - David Lira Martí
- - Carlos Megia Zubillaga
- - Lucas Pérez García
+ - [Adrián Aroca Mascaraque](https://github.com/adrianam4).
+ - [Oriol Bernal Martínez](https://github.com/UriKurae).
+ - [Unai Díaz de Garayo Serrano](https://github.com/unaidiaz).
+ - [David Jesús González López](https://github.com/MagiX7).
+ - [David Lira Martí](https://github.com/davidlira19).
+ - [Carlos Megia Zubillaga](https://github.com/Chuchocoronel).
+ - [Lucas Pérez García](https://github.com/LucasPG14).
 
 ## License
 
