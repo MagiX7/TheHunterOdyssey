@@ -42,6 +42,10 @@ public:
 
 	void SetFxVolume(int index);
 
+	int GetMusicVolume();
+
+	int GetFxVolume();
+
 private:
 
 	_Mix_Music* music;
