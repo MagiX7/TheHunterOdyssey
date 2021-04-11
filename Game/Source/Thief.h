@@ -32,6 +32,10 @@ public:
 
 	void SetDefend(bool option) override;
 
+	void SetIdleRoaming()
+	{
+		currentAnim = &idleDown;
+	}
 
 private:
 	SDL_Texture* texture;

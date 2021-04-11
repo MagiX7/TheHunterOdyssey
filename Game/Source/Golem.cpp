@@ -10,7 +10,7 @@
 Golem::Golem(iPoint pos) : Enemy(EntityType::GOLEM)
 {
 	bounds = { pos.x, pos.y, 49, 47 };
-	texture = app->tex->Load("Assets/Textures/Enemies/golem.png");
+	texture = app->tex->Load("Assets/Textures/Enemies/golem2.png");
 	name = "Golem";
 	
 	battlePos = pos;
@@ -20,9 +20,16 @@ Golem::Golem(iPoint pos) : Enemy(EntityType::GOLEM)
 	defense = 20;
 	speed = 10;
 
+	idleAnim.PushBack({56, 20, 48, 46});
+
+	deathAnim.PushBack({0, 141, 47, 59});
+	deathAnim.PushBack({54, 141, 47, 59});
+	deathAnim.PushBack({113, 141, 47, 59});
+
 	attack = false;
 
 	currentState = EnemyState::NORMAL;
+	currentAnim = &idleAnim;
 
 	font = new Font("Assets/Font/font3.xml", app->tex);
 }
@@ -38,6 +45,9 @@ bool Golem::Load()
 
 bool Golem::Update(float dt)
 {
+	currentAnim->speed = 5.0f * dt;
+	currentAnim->Update();
+
 	switch (currentState)
 	{
 	case EnemyState::NORMAL:
@@ -90,7 +100,7 @@ void Golem::Draw(bool showColliders)
 		app->render->DrawRectangle(bounds, 0, 0, 255, 255);
 
 	SDL_Rect rect = { 2,3,bounds.w,bounds.h };
-	app->render->DrawTexture(texture, bounds.x, bounds.y, &rect);
+	app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
 
 	SDL_Color color = { 255,255,255,255 };
 	app->render->DrawText(font, "GOLEM", bounds.x, bounds.y - 15, 15, 5, color);
@@ -133,12 +143,15 @@ void Golem::GetDamage(int dmg)
 	if (health <= 0)
 	{
 		health = 0;
+		currentAnim = &deathAnim;
 	}
 }
 
 void Golem::Attack(Player* player)
 {
-	currentState = EnemyState::ATTACKING;
-	target = player;
-	//player->GetDamage(damage);
+	if (health > 0)
+	{
+		currentState = EnemyState::ATTACKING;
+		target = player;
+	}
 }

@@ -12,6 +12,7 @@
 
 BattleMenu::BattleMenu(SceneBattle* s) : type(BattleState::NONE), sceneBattle(s)
 {
+	enemyKilled = false;
 }
 
 BattleMenu::~BattleMenu()
@@ -113,6 +114,9 @@ bool BattleMenu::Update(float dt)
 		break;
 	}
 
+	if (enemyKilled) EraseEnemy();
+	if (sceneBattle->enemyList.size() == 0) ret = false;
+
 	return ret;
 }
 
@@ -127,6 +131,7 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		type = BattleState::DEFAULT;
 		break;
 	case BattleState::DEFAULT:
+		app->render->DrawRectangle({ currPlayer->bounds.x - 100, currPlayer->bounds.y, 32, 16 }, 0, 255, 0);
 		btnAttack->Draw(app->render, showColliders, 25, { 0,0,0,225 });
 		btnAbility->Draw(app->render, showColliders, 25, { 0,0,0,225 });
 		btnDefense->Draw(app->render, showColliders, 25, { 0,0,0,225 });
@@ -309,13 +314,9 @@ bool BattleMenu::HandleInput(Input* input)
 		
 		if (currEnemy->GetHealth() <= 0)
 		{
-			EraseEnemy();
+			enemyKilled = true;
 		}
-		if (sceneBattle->enemyList.size() == 0)
-		{
-			return false;
-		}
-		else
+		if (sceneBattle->enemyList.size() != 0)
 		{
 			eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
 			for (int i = 0; it != sceneBattle->playerList.end(); ++it, ++i)
@@ -499,13 +500,14 @@ void BattleMenu::EraseEnemy()
 	eastl::list<Enemy*>::iterator it = sceneBattle->enemyList.begin();
 	for (;it != sceneBattle->enemyList.end(); ++it)
 	{
-		if ((*it) == currEnemy)
+		if ((*it)->AnimationFinished() == true)
 		{
 			//currEnemy = (*it.next());
 			(*it)->UnLoad();
 			RELEASE((*it));
 			sceneBattle->enemyList.erase(it);
 			currEnemy = (*sceneBattle->enemyList.begin()); // Fixed current enemy assign. Before, if you killed the 3rd enemy (the last one) it crashed.
+			enemyKilled = false;
 			break;
 		}
 	}

@@ -25,6 +25,11 @@ public:
 
 	int GetHealth() const { return health; }
 
+	virtual bool AnimationFinished()
+	{
+		return deathAnim.HasFinished();
+	}
+
 	// Setters
 	void SetCurrentState(EnemyState state) { currentState = state; }
 
@@ -47,4 +52,7 @@ protected:
 
 	// Enemy target to attack
 	Player* target;
+
+	Animation idleAnim;
+	Animation deathAnim;
 };

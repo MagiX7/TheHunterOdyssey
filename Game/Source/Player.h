@@ -59,6 +59,8 @@ public:
 		currentAnim = &idleBattle;
 	}
 
+	virtual void SetIdleRoaming() {}
+
 	// Getters
 	int GetHealthPoints() const { return healthPoints; }
 	int GetManaPoints() const { return manaPoints; }

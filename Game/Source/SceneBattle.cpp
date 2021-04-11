@@ -92,6 +92,7 @@ bool SceneBattle::UnLoad()
 	for (; item != playerList.end(); ++item)
 	{
 		(*item)->stance = PlayerStance::ROAMING;
+		(*item)->SetIdleRoaming();
 	}
 
 	enemyList.clear();

@@ -81,4 +81,6 @@ private:
 	SceneBattle* sceneBattle;
 
 	SDL_Texture* guiTex;
+
+	bool enemyKilled;
 };

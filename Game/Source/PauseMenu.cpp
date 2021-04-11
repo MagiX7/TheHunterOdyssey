@@ -118,7 +118,7 @@ bool PauseMenu::Update(float dt)
 		btnLoadSave->Update(app->input, dt, currentButton->id);
 		btnOptions->Update(app->input, dt, currentButton->id);
 		btnReturnTitle->Update(app->input, dt, currentButton->id);
-		ret = btnExit->Update(app->input, dt, currentButton->id);
+		btnExit->Update(app->input, dt, currentButton->id);
 		break;
 	case PauseState::OPTIONS:
 		btnResume->Update(app->input, dt, currentButton->id);
@@ -285,7 +285,7 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 			buttons.push_back(btnExitYes);
 			buttons.push_back(btnExitNo);
 			lastButton = currentButton;
-			currentButton = (*buttons.begin());
+			currentButton = (*buttons.end().prev());
 		}
 		else if (control->id == 6); // Save Game
 		else if (control->id == 7); // Load Game

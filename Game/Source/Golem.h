@@ -31,8 +31,8 @@ public:
 
 private:
 	Font* font;
+	Animation* currentAnim;
 
-	Animation idleAnim;
 	Animation glowingAnim;
 	Animation melee;
 
