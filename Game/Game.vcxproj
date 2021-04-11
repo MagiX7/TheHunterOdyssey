@@ -99,6 +99,7 @@
     <ClCompile Include="Source\BattleMenu.cpp" />
     <ClCompile Include="Source\Dialogue.cpp" />
     <ClCompile Include="Source\DialogueManager.cpp" />
+    <ClCompile Include="Source\Easings.cpp" />
     <ClCompile Include="Source\EntityManager.cpp" />
     <ClCompile Include="Source\Font.cpp" />
     <ClCompile Include="Source\Golem.cpp" />
@@ -139,6 +140,7 @@
     <ClInclude Include="Source\BattleMenu.h" />
     <ClInclude Include="Source\Dialogue.h" />
     <ClInclude Include="Source\DialogueManager.h" />
+    <ClInclude Include="Source\Easings.h" />
     <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\EntityManager.h" />
