@@ -40,7 +40,8 @@ private:
 	// Reference for the scene
 	SceneGameplay* scene;
 	Font* font;
-
+	//Back Ground
+	SDL_Texture* backgroundTexture;
 	// Menu
 	BattleMenu* battleMenu;
 };

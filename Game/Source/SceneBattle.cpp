@@ -1,5 +1,6 @@
 #include "App.h"
 #include "Render.h"
+#include "Textures.h"
 
 #include "SceneBattle.h"
 #include "SceneGameplay.h"
@@ -20,6 +21,8 @@ SceneBattle::~SceneBattle()
 bool SceneBattle::Load()
 {
 	font = new Font("Assets/Font/font3.xml", app->tex);
+
+	backgroundTexture = app->tex->Load("Assets/Textures/Scenes/battle_bg.png");
 
 	eastl::list<Player*>::iterator it = playerList.begin();
 	for (int i = 0; it != playerList.end(); ++it, ++i)
@@ -63,6 +66,8 @@ bool SceneBattle::Update(float dt)
 
 void SceneBattle::Draw(bool colliders)
 {
+	app->render->DrawTexture(backgroundTexture,0,0);
+
 	eastl::list<Player*>::iterator item = playerList.begin();
 	for (; item != playerList.end(); ++item)
 	{
