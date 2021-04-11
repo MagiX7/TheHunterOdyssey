@@ -4,6 +4,7 @@
 #include "Scene.h"
 
 class MainMenu;
+class Easing;
 
 enum class TitleState
 {
@@ -41,6 +42,11 @@ private:
 	Font* font;
 
 	float titleAlpha;
+	float position_x;
+	float currIt;
+	bool easingActivated;
+
+	Easing* easing;
 };
 
 #endif //__SCENETITLE_H__

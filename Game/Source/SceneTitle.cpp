@@ -2,6 +2,7 @@
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
+#include "Easings.h"
 
 #include "MainMenu.h"
 #include "SceneTitle.h"
@@ -17,6 +18,8 @@ SceneTitle::SceneTitle()
 	bg = nullptr;
 	state = TitleState::NONE;
 	showColliders = false;
+	currIt = 0;
+	easingActivated = true;
 
 	titleAlpha = 1.0f;
 }
@@ -64,6 +67,22 @@ bool SceneTitle::Update(float dt)
 		state = TitleState::TITLE;
 		break;
 	case TitleState::TITLE:
+
+		if (easingActivated)
+		{
+			position_x = easing->bounceEaseOut(currIt, 0, 378, 180);
+
+			if (currIt < 180)
+			{
+				currIt++;
+			}
+			else
+			{
+				easingActivated = false;
+				currIt = 0;
+			}
+		}
+
 		titleAlpha -= (TITLE_FADE_SPEED * dt);
 		if (titleAlpha <= 0.0f)
 		{
@@ -104,7 +123,7 @@ void SceneTitle::Draw()
 	switch (state)
 	{
 	case TitleState::TITLE:
-		app->render->DrawTexture(bg, 378, 230, NULL);
+		app->render->DrawTexture(bg, position_x, 230, NULL);
 		app->render->DrawCenterText(font, "Press ENTER to continue", { 0, 400, 1280, 320 }, 36, 5, { 255,255,255,255 });
 		//app->render->DrawText(font, "Press ENTER to continue", 450, 516, 36, 5, { 255,255,255 });
 		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 255 * titleAlpha);
