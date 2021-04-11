@@ -30,13 +30,13 @@ bool SceneBattle::Load()
 		(*it)->stance = PlayerStance::BATTLE;
 		(*it)->SetIdleBattle();
 		(*it)->bounds.x = 400;
-		(*it)->bounds.y = 221 + (i * 50);
+		(*it)->bounds.y = 205 + (i * 50);
 		(*it)->battlePos = iPoint((*it)->bounds.x, (*it)->bounds.y);
 	}
 	
 	for (int i = 0; i < numEnemies; ++i)
 	{
-		Golem* enemy = new Golem(iPoint(650,250+(i*50)));
+		Golem* enemy = new Golem(iPoint(650,190+(i*90)));
 		enemyList.push_back(enemy);
 	}
 
