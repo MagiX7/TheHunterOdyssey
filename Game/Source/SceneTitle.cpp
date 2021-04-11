@@ -36,7 +36,7 @@ bool SceneTitle::Load()
 	bool ret = true;
 	
 	// Logo texture loading
-	bgText = app->tex->Load("Assets/Textures/Scenes/battle_bg.png");
+	bgText = app->tex->Load("Assets/Textures/Scenes/battle_bg2.png");
 	bg = app->tex->Load("Assets/Textures/Scenes/game_title.png");
 
 	// Music startup
