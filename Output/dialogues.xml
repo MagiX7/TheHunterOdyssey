@@ -142,4 +142,45 @@
 		</node>
 	</npc>
 
+<npc id ="4">
+		<node id="0">
+			<npc_text text="Do you want something?"/>
+			<option id="0" nextNodeId="1" text="no, thanks."/>
+			<option id="1" nextNodeId="2" text="yes... I'm not from here, I don't know the town very well"/>
+		</node>
+		<node id="1">
+			<npc_text text="ok, have a nice day!"/>
+			<option id="0" nextNodeId="3" text="bye"/>
+		</node>
+		<node id="2">
+			<npc_text text="ooooouuuh you are the hunter who wants to kill the beast right?? the whole town is talking about it"/>
+			<option id="0" nextNodeId="3" text="Yes, it's me"/>
+		</node>
+		<node id="3">
+			<npc_text text="If you manage to kill the beast, what will you do with the prize that the king gives?"/>
+			<option id="0" nextNodeId="4" text="Well, I haven't thought about it yet"/>
+    <option id="1" nextNodeId="5" text="I have to get it first"/>
+		</node>
+		<node id="4">
+			<npc_text text="Well, you could invest in this great pub, you will make a profit for sure"/>
+			<option id="0" nextNodeId="-1" text="no thanks, I have other things in mind"/>
+    <option id="1" nextNodeId="7" text="well, we could talk about it in the future"/>
+		</node>
+		<node id="5">
+			<npc_text text="Is true, it is a very difficult task, in which many have lost their lives"/>
+
+			<option id="0" nextNodeId="8" text="well... thanks, see you later"/>
+		</node>
+  <node id="8">
+			<npc_text text="well if you get it, you could invest in this pub with the prize"/>
+			<option id="0" nextNodeId="-1" text="bye"/>
+		</node>
+  <node id="7">
+			<npc_text text="perfect, we're in contact"/>
+			<option id="0" nextNodeId="-1" text="bye"/>
+		</node>
+		<node id ="-1"> <!-- Keep this here to avoid crashes -->
+			<npc_text text ="Press enter to back"/>
+		</node>
+	</npc>
 </dialogues>

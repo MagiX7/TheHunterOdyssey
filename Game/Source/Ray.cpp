@@ -12,7 +12,7 @@ Ray::Ray(iPoint position, pugi::xml_node anim, int id) :Npc(EntityType::RAY, pos
 	texture = app->tex->Load("Assets/Textures/map_tileset.png");
 
 	dialogeId = 3;
-	state = NpcState::WALLKING_RIGHT;
+	state = EntityState::WALLKING_RIGHT;
 	pugi::xml_node player = anim.child("ray").child("overworld");
 
 	for (pugi::xml_node n = player.child("walk_front").child("pushback"); n; n = n.next_sibling("pushback"))
@@ -58,17 +58,19 @@ bool Ray::Load()
 
 bool Ray::Update(float dt)
 {
-	Npc::Update(dt);
+	if (state != EntityState::INACTIVE)Npc::Update(dt);
 
 	return true;
 }
 
 void Ray::Draw(bool showColliders)
 {
-	Npc::Draw(showColliders);
-	if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0);
-	SDL_Rect textureRect = { 14, 11, 46,49 };
-	app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+	if (state != EntityState::INACTIVE) {
+		Npc::Draw(showColliders);
+		if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0);
+		SDL_Rect textureRect = { 14, 11, 46,49 };
+		app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+	}
 }
 
 bool Ray::UnLoad()

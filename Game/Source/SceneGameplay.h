@@ -68,7 +68,7 @@ private:
 public:
 	Player* getCurrentPlayer();
 	DialogueManager* dialogueManager;
-
+	
 private:
 	Player* currentPlayer;
 	

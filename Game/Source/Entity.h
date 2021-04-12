@@ -9,7 +9,19 @@
 #include"SceneGameplay.h"
 #include"Scene.h"
 
-
+enum class EntityState
+{
+	WALLKING_LEFT,
+	WALLKING_RIGHT,
+	WALLKING_UP,
+	WALLKING_DOWN,
+	STOP_LEFT,
+	STOP_RIGHT,
+	STOP_UP,
+	STOP_DOWN,
+	TALKING,
+	INACTIVE
+};
 struct SDL_Texture;
 
 enum class EntityType
@@ -38,6 +50,8 @@ class Entity
 public:
 	Entity(EntityType type) : type(type) {}
 
+	virtual ~Entity(){}
+
 	virtual bool Load() { return true; }
 	
 	virtual bool Update(float dt) { return true; }
@@ -53,6 +67,12 @@ public:
 	virtual bool SaveState(pugi::xml_node& node){return true;} 
 	
 	virtual void onCollision() {}
+
+	virtual void setInactive(){}
+
+	virtual void setActive() {}
+
+	virtual EntityState getState() { return EntityState::STOP_DOWN; }
 public:
 	SDL_Rect bounds;
 	SString name;

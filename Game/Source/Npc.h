@@ -4,18 +4,7 @@
 
 
 #define FIND_RADIOUS 10
-enum class NpcState
-{
-	WALLKING_LEFT,
-	WALLKING_RIGHT,
-	WALLKING_UP,
-	WALLKING_DOWN,
-	STOP_LEFT,
-	STOP_RIGHT,
-	STOP_UP,
-	STOP_DOWN,
-	TALKING
-};
+
 enum class NpcType
 {
 	NONE = 0,
@@ -37,11 +26,14 @@ public:
 	bool SaveState(pugi::xml_node& node);
 
 	bool CheckCollision(Player* player);
-	NpcState state;
+	EntityState state;
 
+	void setInactive()override;
+	void setActive()override;
+	EntityState getState()override;
 	void NpcMove(bool move);
 
-	NpcState getNewState();
+	EntityState getNewState();
 
 	void onCollision();
 public:

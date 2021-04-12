@@ -170,7 +170,50 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node 
 
 	return entity;
 }
+void EntityManager::deleteAllNpcActive()
+{
+	eastl::list<Entity*>::iterator item;
 
+	for (item = entities.begin(); item != entities.end(); ++item)
+	{
+		if ((*item)->getState() != EntityState::INACTIVE) {
+			if ((*item)->type == EntityType::NPC_WIZARD || (*item)->type == EntityType::RAY
+				|| (*item)->type == EntityType::TOWN || (*item)->type == EntityType::TABERN)
+			{
+				delete (*item);
+				entities.remove((*item));
+			}
+		}
+	}
+}
+void EntityManager::setAllNpcInactive()
+{
+	eastl::list<Entity*>::iterator item;
+
+	for (item = entities.begin(); item != entities.end(); ++item) 
+	{
+		if ((*item)->type == EntityType::NPC_WIZARD|| (*item)->type == EntityType::RAY
+			||(*item)->type == EntityType::TOWN || (*item)->type == EntityType::TABERN)
+		{
+			(*item)->setInactive();
+		}
+	}
+		
+}
+void EntityManager::setAllNpcActive()
+{
+	eastl::list<Entity*>::iterator item;
+
+	for (item = entities.begin(); item != entities.end(); ++item)
+	{
+		if ((*item)->type == EntityType::NPC_WIZARD || (*item)->type == EntityType::RAY
+			|| (*item)->type == EntityType::TOWN || (*item)->type == EntityType::TABERN)
+		{
+			(*item)->setActive();
+		}
+	}
+
+}
 void EntityManager::DeleteEntity(Entity* entity)
 {
 	LOG("Deleting Entity");

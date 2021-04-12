@@ -11,7 +11,7 @@ NpcWizard::NpcWizard(iPoint position, pugi::xml_node anim, int id):Npc(EntityTyp
 	//type = EntityType::NPC_WIZARD;
 	texture = app->tex->Load("Assets/Textures/Npc/Wizard.png");
 
-	state = NpcState::WALLKING_RIGHT;
+	state = EntityState::WALLKING_RIGHT;
 	pugi::xml_node player = anim.child("npc_wizard").child("overworld");
 
 	for (pugi::xml_node n = player.child("walk_front").child("pushback"); n; n = n.next_sibling("pushback"))
@@ -57,17 +57,19 @@ bool NpcWizard::Load()
 
 bool NpcWizard::Update(float dt)
 {
-	Npc::Update(dt);
-
+	if (state != EntityState::INACTIVE)Npc::Update(dt);		
 	return true;
 }
 
 void NpcWizard::Draw(bool showColliders)
 {
-	Npc::Draw(showColliders);
-	if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0);
-	SDL_Rect textureRect = { 14, 11, 46,49 };
-	app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+	if (state != EntityState::INACTIVE) {
+		Npc::Draw(showColliders);
+		if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0);
+		SDL_Rect textureRect = { 14, 11, 46,49 };
+		app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+	}
+
 }
 
 bool NpcWizard::UnLoad()

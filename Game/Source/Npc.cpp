@@ -28,15 +28,20 @@ Npc::Npc(EntityType type, iPoint position, int id) : Entity(type), dialogeId(id)
 
 Npc::~Npc()
 {
+	app->tex->UnLoad(texture);
+	delete font;
 }
 
 bool Npc::Load()
 {
 	return true;
 }
-
+void Npc::setInactive(){ state = EntityState::INACTIVE;}
+void Npc::setActive() { state = getNewState(); }
+EntityState Npc::getState() { return state; }
 bool Npc::Update(float dt)
 {
+	
 	lastPosition = bounds;
 	currentAnim->speed = 7.0f * dt;
 	if (stateTimer > stateMaxTimer)
@@ -47,32 +52,32 @@ bool Npc::Update(float dt)
 
 	switch (state)
 	{
-	case NpcState::WALLKING_LEFT:
+	case EntityState::WALLKING_LEFT:
 		bounds.x -= SPEED_X * dt;
 		currentAnim = &walkLeft;
 		break;
-	case NpcState::WALLKING_RIGHT:
+	case EntityState::WALLKING_RIGHT:
 		bounds.x += SPEED_X * dt;
 		currentAnim = &walkRight;
 		break;
-	case NpcState::WALLKING_UP:
+	case EntityState::WALLKING_UP:
 		bounds.y -= SPEED_Y * dt;
 		currentAnim = &walkUp;
 		break;
-	case NpcState::WALLKING_DOWN:
+	case EntityState::WALLKING_DOWN:
 		bounds.y += SPEED_Y * dt;
 		currentAnim = &walkDown;
 		break;
-	case NpcState::STOP_LEFT:
+	case EntityState::STOP_LEFT:
 		currentAnim = &idleLeft;
 		break;
-	case NpcState::STOP_RIGHT:
+	case EntityState::STOP_RIGHT:
 		currentAnim = &idleRight;
 		break;
-	case NpcState::STOP_UP:
+	case EntityState::STOP_UP:
 		currentAnim = &idleUp;
 		break;
-	case NpcState::STOP_DOWN:
+	case EntityState::STOP_DOWN:
 		currentAnim = &idleDown;
 		break;
 	default:
@@ -84,7 +89,7 @@ bool Npc::Update(float dt)
 void Npc::NpcMove(bool move)
 {
 	npcMove = move;
-	if (move == false)state = NpcState::STOP_DOWN;
+	if (move == false)state = EntityState::STOP_DOWN;
 }
 void Npc::Draw(bool showColliders)
 {
@@ -120,11 +125,11 @@ bool Npc::CheckCollision(Player* player)
 		if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN || app->input->pads->a)
 		{
 			return true;
-			state = NpcState::TALKING;
+			state = EntityState::TALKING;
 		}
 
 	}
-	else if (state == NpcState::TALKING)
+	else if (state == EntityState::TALKING)
 	{
 		state = getNewState();
 		drawPtext = false;
@@ -140,7 +145,7 @@ bool Npc::CheckCollision(Player* player)
 	return false;
 }
 
-NpcState Npc::getNewState()
+EntityState Npc::getNewState()
 {
 	int randNum;
 	stateMaxTimer = (rand() % 5) + 2;
@@ -161,28 +166,28 @@ NpcState Npc::getNewState()
 	switch (randNum)
 	{
 	case 0:
-		return NpcState::WALLKING_UP;
+		return EntityState::WALLKING_UP;
 		break;
 	case 1:
-		return NpcState::WALLKING_RIGHT;
+		return EntityState::WALLKING_RIGHT;
 		break;
 	case 2:
-		return NpcState::WALLKING_LEFT;
+		return EntityState::WALLKING_LEFT;
 		break;
 	case 3:
-		return NpcState::WALLKING_DOWN;
+		return EntityState::WALLKING_DOWN;
 		break;
 	case 4:
-		return NpcState::STOP_UP;
+		return EntityState::STOP_UP;
 		break;
 	case 5:
-		return NpcState::STOP_RIGHT;
+		return EntityState::STOP_RIGHT;
 		break;
 	case 6:
-		return NpcState::STOP_LEFT;
+		return EntityState::STOP_LEFT;
 		break;
 	case 7:
-		return NpcState::STOP_DOWN;
+		return EntityState::STOP_DOWN;
 		break;
 	default:
 		break;
@@ -195,17 +200,17 @@ void Npc::onCollision()
 		bounds = lastPosition;
 		switch (state)
 		{
-		case NpcState::WALLKING_LEFT:
-			while (state == NpcState::WALLKING_LEFT || state == NpcState::STOP_DOWN || state == NpcState::STOP_LEFT || state == NpcState::STOP_RIGHT || state == NpcState::STOP_UP)state = getNewState();
+		case EntityState::WALLKING_LEFT:
+			while (state == EntityState::WALLKING_LEFT || state == EntityState::STOP_DOWN || state == EntityState::STOP_LEFT || state == EntityState::STOP_RIGHT || state == EntityState::STOP_UP)state = getNewState();
 			break;
-		case NpcState::WALLKING_RIGHT:
-			while (state == NpcState::WALLKING_RIGHT || state == NpcState::STOP_DOWN || state == NpcState::STOP_LEFT || state == NpcState::STOP_RIGHT || state == NpcState::STOP_UP)state = getNewState();
+		case EntityState::WALLKING_RIGHT:
+			while (state == EntityState::WALLKING_RIGHT || state == EntityState::STOP_DOWN || state == EntityState::STOP_LEFT || state == EntityState::STOP_RIGHT || state == EntityState::STOP_UP)state = getNewState();
 			break;
-		case NpcState::WALLKING_UP:
-			while (state == NpcState::WALLKING_UP || state == NpcState::STOP_DOWN || state == NpcState::STOP_LEFT || state == NpcState::STOP_RIGHT || state == NpcState::STOP_UP)state = getNewState();
+		case EntityState::WALLKING_UP:
+			while (state == EntityState::WALLKING_UP || state == EntityState::STOP_DOWN || state == EntityState::STOP_LEFT || state == EntityState::STOP_RIGHT || state == EntityState::STOP_UP)state = getNewState();
 			break;
-		case NpcState::WALLKING_DOWN:
-			while (state == NpcState::WALLKING_DOWN || state == NpcState::STOP_DOWN || state == NpcState::STOP_LEFT || state == NpcState::STOP_RIGHT || state == NpcState::STOP_UP)state = getNewState();
+		case EntityState::WALLKING_DOWN:
+			while (state == EntityState::WALLKING_DOWN || state == EntityState::STOP_DOWN || state == EntityState::STOP_LEFT || state == EntityState::STOP_RIGHT || state == EntityState::STOP_UP)state = getNewState();
 			break;
 		default:
 			break;

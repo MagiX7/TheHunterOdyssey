@@ -11,7 +11,7 @@ Tabern::Tabern(iPoint position, pugi::xml_node anim, int id) :Npc(EntityType::TA
 	type = EntityType::TABERN;*/
 	texture = app->tex->Load("Assets/Textures/Npc/Tabern.png");
 
-	state = NpcState::WALLKING_RIGHT;
+	state = EntityState::WALLKING_RIGHT;
 	pugi::xml_node player = anim.child("tabern").child("overworld");
 
 	for (pugi::xml_node n = player.child("walk_front").child("pushback"); n; n = n.next_sibling("pushback"))
@@ -56,17 +56,19 @@ bool Tabern::Load()
 
 bool Tabern::Update(float dt)
 {
-	Npc::Update(dt);
+	if (state != EntityState::INACTIVE)Npc::Update(dt);
 
 	return true;
 }
 
 void Tabern::Draw(bool showColliders)
 {
-	Npc::Draw(showColliders);
-	if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0);
-	SDL_Rect textureRect = { 449, 5, 46,55 };
-	app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+	if (state != EntityState::INACTIVE) {
+		Npc::Draw(showColliders);
+		if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0);
+		SDL_Rect textureRect = { 449, 5, 46,55 };
+		app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+	}
 }
 
 bool Tabern::UnLoad()
