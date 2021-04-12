@@ -23,7 +23,7 @@ public:
 	
 	virtual void Attack(Player* player) {}
 
-	inline int GetHealth() const { return health; }
+	virtual void Travel(iPoint destination, float dt) {}
 
 	virtual inline bool AnimationFinished()
 	{
@@ -35,6 +35,8 @@ public:
 
 	// Getters
 	EnemyState GetCurrentState() const { return currentState; }
+	
+	inline int GetHealth() const { return health; }
 
 protected:
 	// Basic stats for enemies

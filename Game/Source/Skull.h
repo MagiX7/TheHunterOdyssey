@@ -24,8 +24,14 @@ public:
 
 	bool SaveState(pugi::xml_node& node) override;
 
-private:
+	void GetDamage(int dmg) override;
 
+	void Attack(Player* player) override;
+
+	void Travel(iPoint destination, float dt) override;
+
+private:
 	Font* font;
 
+	bool attack;
 };

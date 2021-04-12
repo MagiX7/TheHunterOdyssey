@@ -8,6 +8,10 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Golem.h"
+#include "Skull.h"
+#include "Bat.h"
+
+#include <time.h>
 
 SceneBattle::SceneBattle(eastl::list<Player*> list, int enemies, SceneGameplay* s) : playerList(list), numEnemies(enemies), scene(s)
 {
@@ -33,11 +37,24 @@ bool SceneBattle::Load()
 		(*it)->bounds.y = 205 + (i * 50);
 		(*it)->battlePos = iPoint((*it)->bounds.x, (*it)->bounds.y);
 	}
-	
+
+	Enemy* enemy = nullptr;
 	for (int i = 0; i < numEnemies; ++i)
 	{
-		Golem* enemy = new Golem(iPoint(650,190+(i*90)));
-		enemyList.push_back(enemy);
+		int num = (rand() % 3) + 1;
+		switch(num)
+		{
+		case 1:
+			enemy = new Golem(iPoint(650, 190 + (i * 90)));
+			break;
+		case 2:
+			enemy = new Skull(iPoint(650, 190 + (i * 90)));
+			break;
+		case 3:
+			enemy = new Bat(iPoint(650, 190 + (i * 90)));
+			break;
+		}
+		if (enemy != nullptr) enemyList.push_back(enemy);
 	}
 
 	battleMenu->Load(font);

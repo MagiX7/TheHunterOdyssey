@@ -56,11 +56,7 @@ bool Golem::Update(float dt)
 	case EnemyState::ATTACKING:
 		if (attack == false)
 		{
-			if (bounds.x < target->bounds.x) bounds.x += 100 * dt;
-			if (bounds.x > target->bounds.x) bounds.x -= 100 * dt;
-			if (bounds.y > target->bounds.y) bounds.y -= 100 * dt;
-			if (bounds.y < target->bounds.y) bounds.y += 100 * dt;
-			
+			Travel(iPoint(target->bounds.x, target->bounds.y), dt);
 			if (bounds.x == target->bounds.x && bounds.y == target->bounds.y)
 			{
 				attack = true;
@@ -69,17 +65,13 @@ bool Golem::Update(float dt)
 		}
 		else
 		{
-			if (bounds.x < battlePos.x) bounds.x += 200 * dt;
-			if (bounds.x > battlePos.x) bounds.x -= 200 * dt;
-			if (bounds.y > battlePos.y) bounds.y -= 100 * dt;
-			if (bounds.y < battlePos.y) bounds.y += 100 * dt;
+			Travel(iPoint(battlePos.x, battlePos.y), dt);
 			if (bounds.x == battlePos.x && bounds.y == battlePos.y)
 			{
 				currentState = EnemyState::ATTACK_FINISHED;
 				attack = false;
 			}
 		}
-
 		break;
 	case EnemyState::ATTACK_FINISHED:
 
@@ -154,4 +146,12 @@ void Golem::Attack(Player* player)
 		currentState = EnemyState::ATTACKING;
 		target = player;
 	}
+}
+
+void Golem::Travel(iPoint destination, float dt)
+{
+	if (bounds.x < destination.x) bounds.x += 200 * dt;
+	if (bounds.x > destination.x) bounds.x -= 100 * dt;
+	if (bounds.y > destination.y) bounds.y -= 100 * dt;
+	if (bounds.y < destination.y) bounds.y += 100 * dt;
 }

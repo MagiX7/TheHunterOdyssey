@@ -4,6 +4,7 @@
 #include "Scene.h"
 #include"EASTL/list.h"
 #include "Font.h"
+#include "Point.h"
 
 class Player;
 class CharacterManager;
@@ -16,6 +17,7 @@ class PauseMenu;
 class Render;
 enum class PlayerType;
 enum class EntityType;
+
 enum class GameplayMenuState
 {
 	NONE = 0,
@@ -89,6 +91,8 @@ private:
 	PauseMenu* pause;
 
 	Font* font;
+
+	iPoint tmpPosPlayer;
 };
 
 #endif //__SCENEGAMEPLAY_H__

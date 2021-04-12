@@ -29,6 +29,8 @@ public:
 
 	void Attack(Player* player) override;
 
+	void Travel(iPoint destination, float dt) override;
+
 private:
 	Font* font;
 	Animation* currentAnim;

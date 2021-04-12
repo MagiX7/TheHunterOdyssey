@@ -54,6 +54,8 @@ SceneGameplay::SceneGameplay()
 	player = new Warrior(position, anims);
 	playerList.push_back(player);
 
+	tmpPosPlayer = { 0,0 };
+
 	Npc* generalNpc = nullptr;
 	/*position = { 500,500 };
 	generalNpc=(Npc*)entityManager->CreateEntity(EntityType::TABERN, position,anims);*/
@@ -179,6 +181,8 @@ bool SceneGameplay::Update(float dt)
 			sceneBattle->UnLoad();
 			RELEASE(sceneBattle);
 			gameState = GameplayState::ROAMING;
+			currentPlayer->bounds.x = tmpPosPlayer.x;
+			currentPlayer->bounds.y = tmpPosPlayer.y;
 		}
 		break;
 	}
@@ -298,6 +302,7 @@ void SceneGameplay::HandleInput(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN || app->input->pads->x)
 	{
 		// Instantiate and load scene battle
+		tmpPosPlayer = iPoint(currentPlayer->bounds.x, currentPlayer->bounds.y);
 		sceneBattle = new SceneBattle(playerList, 3, this);
 		sceneBattle->Load();
 
@@ -425,7 +430,6 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						entityManager->setAllNpcInactive();
 						iPoint position;
 
-						
 						position = { 655,430 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
