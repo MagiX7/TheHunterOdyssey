@@ -21,7 +21,9 @@ private:
 	bool hasFinished;
 
 public:
+	~Animation() {}
 
+	
 	void PushBack(const SDL_Rect& rect)
 	{
 		frames[totalFrames++] = rect;

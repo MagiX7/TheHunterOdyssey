@@ -7,18 +7,26 @@
   <scenemanager>
     <scenegameplay>
       <entities>
-        <NPCs amount="3">
+        <NPCs amount="4">
           <NPC>
-            <bounds X="500" Y="500" W="32" H="32" />
-            <NpcType type="TABERN" />
-          </NPC>
-          <NPC>
-            <bounds X="200" Y="200" W="32" H="32" />
+            <bounds X="73" Y="250" W="30" H="32" />
             <NpcType type="TOWN" />
+            <Dialoge idDialoge="0" />
           </NPC>
           <NPC>
-            <bounds X="400" Y="400" W="32" H="32" />
+            <bounds X="608" Y="1146" W="30" H="32" />
+            <NpcType type="RAY" />
+            <Dialoge idDialoge="3" />
+          </NPC>
+          <NPC>
+            <bounds X="798" Y="810" W="30" H="32" />
+            <NpcType type="TABERN" />
+            <Dialoge idDialoge="2" />
+          </NPC>
+          <NPC>
+            <bounds X="593" Y="350" W="30" H="32" />
             <NpcType type="NPC_WIZARD" />
+            <Dialoge idDialoge="1" />
           </NPC>
         </NPCs>
         <players amount="0" />

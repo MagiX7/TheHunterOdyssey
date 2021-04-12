@@ -73,7 +73,13 @@ public:
 	virtual void setActive() {}
 
 	virtual EntityState getState() { return EntityState::STOP_DOWN; }
-public:
+
+	virtual bool CheckCollision(Player* player) { return true; }
+
+	virtual int getDialogeId() { return -1; }
+
+	virtual void setDrawPtext(bool DrawPtext) {  }
+	virtual void setTalkStart(bool TalkStart) { }
 	SDL_Rect bounds;
 	SString name;
 	EntityType type;

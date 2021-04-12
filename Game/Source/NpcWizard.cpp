@@ -82,8 +82,10 @@ bool NpcWizard::SaveState(pugi::xml_node& node)
 {
 	Npc::SaveState(node);
 	pugi::xml_node auxiliar1;
+	pugi::xml_node auxiliar2;
 	auxiliar1 = node.append_child("NpcType");
-
+	auxiliar2 = node.append_child("Dialoge");
+	auxiliar2.append_attribute("idDialoge").set_value(dialogeId);
 	auxiliar1.append_attribute("type").set_value("NPC_WIZARD");
 	return true;
 }

@@ -27,7 +27,6 @@ private:
 	bool fontLoaded;
 
 	SDL_Texture* texture;
-
 	int baseSize;
 	int charsCount;
 	SDL_Rect charsRecs[128];

@@ -25,8 +25,12 @@ public:
 	bool UnLoad() override;
 	bool SaveState(pugi::xml_node& node);
 
-	bool CheckCollision(Player* player);
+	bool CheckCollision(Player* player)override;
 	EntityState state;
+	int getDialogeId()override;
+
+	void setDrawPtext(bool DrawPtext)override;
+	void setTalkStart(bool TalkStart)override;
 
 	void setInactive()override;
 	void setActive()override;

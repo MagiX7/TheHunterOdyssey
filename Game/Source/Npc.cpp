@@ -29,6 +29,7 @@ Npc::Npc(EntityType type, iPoint position, int id) : Entity(type), dialogeId(id)
 Npc::~Npc()
 {
 	app->tex->UnLoad(texture);
+	font->UnLoad(app->tex);
 	delete font;
 }
 
@@ -115,32 +116,43 @@ bool Npc::SaveState(pugi::xml_node& node)
 	
 	return true;
 }
-
+void Npc::setDrawPtext(bool DrawPtext) {
+	drawPtext=DrawPtext;
+}
+void Npc::setTalkStart(bool TalkStart) {
+	talkStart=TalkStart;
+}
+int Npc::getDialogeId() 
+{
+	return dialogeId;
+}
 bool Npc::CheckCollision(Player* player)
 {
-	if (player->bounds.x < bounds.x + ((bounds.w + FIND_RADIOUS) * 2) && player->bounds.x > bounds.x - (bounds.w + FIND_RADIOUS) && player->bounds.y< bounds.y + ((bounds.h + FIND_RADIOUS) * 2) && player->bounds.y > bounds.y - (bounds.h + FIND_RADIOUS))
-	{
-		drawPtext = true;
-
-		if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN || app->input->pads->a)
+	if (state != EntityState::INACTIVE) {
+		if (player->bounds.x < bounds.x + ((bounds.w + FIND_RADIOUS) * 2) && player->bounds.x > bounds.x - (bounds.w + FIND_RADIOUS) && player->bounds.y< bounds.y + ((bounds.h + FIND_RADIOUS) * 2) && player->bounds.y > bounds.y - (bounds.h + FIND_RADIOUS))
 		{
-			return true;
-			state = EntityState::TALKING;
-		}
+			drawPtext = true;
 
-	}
-	else if (state == EntityState::TALKING)
-	{
-		state = getNewState();
-		drawPtext = false;
-		talkStart = false;
-		return false;
-	}
-	else
-	{
-		drawPtext = false;
-		talkStart = false;
-		return false;
+			if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN || app->input->pads->a)
+			{
+				return true;
+				state = EntityState::TALKING;
+			}
+
+		}
+		else if (state == EntityState::TALKING)
+		{
+			state = getNewState();
+			drawPtext = false;
+			talkStart = false;
+			return false;
+		}
+		else
+		{
+			drawPtext = false;
+			talkStart = false;
+			return false;
+		}
 	}
 	return false;
 }

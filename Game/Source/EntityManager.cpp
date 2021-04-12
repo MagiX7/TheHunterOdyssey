@@ -107,7 +107,7 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node 
 		if (id > -1)
 			entity = new NpcWizard(pos, anim, id);
 		
-		npcs.push_back((Npc*)entity);
+
 		//entity->scene = Scene;
 		entity->Load();
 		break;
@@ -115,7 +115,6 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node 
 		if (id > -1)
 			entity = new Tabern(pos, anim, id);
 		
-		npcs.push_back((Npc*)entity);
 		//entity->scene = Scene;
 		entity->Load();
 		break;
@@ -138,7 +137,6 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node 
 		if(id > -1)
 			entity = new Town(pos, anim, id);
 
-		npcs.push_back((Npc*)entity);
 		//entity->scene = Scene;
 		entity->Load();
 		break;
@@ -146,7 +144,7 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node 
 		if (id > -1)
 			entity = new Ray(pos, anim, id);
 
-		npcs.push_back((Npc*)entity);
+		
 		//entity->scene = Scene;
 		entity->Load();
 		break;
@@ -180,8 +178,8 @@ void EntityManager::deleteAllNpcActive()
 			if ((*item)->type == EntityType::NPC_WIZARD || (*item)->type == EntityType::RAY
 				|| (*item)->type == EntityType::TOWN || (*item)->type == EntityType::TABERN)
 			{
-				delete (*item);
-				entities.remove((*item));
+				delete *item;
+				entities.remove(*item);
 			}
 		}
 	}
@@ -228,7 +226,6 @@ void EntityManager::DeleteEntity(Entity* entity)
 		}
 	}
 
-	npcs.clear();
 }
 void EntityManager::DeleteAllEntities() 
 {
@@ -238,6 +235,7 @@ void EntityManager::DeleteAllEntities()
 
 	for (item = entities.begin(); item != entities.end(); ++item)
 	{
+		delete (*item);
 		entities.remove(*item);
 	}
 
@@ -282,7 +280,7 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad)
 					npcType = EntityType::UNKNOWN;
 				}
 
-				npcNode = (Npc*)CreateEntity(npcType, { NodeNpcAuxiliar.child("bounds").attribute("X").as_int(),NodeNpcAuxiliar.child("bounds").attribute("Y").as_int() }, anims);
+				npcNode = (Npc*)CreateEntity(npcType, { NodeNpcAuxiliar.child("bounds").attribute("X").as_int(),NodeNpcAuxiliar.child("bounds").attribute("Y").as_int() }, anims, NodeNpcAuxiliar.child("Dialoge").attribute("idDialoge").as_int());
 				NodeNpcAuxiliar = NodeNpcAuxiliar.next_sibling();
 			}
 			break;
@@ -328,6 +326,9 @@ bool EntityManager::SaveState(pugi::xml_node* toSave)
 		case EntityType::NPC_WIZARD:
 			npcAmount++;
 			break;
+		case EntityType::RAY:
+			npcAmount++;
+			break;
 		case EntityType::TABERN:
 			npcAmount++;
 			break;
@@ -365,6 +366,12 @@ bool EntityManager::SaveState(pugi::xml_node* toSave)
 
 			break;
 		case EntityType::TABERN:
+
+			NodeNpcAuxiliar = NodeNpc.append_child("NPC");
+			item.mpNode->mValue->SaveState(NodeNpcAuxiliar);
+
+			break;
+		case EntityType::RAY:
 
 			NodeNpcAuxiliar = NodeNpc.append_child("NPC");
 			item.mpNode->mValue->SaveState(NodeNpcAuxiliar);

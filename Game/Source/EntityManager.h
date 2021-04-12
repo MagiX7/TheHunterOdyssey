@@ -42,7 +42,6 @@ public:
 public:
 	//List<Entity*> entities;
 	eastl::list<Entity*> entities;
-	eastl::list<Npc*> npcs;
 };
 
 #endif //__ENTITYMANAGER_H__

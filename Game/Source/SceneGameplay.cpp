@@ -42,7 +42,6 @@ SceneGameplay::SceneGameplay()
 	player = new Hunter(position, anims);
 	currentPlayer = player;
 	playerList.push_back(player);
-
 	position = { 18,90 };
 	player = new Wizard(position, anims);
 	playerList.push_back(player);
@@ -251,22 +250,24 @@ void SceneGameplay::CharacterSwap(PlayerType player)
 bool SceneGameplay::CheckDialogue()
 {
 	bool ret = false;
-	eastl::list<Npc*>::iterator it = entityManager->npcs.begin();
-	while (it != entityManager->npcs.end())
+	eastl::list<Entity*>::iterator it = entityManager->entities.begin();
+	while (it != entityManager->entities.end())
 	{
-		ret = (*it)->CheckCollision(currentPlayer);
-		if (ret) break;
+		if ((*it) != nullptr) {
+			ret = (*it)->CheckCollision(currentPlayer);
+			if (ret) break;
+		}
 
 		++it;
 	}
 
 	if (ret)
 	{
-		dialogueManager->current = dialogueManager->LoadDialogue((*it)->dialogeId);
+		dialogueManager->current = dialogueManager->LoadDialogue((*it)->getDialogeId());
 		dialogueManager->isDialogueActive = true;
 		dialogueManager->printText = true;
-		(*it)->drawPtext = false;
-		(*it)->talkStart = true;
+		(*it)->setDrawPtext(false);
+		(*it)->setTalkStart(true);
 	}
 	return ret;
 }
@@ -466,6 +467,20 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("adventurer_house.tmx", app->tex);
+
+						pugi::xml_document animations;
+						pugi::xml_node anims;
+						pugi::xml_parse_result result = animations.load_file("animations.xml");
+						if (result == NULL)
+							LOG("Could not load xml file: %s. pugi error: %s", CONFIG_FILENAME, result.description());
+						else
+							anims = animations.child("animations");
+						Npc* generalNpc = nullptr;
+						position = { 630,450 };
+						generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TABERN, position, anims, 4);
+
+						position = { 630,420 };
+						generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 1);
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 1544) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
