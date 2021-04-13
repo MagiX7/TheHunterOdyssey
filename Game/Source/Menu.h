@@ -29,4 +29,9 @@ public:
 	GuiButton* currentButton;
 	GuiButton* lastButton;
 
+	// Stuff for keyobard and mouse handling at the same time
+	int lastUserInput; // 1 == keyboard; 0 == mouse
+	int xMouse;
+	int yMouse;
+
 };

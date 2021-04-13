@@ -33,8 +33,8 @@ bool GuiButton::Update(Input* input, float dt, int id)
 		input->GetMousePosition(mouseX, mouseY);
 
 		// Check collision between mouse and button bounds
-		if (((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 
-			(mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h))) || this->id == id)
+		if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 
+			(mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)))
 		{
 			state = GuiControlState::FOCUSED;
 
@@ -44,9 +44,7 @@ bool GuiButton::Update(Input* input, float dt, int id)
 				isPlayable = false;
 			}
 
-			//if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT || input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
 			if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT || input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN
-				|| input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->GetKey(SDL_SCANCODE_RETURN) == KEY_REPEAT
 				|| input->pads->a == true)
 			{
 				state = GuiControlState::PRESSED;
@@ -59,6 +57,31 @@ bool GuiButton::Update(Input* input, float dt, int id)
 			// If mouse button pressed -> Generate event!
 			if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP || input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP
 				|| input->pads->a)
+			{
+				if (NotifyObserver() == false) return false;
+			}
+		}
+		else if (this->id == id)
+		{
+			if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+				state = GuiControlState::FOCUSED;
+
+			if (isPlayable == true)
+			{
+				app->audio->PlayFx(focusedFx);
+				isPlayable = false;
+			}
+
+			if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->GetKey(SDL_SCANCODE_RETURN) == KEY_REPEAT)
+			{
+				state = GuiControlState::PRESSED;
+				if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pads->a)
+				{
+					app->audio->PlayFx(clickFx);
+				}
+			}
+
+			if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP || input->pads->a)
 			{
 				if (NotifyObserver() == false) return false;
 			}

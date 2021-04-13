@@ -63,4 +63,5 @@ private:
 	GuiSlider* slideFXVolume;
 
 	Font* font;
+
 };

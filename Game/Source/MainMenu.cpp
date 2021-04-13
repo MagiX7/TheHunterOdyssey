@@ -72,7 +72,8 @@ bool MainMenu::Load(Font* font)
 	buttons.push_back(btnOptions);
 	buttons.push_back(btnCredits);
 	buttons.push_back(btnExit);
-	currentButton = (*buttons.begin());
+	//currentButton = (*buttons.begin());
+	currentButton = nullptr;
 	lastButton = nullptr;
 
 
@@ -94,6 +95,9 @@ bool MainMenu::Load(Font* font)
 	slideFXVolume->section = { 223,138,339,46 };
 	slideFXVolume->texture = guiTex;
 
+
+	lastUserInput = -1;
+
 	return true;
 }
 
@@ -112,11 +116,17 @@ bool MainMenu::Update(float dt)
 	break;
 	case MenuState::NORMAL:
 	{
-		btnNewGame->Update(app->input, dt, currentButton->id);
-		btnContinue->Update(app->input, dt, currentButton->id);
-		btnOptions->Update(app->input, dt, currentButton->id);
-		btnCredits->Update(app->input, dt, currentButton->id);
-		btnExit->Update(app->input, dt, currentButton->id);
+		int id = -1;
+		if (lastUserInput == 0 && currentButton != nullptr)
+		{
+			id = currentButton->id;
+		}
+
+		btnNewGame->Update(app->input, dt, id);
+		btnContinue->Update(app->input, dt, id);
+		btnOptions->Update(app->input, dt,id);
+		btnCredits->Update(app->input, dt, id);
+		btnExit->Update(app->input, dt, id);
 	}
 	break;
 	case MenuState::OPTIONS:
@@ -152,17 +162,16 @@ void MainMenu::Draw(Font* font, bool showColliders)
 	case MenuState::NORMAL:
 	{
 		section = { 734,720,271,106 };
+
+		//if (currentButton != nullptr) currentButton->Draw(app->render, showColliders);
+
 		btnNewGame->Draw(app->render, showColliders, 64, { 255,255,255,255 });
 		btnContinue->Draw(app->render, showColliders, 64, { 255,255,255,255 });
 		btnOptions->Draw(app->render, showColliders, 64, { 255,255,255,255 });
 		btnCredits->Draw(app->render, showColliders, 64, { 255,255,255,255 });
 		btnExit->Draw(app->render, showColliders, 64, { 255,255,255,255 });
+
 		app->render->DrawTexture(bg, 987, 588, &section);
-		//app->render->DrawText(font, btnNewGame->text.GetString(), 521, 65, 64, 5, { 255,255,255,255 });
-		//app->render->DrawText(font, btnContinue->text.GetString(), 530, 202, 64, 5, { 255,255,255,255 });
-		//app->render->DrawText(font, btnOptions->text.GetString(), 548, 332, 64, 5, { 255,255,255,255 });
-		//app->render->DrawText(font, btnCredits->text.GetString(), 550, 467, 64, 5, { 255,255,255,255 });
-		//app->render->DrawText(font, btnExit->text.GetString(), 596, 603, 64, 5, { 255,255,255,255 });
 	}
 	break;
 	case MenuState::OPTIONS:
@@ -327,6 +336,15 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 
 void MainMenu::HandleInput()
 {
+	int prevX = xMouse;
+	int prevY = yMouse;
+	app->input->GetMousePosition(xMouse, yMouse);
+	if (prevX != xMouse || prevY != yMouse)
+	{
+		lastUserInput = 1;
+	}
+	else lastUserInput = 0;
+
 	int key1 = SDL_SCANCODE_DOWN;
 	int key2 = SDL_SCANCODE_UP;
 	
@@ -338,25 +356,39 @@ void MainMenu::HandleInput()
 
 	if (app->input->GetKey(key1) == KEY_DOWN || app->input->pads->down)
 	{
-		eastl::list<GuiButton*>::iterator it = buttons.begin();
-		for (int i = 0; i < buttons.size(); ++i, ++it)
+		if (currentButton == nullptr)
 		{
-			if ((*it)->id == currentButton->id + 1)
+			currentButton = (*buttons.begin());
+		}
+		else
+		{
+			eastl::list<GuiButton*>::iterator it = buttons.begin();
+			for (int i = 0; i < buttons.size(); ++i, ++it)
 			{
-				currentButton = (*it);
-				break;
+				if ((*it)->id == currentButton->id + 1)
+				{
+					currentButton = (*it);
+					break;
+				}
 			}
 		}
 	}
 	else if (app->input->GetKey(key2) == KEY_DOWN || app->input->pads->up)
 	{
-		eastl::list<GuiButton*>::iterator it = buttons.begin();
-		for (int i = 0; i < buttons.size(); ++i, ++it)
+		if (currentButton == nullptr)
 		{
-			if ((*it)->id == currentButton->id - 1)
+			currentButton = (*buttons.begin());
+		}
+		else
+		{
+			eastl::list<GuiButton*>::iterator it = buttons.begin();
+			for (int i = 0; i < buttons.size(); ++i, ++it)
 			{
-				currentButton = (*it);
-				break;
+				if ((*it)->id == currentButton->id - 1)
+				{
+					currentButton = (*it);
+					break;
+				}
 			}
 		}
 	}
