@@ -146,9 +146,14 @@ void DialogueManager::Draw()
 
 bool DialogueManager::UnLoad()
 {
-	font->UnLoad(app->tex);
+	app->tex->UnLoad(texture);
 
+	font->UnLoad(app->tex);
 	RELEASE(font);
+
+	if (current != nullptr) current->CleanUp();
+
+	dialogues.clear();
 
 	return true;
 }

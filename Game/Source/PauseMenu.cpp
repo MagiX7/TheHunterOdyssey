@@ -121,39 +121,45 @@ bool PauseMenu::Update(float dt)
 	
 	HandleInput();
 
+	int id = -1;
+	if (lastUserInput == 0 && currentButton != nullptr)
+	{
+		id = currentButton->id;
+	}
 	switch (state)
 	{
 	case PauseState::DEFAULT:
-		btnResume->Update(app->input, dt, currentButton->id);
-		btnLoadSave->Update(app->input, dt, currentButton->id);
-		btnOptions->Update(app->input, dt, currentButton->id);
-		btnReturnTitle->Update(app->input, dt, currentButton->id);
-		btnExit->Update(app->input, dt, currentButton->id);
+		btnResume->Update(app->input, dt, id);
+		btnLoadSave->Update(app->input, dt, id);
+		btnOptions->Update(app->input, dt, id);
+		btnReturnTitle->Update(app->input, dt, id);
+		btnExit->Update(app->input, dt, id);
 		break;
 	case PauseState::OPTIONS:
-		btnResume->Update(app->input, dt, currentButton->id);
-		btnLoadSave->Update(app->input, dt, currentButton->id);
-		btnOptions->Update(app->input, dt, currentButton->id);
-		btnReturnTitle->Update(app->input, dt, currentButton->id);
-		btnExit->Update(app->input, dt, currentButton->id);
-		btnOptionsBack->Update(app->input, dt, currentButton->id);
+		/*btnResume->Update(app->input, dt, id);
+		btnLoadSave->Update(app->input, dt, id);
+		btnOptions->Update(app->input, dt, id);
+		btnReturnTitle->Update(app->input, dt,id);
+		btnExit->Update(app->input, dt, id);*/
+		btnOptionsBack->Update(app->input, dt, id);
+
 		slideMusicVolume->Update(app->input, dt);
 		slideFXVolume->Update(app->input, dt);
 		checkFullscreen->Update(app->input, dt);
 		checkVSync->Update(app->input, dt);
 		break;
 	case PauseState::SAVE:
-		btnSave->Update(app->input, dt, currentButton->id);
-		btnLoad->Update(app->input, dt, currentButton->id);
-		btnBack->Update(app->input, dt, currentButton->id);
+		btnSave->Update(app->input, dt, id);
+		btnLoad->Update(app->input, dt, id);
+		btnBack->Update(app->input, dt, id);
 		break;
 	case PauseState::RETURNTITLE:
-		btnReturnTitleYes->Update(app->input, dt, currentButton->id);
-		btnReturnTitleNo->Update(app->input, dt, currentButton->id);
+		btnReturnTitleYes->Update(app->input, dt, id);
+		btnReturnTitleNo->Update(app->input, dt, id);
 		break;
 	case PauseState::EXIT:
-		ret = btnExitYes->Update(app->input, dt, currentButton->id);
-		btnExitNo->Update(app->input, dt, currentButton->id);
+		ret = btnExitYes->Update(app->input, dt, id);
+		btnExitNo->Update(app->input, dt, id);
 		break;
 	}
 
@@ -255,14 +261,18 @@ bool PauseMenu::UnLoad()
 	RELEASE(btnReturnTitle);
 	RELEASE(btnExit);
 	RELEASE(btnOptionsBack);
-	RELEASE(slideMusicVolume);
-	RELEASE(slideFXVolume);
-	RELEASE(checkFullscreen);
-	RELEASE(checkVSync);
+
 	RELEASE(btnExitYes);
 	RELEASE(btnExitNo);
 	RELEASE(btnReturnTitleYes);
 	RELEASE(btnReturnTitleNo);
+	
+	RELEASE(slideMusicVolume);
+	RELEASE(slideFXVolume);
+
+	RELEASE(checkFullscreen);
+	RELEASE(checkVSync);
+	
 
 	buttons.clear();
 
@@ -399,6 +409,15 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 
 void PauseMenu::HandleInput()
 {
+	int prevX = xMouse;
+	int prevY = yMouse;
+	app->input->GetMousePosition(xMouse, yMouse);
+	if (prevX != xMouse || prevY != yMouse)
+	{
+		lastUserInput = 1;
+	}
+	else lastUserInput = 0;
+
 	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || app->input->pads->down)
 	{
 		eastl::list<GuiButton*>::iterator it = buttons.begin();

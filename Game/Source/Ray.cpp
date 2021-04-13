@@ -12,7 +12,7 @@ Ray::Ray(iPoint position, pugi::xml_node anim, int id) :Npc(EntityType::RAY, pos
 	texture = app->tex->Load("Assets/Textures/map_tileset.png");
 
 	dialogeId = 3;
-	state = EntityState::WALLKING_RIGHT;
+	state = EntityState::WALKING_RIGHT;
 	pugi::xml_node player = anim.child("ray").child("overworld");
 
 	for (pugi::xml_node n = player.child("walk_front").child("pushback"); n; n = n.next_sibling("pushback"))
@@ -40,8 +40,6 @@ Ray::Ray(iPoint position, pugi::xml_node anim, int id) :Npc(EntityType::RAY, pos
 	idleRight.PushBack(walkRight.frames[0]);
 	idleUp.PushBack(walkUp.frames[0]);
 
-
-
 	currentAnim = &idleDown;
 }
 
@@ -52,22 +50,23 @@ Ray::~Ray()
 bool Ray::Load()
 {
 
-
 	return true;
 }
 
 bool Ray::Update(float dt)
 {
-	if (state != EntityState::INACTIVE)Npc::Update(dt);
+	if (state != EntityState::INACTIVE) Npc::Update(dt);
 
 	return true;
 }
 
 void Ray::Draw(bool showColliders)
 {
-	if (state != EntityState::INACTIVE) {
+	if (state != EntityState::INACTIVE)
+	{
 		Npc::Draw(showColliders);
 		if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0);
+
 		SDL_Rect textureRect = { 14, 11, 46,49 };
 		app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
 	}
@@ -75,18 +74,18 @@ void Ray::Draw(bool showColliders)
 
 bool Ray::UnLoad()
 {
+	app->tex->UnLoad(texture);
 	return true;
 }
-
 
 bool Ray::SaveState(pugi::xml_node& node)
 {
 	Npc::SaveState(node);
-	pugi::xml_node auxiliar1;
-	pugi::xml_node auxiliar2;
-	auxiliar1 = node.append_child("NpcType");
-	auxiliar2 = node.append_child("Dialoge");
+	pugi::xml_node auxiliar1 = node.append_child("NpcType");
+	pugi::xml_node auxiliar2 = node.append_child("Dialoge");
+
 	auxiliar2.append_attribute("idDialoge").set_value(dialogeId);
 	auxiliar1.append_attribute("type").set_value("RAY");
+
 	return true;
 }

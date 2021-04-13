@@ -18,8 +18,6 @@ public:
 
 	bool UnLoad() override;
 
-
-
 	bool SaveState(pugi::xml_node& node) override;
 
 

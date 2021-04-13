@@ -47,12 +47,14 @@ bool MainMenu::Load(Font* font)
 	btnExit->texture = guiTex;
 	btnExit->alineation = 1;
 
-	btnExitYes = new GuiButton(6, { 383, 332, 216, 51 }, "Yes", this, font);
+	//btnExitYes = new GuiButton(6, { 383, 332, 216, 51 }, "Yes", this, font);
+	btnExitYes = new GuiButton(6, { 533, 312, 216, 51 }, "Yes", this, font);
 	btnExitYes->section = { 0,135,216,51 };
 	btnExitYes->texture = guiTex;
 	btnExitYes->alineation = 1;
 
-	btnExitNo = new GuiButton(7, { 679, 332, 216, 51 }, "No", this, font);
+	//btnExitNo = new GuiButton(7, { 679, 332, 216, 51 }, "No", this, font);
+	btnExitNo = new GuiButton(7, { 533, 384, 216, 51 }, "No", this, font);
 	btnExitNo->section = { 0,135,216,51 };
 	btnExitNo->texture = guiTex;
 	btnExitNo->alineation = 1;
@@ -107,6 +109,12 @@ bool MainMenu::Update(float dt)
 
 	HandleInput();
 
+	int id = -1;
+	if (lastUserInput == 0 && currentButton != nullptr)
+	{
+		id = currentButton->id;
+	}
+
 	switch (state)
 	{
 	case MenuState::NONE:
@@ -116,12 +124,6 @@ bool MainMenu::Update(float dt)
 	break;
 	case MenuState::NORMAL:
 	{
-		int id = -1;
-		if (lastUserInput == 0 && currentButton != nullptr)
-		{
-			id = currentButton->id;
-		}
-
 		btnNewGame->Update(app->input, dt, id);
 		btnContinue->Update(app->input, dt, id);
 		btnOptions->Update(app->input, dt,id);
@@ -131,7 +133,8 @@ bool MainMenu::Update(float dt)
 	break;
 	case MenuState::OPTIONS:
 	{
-		btnOptionsBack->Update(app->input, dt, currentButton->id);
+		btnOptionsBack->Update(app->input, dt, id);
+
 		checkFullscreen->Update(app->input, dt);
 		checkVSync->Update(app->input, dt);
 		slideMusicVolume->Update(app->input, dt);
@@ -140,13 +143,13 @@ bool MainMenu::Update(float dt)
 	break;
 	case MenuState::CREDITS:
 	{
-		btnCreditsBack->Update(app->input, dt, currentButton->id);
+		btnCreditsBack->Update(app->input, dt, id);
 	}
 	break;
 	case MenuState::EXIT:
 	{
-		ret = btnExitYes->Update(app->input, dt, currentButton->id);
-		btnExitNo->Update(app->input, dt, currentButton->id);
+		ret = btnExitYes->Update(app->input, dt, id);
+		btnExitNo->Update(app->input, dt, id);
 	}
 	break;
 	}
@@ -348,11 +351,11 @@ void MainMenu::HandleInput()
 	int key1 = SDL_SCANCODE_DOWN;
 	int key2 = SDL_SCANCODE_UP;
 	
-	if (state == MenuState::EXIT)
-	{
-		key1 = SDL_SCANCODE_RIGHT;
-		key2 = SDL_SCANCODE_LEFT;
-	}
+	//if (state == MenuState::EXIT)
+	//{
+	//	key1 = SDL_SCANCODE_RIGHT;
+	//	key2 = SDL_SCANCODE_LEFT;
+	//}
 
 	if (app->input->GetKey(key1) == KEY_DOWN || app->input->pads->down)
 	{

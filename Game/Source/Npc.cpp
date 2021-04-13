@@ -3,13 +3,14 @@
 #include "Render.h"
 #include "Input.h"
 #include "Npc.h"
-#include "DialogueManager.h"
 #include "Player.h"
-#include "SceneGameplay.h"
-#include<time.h>
+
+
+#include <time.h>
 
 #define SPEED_X 60.0f
 #define SPEED_Y 60.0f
+
 Npc::Npc(EntityType type, iPoint position, int id) : Entity(type), dialogeId(id)
 {
 	drawPtext = false;
@@ -37,17 +38,30 @@ bool Npc::Load()
 {
 	return true;
 }
-void Npc::setInactive(){ state = EntityState::INACTIVE;}
-void Npc::setActive() { state = getNewState(); }
-EntityState Npc::getState() { return state; }
+
+void Npc::SetInactive()
+{
+	state = EntityState::INACTIVE;
+}
+
+void Npc::SetActive()
+{
+	state = GetNewState();
+}
+
+EntityState Npc::GetState()
+{
+	return state;
+}
+
 bool Npc::Update(float dt)
 {
-	
 	lastPosition = bounds;
 	currentAnim->speed = 7.0f * dt;
+
 	if (stateTimer > stateMaxTimer)
 	{
-		state = getNewState();
+		state = GetNewState();
 	}
 	stateTimer += dt;
 
@@ -57,7 +71,7 @@ bool Npc::Update(float dt)
 		bounds.x -= SPEED_X * dt;
 		currentAnim = &walkLeft;
 		break;
-	case EntityState::WALLKING_RIGHT:
+	case EntityState::WALKING_RIGHT:
 		bounds.x += SPEED_X * dt;
 		currentAnim = &walkRight;
 		break;
@@ -87,15 +101,17 @@ bool Npc::Update(float dt)
 	currentAnim->Update();
 	return true;
 }
+
 void Npc::NpcMove(bool move)
 {
 	npcMove = move;
 	if (move == false)state = EntityState::STOP_DOWN;
 }
+
 void Npc::Draw(bool showColliders)
 {
-	if (showColliders)
-		app->render->DrawRectangle(bounds, 255, 255, 255, 255);
+	/*if (showColliders)
+		app->render->DrawRectangle(bounds, 255, 255, 255, 255);*/
 
 	if (drawPtext) app->render->DrawText(font, "Press O to talk", (bounds.x - 30)- (app->render->camera.x * (-1)), (bounds.y - 30) - (app->render->camera.y*(-1)), 20, 5, { 255,255,255 });
 }
@@ -116,19 +132,26 @@ bool Npc::SaveState(pugi::xml_node& node)
 	
 	return true;
 }
-void Npc::setDrawPtext(bool DrawPtext) {
-	drawPtext=DrawPtext;
+
+void Npc::SetDrawPtext(bool DrawPtext)
+{
+	drawPtext = DrawPtext;
 }
-void Npc::setTalkStart(bool TalkStart) {
-	talkStart=TalkStart;
+
+void Npc::SetTalkStart(bool TalkStart)
+{
+	talkStart = TalkStart;
 }
-int Npc::getDialogeId() 
+
+int Npc::GetDialogeId() 
 {
 	return dialogeId;
 }
+
 bool Npc::CheckCollision(Player* player)
 {
-	if (state != EntityState::INACTIVE) {
+	if (state != EntityState::INACTIVE)
+	{
 		if (player->bounds.x < bounds.x + ((bounds.w + FIND_RADIOUS) * 2) && player->bounds.x > bounds.x - (bounds.w + FIND_RADIOUS) && player->bounds.y< bounds.y + ((bounds.h + FIND_RADIOUS) * 2) && player->bounds.y > bounds.y - (bounds.h + FIND_RADIOUS))
 		{
 			drawPtext = true;
@@ -142,7 +165,7 @@ bool Npc::CheckCollision(Player* player)
 		}
 		else if (state == EntityState::TALKING)
 		{
-			state = getNewState();
+			state = GetNewState();
 			drawPtext = false;
 			talkStart = false;
 			return false;
@@ -157,7 +180,7 @@ bool Npc::CheckCollision(Player* player)
 	return false;
 }
 
-EntityState Npc::getNewState()
+EntityState Npc::GetNewState()
 {
 	int randNum;
 	stateMaxTimer = (rand() % 5) + 2;
@@ -181,7 +204,7 @@ EntityState Npc::getNewState()
 		return EntityState::WALLKING_UP;
 		break;
 	case 1:
-		return EntityState::WALLKING_RIGHT;
+		return EntityState::WALKING_RIGHT;
 		break;
 	case 2:
 		return EntityState::WALLKING_LEFT;
@@ -206,27 +229,27 @@ EntityState Npc::getNewState()
 	}
 }
 
-void Npc::onCollision()
+void Npc::OnCollision()
 {
-	if (npcMove) {
+	if (npcMove)
+	{
 		bounds = lastPosition;
 		switch (state)
 		{
 		case EntityState::WALLKING_LEFT:
-			while (state == EntityState::WALLKING_LEFT || state == EntityState::STOP_DOWN || state == EntityState::STOP_LEFT || state == EntityState::STOP_RIGHT || state == EntityState::STOP_UP)state = getNewState();
+			while (state == EntityState::WALLKING_LEFT || state == EntityState::STOP_DOWN || state == EntityState::STOP_LEFT || state == EntityState::STOP_RIGHT || state == EntityState::STOP_UP) state = GetNewState();
 			break;
-		case EntityState::WALLKING_RIGHT:
-			while (state == EntityState::WALLKING_RIGHT || state == EntityState::STOP_DOWN || state == EntityState::STOP_LEFT || state == EntityState::STOP_RIGHT || state == EntityState::STOP_UP)state = getNewState();
+		case EntityState::WALKING_RIGHT:
+			while (state == EntityState::WALKING_RIGHT || state == EntityState::STOP_DOWN || state == EntityState::STOP_LEFT || state == EntityState::STOP_RIGHT || state == EntityState::STOP_UP) state = GetNewState();
 			break;
 		case EntityState::WALLKING_UP:
-			while (state == EntityState::WALLKING_UP || state == EntityState::STOP_DOWN || state == EntityState::STOP_LEFT || state == EntityState::STOP_RIGHT || state == EntityState::STOP_UP)state = getNewState();
+			while (state == EntityState::WALLKING_UP || state == EntityState::STOP_DOWN || state == EntityState::STOP_LEFT || state == EntityState::STOP_RIGHT || state == EntityState::STOP_UP) state = GetNewState();
 			break;
 		case EntityState::WALLKING_DOWN:
-			while (state == EntityState::WALLKING_DOWN || state == EntityState::STOP_DOWN || state == EntityState::STOP_LEFT || state == EntityState::STOP_RIGHT || state == EntityState::STOP_UP)state = getNewState();
+			while (state == EntityState::WALLKING_DOWN || state == EntityState::STOP_DOWN || state == EntityState::STOP_LEFT || state == EntityState::STOP_RIGHT || state == EntityState::STOP_UP) state = GetNewState();
 			break;
 		default:
 			break;
 		}
 	}
-
 }

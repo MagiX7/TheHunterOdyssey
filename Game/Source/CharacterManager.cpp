@@ -36,6 +36,7 @@ bool CharacterManager::Load(Font* font)
 	buttons.push_back(btnThief);
 	buttons.push_back(btnWarrior);
 	buttons.push_back(btnExit);
+
 	currentButton = (*buttons.begin().next());
 	lastButton = nullptr;
 
@@ -61,11 +62,18 @@ bool CharacterManager::Load(Font* font)
 bool CharacterManager::Update(float dt)
 {
 	HandleInput();
-	btnHunter->Update(app->input, dt, currentButton->id);
-	btnWizard->Update(app->input, dt, currentButton->id);
-	btnThief->Update(app->input, dt, currentButton->id);
-	btnWarrior->Update(app->input, dt, currentButton->id);
-	btnExit->Update(app->input, dt, currentButton->id);
+
+	int id = -1;
+	if (lastUserInput == 0 && currentButton != nullptr)
+	{
+		id = currentButton->id;
+	}
+
+	btnHunter->Update(app->input, dt, id);
+	btnWizard->Update(app->input, dt, id);
+	btnThief->Update(app->input, dt, id);
+	btnWarrior->Update(app->input, dt, id);
+	btnExit->Update(app->input, dt, id);
 
 	return true;
 }
@@ -160,6 +168,15 @@ void CharacterManager::ChangeButtonState(PlayerType type)
 
 void CharacterManager::HandleInput()
 {
+	int prevX = xMouse;
+	int prevY = yMouse;
+	app->input->GetMousePosition(xMouse, yMouse);
+	if (prevX != xMouse || prevY != yMouse)
+	{
+		lastUserInput = 1;
+	}
+	else lastUserInput = 0;
+
 	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || app->input->pads->down)
 	{
 		eastl::list<GuiButton*>::iterator it = buttons.begin();

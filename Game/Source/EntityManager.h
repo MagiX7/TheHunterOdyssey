@@ -34,11 +34,11 @@ public:
 
 	bool CheckEntityColision(SceneGameplay* scene);
 
-	void setAllNpcActive();
+	void SetAllNpcActive();
 
-	void setAllNpcInactive();
+	void SetAllNpcInactive();
 
-	void deleteAllNpcActive();
+	void DeleteAllNpcActive();
 public:
 	//List<Entity*> entities;
 	eastl::list<Entity*> entities;

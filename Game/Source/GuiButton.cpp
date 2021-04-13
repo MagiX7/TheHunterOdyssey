@@ -23,6 +23,8 @@ GuiButton::~GuiButton()
 {
 	app->audio->UnLoadFx(clickFx);
 	app->audio->UnLoadFx(focusedFx);
+
+	text.Clear();
 }
 
 bool GuiButton::Update(Input* input, float dt, int id)
@@ -44,20 +46,19 @@ bool GuiButton::Update(Input* input, float dt, int id)
 				isPlayable = false;
 			}
 
-			if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT || input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN
-				|| input->pads->a == true)
+			if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT || input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
 			{
 				state = GuiControlState::PRESSED;
-				if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN || input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pads->a)
+				if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
 				{
 					app->audio->PlayFx(clickFx);
 				}
 			}
 
 			// If mouse button pressed -> Generate event!
-			if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP || input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP
-				|| input->pads->a)
+			if (input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_UP || input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP)
 			{
+				state = GuiControlState::NORMAL;
 				if (NotifyObserver() == false) return false;
 			}
 		}
@@ -72,7 +73,7 @@ bool GuiButton::Update(Input* input, float dt, int id)
 				isPlayable = false;
 			}
 
-			if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->GetKey(SDL_SCANCODE_RETURN) == KEY_REPEAT)
+			if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->GetKey(SDL_SCANCODE_RETURN) == KEY_REPEAT || input->pads->a)
 			{
 				state = GuiControlState::PRESSED;
 				if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pads->a)
@@ -81,8 +82,9 @@ bool GuiButton::Update(Input* input, float dt, int id)
 				}
 			}
 
-			if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP || input->pads->a)
+			if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP /*|| input->pads->a == true*/)
 			{
+				state = GuiControlState::NORMAL;
 				if (NotifyObserver() == false) return false;
 			}
 		}

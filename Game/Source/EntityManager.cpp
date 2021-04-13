@@ -1,18 +1,19 @@
 #include "EntityManager.h"
-#include"NpcWizard.h"
-#include"Tabern.h"
-#include"Town.h"
-#include"Ray.h"
-#include"Wizard.h"
-#include"Hunter.h"
-#include"Thief.h"
+#include "NpcWizard.h"
+#include "Tabern.h"
+#include "Town.h"
+#include "Ray.h"
+#include "Wizard.h"
+#include "Hunter.h"
+#include "Thief.h"
 #include "Bat.h"
 #include "Golem.h"
 #include "Skull.h"
 #include "Npc.h"
-#include"player.h"
-#include"Warrior.h"
+#include "Player.h"
+#include "Warrior.h"
 #include "Log.h"
+
 #include "EASTL/fixed_allocator.h"
 #include "EASTL/iterator.h"
 
@@ -69,7 +70,11 @@ bool EntityManager::UnLoad()
 	eastl::list<Entity*>::iterator item = entities.begin();
 
 	for (item = entities.begin(); item != entities.end(); ++item)
+	{
 		(*item)->UnLoad();
+		RELEASE((*item));
+		entities.erase(item);
+	}
 	
 	return ret;
 }
@@ -81,12 +86,13 @@ bool EntityManager::CheckEntityColision(SceneGameplay* scene)
 	{
 		if (scene->CollisionMapEntity((*item)->bounds, (*item)->type))
 		{
-			(*item)->onCollision();
+			(*item)->OnCollision();
 		}
 	}
 
 	return true;
 }
+
 Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node anim, int id)
 {
 	/*LOG("Creating %s", type);*/
@@ -168,23 +174,26 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node 
 
 	return entity;
 }
-void EntityManager::deleteAllNpcActive()
+
+void EntityManager::DeleteAllNpcActive()
 {
 	eastl::list<Entity*>::iterator item;
 
 	for (item = entities.begin(); item != entities.end(); ++item)
 	{
-		if ((*item)->getState() != EntityState::INACTIVE) {
+		if ((*item)->GetState() != EntityState::INACTIVE) {
 			if ((*item)->type == EntityType::NPC_WIZARD || (*item)->type == EntityType::RAY
 				|| (*item)->type == EntityType::TOWN || (*item)->type == EntityType::TABERN)
 			{
-				delete *item;
+				(*item)->UnLoad();
+				RELEASE((*item));
 				entities.remove(*item);
 			}
 		}
 	}
 }
-void EntityManager::setAllNpcInactive()
+
+void EntityManager::SetAllNpcInactive()
 {
 	eastl::list<Entity*>::iterator item;
 
@@ -193,12 +202,13 @@ void EntityManager::setAllNpcInactive()
 		if ((*item)->type == EntityType::NPC_WIZARD|| (*item)->type == EntityType::RAY
 			||(*item)->type == EntityType::TOWN || (*item)->type == EntityType::TABERN)
 		{
-			(*item)->setInactive();
+			(*item)->SetInactive();
 		}
 	}
 		
 }
-void EntityManager::setAllNpcActive()
+
+void EntityManager::SetAllNpcActive()
 {
 	eastl::list<Entity*>::iterator item;
 
@@ -207,11 +217,12 @@ void EntityManager::setAllNpcActive()
 		if ((*item)->type == EntityType::NPC_WIZARD || (*item)->type == EntityType::RAY
 			|| (*item)->type == EntityType::TOWN || (*item)->type == EntityType::TABERN)
 		{
-			(*item)->setActive();
+			(*item)->SetActive();
 		}
 	}
 
 }
+
 void EntityManager::DeleteEntity(Entity* entity)
 {
 	LOG("Deleting Entity");
@@ -227,22 +238,25 @@ void EntityManager::DeleteEntity(Entity* entity)
 	}
 
 }
+
 void EntityManager::DeleteAllEntities() 
 {
-
 	LOG("Deleting All Entities");
 	eastl::list<Entity*>::iterator item;
 
 	for (item = entities.begin(); item != entities.end(); ++item)
 	{
-		delete (*item);
+		(*item)->UnLoad();
+		RELEASE((*item));
 		entities.remove(*item);
 	}
-
 }
+
 bool EntityManager::LoadState(pugi::xml_node* toLoad)
 {
-	DeleteAllEntities();
+	//DeleteAllEntities();
+
+	UnLoad();
 
 	pugi::xml_document animations;
 	pugi::xml_node anims;

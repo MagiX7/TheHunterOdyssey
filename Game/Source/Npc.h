@@ -2,7 +2,6 @@
 #include "Entity.h"
 #include"Font.h"
 
-
 #define FIND_RADIOUS 10
 
 enum class NpcType
@@ -25,22 +24,25 @@ public:
 	bool UnLoad() override;
 	bool SaveState(pugi::xml_node& node);
 
-	bool CheckCollision(Player* player)override;
-	EntityState state;
-	int getDialogeId()override;
+	bool CheckCollision(Player* player) override;
 
-	void setDrawPtext(bool DrawPtext)override;
-	void setTalkStart(bool TalkStart)override;
+	int GetDialogeId() override;
 
-	void setInactive()override;
-	void setActive()override;
-	EntityState getState()override;
+	void SetDrawPtext(bool DrawPtext) override;
+	void SetTalkStart(bool TalkStart) override;
+
+	void SetInactive() override;
+	void SetActive() override;
+	EntityState GetState() override;
 	void NpcMove(bool move);
 
-	EntityState getNewState();
+	EntityState GetNewState();
 
-	void onCollision();
+	void OnCollision();
+
 public:
+	EntityState state;
+
 	SDL_Rect lastPosition;
 	bool npcMove;
 	float stateTimer;

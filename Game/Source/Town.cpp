@@ -12,7 +12,7 @@ Town::Town(iPoint position, pugi::xml_node anim, int id) : Npc(EntityType::TOWN,
 	type = EntityType::TOWN;*/
 	texture = app->tex->Load("Assets/Textures/Npc/Town.png");
 
-	state = EntityState::WALLKING_RIGHT;
+	state = EntityState::WALKING_RIGHT;
 	pugi::xml_node player = anim.child("town").child("overworld");
 
 	for (pugi::xml_node n = player.child("walk_front").child("pushback"); n; n = n.next_sibling("pushback"))
@@ -40,8 +40,6 @@ Town::Town(iPoint position, pugi::xml_node anim, int id) : Npc(EntityType::TOWN,
 	idleRight.PushBack(walkRight.frames[0]);
 	idleUp.PushBack(walkUp.frames[0]);
 
-
-
 	currentAnim = &idleDown;
 }
 
@@ -58,16 +56,18 @@ bool Town::Load()
 
 bool Town::Update(float dt)
 {
-	if (state != EntityState::INACTIVE)Npc::Update(dt);
+	if (state != EntityState::INACTIVE) Npc::Update(dt);
 
 	return true;
 }
 
 void Town::Draw(bool showColliders)
 {
-	if (state != EntityState::INACTIVE) {
+	if (state != EntityState::INACTIVE)
+	{
 		Npc::Draw(showColliders);
 		if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0);
+
 		SDL_Rect textureRect = { 446, 11, 43,49 };
 		app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
 	}
@@ -75,6 +75,8 @@ void Town::Draw(bool showColliders)
 
 bool Town::UnLoad()
 {
+	app->tex->UnLoad(texture);
+
 	return true;
 }
 

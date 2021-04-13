@@ -252,7 +252,7 @@ bool Map::CleanUp()
 
 	while (item != data.tilesets.end())
 	{
-		// Important, to unload the texture
+		// Important to unload the texture
 		app->tex->UnLoad((*item)->texture);
 		RELEASE((*item));
 		++item;

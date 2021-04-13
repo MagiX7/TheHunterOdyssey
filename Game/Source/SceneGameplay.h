@@ -68,8 +68,8 @@ private:
 	void CameraFollow(Render* render);
 	void Fading(float dt);
 
+
 public:
-	Player* getCurrentPlayer();
 	DialogueManager* dialogueManager;
 	
 private:

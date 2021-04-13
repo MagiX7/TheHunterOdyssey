@@ -12,7 +12,7 @@
 enum class EntityState
 {
 	WALLKING_LEFT,
-	WALLKING_RIGHT,
+	WALKING_RIGHT,
 	WALLKING_UP,
 	WALLKING_DOWN,
 	STOP_LEFT,
@@ -66,20 +66,20 @@ public:
 
 	virtual bool SaveState(pugi::xml_node& node){return true;} 
 	
-	virtual void onCollision() {}
+	virtual void OnCollision() {}
 
-	virtual void setInactive(){}
+	virtual void SetInactive(){}
 
-	virtual void setActive() {}
+	virtual void SetActive() {}
 
-	virtual EntityState getState() { return EntityState::STOP_DOWN; }
+	virtual EntityState GetState() { return EntityState::STOP_DOWN; }
 
 	virtual bool CheckCollision(Player* player) { return true; }
 
-	virtual int getDialogeId() { return -1; }
+	virtual int GetDialogeId() { return -1; }
 
-	virtual void setDrawPtext(bool DrawPtext) {  }
-	virtual void setTalkStart(bool TalkStart) { }
+	virtual void SetDrawPtext(bool DrawPtext) {  }
+	virtual void SetTalkStart(bool TalkStart) { }
 	SDL_Rect bounds;
 	SString name;
 	EntityType type;
