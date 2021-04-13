@@ -7,6 +7,7 @@ class Player;
 class Enemy;
 class BattleMenu;
 class SceneGameplay;
+class Map;
 
 class SceneBattle : public Scene
 {
@@ -42,6 +43,10 @@ private:
 	Font* font;
 	//Back Ground
 	SDL_Texture* backgroundTexture;
+	Map* map;
 	// Menu
 	BattleMenu* battleMenu;
+
+	bool fadeScene;
+	float alpha;
 };

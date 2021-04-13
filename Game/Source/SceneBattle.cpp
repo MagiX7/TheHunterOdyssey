@@ -4,6 +4,7 @@
 
 #include "SceneBattle.h"
 #include "SceneGameplay.h"
+#include "Map.h"
 #include "BattleMenu.h"
 #include "Player.h"
 #include "Enemy.h"
@@ -16,6 +17,9 @@
 SceneBattle::SceneBattle(eastl::list<Player*> list, int enemies, SceneGameplay* s) : playerList(list), numEnemies(enemies), scene(s)
 {
 	battleMenu = new BattleMenu(this);
+	fadeScene = false;
+	alpha = 0.0f;
+	map = new Map();
 }
 
 SceneBattle::~SceneBattle()
@@ -26,8 +30,9 @@ bool SceneBattle::Load()
 {
 	font = new Font("Assets/Font/font3.xml", app->tex);
 
-	backgroundTexture = app->tex->Load("Assets/Textures/Scenes/battle_bg.png");
-
+	//backgroundTexture = app->tex->Load("Assets/Textures/Scenes/battle_bg.png");
+	map->Load("battle_map.tmx", app->tex);
+	
 	eastl::list<Player*>::iterator it = playerList.begin();
 	for (int i = 0; it != playerList.end(); ++it, ++i)
 	{
@@ -65,26 +70,35 @@ bool SceneBattle::Load()
 bool SceneBattle::Update(float dt)
 {
 	bool ret = true;
-	eastl::list<Player*>::iterator item = playerList.begin();
-	for (; item != playerList.end(); ++item)
+	if (fadeScene == false)
 	{
-		(*item)->Update(dt);
-	}
+		eastl::list<Player*>::iterator item = playerList.begin();
+		for (; item != playerList.end(); ++item)
+		{
+			(*item)->Update(dt);
+		}
 
-	eastl::list<Enemy*>::iterator it = enemyList.begin();
-	for (; it != enemyList.end(); ++it)
+		eastl::list<Enemy*>::iterator it = enemyList.begin();
+		for (; it != enemyList.end(); ++it)
+		{
+			(*it)->Update(dt);
+		}
+
+		if (battleMenu->Update(dt) == false) fadeScene = true;
+	}
+	else
 	{
-		(*it)->Update(dt);
+		alpha += 2.0f * dt;
+		if (alpha >= 1.0f) ret = false;
 	}
-
-	ret = battleMenu->Update(dt);
 
 	return ret;
 }
 
 void SceneBattle::Draw(bool colliders)
 {
-	app->render->DrawTexture(backgroundTexture,0,0);
+	//app->render->DrawTexture(backgroundTexture,0,0);
+	map->Draw(colliders);
 
 	eastl::list<Player*>::iterator item = playerList.begin();
 	for (; item != playerList.end(); ++item)
@@ -99,6 +113,9 @@ void SceneBattle::Draw(bool colliders)
 	}
 
 	battleMenu->Draw(font, colliders);
+
+	if (fadeScene)
+		app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 255 * alpha);
 }
 
 bool SceneBattle::UnLoad()
@@ -114,7 +131,7 @@ bool SceneBattle::UnLoad()
 	}
 
 	enemyList.clear();
-
+	map->CleanUp();
 
 	return true;
 }

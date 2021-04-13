@@ -321,10 +321,10 @@ void SceneGameplay::HandleInput(float dt)
 bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 {
 	iPoint pos = map->WorldToMap(rect.x, rect.y);
-	if (rect.x > map->data.width* map->data.tileWidth)return true;
-	else if (rect.x < 0)return true;
-	else if (rect.y > map->data.tileWidth* map->data.height)return true;
-	else if (rect.y < 0)return true;
+	if (rect.x > map->data.width * map->data.tileWidth) return true;
+	else if (rect.x < 0) return true;
+	else if (rect.y > map->data.tileWidth * map->data.height) return true;
+	else if (rect.y < 0) return true;
 	int x = pos.x + (rect.w / map->data.tileWidth);
 	int y = pos.y + (rect.h / map->data.tileHeight);
 	if (rect.w < map->data.tileWidth) x = pos.x + 1;
