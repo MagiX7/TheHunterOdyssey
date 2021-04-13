@@ -62,14 +62,6 @@ bool SceneManager::Update(float dt)
 	LOG("Updating Current Scene");
 	bool ret = true;
 
-	/*if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT) app->render->camera.y += 5 * dt;
-
-	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT) app->render->camera.y -= 5 * dt;
-
-	if (app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) app->render->camera.x += 5 * dt;
-
-	if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) app->render->camera.x -= 5 * dt;*/
-
 	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN || app->input->pads->l1) current->showColliders = !current->showColliders;
 
 	if (!onTransition)

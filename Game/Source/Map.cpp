@@ -253,6 +253,15 @@ bool Map::CleanUp()
 	while (item != data.tilesets.end())
 	{
 		// Important to unload the texture
+		eastl::list<AnimatedTiles*>::iterator it = (*item)->animatedTiles.begin();
+
+		for (; it != (*item)->animatedTiles.end(); ++it)
+		{
+			(*it)->frames.clear();
+			RELEASE((*it));
+		}
+		(*item)->animatedTiles.clear();
+
 		app->tex->UnLoad((*item)->texture);
 		RELEASE((*item));
 		++item;

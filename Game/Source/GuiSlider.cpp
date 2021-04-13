@@ -19,6 +19,8 @@ GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text, Menu* listene
 
 GuiSlider::~GuiSlider()
 {
+	app->audio->UnLoadFx(clickFx);
+	app->audio->UnLoadFx(focusedFx);
 }
 
 bool GuiSlider::Update(Input* input, float dt)

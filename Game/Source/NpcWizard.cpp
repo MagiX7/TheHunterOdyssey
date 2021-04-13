@@ -74,6 +74,7 @@ void NpcWizard::Draw(bool showColliders)
 
 bool NpcWizard::UnLoad()
 {
+	app->tex->UnLoad(texture);
 	return true;
 }
 

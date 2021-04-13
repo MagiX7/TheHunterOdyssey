@@ -270,9 +270,12 @@ bool SceneTitle::UnLoad()
 	bool ret = true;
 
 	font->UnLoad(app->tex);
-	app->tex->UnLoad(bg);
-	
 	RELEASE(font);
+
+	app->tex->UnLoad(bg);
+	app->tex->UnLoad(bgText);
+	app->audio->UnLoadFx(enterFx);
+	app->audio->UnLoadFx(titleFx);
 
 	return ret;
 }
