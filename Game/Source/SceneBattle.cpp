@@ -17,8 +17,6 @@
 SceneBattle::SceneBattle(eastl::list<Player*> list, int enemies, SceneGameplay* s) : playerList(list), numEnemies(enemies), scene(s)
 {
 	battleMenu = new BattleMenu(this);
-	fadeScene = false;
-	alpha = 0.0f;
 	map = new Map();
 }
 
@@ -70,27 +68,20 @@ bool SceneBattle::Load()
 bool SceneBattle::Update(float dt)
 {
 	bool ret = true;
-	if (fadeScene == false)
-	{
-		eastl::list<Player*>::iterator item = playerList.begin();
-		for (; item != playerList.end(); ++item)
-		{
-			(*item)->Update(dt);
-		}
 
-		eastl::list<Enemy*>::iterator it = enemyList.begin();
-		for (; it != enemyList.end(); ++it)
-		{
-			(*it)->Update(dt);
-		}
-
-		if (battleMenu->Update(dt) == false) fadeScene = true;
-	}
-	else
+	eastl::list<Player*>::iterator item = playerList.begin();
+	for (; item != playerList.end(); ++item)
 	{
-		alpha += 2.0f * dt;
-		if (alpha >= 1.0f) ret = false;
+		(*item)->Update(dt);
 	}
+
+	eastl::list<Enemy*>::iterator it = enemyList.begin();
+	for (; it != enemyList.end(); ++it)
+	{
+		(*it)->Update(dt);
+	}
+
+	if (battleMenu->Update(dt) == false) ret = false;
 
 	return ret;
 }
@@ -113,9 +104,6 @@ void SceneBattle::Draw(bool colliders)
 	}
 
 	battleMenu->Draw(font, colliders);
-
-	if (fadeScene)
-		app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 255 * alpha);
 }
 
 bool SceneBattle::UnLoad()

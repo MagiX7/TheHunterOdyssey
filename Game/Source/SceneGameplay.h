@@ -66,6 +66,7 @@ private:
 	
 	bool CheckCollision(SDL_Rect rec1, SDL_Rect rec2);
 	void CameraFollow(Render* render);
+	void Fading(float dt);
 
 public:
 	Player* getCurrentPlayer();
@@ -93,6 +94,10 @@ private:
 	Font* font;
 
 	iPoint tmpPosPlayer;
+
+	float alpha;
+	bool transition;
+	bool fadeOut;
 };
 
 #endif //__SCENEGAMEPLAY_H__

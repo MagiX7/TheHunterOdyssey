@@ -46,7 +46,4 @@ private:
 	Map* map;
 	// Menu
 	BattleMenu* battleMenu;
-
-	bool fadeScene;
-	float alpha;
 };

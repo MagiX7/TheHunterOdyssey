@@ -94,6 +94,9 @@ SceneGameplay::SceneGameplay()
 	pause = new PauseMenu(this);
 
 	showColliders = false;
+	transition = false;
+	fadeOut = false;
+	alpha = 0.0f;
 }
 
 Player* SceneGameplay::getCurrentPlayer()
@@ -178,14 +181,13 @@ bool SceneGameplay::Update(float dt)
 	case GameplayState::BATTLE:
 		if (sceneBattle->Update(dt) == false)
 		{
-			sceneBattle->UnLoad();
-			RELEASE(sceneBattle);
-			gameState = GameplayState::ROAMING;
-			currentPlayer->bounds.x = tmpPosPlayer.x;
-			currentPlayer->bounds.y = tmpPosPlayer.y;
+			transition = true;
+			fadeOut = true;
 		}
 		break;
 	}
+
+	if (transition) Fading(dt);
 
 	return ret;
 }
@@ -218,6 +220,9 @@ void SceneGameplay::Draw()
 		sceneBattle->Draw(showColliders);
 		break;
 	}
+
+	if (transition) 
+		app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 255 * alpha);
 }
 
 bool SceneGameplay::UnLoad()
@@ -303,10 +308,8 @@ void SceneGameplay::HandleInput(float dt)
 	{
 		// Instantiate and load scene battle
 		tmpPosPlayer = iPoint(currentPlayer->bounds.x, currentPlayer->bounds.y);
-		sceneBattle = new SceneBattle(playerList, 3, this);
-		sceneBattle->Load();
-
-		gameState = GameplayState::BATTLE;
+		transition = true;
+		fadeOut = true;
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN) app->LoadGameRequest();
@@ -552,4 +555,40 @@ void SceneGameplay::CameraFollow(Render* render)
 
 	if (-render->camera.y + render->camera.h >= mapHeight) render->camera.y = -(mapHeight - render->camera.h);
 	if (-render->camera.y <= 0) render->camera.y = 0;
+}
+
+void SceneGameplay::Fading(float dt)
+{
+	if (fadeOut)
+	{
+		alpha += 1.0f * dt;
+		if (alpha >= 1.01f)
+		{
+			if (sceneBattle == nullptr)
+			{
+				sceneBattle = new SceneBattle(playerList, 3, this);
+				sceneBattle->Load();
+				gameState = GameplayState::BATTLE;
+			}
+			else
+			{
+				sceneBattle->UnLoad();
+				RELEASE(sceneBattle);
+				gameState = GameplayState::ROAMING;
+				currentPlayer->bounds.x = tmpPosPlayer.x;
+				currentPlayer->bounds.y = tmpPosPlayer.y;
+			}
+			fadeOut = false;
+			alpha = 1.0f;
+		}
+	}
+	else
+	{
+		alpha -= 2.0f * dt;
+		if (alpha < -0.1f)
+		{
+			transition = false;
+			alpha = 0.0f;
+		}
+	}
 }
