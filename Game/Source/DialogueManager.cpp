@@ -27,7 +27,7 @@ bool DialogueManager::Start()
 	{
 		root = file.child("dialogues");
 		font = new Font("Assets/Font/font3.xml", app->tex);
-		texture = app->tex->Load("Assets/Textures/dialogue_background.png");
+		texture = app->tex->Load("Assets/Textures/UI/gui_dialogue_textures.png");
 		//current = LoadDialogue(0);
 
 		letterCount = 0;

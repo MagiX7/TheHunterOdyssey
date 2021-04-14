@@ -5,22 +5,35 @@
 #include "Player.h"
 
 #include "GuiButton.h"
+#include "Textures.h"
 
 CharacterManager::CharacterManager(SceneGameplay* s, PlayerType type, Font* font) : scene(s)
 {
-	btnHunter = new GuiButton(1, { 466, 150, 360, 64 }, "Hunter", this, font);
+	guiTex = app->tex->Load("Assets/Textures/UI/gui_character_swap_menu.png");
+
+	btnHunter = new GuiButton(1, { 505, 180, 270, 64 }, "Hunter", this, font);
+	btnHunter->texture = guiTex;
+	btnHunter->section = { 0,656,270,64 };
 	btnHunter->alineation = 1;
 
-	btnWizard = new GuiButton(2, { 466, 250, 360, 64 }, "Wizard", this, font);
+	btnWizard = new GuiButton(2, { 505, 265, 270, 64 }, "Wizard", this, font);
+	btnWizard->texture = guiTex;
+	btnWizard->section = { 0,656,270,64 };
 	btnWizard->alineation = 1;
 
-	btnThief = new GuiButton(3, { 466, 350, 360, 64 }, "Thief", this, font);
+	btnThief = new GuiButton(3, { 505, 350, 270, 64 }, "Thief", this, font);
+	btnThief->texture = guiTex;
+	btnThief->section = { 0,656,270,64 };
 	btnThief->alineation = 1;
 
-	btnWarrior = new GuiButton(4, { 466, 450, 360, 64 }, "Warrior", this, font);
+	btnWarrior = new GuiButton(4, { 505, 435, 270, 64 }, "Warrior", this, font);
+	btnWarrior->texture = guiTex;
+	btnWarrior->section = { 0,656,270,64 };
 	btnWarrior->alineation = 1;
 
-	btnExit = new GuiButton(5, { 600, 550, 64, 64 }, "Exit", this, font);
+	btnExit = new GuiButton(5, { 505, 517, 270, 64 }, "Return", this, font);
+	btnExit->texture = guiTex;
+	btnExit->section = { 0,656,270,64 };
 	btnExit->alineation = 1;
 
 	switch (type)
@@ -79,15 +92,20 @@ bool CharacterManager::Update(float dt)
 
 void CharacterManager::Draw(Font* font, bool showColliders)
 {
-	btnHunter->Draw(app->render, showColliders, 36);
-	btnWizard->Draw(app->render, showColliders, 36);
-	btnThief->Draw(app->render, showColliders, 36);
-	btnWarrior->Draw(app->render, showColliders, 36);
-	btnExit->Draw(app->render, showColliders, 36);
+	SDL_Rect section = { 0,0,430,650 };
+	app->render->DrawTexture(guiTex, 425, 48, &section);
+
+	btnHunter->Draw(app->render, showColliders, 36, { 0,0,0,255 });
+	btnWizard->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
+	btnThief->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
+	btnWarrior->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
+	btnExit->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
 }
 
 bool CharacterManager::UnLoad()
 {
+	app->tex->UnLoad(guiTex);
+
 	RELEASE(btnHunter);
 	RELEASE(btnWizard);
 	RELEASE(btnThief);

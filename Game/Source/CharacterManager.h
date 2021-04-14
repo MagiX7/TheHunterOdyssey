@@ -32,6 +32,8 @@ public:
 private:
 	SceneGameplay* scene;
 
+	SDL_Texture* guiTex;
+
 	GuiButton* btnHunter;
 	GuiButton* btnWizard;
 	GuiButton* btnThief;
