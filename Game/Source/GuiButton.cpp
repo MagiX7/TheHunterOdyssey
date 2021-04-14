@@ -65,8 +65,11 @@ bool GuiButton::Update(Input* input, float dt, int id)
 		}
 		else if (this->id == id)
 		{
-			if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+			if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN
+				|| input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
+			{
 				state = GuiControlState::FOCUSED;
+			}
 
 			if (isPlayable == true)
 			{
@@ -74,16 +77,17 @@ bool GuiButton::Update(Input* input, float dt, int id)
 				isPlayable = false;
 			}
 
-			if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->GetKey(SDL_SCANCODE_RETURN) == KEY_REPEAT || input->pads->a)
+			if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->GetKey(SDL_SCANCODE_RETURN) == KEY_REPEAT
+				|| input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_REPEAT)
 			{
 				state = GuiControlState::PRESSED;
-				if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pads->a)
+				if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 				{
 					app->audio->PlayFx(clickFx);
 				}
 			}
 
-			if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP /*|| input->pads->a == true*/)
+			if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 			{
 				state = GuiControlState::NORMAL;
 				if (NotifyObserver() == false) return false;

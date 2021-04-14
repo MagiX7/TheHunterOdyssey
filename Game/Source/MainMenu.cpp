@@ -320,8 +320,8 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 	{
 		if (control->id == 10) // Fullscreen
 		{
-			Window::Get()->fullscreenWindow = !Window::Get()->fullscreenWindow;
-			Window::Get()->SetFullscreen();
+			app->win->fullscreenWindow = !app->win->fullscreenWindow;
+			app->win->SetFullscreen();
 		}
 		else if (control->id == 11); // Vsync
 	}
@@ -347,16 +347,7 @@ void MainMenu::HandleInput()
 	}
 	else lastUserInput = 0;
 
-	int key1 = SDL_SCANCODE_DOWN;
-	int key2 = SDL_SCANCODE_UP;
-	
-	//if (state == MenuState::EXIT)
-	//{
-	//	key1 = SDL_SCANCODE_RIGHT;
-	//	key2 = SDL_SCANCODE_LEFT;
-	//}
-
-	if (app->input->GetKey(key1) == KEY_DOWN || app->input->pads->down)
+	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
 	{
 		if (currentButton == nullptr)
 		{
@@ -375,7 +366,7 @@ void MainMenu::HandleInput()
 			}
 		}
 	}
-	else if (app->input->GetKey(key2) == KEY_DOWN || app->input->pads->up)
+	else if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
 	{
 		if (currentButton == nullptr)
 		{

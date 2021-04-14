@@ -9,10 +9,7 @@ struct SDL_Surface;
 class Window : public Module
 {
 public:
-	Window(const Window&) = delete;
-	void operator=(const Window&) = delete;
-
-	static Window* Get();
+	Window();
 
 	// Destructor
 	virtual ~Window();
@@ -34,10 +31,6 @@ public:
 
 	// Set window fullscreen
 	void SetFullscreen();
-
-private:
-	Window();
-	static Window* instance;
 
 public:
 

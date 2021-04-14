@@ -154,7 +154,7 @@ bool Npc::CheckCollision(Player* player)
 		{
 			drawPtext = true;
 
-			if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN || app->input->pads->a)
+			if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN || app->input->pad->a)
 			{
 				return true;
 				state = EntityState::TALKING;

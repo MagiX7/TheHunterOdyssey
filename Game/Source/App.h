@@ -81,7 +81,7 @@ private:
 public:
 
 	// Modules
-	//Window* win;
+	Window* win;
 	Input* input;
 	Render* render;
 	Textures* tex;

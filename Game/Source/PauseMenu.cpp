@@ -394,8 +394,8 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 	{
 	if (control->id == 12) // Fullscreen
 	{
-		Window::Get()->fullscreenWindow = !Window::Get()->fullscreenWindow;
-		Window::Get()->SetFullscreen();
+		app->win->fullscreenWindow = !app->win->fullscreenWindow;
+		app->win->SetFullscreen();
 	}
 	else if (control->id == 13); // VSync
 	}
@@ -415,7 +415,7 @@ void PauseMenu::HandleInput()
 	}
 	else lastUserInput = 0;
 
-	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || app->input->pads->down)
+	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || app->input->pad->down)
 	{
 		eastl::list<GuiButton*>::iterator it = buttons.begin();
 		for (int i = 0; i < buttons.size(); ++i, ++it)
@@ -427,7 +427,7 @@ void PauseMenu::HandleInput()
 			}
 		}
 	}
-	else if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || app->input->pads->up)
+	else if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || app->input->pad->up)
 	{
 		eastl::list<GuiButton*>::iterator it = buttons.begin();
 		for (int i = 0; i < buttons.size(); ++i, ++it)
