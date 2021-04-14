@@ -55,6 +55,10 @@ private:
 	void EnemyTurn();
 
 	void DefaultStateButtons();
+
+	void AbilityStateButtons();
+
+	void ObjectStateButtons();
 private:
 	BattleState type;
 

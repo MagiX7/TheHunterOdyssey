@@ -96,17 +96,37 @@ bool BattleMenu::Update(float dt)
 		btnObject->Update(app->input, dt, id);
 		break;
 	case BattleState::ATTACK:
-		ret = HandleInput(app->input);
+		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		{
+			type = BattleState::DEFAULT;
+			DefaultStateButtons();
+		}
+		else ret = HandleInput(app->input);
+		
 		break;
 	case BattleState::ABILITY_SELECT:
-		btnAbilitySlot1->Update(app->input, dt, id);
-		btnAbilitySlot2->Update(app->input, dt, id);
-		btnAbilitySlot3->Update(app->input, dt, id);
-		btnAbilitySlot4->Update(app->input, dt, id);
+		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		{
+			type = BattleState::DEFAULT;
+			AbilityStateButtons();
+		}
+		else
+		{
+			btnAbilitySlot1->Update(app->input, dt, id);
+			btnAbilitySlot2->Update(app->input, dt, id);
+			btnAbilitySlot3->Update(app->input, dt, id);
+			btnAbilitySlot4->Update(app->input, dt, id);
+		}
 		//ret = HandleAbilities(app->input);
 		break;
 	case BattleState::ABILITY:
-		ret = HandleAbilities(app->input, currPlayer->GetAbilitySelected());
+		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		{
+			type = BattleState::ABILITY;
+			DefaultStateButtons();
+		}
+		else ret = HandleAbilities(app->input, currPlayer->GetAbilitySelected());
+		
 		break;
 	case BattleState::ENEMY_TURN:
 		if((*sceneBattle->playerList.end().prev())->stance == PlayerStance::BATTLE)
@@ -117,13 +137,27 @@ bool BattleMenu::Update(float dt)
 		ret = HandleDefense(app->input);
 		break;
 	case BattleState::OBJECT_SELECT:
-		btnObjectSlot1->Update(app->input, dt, id);
-		btnObjectSlot2->Update(app->input, dt, id);
-		btnObjectSlot3->Update(app->input, dt, id);
-		btnObjectSlot4->Update(app->input, dt, id);
+		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		{
+			type = BattleState::DEFAULT;
+			DefaultStateButtons();
+		}
+		else
+		{
+			btnObjectSlot1->Update(app->input, dt, id);
+			btnObjectSlot2->Update(app->input, dt, id);
+			btnObjectSlot3->Update(app->input, dt, id);
+			btnObjectSlot4->Update(app->input, dt, id);
+		}
 		break;
 	case BattleState::OBJECT:
-		ret = HandleObjects(app->input, currPlayer->GetObjectSelected());
+		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		{
+			type = BattleState::OBJECT;
+			ObjectStateButtons();
+		}
+		else ret = HandleObjects(app->input, currPlayer->GetObjectSelected());
+		
 		break;
 	}
 
@@ -224,27 +258,13 @@ bool BattleMenu::OnGuiMouseClickEvent(GuiControl* control)
 		else if (control->id == 2)
 		{
 			type = BattleState::ABILITY_SELECT;
-			buttons.clear();
-			buttons.push_back(btnAbilitySlot1);
-			buttons.push_back(btnAbilitySlot2);
-			buttons.push_back(btnAbilitySlot3);
-			buttons.push_back(btnAbilitySlot4);
-
-			lastButton = currentButton;
-			currentButton = (*buttons.begin());
+			AbilityStateButtons();
 		}
 		else if (control->id == 3) type = BattleState::DEFENSE;
 		else if (control->id == 4)
 		{
 			type = BattleState::OBJECT_SELECT;
-			buttons.clear();
-			buttons.push_back(btnObjectSlot1);
-			buttons.push_back(btnObjectSlot2);
-			buttons.push_back(btnObjectSlot3);
-			buttons.push_back(btnObjectSlot4);
-
-			lastButton = currentButton;
-			currentButton = (*buttons.begin());
+			ObjectStateButtons();
 			tempPlayer = currPlayer;
 		}
 		else if (control->id == 5)
@@ -601,6 +621,30 @@ void BattleMenu::DefaultStateButtons()
 	buttons.push_back(btnAbility);
 	buttons.push_back(btnDefense);
 	buttons.push_back(btnObject);
+
+	lastButton = currentButton;
+	currentButton = (*buttons.begin());
+}
+
+void BattleMenu::AbilityStateButtons()
+{
+	buttons.clear();
+	buttons.push_back(btnAbilitySlot1);
+	buttons.push_back(btnAbilitySlot2);
+	buttons.push_back(btnAbilitySlot3);
+	buttons.push_back(btnAbilitySlot4);
+
+	lastButton = currentButton;
+	currentButton = (*buttons.begin());
+}
+
+void BattleMenu::ObjectStateButtons()
+{
+	buttons.clear();
+	buttons.push_back(btnObjectSlot1);
+	buttons.push_back(btnObjectSlot2);
+	buttons.push_back(btnObjectSlot3);
+	buttons.push_back(btnObjectSlot4);
 
 	lastButton = currentButton;
 	currentButton = (*buttons.begin());
