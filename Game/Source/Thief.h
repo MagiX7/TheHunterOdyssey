@@ -2,8 +2,6 @@
 
 #include "Player.h"
 
-class SDL_Texture;
-
 class Thief : public Player
 {
 public:
@@ -40,14 +38,5 @@ public:
 	void Travel(iPoint destination, float dt) override;
 
 private:
-	SDL_Texture* texture;
 
-	Animation idleDown;
-	Animation idleLeft;
-	Animation idleRight;
-	Animation idleUp;
-	Animation walkDown;
-	Animation walkLeft;
-	Animation walkRight;
-	Animation walkUp;
 };

@@ -2,7 +2,6 @@
 #define __MAP_H__
 
 #include "SString.h"
-#include "List.h"
 #include "Point.h"
 
 #include "PugiXml\src\pugixml.hpp"

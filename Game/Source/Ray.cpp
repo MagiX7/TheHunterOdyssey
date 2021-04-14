@@ -2,7 +2,7 @@
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
-#include"DialogueManager.h"
+
 #include "Ray.h"
 
 Ray::Ray(iPoint position, pugi::xml_node anim, int id) :Npc(EntityType::RAY, position,id)

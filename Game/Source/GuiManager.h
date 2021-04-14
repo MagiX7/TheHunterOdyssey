@@ -1,7 +1,6 @@
 #ifndef __GUIMANAGER_H__
 #define __GUIMANAGER_H__
 
-#include "Module.h"
 #include "GuiControl.h"
 
 #include "Defs.h"

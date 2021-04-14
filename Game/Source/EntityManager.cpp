@@ -1,21 +1,20 @@
 #include "EntityManager.h"
+
 #include "NpcWizard.h"
 #include "Tabern.h"
 #include "Town.h"
 #include "Ray.h"
-#include "Wizard.h"
+
 #include "Hunter.h"
+#include "Wizard.h"
 #include "Thief.h"
+#include "Warrior.h"
+
 #include "Bat.h"
 #include "Golem.h"
 #include "Skull.h"
-#include "Npc.h"
-#include "Player.h"
-#include "Warrior.h"
-#include "Log.h"
 
-#include "EASTL/fixed_allocator.h"
-#include "EASTL/iterator.h"
+#include "Log.h"
 
 EntityManager::EntityManager()
 {
@@ -23,7 +22,20 @@ EntityManager::EntityManager()
 
 EntityManager::~EntityManager()
 {
+}
 
+bool EntityManager::Load()
+{
+	LOG("Updating Entities");
+	bool ret = true;
+
+	// Update Logic
+	eastl::list<Entity*>::iterator item;
+
+	for (item = entities.begin(); item != entities.end(); ++item)
+		(*item)->Load();
+
+	return ret;
 }
 
 bool EntityManager::Update(float dt)
@@ -40,19 +52,6 @@ bool EntityManager::Update(float dt)
 	return ret;
 }
 
-bool EntityManager::Load()
-{
-	LOG("Updating Entities");
-	bool ret = true;
-
-	// Update Logic
-	eastl::list<Entity*>::iterator item;
-
-	for (item = entities.begin(); item != entities.end(); ++item)
-		(*item)->Load();
-
-	return ret;
-}
 
 void EntityManager::Draw(bool showColliders)
 {

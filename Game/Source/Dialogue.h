@@ -1,7 +1,6 @@
 #pragma once
 
 #include "EASTL/string.h"
-#include "EASTL/array.h"
 #include "EASTL/list.h"
 
 #include "SDL/include/SDL_rect.h"

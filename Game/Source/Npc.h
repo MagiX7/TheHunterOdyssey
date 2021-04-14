@@ -1,6 +1,6 @@
 #pragma once
 #include "Entity.h"
-#include"Font.h"
+#include "Font.h"
 
 #define FIND_RADIOUS 10
 
@@ -61,5 +61,4 @@ public:
 	bool talkStart;
 	bool drawPtext;
 	Font* font;
-	SDL_Texture* texture;
 };

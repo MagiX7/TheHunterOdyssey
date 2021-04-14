@@ -2,7 +2,7 @@
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
-#include"DialogueManager.h"
+
 #include "NpcWizard.h"
 
 NpcWizard::NpcWizard(iPoint position, pugi::xml_node anim, int id):Npc(EntityType::NPC_WIZARD,position, id)

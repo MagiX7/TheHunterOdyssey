@@ -5,8 +5,6 @@
 
 #include "PugiXml/src/pugixml.hpp"
 
-class App;
-
 class Module
 {
 public:
@@ -73,7 +71,6 @@ public:
 
 	SString name;
 	bool active;
-
 };
 
 #endif // __MODULE_H__

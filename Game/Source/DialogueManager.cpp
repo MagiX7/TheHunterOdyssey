@@ -1,7 +1,7 @@
 #include "App.h"
+#include "Input.h"
 #include "Render.h"
 #include "Textures.h"
-#include "Input.h"
 
 #include "DialogueManager.h"
 

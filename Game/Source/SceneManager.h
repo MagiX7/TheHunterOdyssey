@@ -5,7 +5,6 @@
 #include "Scene.h"
 
 struct SDL_Texture;
-class SceneMenu;
 
 class SceneManager : public Module
 {
@@ -35,7 +34,6 @@ public:
 private:
 	Scene* current;
 	Scene* next;
-	SceneMenu* menu;
 
 	bool onTransition;
 	bool fadeOutCompleted;

@@ -6,8 +6,8 @@
 #include "SString.h"
 
 #include "Animation.h"
-#include"SceneGameplay.h"
-#include"Scene.h"
+
+class Player;
 
 enum class EntityState
 {
@@ -22,6 +22,7 @@ enum class EntityState
 	TALKING,
 	INACTIVE
 };
+
 struct SDL_Texture;
 
 enum class EntityType
@@ -78,13 +79,14 @@ public:
 
 	virtual int GetDialogeId() { return -1; }
 
-	virtual void SetDrawPtext(bool DrawPtext) {  }
-	virtual void SetTalkStart(bool TalkStart) { }
+	virtual void SetDrawPtext(bool DrawPtext) {}
+	virtual void SetTalkStart(bool TalkStart) {}
+	
+public:
 	SDL_Rect bounds;
 	SString name;
 	EntityType type;
 	SDL_Texture* texture;
-	//SceneGameplay* scene;
 
 	Animation* currentAnim;
 };

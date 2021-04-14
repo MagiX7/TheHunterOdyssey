@@ -1,13 +1,14 @@
 #pragma once
 
 #include "Entity.h"
-#include"Point.h"
+#include "Point.h"
+#include "Log.h"
+
 #define SPEED_X 200.0f
 #define SPEED_Y 200.0f
 
 class SDL_Texture;
 class Enemy;
-class BattleMenu;
 
 enum class PlayerType
 {
@@ -82,7 +83,6 @@ public:
 	iPoint battlePos;
 
 protected:
-	SDL_Texture* texture;
 	SDL_Texture* battlerTexture;
 
 	std::string name;

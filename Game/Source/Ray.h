@@ -2,8 +2,6 @@
 
 #include "Npc.h"
 
-class SDL_Texture;
-
 class Ray : public Npc
 {
 public:
@@ -18,11 +16,8 @@ public:
 
 	bool UnLoad() override;
 
-
-
 	bool SaveState(pugi::xml_node& node) override;
 
 
 private:
-	SDL_Texture* texture;
 };

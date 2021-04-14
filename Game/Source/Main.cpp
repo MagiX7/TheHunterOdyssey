@@ -6,7 +6,7 @@
 // NOTE: SDL redefines main function
 #include "SDL/include/SDL.h"
 
-#include"Optick/include/optick.h"
+#include "Optick/include/optick.h"
 
 #include <stdlib.h>
 

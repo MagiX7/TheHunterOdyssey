@@ -1,13 +1,10 @@
 #include "App.h"
-#include "Input.h"
-#include "Render.h"
-
-#include "SceneGameplay.h"
-
-#include "PauseMenu.h"
+#include "Window.h"
 #include "Textures.h"
 #include "Audio.h"
-#include "Window.h"
+
+#include "PauseMenu.h"
+#include "SceneGameplay.h"
 
 PauseMenu::PauseMenu(SceneGameplay* s) : scene(s)
 {

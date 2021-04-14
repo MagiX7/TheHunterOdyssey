@@ -2,13 +2,12 @@
 #define __SCENEGAMEPLAY_H__
 
 #include "Scene.h"
-#include"EASTL/list.h"
+#include "EASTL/list.h"
 #include "Font.h"
 #include "Point.h"
 
 class Player;
 class CharacterManager;
-class Npc;
 class SceneBattle;
 class EntityManager;
 class Map;

@@ -1,6 +1,7 @@
-#include "GuiCheckBox.h"
 #include "App.h"
 #include "Audio.h"
+
+#include "GuiCheckBox.h"
 
 GuiCheckBox::GuiCheckBox(uint32 id, SDL_Rect bounds, const char* text, Menu* listener) : GuiControl(GuiControlType::CHECKBOX, id)
 {

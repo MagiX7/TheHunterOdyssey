@@ -1,8 +1,6 @@
 #pragma once
 #include "Npc.h"
 
-class SDL_Texture;
-
 class Tabern : public Npc
 {
 public:
@@ -17,9 +15,6 @@ public:
 
 	bool UnLoad() override;
 
-
-
 	bool SaveState(pugi::xml_node& node) override;
-
 
 };

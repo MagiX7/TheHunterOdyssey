@@ -2,8 +2,6 @@
 
 #include "Player.h"
 
-class GuiButton;
-
 class Wizard : public Player
 {
 public:

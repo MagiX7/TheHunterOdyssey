@@ -6,8 +6,6 @@
 #include "GuiCheckBox.h"
 #include "GuiSlider.h"
 
-#include "EASTL/list.h"
-
 class SceneTitle;
 
 enum class MenuState
@@ -63,5 +61,4 @@ private:
 	GuiSlider* slideFXVolume;
 
 	Font* font;
-
 };

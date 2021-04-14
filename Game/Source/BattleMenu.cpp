@@ -1,14 +1,11 @@
 #include "App.h"
-#include "Font.h"
+#include "Textures.h"
+
 #include "BattleMenu.h"
 #include "SceneBattle.h"
-
-
 #include "Enemy.h"
 #include "Player.h"
-#include "Input.h"
 #include <time.h>
-#include "Textures.h"
 
 BattleMenu::BattleMenu(SceneBattle* s) : type(BattleState::NONE), sceneBattle(s)
 {

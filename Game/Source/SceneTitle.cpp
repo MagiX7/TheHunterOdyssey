@@ -2,12 +2,11 @@
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
-#include "Easings.h"
-
-#include "MainMenu.h"
-#include "SceneTitle.h"
-
 #include "Audio.h"
+
+#include "SceneTitle.h"
+#include "Easings.h"
+#include "MainMenu.h"
 
 #include "Log.h"
 

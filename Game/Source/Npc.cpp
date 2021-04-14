@@ -5,7 +5,6 @@
 #include "Npc.h"
 #include "Player.h"
 
-
 #include <time.h>
 
 #define SPEED_X 60.0f
@@ -24,7 +23,6 @@ Npc::Npc(EntityType type, iPoint position, int id) : Entity(type), dialogeId(id)
 	srand(time(NULL));
 	stateMaxTimer = 2;
 	npcMove = true;
-
 }
 
 Npc::~Npc()
@@ -105,7 +103,7 @@ bool Npc::Update(float dt)
 void Npc::NpcMove(bool move)
 {
 	npcMove = move;
-	if (move == false)state = EntityState::STOP_DOWN;
+	if (move == false) state = EntityState::STOP_DOWN;
 }
 
 void Npc::Draw(bool showColliders)

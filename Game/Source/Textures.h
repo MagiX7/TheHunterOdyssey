@@ -33,7 +33,6 @@ public:
 	void GetSize(const SDL_Texture* texture, uint& width, uint& height) const;
 
 public:
-
 	eastl::list<SDL_Texture*> textures;
 };
 

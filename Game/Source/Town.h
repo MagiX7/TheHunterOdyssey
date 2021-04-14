@@ -1,9 +1,6 @@
 #pragma once
 
-#include "Font.h"
 #include "Npc.h"
-
-class SDL_Texture;
 
 class Town : public Npc
 {

@@ -2,7 +2,7 @@
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
-#include"DialogueManager.h"
+
 #include "Tabern.h"
 
 Tabern::Tabern(iPoint position, pugi::xml_node anim, int id) :Npc(EntityType::TABERN, position, id)

@@ -97,7 +97,6 @@ bool MainMenu::Load(Font* font)
 	slideFXVolume->section = { 223,138,339,46 };
 	slideFXVolume->texture = guiTex;
 
-
 	lastUserInput = -1;
 
 	return true;

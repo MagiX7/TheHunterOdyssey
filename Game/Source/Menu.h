@@ -33,5 +33,4 @@ public:
 	int lastUserInput; // 1 == keyboard; 0 == mouse
 	int xMouse;
 	int yMouse;
-
 };

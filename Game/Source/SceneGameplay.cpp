@@ -2,20 +2,23 @@
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
-#include "EntityManager.h"
-#include "Player.h"
-#include "Wizard.h"
-#include "Warrior.h"
-#include "Thief.h"
-#include "Hunter.h"
+#include "Audio.h"
+
 #include "SceneGameplay.h"
 #include "SceneBattle.h"
-#include "CharacterManager.h"
+
+#include "EntityManager.h"
+#include "Hunter.h"
+#include "Wizard.h"
+#include "Thief.h"
+#include "Warrior.h"
+
 #include "Npc.h"
 #include "Map.h"
 #include "DialogueManager.h"
+
+#include "CharacterManager.h"
 #include "PauseMenu.h"
-#include "Audio.h"
 
 #include "Log.h"
 

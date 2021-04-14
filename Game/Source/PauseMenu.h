@@ -6,6 +6,8 @@
 #include "GuiCheckBox.h"
 #include "GuiSlider.h"
 
+class SceneGameplay;
+
 enum class PauseState
 {
 	DEFAULT = 0,

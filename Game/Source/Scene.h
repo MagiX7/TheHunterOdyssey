@@ -3,9 +3,6 @@
 
 #include "Log.h"
 
-struct SDL_Texture;
-class GuiControl;
-
 enum class SceneType
 {
 	LOGO,

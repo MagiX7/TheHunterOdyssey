@@ -1,8 +1,8 @@
 #include "App.h"
-#include "CharacterManager.h"
-#include "Player.h"
 
+#include "CharacterManager.h"
 #include "SceneGameplay.h"
+#include "Player.h"
 
 #include "GuiButton.h"
 

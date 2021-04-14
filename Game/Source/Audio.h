@@ -49,7 +49,7 @@ public:
 private:
 
 	_Mix_Music* music;
-	eastl::deque<Mix_Chunk *> fx;
+	eastl::deque<Mix_Chunk*> fx;
 
 	int musicVolume;
 	int fxVolume;
