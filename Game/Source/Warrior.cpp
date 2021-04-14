@@ -127,8 +127,6 @@ bool Warrior::UnLoad()
 	app->tex->UnLoad(texture);
 	app->tex->UnLoad(battlerTexture);
 
-	//RELEASE(currentAnim);
-
 	return true;
 }
 
@@ -256,11 +254,6 @@ void Warrior::UseObject(Player* player, int currentObject)
 		// TODO Object functionality
 		break;
 	}
-}
-
-void Warrior::SetDefend(bool option)
-{
-	isDefending = option;
 }
 
 void Warrior::Travel(iPoint destination, float dt)

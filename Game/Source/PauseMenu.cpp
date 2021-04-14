@@ -116,7 +116,7 @@ bool PauseMenu::Update(float dt)
 {
 	bool ret = true;
 	
-	HandleInput();
+	UpdatingButtons(app->input);
 
 	int id = -1;
 	if (lastUserInput == 0 && currentButton != nullptr)
@@ -261,6 +261,7 @@ bool PauseMenu::UnLoad()
 
 	RELEASE(btnExitYes);
 	RELEASE(btnExitNo);
+
 	RELEASE(btnReturnTitleYes);
 	RELEASE(btnReturnTitleNo);
 	
@@ -269,7 +270,6 @@ bool PauseMenu::UnLoad()
 
 	RELEASE(checkFullscreen);
 	RELEASE(checkVSync);
-	
 
 	buttons.clear();
 
@@ -404,38 +404,58 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 	return true;
 }
 
-void PauseMenu::HandleInput()
+void PauseMenu::UpdatingButtons(Input* input)
 {
 	int prevX = xMouse;
 	int prevY = yMouse;
-	app->input->GetMousePosition(xMouse, yMouse);
+	input->GetMousePosition(xMouse, yMouse);
 	if (prevX != xMouse || prevY != yMouse)
 	{
 		lastUserInput = 1;
+		SDL_ShowCursor(SDL_ENABLE);
 	}
-	else lastUserInput = 0;
-
-	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || app->input->pad->down)
+	else
 	{
-		eastl::list<GuiButton*>::iterator it = buttons.begin();
-		for (int i = 0; i < buttons.size(); ++i, ++it)
+		lastUserInput = 0;
+	}
+
+	if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
+	{
+		if (currentButton == nullptr)
 		{
-			if ((*it)->id == currentButton->id + 1)
+			currentButton = (*buttons.begin());
+			SDL_ShowCursor(SDL_DISABLE);
+		}
+		else
+		{
+			eastl::list<GuiButton*>::iterator it = buttons.begin();
+			for (int i = 0; i < buttons.size(); ++i, ++it)
 			{
-				currentButton = (*it);
-				break;
+				if ((*it)->id == currentButton->id + 1)
+				{
+					currentButton = (*it);
+					break;
+				}
 			}
 		}
 	}
-	else if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || app->input->pad->up)
+	else if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
 	{
-		eastl::list<GuiButton*>::iterator it = buttons.begin();
-		for (int i = 0; i < buttons.size(); ++i, ++it)
+		if (currentButton == nullptr)
 		{
-			if ((*it)->id == currentButton->id - 1)
+			currentButton = (*buttons.begin());
+			SDL_ShowCursor(SDL_DISABLE);
+		}
+		else
+		{
+			eastl::list<GuiButton*>::iterator it = buttons.begin();
+			for (int i = 0; i < buttons.size(); ++i, ++it)
 			{
-				currentButton = (*it);
-				break;
+				if ((*it)->id == currentButton->id - 1)
+				{
+					currentButton = (*it);
+					break;
+				}
 			}
 		}
 	}

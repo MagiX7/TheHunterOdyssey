@@ -131,8 +131,6 @@ bool Wizard::UnLoad()
 	app->tex->UnLoad(texture);
 	app->tex->UnLoad(battlerTexture);
 
-	//RELEASE(currentAnim);
-
 	return true;
 }
 

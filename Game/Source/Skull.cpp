@@ -33,7 +33,6 @@ Skull::~Skull()
 bool Skull::Load()
 {
 
-
 	return true;
 }
 
@@ -102,8 +101,8 @@ void Skull::Draw(bool showColliders)
 bool Skull::UnLoad()
 {
 	app->tex->UnLoad(texture);
+	
 	font->UnLoad(app->tex);
-
 	RELEASE(font);
 
 	return true;

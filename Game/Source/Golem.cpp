@@ -111,8 +111,8 @@ void Golem::Draw(bool showColliders)
 bool Golem::UnLoad()
 {
 	app->tex->UnLoad(texture);
+	
 	font->UnLoad(app->tex);
-
 	RELEASE(font);
 
 	return true;

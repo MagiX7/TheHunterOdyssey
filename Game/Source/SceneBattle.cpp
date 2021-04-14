@@ -62,6 +62,9 @@ bool SceneBattle::Load()
 
 	battleMenu->Load(font);
 
+	app->render->camera.x = 0;
+	app->render->camera.y = 0;
+
 	return true;
 }
 
@@ -108,6 +111,9 @@ void SceneBattle::Draw(bool colliders)
 
 bool SceneBattle::UnLoad()
 {
+	font->UnLoad(app->tex);
+	RELEASE(font);
+
 	battleMenu->UnLoad();
 	RELEASE(battleMenu);
 
@@ -119,7 +125,9 @@ bool SceneBattle::UnLoad()
 	}
 
 	enemyList.clear();
+
 	map->CleanUp();
+	RELEASE(map);
 
 	return true;
 }

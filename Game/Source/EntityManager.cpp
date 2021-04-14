@@ -165,7 +165,6 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node 
 		break;
 	case EntityType::ITEM: break;
 	case EntityType::ENEMY: break;
-
 	}
 
 	// Created entities are added to the list
@@ -180,7 +179,8 @@ void EntityManager::DeleteAllNpcActive()
 
 	for (item = entities.begin(); item != entities.end(); ++item)
 	{
-		if ((*item)->GetState() != EntityState::INACTIVE) {
+		if ((*item)->GetState() != EntityState::INACTIVE) 
+		{
 			if ((*item)->type == EntityType::NPC_WIZARD || (*item)->type == EntityType::RAY
 				|| (*item)->type == EntityType::TOWN || (*item)->type == EntityType::TABERN)
 			{
@@ -275,21 +275,26 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad)
 		switch (a)
 		{
 		case (int)EntityType::NPC:
-			for (int a = 0; a < npcAmount; a++) {
+			for (int a = 0; a < npcAmount; a++) 
+			{
 				npcNode = nullptr;
 				SString string;
 				string = NodeNpcAuxiliar.child("NpcType").attribute("type").as_string();
 				EntityType npcType;
-				if (string == "TABERN") {
+				if (string == "TABERN") 
+				{
 					npcType = EntityType::TABERN;
 				}
-				else if (string == "TOWN") {
+				else if (string == "TOWN") 
+				{
 					npcType = EntityType::TOWN;
 				}
-				else if (string == "NPC_WIZARD") {
+				else if (string == "NPC_WIZARD") 
+				{
 					npcType = EntityType::NPC_WIZARD;
 				}
-				else {
+				else 
+				{
 					npcType = EntityType::UNKNOWN;
 				}
 
@@ -298,8 +303,8 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad)
 			}
 			break;
 		case (int)EntityType::PLAYER:
-
-			for (int a = 0; a < playerAmount; a++) {
+			for (int a = 0; a < playerAmount; a++) 
+			{
 				SString string;
 				string = NodePlayerAuxiliar.child("playerType").attribute("type").as_string();
 				EntityType plType;
@@ -314,9 +319,7 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad)
 				NodePlayerAuxiliar = NodePlayerAuxiliar.next_sibling();
 			}
 			break;
-
 		}
-
 	}
 	return true;
 }
@@ -324,10 +327,10 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad)
 bool EntityManager::SaveState(pugi::xml_node* toSave)
 {
 	eastl::list<Entity*>::iterator item;
-	pugi::xml_node NodeNpc = toSave->append_child("NPCs");
-	pugi::xml_node NodeNpcAuxiliar;
-	pugi::xml_node NodePlayers = toSave->append_child("players");
-	pugi::xml_node NodePlayersAuxiliar;
+	pugi::xml_node nodeNpc = toSave->append_child("NPCs");
+	pugi::xml_node nodeNpcAuxiliar;
+	pugi::xml_node nodePlayers = toSave->append_child("players");
+	pugi::xml_node nodePlayersAuxiliar;
 
 	int npcAmount = 0;
 	int playerAmount = 0;
@@ -361,64 +364,47 @@ bool EntityManager::SaveState(pugi::xml_node* toSave)
 			playerAmount++;
 			break;
 		}
-
 	}
 
-	NodeNpc.append_attribute("amount").set_value(npcAmount);
-	NodePlayers.append_attribute("amount").set_value(playerAmount);
+	nodeNpc.append_attribute("amount").set_value(npcAmount);
+	nodePlayers.append_attribute("amount").set_value(playerAmount);
 
 	for (item = entities.begin(); item != entities.end(); ++item)
 	{
 
-		switch (item.mpNode->mValue->type)
+		switch ((*item)->type)
 		{
 		case EntityType::NPC_WIZARD:
-
-			NodeNpcAuxiliar = NodeNpc.append_child("NPC");
-			item.mpNode->mValue->SaveState(NodeNpcAuxiliar);
-
+			nodeNpcAuxiliar = nodeNpc.append_child("NPC");
+			(*item)->SaveState(nodeNpcAuxiliar);
 			break;
 		case EntityType::TABERN:
-
-			NodeNpcAuxiliar = NodeNpc.append_child("NPC");
-			item.mpNode->mValue->SaveState(NodeNpcAuxiliar);
-
+			nodeNpcAuxiliar = nodeNpc.append_child("NPC");
+			(*item)->SaveState(nodeNpcAuxiliar);
 			break;
 		case EntityType::RAY:
-
-			NodeNpcAuxiliar = NodeNpc.append_child("NPC");
-			item.mpNode->mValue->SaveState(NodeNpcAuxiliar);
-
+			nodeNpcAuxiliar = nodeNpc.append_child("NPC");
+			(*item)->SaveState(nodeNpcAuxiliar);
 			break;
 		case EntityType::TOWN:
-
-			NodeNpcAuxiliar = NodeNpc.append_child("NPC");
-			item.mpNode->mValue->SaveState(NodeNpcAuxiliar);
-
+			nodeNpcAuxiliar = nodeNpc.append_child("NPC");
+			(*item)->SaveState(nodeNpcAuxiliar);
 			break;
 		case EntityType::HUNTER:
-
-			NodePlayersAuxiliar = NodePlayers.append_child("player");
-			item.mpNode->mValue->SaveState(NodePlayersAuxiliar);
-
+			nodePlayersAuxiliar = nodePlayers.append_child("player");
+			(*item)->SaveState(nodePlayersAuxiliar);
 			break;
 		case EntityType::WIZARD:
-
-			NodePlayersAuxiliar = NodePlayers.append_child("player");
-			item.mpNode->mValue->SaveState(NodePlayersAuxiliar);
-
+			nodePlayersAuxiliar = nodePlayers.append_child("player");
+			(*item)->SaveState(nodePlayersAuxiliar);
 			break;
 		case EntityType::WARRIOR:
-
-			NodePlayersAuxiliar = NodePlayers.append_child("player");
-			item.mpNode->mValue->SaveState(NodePlayersAuxiliar);
-
+			nodePlayersAuxiliar = nodePlayers.append_child("player");
+			(*item)->SaveState(nodePlayersAuxiliar);
 			break;
 		case EntityType::THIEF:
-
-			NodePlayersAuxiliar = NodePlayers.append_child("player");
-			item.mpNode->mValue->SaveState(NodePlayersAuxiliar);
-
+			nodePlayersAuxiliar = nodePlayers.append_child("player");
+			(*item)->SaveState(nodePlayersAuxiliar);
 			break;
 		}
 	}

@@ -44,6 +44,7 @@ private:
 	Font* font;
 
 	float titleAlpha;
+	
 	//TITLE EASING
 	float the_x;
 	float hunter_x;
@@ -51,6 +52,7 @@ private:
 	float currIt;
 	float totalIt;
 	bool titleEasingActivated;
+	
 	//ENTER EASING
 	bool enterEasingActivatedY;
 	bool enterEasingActivated2Y;

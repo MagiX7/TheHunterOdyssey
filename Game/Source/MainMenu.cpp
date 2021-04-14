@@ -78,7 +78,6 @@ bool MainMenu::Load(Font* font)
 	currentButton = nullptr;
 	lastButton = nullptr;
 
-
 	// Check-boxes
 	checkFullscreen = new GuiCheckBox(10, { 94,318,185,32 }, "Fullscreen", this);
 	checkFullscreen->section = { 528,5,32,32 };
@@ -106,7 +105,7 @@ bool MainMenu::Update(float dt)
 {
 	bool ret = true;
 
-	HandleInput();
+	UpdatingButtons(app->input);
 
 	int id = -1;
 	if (lastUserInput == 0 && currentButton != nullptr)
@@ -125,7 +124,7 @@ bool MainMenu::Update(float dt)
 	{
 		btnNewGame->Update(app->input, dt, id);
 		btnContinue->Update(app->input, dt, id);
-		btnOptions->Update(app->input, dt,id);
+		btnOptions->Update(app->input, dt, id);
 		btnCredits->Update(app->input, dt, id);
 		btnExit->Update(app->input, dt, id);
 	}
@@ -219,7 +218,6 @@ bool MainMenu::UnLoad()
 {
 	app->tex->UnLoad(guiTex);
 	app->tex->UnLoad(bg);
-	font->UnLoad(app->tex);
 
 	RELEASE(btnNewGame);
 	RELEASE(btnContinue);
@@ -234,8 +232,6 @@ bool MainMenu::UnLoad()
 	RELEASE(checkVSync);
 	RELEASE(slideMusicVolume);
 	RELEASE(slideFXVolume);
-
-	RELEASE(font);
 
 	buttons.clear();
 
@@ -336,22 +332,27 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 	return true;
 }
 
-void MainMenu::HandleInput()
+void MainMenu::UpdatingButtons(Input* input)
 {
 	int prevX = xMouse;
 	int prevY = yMouse;
-	app->input->GetMousePosition(xMouse, yMouse);
+	input->GetMousePosition(xMouse, yMouse);
 	if (prevX != xMouse || prevY != yMouse)
 	{
 		lastUserInput = 1;
+		SDL_ShowCursor(SDL_ENABLE);
 	}
-	else lastUserInput = 0;
+	else
+	{
+		lastUserInput = 0;
+	}
 
-	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
+	if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
 	{
 		if (currentButton == nullptr)
 		{
 			currentButton = (*buttons.begin());
+			SDL_ShowCursor(SDL_DISABLE);
 		}
 		else
 		{
@@ -366,11 +367,12 @@ void MainMenu::HandleInput()
 			}
 		}
 	}
-	else if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
+	else if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
 	{
 		if (currentButton == nullptr)
 		{
 			currentButton = (*buttons.begin());
+			SDL_ShowCursor(SDL_DISABLE);
 		}
 		else
 		{

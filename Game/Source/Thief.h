@@ -16,8 +16,6 @@ public:
 
 	bool UnLoad() override;
 
-	void HandleInput(float dt) override;
-
 	bool SaveState(pugi::xml_node& node) override;
 
 	void Attack(Enemy* enemy) override;
@@ -30,11 +28,10 @@ public:
 
 	void SetDefend(bool option) override;
 
-	void SetIdleRoaming()
-	{
-		currentAnim = &idleDown;
-	}
+	void SetIdleRoaming() { currentAnim = &idleDown; }
 
+protected:
+	void HandleInput(float dt) override;
 	void Travel(iPoint destination, float dt) override;
 
 private:

@@ -4,6 +4,8 @@
 #include "Point.h"
 #include "Log.h"
 
+#include "EASTL/string.h"
+
 #define SPEED_X 200.0f
 #define SPEED_Y 200.0f
 
@@ -40,8 +42,6 @@ public:
 
 	virtual void Draw(bool showColliders) override;
 
-	virtual void HandleInput(float dt);
-
 	virtual bool SaveState(pugi::xml_node& node);
 
 	virtual void Attack(Enemy* enemy);
@@ -56,26 +56,25 @@ public:
 
 	virtual void SetDefend(bool option);
 
-	virtual void SetIdleBattle()
-	{
-		currentAnim = &idleBattle;
-	}
-
-	virtual void Travel (iPoint destination, float dt) {}
+	virtual void SetIdleBattle() { currentAnim = &idleBattle; }
 
 	virtual void SetIdleRoaming() {}
 
 	// Getters
-	int GetHealthPoints() const { return healthPoints; }
-	int GetManaPoints() const { return manaPoints; }
-	int GetAbilitySelected() const { return currentAbilitySelected; }
-	int GetObjectSelected() const { return currentObjectSelected; }
-	bool GetDefend() const { return isDefending; }
-	std::string GetName() const { return name; }
+	inline int GetHealthPoints() const { return healthPoints; }
+	inline int GetManaPoints() const { return manaPoints; }
+	inline int GetAbilitySelected() const { return currentAbilitySelected; }
+	inline int GetObjectSelected() const { return currentObjectSelected; }
+	inline bool GetDefend() const { return isDefending; }
+	inline eastl::string GetName() const { return name; }
 
 	// Setters
-	void SetAbilitySelected(int num) { currentAbilitySelected = num; }
-	void SetObjectSelected(int num) { currentObjectSelected = num; }
+	inline void SetAbilitySelected(int num) { currentAbilitySelected = num; }
+	inline void SetObjectSelected(int num) { currentObjectSelected = num; }
+
+protected:
+	virtual void HandleInput(float dt);
+	virtual void Travel(iPoint destination, float dt) {}
 
 public:
 	PlayerType playerType;
@@ -85,7 +84,7 @@ public:
 protected:
 	SDL_Texture* battlerTexture;
 
-	std::string name;
+	eastl::string name;
 
 	// Enemy target
 	Enemy* target;

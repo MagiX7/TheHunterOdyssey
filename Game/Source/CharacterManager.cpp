@@ -6,15 +6,7 @@
 
 #include "GuiButton.h"
 
-CharacterManager::CharacterManager(Player *pl, SceneGameplay* s) : player(pl), scene(s)
-{
-}
-
-CharacterManager::~CharacterManager()
-{
-}
-
-bool CharacterManager::Load(Font* font)
+CharacterManager::CharacterManager(SceneGameplay* s, PlayerType type, Font* font) : scene(s)
 {
 	btnHunter = new GuiButton(1, { 466, 150, 360, 64 }, "Hunter", this, font);
 	btnHunter->alineation = 1;
@@ -31,16 +23,7 @@ bool CharacterManager::Load(Font* font)
 	btnExit = new GuiButton(5, { 600, 550, 64, 64 }, "Exit", this, font);
 	btnExit->alineation = 1;
 
-	buttons.push_back(btnHunter);
-	buttons.push_back(btnWizard);
-	buttons.push_back(btnThief);
-	buttons.push_back(btnWarrior);
-	buttons.push_back(btnExit);
-
-	currentButton = (*buttons.begin().next());
-	lastButton = nullptr;
-
-	switch (player->playerType)
+	switch (type)
 	{
 	case PlayerType::HUNTER:
 		btnHunter->state = GuiControlState::DISABLED;
@@ -55,6 +38,22 @@ bool CharacterManager::Load(Font* font)
 		btnWarrior->state = GuiControlState::DISABLED;
 		break;
 	}
+}
+
+CharacterManager::~CharacterManager()
+{
+}
+
+bool CharacterManager::Load(Font* font)
+{
+	buttons.push_back(btnHunter);
+	buttons.push_back(btnWizard);
+	buttons.push_back(btnThief);
+	buttons.push_back(btnWarrior);
+	buttons.push_back(btnExit);
+
+	currentButton = (*buttons.begin().next());
+	lastButton = nullptr;
 
 	return true;
 }
@@ -198,6 +197,63 @@ void CharacterManager::HandleInput()
 			{
 				currentButton = (*it);
 				break;
+			}
+		}
+	}
+}
+
+void CharacterManager::UpdatingButtons(Input* input)
+{
+	int prevX = xMouse;
+	int prevY = yMouse;
+	input->GetMousePosition(xMouse, yMouse);
+	if (prevX != xMouse || prevY != yMouse)
+	{
+		lastUserInput = 1;
+		SDL_ShowCursor(SDL_ENABLE);
+	}
+	else
+	{
+		lastUserInput = 0;
+	}
+
+	if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
+	{
+		if (currentButton == nullptr)
+		{
+			currentButton = (*buttons.begin());
+			SDL_ShowCursor(SDL_DISABLE);
+		}
+		else
+		{
+			eastl::list<GuiButton*>::iterator it = buttons.begin();
+			for (int i = 0; i < buttons.size(); ++i, ++it)
+			{
+				if ((*it)->id == currentButton->id + 1)
+				{
+					currentButton = (*it);
+					break;
+				}
+			}
+		}
+	}
+	else if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
+	{
+		if (currentButton == nullptr)
+		{
+			currentButton = (*buttons.begin());
+			SDL_ShowCursor(SDL_DISABLE);
+		}
+		else
+		{
+			eastl::list<GuiButton*>::iterator it = buttons.begin();
+			for (int i = 0; i < buttons.size(); ++i, ++it)
+			{
+				if ((*it)->id == currentButton->id - 1)
+				{
+					currentButton = (*it);
+					break;
+				}
 			}
 		}
 	}

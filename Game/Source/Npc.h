@@ -26,14 +26,15 @@ public:
 
 	bool CheckCollision(Player* player) override;
 
-	int GetDialogeId() override;
+	inline int GetDialogeId() override { return dialogeId; }
 
 	void SetDrawPtext(bool DrawPtext) override;
 	void SetTalkStart(bool TalkStart) override;
 
 	void SetInactive() override;
 	void SetActive() override;
-	EntityState GetState() override;
+	inline EntityState GetState() override { return state; }
+	
 	void NpcMove(bool move);
 
 	EntityState GetNewState();

@@ -34,7 +34,7 @@ public:
 
 	bool OnGuiMouseClickEvent(GuiControl* control) override;
 
-	void HandleInput();
+	void UpdatingButtons(Input* input) override;
 
 private:
 	PauseState state;

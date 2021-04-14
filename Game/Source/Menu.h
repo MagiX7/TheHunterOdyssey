@@ -23,6 +23,8 @@ public:
 
 	virtual bool OnGuiMouseClickEvent(GuiControl* control) { return true; }
 
+	virtual void UpdatingButtons(Input* input) {}
+
 public:
 	// For input handling
 	eastl::list<GuiButton*> buttons;

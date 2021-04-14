@@ -11,7 +11,7 @@ enum class PlayerType;
 class CharacterManager : public Menu
 {
 public:
-	CharacterManager(Player* pl, SceneGameplay* s);
+	CharacterManager(SceneGameplay* s, PlayerType type, Font* font);
 	virtual ~CharacterManager();
 
 	bool Load(Font* font) override;
@@ -28,8 +28,8 @@ public:
 
 	void HandleInput();
 
+	void UpdatingButtons(Input* input) override;
 private:
-	Player* player;
 	SceneGameplay* scene;
 
 	GuiButton* btnHunter;

@@ -5,7 +5,7 @@
 
 #include "Ray.h"
 
-Ray::Ray(iPoint position, pugi::xml_node anim, int id) :Npc(EntityType::RAY, position,id)
+Ray::Ray(iPoint position, pugi::xml_node anim, int id) : Npc(EntityType::RAY, position, id)
 {
 	//bounds = { 0,0, 16,32 };
 	//type = EntityType::NPC_WIZARD;
@@ -75,6 +75,7 @@ void Ray::Draw(bool showColliders)
 bool Ray::UnLoad()
 {
 	app->tex->UnLoad(texture);
+
 	return true;
 }
 

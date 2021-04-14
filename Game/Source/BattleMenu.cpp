@@ -59,6 +59,11 @@ bool BattleMenu::Load(Font* font)
 	btnObjectSlot4->texture = guiTex;
 	btnObjectSlot4->sectionFocused = { 0,260,204,43 };
 
+	DefaultStateButtons();
+
+	currentButton = nullptr;
+	lastButton = nullptr;
+
 	currEnemy = (*sceneBattle->enemyList.begin());
 	currPlayer = (*sceneBattle->playerList.begin());
 
@@ -70,25 +75,34 @@ bool BattleMenu::Load(Font* font)
 bool BattleMenu::Update(float dt)
 {
 	bool ret = true;
+
+	UpdatingButtons(app->input);
+
+	int id = -1;
+	if (lastUserInput == 0 && currentButton != nullptr)
+	{
+		id = currentButton->id;
+	}
+
 	switch (type)
 	{
 	case BattleState::NONE:
 		type = BattleState::DEFAULT;
 		break;
 	case BattleState::DEFAULT:
-		btnAttack->Update(app->input, dt, -1);
-		btnAbility->Update(app->input, dt, -1);
-		btnDefense->Update(app->input, dt, -1);
-		btnObject->Update(app->input, dt, -1);
+		btnAttack->Update(app->input, dt, id);
+		btnAbility->Update(app->input, dt, id);
+		btnDefense->Update(app->input, dt, id);
+		btnObject->Update(app->input, dt, id);
 		break;
 	case BattleState::ATTACK:
 		ret = HandleInput(app->input);
 		break;
 	case BattleState::ABILITY_SELECT:
-		btnAbilitySlot1->Update(app->input, dt, -1);
-		btnAbilitySlot2->Update(app->input, dt, -1);
-		btnAbilitySlot3->Update(app->input, dt, -1);
-		btnAbilitySlot4->Update(app->input, dt, -1);
+		btnAbilitySlot1->Update(app->input, dt, id);
+		btnAbilitySlot2->Update(app->input, dt, id);
+		btnAbilitySlot3->Update(app->input, dt, id);
+		btnAbilitySlot4->Update(app->input, dt, id);
 		//ret = HandleAbilities(app->input);
 		break;
 	case BattleState::ABILITY:
@@ -103,10 +117,10 @@ bool BattleMenu::Update(float dt)
 		ret = HandleDefense(app->input);
 		break;
 	case BattleState::OBJECT_SELECT:
-		btnObjectSlot1->Update(app->input, dt, -1);
-		btnObjectSlot2->Update(app->input, dt, -1);
-		btnObjectSlot3->Update(app->input, dt, -1);
-		btnObjectSlot4->Update(app->input, dt, -1);
+		btnObjectSlot1->Update(app->input, dt, id);
+		btnObjectSlot2->Update(app->input, dt, id);
+		btnObjectSlot3->Update(app->input, dt, id);
+		btnObjectSlot4->Update(app->input, dt, id);
 		break;
 	case BattleState::OBJECT:
 		ret = HandleObjects(app->input, currPlayer->GetObjectSelected());
@@ -128,7 +142,6 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 	switch (type)
 	{
 	case BattleState::NONE:
-		type = BattleState::DEFAULT;
 		break;
 	case BattleState::DEFAULT:
 		app->render->DrawRectangle({ currPlayer->bounds.x - 100, currPlayer->bounds.y, 32, 16 }, 0, 255, 0);
@@ -177,6 +190,8 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 
 bool BattleMenu::UnLoad()
 {
+	app->tex->UnLoad(guiTex);
+
 	RELEASE(btnAttack);
 	RELEASE(btnAbility);
 	RELEASE(btnDefense);
@@ -206,11 +221,30 @@ bool BattleMenu::OnGuiMouseClickEvent(GuiControl* control)
 	case GuiControlType::BUTTON:
 		// TODO implement functionality for buttons
 		if (control->id == 1) type = BattleState::ATTACK;
-		else if (control->id == 2) type = BattleState::ABILITY_SELECT;
+		else if (control->id == 2)
+		{
+			type = BattleState::ABILITY_SELECT;
+			buttons.clear();
+			buttons.push_back(btnAbilitySlot1);
+			buttons.push_back(btnAbilitySlot2);
+			buttons.push_back(btnAbilitySlot3);
+			buttons.push_back(btnAbilitySlot4);
+
+			lastButton = currentButton;
+			currentButton = (*buttons.begin());
+		}
 		else if (control->id == 3) type = BattleState::DEFENSE;
 		else if (control->id == 4)
 		{
 			type = BattleState::OBJECT_SELECT;
+			buttons.clear();
+			buttons.push_back(btnObjectSlot1);
+			buttons.push_back(btnObjectSlot2);
+			buttons.push_back(btnObjectSlot3);
+			buttons.push_back(btnObjectSlot4);
+
+			lastButton = currentButton;
+			currentButton = (*buttons.begin());
 			tempPlayer = currPlayer;
 		}
 		else if (control->id == 5)
@@ -276,7 +310,7 @@ void BattleMenu::DrawStats(Font* font)
 
 bool BattleMenu::HandleInput(Input* input)
 {
-	if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || input->pad->down)
+	if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
 	{
 		eastl::list<Enemy*>::iterator it = sceneBattle->enemyList.begin();
 		for (; it != sceneBattle->enemyList.end(); ++it)
@@ -293,7 +327,7 @@ bool BattleMenu::HandleInput(Input* input)
 			}
 		}
 	}
-	else if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->pad->up)
+	else if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
 	{
 		eastl::list<Enemy*>::iterator it = sceneBattle->enemyList.begin();
 		for (; it != sceneBattle->enemyList.end(); ++it)
@@ -310,7 +344,7 @@ bool BattleMenu::HandleInput(Input* input)
 			}
 		}
 	}
-	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pad->a)
+	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 	{
 		currPlayer->Attack(currEnemy);
 	
@@ -329,6 +363,7 @@ bool BattleMenu::HandleInput(Input* input)
 				{
 					currPlayer = (*it.next());
 					type = BattleState::DEFAULT;
+					DefaultStateButtons();
 					break;
 				}
 			}
@@ -339,7 +374,7 @@ bool BattleMenu::HandleInput(Input* input)
 
 bool BattleMenu::HandleAbilities(Input* input, int currentAbility)
 {
-	if (input->GetKey(SDL_SCANCODE_S) == KEY_DOWN || input->pad->down)
+	if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
 	{
 		eastl::list<Enemy*>::iterator it = sceneBattle->enemyList.begin();
 		for (; it != sceneBattle->enemyList.end(); ++it)
@@ -356,7 +391,7 @@ bool BattleMenu::HandleAbilities(Input* input, int currentAbility)
 			}
 		}
 	}
-	else if (input->GetKey(SDL_SCANCODE_W) == KEY_DOWN || input->pad->up)
+	else if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
 	{
 		eastl::list<Enemy*>::iterator it = sceneBattle->enemyList.begin();
 		for (; it != sceneBattle->enemyList.end(); ++it)
@@ -373,7 +408,7 @@ bool BattleMenu::HandleAbilities(Input* input, int currentAbility)
 			}
 		}
 	}
-	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pad->a)
+	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 	{
 		currPlayer->Ability(currEnemy, currentAbility);
 
@@ -400,6 +435,7 @@ bool BattleMenu::HandleAbilities(Input* input, int currentAbility)
 				{
 					currPlayer = (*it.next());
 					type = BattleState::DEFAULT;
+					DefaultStateButtons();
 					break;
 				}
 			}
@@ -410,7 +446,7 @@ bool BattleMenu::HandleAbilities(Input* input, int currentAbility)
 
 bool BattleMenu::HandleObjects(Input* input, int currentObject)
 {
-	if (input->GetKey(SDL_SCANCODE_S) == KEY_DOWN || input->pad->down)
+	if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
 	{
 		eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
 		for (; it != sceneBattle->playerList.end(); ++it)
@@ -427,7 +463,7 @@ bool BattleMenu::HandleObjects(Input* input, int currentObject)
 			}
 		}
 	}
-	else if (input->GetKey(SDL_SCANCODE_W) == KEY_DOWN || input->pad->up)
+	else if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
 	{
 		eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
 		for (; it != sceneBattle->playerList.end(); ++it)
@@ -444,7 +480,7 @@ bool BattleMenu::HandleObjects(Input* input, int currentObject)
 			}
 		}
 	}
-	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pad->a)
+	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 	{
 		currPlayer->UseObject(currPlayer, currentObject);
 
@@ -463,6 +499,7 @@ bool BattleMenu::HandleObjects(Input* input, int currentObject)
 			{
 				currPlayer = (*it.next());
 				type = BattleState::DEFAULT;
+				DefaultStateButtons();
 				break;
 			}
 		}
@@ -487,6 +524,7 @@ bool BattleMenu::HandleDefense(Input* input)
 		{
 			currPlayer = (*it.next());
 			type = BattleState::DEFAULT;
+			DefaultStateButtons();
 			break;
 		}
 	}
@@ -546,11 +584,81 @@ void BattleMenu::EnemyTurn()
 			(*itPlayer)->SetDefend(false);
 		}
 		type = BattleState::DEFAULT;
+		DefaultStateButtons();
 
 		eastl::list<Enemy*>::iterator eIt = sceneBattle->enemyList.begin();
 		for (; eIt != sceneBattle->enemyList.end(); ++eIt)
 		{
 			(*eIt)->SetCurrentState(EnemyState::NORMAL);
+		}
+	}
+}
+
+void BattleMenu::DefaultStateButtons()
+{
+	buttons.clear();
+	buttons.push_back(btnAttack);
+	buttons.push_back(btnAbility);
+	buttons.push_back(btnDefense);
+	buttons.push_back(btnObject);
+
+	lastButton = currentButton;
+	currentButton = (*buttons.begin());
+}
+
+void BattleMenu::UpdatingButtons(Input* input)
+{
+	int prevX = xMouse;
+	int prevY = yMouse;
+	input->GetMousePosition(xMouse, yMouse);
+	if (prevX != xMouse || prevY != yMouse)
+	{
+		lastUserInput = 1;
+		SDL_ShowCursor(SDL_ENABLE);
+	}
+	else
+	{
+		lastUserInput = 0;
+	}
+
+	if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
+	{
+		if (currentButton == nullptr)
+		{
+			currentButton = (*buttons.begin());
+			SDL_ShowCursor(SDL_DISABLE);
+		}
+		else
+		{
+			eastl::list<GuiButton*>::iterator it = buttons.begin();
+			for (int i = 0; i < buttons.size(); ++i, ++it)
+			{
+				if ((*it)->id == currentButton->id + 1)
+				{
+					currentButton = (*it);
+					break;
+				}
+			}
+		}
+	}
+	else if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
+	{
+		if (currentButton == nullptr)
+		{
+			currentButton = (*buttons.begin());
+			SDL_ShowCursor(SDL_DISABLE);
+		}
+		else
+		{
+			eastl::list<GuiButton*>::iterator it = buttons.begin();
+			for (int i = 0; i < buttons.size(); ++i, ++it)
+			{
+				if ((*it)->id == currentButton->id - 1)
+				{
+					currentButton = (*it);
+					break;
+				}
+			}
 		}
 	}
 }

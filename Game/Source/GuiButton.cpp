@@ -37,7 +37,7 @@ bool GuiButton::Update(Input* input, float dt, int id)
 
 		// Check collision between mouse and button bounds
 		if ((mouseX > bounds.x) && (mouseX < (bounds.x + bounds.w)) && 
-			(mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)))
+			(mouseY > bounds.y) && (mouseY < (bounds.y + bounds.h)) && SDL_ShowCursor(-1) == SDL_ENABLE)
 		{
 			state = GuiControlState::FOCUSED;
 
@@ -66,12 +66,12 @@ bool GuiButton::Update(Input* input, float dt, int id)
 		else if (this->id == id)
 		{
 			if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN
-				|| input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
+				|| input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_REPEAT || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_REPEAT)
 			{
 				state = GuiControlState::FOCUSED;
 			}
 
-			if (isPlayable == true)
+			if (isPlayable == true && SDL_ShowCursor(-1) == SDL_DISABLE)
 			{
 				app->audio->PlayFx(focusedFx);
 				isPlayable = false;
@@ -87,7 +87,7 @@ bool GuiButton::Update(Input* input, float dt, int id)
 				}
 			}
 
-			if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
+			if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_UP)
 			{
 				state = GuiControlState::NORMAL;
 				if (NotifyObserver() == false) return false;

@@ -39,8 +39,6 @@ NpcWizard::NpcWizard(iPoint position, pugi::xml_node anim, int id):Npc(EntityTyp
 	idleRight.PushBack(walkRight.frames[0]);
 	idleUp.PushBack(walkUp.frames[0]);
 
-
-
 	currentAnim = &idleDown;
 }
 
@@ -51,33 +49,32 @@ NpcWizard::~NpcWizard()
 bool NpcWizard::Load()
 {
 	
-	
 	return true;
 }
 
 bool NpcWizard::Update(float dt)
 {
-	if (state != EntityState::INACTIVE)Npc::Update(dt);		
+	if (state != EntityState::INACTIVE) Npc::Update(dt);		
 	return true;
 }
 
 void NpcWizard::Draw(bool showColliders)
 {
-	if (state != EntityState::INACTIVE) {
+	if (state != EntityState::INACTIVE) 
+	{
 		Npc::Draw(showColliders);
 		if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0);
 		SDL_Rect textureRect = { 14, 11, 46,49 };
 		app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
 	}
-
 }
 
 bool NpcWizard::UnLoad()
 {
 	app->tex->UnLoad(texture);
+
 	return true;
 }
-
 
 bool NpcWizard::SaveState(pugi::xml_node& node)
 {

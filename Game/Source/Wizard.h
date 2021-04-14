@@ -16,8 +16,6 @@ public:
 
 	bool UnLoad() override;
 
-	void HandleInput(float dt) override;
-
 	bool SaveState(pugi::xml_node& node) override;
 
 	void Attack(Enemy* enemy) override;
@@ -35,6 +33,8 @@ public:
 		currentAnim = &idleDown;
 	}
 
+protected:
+	void HandleInput(float dt) override;
 	void Travel(iPoint destination, float dt) override;
 
 private:

@@ -120,7 +120,7 @@ bool SceneGameplay::Load()
 	gameState = GameplayState::NONE;
 
 	// Instantiate character swap manager
-	charManager = new CharacterManager(currentPlayer, this);
+	charManager = new CharacterManager(this, currentPlayer->playerType, font);
 	charManager->Load(font);
 
 	// Start music

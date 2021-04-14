@@ -37,6 +37,8 @@ public:
 
 	bool OnGuiMouseClickEvent(GuiControl* control) override;
 
+	void UpdatingButtons(Input* input) override;
+
 private:
 	void DrawStats(Font* font);
 
@@ -52,6 +54,7 @@ private:
 
 	void EnemyTurn();
 
+	void DefaultStateButtons();
 private:
 	BattleState type;
 

@@ -271,6 +271,9 @@ bool SceneTitle::UnLoad()
 	font->UnLoad(app->tex);
 	RELEASE(font);
 
+	mainMenu->UnLoad();
+	RELEASE(mainMenu);
+
 	app->tex->UnLoad(bg);
 	app->tex->UnLoad(bgText);
 	app->audio->UnLoadFx(enterFx);

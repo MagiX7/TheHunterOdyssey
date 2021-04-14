@@ -47,11 +47,6 @@ void Npc::SetActive()
 	state = GetNewState();
 }
 
-EntityState Npc::GetState()
-{
-	return state;
-}
-
 bool Npc::Update(float dt)
 {
 	lastPosition = bounds;
@@ -131,19 +126,14 @@ bool Npc::SaveState(pugi::xml_node& node)
 	return true;
 }
 
-void Npc::SetDrawPtext(bool DrawPtext)
+void Npc::SetDrawPtext(bool drawText)
 {
-	drawPtext = DrawPtext;
+	drawPtext = drawText;
 }
 
-void Npc::SetTalkStart(bool TalkStart)
+void Npc::SetTalkStart(bool startTalk)
 {
-	talkStart = TalkStart;
-}
-
-int Npc::GetDialogeId() 
-{
-	return dialogeId;
+	talkStart = startTalk;
 }
 
 bool Npc::CheckCollision(Player* player)
