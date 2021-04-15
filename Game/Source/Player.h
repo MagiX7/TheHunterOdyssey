@@ -26,7 +26,8 @@ enum class PlayerStance
 	NONE = 0,
 	ROAMING,
 	BATTLE,
-	ATTACKING
+	ATTACKING,
+	ATTACK_FINISHED
 };
 
 class Player : public Entity

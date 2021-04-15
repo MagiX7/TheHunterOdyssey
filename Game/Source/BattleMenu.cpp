@@ -108,7 +108,7 @@ bool BattleMenu::Update(float dt)
 		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		{
 			type = BattleState::DEFAULT;
-			AbilityStateButtons();
+			DefaultStateButtons();
 		}
 		else
 		{
@@ -122,8 +122,8 @@ bool BattleMenu::Update(float dt)
 	case BattleState::ABILITY:
 		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		{
-			type = BattleState::ABILITY;
-			DefaultStateButtons();
+			type = BattleState::ABILITY_SELECT;
+			AbilityStateButtons();
 		}
 		else ret = HandleAbilities(app->input, currPlayer->GetAbilitySelected());
 		
@@ -153,7 +153,7 @@ bool BattleMenu::Update(float dt)
 	case BattleState::OBJECT:
 		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		{
-			type = BattleState::OBJECT;
+			type = BattleState::OBJECT_SELECT;
 			ObjectStateButtons();
 		}
 		else ret = HandleObjects(app->input, currPlayer->GetObjectSelected());
@@ -379,13 +379,21 @@ bool BattleMenu::HandleInput(Input* input)
 					type = BattleState::ENEMY_TURN;
 					break;
 				}
-				else if ((*it) == currPlayer)
-				{
-					currPlayer = (*it.next());
-					type = BattleState::DEFAULT;
-					DefaultStateButtons();
-					break;
-				}
+			}
+		}
+	}
+
+	if (currPlayer->stance == PlayerStance::ATTACK_FINISHED && type != BattleState::ENEMY_TURN)
+	{
+		eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
+		for (int i = 0; it != sceneBattle->playerList.end(); ++it, ++i)
+		{
+			if ((*it) == currPlayer)
+			{
+				currPlayer = (*it.next());
+				type = BattleState::DEFAULT;
+				DefaultStateButtons();
+				break;
 			}
 		}
 	}

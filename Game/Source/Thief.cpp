@@ -102,7 +102,7 @@ bool Thief::Update(float dt)
 
 			if (bounds.x == battlePos.x && bounds.y == battlePos.y)
 			{
-				stance = PlayerStance::BATTLE;
+				stance = PlayerStance::ATTACK_FINISHED;
 				attack = false;
 			}
 		}
@@ -119,7 +119,7 @@ void Thief::Draw(bool showColliders)
 {
 	if (showColliders) app->render->DrawRectangle(bounds, 255, 165, 0, 150);
 	if (stance == PlayerStance::ROAMING) app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
-	else if (stance == PlayerStance::BATTLE || stance == PlayerStance::ATTACKING) app->render->DrawTexture(battlerTexture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+	else if (stance == PlayerStance::BATTLE || stance == PlayerStance::ATTACKING || stance == PlayerStance::ATTACK_FINISHED) app->render->DrawTexture(battlerTexture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
 }
 
 bool Thief::UnLoad()
