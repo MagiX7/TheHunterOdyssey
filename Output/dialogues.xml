@@ -92,7 +92,7 @@
 		<node id="3">
 			<npc_text text="WOOOOOOOOOOAAAH, THERE'S NO WAY, ARE YOU THE HUNTER?!? REALLY??!??! Can I shake your hand? Please."/>
 			<option id="0" nextNodeId="-1" text="Yes, why not."/>
-			<option id="1" nextNodeId="-1" text="No, I'm sorry."/>
+			<option id="1" nextNodeId="-1" text="No, sorry."/>
 		</node>
 		<node id="4">
 			<npc_text text="Well, if you want I can invite you to my house honey, I have food there. :3"/>
@@ -117,7 +117,7 @@
 			<option id="1" nextNodeId="2" text="Well I don't think the same. SDL is cool."/>
 		</node>
 		<node id="1">
-			<npc_text text="I know another library that is way easier to use and implement. It's called Rasmib, Raymib, Reylib... Whatever... Do you know the which one I am referring to?."/>
+			<npc_text text="I know another library that is way easier to use and implement. It's called Rasmib, Raymib, Reylib... Whatever... Do you know which one I am referring to?."/>
 			<option id="0" nextNodeId="3" text="Hmmmmmmm... I don't know, no. Should I search for it?"/>
 			<option id="1" nextNodeId="4" text="Of course I do, it's called Raylib, and it is awesome!"/>
 		</node>

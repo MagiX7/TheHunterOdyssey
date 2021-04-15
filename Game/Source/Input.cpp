@@ -45,19 +45,22 @@ GamePad::~GamePad()
 
 void GamePad::HandleDeviceConnection(int index)
 {
-	if (SDL_IsGameController(index))
+	if (this != nullptr)
 	{
-		if (enabled == false)
+		if (SDL_IsGameController(index))
 		{
-			if (controller = SDL_GameControllerOpen(index))
+			if (enabled == false)
 			{
-				LOG("Found a gamepad with id %i named %s", 0, SDL_GameControllerName(controller));
-				enabled = true;
-				l_dz = r_dz = 0.1f;
-				haptic = SDL_HapticOpen(index);
-				if (haptic != nullptr)
-					LOG("... gamepad has force feedback capabilities");
-				index = SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(controller));
+				if (controller = SDL_GameControllerOpen(index))
+				{
+					LOG("Found a gamepad with id %i named %s", 0, SDL_GameControllerName(controller));
+					enabled = true;
+					l_dz = r_dz = 0.1f;
+					haptic = SDL_HapticOpen(index);
+					if (haptic != nullptr)
+						LOG("... gamepad has force feedback capabilities");
+					index = SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(controller));
+				}
 			}
 		}
 	}
@@ -87,7 +90,7 @@ void GamePad::UpdateGamepadInput()
 	{
 		//int b = SDL_GameControllerEventState(-1);
 
-		for (int i = 0; i <= MAX_BUTTONS; ++i)
+		for (int i = 0; i < MAX_BUTTONS; ++i)
 		{
 			if (SDL_GameControllerGetButton(controller, btns[i]) == 0)
 			{
@@ -223,7 +226,7 @@ Input::Input() : Module()
 Input::~Input()
 {
 	RELEASE(pad);
-	delete[] keyboard;
+	RELEASE(keyboard);
 }
 
 // Called before render is available
@@ -300,6 +303,7 @@ bool Input::PreUpdate()
 		switch(event.type)
 		{
 			case SDL_QUIT:
+				
 				windowEvents[WE_QUIT] = true;
 				return false;
 			break;
@@ -369,18 +373,19 @@ bool Input::CleanUp()
 {
 	LOG("Quitting SDL event subsystem");
 
+	//if (pad->controller != nullptr) SDL_GameControllerClose(pad->controller);
 	if (pad->haptic != nullptr)
 	{
-		SDL_HapticStopAll(pad[0].haptic);
-		SDL_HapticClose(pad[0].haptic);
+		SDL_HapticStopAll(pad->haptic);
+		SDL_HapticClose(pad->haptic);
 	}
-	if (pad->controller != nullptr) SDL_GameControllerClose(pad->controller);
 	
-	if (pad != nullptr) RELEASE(pad);
-
+	RELEASE(pad);
 	SDL_QuitSubSystem(SDL_INIT_HAPTIC);
 	SDL_QuitSubSystem(SDL_INIT_GAMECONTROLLER);
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
+	
+	//SDL_GameControllerClose(pad->controller);
 	return true;
 }
 

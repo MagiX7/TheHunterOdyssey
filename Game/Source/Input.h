@@ -40,7 +40,7 @@ public:
 
 	inline KeyState GetButton(int id) const
 	{
-		return buttons[id];
+		if(this != nullptr) return buttons[id];
 	}
 
 	// Activates SDL device funcionallity when a gamepad has been connected
