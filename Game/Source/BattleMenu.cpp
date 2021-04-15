@@ -1,5 +1,6 @@
 #include "App.h"
 #include "Textures.h"
+#include "Easings.h"
 
 #include "BattleMenu.h"
 #include "SceneBattle.h"
@@ -10,6 +11,24 @@
 BattleMenu::BattleMenu(SceneBattle* s) : type(BattleState::NONE), sceneBattle(s)
 {
 	enemyKilled = false;
+
+	easingArrow = new Easing();
+	easingArrowBack = new Easing();
+
+	easingArrow->totalIterations = 60;
+	easingArrow->currentIteration = 0;
+	easingArrow->deltaPos = 10;
+	easingArrow->initialPos = 20;
+	easingArrow->easingsActivated = false;
+
+	easingArrowBack->totalIterations = 60;
+	easingArrowBack->currentIteration = 0;
+	easingArrowBack->deltaPos = -10;
+	easingArrowBack->initialPos = 30;
+	easingArrowBack->easingsActivated = false;
+
+	alpha = 255;
+	position_x = 20;
 }
 
 BattleMenu::~BattleMenu()
@@ -165,6 +184,42 @@ bool BattleMenu::Update(float dt)
 
 	if (sceneBattle->enemyList.size() == 0) ret = false;
 
+	//Update Easings
+
+	if (easingArrow->easingsActivated)
+	{
+		position_x = easingArrow->circularEaseInOut(easingArrow->currentIteration, easingArrow->initialPos, easingArrow->deltaPos, easingArrow->totalIterations);
+		alpha = easingArrow->circularEaseInOut(easingArrow->currentIteration, 0, 255, easingArrow->totalIterations);
+
+		if (easingArrow->currentIteration < easingArrow->totalIterations)
+		{
+			easingArrow->currentIteration++;
+		}
+		else
+		{
+			easingArrow->currentIteration = 0;
+			easingArrow->easingsActivated = false;
+			easingArrowBack->easingsActivated = true;
+		}
+	}
+
+	if (easingArrowBack->easingsActivated)
+	{
+		position_x = easingArrowBack->circularEaseInOut(easingArrowBack->currentIteration, easingArrowBack->initialPos, easingArrowBack->deltaPos, easingArrowBack->totalIterations);
+		alpha = easingArrowBack->circularEaseInOut(easingArrowBack->currentIteration, 255, -255, easingArrowBack->totalIterations);
+
+		if (easingArrowBack->currentIteration < easingArrowBack->totalIterations)
+		{
+			easingArrowBack->currentIteration++;
+		}
+		else
+		{
+			easingArrowBack->currentIteration = 0;
+			easingArrowBack->easingsActivated = false;
+			easingArrow->easingsActivated = true;
+		}
+	}
+
 	return ret;
 }
 
@@ -179,11 +234,52 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		break;
 	case BattleState::DEFAULT:
 		app->render->DrawRectangle({ currPlayer->bounds.x - 100, currPlayer->bounds.y, 32, 16 }, 0, 255, 0);
-		btnAttack->Draw(app->render, showColliders, 25, { 0,0,0,225 });
-		btnAbility->Draw(app->render, showColliders, 25, { 0,0,0,225 });
-		btnDefense->Draw(app->render, showColliders, 25, { 0,0,0,225 });
-		btnObject->Draw(app->render, showColliders, 25, { 0,0,0,225 });
-		break;
+		if (btnAttack->state == GuiControlState::FOCUSED)
+		{
+			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
+			btnAttack->bounds.x = position_x;
+			btnAttack->Draw(app->render, showColliders, 25, { alpha,0,0,225 });
+		}
+		else
+		{
+			btnAttack->bounds.x = 20;
+			btnAttack->Draw(app->render, showColliders, 25, { 0,0,0,225 });
+		}
+		if (btnAbility->state == GuiControlState::FOCUSED)
+		{
+			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
+			btnAbility->bounds.x = position_x;
+			btnAbility->Draw(app->render, showColliders, 25, { alpha,0,0,225 });
+		}
+		else
+		{
+			btnAbility->bounds.x = 20;
+			btnAbility->Draw(app->render, showColliders, 25, { 0,0,0,225 });
+		}
+
+		if (btnDefense->state == GuiControlState::FOCUSED)
+		{
+			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
+			btnDefense->bounds.x = position_x;
+			btnDefense->Draw(app->render, showColliders, 25, { alpha,0,0,225 });
+		}
+		else
+		{
+			btnDefense->bounds.x = 20;
+			btnDefense->Draw(app->render, showColliders, 25, { 0,0,0,225 });
+		}
+
+		if (btnObject->state == GuiControlState::FOCUSED)
+		{
+			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
+			btnObject->bounds.x = position_x;
+			btnObject->Draw(app->render, showColliders, 25, { alpha,0,0,225 });
+		}
+		else
+		{
+			btnObject->bounds.x = 20;
+			btnObject->Draw(app->render, showColliders, 25, { 0,0,0,225 });
+		}
 	case BattleState::ATTACK:
 		app->render->DrawRectangle({ currEnemy->bounds.x + 100, currEnemy->bounds.y, 32, 16 }, 255, 0, 0);
 		app->render->DrawRectangle({ currPlayer->bounds.x - 100, currPlayer->bounds.y, 32, 16 }, 0, 255, 0);

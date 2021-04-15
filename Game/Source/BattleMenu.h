@@ -20,6 +20,7 @@ enum class BattleState
 class SceneBattle;
 class Player;
 class Enemy;
+class Easing;
 
 class BattleMenu : public Menu
 {
@@ -84,6 +85,12 @@ private:
 	GuiButton* btnObjectSlot2;
 	GuiButton* btnObjectSlot3;
 	GuiButton* btnObjectSlot4;
+
+	// Easing
+	Easing* easingArrow;
+	Easing* easingArrowBack;
+	float position_x;
+	Uint8 alpha;
 
 	SceneBattle* sceneBattle;
 

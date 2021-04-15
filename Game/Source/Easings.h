@@ -4,28 +4,12 @@
 #include <math.h>
 #define PI 3.14159265
 
-enum class Easing_Type
-{
-	BACK,
-	BOUNCE,
-	CIRCULAR,
-	CUBIC,
-	ELASTIC,
-	EXPONENTIAL,
-	LINEAR,
-	QUAD,
-	QUART,
-	QUINT,
-	SINE
-};
-
-class Easing 
+class Easing
 {
 public:
 	//CONSTRUCTOR AND DESTRUCTOR
-	Easing();
-	Easing(Easing_Type type);
-	~Easing();
+	Easing() {}
+	~Easing() {}
 
 	//BACK METHODS
 	static float backEaseIn(float t, float b, float c, float d);
@@ -84,8 +68,8 @@ public:
 	static float sineEaseInOut(float t, float b, float c, float d);
 
 public:
-	Easing_Type type;
 	float currentIteration, initialPos, deltaPos, totalIterations;
+	bool easingsActivated;
 };
 
 #endif // EASINGS_H
