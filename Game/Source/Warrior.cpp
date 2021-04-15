@@ -10,8 +10,10 @@ Warrior::Warrior(iPoint position, pugi::xml_node anim) : Player(PlayerType::WARR
 {
 	stance = PlayerStance::ROAMING;
 	healthPoints = 3500;
+	maxHealthPoints = healthPoints;
 	defense = 20;
 	manaPoints = 500;
+	maxManaPoints = manaPoints;
 	meleeDamage = 100;
 	magicDamage = 0;
 	isDefending = false;
@@ -216,6 +218,18 @@ void Warrior::GetDamage(int dmg)
 	}
 }
 
+void Warrior::GetHealed(int heal)
+{
+	healthPoints += heal;
+	if (healthPoints > maxHealthPoints) healthPoints = maxHealthPoints;
+}
+
+void Warrior::GetMana(int amount)
+{
+	manaPoints += amount;
+	if (manaPoints > maxManaPoints) manaPoints = maxManaPoints;
+}
+
 void Warrior::Ability(Enemy* enemy, int currentAbility)
 {
 	switch (currentAbility)
@@ -246,12 +260,22 @@ void Warrior::UseObject(Player* player, int currentObject)
 	{
 	case 1:
 		// TODO Object functionality
+		player->GetHealed(200);
+		LOG("USING POTION");
 		break;
 	case 2:
 		// TODO Object functionality
+		player->GetHealed(1000);
+		LOG("USING ULTRA POTION");
 		break;
 	case 3:
 		// TODO Object functionality
+		player->GetMana(500);
+		LOG("USING ETER");
+		break;
+	case 4:
+		player->GetMana(1500);
+		LOG("USING ULTRA ETER");
 		break;
 	}
 }

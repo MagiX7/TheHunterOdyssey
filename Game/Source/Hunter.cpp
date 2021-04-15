@@ -11,7 +11,9 @@ Hunter::Hunter(iPoint position, pugi::xml_node anim) : Player(PlayerType::HUNTER
 	//bounds = { 0,0, 16,32 };
 	stance = PlayerStance::ROAMING;
 	healthPoints = 2500;
+	maxHealthPoints = healthPoints;
 	manaPoints = 1000;
+	maxManaPoints = manaPoints;
 	defense = 15;
 	meleeDamage = 75;
 	magicDamage = 10;
@@ -246,14 +248,22 @@ void Hunter::UseObject(Player* player, int currentObject)
 	{
 	case 1:
 		// TODO Object functionality
-		player->GetHealed(500);
-		LOG("USING ULTRA POTION");
+		player->GetHealed(200);
+		LOG("USING POTION");
 		break;
 	case 2:
 		// TODO Object functionality
+		player->GetHealed(1000);
+		LOG("USING ULTRA POTION");
 		break;
 	case 3:
 		// TODO Object functionality
+		player->GetMana(500);
+		LOG("USING ETER");
+		break;
+	case 4:
+		player->GetMana(1500);
+		LOG("USING ULTRA ETER");
 		break;
 	}
 }
@@ -261,6 +271,13 @@ void Hunter::UseObject(Player* player, int currentObject)
 void Hunter::GetHealed(int heal)
 {
 	healthPoints += heal;
+	if (healthPoints > maxHealthPoints) healthPoints = maxHealthPoints;
+}
+
+void Hunter::GetMana(int amount)
+{
+	manaPoints += amount;
+	if (manaPoints > maxManaPoints) manaPoints = maxManaPoints;
 }
 
 void Hunter::SetDefend(bool option)

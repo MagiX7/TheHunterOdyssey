@@ -83,6 +83,10 @@ void Player::GetHealed(int heal)
 {
 }
 
+void Player::GetMana(int amount)
+{
+}
+
 void Player::SetDefend(bool option)
 {
 }
