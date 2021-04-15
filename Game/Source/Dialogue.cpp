@@ -43,18 +43,22 @@ void Dialogue::Draw(int& count, Font* font)
 	{
 		// Render options for the player
 		eastl::list<DialogueOption*>::iterator optionsIterator = currentNode->options.begin();
-		int offsetY = 0;
+
+		SDL_Rect r = (*optionsIterator)->bounds;
+		int offsetY = 0;		
 		if (nodes.size() > 1)
 		{
 			for (; optionsIterator != (*currentNode).options.end(); ++optionsIterator)
 			{
-				app->render->DrawText(font, (*optionsIterator)->text.c_str(), 685, 218 + offsetY, 30, 5, { 150,150,150,255 }, 1210);
+				r.y += offsetY;
+				app->render->DrawText(font, (*optionsIterator)->text.c_str(), r, 30, 5, { 150,150,150,255 }, 1210);
+				//(*optionsIterator)->bounds.y += offsetY;
 				offsetY += 90;
 			}
 		}
 		else
 		{
-			app->render->DrawText(font, (*optionsIterator)->text.c_str(), 685, 218 + offsetY, 30, 5, { 150,150,150,255 }, 1210);
+			app->render->DrawText(font, (*optionsIterator)->text.c_str(), (*optionsIterator)->bounds, 30, 5, { 150,150,150,255 }, 1210);
 		}
 
 	}

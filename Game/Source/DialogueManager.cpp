@@ -52,7 +52,7 @@ bool DialogueManager::Update(float dt)
 	{
 		if (current->currentNode->dialogFinished == true && current->currentNode->id >= 0)
 		{
-			if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || app->input->pad->down)
+			if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
 			{
 				eastl::list<DialogueOption*>::iterator it = current->currentNode->options.begin();
 				for (int i = 0; i < current->currentNode->optionsNum; ++i, ++it)
@@ -65,7 +65,7 @@ bool DialogueManager::Update(float dt)
 				}
 			}
 
-			if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || app->input->pad->up)
+			if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
 			{
 				eastl::list<DialogueOption*>::iterator it = current->currentNode->options.begin();
 				for (int i = 0; i < current->currentNode->optionsNum; ++i, ++it)
@@ -79,7 +79,7 @@ bool DialogueManager::Update(float dt)
 			}
 
 			// If player presses enter, means he has chosen an option
-			if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || app->input->pad->a)
+			if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 			{
 				NpcNode* aux = GetNodeById(current->currentNode->currentOption->nextNodeId);
 				/*current->currentNode=current->currentNode.*/
@@ -94,7 +94,7 @@ bool DialogueManager::Update(float dt)
 
 		if (current->currentNode->id == -1)
 		{
-			if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || app->input->pad->a)
+			if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 			{
 				// Dialog finished
 				//current->currentNode->dialogFinished = false;
@@ -120,19 +120,7 @@ void DialogueManager::Draw()
 		sect = { 615, 137, 556, 203 };
 		app->render->DrawTexture(texture, 670 - (app->render->camera.x ), 200 - (app->render->camera.y ), &sect);
 
-		if (current->currentNode->dialogFinished)
-		{
-			if (alpha >= 255)
-			{
-				alpha = 0;
-			}
-			//SDL_Rect r = { current->currentNode->currentOption->bounds.x,  current->currentNode->currentOption->bounds.y, 400,50 };
-			SDL_Rect r = { current->currentNode->currentOption->bounds.x + (app->render->camera.x * (-1))  , current->currentNode->currentOption->bounds.y + (app->render->camera.y * (-1)) ,
-				current->currentNode->currentOption->bounds.w,current->currentNode->currentOption->bounds.h };
-
-			app->render->DrawRectangle(r, 149, 255, 255, alpha);
-		}
-
+		// Draw the text
 		if (printText == true && current->currentNode->id >= -1)
 		{
 			current->Draw(letterCount, font);
@@ -140,6 +128,13 @@ void DialogueManager::Draw()
 		else if (current->currentNode->id == -1)
 		{
 			printText = false;
+		}
+
+		// Draw the arrow to give visual feedback of the current option
+		if (current->currentNode->dialogFinished)
+		{
+			sect = { 622, 352, 16,23 };
+			app->render->DrawTexture(texture, current->currentNode->currentOption->bounds.x - 25, current->currentNode->currentOption->bounds.y, &sect);
 		}
 	}
 }
@@ -169,16 +164,16 @@ NpcNode* DialogueManager::LoadNode(int id, pugi::xml_node node)
 		option->text = m.attribute("text").as_string();
 		option->id = m.attribute("id").as_int();
 		option->nextNodeId = m.attribute("nextNodeId").as_int();
-		option->bounds.x = 680;
+		option->bounds.x = 710;
 		option->bounds.y = 215 + i;
 		//option->bounds.w = 400;
 		int offset = font->GetBaseSize();
 		option->bounds.w = option->text.size() * offset;
-		option->bounds.h = 50;
+		option->bounds.h = font->GetBaseSize() + 10;
 
 		tmp->options.push_back(option);
 		++tmp->optionsNum;
-		i += 58;
+		i += 90;
 	}
 
 	return tmp;

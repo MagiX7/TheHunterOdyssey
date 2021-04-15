@@ -26,7 +26,7 @@ public:
 class NpcNode
 {
 public:
-	NpcNode(eastl::string ttext) : text(ttext), stopDialog(false), dialogFinished(false) {}
+	NpcNode(eastl::string ttext) : text(ttext), stopDialog(false), dialogFinished(false), letterCount(0) {}
 	virtual ~NpcNode() {};
 
 	void Reset();
