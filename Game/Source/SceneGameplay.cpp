@@ -551,7 +551,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					{
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
-						iPoint position = { 755,710 };
+						iPoint position = { 770,710 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
@@ -593,17 +593,51 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					if (((*map->data.layers.end().prev())->Get(i, j) == 777) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						entityManager->SetAllNpcInactive();
-						iPoint position = { 760,300 };
+						iPoint position = { 750,300 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("adventurer_house.tmx", app->tex);
+
+						pugi::xml_document animations;
+						pugi::xml_node anims;
+						pugi::xml_parse_result result = animations.load_file("animations.xml");
+						if (result == NULL)
+							LOG("Could not load xml file: %s. pugi error: %s", CONFIG_FILENAME, result.description());
+						else
+							anims = animations.child("animations");
+						Npc* generalNpc = nullptr;
+						position = { 630,450 };
+						generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TABERN, position, anims, 4);
+
+						position = { 630,420 };
+						generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 1);
+
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 1545) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
-						iPoint position = { 385,600 };
+						iPoint position = { 448,465 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("town_map.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 778) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						entityManager->SetAllNpcInactive();
+						iPoint position = { 650,480 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("inn.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 1546) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						entityManager->DeleteAllNpcActive();
+						entityManager->SetAllNpcActive();
+						iPoint position = { 380,136 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
