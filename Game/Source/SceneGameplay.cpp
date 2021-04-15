@@ -612,6 +612,82 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
 					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 779) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						entityManager->SetAllNpcInactive();
+						iPoint position = { 615,480 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("library.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 1547) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						entityManager->DeleteAllNpcActive();
+						entityManager->SetAllNpcActive();
+						iPoint position = { 160,136 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("town_map.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 780) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						entityManager->SetAllNpcInactive();
+						iPoint position = { 615,480 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("shop.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 12) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						entityManager->DeleteAllNpcActive();
+						entityManager->SetAllNpcActive();
+						iPoint position = { 898,152 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("town_map.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 782) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						entityManager->SetAllNpcInactive();
+						iPoint position = { 615,480 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("shop2.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 14) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						entityManager->DeleteAllNpcActive();
+						entityManager->SetAllNpcActive();
+						iPoint position = { 900,1250 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("town_map.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 783) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						entityManager->SetAllNpcInactive();
+						iPoint position = { 615,480 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("red_house.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 1551) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						entityManager->DeleteAllNpcActive();
+						entityManager->SetAllNpcActive();
+						iPoint position = { 1350,390 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("town_map.tmx", app->tex);
+					}
 				}
 			}
 		}
