@@ -5,6 +5,8 @@
 
 #include "PugiXml/src/pugixml.hpp"
 
+class Easing;
+
 class DialogueManager
 {
 public:
@@ -36,6 +38,10 @@ private:
 	eastl::list<Dialogue*> dialogues;
 
 	Font* font;
+
+	Easing* easingArrow;
+	Easing* easingArrow2;
+	float arrowPosition;
 	
 	int lastUserInput;
 	int letterCount;

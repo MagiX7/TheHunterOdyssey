@@ -4,6 +4,7 @@
 #include "Textures.h"
 
 #include "DialogueManager.h"
+#include "Easings.h"
 
 #include "Log.h"
 
@@ -37,6 +38,23 @@ bool DialogueManager::Start()
 		alpha = 150;
 	}
 
+	//Easing Arrow
+	easingArrow = new Easing();
+	easingArrow->initialPos = 0;
+	easingArrow->currentIteration = 0;
+	easingArrow->totalIterations = 60;
+	easingArrow->deltaPos = 10;
+	easingArrow->easingsActivated = false;
+
+	easingArrow2 = new Easing();
+	easingArrow2->initialPos = 0;
+	easingArrow2->currentIteration = 0;
+	easingArrow2->totalIterations = 60;
+	easingArrow2->deltaPos = -10;
+	easingArrow2->easingsActivated = false;
+
+	arrowPosition = 0;
+
 	return true;
 }
 
@@ -50,6 +68,42 @@ bool DialogueManager::Update(float dt)
 	
 	if (current != nullptr)
 	{
+		if(easingArrow2->easingsActivated == false) easingArrow->easingsActivated = true;
+
+		easingArrow->initialPos = current->currentNode->currentOption->bounds.x - 30;
+		easingArrow2->initialPos = easingArrow->initialPos + easingArrow->deltaPos;
+
+		if (easingArrow->easingsActivated)
+		{
+			arrowPosition = easingArrow->circularEaseInOut(easingArrow->currentIteration, easingArrow->initialPos, easingArrow->deltaPos, easingArrow->totalIterations);
+
+			if (easingArrow->currentIteration < easingArrow->totalIterations)
+			{
+				easingArrow->currentIteration++;
+			}
+			else
+			{
+				easingArrow->currentIteration = 0;
+				easingArrow->easingsActivated = false;
+				easingArrow2->easingsActivated = true;
+			}
+		}
+		else if (easingArrow2->easingsActivated)
+		{
+			arrowPosition = easingArrow2->circularEaseInOut(easingArrow2->currentIteration, easingArrow2->initialPos, easingArrow2->deltaPos, easingArrow2->totalIterations);
+	
+			if (easingArrow2->currentIteration < easingArrow2->totalIterations)
+			{
+				easingArrow2->currentIteration++;
+			}
+			else
+			{
+				easingArrow2->currentIteration = 0;
+				easingArrow2->easingsActivated = false;
+				easingArrow->easingsActivated = true;
+			}
+		}
+
 		if (current->currentNode->dialogFinished == true && current->currentNode->id >= 0)
 		{
 			if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
@@ -134,7 +188,7 @@ void DialogueManager::Draw()
 		if (current->currentNode->dialogFinished)
 		{
 			sect = { 622, 352, 16,23 };
-			app->render->DrawTexture(texture, current->currentNode->currentOption->bounds.x - 25, current->currentNode->currentOption->bounds.y, &sect);
+			app->render->DrawTexture(texture, arrowPosition, current->currentNode->currentOption->bounds.y, &sect);
 		}
 	}
 }
