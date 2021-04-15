@@ -93,7 +93,7 @@ bool CharacterManager::Update(float dt)
 void CharacterManager::Draw(Font* font, bool showColliders)
 {
 	SDL_Rect section = { 0,0,430,650 };
-	app->render->DrawTexture(guiTex, 425, 48, &section);
+	app->render->DrawTexture(guiTex, 425 - app->render->camera.x, 48 - app->render->camera.y, &section);
 
 	btnHunter->Draw(app->render, showColliders, 36, { 0,0,0,255 });
 	btnWizard->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
