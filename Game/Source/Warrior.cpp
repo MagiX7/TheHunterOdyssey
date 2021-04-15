@@ -241,19 +241,26 @@ void Warrior::Ability(Enemy* enemy, int currentAbility)
 	switch (currentAbility)
 	{
 	case 1:
-		enemy->GetDamage(meleeDamage + 500);
+		if (enemy->GetHealth() <= 1000)
+		{
+			enemy->GetDamage(2500);
+		}
+		enemy->GetDamage(meleeDamage + (meleeDamage * 0.20));
 		LOG("Casting EXECUTE");
 		break;
 	case 2:
-		enemy->GetDamage(magicDamage);
-		LOG("Casting TAUNT");
+		if (enemy->GetHealth() > 2000)
+		{
+			enemy->GetDamage(enemy->GetHealth() * 0.15);
+		}
+		LOG("Rend");
 		break;
 	case 3:
-		enemy->GetDamage(magicDamage + rand() % 200);
-		LOG("Casting PROTECT");
+		enemy->GetDamage(meleeDamage + rand() % 200);
+		LOG("Casting CLEAVE");
 		break;
 	case 4:
-		enemy->GetDamage(magicDamage + 200);
+		enemy->GetDamage(rand());
 		LOG("Casting WAR CRY");
 		break;
 	}
