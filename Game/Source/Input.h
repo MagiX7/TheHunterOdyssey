@@ -8,7 +8,7 @@
 
 //#define NUM_KEYS 352
 #define NUM_MOUSE_BUTTONS 5
-#define MAX_BUTTONS 14
+#define MAX_BUTTONS 15
 //#define LAST_KEYS_PRESSED_BUFFER 50
 
 struct _SDL_GameController;

@@ -6,7 +6,7 @@
 #include "Log.h"
 
 #define MAX_KEYS 300
-#define MAX_BUTTONS 14
+#define MAX_BUTTONS 15
 
 
 GamePad::GamePad()
@@ -16,6 +16,7 @@ GamePad::GamePad()
 	memset(buttons, KEY_IDLE, sizeof(KeyState) * MAX_BUTTONS);
 
 	//btns = new SDL_GameControllerButton[MAX_BUTTONS];
+	//memset(btns, 0, sizeof(SDL_GameControllerButton) * MAX_BUTTONS);
 	memset(btns, 0, sizeof(SDL_GameControllerButton) * MAX_BUTTONS);
 
 	btns[0] = SDL_CONTROLLER_BUTTON_A;
@@ -86,7 +87,7 @@ void GamePad::UpdateGamepadInput()
 	{
 		//int b = SDL_GameControllerEventState(-1);
 
-		for (int i = 0; i < MAX_BUTTONS; ++i)
+		for (int i = 0; i <= MAX_BUTTONS; ++i)
 		{
 			if (SDL_GameControllerGetButton(controller, btns[i]) == 0)
 			{
