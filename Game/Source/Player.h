@@ -55,6 +55,8 @@ public:
 
 	virtual void GetHealed(int heal);
 
+	virtual void GetMana(int amount);
+
 	virtual void SetDefend(bool option);
 
 	virtual void SetIdleBattle() { currentAnim = &idleBattle; }
@@ -94,7 +96,9 @@ protected:
 	bool attack;
 
 	int healthPoints;
+	int maxHealthPoints;
 	int manaPoints;
+	int maxManaPoints;
 	int meleeDamage;
 	int magicDamage;
 	int defense;

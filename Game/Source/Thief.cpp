@@ -10,8 +10,10 @@ Thief::Thief(iPoint position, pugi::xml_node anim) : Player(PlayerType::THIEF, E
 {
 	stance = PlayerStance::ROAMING;
 	healthPoints = 1500;
+	maxHealthPoints = healthPoints;
 	defense = 10;
 	manaPoints = 500;
+	maxManaPoints = manaPoints;
 	meleeDamage = 50;
 	magicDamage = 15;
 	isDefending = false;
@@ -216,6 +218,18 @@ void Thief::GetDamage(int dmg)
 	}
 }
 
+void Thief::GetHealed(int heal)
+{
+	healthPoints += heal;
+	if (healthPoints > maxHealthPoints) healthPoints = maxHealthPoints;
+}
+
+void Thief::GetMana(int amount)
+{
+	manaPoints += amount;
+	if (manaPoints > maxManaPoints) manaPoints = maxManaPoints;
+}
+
 void Thief::Ability(Enemy* enemy, int currentAbility)
 {
 	switch (currentAbility)
@@ -246,12 +260,22 @@ void Thief::UseObject(Player* player, int currentObject)
 	{
 	case 1:
 		// TODO Object functionality
+		player->GetHealed(200);
+		LOG("USING POTION");
 		break;
 	case 2:
 		// TODO Object functionality
+		player->GetHealed(1000);
+		LOG("USING ULTRA POTION");
 		break;
 	case 3:
 		// TODO Object functionality
+		player->GetMana(500);
+		LOG("USING ETER");
+		break;
+	case 4:
+		player->GetMana(1500);
+		LOG("USING ULTRA ETER");
 		break;
 	}
 }

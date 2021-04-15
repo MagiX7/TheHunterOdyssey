@@ -12,8 +12,10 @@ Wizard::Wizard(iPoint position, pugi::xml_node anim) : Player(PlayerType::WIZARD
 	//bounds = { 0,0, 16,32 };
 	stance = PlayerStance::ROAMING;
 	healthPoints = 1000;
+	maxHealthPoints = healthPoints;
 	defense = 5;
 	manaPoints = 5000;
+	maxManaPoints = manaPoints;
 	meleeDamage = 1;
 	magicDamage = 5;
 	isDefending = false;
@@ -221,6 +223,18 @@ void Wizard::GetDamage(int dmg)
 	}
 }
 
+void Wizard::GetHealed(int heal)
+{
+	healthPoints += heal;
+	if (healthPoints > maxHealthPoints) healthPoints = maxHealthPoints;
+}
+
+void Wizard::GetMana(int amount)
+{
+	manaPoints += amount;
+	if (manaPoints > maxManaPoints) manaPoints = maxManaPoints;
+}
+
 void Wizard::Ability(Enemy* enemy, int currentAbility)
 {
 	switch (currentAbility)
@@ -250,12 +264,22 @@ void Wizard::UseObject(Player* player, int currentObject)
 	{
 	case 1:
 		// TODO Object functionality
+		player->GetHealed(200);
+		LOG("USING POTION");
 		break;
 	case 2:
 		// TODO Object functionality
+		player->GetHealed(1000);
+		LOG("USING ULTRA POTION");
 		break;
 	case 3:
 		// TODO Object functionality
+		player->GetMana(500);
+		LOG("USING ETER");
+		break;
+	case 4:
+		player->GetMana(1500);
+		LOG("USING ULTRA ETER");
 		break;
 	}
 }

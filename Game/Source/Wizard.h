@@ -21,6 +21,10 @@ public:
 	void Attack(Enemy* enemy) override;
 
 	void GetDamage(int dmg) override;
+
+	void GetHealed(int heal) override;
+
+	void GetMana(int amount) override;
 	
 	void Ability(Enemy* enemy, int currentAbility) override;
 

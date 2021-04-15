@@ -65,16 +65,16 @@ bool BattleMenu::Load(Font* font)
 	btnAbilitySlot4->texture = guiTex;
 	btnAbilitySlot4->sectionFocused = { 0,260,204,43 };
 
-	btnObjectSlot1 = new GuiButton(9, { 72, 500, 204, 43 }, "Object1", this, font);
+	btnObjectSlot1 = new GuiButton(9, { 72, 500, 204, 43 }, "Potion", this, font);
 	btnObjectSlot1->texture = guiTex;
 	btnObjectSlot1->sectionFocused = { 0,260,204,43 };
-	btnObjectSlot2 = new GuiButton(10, { 314, 500, 204, 43 }, "Object2", this, font);
+	btnObjectSlot2 = new GuiButton(10, { 314, 500, 204, 43 }, "Ultra Potion", this, font);
 	btnObjectSlot2->texture = guiTex;
 	btnObjectSlot2->sectionFocused = { 0,260,204,43 };
-	btnObjectSlot3 = new GuiButton(11, { 72, 565, 204, 43 }, "Object3", this, font);
+	btnObjectSlot3 = new GuiButton(11, { 72, 565, 204, 43 }, "Eter", this, font);
 	btnObjectSlot3->texture = guiTex;
 	btnObjectSlot3->sectionFocused = { 0,260,204,43 };
-	btnObjectSlot4 = new GuiButton(12, { 314, 565, 204, 43 }, "Object4", this, font);
+	btnObjectSlot4 = new GuiButton(12, { 314, 565, 204, 43 }, "Ultra Eter", this, font);
 	btnObjectSlot4->texture = guiTex;
 	btnObjectSlot4->sectionFocused = { 0,260,204,43 };
 
@@ -115,7 +115,7 @@ bool BattleMenu::Update(float dt)
 		btnObject->Update(app->input, dt, id);
 		break;
 	case BattleState::ATTACK:
-		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
 		{
 			type = BattleState::DEFAULT;
 			DefaultStateButtons();
@@ -124,7 +124,7 @@ bool BattleMenu::Update(float dt)
 		
 		break;
 	case BattleState::ABILITY_SELECT:
-		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
 		{
 			type = BattleState::DEFAULT;
 			DefaultStateButtons();
@@ -139,7 +139,7 @@ bool BattleMenu::Update(float dt)
 		//ret = HandleAbilities(app->input);
 		break;
 	case BattleState::ABILITY:
-		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
 		{
 			type = BattleState::ABILITY_SELECT;
 			AbilityStateButtons();
@@ -156,7 +156,7 @@ bool BattleMenu::Update(float dt)
 		ret = HandleDefense(app->input);
 		break;
 	case BattleState::OBJECT_SELECT:
-		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
 		{
 			type = BattleState::DEFAULT;
 			DefaultStateButtons();
@@ -170,7 +170,7 @@ bool BattleMenu::Update(float dt)
 		}
 		break;
 	case BattleState::OBJECT:
-		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
 		{
 			type = BattleState::OBJECT_SELECT;
 			ObjectStateButtons();
@@ -468,22 +468,22 @@ bool BattleMenu::OnGuiMouseClickEvent(GuiControl* control)
 		else if (control->id == 9)
 		{
 			type = BattleState::OBJECT;
-			currPlayer->SetObjectSelected(1);
+			tempPlayer->SetObjectSelected(1);
 		}
 		else if (control->id == 10)
 		{
 			type = BattleState::OBJECT;
-			currPlayer->SetObjectSelected(2);
+			tempPlayer->SetObjectSelected(2);
 		}
 		else if (control->id == 11)
 		{
 			type = BattleState::OBJECT;
-			currPlayer->SetObjectSelected(3);
+			tempPlayer->SetObjectSelected(3);
 		}
 		else if (control->id == 12)
 		{
 			type = BattleState::OBJECT;
-			currPlayer->SetObjectSelected(4);
+			tempPlayer->SetObjectSelected(4);
 		}
 		break;
 	}
@@ -542,7 +542,7 @@ bool BattleMenu::HandleInput(Input* input)
 			}
 		}
 	}
-	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
+	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_UP)
 	{
 		currPlayer->Attack(currEnemy);
 	
@@ -614,7 +614,7 @@ bool BattleMenu::HandleAbilities(Input* input, int currentAbility)
 			}
 		}
 	}
-	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
+	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_UP)
 	{
 		currPlayer->Ability(currEnemy, currentAbility);
 
@@ -644,6 +644,21 @@ bool BattleMenu::HandleAbilities(Input* input, int currentAbility)
 					DefaultStateButtons();
 					break;
 				}
+			}
+		}
+	}
+
+	if (currPlayer->stance == PlayerStance::ATTACK_FINISHED && type != BattleState::ENEMY_TURN)
+	{
+		eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
+		for (int i = 0; it != sceneBattle->playerList.end(); ++it, ++i)
+		{
+			if ((*it) == currPlayer)
+			{
+				currPlayer = (*it.next());
+				type = BattleState::DEFAULT;
+				DefaultStateButtons();
+				break;
 			}
 		}
 	}
@@ -686,9 +701,9 @@ bool BattleMenu::HandleObjects(Input* input, int currentObject)
 			}
 		}
 	}
-	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
+	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_UP)
 	{
-		currPlayer->UseObject(currPlayer, currentObject);
+		tempPlayer->UseObject(currPlayer, tempPlayer->GetObjectSelected());
 
 		currPlayer = tempPlayer;
 		tempPlayer = nullptr;

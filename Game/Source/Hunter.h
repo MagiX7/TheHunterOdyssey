@@ -28,6 +28,8 @@ public:
 
 	void GetHealed(int heal) override;
 
+	void GetMana(int amount) override;
+
 	void SetDefend(bool option) override;
 
 	void SetIdleRoaming()
@@ -38,7 +40,4 @@ public:
 protected:
 	void HandleInput(float dt) override;
 	void Travel(iPoint destination, float dt) override;
-
-private:
-
 };
