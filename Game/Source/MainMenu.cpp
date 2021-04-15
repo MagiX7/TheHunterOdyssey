@@ -69,6 +69,11 @@ bool MainMenu::Load(Font* font)
 	btnCreditsBack->texture = guiTex;
 	btnCreditsBack->alineation = 1;
 
+	pugi::xml_document saveFile;
+	pugi::xml_parse_result result = saveFile.load_file("save_game.xml");
+	
+	if (result == NULL) btnContinue->state = GuiControlState::DISABLED;
+
 	buttons.push_back(btnNewGame);
 	buttons.push_back(btnContinue);
 	buttons.push_back(btnOptions);

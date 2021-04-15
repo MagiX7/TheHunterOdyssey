@@ -79,16 +79,19 @@ bool SceneManager::Update(float dt)
 			if (transitionAlpha > 1.01f)
 			{
 				transitionAlpha = 1.0f;
-
 				current->UnLoad();	// Unload current screen
-				next->Load();	// Load next screen
 
-				RELEASE(current);	// Free current pointer
-				current = next;		// Assign next pointer
-				next = nullptr;
+				if (app->audio->FadeOutCompleted() == false)
+				{
+					next->Load();	// Load next screen
 
-				// Activate fade out effect to next loaded screen
-				fadeOutCompleted = true;
+					RELEASE(current);	// Free current pointer
+					current = next;		// Assign next pointer
+					next = nullptr;
+
+					// Activate fade out effect to next loaded screen
+					fadeOutCompleted = true;
+				}
 			}
 		}
 		else  // Transition fade out logic
@@ -154,9 +157,8 @@ bool SceneManager::LoadState(pugi::xml_node& load)
 	RELEASE(current);
 	SString type;
 	type = load.child("Type").attribute("sceneType").as_string();
-	if (type == "scenegameplay")current = new SceneGameplay();
+	if (type == "scenegameplay") current = new SceneGameplay();
 	current->Load();
-
 
 	//TODO
 	current->LoadState(load.child(current->name.GetString()));

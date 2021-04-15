@@ -188,7 +188,7 @@ void DialogueManager::Draw()
 		if (current->currentNode->dialogFinished)
 		{
 			sect = { 622, 352, 16,23 };
-			app->render->DrawTexture(texture, arrowPosition, current->currentNode->currentOption->bounds.y, &sect);
+			app->render->DrawTexture(texture, arrowPosition -app->render->camera.x, current->currentNode->currentOption->bounds.y - app->render->camera.y, &sect);
 		}
 	}
 }

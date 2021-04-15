@@ -22,6 +22,8 @@ public:
 	// Called before render is available
 	bool Awake(pugi::xml_node&);
 
+	bool Update(float dt) override;
+
 	// Called before quitting
 	bool CleanUp();
 
@@ -46,13 +48,20 @@ public:
 
 	int GetFxVolume();
 
+	inline bool FadeOutCompleted() { return fadeOut; }
+
 private:
 
 	_Mix_Music* music;
 	eastl::deque<Mix_Chunk*> fx;
 
-	int musicVolume;
+	float musicVolume;
 	int fxVolume;
+
+	const char* nextMusic;
+	float auxMusic;
+	bool transition;
+	bool fadeOut;
 };
 
 #endif // __AUDIO_H__

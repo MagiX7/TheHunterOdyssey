@@ -13,6 +13,11 @@ Audio::Audio() : Module()
 {
 	music = NULL;
 	name.Create("audio");
+
+	fadeOut = false;
+	transition = false;
+	nextMusic = "";
+	auxMusic = 0;
 }
 
 // Destructor
@@ -52,10 +57,43 @@ bool Audio::Awake(pugi::xml_node& config)
 		ret = true;
 	}
 
-	musicVolume = config.child("musicVolume").attribute("value").as_int();
+	musicVolume = config.child("musicVolume").attribute("value").as_float();
 	fxVolume = config.child("fxVolume").attribute("value").as_int();
 
 	return ret;
+}
+
+bool Audio::Update(float dt)
+{
+	if (transition)
+	{
+		if (fadeOut)
+		{
+			musicVolume -= (auxMusic * 1.5) * dt;
+			if (musicVolume < -0.1f)
+			{
+				musicVolume = 0;
+				Mix_FreeMusic(music);
+				music = Mix_LoadMUS(nextMusic);
+				Mix_PlayMusic(music, - 1);
+				nextMusic = "";
+				fadeOut = false;
+			}
+			Mix_VolumeMusic(musicVolume);
+		}
+		else
+		{
+			musicVolume += (auxMusic * 1.5) * dt;
+			if (musicVolume >= auxMusic)
+			{
+				musicVolume = auxMusic;
+				transition = false;
+				fadeOut = false;
+			}
+			Mix_VolumeMusic(musicVolume);
+		}
+	}
+	return true;
 }
 
 // Called before quitting
@@ -88,55 +126,16 @@ bool Audio::CleanUp()
 bool Audio::PlayMusic(const char* path, float fadeTime)
 {
 	bool ret = true;
-
+	
 	if(!active)
 		return false;
+	
+	auxMusic = musicVolume;
+	transition = true;
 
-	if(music != NULL)
-	{
-		if(fadeTime > 0.0f)
-		{
-			Mix_FadeOutMusic(int(fadeTime * 1000.0f));
-		}
-		else
-		{
-			Mix_HaltMusic();
-		}
+	fadeOut = true;
+	nextMusic = path;
 
-		// this call blocks until fade out is done
-		Mix_FreeMusic(music);
-	}
-
-	music = Mix_LoadMUS(path);
-
-	if(music == NULL)
-	{
-		LOG("Cannot load music %s. Mix_GetError(): %s\n", path, Mix_GetError());
-		ret = false;
-	}
-	else
-	{
-		if(fadeTime > 0.0f)
-		{
-			if(Mix_FadeInMusic(music, -1, (int) (fadeTime * 1000.0f)) < 0)
-			{
-				LOG("Cannot fade in music %s. Mix_GetError(): %s", path, Mix_GetError());
-				ret = false;
-			}
-		}
-		else
-		{
-			if(Mix_PlayMusic(music, -1) < 0)
-			{
-				LOG("Cannot play in music %s. Mix_GetError(): %s", path, Mix_GetError());
-				ret = false;
-			}
-		}
-
-		Mix_VolumeMusic(musicVolume);
-	}
-
-	LOG("Successfully playing %s", path);
 	return ret;
 }
 
