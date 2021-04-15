@@ -587,7 +587,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					{
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
-						iPoint position = { 385,600 };
+						iPoint position = { 385,610 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
