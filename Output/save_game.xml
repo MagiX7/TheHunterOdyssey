@@ -5,31 +5,59 @@
   <textures />
   <audio />
   <scenemanager>
+    <Type sceneType="scenegameplay" />
     <scenegameplay>
       <entities>
-        <NPCs amount="4">
+        <NPCs amount="5">
           <NPC>
-            <bounds X="73" Y="250" W="30" H="32" />
+            <bounds X="33" Y="135" W="30" H="32" />
             <NpcType type="TOWN" />
             <Dialoge idDialoge="0" />
           </NPC>
           <NPC>
-            <bounds X="608" Y="1146" W="30" H="32" />
-            <NpcType type="RAY" />
-            <Dialoge idDialoge="3" />
-          </NPC>
-          <NPC>
-            <bounds X="798" Y="810" W="30" H="32" />
+            <bounds X="1265" Y="930" W="30" H="32" />
             <NpcType type="TABERN" />
             <Dialoge idDialoge="2" />
           </NPC>
           <NPC>
-            <bounds X="593" Y="350" W="30" H="32" />
+            <bounds X="754" Y="224" W="30" H="32" />
+            <NpcType type="NPC_WIZARD" />
+            <Dialoge idDialoge="1" />
+          </NPC>
+          <NPC>
+            <bounds X="670" Y="280" W="30" H="32" />
+            <NpcType type="TOWN" />
+            <Dialoge idDialoge="4" />
+          </NPC>
+          <NPC>
+            <bounds X="776" Y="400" W="30" H="32" />
             <NpcType type="NPC_WIZARD" />
             <Dialoge idDialoge="1" />
           </NPC>
         </NPCs>
-        <players amount="0" />
+        <players amount="4">
+          <player>
+            <isCurrent current="true" />
+            <bounds X="644" Y="388" W="32" H="32" />
+            <playerType type="HUNTER" />
+          </player>
+          <player>
+            <isCurrent current="false" />
+            <bounds X="18" Y="90" W="32" H="32" />
+            <playerType type="WIZARD" />
+          </player>
+          <player>
+            <isCurrent current="false" />
+            <bounds X="12" Y="45" W="32" H="32" />
+            <playerType type="THIEF" />
+          </player>
+          <player>
+            <isCurrent current="false" />
+            <bounds X="13" Y="56" W="32" H="32" />
+            <playerType type="WARRIOR" />
+          </player>
+          <player />
+        </players>
       </entities>
     </scenegameplay>
   </scenemanager>

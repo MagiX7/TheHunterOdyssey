@@ -200,7 +200,7 @@ bool DialogueManager::UnLoad()
 	font->UnLoad(app->tex);
 	RELEASE(font);
 
-	if (current != nullptr) current->CleanUp();
+	/*if (current != nullptr) current->CleanUp();*/
 
 	dialogues.clear();
 

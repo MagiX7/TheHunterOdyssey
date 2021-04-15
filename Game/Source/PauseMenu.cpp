@@ -328,8 +328,8 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 			lastButton = currentButton;
 			currentButton = (*buttons.end().prev());
 		}
-		else if (control->id == 6); // Save Game
-		else if (control->id == 7); // Load Game
+		else if (control->id == 6)app->SaveGameRequest();// Save Game
+		else if (control->id == 7)app->LoadGameRequest(); // Load Game // Load Game
 		else if (control->id == 8)
 		{
 			state = PauseState::DEFAULT;

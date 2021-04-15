@@ -249,12 +249,14 @@ bool SceneGameplay::UnLoad()
 
 	pause->UnLoad();
 	RELEASE(pause);
+	
+	dialogueManager->UnLoad();
+	RELEASE(dialogueManager);
 
 	font->UnLoad(app->tex);
 	RELEASE(font);
 	
-	dialogueManager->UnLoad();
-	RELEASE(dialogueManager);
+	
 
 	return ret;
 }
@@ -305,18 +307,85 @@ bool SceneGameplay::CheckDialogue()
 bool SceneGameplay::LoadState(pugi::xml_node& load)
 {
 	pugi::xml_node toLoadEntities = load.child("entities");
-	
-	entityManager->LoadState(&toLoadEntities);
+	pugi::xml_document animations;
+	pugi::xml_node anims;
+	pugi::xml_parse_result result = animations.load_file("animations.xml");
+	anims = animations.child("animations");
+
+	entityManager->LoadState(&toLoadEntities, &anims);
+
+	eastl::list<Player*>::iterator item = playerList.begin();
+	for (item; item != playerList.end(); ++item)
+	{
+		(*item)->UnLoad();
+		RELEASE((*item));
+		playerList.erase(item);
+	}
+
+	int playerAmount = toLoadEntities.child("players").attribute("amount").as_int();
+	pugi::xml_node NodePlayer = toLoadEntities.child("players");
+	pugi::xml_node NodePlayerAuxiliar = NodePlayer.child("player");
+	bool iscurrent = false;
+	for (int i = 0; i < playerAmount; i++) {
+		iscurrent = false;
+
+		SString string;
+		SString string1;
+		string = NodePlayerAuxiliar.child("playerType").attribute("type").as_string();
+		string1 = NodePlayerAuxiliar.child("isCurrent").attribute("current").as_string();
+		if (string1 == "true")iscurrent = true;
+
+		EntityType plType;
+		Player* player = nullptr;
+		if (string == "HUNTER") { player = new Hunter({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims); }
+		else if (string == "WIZARD") { player = new Wizard({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims); }
+		else if (string == "WARRIOR") { player = new Warrior({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims); }
+		else if (string == "THIEF") { player = new Thief({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims); }
+		else { plType = EntityType::UNKNOWN; }
+		if (iscurrent == true)currentPlayer = player;
+		playerList.push_back(player);
+		player->Load();
+		NodePlayerAuxiliar = NodePlayerAuxiliar.next_sibling();
+	}
 	return true;
 }
 
 bool SceneGameplay::SaveState(pugi::xml_node& save) const
 {
 	pugi::xml_node toSaveEntites = save.append_child("entities");
-
 	entityManager->SaveState(&toSaveEntites);
+	/*const pugi::char_t* name = map->name.GetString();
+	pugi::xml_node toSaveScene = toSaveEntites.append_child("scene");
+	toSaveScene.append_attribute("mapName").set_value(name);
+	toSaveScene.append_attribute("sceneType").set_value("sceneGameplay");*/
+
+
+
+	pugi::xml_node nodePlayers = toSaveEntites.append_child("players");
+	pugi::xml_node nodePlayersAuxiliar;
+	int playerAmount = 0;
+	nodePlayers.append_attribute("amount").set_value(playerList.size());
+	nodePlayersAuxiliar = nodePlayers.append_child("player");
+	eastl::list<Player*>::iterator aux;
+	aux = playerList.begin().mpNode;
+	for (aux; aux != playerList.end(); aux++)
+	{
+		if ((*aux) == currentPlayer)
+		{
+			nodePlayersAuxiliar.append_child("isCurrent").append_attribute("current").set_value("true");
+		}
+		else
+		{
+			nodePlayersAuxiliar.append_child("isCurrent").append_attribute("current").set_value("false");
+		}
+		(*aux)->SaveState(nodePlayersAuxiliar);
+		nodePlayersAuxiliar = nodePlayers.append_child("player");
+	}
+
+
 	return true;
 }
+
 
 void SceneGameplay::ChangeState(GameplayMenuState type)
 {

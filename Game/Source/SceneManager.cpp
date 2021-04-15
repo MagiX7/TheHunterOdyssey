@@ -46,7 +46,7 @@ bool SceneManager::Start()
 	LOG("Scene Manager Start");
 	bool ret = true;
 
-	current = new SceneGameplay();
+	current = new SceneTitle();
 	current->Load();
 
 	next = nullptr;
@@ -149,7 +149,15 @@ bool SceneManager::LoadState(pugi::xml_node& load)
 {
 	LOG("Loading Scene Manager");
 	bool ret = true;
-	
+
+	current->UnLoad();
+	RELEASE(current);
+	SString type;
+	type = load.child("Type").attribute("sceneType").as_string();
+	if (type == "scenegameplay")current = new SceneGameplay();
+	current->Load();
+
+
 	//TODO
 	current->LoadState(load.child(current->name.GetString()));
 
@@ -160,7 +168,9 @@ bool SceneManager::SaveState(pugi::xml_node& save) const
 {
 	LOG("Saving Scene Manager");
 	bool ret = true;
-	
+	const pugi::char_t* name = current->name.GetString();
+	//pugi::xml_node toSaveScene = toSaveEntites.append_child("scene");
+	save.append_child("Type").append_attribute("sceneType").set_value(name);
 	//TODO
 	current->SaveState(save.append_child(current->name.GetString()));
 

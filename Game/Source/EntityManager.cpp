@@ -251,76 +251,62 @@ void EntityManager::DeleteAllEntities()
 	}
 }
 
-bool EntityManager::LoadState(pugi::xml_node* toLoad)
+bool EntityManager::LoadState(pugi::xml_node* toLoad, pugi::xml_node* anims)
 {
 	//DeleteAllEntities();
 
 	UnLoad();
 
-	pugi::xml_document animations;
-	pugi::xml_node anims;
-	pugi::xml_parse_result result = animations.load_file("animations.xml");
 
 	int amount = toLoad->attribute("amount").as_int();
 	int npcAmount = toLoad->child("NPCs").attribute("amount").as_int();
-	int playerAmount = toLoad->child("players").attribute("amount").as_int();
+
 	pugi::xml_node NodeNpc = toLoad->child("NPCs");
-	pugi::xml_node NodePlayer = toLoad->child("players");
-	pugi::xml_node NodePlayerAuxiliar = NodePlayer.child("player");
+
 	pugi::xml_node NodeNpcAuxiliar = NodeNpc.child("NPC");
 	Npc* npcNode = nullptr;
 
-	for (int a = 0; a < (int)EntityType::UNKNOWN; a++)
+
+	for (int a = 0; a < npcAmount; a++)
 	{
-		switch (a)
+		npcNode = nullptr;
+		SString string;
+		string = NodeNpcAuxiliar.child("NpcType").attribute("type").as_string();
+		EntityType npcType;
+		if (string == "TABERN")
 		{
-		case (int)EntityType::NPC:
-			for (int a = 0; a < npcAmount; a++) 
-			{
-				npcNode = nullptr;
-				SString string;
-				string = NodeNpcAuxiliar.child("NpcType").attribute("type").as_string();
-				EntityType npcType;
-				if (string == "TABERN") 
-				{
-					npcType = EntityType::TABERN;
-				}
-				else if (string == "TOWN") 
-				{
-					npcType = EntityType::TOWN;
-				}
-				else if (string == "NPC_WIZARD") 
-				{
-					npcType = EntityType::NPC_WIZARD;
-				}
-				else 
-				{
-					npcType = EntityType::UNKNOWN;
-				}
-
-				npcNode = (Npc*)CreateEntity(npcType, { NodeNpcAuxiliar.child("bounds").attribute("X").as_int(),NodeNpcAuxiliar.child("bounds").attribute("Y").as_int() }, anims, NodeNpcAuxiliar.child("Dialoge").attribute("idDialoge").as_int());
-				NodeNpcAuxiliar = NodeNpcAuxiliar.next_sibling();
-			}
-			break;
-		case (int)EntityType::PLAYER:
-			for (int a = 0; a < playerAmount; a++) 
-			{
-				SString string;
-				string = NodePlayerAuxiliar.child("playerType").attribute("type").as_string();
-				EntityType plType;
-
-				if (string == "HUNTER") { plType = EntityType::HUNTER; }
-				else if (string == "WIZARD") { plType = EntityType::WIZARD; }
-				else if (string == "WARRIOR") { plType = EntityType::WARRIOR; }
-				else if (string == "THIEF") { plType = EntityType::THIEF; }
-				else { plType = EntityType::UNKNOWN; }
-
-				Player* player = (Player*)CreateEntity(plType, { NodePlayerAuxiliar.child("bounds").attribute("X").as_int(),NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims);
-				NodePlayerAuxiliar = NodePlayerAuxiliar.next_sibling();
-			}
-			break;
+			npcType = EntityType::TABERN;
 		}
+		else if (string == "TOWN")
+		{
+			npcType = EntityType::TOWN;
+		}
+		else if (string == "NPC_WIZARD")
+		{
+			npcType = EntityType::NPC_WIZARD;
+		}
+		else
+		{
+			npcType = EntityType::UNKNOWN;
+		}
+
+		npcNode = (Npc*)CreateEntity(npcType, { NodeNpcAuxiliar.child("bounds").attribute("X").as_int(),NodeNpcAuxiliar.child("bounds").attribute("Y").as_int() }, (*anims), NodeNpcAuxiliar.child("Dialoge").attribute("idDialoge").as_int());
+		NodeNpcAuxiliar = NodeNpcAuxiliar.next_sibling();
 	}
+
+
+
+	/*Player* player = (Player*)CreateEntity(plType, { NodePlayerAuxiliar.child("bounds").attribute("X").as_int(),NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims);
+	NodePlayerAuxiliar = NodePlayerAuxiliar.next_sibling();*/
+	/*	break;
+	case (int)EntityType::PLAYER:
+		for (int a = 0; a < playerAmount; a++)
+		{
+
+		}
+		break;
+	}
+}*/
 	return true;
 }
 
@@ -329,11 +315,9 @@ bool EntityManager::SaveState(pugi::xml_node* toSave)
 	eastl::list<Entity*>::iterator item;
 	pugi::xml_node nodeNpc = toSave->append_child("NPCs");
 	pugi::xml_node nodeNpcAuxiliar;
-	pugi::xml_node nodePlayers = toSave->append_child("players");
-	pugi::xml_node nodePlayersAuxiliar;
+
 
 	int npcAmount = 0;
-	int playerAmount = 0;
 
 	for (item = entities.begin(); item != entities.end(); ++item)
 	{
@@ -351,23 +335,11 @@ bool EntityManager::SaveState(pugi::xml_node* toSave)
 		case EntityType::TOWN:
 			npcAmount++;
 			break;
-		case EntityType::HUNTER:
-			playerAmount++;
-			break;
-		case EntityType::WIZARD:
-			playerAmount++;
-			break;
-		case EntityType::THIEF:
-			playerAmount++;
-			break;
-		case EntityType::WARRIOR:
-			playerAmount++;
-			break;
 		}
 	}
 
 	nodeNpc.append_attribute("amount").set_value(npcAmount);
-	nodePlayers.append_attribute("amount").set_value(playerAmount);
+
 
 	for (item = entities.begin(); item != entities.end(); ++item)
 	{
@@ -390,23 +362,9 @@ bool EntityManager::SaveState(pugi::xml_node* toSave)
 			nodeNpcAuxiliar = nodeNpc.append_child("NPC");
 			(*item)->SaveState(nodeNpcAuxiliar);
 			break;
-		case EntityType::HUNTER:
-			nodePlayersAuxiliar = nodePlayers.append_child("player");
-			(*item)->SaveState(nodePlayersAuxiliar);
-			break;
-		case EntityType::WIZARD:
-			nodePlayersAuxiliar = nodePlayers.append_child("player");
-			(*item)->SaveState(nodePlayersAuxiliar);
-			break;
-		case EntityType::WARRIOR:
-			nodePlayersAuxiliar = nodePlayers.append_child("player");
-			(*item)->SaveState(nodePlayersAuxiliar);
-			break;
-		case EntityType::THIEF:
-			nodePlayersAuxiliar = nodePlayers.append_child("player");
-			(*item)->SaveState(nodePlayersAuxiliar);
-			break;
+
 		}
 	}
+
 	return true;
 }
