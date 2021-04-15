@@ -90,6 +90,7 @@ private:
 	Easing* easingArrow;
 	Easing* easingArrowBack;
 	float position_x;
+	float position_x2;
 	Uint8 alpha;
 
 	SceneBattle* sceneBattle;
