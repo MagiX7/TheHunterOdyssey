@@ -62,7 +62,7 @@ bool SceneManager::Update(float dt)
 	LOG("Updating Current Scene");
 	bool ret = true;
 
-	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN || app->input->pad->l1) current->showColliders = !current->showColliders;
+	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_BACK)== KEY_DOWN) current->showColliders = !current->showColliders;
 
 	if (!onTransition)
 	{

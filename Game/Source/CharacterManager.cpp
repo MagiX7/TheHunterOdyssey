@@ -194,7 +194,7 @@ void CharacterManager::HandleInput()
 	}
 	else lastUserInput = 0;
 
-	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || app->input->pad->down)
+	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
 	{
 		eastl::list<GuiButton*>::iterator it = buttons.begin();
 		for (int i = 0; i < buttons.size(); ++i, ++it)
@@ -206,7 +206,7 @@ void CharacterManager::HandleInput()
 			}
 		}
 	}
-	else if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || app->input->pad->up)
+	else if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
 	{
 		eastl::list<GuiButton*>::iterator it = buttons.begin();
 		for (int i = 0; i < buttons.size(); ++i, ++it)

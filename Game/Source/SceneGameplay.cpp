@@ -325,7 +325,7 @@ void SceneGameplay::ChangeState(GameplayMenuState type)
 
 void SceneGameplay::HandleInput(float dt)
 {
-	if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN || app->input->pad->x)
+	if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
 	{
 		// Instantiate and load scene battle
 		tmpPosPlayer = iPoint(currentPlayer->bounds.x, currentPlayer->bounds.y);
@@ -337,9 +337,9 @@ void SceneGameplay::HandleInput(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN) app->SaveGameRequest();
 
-	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN || app->input->pad->y) menuState = GameplayMenuState::CHARACTER_SWAP;
+	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN) menuState = GameplayMenuState::CHARACTER_SWAP;
 	
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || app->input->pad->start) menuState = GameplayMenuState::PAUSE;
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_START) == KEY_DOWN) menuState = GameplayMenuState::PAUSE;
 }
 
 bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)

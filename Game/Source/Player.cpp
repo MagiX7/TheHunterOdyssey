@@ -89,19 +89,19 @@ void Player::SetDefend(bool option)
 
 void Player::HandleInput(float dt)
 {
-	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || app->input->pad->up == true)
+	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_REPEAT)
 	{
 		bounds.y -= SPEED_Y * dt;
 	}
-	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || app->input->pad->down == true)
+	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_REPEAT)
 	{
 		bounds.y += SPEED_Y * dt;
 	}
-	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || app->input->pad->left == true)
+	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_REPEAT)
 	{
 		bounds.x -= SPEED_X * dt;
 	}
-	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || app->input->pad->right == true)
+	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_REPEAT)
 	{
 		bounds.x += SPEED_X * dt;
 	}

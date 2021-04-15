@@ -139,7 +139,7 @@ void Wizard::HandleInput(float dt)
 	switch (stance)
 	{
 	case PlayerStance::ROAMING:
-		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || app->input->pad->up == true)
+		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_REPEAT)
 		{
 			bounds.y -= SPEED_Y * dt;
 			if (currentAnim != &walkUp)
@@ -148,7 +148,7 @@ void Wizard::HandleInput(float dt)
 				currentAnim = &walkUp;
 			}
 		}
-		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || app->input->pad->down == true)
+		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_REPEAT)
 		{
 			bounds.y += SPEED_Y * dt;
 			if (currentAnim != &walkDown)
@@ -157,7 +157,7 @@ void Wizard::HandleInput(float dt)
 				currentAnim = &walkDown;
 			}
 		}
-		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || app->input->pad->left == true)
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_REPEAT)
 		{
 			bounds.x -= SPEED_X * dt;
 			if (currentAnim != &walkLeft)
@@ -166,7 +166,7 @@ void Wizard::HandleInput(float dt)
 				currentAnim = &walkLeft;
 			}
 		}
-		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || app->input->pad->right == true)
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_REPEAT)
 		{
 			bounds.x += SPEED_X * dt;
 			if (currentAnim != &walkRight)
