@@ -57,7 +57,6 @@ SceneGameplay::SceneGameplay()
 	player = new Warrior(position, anims);
 	playerList.push_back(player);
 
-<<<<<<< Updated upstream
 	tmpPosPlayer = { 0,0 };
 
 	Npc* generalNpc = nullptr;
@@ -66,23 +65,13 @@ SceneGameplay::SceneGameplay()
 
 	position = { 200,250 };
 	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position, anims, 0);
-=======
-	/*Npc* generalNpc = nullptr;
-	position = { 500,500 };
-	generalNpc=(Npc*)entityManager->CreateEntity(EntityType::TABERN, position);
->>>>>>> Stashed changes
 
 	position = { 700,1060 };
 	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::RAY, position, anims, 3);
 	//generalNpc->NpcMove(false);
 
-<<<<<<< Updated upstream
 	position = { 700,810 };
 	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TABERN, position, anims, 2);
-=======
-	position = { 400,400 };
-	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position);*/
->>>>>>> Stashed changes
 
 	position = { 500,350 };
 	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 1);
