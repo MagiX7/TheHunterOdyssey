@@ -134,6 +134,9 @@ bool SceneGameplay::Load()
 
 	pause->Load(font);
 
+
+	sceneBattle = nullptr;
+
 	return ret;
 }
 
