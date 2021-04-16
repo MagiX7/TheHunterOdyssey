@@ -230,11 +230,11 @@ void Hunter::Ability(Enemy* enemy, int currentAbility)
 	switch (currentAbility)
 	{
 	case 1:
-		enemy->GetDamage(magicDamage + 10);
+		enemy->GetDamage(meleeDamage + 200);
 		LOG("Casting STEADY SHOT");
 		break;
 	case 2:
-		enemy->GetDamage(magicDamage);
+		enemy->GetDamage(magicDamage + rand() % 500);
 		LOG("Casting SERPENT SHOT");
 		break;
 	case 3:
