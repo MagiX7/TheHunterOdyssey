@@ -6,11 +6,30 @@
 #include "SceneTitle.h"
 #include "Textures.h"
 #include "Audio.h"
+#include "Easings.h"
 
 MainMenu::MainMenu(SceneTitle* s)
 {
 	state = MenuState::NONE;
 	scene = s;
+
+	//Easings Initialized
+	easingUp = new Easing();
+	easingDown = new Easing();
+
+	easingUp->currentIteration = 0;
+	easingUp->totalIterations = 60;
+	easingUp->initialPos = 588;
+	easingUp->deltaPos = -20;
+	easingUp->easingsActivated = true;
+
+	easingDown->currentIteration = 0;
+	easingDown->totalIterations = 60;
+	easingDown->initialPos = 568;
+	easingDown->deltaPos = 20;
+	easingDown->easingsActivated = false;
+
+	titlePosition = 588;
 }
 
 MainMenu::~MainMenu()
@@ -132,6 +151,29 @@ bool MainMenu::Update(float dt)
 		btnOptions->Update(app->input, dt, id);
 		btnCredits->Update(app->input, dt, id);
 		btnExit->Update(app->input, dt, id);
+
+		if (easingUp->easingsActivated)
+		{
+			titlePosition = easingUp->sineEaseOut(easingUp->currentIteration, easingUp->initialPos, easingUp->deltaPos, easingUp->totalIterations);
+			if (easingUp->currentIteration < easingUp->totalIterations) easingUp->currentIteration++;
+			else
+			{
+				easingUp->currentIteration = 0;
+				easingUp->easingsActivated = false;
+				easingDown->easingsActivated = true;
+			}
+		}
+		if (easingDown->easingsActivated)
+		{
+			titlePosition = easingDown->sineEaseOut(easingDown->currentIteration, easingDown->initialPos, easingDown->deltaPos, easingDown->totalIterations);
+			if (easingDown->currentIteration < easingDown->totalIterations) easingDown->currentIteration++;
+			else
+			{
+				easingDown->currentIteration = 0;
+				easingDown->easingsActivated = false;
+				easingUp->easingsActivated = true;
+			}
+		}
 	}
 	break;
 	case MenuState::OPTIONS:
@@ -177,7 +219,7 @@ void MainMenu::Draw(Font* font, bool showColliders)
 		btnCredits->Draw(app->render, showColliders, 64, { 255,255,255,255 });
 		btnExit->Draw(app->render, showColliders, 64, { 255,255,255,255 });
 
-		app->render->DrawTexture(bg, 987, 588, &section);
+		app->render->DrawTexture(bg, 987, titlePosition, &section);
 	}
 	break;
 	case MenuState::OPTIONS:
@@ -237,6 +279,8 @@ bool MainMenu::UnLoad()
 	RELEASE(checkVSync);
 	RELEASE(slideMusicVolume);
 	RELEASE(slideFXVolume);
+	RELEASE(easingDown);
+	RELEASE(easingUp);
 
 	buttons.clear();
 

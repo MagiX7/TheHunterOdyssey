@@ -126,6 +126,7 @@ void Skull::GetDamage(int dmg)
 	{
 		health = 0;
 		currentAnim = &deathAnim;
+		deathAnim.hasFinished = true;
 	}
 }
 
