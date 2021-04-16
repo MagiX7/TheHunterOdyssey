@@ -9,6 +9,7 @@ enum class BattleState
 	NONE = 0,
 	DEFAULT,
 	ATTACK,
+	ATTACKING,
 	ABILITY_SELECT,
 	ABILITY,
 	DEFENSE,

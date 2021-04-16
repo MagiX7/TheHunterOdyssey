@@ -57,7 +57,7 @@ bool SceneTitle::Load()
 	enterFx = app->audio->LoadFx("Assets/Audio/Fx/title_enter.wav");
 
 	// Title FX
-	titleFx = app->audio->LoadFx("Assets/Audio/Fx/hello_man.wav");
+	//titleFx = app->audio->LoadFx("Assets/Audio/Fx/hello_man.wav");
 
 	font = new Font("Assets/Font/font3.xml", app->tex);
 	
@@ -77,7 +77,7 @@ bool SceneTitle::Update(float dt)
 	switch (state)
 	{
 	case TitleState::NONE:
-		app->audio->PlayFx(titleFx);
+		//app->audio->PlayFx(titleFx);
 		state = TitleState::TITLE;
 		break;
 	case TitleState::TITLE:

@@ -7,7 +7,7 @@
 		</node>
 		<node id ="1">
 			<npc_text text ="Oh, so you want to fight The Monster? Good luck with it. Nobody could beat him. Lots of strangers came here but no one returned. Guess what happened to them..."/>
-			<option id="0" nextNodeId="2" text="Yes, I want and I'm going to. I'm not scared of that creature."/>
+			<option id="0" nextNodeId="2" text="Yes, I'm not scared of that creature."/>
 			<option id="1" nextNodeId="3" text="How much people are we talking about?"/>
 		</node>
 		<node id="2">
@@ -123,7 +123,7 @@
 		</node>
 		<node id="2">
 			<npc_text text="Eeeewww... I can't talk anymore with you after what you said. Bye."/>
-			<option id="0" nextNodeId="-1" text="Aaaaahhmm... Bye..."/>
+			<option id="0" nextNodeId="-1" text="Aaaaahhmm... Ok, bye..."/>
 		</node>
 		<node id="3">
 			<npc_text text="Definitely, you should."/>

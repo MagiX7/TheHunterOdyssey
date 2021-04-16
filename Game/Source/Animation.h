@@ -12,13 +12,13 @@ public:
 	bool loop = true;
 	// Allows the animation to keep going back and forth
 	bool pingPong = false;
+	bool hasFinished;
 
 private:
 	float currentFrame = 0.0f;
 	int totalFrames = 0;
 	int loopCount = 0;
 	int pingPongDirection = 1;
-	bool hasFinished;
 
 public:
 	~Animation() {}

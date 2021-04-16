@@ -18,6 +18,7 @@ enum class MenuState
 };
 
 class GuiButton;
+class Easing;
 
 class MainMenu : public Menu
 {
@@ -59,4 +60,9 @@ private:
 	GuiCheckBox* checkVSync;
 	GuiSlider* slideMusicVolume;
 	GuiSlider* slideFXVolume;
+
+	//Easings
+	Easing* easingUp;
+	Easing* easingDown;
+	float titlePosition;
 };
