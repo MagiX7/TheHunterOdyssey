@@ -439,7 +439,8 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 			{
 				if (((*map->data.layers.end().prev())->Get(i, j) == 769) && CheckCollision(map->GetTilemapRec(i, j), rect) ||
 					((*map->data.layers.end().prev())->Get(i, j) == 1537) && CheckCollision(map->GetTilemapRec(i, j), rect) ||
-					((*map->data.layers.end().prev())->Get(i, j) == 1) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					((*map->data.layers.end().prev())->Get(i, j) == 1) && CheckCollision(map->GetTilemapRec(i, j), rect) ||
+					((*map->data.layers.end().prev())->Get(i, j) == 3073) && CheckCollision(map->GetTilemapRec(i, j), rect))
 				{
 					return true;
 				}
@@ -753,6 +754,46 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
 						iPoint position = { 1350,390 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("town_map.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 784) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						isTown = false;
+						entityManager->SetAllNpcInactive();
+						iPoint position = { 705,950 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("graveyard_path.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 785) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						isTown = false;
+						entityManager->SetAllNpcInactive();
+						iPoint position = { 620,480 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("bath_house.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 3089) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						isTown = true;
+						iPoint position = { 320,380 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("graveyard_path.tmx", app->tex);
+					}
+					if (((*map->data.layers.end().prev())->Get(i, j) == 784) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						isTown = true;
+						entityManager->DeleteAllNpcActive();
+						entityManager->SetAllNpcActive();
+						iPoint position = { 705,30 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
