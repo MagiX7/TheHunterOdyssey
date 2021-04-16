@@ -32,6 +32,8 @@ public:
 	// Set window fullscreen
 	void SetFullscreen();
 
+	void MaximizeWindow();
+
 public:
 
 	// The window we'll be rendering to

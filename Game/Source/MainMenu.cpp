@@ -321,7 +321,6 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 	{
 		if (control->id == 10) // Fullscreen
 		{
-			app->win->fullscreenWindow = !app->win->fullscreenWindow;
 			app->win->SetFullscreen();
 		}
 		else if (control->id == 11); // Vsync

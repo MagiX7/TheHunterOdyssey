@@ -313,15 +313,21 @@ bool Input::PreUpdate()
 				{
 					//case SDL_WINDOWEVENT_LEAVE:
 					case SDL_WINDOWEVENT_HIDDEN:
+						break;
 					case SDL_WINDOWEVENT_MINIMIZED:
+						break;
 					case SDL_WINDOWEVENT_FOCUS_LOST:
 					windowEvents[WE_HIDE] = true;
 					break;
 
 					//case SDL_WINDOWEVENT_ENTER:
 					case SDL_WINDOWEVENT_SHOWN:
+						break;
 					case SDL_WINDOWEVENT_FOCUS_GAINED:
+						break;
 					case SDL_WINDOWEVENT_MAXIMIZED:
+						app->win->MaximizeWindow();
+						break;
 					case SDL_WINDOWEVENT_RESTORED:
 					windowEvents[WE_SHOW] = true;
 					break;

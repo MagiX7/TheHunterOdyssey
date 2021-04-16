@@ -1,5 +1,6 @@
 #include "App.h"
 #include "Window.h"
+#include "Render.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -102,5 +103,11 @@ uint Window::GetScale() const
 
 void Window::SetFullscreen()
 {
+	fullscreenWindow = !fullscreenWindow;
 	SDL_SetWindowFullscreen(window, fullscreenWindow);
+}
+
+void Window::MaximizeWindow()
+{
+	SDL_RenderSetLogicalSize(app->render->renderer, width, height);
 }

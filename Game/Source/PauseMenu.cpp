@@ -335,7 +335,7 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 			currentButton = (*buttons.end().prev());
 		}
 		else if (control->id == 6) app->SaveGameRequest();// Save Game
-		else if (control->id == 7) app->LoadGameRequest(); // Load Game // Load Game
+		else if (control->id == 7) app->LoadGameRequest(); // Load Game
 		else if (control->id == 8)
 		{
 			state = PauseState::DEFAULT;
@@ -400,7 +400,6 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 	{
 	if (control->id == 12) // Fullscreen
 	{
-		app->win->fullscreenWindow = !app->win->fullscreenWindow;
 		app->win->SetFullscreen();
 	}
 	else if (control->id == 13); // VSync
