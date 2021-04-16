@@ -29,7 +29,7 @@ Npc::~Npc()
 {
 	app->tex->UnLoad(texture);
 	font->UnLoad(app->tex);
-	delete font;
+	RELEASE(font);
 }
 
 bool Npc::Load()
@@ -103,15 +103,11 @@ void Npc::NpcMove(bool move)
 
 void Npc::Draw(bool showColliders)
 {
-	/*if (showColliders)
-		app->render->DrawRectangle(bounds, 255, 255, 255, 255);*/
-
 	if (drawPtext) app->render->DrawText(font, "Press O to talk", (bounds.x - 30)- (app->render->camera.x * (-1)), (bounds.y - 30) - (app->render->camera.y*(-1)), 20, 5, { 255,255,255 });
 }
 
 bool Npc::UnLoad()
 {
-	RELEASE(font);
 	return true;
 }
 

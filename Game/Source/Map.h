@@ -156,7 +156,7 @@ private:
 	TileSet* GetTilesetFromTileId(int id) const;
 
 	void UpdateTiles();
-
+	bool IsTileOnCamera(SDL_Rect rect, SDL_Rect cam);
 public:
 
 	MapData data;

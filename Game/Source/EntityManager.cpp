@@ -181,8 +181,8 @@ void EntityManager::DeleteAllNpcActive()
 	{
 		if ((*item)->GetState() != EntityState::INACTIVE) 
 		{
-			if ((*item)->type == EntityType::NPC_WIZARD || (*item)->type == EntityType::RAY
-				|| (*item)->type == EntityType::TOWN || (*item)->type == EntityType::TABERN)
+			if ((*item)->type == EntityType::NPC_WIZARD || (*item)->type == EntityType::RAY || 
+				(*item)->type == EntityType::TOWN || (*item)->type == EntityType::TABERN)
 			{
 				(*item)->UnLoad();
 				RELEASE((*item));
@@ -198,8 +198,8 @@ void EntityManager::SetAllNpcInactive()
 
 	for (item = entities.begin(); item != entities.end(); ++item) 
 	{
-		if ((*item)->type == EntityType::NPC_WIZARD|| (*item)->type == EntityType::RAY
-			||(*item)->type == EntityType::TOWN || (*item)->type == EntityType::TABERN)
+		if ((*item)->type == EntityType::NPC_WIZARD|| (*item)->type == EntityType::RAY || 
+			(*item)->type == EntityType::TOWN || (*item)->type == EntityType::TABERN)
 		{
 			(*item)->SetInactive();
 		}
@@ -229,7 +229,9 @@ void EntityManager::DeleteEntity(Entity* entity)
 	{
 		if (*item == entity)
 		{
+			(*item)->UnLoad();
 			entities.remove(*item);
+			RELEASE(*item);
 			break;
 		}
 	}
@@ -243,8 +245,8 @@ void EntityManager::DeleteAllEntities()
 	for (item = entities.begin(); item != entities.end(); ++item)
 	{
 		(*item)->UnLoad();
-		RELEASE((*item));
 		entities.remove(*item);
+		RELEASE((*item));
 	}
 }
 

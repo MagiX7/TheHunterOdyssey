@@ -74,14 +74,6 @@ void Map::Draw(bool showColliders)
 {
 	if (mapLoaded == false) return;
 
-	// L06: DONE 4: Make sure we draw all the layers and not just the first one
-	
-
-	//for (MapLayer* item : data.layers)
-	//{
-	//	if (item->properties.GetProperty("Drawable", 1) != 0) DrawLayer(app->render, item);
-	//}
-
 	eastl::list<MapLayer*>::iterator item = data.layers.begin();
 
 	for (; item != data.layers.end(); ++item)
@@ -95,6 +87,7 @@ void Map::DrawLayer(Render* render, MapLayer* layer)
 {
 	for (int y = 0; y < data.height; ++y)
 	{
+
 		for (int x = 0; x < data.width; ++x)
 		{
 			int tileId = layer->Get(x, y);
@@ -123,8 +116,12 @@ void Map::DrawLayer(Render* render, MapLayer* layer)
 
 				SDL_Rect rec = tileset->GetTileRect(tileId);
 				iPoint pos = MapToWorld(x, y);
+				SDL_Rect r = rec;
+				r.x = pos.x + tileset->offsetX;
+				r.y = pos.y + tileset->offsetY;
 
-				render->DrawTexture(tileset->texture, pos.x + tileset->offsetX, pos.y + tileset->offsetY, &rec);
+				if (IsTileOnCamera(r, render->camera))
+					render->DrawTexture(tileset->texture, pos.x + tileset->offsetX, pos.y + tileset->offsetY, &rec);
 			}
 		}
 	}
@@ -226,6 +223,14 @@ void Map::UpdateTiles()
 			}
 		}
 	}
+}
+
+bool Map::IsTileOnCamera(SDL_Rect rect, SDL_Rect cam)
+{
+	if (rect.x + rect.w >= -cam.x && rect.x <= -cam.x + cam.w &&
+		rect.y + rect.h >= -cam.y && rect.y <= -cam.y + cam.h) return true;
+
+	return false;
 }
 
 // Get relative Tile rectangle
