@@ -121,7 +121,10 @@ bool Hunter::Update(float dt)
 
 void Hunter::Draw(bool showColliders)
 {
-	if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0, 150);
+	SDL_Rect r = bounds;
+	r.x += 2;
+	r.y += 3;
+	if (showColliders) app->render->DrawRectangle(r, 255, 0, 0, 150);
 	if (stance == PlayerStance::ROAMING) app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
 	else if (stance == PlayerStance::BATTLE || stance == PlayerStance::ATTACKING ||
 		stance == PlayerStance::ATTACK_FINISHED || stance == PlayerStance::ABILITY_FINISHED)
