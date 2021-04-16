@@ -1,0 +1,10 @@
+Date: 08/04/2021
+
+Start time: 16:00 pm.
+
+End time: 16:35 pm.
+
+Topics discussed:
+	- Dialog structure.
+	- Houses redesign.
+	- Adding functionalitites to the battle scene.

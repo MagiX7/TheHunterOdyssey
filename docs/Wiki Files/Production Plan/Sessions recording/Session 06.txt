@@ -1,0 +1,10 @@
+Date: 26/03/2021
+
+Start time: 16:00 pm.
+
+End time: 16:30 pm.
+
+Topics discussed:
+	- Problems with map drawing solved.
+	- Map tileset tiles resize to 64 px.
+	- According how the Entities hierarchy will work.

@@ -1,0 +1,11 @@
+Date: 16/04/2021
+
+Start time: 15:30 pm.
+
+End time: 16:15 pm.
+
+Topics discussed:
+	- Adventurer house bug when trying to enter the house. The cam goes crazy.
+	- "Hello Man" FX removed.
+	- Easings applied.
+	- Pointer in battle scene to give feedback of the current option.	

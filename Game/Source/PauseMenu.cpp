@@ -172,6 +172,8 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 	switch (state)
 	{
 	case PauseState::DEFAULT:
+		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 120);
+
 		section = { 0,0,430,650 };
 		app->render->DrawTexture(guiTex, -app->render->camera.x + 425, -app->render->camera.y + 48, &section);
 
@@ -200,6 +202,8 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 
 		app->render->DrawText(font, "PAUSE", 552, 121, 72, 5, { 255,255,255,255 });
 
+		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 120);
+
 		app->render->DrawTexture(guiTex, -app->render->camera.x + 850, -app->render->camera.y + 48, &section);
 
 		btnOptionsBack->Draw(app->render, showColliders, 36, { 0,0,0,225 });
@@ -214,6 +218,7 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		app->render->DrawText(font, "VSync", 985, 459, 36, 5, { 255,255,255,255 });
 		break;
 	case PauseState::SAVE:
+		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 120);
 		section = { 0,0,430,650 };
 		app->render->DrawTexture(guiTex, -app->render->camera.x + 425, -app->render->camera.y + 48, &section);
 
@@ -227,6 +232,7 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		//app->render->DrawText(font, btnBack->text.GetString(), 602, 544, 36, 5, { 0,0,0,255 });
 		break;
 	case PauseState::RETURNTITLE:
+		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 120);
 		section = { 0,0,430,650 };
 		app->render->DrawTexture(guiTex, -app->render->camera.x + 425, -app->render->camera.y + 48, &section);
 
@@ -236,6 +242,7 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		app->render->DrawText(font, "Are you sure?", 507, 147, 40, 5, { 255,255,255,255 });
 		break;
 	case PauseState::EXIT:
+		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 120);
 		section = { 0,0,430,650 };
 		app->render->DrawTexture(guiTex, -app->render->camera.x + 425, -app->render->camera.y + 48, &section);
 		

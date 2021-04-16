@@ -214,7 +214,7 @@ void SceneGameplay::Draw()
 		}
 		if (menuState == GameplayMenuState::PAUSE)
 		{
-			app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 150);
+			//app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 150);
 			pause->Draw(font, showColliders);
 		}
 		break;

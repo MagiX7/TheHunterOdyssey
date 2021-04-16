@@ -1,0 +1,10 @@
+Date: 01/04/2021
+
+Start time: 16:00 pm.
+
+End time: 16:30 pm.
+
+Topics discussed:
+	- Review each department's progress and resolve doubts.
+	- Resize map tiles to 32 px.
+	- Decide final NPC's textures.
