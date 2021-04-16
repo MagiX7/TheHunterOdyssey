@@ -14,6 +14,10 @@ BattleMenu::BattleMenu(SceneBattle* s) : type(BattleState::NONE), sceneBattle(s)
 
 	easingArrow = new Easing();
 	easingArrowBack = new Easing();
+	playerEasing = new Easing();
+	enemyEasing = new Easing();
+	playerEasing2 = new Easing();
+	enemyEasing2 = new Easing();
 
 	easingArrow->totalIterations = 60;
 	easingArrow->currentIteration = 0;
@@ -27,8 +31,34 @@ BattleMenu::BattleMenu(SceneBattle* s) : type(BattleState::NONE), sceneBattle(s)
 	easingArrowBack->initialPos = 30;
 	easingArrowBack->easingsActivated = false;
 
+	playerEasing->totalIterations = 30;
+	playerEasing->currentIteration = 0;
+	playerEasing->deltaPos = -10;
+	playerEasing->initialPos = 0;
+	playerEasing->easingsActivated = true;
+
+	enemyEasing->totalIterations = 30;
+	enemyEasing->currentIteration = 0;
+	enemyEasing->deltaPos = 10;
+	enemyEasing->initialPos = 0;
+	enemyEasing->easingsActivated = true;
+
+	playerEasing2->totalIterations = 30;
+	playerEasing2->currentIteration = 0;
+	playerEasing2->deltaPos = 10;
+	playerEasing2->initialPos = 0;
+	playerEasing2->easingsActivated = false;
+
+	enemyEasing2->totalIterations = 30;
+	enemyEasing2->currentIteration = 0;
+	enemyEasing2->deltaPos = -10;
+	enemyEasing2->initialPos = 0;
+	enemyEasing2->easingsActivated = false;
+
 	alpha = 255;
 	position_x = 20;
+	playerPos = 0;
+	enemyPos = 0;
 }
 
 BattleMenu::~BattleMenu()
@@ -226,6 +256,74 @@ bool BattleMenu::Update(float dt)
 			easingArrow->easingsActivated = true;
 		}
 	}
+	// ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+	if (playerEasing->easingsActivated && currPlayer != nullptr)
+	{
+		playerEasing->initialPos = currPlayer->bounds.x - 40;
+		playerPos = playerEasing->circularEaseInOut(playerEasing->currentIteration, playerEasing->initialPos, playerEasing->deltaPos, playerEasing->totalIterations);
+
+		if (playerEasing->currentIteration < playerEasing->totalIterations)
+		{
+			playerEasing->currentIteration++;
+		}
+		else
+		{
+			playerEasing->currentIteration = 0;
+			playerEasing->easingsActivated = false;
+			playerEasing2->easingsActivated = true;
+		}
+	}
+
+	if (playerEasing2->easingsActivated && currPlayer != nullptr)
+	{
+		playerEasing2->initialPos = playerEasing->initialPos + playerEasing->deltaPos;
+		playerPos = playerEasing2->circularEaseInOut(playerEasing2->currentIteration, playerEasing2->initialPos, playerEasing2->deltaPos, playerEasing2->totalIterations);
+
+		if (playerEasing2->currentIteration < playerEasing2->totalIterations)
+		{
+			playerEasing2->currentIteration++;
+		}
+		else
+		{
+			playerEasing2->currentIteration = 0;
+			playerEasing2->easingsActivated = false;
+			playerEasing->easingsActivated = true;
+		}
+	}
+
+	if (enemyEasing->easingsActivated && currEnemy != nullptr)
+	{
+		enemyEasing->initialPos = currEnemy->bounds.x + 150;
+		enemyPos = enemyEasing->circularEaseInOut(enemyEasing->currentIteration, enemyEasing->initialPos, enemyEasing->deltaPos, enemyEasing->totalIterations);
+
+		if (enemyEasing->currentIteration < enemyEasing->totalIterations)
+		{
+			enemyEasing->currentIteration++;
+		}
+		else
+		{
+			enemyEasing->currentIteration = 0;
+			enemyEasing->easingsActivated = false;
+			enemyEasing2->easingsActivated = true;
+		}
+	}
+
+	if (enemyEasing2->easingsActivated && currEnemy != nullptr)
+	{
+		enemyEasing2->initialPos = enemyEasing->initialPos + enemyEasing->deltaPos;
+		enemyPos = enemyEasing2->circularEaseInOut(enemyEasing2->currentIteration, enemyEasing2->initialPos, enemyEasing2->deltaPos, enemyEasing2->totalIterations);
+
+		if (enemyEasing2->currentIteration < enemyEasing2->totalIterations)
+		{
+			enemyEasing2->currentIteration++;
+		}
+		else
+		{
+			enemyEasing2->currentIteration = 0;
+			enemyEasing2->easingsActivated = false;
+			enemyEasing->easingsActivated = true;
+		}
+	}
 
 	return ret;
 }
@@ -243,7 +341,7 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 	case BattleState::NONE:
 		break;
 	case BattleState::DEFAULT:
-		app->render->DrawTexture(guiTex, currPlayer->bounds.x - 40, currPlayer->bounds.y, &gauntletPlayers);
+		app->render->DrawTexture(guiTex, playerPos, currPlayer->bounds.y, &gauntletPlayers);
 		if (btnAttack->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
@@ -292,8 +390,8 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		}
 		break;
 	case BattleState::ATTACK:
-		app->render->DrawTexture(guiTex, currEnemy->bounds.x + 150, currEnemy->bounds.y - 20, &gauntletEnemies);
-		app->render->DrawTexture(guiTex, currPlayer->bounds.x - 40, currPlayer->bounds.y, &gauntletPlayers);
+		app->render->DrawTexture(guiTex, enemyPos, currEnemy->bounds.y - 20, &gauntletEnemies);
+		app->render->DrawTexture(guiTex, playerPos, currPlayer->bounds.y, &gauntletPlayers);
 		break;
 	case BattleState::ABILITY_SELECT:
 		if (btnAbilitySlot1->state == GuiControlState::FOCUSED)
@@ -340,11 +438,11 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 			btnAbilitySlot4->bounds.x = 200;
 			btnAbilitySlot4->Draw(app->render, showColliders, 25, { 0,0,0,225 });
 		}
-		app->render->DrawTexture(guiTex, currPlayer->bounds.x - 40, currPlayer->bounds.y, &gauntletPlayers);
+		app->render->DrawTexture(guiTex, playerPos, currPlayer->bounds.y, &gauntletPlayers);
 		break;
 	case BattleState::ABILITY:
-		app->render->DrawTexture(guiTex, currEnemy->bounds.x + 150, currEnemy->bounds.y - 20, &gauntletEnemies);
-		app->render->DrawTexture(guiTex, currPlayer->bounds.x - 40, currPlayer->bounds.y, &gauntletPlayers);
+		app->render->DrawTexture(guiTex, enemyPos, currEnemy->bounds.y - 20, &gauntletEnemies);
+		app->render->DrawTexture(guiTex, playerPos, currPlayer->bounds.y, &gauntletPlayers);
 		break;
 	case BattleState::ENEMY_TURN:
 
@@ -398,10 +496,10 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 			btnObjectSlot4->Draw(app->render, showColliders, 25, { 0,0,0,225 });
 		}
 
-		app->render->DrawTexture(guiTex, currPlayer->bounds.x - 40, currPlayer->bounds.y, &gauntletPlayers);
+		app->render->DrawTexture(guiTex, playerPos, currPlayer->bounds.y, &gauntletPlayers);
 		break;
 	case BattleState::OBJECT:
-		app->render->DrawTexture(guiTex, currPlayer->bounds.x - 40, currPlayer->bounds.y, &gauntletPlayers);
+		app->render->DrawTexture(guiTex, playerPos, currPlayer->bounds.y, &gauntletPlayers);
 		break;
 	}
 
@@ -426,6 +524,13 @@ bool BattleMenu::UnLoad()
 	RELEASE(btnObjectSlot2);
 	RELEASE(btnObjectSlot3);
 	RELEASE(btnObjectSlot4);
+
+	RELEASE(easingArrow);
+	RELEASE(easingArrowBack);
+	RELEASE(playerEasing);
+	RELEASE(playerEasing2);
+	RELEASE(enemyEasing);
+	RELEASE(enemyEasing2);
 
 	currEnemy = nullptr;
 	currPlayer = nullptr;

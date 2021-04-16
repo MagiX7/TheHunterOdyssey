@@ -94,6 +94,13 @@ private:
 	float position_x2;
 	Uint8 alpha;
 
+	Easing* playerEasing;
+	Easing* enemyEasing;
+	Easing* playerEasing2;
+	Easing* enemyEasing2;
+	float playerPos;
+	float enemyPos;
+
 	SceneBattle* sceneBattle;
 
 	SDL_Texture* guiTex;
