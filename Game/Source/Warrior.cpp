@@ -121,7 +121,11 @@ void Warrior::Draw(bool showColliders)
 {
 	if (showColliders) app->render->DrawRectangle(bounds, 0, 0, 255, 150);
 	if (stance == PlayerStance::ROAMING) app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
-	else if (stance == PlayerStance::BATTLE || stance == PlayerStance::ATTACKING || stance == PlayerStance::ATTACK_FINISHED) app->render->DrawTexture(battlerTexture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+	else if (stance == PlayerStance::BATTLE || stance == PlayerStance::ATTACKING ||
+		stance == PlayerStance::ATTACK_FINISHED || stance == PlayerStance::ABILITY_FINISHED)
+	{
+		app->render->DrawTexture(battlerTexture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+	}
 }
 
 bool Warrior::UnLoad()
@@ -238,6 +242,8 @@ void Warrior::GetMana(int amount)
 
 void Warrior::Ability(Enemy* enemy, int currentAbility)
 {
+	stance = PlayerStance::ABILITY;
+
 	switch (currentAbility)
 	{
 	case 1:
@@ -264,7 +270,7 @@ void Warrior::Ability(Enemy* enemy, int currentAbility)
 		LOG("Casting WAR CRY");
 		break;
 	}
-
+	stance = PlayerStance::ABILITY_FINISHED;
 }
 
 void Warrior::UseObject(Player* player, int currentObject)

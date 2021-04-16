@@ -27,7 +27,9 @@ enum class PlayerStance
 	ROAMING,
 	BATTLE,
 	ATTACKING,
-	ATTACK_FINISHED
+	ATTACK_FINISHED,
+	ABILITY,
+	ABILITY_FINISHED
 };
 
 class Player : public Entity

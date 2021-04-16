@@ -151,9 +151,11 @@ bool BattleMenu::Update(float dt)
 		
 		break;
 	case BattleState::ENEMY_TURN:
-		if((*sceneBattle->playerList.end().prev())->stance == PlayerStance::BATTLE)
-		EnemyTurn();
-
+		if ((*sceneBattle->playerList.end().prev())->stance == PlayerStance::ATTACK_FINISHED ||
+			(*sceneBattle->playerList.end().prev())->stance == PlayerStance::ABILITY_FINISHED)
+		{
+			EnemyTurn();
+		}
 		break;
 	case BattleState::DEFENSE:
 		ret = HandleDefense(app->input);
@@ -233,12 +235,15 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 	SDL_Rect section = { 0,0,1240,260 };
 	app->render->DrawTexture(guiTex, 20, 440, &section);
 
+	SDL_Rect gauntletPlayers = { 564, 291, 29, 25 };
+	SDL_Rect gauntletEnemies = { 645, 291, 29, 25 };
+
 	switch (type)
 	{
 	case BattleState::NONE:
 		break;
 	case BattleState::DEFAULT:
-		app->render->DrawRectangle({ currPlayer->bounds.x - 100, currPlayer->bounds.y, 32, 16 }, 0, 255, 0);
+		app->render->DrawTexture(guiTex, currPlayer->bounds.x - 40, currPlayer->bounds.y, &gauntletPlayers);
 		if (btnAttack->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
@@ -287,8 +292,8 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		}
 		break;
 	case BattleState::ATTACK:
-		app->render->DrawRectangle({ currEnemy->bounds.x + 100, currEnemy->bounds.y, 32, 16 }, 255, 0, 0);
-		app->render->DrawRectangle({ currPlayer->bounds.x - 100, currPlayer->bounds.y, 32, 16 }, 0, 255, 0);
+		app->render->DrawTexture(guiTex, currEnemy->bounds.x + 150, currEnemy->bounds.y - 20, &gauntletEnemies);
+		app->render->DrawTexture(guiTex, currPlayer->bounds.x - 40, currPlayer->bounds.y, &gauntletPlayers);
 		break;
 	case BattleState::ABILITY_SELECT:
 		if (btnAbilitySlot1->state == GuiControlState::FOCUSED)
@@ -335,12 +340,11 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 			btnAbilitySlot4->bounds.x = 200;
 			btnAbilitySlot4->Draw(app->render, showColliders, 25, { 0,0,0,225 });
 		}
-		app->render->DrawRectangle({ currPlayer->bounds.x - 100, currPlayer->bounds.y, 32, 16 }, 0, 255, 0);
-
+		app->render->DrawTexture(guiTex, currPlayer->bounds.x - 40, currPlayer->bounds.y, &gauntletPlayers);
 		break;
 	case BattleState::ABILITY:
-		app->render->DrawRectangle({ currPlayer->bounds.x - 100, currPlayer->bounds.y, 32, 16 }, 0, 255, 0);
-		app->render->DrawRectangle({ currEnemy->bounds.x + 100, currEnemy->bounds.y, 32, 16 }, 255, 0, 0);
+		app->render->DrawTexture(guiTex, currEnemy->bounds.x + 150, currEnemy->bounds.y - 20, &gauntletEnemies);
+		app->render->DrawTexture(guiTex, currPlayer->bounds.x - 40, currPlayer->bounds.y, &gauntletPlayers);
 		break;
 	case BattleState::ENEMY_TURN:
 
@@ -394,10 +398,10 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 			btnObjectSlot4->Draw(app->render, showColliders, 25, { 0,0,0,225 });
 		}
 
-		app->render->DrawRectangle({ currPlayer->bounds.x - 100, currPlayer->bounds.y, 32, 16 }, 0, 255, 0);
+		app->render->DrawTexture(guiTex, currPlayer->bounds.x - 40, currPlayer->bounds.y, &gauntletPlayers);
 		break;
 	case BattleState::OBJECT:
-		app->render->DrawRectangle({ currPlayer->bounds.x - 100, currPlayer->bounds.y, 32, 16 }, 0, 255, 0);
+		app->render->DrawTexture(guiTex, currPlayer->bounds.x - 40, currPlayer->bounds.y, &gauntletPlayers);
 		break;
 	}
 
@@ -574,6 +578,7 @@ bool BattleMenu::HandleInput(Input* input)
 		{
 			if ((*it) == currPlayer)
 			{
+				currPlayer->stance = PlayerStance::BATTLE;
 				currPlayer = (*it.next());
 				type = BattleState::DEFAULT;
 				DefaultStateButtons();
@@ -624,15 +629,9 @@ bool BattleMenu::HandleAbilities(Input* input, int currentAbility)
 	{
 		currPlayer->Ability(currEnemy, currentAbility);
 
-		if (currEnemy->GetHealth() <= 0)
-		{
-			EraseEnemy();
-		}
-		if (sceneBattle->enemyList.size() == 0)
-		{
-			return false;
-		}
-		else
+		type = BattleState::ATTACKING;
+
+		if (sceneBattle->enemyList.size() != 0)
 		{
 			eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
 			for (int i = 0; it != sceneBattle->playerList.end(); ++it, ++i)
@@ -643,18 +642,11 @@ bool BattleMenu::HandleAbilities(Input* input, int currentAbility)
 					type = BattleState::ENEMY_TURN;
 					break;
 				}
-				else if ((*it) == currPlayer)
-				{
-					currPlayer = (*it.next());
-					type = BattleState::DEFAULT;
-					DefaultStateButtons();
-					break;
-				}
 			}
 		}
 	}
 
-	if (currPlayer->stance == PlayerStance::ATTACK_FINISHED && type != BattleState::ENEMY_TURN)
+	if (type != BattleState::ENEMY_TURN && currPlayer->stance == PlayerStance::ABILITY_FINISHED)
 	{
 		eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
 		for (int i = 0; it != sceneBattle->playerList.end(); ++it, ++i)
@@ -809,6 +801,7 @@ void BattleMenu::EnemyTurn()
 		for (; itPlayer != sceneBattle->playerList.end(); ++itPlayer)
 		{
 			(*itPlayer)->SetDefend(false);
+			(*itPlayer)->stance = PlayerStance::BATTLE;
 		}
 		type = BattleState::DEFAULT;
 		DefaultStateButtons();

@@ -65,7 +65,11 @@ bool Bat::Update(float dt)
 	currentAnim->speed = 5.0f * dt;
 	currentAnim->Update();
 
-	if (hitAnim.HasFinished()) currentAnim = &flightAnim;
+	if (hitAnim.HasFinished())
+	{
+		flightAnim.Reset();
+		currentAnim = &flightAnim;
+	}
 
 	switch (currentState)
 	{
@@ -80,12 +84,14 @@ bool Bat::Update(float dt)
 			{
 				attack = true;
 				target->GetDamage(damage);
+				attackAnim.Reset();
 				currentAnim = &attackAnim;
 			}
 		}
 		else if (attack && attackAnim.HasFinished())
 		{
 			Travel(iPoint(battlePos.x, battlePos.y), dt);
+			flightAnim.Reset();
 			currentAnim = &flightAnim;
 			if (bounds.x == battlePos.x && bounds.y == battlePos.y)
 			{

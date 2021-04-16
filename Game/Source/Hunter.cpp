@@ -123,7 +123,11 @@ void Hunter::Draw(bool showColliders)
 {
 	if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0, 150);
 	if (stance == PlayerStance::ROAMING) app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
-	else if (stance == PlayerStance::BATTLE || stance == PlayerStance::ATTACKING || stance == PlayerStance::ATTACK_FINISHED) app->render->DrawTexture(battlerTexture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+	else if (stance == PlayerStance::BATTLE || stance == PlayerStance::ATTACKING ||
+		stance == PlayerStance::ATTACK_FINISHED || stance == PlayerStance::ABILITY_FINISHED)
+	{
+		app->render->DrawTexture(battlerTexture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+	}
 }
 
 bool Hunter::UnLoad()
@@ -227,6 +231,8 @@ void Hunter::GetDamage(int dmg)
 
 void Hunter::Ability(Enemy* enemy, int currentAbility)
 {
+	stance = PlayerStance::ABILITY;
+
 	switch (currentAbility)
 	{
 	case 1:
@@ -246,6 +252,7 @@ void Hunter::Ability(Enemy* enemy, int currentAbility)
 		LOG("Casting BOLA");
 		break;
 	}
+	stance = PlayerStance::ABILITY_FINISHED;
 }
 
 void Hunter::UseObject(Player* player, int currentObject)

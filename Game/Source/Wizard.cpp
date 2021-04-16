@@ -125,7 +125,11 @@ void Wizard::Draw(bool showColliders)
 {
 	if (showColliders) app->render->DrawRectangle(bounds, 0, 255, 0, 150);
 	if (stance == PlayerStance::ROAMING) app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
-	else if (stance == PlayerStance::BATTLE || stance == PlayerStance::ATTACKING || stance == PlayerStance::ATTACK_FINISHED) app->render->DrawTexture(battlerTexture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+	else if (stance == PlayerStance::BATTLE || stance == PlayerStance::ATTACKING ||
+		stance == PlayerStance::ATTACK_FINISHED || stance == PlayerStance::ABILITY_FINISHED)
+	{
+		app->render->DrawTexture(battlerTexture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+	}
 }
 
 bool Wizard::UnLoad()
@@ -243,6 +247,8 @@ void Wizard::GetMana(int amount)
 
 void Wizard::Ability(Enemy* enemy, int currentAbility)
 {
+	stance = PlayerStance::ABILITY;
+
 	switch (currentAbility)
 	{
 	case 1:
@@ -262,6 +268,7 @@ void Wizard::Ability(Enemy* enemy, int currentAbility)
 		LOG("Casting GRAVITY");
 		break;
 	}
+	stance = PlayerStance::ABILITY_FINISHED;
 }
 
 void Wizard::UseObject(Player* player, int currentObject)

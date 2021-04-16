@@ -121,7 +121,11 @@ void Thief::Draw(bool showColliders)
 {
 	if (showColliders) app->render->DrawRectangle(bounds, 255, 165, 0, 150);
 	if (stance == PlayerStance::ROAMING) app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
-	else if (stance == PlayerStance::BATTLE || stance == PlayerStance::ATTACKING || stance == PlayerStance::ATTACK_FINISHED) app->render->DrawTexture(battlerTexture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+	else if (stance == PlayerStance::BATTLE || stance == PlayerStance::ATTACKING ||
+		stance == PlayerStance::ATTACK_FINISHED || stance == PlayerStance::ABILITY_FINISHED)
+	{
+		app->render->DrawTexture(battlerTexture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+	}
 }
 
 bool Thief::UnLoad()
@@ -238,6 +242,8 @@ void Thief::GetMana(int amount)
 
 void Thief::Ability(Enemy* enemy, int currentAbility)
 {
+	stance = PlayerStance::ABILITY;
+
 	switch (currentAbility)
 	{
 	case 1:
@@ -257,7 +263,7 @@ void Thief::Ability(Enemy* enemy, int currentAbility)
 		LOG("Casting LUCKY");
 		break;
 	}
-
+	stance = PlayerStance::ABILITY_FINISHED;
 }
 
 void Thief::UseObject(Player* player, int currentObject)
