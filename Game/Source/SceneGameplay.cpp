@@ -37,7 +37,7 @@ SceneGameplay::SceneGameplay()
 	pugi::xml_parse_result result = animations.load_file("animations.xml");
 
 	if (result == NULL) 
-		LOG("Could not load xml file: %s. pugi error: %s", CONFIG_FILENAME, result.description());
+		LOG("Could not load xml file: %s. pugi error: %s", "animations.xml", result.description());
 	else 
 		anims = animations.child("animations");
 
@@ -329,23 +329,30 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 	pugi::xml_node NodePlayer = toLoadEntities.child("players");
 	pugi::xml_node NodePlayerAuxiliar = NodePlayer.child("player");
 	bool iscurrent = false;
-	for (int i = 0; i < playerAmount; i++) {
+	for (int i = 0; i < playerAmount; ++i) 
+	{
 		iscurrent = false;
 
 		SString string;
 		SString string1;
 		string = NodePlayerAuxiliar.child("playerType").attribute("type").as_string();
 		string1 = NodePlayerAuxiliar.child("isCurrent").attribute("current").as_string();
-		if (string1 == "true")iscurrent = true;
+		if (string1 == "true") iscurrent = true;
 
 		EntityType plType;
 		Player* player = nullptr;
-		if (string == "HUNTER") { player = new Hunter({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims); }
-		else if (string == "WIZARD") { player = new Wizard({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims); }
-		else if (string == "WARRIOR") { player = new Warrior({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims); }
-		else if (string == "THIEF") { player = new Thief({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims); }
-		else { plType = EntityType::UNKNOWN; }
-		if (iscurrent == true)currentPlayer = player;
+		if (string == "HUNTER") 
+			player = new Hunter({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims);
+		else if (string == "WIZARD") 
+			player = new Wizard({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims);
+		else if (string == "WARRIOR") 
+			player = new Warrior({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims);
+		else if (string == "THIEF") 
+			player = new Thief({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims);
+		else 
+			plType = EntityType::UNKNOWN;
+		
+		if (iscurrent == true) currentPlayer = player;
 		playerList.push_back(player);
 		player->Load();
 		NodePlayerAuxiliar = NodePlayerAuxiliar.next_sibling();
@@ -362,8 +369,6 @@ bool SceneGameplay::SaveState(pugi::xml_node& save) const
 	toSaveScene.append_attribute("mapName").set_value(name);
 	toSaveScene.append_attribute("sceneType").set_value("sceneGameplay");*/
 
-
-
 	pugi::xml_node nodePlayers = toSaveEntites.append_child("players");
 	pugi::xml_node nodePlayersAuxiliar;
 	int playerAmount = 0;
@@ -371,7 +376,7 @@ bool SceneGameplay::SaveState(pugi::xml_node& save) const
 	nodePlayersAuxiliar = nodePlayers.append_child("player");
 	eastl::list<Player*>::iterator aux;
 	aux = playerList.begin().mpNode;
-	for (aux; aux != playerList.end(); aux++)
+	for (aux; aux != playerList.end(); ++aux)
 	{
 		if ((*aux) == currentPlayer)
 		{
@@ -385,10 +390,8 @@ bool SceneGameplay::SaveState(pugi::xml_node& save) const
 		nodePlayersAuxiliar = nodePlayers.append_child("player");
 	}
 
-
 	return true;
 }
-
 
 void SceneGameplay::ChangeState(GameplayMenuState type)
 {
@@ -404,10 +407,6 @@ void SceneGameplay::HandleInput(float dt)
 		transition = true;
 		fadeOut = true;
 	}
-
-	if (app->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN) app->LoadGameRequest();
-
-	if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN) app->SaveGameRequest();
 
 	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN) menuState = GameplayMenuState::CHARACTER_SWAP;
 	

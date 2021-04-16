@@ -653,4 +653,42 @@
       </walk_up>
     </overworld>
   </ray>
+
+  <bat>
+    <attack>
+      <pushback x ="0" y="0" w="56" h="40"/>
+      <pushback x ="143" y="0" w="56" h="40"/>
+      <pushback x ="288" y="0" w="56" h="40"/>
+      <pushback x ="439" y="0" w="56" h="40"/>
+      <pushback x ="589" y="0" w="56" h="40"/>
+      <pushback x ="738" y="0" w="56" h="40"/>
+      <pushback x ="894" y="0" w="56" h="40"/>
+      <pushback x ="1044" y="0" w="56" h="40"/>
+    </attack>
+    
+    <flight>
+      <pushback x ="0" y="40" w="56" h="40"/>
+      <pushback x ="143" y="40" w="56" h="40"/>
+      <pushback x ="292" y="40" w="56" h="40"/>
+      <pushback x ="442" y="40" w="56" h="40"/>
+      <pushback x ="592" y="40" w="56" h="40"/>
+      <pushback x ="742" y="40" w="56" h="40"/>
+      <pushback x ="885" y="40" w="56" h="40"/>
+      <pushback x ="1043" y="40" w="56" h="40"/>
+    </flight>
+    
+    <death>
+      <pushback x ="0" y="80" w="56" h="40"/>
+      <pushback x ="144" y="80" w="56" h="40"/>
+      <pushback x ="293" y="80" w="56" h="40"/>
+      <pushback x ="442" y="80" w="56" h="40"/>
+    </death>
+    
+    <hit>
+      <pushback x ="0" y="120" w="56" h="40"/>
+      <pushback x ="143" y="120" w="56" h="40"/>
+      <pushback x ="295" y="120" w="56" h="40"/>
+      <pushback x ="443" y="120" w="56" h="40"/>
+    </hit>
+  </bat>
 </animations>

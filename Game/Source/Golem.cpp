@@ -7,7 +7,7 @@
 #include "Player.h"
 
 
-Golem::Golem(iPoint pos) : Enemy(EntityType::GOLEM)
+Golem::Golem(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::GOLEM)
 {
 	bounds = { pos.x, pos.y, 49, 47 };
 	texture = app->tex->Load("Assets/Textures/Enemies/golem2.png");

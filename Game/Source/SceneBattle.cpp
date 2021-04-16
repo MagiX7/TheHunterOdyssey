@@ -41,6 +41,15 @@ bool SceneBattle::Load()
 		(*it)->battlePos = iPoint((*it)->bounds.x, (*it)->bounds.y);
 	}
 
+	pugi::xml_document animations;
+	pugi::xml_node anims;
+	pugi::xml_parse_result result = animations.load_file("animations.xml");
+
+	if (result == NULL)
+		LOG("Could not load xml file: %s. pugi error: %s", "animations.xml", result.description());
+	else
+		anims = animations.child("animations");
+
 	Enemy* enemy = nullptr;
 	for (int i = 0; i < numEnemies; ++i)
 	{
@@ -48,13 +57,13 @@ bool SceneBattle::Load()
 		switch(num)
 		{
 		case 1:
-			enemy = new Golem(iPoint(650, 190 + (i * 90)));
+			enemy = new Golem(iPoint(650, 190 + (i * 90)), anims);
 			break;
 		case 2:
-			enemy = new Skull(iPoint(650, 190 + (i * 90)));
+			enemy = new Skull(iPoint(650, 190 + (i * 90)), anims);
 			break;
 		case 3:
-			enemy = new Bat(iPoint(650, 190 + (i * 90)));
+			enemy = new Bat(iPoint(650, 190 + (i * 90)), anims);
 			break;
 		}
 		if (enemy != nullptr) enemyList.push_back(enemy);

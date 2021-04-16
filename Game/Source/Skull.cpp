@@ -7,7 +7,7 @@
 #include "Player.h"
 
 
-Skull::Skull(iPoint pos) : Enemy(EntityType::SKULL)
+Skull::Skull(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::SKULL)
 {
 	bounds = { pos.x, pos.y, 29, 29 };
 	texture = app->tex->Load("Assets/Textures/Enemies/floating_skull.png");

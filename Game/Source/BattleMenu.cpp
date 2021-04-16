@@ -282,6 +282,7 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 			btnObject->bounds.x = 20;
 			btnObject->Draw(app->render, showColliders, 25, { 0,0,0,225 });
 		}
+		break;
 	case BattleState::ATTACK:
 		app->render->DrawRectangle({ currEnemy->bounds.x + 100, currEnemy->bounds.y, 32, 16 }, 255, 0, 0);
 		app->render->DrawRectangle({ currPlayer->bounds.x - 100, currPlayer->bounds.y, 32, 16 }, 0, 255, 0);

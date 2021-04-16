@@ -16,7 +16,7 @@ class Npc : public Entity
 {
 public:
 	Npc(EntityType type, iPoint position, int id);
-	~Npc();
+	virtual ~Npc();
 
 	bool Load() override;
 	bool Update(float dt) override;

@@ -7,10 +7,10 @@
 #include "Player.h"
 
 
-Bat::Bat(iPoint pos) : Enemy(EntityType::BAT)
+Bat::Bat(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::BAT)
 {
 	bounds = { pos.x, pos.y, 37, 33 };
-	texture = app->tex->Load("Assets/Textures/Enemies/flying_eye.png");
+	texture = app->tex->Load("Assets/Textures/Enemies/bat.png");
 	name = "Bat";
 
 	battlePos = pos;
@@ -22,7 +22,31 @@ Bat::Bat(iPoint pos) : Enemy(EntityType::BAT)
 
 	attack = false;
 
+	pugi::xml_node bat = anim.child("bat");
+
+	for (pugi::xml_node n = bat.child("attack").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		this->attackAnim.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+	this->attackAnim.loop = false;
+
+	for (pugi::xml_node n = bat.child("flight").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		this->flightAnim.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
+	for (pugi::xml_node n = bat.child("death").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		this->deathAnim.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
+	for (pugi::xml_node n = bat.child("hit").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		this->hitAnim.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
 	currentState = EnemyState::NORMAL;
+	currentAnim = &flightAnim;
 
 	font = new Font("Assets/Font/font3.xml", app->tex);
 }
@@ -33,13 +57,16 @@ Bat::~Bat()
 
 bool Bat::Load()
 {
-
-
 	return true;
 }
 
 bool Bat::Update(float dt)
 {
+	currentAnim->speed = 5.0f * dt;
+	currentAnim->Update();
+
+	if (hitAnim.HasFinished()) currentAnim = &flightAnim;
+
 	switch (currentState)
 	{
 	case EnemyState::NORMAL:
@@ -53,11 +80,13 @@ bool Bat::Update(float dt)
 			{
 				attack = true;
 				target->GetDamage(damage);
+				currentAnim = &attackAnim;
 			}
 		}
-		else
+		else if (attack && attackAnim.HasFinished())
 		{
 			Travel(iPoint(battlePos.x, battlePos.y), dt);
+			currentAnim = &flightAnim;
 			if (bounds.x == battlePos.x && bounds.y == battlePos.y)
 			{
 				currentState = EnemyState::ATTACK_FINISHED;
@@ -80,10 +109,10 @@ bool Bat::CheckCollisions()
 
 void Bat::Draw(bool showColliders)
 {
-	if (showColliders == true) app->render->DrawRectangle(bounds, 0, 0, 255, 255);
+	if (showColliders == true) 
+		app->render->DrawRectangle(bounds, 0, 0, 255, 255);
 		
-	SDL_Rect rect = { 4,5,bounds.w,bounds.h };
-	app->render->DrawTexture(texture, bounds.x, bounds.y, &rect);
+	app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
 
 	SDL_Color color = { 255,255,255,255 };
 	app->render->DrawText(font, "BAT", bounds.x, bounds.y - 15, 15, 5, color);
@@ -92,11 +121,11 @@ void Bat::Draw(bool showColliders)
 
 	sprintf_s(tmp, 32, "Health: %i", health);
 	color = { 0,255,0,255 };
-	app->render->DrawText(font, tmp, bounds.x + bounds.w + 5, bounds.y, 15, 5, color);
+	app->render->DrawText(font, tmp, bounds.x + bounds.w + 20, bounds.y, 15, 5, color);
 
 	sprintf_s(tmp, 32, "Mana: %i", mana);
 	color = { 0,0,255,255 };
-	app->render->DrawText(font, tmp, bounds.x + bounds.w + 5, bounds.y + 20, 15, 5, color);
+	app->render->DrawText(font, tmp, bounds.x + bounds.w + 20, bounds.y + 20, 15, 5, color);
 }
 
 bool Bat::UnLoad()
@@ -128,6 +157,7 @@ void Bat::GetDamage(int dmg)
 		health = 0;
 		currentAnim = &deathAnim;
 	}
+	else currentAnim = &hitAnim;
 }
 
 void Bat::Attack(Player* player)

@@ -291,6 +291,12 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 		{
 			state = PauseState::SAVE;
 
+			pugi::xml_document saveFile;
+			pugi::xml_parse_result result = saveFile.load_file("save_game.xml");
+
+			if (result == NULL) btnLoad->state = GuiControlState::DISABLED;
+			else btnLoad->state = GuiControlState::NORMAL;
+
 			buttons.clear();
 			buttons.push_back(btnSave);
 			buttons.push_back(btnLoad);
@@ -328,8 +334,8 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 			lastButton = currentButton;
 			currentButton = (*buttons.end().prev());
 		}
-		else if (control->id == 6)app->SaveGameRequest();// Save Game
-		else if (control->id == 7)app->LoadGameRequest(); // Load Game // Load Game
+		else if (control->id == 6) app->SaveGameRequest();// Save Game
+		else if (control->id == 7) app->LoadGameRequest(); // Load Game // Load Game
 		else if (control->id == 8)
 		{
 			state = PauseState::DEFAULT;

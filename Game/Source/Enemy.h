@@ -57,4 +57,6 @@ protected:
 
 	Animation idleAnim;
 	Animation deathAnim;
+	Animation hitAnim;
+	Animation attackAnim;
 };

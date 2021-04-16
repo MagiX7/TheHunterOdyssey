@@ -67,7 +67,6 @@ private:
 	void CameraFollow(Render* render);
 	void Fading(float dt);
 
-
 public:
 	DialogueManager* dialogueManager;
 	

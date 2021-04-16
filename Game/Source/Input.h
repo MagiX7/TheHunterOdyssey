@@ -82,9 +82,7 @@ public:
 
 class Input : public Module
 {
-
 public:
-
 	Input();
 
 	// Destructor

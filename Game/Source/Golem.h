@@ -8,7 +8,7 @@ class Font;
 class Golem : public Enemy
 {
 public:
-	Golem(iPoint pos);
+	Golem(iPoint pos, pugi::xml_node anim);
 	virtual ~Golem();
 
 	bool Load() override;

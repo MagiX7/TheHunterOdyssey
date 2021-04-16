@@ -7,7 +7,7 @@ class Font;
 class Bat : public Enemy
 {
 public:
-	Bat(iPoint pos);
+	Bat(iPoint pos, pugi::xml_node anim);
 	virtual ~Bat();
 
 	bool Load() override;
@@ -32,6 +32,7 @@ public:
 
 private:
 	Font* font;
+	Animation flightAnim;
 
 	bool attack;
 };

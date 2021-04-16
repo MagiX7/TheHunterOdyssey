@@ -52,7 +52,6 @@ bool EntityManager::Update(float dt)
 	return ret;
 }
 
-
 void EntityManager::Draw(bool showColliders)
 {
 	eastl::list<Entity*>::iterator item;
@@ -77,6 +76,7 @@ bool EntityManager::UnLoad()
 	
 	return ret;
 }
+
 bool EntityManager::CheckEntityColision(SceneGameplay* scene)
 {
 	eastl::list<Entity*>::iterator item;
@@ -125,17 +125,17 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node 
 		break;
 	case EntityType::BAT:
 
-		entity = new Bat(pos);
+		//entity = new Bat(pos);
 
 		break;
 	case EntityType::GOLEM:
 
-		entity = new Golem(pos);
+		//entity = new Golem(pos);
 
 		break;
 	case EntityType::SKULL:
 
-		entity = new Skull(pos);
+		//entity = new Skull(pos);
 
 		break;
 	case EntityType::TOWN:
@@ -204,7 +204,6 @@ void EntityManager::SetAllNpcInactive()
 			(*item)->SetInactive();
 		}
 	}
-		
 }
 
 void EntityManager::SetAllNpcActive()
@@ -219,7 +218,6 @@ void EntityManager::SetAllNpcActive()
 			(*item)->SetActive();
 		}
 	}
-
 }
 
 void EntityManager::DeleteEntity(Entity* entity)
@@ -235,7 +233,6 @@ void EntityManager::DeleteEntity(Entity* entity)
 			break;
 		}
 	}
-
 }
 
 void EntityManager::DeleteAllEntities() 
