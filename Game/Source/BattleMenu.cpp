@@ -123,6 +123,9 @@ bool BattleMenu::Update(float dt)
 		else ret = HandleInput(app->input);
 		
 		break;
+	case BattleState::ATTACKING:
+		ret = HandleInput(app->input);
+		break;
 	case BattleState::ABILITY_SELECT:
 		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
 		{
@@ -546,7 +549,9 @@ bool BattleMenu::HandleInput(Input* input)
 	else if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_UP)
 	{
 		currPlayer->Attack(currEnemy);
-	
+		
+		type = BattleState::ATTACKING;
+
 		if (sceneBattle->enemyList.size() != 0)
 		{
 			eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();

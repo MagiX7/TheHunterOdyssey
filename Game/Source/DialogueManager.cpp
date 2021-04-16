@@ -203,6 +203,16 @@ bool DialogueManager::UnLoad()
 	RELEASE(easingArrow);
 	RELEASE(easingArrow2);
 
+	eastl::list<Dialogue*>::iterator aux = dialogues.begin();
+	for (aux; aux != dialogues.end(); aux++)
+	{
+		(*aux)->CleanUp();
+		RELEASE((*aux));
+		dialogues.remove(*aux);
+	}
+	
+	dialogues.clear();
+
 	/*if (current != nullptr) current->CleanUp();*/
 
 	dialogues.clear();

@@ -155,9 +155,14 @@ void Bat::GetDamage(int dmg)
 	if (health <= 0)
 	{
 		health = 0;
+		deathAnim.Reset();
 		currentAnim = &deathAnim;
 	}
-	else currentAnim = &hitAnim;
+	else
+	{
+		hitAnim.Reset();
+		currentAnim = &hitAnim;
+	}
 }
 
 void Bat::Attack(Player* player)
