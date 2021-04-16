@@ -8,29 +8,19 @@
     <Type sceneType="scenegameplay" />
     <scenegameplay>
       <entities>
-        <NPCs amount="5">
+        <NPCs amount="3">
           <NPC>
-            <bounds X="33" Y="135" W="30" H="32" />
+            <bounds X="131" Y="160" W="30" H="32" />
             <NpcType type="TOWN" />
             <Dialoge idDialoge="0" />
           </NPC>
           <NPC>
-            <bounds X="1265" Y="930" W="30" H="32" />
+            <bounds X="1100" Y="832" W="30" H="32" />
             <NpcType type="TABERN" />
             <Dialoge idDialoge="2" />
           </NPC>
           <NPC>
-            <bounds X="754" Y="224" W="30" H="32" />
-            <NpcType type="NPC_WIZARD" />
-            <Dialoge idDialoge="1" />
-          </NPC>
-          <NPC>
-            <bounds X="670" Y="280" W="30" H="32" />
-            <NpcType type="TOWN" />
-            <Dialoge idDialoge="4" />
-          </NPC>
-          <NPC>
-            <bounds X="776" Y="400" W="30" H="32" />
+            <bounds X="891" Y="416" W="30" H="32" />
             <NpcType type="NPC_WIZARD" />
             <Dialoge idDialoge="1" />
           </NPC>
@@ -38,22 +28,22 @@
         <players amount="4">
           <player>
             <isCurrent current="true" />
-            <bounds X="644" Y="388" W="32" H="32" />
+            <bounds X="310" Y="151" W="26" H="26" />
             <playerType type="HUNTER" />
           </player>
           <player>
             <isCurrent current="false" />
-            <bounds X="18" Y="90" W="32" H="32" />
+            <bounds X="18" Y="90" W="26" H="26" />
             <playerType type="WIZARD" />
           </player>
           <player>
             <isCurrent current="false" />
-            <bounds X="12" Y="45" W="32" H="32" />
+            <bounds X="12" Y="45" W="26" H="26" />
             <playerType type="THIEF" />
           </player>
           <player>
             <isCurrent current="false" />
-            <bounds X="13" Y="56" W="32" H="32" />
+            <bounds X="13" Y="56" W="26" H="26" />
             <playerType type="WARRIOR" />
           </player>
           <player />

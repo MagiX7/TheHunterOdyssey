@@ -183,4 +183,71 @@
 			<npc_text text ="Press enter to back"/>
 		</node>
 	</npc>
+  <npc id ="5">
+		<node id="0">
+			<npc_text text="Are you the one who has come here to kill the beast?"/>
+
+			<option id="0" nextNodeId="1" text="Yes, it's me"/>
+			<option id="1" nextNodeId="2" text="no i think you're wrong"/>
+
+		</node>
+		<node id="1">
+			<npc_text text="Well, know that this town does not need any hunter, we can defend ourselves"/>
+			<option id="0" nextNodeId="3" text="Well, I think you do need a little help"/>
+      <option id="1" nextNodeId="5" text="So... take my sword and fight the beast"/>
+		</node>
+		<node id="2">
+			<npc_text text="Ah, sorry"/>
+			<option id="0" nextNodeId="-1" text="have a nice day"/>
+		</node>
+		<node id="3">
+			<npc_text text="The neighbors of this town will get together with everything we have and we will win the battle, you will see"/>
+			<option id="0" nextNodeId="4" text="I would like to see it"/>
+    <option id="1" nextNodeId="6" text="I just come to help"/>
+		</node>
+		<node id="4">
+			<npc_text text="You will see, in this way it will be the people who will take the prize money and not a foreigner"/>
+			<option id="0" nextNodeId="-1" text="Ok, good luck"/>
+    <option id="1" nextNodeId="7" text="what is your weapon a stone and a stick?"/>
+		</node>
+		<node id="5">
+			<npc_text text="I don't want to keep talking to you"/>
+			<option id="0" nextNodeId="-1" text="well... thanks, see you later"/>
+		</node> 
+    <node id="6">
+      <npc_text text="You only come to steal the prize that should be for the people of this town"/>
+      <option id="0" nextNodeId="-1" text="bye"/>
+    </node>
+  <node id="7">
+			<npc_text text="do not underestimate me, I was the wrestling champion in school"/>
+      <option id="0" nextNodeId="-1" text="Ok, good luck"/>
+		</node>
+		<node id ="-1"> <!-- Keep this here to avoid crashes -->
+			<npc_text text ="Press enter to back"/>
+		</node>
+	</npc>
+  <npc id ="6">
+    <node id="0">
+      <npc_text text="here are a lot of books. I don't know if I will have time to read all of them"/>
+      <option id="0" nextNodeId="1" text="yes, there are many books"/>
+      <option id="1" nextNodeId="2" text="What is your favorite genre?"/>
+    </node>
+    <node id="1">
+      <npc_text text="I'm going to read goodbye"/>
+      <option id="0" nextNodeId="-1" text="bye"/>
+    </node>
+    <node id="2">
+      <npc_text text="without a doubt the one of adventure and action, so I take the opportunity to prepare myself to fight against the beast"/>
+      <option id="0" nextNodeId="-1" text="good luck and learn a lot"/>
+      <option id="1" nextNodeId="3" text="I don't think it's a good idea to face the beast"/>
+    </node>
+    <node id="3">
+      <npc_text text="I will be the hero of the town, everyone will love me"/>
+      <option id="0" nextNodeId="-1" text="good luck"/>
+    </node>
+    <node id ="-1">
+      <!-- Keep this here to avoid crashes -->
+      <npc_text text ="Press enter to back"/>
+    </node>
+  </npc>
 </dialogues>

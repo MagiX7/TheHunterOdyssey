@@ -2,7 +2,7 @@
 #include "Window.h"
 #include "Textures.h"
 #include "Audio.h"
-
+#include"SceneManager.h"
 #include "PauseMenu.h"
 #include "SceneGameplay.h"
 
@@ -146,6 +146,8 @@ bool PauseMenu::Update(float dt)
 		checkVSync->Update(app->input, dt);
 		break;
 	case PauseState::SAVE:
+		if(app->sceneManager->current->isTown==false)btnSave->state=GuiControlState::DISABLED;
+		else btnSave->state = GuiControlState::NORMAL;
 		btnSave->Update(app->input, dt, id);
 		btnLoad->Update(app->input, dt, id);
 		btnBack->Update(app->input, dt, id);

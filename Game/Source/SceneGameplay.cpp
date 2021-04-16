@@ -127,6 +127,7 @@ bool SceneGameplay::Load()
 	app->audio->PlayMusic("Assets/Audio/Music/village_theme_1.ogg", 0);
 
 	map = new Map();
+	isTown = true;
 	map->Load("town_map.tmx", app->tex);
 
 	dialogueManager = new DialogueManager();
@@ -362,6 +363,7 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 
 bool SceneGameplay::SaveState(pugi::xml_node& save) const
 {
+	if (isTown == false)return true;
 	pugi::xml_node toSaveEntites = save.append_child("entities");
 	entityManager->SaveState(&toSaveEntites);
 	/*const pugi::char_t* name = map->name.GetString();
@@ -444,6 +446,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 				if (type != EntityType::TOWN && type != EntityType::TABERN && type != EntityType::NPC_WIZARD) {
 					if (((*map->data.layers.end().prev())->Get(i, j) == 771) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						isTown = false;
 						entityManager->SetAllNpcInactive();
 
 						iPoint position = { 625,480 };
@@ -454,6 +457,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 771) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
 						iPoint position = { 97,505 };
@@ -464,6 +468,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 772) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						isTown = false;
 						entityManager->SetAllNpcInactive();
 						iPoint position = { 625,480 };
 						currentPlayer->bounds.x = position.x;
@@ -473,6 +478,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 772) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
 						iPoint position = { 70,765 };
@@ -483,6 +489,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 773) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						isTown = false;
 						entityManager->SetAllNpcInactive();
 						iPoint position = { 625,480 };
 						currentPlayer->bounds.x = position.x;
@@ -492,6 +499,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 773) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
 						iPoint position = { 380,1120 };
@@ -502,7 +510,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 774) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						
+						isTown = false;
 						entityManager->SetAllNpcInactive();
 						iPoint position = { 625,430 };
 						currentPlayer->bounds.x = position.x;
@@ -512,6 +520,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 6) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
 						iPoint position = { 97,1100 };
@@ -522,7 +531,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 775) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-					
+						isTown = false;
 						entityManager->SetAllNpcInactive();
 						iPoint position;
 
@@ -551,6 +560,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 7) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
 						iPoint position = { 770,710 };
@@ -561,6 +571,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 776) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						isTown = false;
 						entityManager->SetAllNpcInactive();
 						iPoint position = { 630,450 };
 						currentPlayer->bounds.x = position.x;
@@ -584,6 +595,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 1544) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
 						iPoint position = { 385,610 };
@@ -594,6 +606,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 777) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						isTown = false;
 						entityManager->SetAllNpcInactive();
 						iPoint position = { 750,300 };
 						currentPlayer->bounds.x = position.x;
@@ -618,6 +631,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 1545) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
 						iPoint position = { 448,465 };
@@ -628,6 +642,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 778) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						isTown = false;
 						entityManager->SetAllNpcInactive();
 						iPoint position = { 650,480 };
 						currentPlayer->bounds.x = position.x;
@@ -637,6 +652,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 1546) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
 						iPoint position = { 380,136 };
@@ -647,15 +663,30 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 779) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						isTown = false;
 						entityManager->SetAllNpcInactive();
 						iPoint position = { 615,480 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
+						pugi::xml_document animations;
+						pugi::xml_node anims;
+						pugi::xml_parse_result result = animations.load_file("animations.xml");
+						if (result == NULL)
+							LOG("Could not load xml file: %s. pugi error: %s", CONFIG_FILENAME, result.description());
+						else
+							anims = animations.child("animations");
+						Npc* generalNpc = nullptr;
+						position = { 615,460 };
+						generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position, anims, 5);
+
+						position = { 600,450 };
+						generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 6);
 						map->Load("library.tmx", app->tex);
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 1547) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
 						iPoint position = { 160,136 };
@@ -666,6 +697,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 780) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						isTown = false;
 						entityManager->SetAllNpcInactive();
 						iPoint position = { 615,480 };
 						currentPlayer->bounds.x = position.x;
@@ -675,6 +707,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 12) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
 						iPoint position = { 898,152 };
@@ -685,6 +718,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 782) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						isTown = false;
 						entityManager->SetAllNpcInactive();
 						iPoint position = { 615,480 };
 						currentPlayer->bounds.x = position.x;
@@ -694,6 +728,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 14) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
 						iPoint position = { 900,1250 };
@@ -704,6 +739,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 783) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						isTown = false;
 						entityManager->SetAllNpcInactive();
 						iPoint position = { 615,480 };
 						currentPlayer->bounds.x = position.x;
@@ -713,6 +749,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (((*map->data.layers.end().prev())->Get(i, j) == 1551) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
 						iPoint position = { 1350,390 };

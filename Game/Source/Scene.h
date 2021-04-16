@@ -53,7 +53,7 @@ public:
 
 	bool transitionRequired;
 	SceneType nextScene;
-
+	bool isTown;
 	bool showColliders;
 };
 

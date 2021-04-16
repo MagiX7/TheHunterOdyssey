@@ -96,6 +96,7 @@ private:
 	float alpha;
 	bool transition;
 	bool fadeOut;
+	
 };
 
 #endif //__SCENEGAMEPLAY_H__
