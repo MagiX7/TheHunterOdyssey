@@ -30,9 +30,9 @@ public:
 	bool LoadState(pugi::xml_node&);
 
 	bool SaveState(pugi::xml_node&) const;
-	Scene* current;
+
 private:
-	
+	Scene* current;
 	Scene* next;
 
 	bool onTransition;

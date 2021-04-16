@@ -2,7 +2,7 @@
 #include "Window.h"
 #include "Textures.h"
 #include "Audio.h"
-#include"SceneManager.h"
+
 #include "PauseMenu.h"
 #include "SceneGameplay.h"
 
@@ -146,13 +146,13 @@ bool PauseMenu::Update(float dt)
 		checkVSync->Update(app->input, dt);
 		break;
 	case PauseState::SAVE:
-		if(app->sceneManager->current->isTown==false)btnSave->state=GuiControlState::DISABLED;
+		if (scene->isTown == false) btnSave->state = GuiControlState::DISABLED;
 		else btnSave->state = GuiControlState::NORMAL;
 		btnSave->Update(app->input, dt, id);
 		btnLoad->Update(app->input, dt, id);
 		btnBack->Update(app->input, dt, id);
 		break;
-	case PauseState::RETURNTITLE:
+	case PauseState::RETURN_TITLE:
 		btnReturnTitleYes->Update(app->input, dt, id);
 		btnReturnTitleNo->Update(app->input, dt, id);
 		break;
@@ -172,7 +172,7 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 	switch (state)
 	{
 	case PauseState::DEFAULT:
-		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 120);
+		app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y,1280,720 }, 0, 0, 0, 120);
 
 		section = { 0,0,430,650 };
 		app->render->DrawTexture(guiTex, -app->render->camera.x + 425, -app->render->camera.y + 48, &section);
@@ -202,7 +202,7 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 
 		app->render->DrawText(font, "PAUSE", 552, 121, 72, 5, { 255,255,255,255 });
 
-		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 120);
+		app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y,1280,720 }, 0, 0, 0, 120);
 
 		app->render->DrawTexture(guiTex, -app->render->camera.x + 850, -app->render->camera.y + 48, &section);
 
@@ -218,7 +218,7 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		app->render->DrawText(font, "VSync", 985, 459, 36, 5, { 255,255,255,255 });
 		break;
 	case PauseState::SAVE:
-		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 120);
+		app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y,1280,720 }, 0, 0, 0, 120);
 		section = { 0,0,430,650 };
 		app->render->DrawTexture(guiTex, -app->render->camera.x + 425, -app->render->camera.y + 48, &section);
 
@@ -231,8 +231,8 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		//app->render->DrawText(font, btnLoad->text.GetString(), 601, 357, 36, 5, { 0,0,0,255 });
 		//app->render->DrawText(font, btnBack->text.GetString(), 602, 544, 36, 5, { 0,0,0,255 });
 		break;
-	case PauseState::RETURNTITLE:
-		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 120);
+	case PauseState::RETURN_TITLE:
+		app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y,1280,720 }, 0, 0, 0, 120);
 		section = { 0,0,430,650 };
 		app->render->DrawTexture(guiTex, -app->render->camera.x + 425, -app->render->camera.y + 48, &section);
 
@@ -242,7 +242,7 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		app->render->DrawText(font, "Are you sure?", 507, 147, 40, 5, { 255,255,255,255 });
 		break;
 	case PauseState::EXIT:
-		app->render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 120);
+		app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y,1280,720 }, 0, 0, 0, 120);
 		section = { 0,0,430,650 };
 		app->render->DrawTexture(guiTex, -app->render->camera.x + 425, -app->render->camera.y + 48, &section);
 		
@@ -325,7 +325,7 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 		}
 		else if (control->id == 4)
 		{
-			state = PauseState::RETURNTITLE;
+			state = PauseState::RETURN_TITLE;
 
 			buttons.clear();
 			buttons.push_back(btnReturnTitleYes);

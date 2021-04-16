@@ -13,7 +13,7 @@ enum class PauseState
 	DEFAULT = 0,
 	OPTIONS,
 	SAVE,
-	RETURNTITLE,
+	RETURN_TITLE,
 	EXIT
 };
 
