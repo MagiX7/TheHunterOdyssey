@@ -123,6 +123,7 @@ bool PauseMenu::Update(float dt)
 	{
 		id = currentButton->id;
 	}
+
 	switch (state)
 	{
 	case PauseState::DEFAULT:

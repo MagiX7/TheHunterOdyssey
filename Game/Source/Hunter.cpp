@@ -10,7 +10,7 @@ Hunter::Hunter(iPoint position, pugi::xml_node anim) : Player(PlayerType::HUNTER
 {
 	//bounds = { 0,0, 16,32 };
 	stance = PlayerStance::ROAMING;
-	healthPoints = 2500;
+	healthPoints = 20;
 	maxHealthPoints = healthPoints;
 	manaPoints = 1000;
 	maxManaPoints = manaPoints;
@@ -55,6 +55,16 @@ Hunter::Hunter(iPoint position, pugi::xml_node anim) : Player(PlayerType::HUNTER
 		this->death.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
 	}
 
+	for (pugi::xml_node n = player.child("right_arm_swinging").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		this->attackAnim.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
+	for (pugi::xml_node n = player.child("damage_taken").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		this->damageTaken.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
 	this->idleDown.PushBack(walkDown.frames[0]);
 	this->idleLeft.PushBack(walkLeft.frames[0]);
 	this->idleRight.PushBack(walkRight.frames[0]);
@@ -87,20 +97,28 @@ bool Hunter::Update(float dt)
 			healthPoints = 0;
 			currentAnim = &death;
 		}
+		if (currentAnim == &damageTaken && damageTaken.HasFinished())
+		{
+			idleBattle.Reset();
+			currentAnim = &idleBattle;
+		}
 		break;
 	case PlayerStance::ATTACKING:
-		if (attack == false)
+		if (attack == false && currentAnim == &idleBattle)
 		{
 			Travel(iPoint(target->bounds.x, target->bounds.y), dt);
 
 			if (bounds.x == target->bounds.x && bounds.y == target->bounds.y)
 			{
 				attack = true;
+				attackAnim.Reset();
+				currentAnim = &attackAnim;
 				target->GetDamage(meleeDamage);
 			}
 		}
-		else
+		else if (attack && attackAnim.HasFinished())
 		{
+			currentAnim = &idleBattle;
 			Travel(iPoint(battlePos.x, battlePos.y), dt);
 
 			if (bounds.x == battlePos.x && bounds.y == battlePos.y)
@@ -230,6 +248,8 @@ void Hunter::GetDamage(int dmg)
 	{
 		healthPoints -= (dmg * dmg / (dmg + defense)) * 0.15;
 	}
+	damageTaken.Reset();
+	currentAnim = &damageTaken;
 }
 
 void Hunter::Ability(Enemy* enemy, int currentAbility)

@@ -160,7 +160,8 @@ bool SceneGameplay::Update(float dt)
 				HandleInput(dt);
 				SDL_Rect tmpBounds = currentPlayer->bounds;
 				currentPlayer->Update(dt);
-				if (CollisionMapEntity(currentPlayer->bounds,currentPlayer->type) == true) currentPlayer->bounds = tmpBounds;
+				if (showColliders == false && CollisionMapEntity(currentPlayer->bounds,currentPlayer->type) == true) 
+					currentPlayer->bounds = tmpBounds;
 				CameraFollow(app->render);
 				/*npc->Update(dt);*/
 				entityManager->Update(dt);

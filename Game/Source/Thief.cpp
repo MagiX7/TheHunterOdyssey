@@ -24,34 +24,44 @@ Thief::Thief(iPoint position, pugi::xml_node anim) : Player(PlayerType::THIEF, E
 
 	for (pugi::xml_node n = player.child("walk_front").child("pushback"); n; n = n.next_sibling("pushback"))
 	{
-		walkDown.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+		this->walkDown.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
 	}
 
 	for (pugi::xml_node n = player.child("walk_left").child("pushback"); n; n = n.next_sibling("pushback"))
 	{
-		walkLeft.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+		this->walkLeft.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
 	}
 
 	for (pugi::xml_node n = player.child("walk_right").child("pushback"); n; n = n.next_sibling("pushback"))
 	{
-		walkRight.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+		this->walkRight.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
 	}
 
 	for (pugi::xml_node n = player.child("walk_up").child("pushback"); n; n = n.next_sibling("pushback"))
 	{
-		walkUp.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+		this->walkUp.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
 	}
 
 	player = anim.child("thief").child("battlers");
 
 	for (pugi::xml_node n = player.child("idle").child("pushback"); n; n = n.next_sibling("pushback"))
 	{
-		idleBattle.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+		this->idleBattle.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
 	}
 
 	for (pugi::xml_node n = player.child("death").child("pushback"); n; n = n.next_sibling("pushback"))
 	{
-		death.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+		this->death.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
+	for (pugi::xml_node n = player.child("right_arm_swinging").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		this->attackAnim.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
+	for (pugi::xml_node n = player.child("damage_taken").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		this->damageTaken.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
 	}
 
 	idleDown.PushBack(walkDown.frames[0]);
@@ -86,20 +96,28 @@ bool Thief::Update(float dt)
 			healthPoints = 0;
 			currentAnim = &death;
 		}
+		if (currentAnim == &damageTaken && damageTaken.HasFinished())
+		{
+			idleBattle.Reset();
+			currentAnim = &idleBattle;
+		}
 		break;
 	case PlayerStance::ATTACKING:
-		if (attack == false)
+		if (attack == false && currentAnim == &idleBattle)
 		{
 			Travel(iPoint(target->bounds.x, target->bounds.y), dt);
 
 			if (bounds.x == target->bounds.x && bounds.y == target->bounds.y)
 			{
 				attack = true;
+				attackAnim.Reset();
+				currentAnim = &attackAnim;
 				target->GetDamage(meleeDamage);
 			}
 		}
-		else
+		else if (attack && attackAnim.HasFinished())
 		{
+			currentAnim = &idleBattle;
 			Travel(iPoint(battlePos.x, battlePos.y), dt);
 
 			if (bounds.x == battlePos.x && bounds.y == battlePos.y)
@@ -229,6 +247,8 @@ void Thief::GetDamage(int dmg)
 		healthPoints -= (dmg * dmg / (dmg + defense)) * 0.5;
 		isDefending = false;
 	}
+	damageTaken.Reset();
+	currentAnim = &damageTaken;
 }
 
 void Thief::GetHealed(int heal)

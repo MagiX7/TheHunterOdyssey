@@ -65,7 +65,7 @@ bool Bat::Update(float dt)
 	currentAnim->speed = 5.0f * dt;
 	currentAnim->Update();
 
-	if (hitAnim.HasFinished())
+	if (currentAnim == &hitAnim && hitAnim.HasFinished())
 	{
 		flightAnim.Reset();
 		currentAnim = &flightAnim;
@@ -120,17 +120,23 @@ void Bat::Draw(bool showColliders)
 		
 	app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
 
-	SDL_Color color = { 255,255,255,255 };
+	SDL_Color color = { 0,0,0,255 };
+	app->render->DrawText(font, "BAT", bounds.x + 2, bounds.y - 13, 15, 5, color);
+	color = { 255, 255, 255, 255 };
 	app->render->DrawText(font, "BAT", bounds.x, bounds.y - 15, 15, 5, color);
 
 	char tmp[32] = { 0 };
 
 	sprintf_s(tmp, 32, "Health: %i", health);
-	color = { 0,255,0,255 };
+	color = { 0,0,0,255 };
+	app->render->DrawText(font, tmp, bounds.x + bounds.w + 22, bounds.y + 2, 15, 5, color);
+	color = { 255, 255, 255, 255 };
 	app->render->DrawText(font, tmp, bounds.x + bounds.w + 20, bounds.y, 15, 5, color);
 
 	sprintf_s(tmp, 32, "Mana: %i", mana);
-	color = { 0,0,255,255 };
+	color = { 0,0,0,255 };
+	app->render->DrawText(font, tmp, bounds.x + bounds.w + 22, bounds.y + 22, 15, 5, color);
+	color = { 255, 255, 255, 255 };
 	app->render->DrawText(font, tmp, bounds.x + bounds.w + 20, bounds.y + 20, 15, 5, color);
 }
 

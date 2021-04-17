@@ -181,11 +181,8 @@ bool BattleMenu::Update(float dt)
 		
 		break;
 	case BattleState::ENEMY_TURN:
-		if ((*sceneBattle->playerList.end().prev())->stance == PlayerStance::ATTACK_FINISHED ||
-			(*sceneBattle->playerList.end().prev())->stance == PlayerStance::ABILITY_FINISHED)
-		{
+		if (tempPlayer->stance == PlayerStance::BATTLE)
 			EnemyTurn();
-		}
 		break;
 	case BattleState::DEFENSE:
 		ret = HandleDefense(app->input);
@@ -661,32 +658,48 @@ bool BattleMenu::HandleInput(Input* input)
 		
 		type = BattleState::ATTACKING;
 
-		if (sceneBattle->enemyList.size() != 0)
-		{
-			eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
-			for (int i = 0; it != sceneBattle->playerList.end(); ++it, ++i)
-			{
-				if (currPlayer == (*sceneBattle->playerList.end().prev()))
-				{
-					currPlayer = (*sceneBattle->playerList.begin());
-					type = BattleState::ENEMY_TURN;
-					break;
-				}
-			}
-		}
+		//if (sceneBattle->enemyList.size() != 0)
+		//{
+		//	eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
+		//	for (int i = 0; it != sceneBattle->playerList.end(); ++it, ++i)
+		//	{
+		//		if (currPlayer == (*sceneBattle->playerList.end().prev()))
+		//		{
+		//			tempPlayer = currPlayer;
+		//			currPlayer = (*sceneBattle->playerList.begin());
+		//			type = BattleState::ENEMY_TURN;
+		//			break;
+		//		}
+		//	}
+		//}
 	}
 
 	if (currPlayer->stance == PlayerStance::ATTACK_FINISHED && type != BattleState::ENEMY_TURN)
 	{
 		eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
-		for (int i = 0; it != sceneBattle->playerList.end(); ++it, ++i)
+		for (; it != sceneBattle->playerList.end(); ++it)
 		{
 			if ((*it) == currPlayer)
 			{
+				tempPlayer = currPlayer;
 				currPlayer->stance = PlayerStance::BATTLE;
-				currPlayer = (*it.next());
-				type = BattleState::DEFAULT;
-				DefaultStateButtons();
+				eastl::list<Player*>::iterator item = it;
+				for (; item != sceneBattle->playerList.end(); ++item)
+				{
+					if (item.next() == sceneBattle->playerList.end())
+					{
+						currPlayer = (*sceneBattle->playerList.begin());
+						if (sceneBattle->enemyList.size() != 0) type = BattleState::ENEMY_TURN;
+						break;
+					}
+					else if ((*item.next())->GetHealthPoints() != 0)
+					{
+						currPlayer = (*item.next());
+						type = BattleState::DEFAULT;
+						DefaultStateButtons();
+						break;
+					}
+				}
 				break;
 			}
 		}
@@ -840,12 +853,14 @@ bool BattleMenu::HandleDefense(Input* input)
 	{
 		if (currPlayer == (*sceneBattle->playerList.end().prev()))
 		{
+			tempPlayer = currPlayer;
 			currPlayer = (*sceneBattle->playerList.begin());
 			type = BattleState::ENEMY_TURN;
 			break;
 		}
 		else if ((*it) == currPlayer)
 		{
+			tempPlayer = currPlayer;
 			currPlayer = (*it.next());
 			type = BattleState::DEFAULT;
 			DefaultStateButtons();
@@ -880,7 +895,13 @@ void BattleMenu::EnemyTurn()
 
 	for (int i = 0; i < randNum; ++i)
 	{
-		++pIt;
+		if (i + 1 == randNum && (*pIt)->GetHealthPoints() <= 0)
+		{
+			randNum = rand() % sceneBattle->playerList.size();
+			i = 0;
+			pIt = sceneBattle->playerList.begin();
+		}
+		else ++pIt;
 	}
 
 	int num = 0;
@@ -902,9 +923,15 @@ void BattleMenu::EnemyTurn()
 
 	if (num == sceneBattle->enemyList.size())
 	{
+		bool asigned = false;
 		eastl::list<Player*>::iterator itPlayer = sceneBattle->playerList.begin();
 		for (; itPlayer != sceneBattle->playerList.end(); ++itPlayer)
 		{
+			if ((*itPlayer)->GetHealthPoints() > 0 && asigned == false)
+			{
+				currPlayer = (*itPlayer);
+				asigned = true;
+			}
 			(*itPlayer)->SetDefend(false);
 			(*itPlayer)->stance = PlayerStance::BATTLE;
 		}

@@ -119,4 +119,6 @@ protected:
 
 	Animation idleBattle;
 	Animation death;
+	Animation attackAnim;
+	Animation damageTaken;
 };

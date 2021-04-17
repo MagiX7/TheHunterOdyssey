@@ -27,7 +27,7 @@ public:
 
 	virtual inline bool AnimationFinished()
 	{
-		return deathAnim.HasFinished();
+		return this->deathAnim.HasFinished();
 	}
 
 	// Setters

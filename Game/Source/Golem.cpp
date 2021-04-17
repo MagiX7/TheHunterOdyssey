@@ -9,22 +9,38 @@
 
 Golem::Golem(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::GOLEM)
 {
-	bounds = { pos.x, pos.y, 49, 47 };
-	texture = app->tex->Load("Assets/Textures/Enemies/golem2.png");
+	bounds = { pos.x, pos.y, 70, 69 };
+	texture = app->tex->Load("Assets/Textures/Enemies/golem.png");
 	name = "Golem";
 	
 	battlePos = pos;
-	health = 10;
+	health = 1000;
 	mana = 50;
 	damage = 1000;
 	defense = 20;
 	speed = 10;
 
-	idleAnim.PushBack({56, 20, 48, 46});
+	pugi::xml_node golem = anim.child("golem");
 
-	deathAnim.PushBack({0, 141, 47, 59});
-	deathAnim.PushBack({54, 141, 47, 59});
-	deathAnim.PushBack({113, 141, 47, 59});
+	for (pugi::xml_node n = golem.child("idle").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		this->idleAnim.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
+	for (pugi::xml_node n = golem.child("attack").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		this->attackAnim.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
+	for (pugi::xml_node n = golem.child("death").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		this->deathAnim.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+
+	for (pugi::xml_node n = golem.child("hit").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		this->hitAnim.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
 
 	attack = false;
 
@@ -48,27 +64,38 @@ bool Golem::Update(float dt)
 	currentAnim->speed = 5.0f * dt;
 	currentAnim->Update();
 
+	if (currentAnim == &hitAnim && hitAnim.HasFinished())
+	{
+		idleAnim.Reset();
+		currentAnim = &idleAnim;
+	}
+
 	switch (currentState)
 	{
 	case EnemyState::NORMAL:
-
 		break;
 	case EnemyState::ATTACKING:
 		if (attack == false)
 		{
 			Travel(iPoint(target->bounds.x, target->bounds.y), dt);
-			if (bounds.x == target->bounds.x && bounds.y == target->bounds.y)
+			if (bounds.x <= target->bounds.x + 5 && bounds.y <= target->bounds.y + 5)
 			{
 				attack = true;
+				idleAnim.Reset();
+				attackAnim.Reset();
+				currentAnim = &attackAnim;
 				target->GetDamage(damage);
 			}
 		}
-		else
+		else if (attack && attackAnim.HasFinished())
 		{
+			currentAnim = &idleAnim;
 			Travel(iPoint(battlePos.x, battlePos.y), dt);
 			if (bounds.x == battlePos.x && bounds.y == battlePos.y)
 			{
 				currentState = EnemyState::ATTACK_FINISHED;
+				idleAnim.Reset();
+				currentAnim = &idleAnim;
 				attack = false;
 			}
 		}
@@ -94,17 +121,23 @@ void Golem::Draw(bool showColliders)
 	SDL_Rect rect = { 2,3,bounds.w,bounds.h };
 	app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
 
-	SDL_Color color = { 255,255,255,255 };
-	app->render->DrawText(font, "GOLEM", bounds.x, bounds.y - 15, 15, 5, color);
+	SDL_Color color = { 0, 0, 0,255 };
+	app->render->DrawText(font, "GOLEM", bounds.x + 22, bounds.y - 13, 15, 5, color);
+	color = { 255, 255, 255, 255 };
+	app->render->DrawText(font, "GOLEM", bounds.x + 20, bounds.y - 15, 15, 5, color);
 
 	char tmp[32] = { 0 };
 
 	sprintf_s(tmp, 32, "Health: %i", health);
-	color = { 0,255,0,255 };
+	color = { 0,0,0,255 };
+	app->render->DrawText(font, tmp, bounds.x + bounds.w + 7, bounds.y + 2, 15, 5, color);
+	color = { 255, 255, 255, 255 };
 	app->render->DrawText(font, tmp, bounds.x + bounds.w + 5, bounds.y, 15, 5, color);
 
 	sprintf_s(tmp, 32, "Mana: %i", mana);
-	color = { 0,0,255,255 };
+	color = { 0,0,0,255 };
+	app->render->DrawText(font, tmp, bounds.x + bounds.w + 7, bounds.y + 22, 15, 5, color);
+	color = { 255, 255, 255, 255 };
 	app->render->DrawText(font, tmp, bounds.x + bounds.w + 5, bounds.y + 20, 15, 5, color);
 }
 
@@ -135,7 +168,13 @@ void Golem::GetDamage(int dmg)
 	if (health <= 0)
 	{
 		health = 0;
+		deathAnim.Reset();
 		currentAnim = &deathAnim;
+	}
+	else
+	{
+		hitAnim.Reset();
+		currentAnim = &hitAnim;
 	}
 }
 
