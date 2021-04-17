@@ -9,7 +9,7 @@ Ray::Ray(iPoint position, pugi::xml_node anim, int id) : Npc(EntityType::RAY, po
 {
 	//bounds = { 0,0, 16,32 };
 	//type = EntityType::NPC_WIZARD;
-	texture = app->tex->Load("Assets/Textures/map_tileset.png");
+	texture = app->tex->Load("Assets/Maps/map_tileset.png");
 
 	dialogeId = 3;
 	state = EntityState::WALKING_RIGHT;
