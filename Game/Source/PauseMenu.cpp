@@ -104,7 +104,8 @@ bool PauseMenu::Load(Font* font)
 	buttons.push_back(btnOptions);
 	buttons.push_back(btnReturnTitle);
 	buttons.push_back(btnExit);
-	currentButton = (*buttons.begin());
+	//currentButton = (*buttons.begin());
+	currentButton = nullptr;
 	lastButton = nullptr;
 
 	state = PauseState::DEFAULT;
@@ -132,34 +133,34 @@ bool PauseMenu::Update(float dt)
 		btnOptions->Update(app->input, dt, id);
 		btnReturnTitle->Update(app->input, dt, id);
 		btnExit->Update(app->input, dt, id);
+
 		break;
 	case PauseState::OPTIONS:
-		/*btnResume->Update(app->input, dt, id);
-		btnLoadSave->Update(app->input, dt, id);
-		btnOptions->Update(app->input, dt, id);
-		btnReturnTitle->Update(app->input, dt,id);
-		btnExit->Update(app->input, dt, id);*/
 		btnOptionsBack->Update(app->input, dt, id);
 
 		slideMusicVolume->Update(app->input, dt);
 		slideFXVolume->Update(app->input, dt);
 		checkFullscreen->Update(app->input, dt);
 		checkVSync->Update(app->input, dt);
+
 		break;
 	case PauseState::SAVE:
 		if (scene->isTown == false) btnSave->state = GuiControlState::DISABLED;
-		else btnSave->state = GuiControlState::NORMAL;
+		else btnSave->state = GuiControlState::FOCUSED;
 		btnSave->Update(app->input, dt, id);
 		btnLoad->Update(app->input, dt, id);
 		btnBack->Update(app->input, dt, id);
+
 		break;
 	case PauseState::RETURN_TITLE:
 		btnReturnTitleYes->Update(app->input, dt, id);
 		btnReturnTitleNo->Update(app->input, dt, id);
+
 		break;
 	case PauseState::EXIT:
 		ret = btnExitYes->Update(app->input, dt, id);
 		btnExitNo->Update(app->input, dt, id);
+
 		break;
 	}
 
@@ -186,11 +187,7 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		btnExit->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
 
 		app->render->DrawText(font, "PAUSE", 552, 121, 72, 5, { 255,255,255,255 });
-		//app->render->DrawText(font, btnResume->text.GetString(), 529, 239, 36, 5, { 0,0,0,255 });
-		//app->render->DrawText(font, btnLoadSave->text.GetString(), 549, 324, 36, 5, { 0,0,0,255 });
-		//app->render->DrawText(font, btnOptions->text.GetString(), 578, 409, 36, 5, { 0,0,0,255 });
-		//app->render->DrawText(font, btnReturnTitle->text.GetString(), 515, 494, 36, 5, { 0,0,0,255 });
-		//app->render->DrawText(font, btnExit->text.GetString(), 559, 579, 36, 5, { 0,0,0,255 });
+
 		break;
 	case PauseState::OPTIONS:
 		section = { 0,0,430,650 };
@@ -232,9 +229,7 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		btnBack->Draw(app->render, showColliders, 36, {0, 0, 0, 255});
 
 		app->render->DrawText(font, "PAUSE", 552, 121, 72, 5, { 255,255,255,255 });
-		//app->render->DrawText(font, btnSave->text.GetString(), 601, 272, 36, 5, { 0,0,0,255 });
-		//app->render->DrawText(font, btnLoad->text.GetString(), 601, 357, 36, 5, { 0,0,0,255 });
-		//app->render->DrawText(font, btnBack->text.GetString(), 602, 544, 36, 5, { 0,0,0,255 });
+
 		break;
 	case PauseState::RETURN_TITLE:
 		// Black rectangle for the background
@@ -300,12 +295,22 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 	{
 	case GuiControlType::BUTTON:
 	{
-		if (control->id == 1)
+		if (control->id == 1) // Resume
 		{
+			// Reset all the buttons like if it was the first time user presses pause menu button
+			buttons.clear();
+			buttons.push_back(btnResume);
+			buttons.push_back(btnLoadSave);
+			buttons.push_back(btnOptions);
+			buttons.push_back(btnReturnTitle);
+			buttons.push_back(btnExit);
+			currentButton = nullptr;
+			lastButton = nullptr;
+
 			state = PauseState::DEFAULT;
 			scene->ChangeState(GameplayMenuState::NONE);
 		}
-		else if (control->id == 2)
+		else if (control->id == 2) // Load / Save
 		{
 			state = PauseState::SAVE;
 
@@ -323,7 +328,7 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 			currentButton = (*buttons.begin());
 
 		}
-		else if (control->id == 3)
+		else if (control->id == 3) // Options
 		{
 			state = PauseState::OPTIONS;
 
@@ -332,7 +337,7 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 			lastButton = currentButton;
 			currentButton = (*buttons.begin());
 		}
-		else if (control->id == 4)
+		else if (control->id == 4) // Return to title
 		{
 			state = PauseState::RETURN_TITLE;
 
@@ -342,7 +347,7 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 			lastButton = currentButton;
 			currentButton = (*buttons.end().prev());
 		}
-		else if (control->id == 5)
+		else if (control->id == 5) // Exit
 		{
 			state = PauseState::EXIT;
 
@@ -354,7 +359,7 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 		}
 		else if (control->id == 6) app->SaveGameRequest();// Save Game
 		else if (control->id == 7) app->LoadGameRequest(); // Load Game
-		else if (control->id == 8)
+		else if (control->id == 8) // Back
 		{
 			state = PauseState::DEFAULT;
 
@@ -367,7 +372,7 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 
 			currentButton = lastButton;
 		}
-		else if (control->id == 9)
+		else if (control->id == 9) // Back from options
 		{
 			state = PauseState::DEFAULT;
 

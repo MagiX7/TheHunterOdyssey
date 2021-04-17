@@ -59,13 +59,14 @@ CharacterManager::~CharacterManager()
 
 bool CharacterManager::Load(Font* font)
 {
-	buttons.push_back(btnHunter);
+	//buttons.push_back(btnHunter);
 	buttons.push_back(btnWizard);
 	buttons.push_back(btnThief);
 	buttons.push_back(btnWarrior);
 	buttons.push_back(btnExit);
 
-	currentButton = (*buttons.begin().next());
+	//currentButton = (*buttons.begin().next());
+	currentButton = nullptr;
 	lastButton = nullptr;
 
 	return true;
@@ -73,7 +74,7 @@ bool CharacterManager::Load(Font* font)
 
 bool CharacterManager::Update(float dt)
 {
-	HandleInput();
+	UpdatingButtons(app->input);
 
 	int id = -1;
 	if (lastUserInput == 0 && currentButton != nullptr)
@@ -122,28 +123,63 @@ bool CharacterManager::OnGuiMouseClickEvent(GuiControl* control)
 	switch (control->type)
 	{
 	case GuiControlType::BUTTON:
-		if (control->id == 1)
+		if (control->id == 1) // Hunter
 		{
+			buttons.clear();
+			buttons.push_back(btnWizard);
+			buttons.push_back(btnThief);
+			buttons.push_back(btnWarrior);
+			buttons.push_back(btnExit);
+
 			scene->CharacterSwap(PlayerType::HUNTER);
 			ChangeButtonState(PlayerType::HUNTER);
 		}
-		else if (control->id == 2)
+		else if (control->id == 2) // Wizard
 		{
+			buttons.clear();
+			buttons.push_back(btnHunter);
+			buttons.push_back(btnThief);
+			buttons.push_back(btnWarrior);
+			buttons.push_back(btnExit);
+			currentButton = (*buttons.begin());
+
 			scene->CharacterSwap(PlayerType::WIZARD);
 			ChangeButtonState(PlayerType::WIZARD);
 		}
-		else if (control->id == 3)
+		else if (control->id == 3) // Thief
 		{
+			buttons.clear();
+			buttons.push_back(btnHunter);
+			buttons.push_back(btnWizard);
+			buttons.push_back(btnWarrior);
+			buttons.push_back(btnExit);
+			currentButton = (*buttons.begin());
+
 			scene->CharacterSwap(PlayerType::THIEF);
 			ChangeButtonState(PlayerType::THIEF);
 		}
-		else if (control->id == 4)
+		else if (control->id == 4) // Warrior
 		{
+			buttons.clear();
+			buttons.push_back(btnHunter);
+			buttons.push_back(btnWizard);
+			buttons.push_back(btnThief);
+			buttons.push_back(btnExit);
+			currentButton = (*buttons.begin());
+
 			scene->CharacterSwap(PlayerType::WARRIOR);
 			ChangeButtonState(PlayerType::WARRIOR);
 		}
-		else if (control->id == 5)
+		else if (control->id == 5) // Exit
 		{
+			buttons.clear();
+			buttons.push_back(btnHunter);
+			buttons.push_back(btnWizard);
+			buttons.push_back(btnThief);
+			buttons.push_back(btnWarrior);
+			buttons.push_back(btnExit);
+			currentButton = (*buttons.begin());
+			
 			scene->ChangeState(GameplayMenuState::NONE);
 			currentButton = (*buttons.begin());
 		}
@@ -183,43 +219,6 @@ void CharacterManager::ChangeButtonState(PlayerType type)
 	}
 }
 
-void CharacterManager::HandleInput()
-{
-	int prevX = xMouse;
-	int prevY = yMouse;
-	app->input->GetMousePosition(xMouse, yMouse);
-	if (prevX != xMouse || prevY != yMouse)
-	{
-		lastUserInput = 1;
-	}
-	else lastUserInput = 0;
-
-	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
-	{
-		eastl::list<GuiButton*>::iterator it = buttons.begin();
-		for (int i = 0; i < buttons.size(); ++i, ++it)
-		{
-			if ((*it)->id == currentButton->id + 1)
-			{
-				currentButton = (*it);
-				break;
-			}
-		}
-	}
-	else if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
-	{
-		eastl::list<GuiButton*>::iterator it = buttons.begin();
-		for (int i = 0; i < buttons.size(); ++i, ++it)
-		{
-			if ((*it)->id == currentButton->id - 1)
-			{
-				currentButton = (*it);
-				break;
-			}
-		}
-	}
-}
-
 void CharacterManager::UpdatingButtons(Input* input)
 {
 	int prevX = xMouse;
@@ -247,7 +246,7 @@ void CharacterManager::UpdatingButtons(Input* input)
 			eastl::list<GuiButton*>::iterator it = buttons.begin();
 			for (int i = 0; i < buttons.size(); ++i, ++it)
 			{
-				if ((*it)->id == currentButton->id + 1)
+				if ((*it)->id == currentButton->id + 1 || (*it)->id == currentButton->id + 2)
 				{
 					currentButton = (*it);
 					break;
@@ -264,10 +263,10 @@ void CharacterManager::UpdatingButtons(Input* input)
 		}
 		else
 		{
-			eastl::list<GuiButton*>::iterator it = buttons.begin();
-			for (int i = 0; i < buttons.size(); ++i, ++it)
+			eastl::list<GuiButton*>::iterator it = buttons.end().prev();
+			for (int i = buttons.size() - 1; i >= 0; --i, --it)
 			{
-				if ((*it)->id == currentButton->id - 1)
+				if ((*it)->id == currentButton->id - 1 || (*it)->id == currentButton->id - 2)
 				{
 					currentButton = (*it);
 					break;

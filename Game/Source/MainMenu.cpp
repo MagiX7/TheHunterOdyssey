@@ -294,7 +294,7 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 	case GuiControlType::BUTTON:
 	{
 		if (control->id == 1) scene->TransitionToScene(SceneType::GAMEPLAY); // New Game
-		else if (control->id == 2) app->LoadGameRequest();// Continue
+		else if (control->id == 2) app->LoadGameRequest(); // Continue
 		else if (control->id == 3) // Options
 		{
 			state = MenuState::OPTIONS;

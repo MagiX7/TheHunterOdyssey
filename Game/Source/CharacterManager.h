@@ -26,7 +26,7 @@ public:
 
 	void ChangeButtonState(PlayerType type);
 
-	void HandleInput();
+	//void HandleInput();
 
 	void UpdatingButtons(Input* input) override;
 private:

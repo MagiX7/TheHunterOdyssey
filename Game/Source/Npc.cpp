@@ -103,7 +103,7 @@ void Npc::NpcMove(bool move)
 
 void Npc::Draw(bool showColliders)
 {
-	if (drawPtext) app->render->DrawText(font, "Press O to talk", (bounds.x - 30)- (app->render->camera.x * (-1)), (bounds.y - 30) - (app->render->camera.y*(-1)), 20, 5, { 255,255,255 });
+	if (drawPtext) app->render->DrawText(font, "Press O or A to talk", (bounds.x - 100) - (app->render->camera.x * (-1)), (bounds.y - 30) - (app->render->camera.y*(-1)), 20, 5, { 255,255,255 });
 }
 
 bool Npc::UnLoad()
