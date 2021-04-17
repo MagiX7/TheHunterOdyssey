@@ -10,7 +10,7 @@ Hunter::Hunter(iPoint position, pugi::xml_node anim) : Player(PlayerType::HUNTER
 {
 	//bounds = { 0,0, 16,32 };
 	stance = PlayerStance::ROAMING;
-	healthPoints = 20;
+	healthPoints = 2;
 	maxHealthPoints = healthPoints;
 	manaPoints = 1000;
 	maxManaPoints = manaPoints;

@@ -9,7 +9,7 @@
 Thief::Thief(iPoint position, pugi::xml_node anim) : Player(PlayerType::THIEF, EntityType::THIEF,position)
 {
 	stance = PlayerStance::ROAMING;
-	healthPoints = 1500;
+	healthPoints = 2;
 	maxHealthPoints = healthPoints;
 	defense = 10;
 	manaPoints = 500;

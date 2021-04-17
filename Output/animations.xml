@@ -792,4 +792,50 @@
       <pushback x="280" y="621" w="70" h="69"/>
       </hit>
   </golem>
+  
+  <skull>
+    <idle>
+      <pushback x="0" y="0" w="74" h="74"/>
+      <pushback x="74" y="0" w="74" h="74"/>
+      <pushback x="148" y="0" w="74" h="74"/>
+      <pushback x="222" y="0" w="74" h="74"/>
+      <pushback x="296" y="0" w="74" h="74"/>
+      <pushback x="370" y="0" w="74" h="74"/>
+      <pushback x="444" y="0" w="74" h="74"/>
+      <pushback x="518" y="0" w="74" h="74"/>
+      <pushback x="592" y="0" w="74" h="74"/>
+      <pushback x="666" y="0" w="74" h="74"/>
+      <pushback x="740" y="0" w="74" h="74"/>
+      <pushback x="814" y="0" w="74" h="74"/>
+      <pushback x="888" y="0" w="74" h="74"/>
+      <pushback x="962" y="0" w="74" h="74"/>
+      <pushback x="1036" y="0" w="74" h="74"/>
+      <pushback x="1110" y="0" w="74" h="74"/>
+    </idle>
+
+    <attack>
+      <pushback x="0" y="74" w="74" h="74"/>
+      <pushback x="74" y="74" w="74" h="74"/>
+      <pushback x="148" y="74" w="74" h="74"/>
+      <pushback x="222" y="74" w="74" h="74"/>
+      <pushback x="296" y="74" w="74" h="74"/>
+      <pushback x="370" y="74" w="74" h="74"/>
+      <pushback x="444" y="74" w="74" h="74"/>
+      <pushback x="518" y="74" w="74" h="74"/>
+      <pushback x="592" y="74" w="74" h="74"/>
+    </attack>
+
+    <death>
+      <pushback x="0" y="148" w="74" h="74"/>
+      <pushback x="74" y="148" w="74" h="74"/>
+      <pushback x="148" y="148" w="74" h="74"/>
+      <pushback x="222" y="148" w="74" h="74"/>
+      <pushback x="296" y="148" w="74" h="74"/>
+      <pushback x="370" y="148" w="74" h="74"/>
+      <pushback x="444" y="148" w="74" h="74"/>
+      <pushback x="518" y="148" w="74" h="74"/>
+      <pushback x="592" y="148" w="74" h="74"/>
+      <pushback x="666" y="148" w="74" h="74"/>
+    </death>
+  </skull>
 </animations>

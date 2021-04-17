@@ -9,7 +9,7 @@
 Warrior::Warrior(iPoint position, pugi::xml_node anim) : Player(PlayerType::WARRIOR, EntityType::WARRIOR,position)
 {
 	stance = PlayerStance::ROAMING;
-	healthPoints = 3500;
+	healthPoints = 2;
 	maxHealthPoints = healthPoints;
 	defense = 20;
 	manaPoints = 500;

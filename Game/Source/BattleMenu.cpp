@@ -116,14 +116,14 @@ bool BattleMenu::Load(Font* font)
 	currEnemy = (*sceneBattle->enemyList.begin());
 	currPlayer = (*sceneBattle->playerList.begin());
 
-	srand(time(NULL));
-
 	return true;
 }
 
 bool BattleMenu::Update(float dt)
 {
 	bool ret = true;
+
+	srand(time(NULL));
 
 	UpdatingButtons(app->input);
 
@@ -214,9 +214,19 @@ bool BattleMenu::Update(float dt)
 
 	EraseEnemy();
 
-	if (sceneBattle->enemyList.size() == 0) ret = false;
+	if (sceneBattle->enemyList.size() == 0) return false;
 
-	//Update Easings
+	eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
+	int i = 0;
+	for (; it != sceneBattle->playerList.end(); ++it)
+	{
+		if ((*it)->GetHealthPoints() <= 0) ++i;
+		else break;
+	}
+
+	if (i == 4) return false;
+
+	// Update Easings
 
 	if (easingArrow->easingsActivated)
 	{

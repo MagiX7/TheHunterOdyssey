@@ -80,18 +80,18 @@ bool Bat::Update(float dt)
 		if (attack == false)
 		{
 			Travel(iPoint(target->bounds.x, target->bounds.y), dt);
-			if (bounds.x == target->bounds.x && bounds.y == target->bounds.y)
+			if (bounds.x < (target->bounds.x + (target->bounds.w / 2)) && bounds.y == target->bounds.y)
 			{
 				attack = true;
 				target->GetDamage(damage);
 				attackAnim.Reset();
 				currentAnim = &attackAnim;
+				idleAnim.Reset();
 			}
 		}
 		else if (attack && attackAnim.HasFinished())
 		{
 			Travel(iPoint(battlePos.x, battlePos.y), dt);
-			flightAnim.Reset();
 			currentAnim = &flightAnim;
 			if (bounds.x == battlePos.x && bounds.y == battlePos.y)
 			{

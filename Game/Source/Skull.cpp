@@ -9,7 +9,7 @@
 
 Skull::Skull(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::SKULL)
 {
-	bounds = { pos.x, pos.y, 29, 29 };
+	bounds = { pos.x, pos.y, 74, 74 };
 	texture = app->tex->Load("Assets/Textures/Enemies/floating_skull.png");
 	name = "Skull";
 
@@ -21,7 +21,30 @@ Skull::Skull(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::SKULL)
 	speed = 10.0f;
 
 	attack = false;
+
+	pugi::xml_node skull = anim.child("skull");
+
+	for (pugi::xml_node n = skull.child("attack").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		this->attackAnim.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+	this->attackAnim.loop = false;
+
+	for (pugi::xml_node n = skull.child("death").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		this->deathAnim.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+	this->deathAnim.loop = false;
+
+	for (pugi::xml_node n = skull.child("idle").child("pushback"); n; n = n.next_sibling("pushback"))
+	{
+		this->idleAnim.PushBack({ n.attribute("x").as_int(), n.attribute("y").as_int(), n.attribute("w").as_int(), n.attribute("h").as_int() });
+	}
+	this->idleAnim.loop = true;
+
 	currentState = EnemyState::NORMAL;
+
+	currentAnim = &idleAnim;
 
 	font = new Font("Assets/Font/font3.xml", app->tex);
 }
@@ -38,6 +61,15 @@ bool Skull::Load()
 
 bool Skull::Update(float dt)
 {
+	currentAnim->speed = 9.0f * dt;
+	currentAnim->Update();
+
+	if (currentAnim == &hitAnim && hitAnim.HasFinished())
+	{
+		idleAnim.Reset();
+		currentAnim = &idleAnim;
+	}
+
 	switch (currentState)
 	{
 	case EnemyState::NORMAL:
@@ -51,11 +83,16 @@ bool Skull::Update(float dt)
 			{
 				attack = true;
 				target->GetDamage(damage);
+				attackAnim.Reset();
+				currentAnim = &attackAnim;
+				idleAnim.Reset();
 			}
 		}
-		else
+		else if (attack && attackAnim.HasFinished())
 		{
 			Travel(iPoint(battlePos.x, battlePos.y), dt);
+			currentAnim = &idleAnim;
+
 			if (bounds.x == battlePos.x && bounds.y == battlePos.y)
 			{
 				currentState = EnemyState::ATTACK_FINISHED;
@@ -81,8 +118,7 @@ void Skull::Draw(bool showColliders)
 	if (showColliders)
 		app->render->DrawRectangle(bounds, 0, 0, 255, 255);
 
-	SDL_Rect rect = { 5,7,bounds.w,bounds.h };
-	app->render->DrawTexture(texture, bounds.x, bounds.y, &rect);
+	app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
 
 	SDL_Color color = { 0,0,0,255 };
 	app->render->DrawText(font, "SKULL", bounds.x + 2, bounds.y - 13, 15, 5, color);
@@ -131,8 +167,8 @@ void Skull::GetDamage(int dmg)
 	if (health <= 0)
 	{
 		health = 0;
+		deathAnim.Reset();
 		currentAnim = &deathAnim;
-		deathAnim.hasFinished = true;
 	}
 }
 
