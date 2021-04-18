@@ -23,20 +23,31 @@ The Hunter Odyssey is our RPG turn-based video game based on the roots of the ge
  - In menus, arrows to interact with the different buttons.
 
 ### Gamepad (XBOX keys)
- - Left joystick or directional pad to move the player.
- - Y to open the character swap menu.
- - A to start a dialogue.
- - X to trigger battle scene.
- - Start button to open the pause menu.
- - Back button to enable god mode + view all colliders.
+ - Gameplay:
+ 
+   · Left joystick or directional pad to move the player.
+   
+   · Y to open the character swap menu.
+   
+   · A to start a dialogue.
+   
+   · X to trigger battle scene.
+   
+   · Start button to open the pause menu.
+   
+   · Back button to enable god mode + view all colliders.
 
-   In Menu - inventory - combat:
- - A to accept.
- - B to decline or going back.
- - Left joystick and pad to move the selection.
+ - In Menu - inventory - combat:
+ 
+   · A to accept.
+   
+   · B to decline or going back.
+   
+   · Left joystick and pad to move the selection.
 
-   Title scene:
- - A or START to go to the main menu.
+- Title scene:
+ 
+   · A or START to go to the main menu.
 
 ## Developers
 
@@ -59,6 +70,7 @@ Interior Tileset: https://gif-superretroworld.itch.io/interior-pack
 Logo font: https://www.dafont.com/es/game-over-cre.font
 
 Title font: https://www.1001fonts.com/gameria-font.html
+
 Title background image: https://creativecommons.org/licenses/by-sa/3.0/
 
 Characters: https://alexdraws.itch.io/pixel-champions
