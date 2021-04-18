@@ -205,7 +205,7 @@ bool SceneTitle::Update(float dt)
 			titleAlpha = 0.0f;
 		}
 
-		if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || app->input->pad->GetButton(SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
+		if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || app->input->pad->GetButton(SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_A) == KEY_DOWN || app->input->pad->GetButton(SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_START) == KEY_DOWN)
 		{
 			app->audio->PlayFx(enterFx);
 			state = TitleState::FADE;
