@@ -28,38 +28,10 @@
 			<npc_text text ="Press enter to back"/>
 		</node>
 	</npc>
-
-	<!-- Next NPC -->
-
-	<!--
-	<npc id ="1">
-		<node id ="0">
-			<npc_text text ="esto es una prueba"/>
-			<option id="0" nextNodeId="3" text="me comes los huevos"/>
-			<option id="1" nextNodeId="2" text="dale bro"/>
-			<option id="2" nextNodeId="1" text="Esta es la opcion 3"/>
-	 </node>
-	 <node id ="1">
-		  <npc_text text ="esto es la segunda respuesta"/>
-		  <option id="0" nextNodeId="-1" text="me la suda"/>
-		  <option id="1" nextNodeId="-1" text="no se que poner"/>
-	</node>
-    <node id="2">
-		<npc_text text ="este es el final ya"/>
-		<option id="0" nextNodeId ="-1" text="dale adios"/>
-	</node>
-    <node id="3">
-		<npc_text text="ostia txori bat"/>
-		 <option id="0" nextNodeId="-1" text="viva MrLuigui001"/>
-		  <option id="1" nextNodeId="-1" text="rt"/>
-    </node>
-    <node id ="-1"> Keep this here to avoid crashes
-		 <npc_text text ="Press enter to back"/>
-    </node>
-	</npc>
-	-->
 	
+
 	<!-- Next NPC -->
+	
 	
 	<npc id ="1">
 		<node id ="0">
@@ -71,7 +43,10 @@
 		</node>
 	</npc>
 
+	
 	<!-- Next NPC -->
+	
+	
 	<npc id ="2">
 		<node id ="0">
 			<npc_text text ="Hello Mr. How are you today?"/>
@@ -107,8 +82,10 @@
 			<npc_text text ="Press enter to back"/>
 		</node>
 	</npc>
+	
 
 	<!-- Next NPC -->
+	
 
 	<npc id ="3">
 		<node id="0">
@@ -142,112 +119,118 @@
 		</node>
 	</npc>
 
-<npc id ="4">
+
+	<!-- Next NPC -->
+	
+
+	<npc id ="4">
 		<node id="0">
 			<npc_text text="Do you want something?"/>
-			<option id="0" nextNodeId="1" text="no, thanks."/>
-			<option id="1" nextNodeId="2" text="yes... I'm not from here, I don't know the town very well"/>
+			<option id="0" nextNodeId="1" text="No, thanks."/>
+			<option id="1" nextNodeId="2" text="Yes... I'm not from here, I don't know the town very well."/>
 		</node>
 		<node id="1">
-			<npc_text text="ok, have a nice day!"/>
-			<option id="0" nextNodeId="3" text="bye"/>
+			<npc_text text="Ok, have a nice day!"/>
+			<option id="0" nextNodeId="-1" text="Bye."/>
 		</node>
 		<node id="2">
-			<npc_text text="ooooouuuh you are the hunter who wants to kill the beast right?? the whole town is talking about it"/>
-			<option id="0" nextNodeId="3" text="Yes, it's me"/>
+			<npc_text text="Ooooouuuh you are the hunter who wants to kill the beast right? The whole town is talking about it."/>
+			<option id="0" nextNodeId="3" text="Yes, it's me."/>
 		</node>
 		<node id="3">
-			<npc_text text="If you manage to kill the beast, what will you do with the prize that the king gives?"/>
-			<option id="0" nextNodeId="4" text="Well, I haven't thought about it yet"/>
-    <option id="1" nextNodeId="5" text="I have to get it first"/>
+			<npc_text text="If you manage to kill the beast, what will you do with the bounty the king gives?"/>
+			<option id="0" nextNodeId="4" text="Well, I haven't thought about it yet."/>
+			<option id="1" nextNodeId="5" text="I need to kill the Monster first."/>
 		</node>
 		<node id="4">
-			<npc_text text="Well, you could invest in this great pub, you will make a profit for sure"/>
-			<option id="0" nextNodeId="-1" text="no thanks, I have other things in mind"/>
-    <option id="1" nextNodeId="7" text="well, we could talk about it in the future"/>
+			<npc_text text="Well, you could invest in this great pub, you will make a profit for sure."/>
+			<option id="0" nextNodeId="-1" text="No thanks, I have other things in mind."/>
+			<option id="1" nextNodeId="6" text="Well, we could talk about it in the future."/>
 		</node>
 		<node id="5">
-			<npc_text text="Is true, it is a very difficult task, in which many have lost their lives"/>
-
-			<option id="0" nextNodeId="8" text="well... thanks, see you later"/>
+			<npc_text text="It's true, it is a very difficult task. Many have lost their lives."/>
+			<option id="0" nextNodeId="-1" text="Well... thanks, see you later."/>
 		</node>
-  <node id="8">
-			<npc_text text="well if you get it, you could invest in this pub with the prize"/>
-			<option id="0" nextNodeId="-1" text="bye"/>
-		</node>
-  <node id="7">
-			<npc_text text="perfect, we're in contact"/>
-			<option id="0" nextNodeId="-1" text="bye"/>
+		<node id="6">
+			<npc_text text="Perfect, we're in contact."/>
+			<option id="0" nextNodeId="-1" text="Ok, bye."/>
 		</node>
 		<node id ="-1"> <!-- Keep this here to avoid crashes -->
 			<npc_text text ="Press enter to back"/>
 		</node>
 	</npc>
-  <npc id ="5">
+
+
+	<!-- Next NPC -->
+	
+	
+	 <npc id ="5">
 		<node id="0">
-			<npc_text text="Are you the one who has come here to kill the beast?"/>
-
-			<option id="0" nextNodeId="1" text="Yes, it's me"/>
-			<option id="1" nextNodeId="2" text="no i think you're wrong"/>
-
+			<npc_text text="Are you the one who came here to kill the beast?"/>
+			<option id="0" nextNodeId="1" text="Yes, it's me."/>
+			<option id="1" nextNodeId="2" text="No, I think you're wrong."/>
 		</node>
 		<node id="1">
-			<npc_text text="Well, know that this town does not need any hunter, we can defend ourselves"/>
-			<option id="0" nextNodeId="3" text="Well, I think you do need a little help"/>
-      <option id="1" nextNodeId="5" text="So... take my sword and fight the beast"/>
+			<npc_text text="Well, I want you to know that this town does not need any hunter, we can defend ourselves."/>
+			<option id="0" nextNodeId="3" text="Well, I think you do need a little help."/>
+			<option id="1" nextNodeId="5" text="Alright... take my sword and fight the beast for me."/>
 		</node>
 		<node id="2">
-			<npc_text text="Ah, sorry"/>
-			<option id="0" nextNodeId="-1" text="have a nice day"/>
+			<npc_text text="Ah, sorry."/>
+			<option id="0" nextNodeId="-1" text="Have a nice day."/>
 		</node>
 		<node id="3">
-			<npc_text text="The neighbors of this town will get together with everything we have and we will win the battle, you will see"/>
-			<option id="0" nextNodeId="4" text="I would like to see it"/>
-    <option id="1" nextNodeId="6" text="I just come to help"/>
+			<npc_text text="The neighbors of this town will get together with everything we have and we will win the battle, you will see."/>
+			<option id="0" nextNodeId="4" text="I would like to see it."/>
+			<option id="1" nextNodeId="6" text="I just came here to help."/>
 		</node>
-		<node id="4">
-			<npc_text text="You will see, in this way it will be the people who will take the prize money and not a foreigner"/>
+		<node id="4">			
+			<npc_text text="You will see, this way, the people will be the ones who earn the bounty and not a foreigner."/>
 			<option id="0" nextNodeId="-1" text="Ok, good luck"/>
-    <option id="1" nextNodeId="7" text="what is your weapon a stone and a stick?"/>
+			<option id="1" nextNodeId="7" text="What is your weapon, a stone and a stick?"/>
 		</node>
 		<node id="5">
-			<npc_text text="I don't want to keep talking to you"/>
-			<option id="0" nextNodeId="-1" text="well... thanks, see you later"/>
+			<npc_text text="I don't want to keep talking to you."/>
+			<option id="0" nextNodeId="-1" text="Well... thanks, see you later."/>
 		</node> 
-    <node id="6">
-      <npc_text text="You only come to steal the prize that should be for the people of this town"/>
-      <option id="0" nextNodeId="-1" text="bye"/>
-    </node>
-  <node id="7">
-			<npc_text text="do not underestimate me, I was the wrestling champion in school"/>
-      <option id="0" nextNodeId="-1" text="Ok, good luck"/>
+		<node id="6">
+			<npc_text text="You only came to steal the bounty that should be for the people of this town."/>
+			<option id="0" nextNodeId="-1" text="Whatever, bye."/>
+		</node>
+		<node id="7">
+			<npc_text text="Don't underestimate me, I was the wrestling champion in school."/>
+			<option id="0" nextNodeId="-1" text="Ok, good data. Bye."/>
 		</node>
 		<node id ="-1"> <!-- Keep this here to avoid crashes -->
 			<npc_text text ="Press enter to back"/>
 		</node>
 	</npc>
-  <npc id ="6">
-    <node id="0">
-      <npc_text text="here are a lot of books. I don't know if I will have time to read all of them"/>
-      <option id="0" nextNodeId="1" text="yes, there are many books"/>
-      <option id="1" nextNodeId="2" text="What is your favorite genre?"/>
-    </node>
-    <node id="1">
-      <npc_text text="I'm going to read goodbye"/>
-      <option id="0" nextNodeId="-1" text="bye"/>
-    </node>
-    <node id="2">
-      <npc_text text="without a doubt the one of adventure and action, so I take the opportunity to prepare myself to fight against the beast"/>
-      <option id="0" nextNodeId="-1" text="good luck and learn a lot"/>
-      <option id="1" nextNodeId="3" text="I don't think it's a good idea to face the beast"/>
-    </node>
-    <node id="3">
-      <npc_text text="I will be the hero of the town, everyone will love me"/>
-      <option id="0" nextNodeId="-1" text="good luck"/>
-    </node>
-    <node id ="-1">
-      <!-- Keep this here to avoid crashes -->
-      <npc_text text ="Press enter to back"/>
-    </node>
-  </npc>
+
+
+	<!-- Next NPC -->
+	
+	
+	<npc id ="6">
+		<node id="0">
+			<npc_text text="here are a lot of books. I don't know if I will have time to read all of them"/>
+			<option id="0" nextNodeId="1" text="yes, there are many books"/>
+			<option id="1" nextNodeId="2" text="What is your favorite genre?"/>
+		</node>
+		<node id="1">
+			<npc_text text="I'm going to read goodbye"/>
+			<option id="0" nextNodeId="-1" text="bye"/>
+		</node>
+		<node id="2">
+			<npc_text text="without a doubt the one of adventure and action, so I take the opportunity to prepare myself to fight against the beast"/>
+			<option id="0" nextNodeId="-1" text="good luck and learn a lot"/>
+			<option id="1" nextNodeId="3" text="I don't think it's a good idea to face the beast"/>
+		</node>
+		<node id="3">
+			<npc_text text="I will be the hero of the town, everyone will love me"/>
+			<option id="0" nextNodeId="-1" text="good luck"/>
+		</node>
+		<node id ="-1"> <!-- Keep this here to avoid crashes -->
+			<npc_text text ="Press enter to back"/>
+		</node>
+	</npc>
 </dialogues>

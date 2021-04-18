@@ -16,8 +16,8 @@ Wizard::Wizard(iPoint position, pugi::xml_node anim) : Player(PlayerType::WIZARD
 	defense = 5;
 	manaPoints = 5000;
 	maxManaPoints = manaPoints;
-	meleeDamage = 1;
-	magicDamage = 5;
+	meleeDamage = 10;
+	magicDamage = 50;
 	isDefending = false;
 	attack = false;
 	name = "Wizard";

@@ -157,18 +157,17 @@ private:
 
 	void UpdateTiles();
 	bool IsTileOnCamera(SDL_Rect rect, SDL_Rect cam);
-public:
 
+public:
 	MapData data;
+	SString name;
 
 private:
-
 	pugi::xml_document mapFile;
 	SString folder;
 	bool mapLoaded;
 
 	uint32 scale;
 
-	SString name;
 };
 #endif // __MAP_H__

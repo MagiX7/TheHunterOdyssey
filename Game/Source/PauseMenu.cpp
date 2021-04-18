@@ -324,8 +324,8 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 			buttons.push_back(btnSave);
 			buttons.push_back(btnLoad);
 			buttons.push_back(btnBack);
-			lastButton = currentButton;
-			currentButton = (*buttons.begin());
+			currentButton = nullptr;
+			lastButton = nullptr;
 
 		}
 		else if (control->id == 3) // Options

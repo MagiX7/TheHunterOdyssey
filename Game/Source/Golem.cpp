@@ -14,7 +14,7 @@ Golem::Golem(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::GOLEM)
 	name = "Golem";
 	
 	battlePos = pos;
-	health = 2;
+	health = 1000;
 	mana = 50;
 	damage = 1000;
 	defense = 20;

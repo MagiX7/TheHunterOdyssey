@@ -11,7 +11,7 @@
 
 Map::Map()
 {
-	name.Create("map");
+	//name.Create("map");
 
 	folder.Create("Assets/Maps/");
 
@@ -295,6 +295,8 @@ bool Map::CleanUp()
 bool Map::Load(const char* filename, Textures* tex)
 {
 	bool ret = true;
+	name.Create(filename);
+
 	SString tmp("%s%s", folder.GetString(), filename);
 
 	pugi::xml_parse_result result = mapFile.load_file(tmp.GetString());

@@ -14,7 +14,7 @@ Bat::Bat(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::BAT)
 	name = "Bat";
 
 	battlePos = pos;
-	health = 2;
+	health = 600;
 	mana = 80;
 	damage = 20;
 	defense = 20;

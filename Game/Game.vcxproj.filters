@@ -69,8 +69,6 @@
     <ClCompile Include="Source\SceneBattle.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DialogueManager.cpp" />
-    <ClCompile Include="Source\Dialogue.cpp" />
     <ClCompile Include="Source\BattleMenu.cpp">
       <Filter>Menus</Filter>
     </ClCompile>
@@ -118,6 +116,12 @@
     </ClCompile>
     <ClCompile Include="Source\Warrior.cpp">
       <Filter>Entities\Players</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Dialogue.cpp">
+      <Filter>Dialogues</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DialogueManager.cpp">
+      <Filter>Dialogues</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -230,8 +234,6 @@
     <ClInclude Include="Source\SceneBattle.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DialogueManager.h" />
-    <ClInclude Include="Source\Dialogue.h" />
     <ClInclude Include="Source\BattleMenu.h">
       <Filter>Menus</Filter>
     </ClInclude>
@@ -286,6 +288,12 @@
     <ClInclude Include="Source\Warrior.h">
       <Filter>Entities\Players</Filter>
     </ClInclude>
+    <ClInclude Include="Source\DialogueManager.h">
+      <Filter>Dialogues</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Dialogue.h">
+      <Filter>Dialogues</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -320,6 +328,9 @@
     </Filter>
     <Filter Include="Entities\Players">
       <UniqueIdentifier>{f24a245d-6990-4902-b599-a4bbfdd3d050}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dialogues">
+      <UniqueIdentifier>{c999d0f2-3ca6-4670-9ac2-3421ff285e6f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

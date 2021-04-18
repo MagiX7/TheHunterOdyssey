@@ -398,7 +398,10 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 
 bool SceneGameplay::SaveState(pugi::xml_node& save) const
 {
-	if (isTown == false)return true;
+	if (isTown == false) return true;
+
+	save.append_attribute("map_name").set_value(map->name.GetString());
+
 	pugi::xml_node toSaveEntites = save.append_child("entities");
 	entityManager->SaveState(&toSaveEntites);
 	/*const pugi::char_t* name = map->name.GetString();
@@ -792,7 +795,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 784) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					/*if (((*map->data.layers.end().prev())->Get(i, j) == 784) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = false;
 						entityManager->SetAllNpcInactive();
@@ -801,7 +804,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("graveyard_path.tmx", app->tex);
-					}
+					}*/
 					if (((*map->data.layers.end().prev())->Get(i, j) == 785) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = false;

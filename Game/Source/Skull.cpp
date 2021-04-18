@@ -14,7 +14,7 @@ Skull::Skull(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::SKULL)
 	name = "Skull";
 
 	battlePos = pos;
-	health = 2;
+	health = 750;
 	mana = 100;
 	damage = 20;
 	defense = 20;
