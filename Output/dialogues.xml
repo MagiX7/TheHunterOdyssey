@@ -16,7 +16,7 @@
 		</node>
 		<node id="3">
 			<npc_text text="Lots, uncountables."/>
-			<option id="0" nextNodeId="-1" text="I suppose I will accept the challenge"/>
+			<option id="0" nextNodeId="-1" text="I suppose I will accept the challenge."/>
 			<option id="1" nextNodeId="-1" text="I'm not like the rest."/>
 		</node>
 		<node id="4">
@@ -56,7 +56,7 @@
 		<node id="1">
 			<npc_text text ="I'm fine. I need to go and do some stuff. Will I see you later around here?
 							And by the way, i heard that a hunter or something like that is coming to the town to fight The Monster. I can't wait to meet him!!"/>
-			<option id="0" nextNodeId="-1" text="Hmm... Yeah yeah... Me too"/>
+			<option id="0" nextNodeId="-1" text="Hmm... Yeah yeah... Me too."/>
 			<option id="1" nextNodeId="3" text="I am that hunter you are talking about :)"/>
 		</node>
 		<node id="2">
@@ -94,7 +94,7 @@
 			<option id="1" nextNodeId="2" text="Well I don't think the same. SDL is cool."/>
 		</node>
 		<node id="1">
-			<npc_text text="I know another library that is way easier to use and implement. It's called Rasmib, Raymib, Reylib... Whatever... Do you know which one I am referring to?."/>
+			<npc_text text="I know another library that is way easier to use and implement. It's called Rasmib, Raymib, Reylib... Whatever... Do you know which one I am referring to?"/>
 			<option id="0" nextNodeId="3" text="Hmmmmmmm... I don't know, no. Should I search for it?"/>
 			<option id="1" nextNodeId="4" text="Of course I do, it's called Raylib, and it is awesome!"/>
 		</node>
@@ -104,7 +104,7 @@
 		</node>
 		<node id="3">
 			<npc_text text="Definitely, you should."/>
-			<option id="0" nextNodeId="-1" text="Ok, I will. Thank you. Bye"/>
+			<option id="0" nextNodeId="-1" text="Ok, I will. Thank you. Bye."/>
 		</node>
 		<node id="4">
 			<npc_text text="That is awesome. The developer has been working a lot of years on it!"/>
