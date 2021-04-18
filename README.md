@@ -45,4 +45,27 @@ The Hunter Odyssey is our RPG turn-based video game based on the roots of the ge
 
 This project is licensed under an unmodified MIT license, which is an OSI-certified license that allows static linking with closed source software. Check [LICENSE](LICENSE) for further details.
 
-{AdditionalLicenses}
+Exterior Tileset: https://gif-superretroworld.itch.io/exterior-pack
+
+Interior Tileset: https://gif-superretroworld.itch.io/interior-pack
+
+Logo font: https://www.dafont.com/es/game-over-cre.font
+
+Title font: https://www.1001fonts.com/gameria-font.html
+Title background image: https://creativecommons.org/licenses/by-sa/3.0/
+
+Characters: https://alexdraws.itch.io/pixel-champions
+
+UI: https://karwisch.itch.io/pxui-basic
+    https://mounirtohami.itch.io/pixel-art-gui-elements
+
+Battle scene pointer: http://www.rw-designer.com/licenses
+
+Gameplay and title scene audio: https://svl.itch.io/rpg-music-pack-svl
+
+
+
+
+
+
+
