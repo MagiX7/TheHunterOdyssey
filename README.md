@@ -21,10 +21,12 @@ The Hunter Odyssey is our RPG turn-based video game based on the roots of the ge
  - "W","A","S","D" to move the player.
  - "I" to open character swap menu.
  - "ESC" to open pause menu.
- - In menus, UP and DOWN arrows to interact with the different buttons.
+ - In menus, "UP" and "DOWN" arrows to interact with the different buttons.
 
  - Debug keys:
-   · F10: Enable god mode + view all colliders.
+ 
+   · "F10": Enable god mode + view all colliders.
+   
    · "M" to trigger battle scene.
 
 ### Gamepad (XBOX keys)
