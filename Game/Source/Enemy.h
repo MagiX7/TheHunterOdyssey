@@ -5,6 +5,7 @@
 enum class EnemyState
 {
 	NONE = 0,
+	ROAMING,
 	NORMAL,
 	ATTACKING,
 	ATTACK_FINISHED

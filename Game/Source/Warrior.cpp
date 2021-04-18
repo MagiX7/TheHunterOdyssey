@@ -9,7 +9,7 @@
 Warrior::Warrior(iPoint position, pugi::xml_node anim) : Player(PlayerType::WARRIOR, EntityType::WARRIOR,position)
 {
 	stance = PlayerStance::ROAMING;
-	healthPoints = 2;
+	healthPoints = 3500;
 	maxHealthPoints = healthPoints;
 	defense = 20;
 	manaPoints = 500;
@@ -95,6 +95,11 @@ bool Warrior::Update(float dt)
 		{
 			healthPoints = 0;
 			currentAnim = &death;
+		}
+		else if (currentAnim == &death && healthPoints > 0)
+		{
+			idleBattle.Reset();
+			currentAnim = &idleBattle;
 		}
 		if (currentAnim == &damageTaken && damageTaken.HasFinished())
 		{

@@ -9,7 +9,7 @@
 Thief::Thief(iPoint position, pugi::xml_node anim) : Player(PlayerType::THIEF, EntityType::THIEF,position)
 {
 	stance = PlayerStance::ROAMING;
-	healthPoints = 2;
+	healthPoints = 1500;
 	maxHealthPoints = healthPoints;
 	defense = 10;
 	manaPoints = 500;
@@ -95,6 +95,11 @@ bool Thief::Update(float dt)
 		{
 			healthPoints = 0;
 			currentAnim = &death;
+		}
+		else if (currentAnim == &death && healthPoints > 0)
+		{
+			idleBattle.Reset();
+			currentAnim = &idleBattle;
 		}
 		if (currentAnim == &damageTaken && damageTaken.HasFinished())
 		{

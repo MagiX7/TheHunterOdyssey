@@ -14,7 +14,7 @@ Golem::Golem(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::GOLEM)
 	name = "Golem";
 	
 	battlePos = pos;
-	health = 1000;
+	health = 2;
 	mana = 50;
 	damage = 1000;
 	defense = 20;
@@ -72,10 +72,13 @@ bool Golem::Update(float dt)
 
 	switch (currentState)
 	{
+	case EnemyState::ROAMING:
+		currentAnim = &idleAnim;
+		break;
 	case EnemyState::NORMAL:
 		break;
 	case EnemyState::ATTACKING:
-		if (attack == false)
+		if (attack == false && currentAnim == &idleAnim)
 		{
 			Travel(iPoint(target->bounds.x, target->bounds.y), dt);
 			if (bounds.x <= target->bounds.x + 5 && bounds.y <= target->bounds.y + 5)
@@ -120,25 +123,28 @@ void Golem::Draw(bool showColliders)
 
 	SDL_Rect rect = { 2,3,bounds.w,bounds.h };
 	app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
+	
+	if (currentState != EnemyState::ROAMING)
+	{
+		SDL_Color color = { 0, 0, 0,255 };
+		app->render->DrawText(font, "GOLEM", bounds.x + 22, bounds.y - 13, 15, 5, color);
+		color = { 255, 255, 255, 255 };
+		app->render->DrawText(font, "GOLEM", bounds.x + 20, bounds.y - 15, 15, 5, color);
 
-	SDL_Color color = { 0, 0, 0,255 };
-	app->render->DrawText(font, "GOLEM", bounds.x + 22, bounds.y - 13, 15, 5, color);
-	color = { 255, 255, 255, 255 };
-	app->render->DrawText(font, "GOLEM", bounds.x + 20, bounds.y - 15, 15, 5, color);
+		char tmp[32] = { 0 };
 
-	char tmp[32] = { 0 };
+		sprintf_s(tmp, 32, "Health: %i", health);
+		color = { 0,0,0,255 };
+		app->render->DrawText(font, tmp, bounds.x + bounds.w + 7, bounds.y + 2, 15, 5, color);
+		color = { 255, 255, 255, 255 };
+		app->render->DrawText(font, tmp, bounds.x + bounds.w + 5, bounds.y, 15, 5, color);
 
-	sprintf_s(tmp, 32, "Health: %i", health);
-	color = { 0,0,0,255 };
-	app->render->DrawText(font, tmp, bounds.x + bounds.w + 7, bounds.y + 2, 15, 5, color);
-	color = { 255, 255, 255, 255 };
-	app->render->DrawText(font, tmp, bounds.x + bounds.w + 5, bounds.y, 15, 5, color);
-
-	sprintf_s(tmp, 32, "Mana: %i", mana);
-	color = { 0,0,0,255 };
-	app->render->DrawText(font, tmp, bounds.x + bounds.w + 7, bounds.y + 22, 15, 5, color);
-	color = { 255, 255, 255, 255 };
-	app->render->DrawText(font, tmp, bounds.x + bounds.w + 5, bounds.y + 20, 15, 5, color);
+		sprintf_s(tmp, 32, "Mana: %i", mana);
+		color = { 0,0,0,255 };
+		app->render->DrawText(font, tmp, bounds.x + bounds.w + 7, bounds.y + 22, 15, 5, color);
+		color = { 255, 255, 255, 255 };
+		app->render->DrawText(font, tmp, bounds.x + bounds.w + 5, bounds.y + 20, 15, 5, color);
+	}
 }
 
 bool Golem::UnLoad()

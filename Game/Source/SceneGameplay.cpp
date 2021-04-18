@@ -13,6 +13,10 @@
 #include "Thief.h"
 #include "Warrior.h"
 
+#include "Golem.h"
+#include "Bat.h"
+#include "Skull.h"
+
 #include "Npc.h"
 #include "Map.h"
 #include "DialogueManager.h"
@@ -58,6 +62,19 @@ SceneGameplay::SceneGameplay()
 	playerList.push_back(player);
 
 	tmpPosPlayer = { 0,0 };
+
+	Enemy* en;
+	en = new Golem({ 865, 365 }, anims);
+	en->SetCurrentState(EnemyState::ROAMING);
+	enemyList.push_back(en);
+
+	en = new Skull({ 260, 868 }, anims);
+	en->SetCurrentState(EnemyState::ROAMING);
+	enemyList.push_back(en);
+
+	en = new Bat({ 1087, 850 }, anims);
+	en->SetCurrentState(EnemyState::ROAMING);
+	enemyList.push_back(en);
 
 	Npc* generalNpc = nullptr;
 	/*position = { 500,500 };
@@ -154,14 +171,26 @@ bool SceneGameplay::Update(float dt)
 		switch (menuState)
 		{
 		case GameplayMenuState::NONE:
-			map->Update(dt);
 			if (dialogueManager->isDialogueActive == false)
 			{
+				map->Update(dt);
 				HandleInput(dt);
 				SDL_Rect tmpBounds = currentPlayer->bounds;
 				currentPlayer->Update(dt);
+				eastl::list<Enemy*>::iterator enemies = enemyList.begin();
+				for (; enemies != enemyList.end(); ++enemies)
+				{
+					(*enemies)->Update(dt);
+					if (CheckCollision((*enemies)->bounds, currentPlayer->bounds))
+					{
+						GenerateBattle();
+						tmp = (*enemies);
+						break;
+					}
+				}
 				if (showColliders == false && CollisionMapEntity(currentPlayer->bounds,currentPlayer->type) == true) 
 					currentPlayer->bounds = tmpBounds;
+
 				CameraFollow(app->render);
 				/*npc->Update(dt);*/
 				entityManager->Update(dt);
@@ -197,12 +226,17 @@ bool SceneGameplay::Update(float dt)
 
 void SceneGameplay::Draw()
 {
+	eastl::list<Enemy*>::iterator enemies = enemyList.begin();
 	switch (gameState)
 	{
 	case GameplayState::ROAMING:
 		map->Draw(showColliders);
 		entityManager->Draw(showColliders);
 		currentPlayer->Draw(showColliders);
+		for (; enemies != enemyList.end(); ++enemies)
+		{
+			(*enemies)->Draw(showColliders);
+		}
 		if (dialogueManager->isDialogueActive)
 		{
 			app->render->DrawRectangle({ -(app->render->camera.x),-(app->render->camera.y),1280, 720 }, 0, 0, 0, 150);
@@ -406,9 +440,7 @@ void SceneGameplay::HandleInput(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
 	{
 		// Instantiate and load scene battle
-		tmpPosPlayer = iPoint(currentPlayer->bounds.x, currentPlayer->bounds.y);
-		transition = true;
-		fadeOut = true;
+		GenerateBattle();
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN) menuState = GameplayMenuState::CHARACTER_SWAP;
@@ -816,6 +848,13 @@ bool SceneGameplay::CheckCollision(SDL_Rect rec1, SDL_Rect rec2)
 	else return false;
 }
 
+void SceneGameplay::GenerateBattle()
+{
+	tmpPosPlayer = iPoint(currentPlayer->bounds.x, currentPlayer->bounds.y);
+	transition = true;
+	fadeOut = true;
+}
+
 void SceneGameplay::CameraFollow(Render* render)
 {
 	int midPlayerPosX = (currentPlayer->bounds.w / 2) + currentPlayer->bounds.x;
@@ -857,6 +896,22 @@ void SceneGameplay::Fading(float dt)
 				sceneBattle->UnLoad();
 				RELEASE(sceneBattle);
 				gameState = GameplayState::ROAMING;
+				eastl::list<Enemy*>::iterator en = enemyList.begin();
+				for (; en != enemyList.end(); ++en)
+				{
+					if (tmp != nullptr && (*en) == tmp)
+					{
+						(*en)->UnLoad();
+						RELEASE((*en));
+						enemyList.erase(en);
+						break;
+					}
+				}
+				eastl::list<Player*>::iterator pl = playerList.begin();
+				for (; pl != playerList.end(); ++pl)
+				{
+					(*pl)->GetHealed(4000);
+				}
 				currentPlayer->bounds.x = tmpPosPlayer.x;
 				currentPlayer->bounds.y = tmpPosPlayer.y;
 			}

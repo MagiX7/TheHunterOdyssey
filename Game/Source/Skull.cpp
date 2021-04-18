@@ -14,7 +14,7 @@ Skull::Skull(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::SKULL)
 	name = "Skull";
 
 	battlePos = pos;
-	health = 50;
+	health = 2;
 	mana = 100;
 	damage = 20;
 	defense = 20;
@@ -72,11 +72,14 @@ bool Skull::Update(float dt)
 
 	switch (currentState)
 	{
+	case EnemyState::ROAMING:
+		currentAnim = &idleAnim;
+		break;
 	case EnemyState::NORMAL:
 
 		break;
 	case EnemyState::ATTACKING:
-		if (attack == false)
+		if (attack == false && currentAnim == &idleAnim)
 		{
 			Travel(iPoint(target->bounds.x, target->bounds.y), dt);
 			if (bounds.x == target->bounds.x && bounds.y == target->bounds.y)
@@ -120,24 +123,27 @@ void Skull::Draw(bool showColliders)
 
 	app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
 
-	SDL_Color color = { 0,0,0,255 };
-	app->render->DrawText(font, "SKULL", bounds.x + 2, bounds.y - 13, 15, 5, color);
-	color = { 255, 255, 255, 255 };
-	app->render->DrawText(font, "SKULL", bounds.x, bounds.y - 15, 15, 5, color);
+	if (currentState != EnemyState::ROAMING)
+	{
+		SDL_Color color = { 0,0,0,255 };
+		app->render->DrawText(font, "SKULL", bounds.x + 17, bounds.y - 13, 15, 5, color);
+		color = { 255, 255, 255, 255 };
+		app->render->DrawText(font, "SKULL", bounds.x + 15, bounds.y - 15, 15, 5, color);
 
-	char tmp[32] = { 0 };
+		char tmp[32] = { 0 };
 
-	sprintf_s(tmp, 32, "Health: %d", health);
-	color = { 0,0,0,255 };
-	app->render->DrawText(font, tmp, bounds.x + bounds.w + 7, bounds.y + 2, 15, 5, color);
-	color = { 255, 255, 255, 255 };
-	app->render->DrawText(font, tmp, bounds.x + bounds.w + 5, bounds.y, 15, 5, color);
+		sprintf_s(tmp, 32, "Health: %d", health);
+		color = { 0,0,0,255 };
+		app->render->DrawText(font, tmp, bounds.x + bounds.w + 7, bounds.y + 2, 15, 5, color);
+		color = { 255, 255, 255, 255 };
+		app->render->DrawText(font, tmp, bounds.x + bounds.w + 5, bounds.y, 15, 5, color);
 
-	sprintf_s(tmp, 32, "Mana: %d", mana);
-	color = {0,0,0,255};
-	app->render->DrawText(font, tmp, bounds.x + bounds.w + 7, bounds.y + 22, 15, 5, color);
-	color = { 255, 255, 255, 255 };
-	app->render->DrawText(font, tmp, bounds.x + bounds.w + 5, bounds.y + 20, 15, 5, color);
+		sprintf_s(tmp, 32, "Mana: %d", mana);
+		color = { 0,0,0,255 };
+		app->render->DrawText(font, tmp, bounds.x + bounds.w + 7, bounds.y + 22, 15, 5, color);
+		color = { 255, 255, 255, 255 };
+		app->render->DrawText(font, tmp, bounds.x + bounds.w + 5, bounds.y + 20, 15, 5, color);
+	}
 }
 
 bool Skull::UnLoad()

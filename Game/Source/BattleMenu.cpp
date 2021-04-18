@@ -11,6 +11,7 @@
 BattleMenu::BattleMenu(SceneBattle* s) : type(BattleState::NONE), sceneBattle(s)
 {
 	enemyKilled = false;
+	playerSelected = false;
 
 	easingArrow = new Easing();
 	easingArrowBack = new Easing();
@@ -181,7 +182,7 @@ bool BattleMenu::Update(float dt)
 		
 		break;
 	case BattleState::ENEMY_TURN:
-		if (tempPlayer->stance == PlayerStance::BATTLE)
+		if (tempPlayer->stance == PlayerStance::BATTLE && enemyKilled == false)
 			EnemyTurn();
 		break;
 	case BattleState::DEFENSE:
@@ -204,6 +205,7 @@ bool BattleMenu::Update(float dt)
 	case BattleState::OBJECT:
 		if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
 		{
+			currPlayer = tempPlayer;
 			type = BattleState::OBJECT_SELECT;
 			ObjectStateButtons();
 		}
@@ -781,9 +783,25 @@ bool BattleMenu::HandleAbilities(Input* input, int currentAbility)
 		{
 			if ((*it) == currPlayer)
 			{
-				currPlayer = (*it.next());
-				type = BattleState::DEFAULT;
-				DefaultStateButtons();
+				tempPlayer = currPlayer;
+				currPlayer->stance = PlayerStance::BATTLE;
+				eastl::list<Player*>::iterator item = it;
+				for (; item != sceneBattle->playerList.end(); ++item)
+				{
+					if (item.next() == sceneBattle->playerList.end())
+					{
+						currPlayer = (*sceneBattle->playerList.begin());
+						if (sceneBattle->enemyList.size() != 0) type = BattleState::ENEMY_TURN;
+						break;
+					}
+					else if ((*item.next())->GetHealthPoints() != 0)
+					{
+						currPlayer = (*item.next());
+						type = BattleState::DEFAULT;
+						DefaultStateButtons();
+						break;
+					}
+				}
 				break;
 			}
 		}
@@ -832,7 +850,6 @@ bool BattleMenu::HandleObjects(Input* input, int currentObject)
 		tempPlayer->UseObject(currPlayer, tempPlayer->GetObjectSelected());
 
 		currPlayer = tempPlayer;
-		tempPlayer = nullptr;
 		eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
 		for (int i = 0; it != sceneBattle->playerList.end(); ++it, ++i)
 		{
@@ -883,35 +900,37 @@ bool BattleMenu::HandleDefense(Input* input)
 void BattleMenu::EraseEnemy()
 {
 	eastl::list<Enemy*>::iterator it = sceneBattle->enemyList.begin();
-	for (;it != sceneBattle->enemyList.end(); ++it)
+	for (; it != sceneBattle->enemyList.end(); ++it)
 	{
-		if ((*it)->AnimationFinished() && (*it)->GetHealth() <= 0)
+		if ((*it)->GetHealth() <= 0)
 		{
-			//currEnemy = (*it.next());
-			(*it)->UnLoad();
-			RELEASE((*it));
-			sceneBattle->enemyList.erase(it);
-			currEnemy = (*sceneBattle->enemyList.begin()); // Fixed current enemy assign. Before, if you killed the 3rd enemy (the last one) it crashed.
-			enemyKilled = false;
-			break;
+			enemyKilled = true;
+			if ((*it)->AnimationFinished())
+			{
+				//currEnemy = (*it.next());
+				(*it)->UnLoad();
+				RELEASE((*it));
+				sceneBattle->enemyList.erase(it);
+				currEnemy = (*sceneBattle->enemyList.begin()); // Fixed current enemy assign. Before, if you killed the 3rd enemy (the last one) it crashed.
+				enemyKilled = false;
+				break;
+			}
 		}
 	}
 }
 
 void BattleMenu::EnemyTurn()
 {
-	int randNum = rand() % sceneBattle->playerList.size();
-	eastl::list<Player*>::iterator pIt = sceneBattle->playerList.begin();
-
-	for (int i = 0; i < randNum; ++i)
+	eastl::list<Player*>::iterator pIt;
+	while (playerSelected == false)
 	{
-		if (i + 1 == randNum && (*pIt)->GetHealthPoints() <= 0)
+		int randNum = rand() % sceneBattle->playerList.size();
+		pIt = sceneBattle->playerList.begin();
+		for (int i = 0; i < randNum; ++i)
 		{
-			randNum = rand() % sceneBattle->playerList.size();
-			i = 0;
-			pIt = sceneBattle->playerList.begin();
+			++pIt;
 		}
-		else ++pIt;
+		if ((*pIt)->GetHealthPoints() > 0) playerSelected = true;
 	}
 
 	int num = 0;
@@ -926,6 +945,12 @@ void BattleMenu::EnemyTurn()
 			break;
 		}
 		else if ((*eIt)->GetCurrentState() == EnemyState::ATTACK_FINISHED)
+		{
+			if (playerSelected) playerSelected = false;
+			(*eIt)->SetCurrentState(EnemyState::NONE);
+			break;
+		}
+		else if ((*eIt)->GetCurrentState() == EnemyState::NONE)
 		{
 			num++;
 		}
@@ -953,6 +978,7 @@ void BattleMenu::EnemyTurn()
 		{
 			(*eIt)->SetCurrentState(EnemyState::NORMAL);
 		}
+		playerSelected = false;
 	}
 }
 

@@ -7,6 +7,7 @@
 #include "Point.h"
 
 class Player;
+class Enemy;
 class CharacterManager;
 class SceneBattle;
 class EntityManager;
@@ -64,6 +65,7 @@ private:
 	void HandleInput(float dt);
 	
 	bool CheckCollision(SDL_Rect rec1, SDL_Rect rec2);
+	void GenerateBattle();
 	void CameraFollow(Render* render);
 	void Fading(float dt);
 
@@ -97,6 +99,8 @@ private:
 	bool transition;
 	bool fadeOut;
 	
+	eastl::list<Enemy*> enemyList;
+	Enemy* tmp;
 };
 
 #endif //__SCENEGAMEPLAY_H__

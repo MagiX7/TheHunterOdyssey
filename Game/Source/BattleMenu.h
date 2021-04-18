@@ -106,4 +106,5 @@ private:
 	SDL_Texture* guiTex;
 
 	bool enemyKilled;
+	bool playerSelected;
 };

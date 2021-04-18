@@ -11,7 +11,7 @@ Wizard::Wizard(iPoint position, pugi::xml_node anim) : Player(PlayerType::WIZARD
 {
 	//bounds = { 0,0, 16,32 };
 	stance = PlayerStance::ROAMING;
-	healthPoints = 2;
+	healthPoints = 1000;
 	maxHealthPoints = healthPoints;
 	defense = 5;
 	manaPoints = 5000;
@@ -98,6 +98,11 @@ bool Wizard::Update(float dt)
 		{
 			healthPoints = 0;
 			currentAnim = &death;
+		}
+		else if (currentAnim == &death && healthPoints > 0)
+		{
+			idleBattle.Reset();
+			currentAnim = &idleBattle;
 		}
 		if (currentAnim == &damageTaken && damageTaken.HasFinished())
 		{

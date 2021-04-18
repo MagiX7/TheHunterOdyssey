@@ -14,7 +14,7 @@ Bat::Bat(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::BAT)
 	name = "Bat";
 
 	battlePos = pos;
-	health = 20;
+	health = 2;
 	mana = 80;
 	damage = 20;
 	defense = 20;
@@ -73,11 +73,14 @@ bool Bat::Update(float dt)
 
 	switch (currentState)
 	{
+	case EnemyState::ROAMING:
+		currentAnim = &flightAnim;
+		break;
 	case EnemyState::NORMAL:
 
 		break;
 	case EnemyState::ATTACKING:
-		if (attack == false)
+		if (attack == false && currentAnim == &flightAnim)
 		{
 			Travel(iPoint(target->bounds.x, target->bounds.y), dt);
 			if (bounds.x < (target->bounds.x + (target->bounds.w / 2)) && bounds.y == target->bounds.y)
@@ -120,24 +123,27 @@ void Bat::Draw(bool showColliders)
 		
 	app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
 
-	SDL_Color color = { 0,0,0,255 };
-	app->render->DrawText(font, "BAT", bounds.x + 2, bounds.y - 13, 15, 5, color);
-	color = { 255, 255, 255, 255 };
-	app->render->DrawText(font, "BAT", bounds.x, bounds.y - 15, 15, 5, color);
+	if (currentState != EnemyState::ROAMING)
+	{
+		SDL_Color color = { 0,0,0,255 };
+		app->render->DrawText(font, "BAT", bounds.x + 17, bounds.y - 13, 15, 5, color);
+		color = { 255, 255, 255, 255 };
+		app->render->DrawText(font, "BAT", bounds.x + 15, bounds.y - 15, 15, 5, color);
 
-	char tmp[32] = { 0 };
+		char tmp[32] = { 0 };
 
-	sprintf_s(tmp, 32, "Health: %i", health);
-	color = { 0,0,0,255 };
-	app->render->DrawText(font, tmp, bounds.x + bounds.w + 22, bounds.y + 2, 15, 5, color);
-	color = { 255, 255, 255, 255 };
-	app->render->DrawText(font, tmp, bounds.x + bounds.w + 20, bounds.y, 15, 5, color);
+		sprintf_s(tmp, 32, "Health: %i", health);
+		color = { 0,0,0,255 };
+		app->render->DrawText(font, tmp, bounds.x + bounds.w + 22, bounds.y + 2, 15, 5, color);
+		color = { 255, 255, 255, 255 };
+		app->render->DrawText(font, tmp, bounds.x + bounds.w + 20, bounds.y, 15, 5, color);
 
-	sprintf_s(tmp, 32, "Mana: %i", mana);
-	color = { 0,0,0,255 };
-	app->render->DrawText(font, tmp, bounds.x + bounds.w + 22, bounds.y + 22, 15, 5, color);
-	color = { 255, 255, 255, 255 };
-	app->render->DrawText(font, tmp, bounds.x + bounds.w + 20, bounds.y + 20, 15, 5, color);
+		sprintf_s(tmp, 32, "Mana: %i", mana);
+		color = { 0,0,0,255 };
+		app->render->DrawText(font, tmp, bounds.x + bounds.w + 22, bounds.y + 22, 15, 5, color);
+		color = { 255, 255, 255, 255 };
+		app->render->DrawText(font, tmp, bounds.x + bounds.w + 20, bounds.y + 20, 15, 5, color);
+	}
 }
 
 bool Bat::UnLoad()
