@@ -721,37 +721,66 @@ bool BattleMenu::HandleInput(Input* input)
 
 bool BattleMenu::HandleAbilities(Input* input, int currentAbility)
 {
+	int prevX = xMouse;
+	int prevY = yMouse;
+	input->GetMousePosition(xMouse, yMouse);
+	if (prevX != xMouse || prevY != yMouse)
+	{
+		lastUserInput = 1;
+		SDL_ShowCursor(SDL_ENABLE);
+	}
+	else
+	{
+		lastUserInput = 0;
+	}
+
 	if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
 	{
-		eastl::list<Enemy*>::iterator it = sceneBattle->enemyList.begin();
-		for (; it != sceneBattle->enemyList.end(); ++it)
+		if (currentButton == nullptr)
 		{
-			if (currEnemy == (*sceneBattle->enemyList.end().prev()))
+			currentButton = (*buttons.begin());
+			SDL_ShowCursor(SDL_DISABLE);
+		}
+		else
+		{
+			eastl::list<Enemy*>::iterator it = sceneBattle->enemyList.begin();
+			for (; it != sceneBattle->enemyList.end(); ++it)
 			{
-				currEnemy = (*sceneBattle->enemyList.begin());
-				break;
-			}
-			else if ((*it) == currEnemy)
-			{
-				currEnemy = (*it.next());
-				break;
+				if (currEnemy == (*sceneBattle->enemyList.end().prev()))
+				{
+					currEnemy = (*sceneBattle->enemyList.begin());
+					break;
+				}
+				else if ((*it) == currEnemy)
+				{
+					currEnemy = (*it.next());
+					break;
+				}
 			}
 		}
 	}
 	else if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
 	{
-		eastl::list<Enemy*>::iterator it = sceneBattle->enemyList.begin();
-		for (; it != sceneBattle->enemyList.end(); ++it)
+		if (currentButton == nullptr)
 		{
-			if (currEnemy == (*sceneBattle->enemyList.begin()))
+			currentButton = (*buttons.begin());
+			SDL_ShowCursor(SDL_DISABLE);
+		}
+		else
+		{
+			eastl::list<Enemy*>::iterator it = sceneBattle->enemyList.begin();
+			for (; it != sceneBattle->enemyList.end(); ++it)
 			{
-				currEnemy = (*sceneBattle->enemyList.end().prev());
-				break;
-			}
-			else if ((*it) == currEnemy)
-			{
-				currEnemy = (*it.prev());
-				break;
+				if (currEnemy == (*sceneBattle->enemyList.begin()))
+				{
+					currEnemy = (*sceneBattle->enemyList.end().prev());
+					break;
+				}
+				else if ((*it) == currEnemy)
+				{
+					currEnemy = (*it.prev());
+					break;
+				}
 			}
 		}
 	}
