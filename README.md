@@ -81,6 +81,8 @@ Logo font: https://www.dafont.com/es/game-over-cre.font
 
 Title font: https://www.1001fonts.com/gameria-font.html
 
+UI and DIALOGUES font: https://www.dafont.com/es/game-over-cre.font
+
 Title background image: https://creativecommons.org/licenses/by-sa/3.0/
 
 Characters: https://alexdraws.itch.io/pixel-champions
