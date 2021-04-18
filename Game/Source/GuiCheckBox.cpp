@@ -102,11 +102,11 @@ bool GuiCheckBox::Draw(Render* render, bool showColliders)
 	break;
 	case GuiControlState::FOCUSED:
 
-		render->DrawTexture(texture, -render->camera.x + bounds.x + bounds.w - 32, -render->camera.y + -render->camera.y + bounds.y, &section);
+		render->DrawTexture(texture, -render->camera.x + bounds.x + bounds.w - 32, -render->camera.y + bounds.y, &section);
 		r = { -render->camera.x + bounds.x + bounds.w - 32, -render->camera.y + bounds.y, 32,32 };
 		render->DrawRectangle(r, 255, 255, 0, 150);
 
-		if (checked) render->DrawTexture(texture, -render->camera.x + bounds.x + bounds.w - 24, -render->camera.y + -render->camera.y + bounds.y + 10, &checkSection);
+		if (checked) render->DrawTexture(texture, -render->camera.x + bounds.x + bounds.w - 24, -render->camera.y + bounds.y + 10, &checkSection);
 		if (showColliders)
 		{
 			r = bounds;
