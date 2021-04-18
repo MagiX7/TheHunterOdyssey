@@ -5,22 +5,26 @@
   <textures />
   <audio />
   <scenemanager>
-    <Type sceneType="scenegameplay" />
-    <scenegameplay>
+    <scenegameplay map_name="town_map.tmx">
       <entities>
-        <NPCs amount="3">
+        <NPCs amount="4">
           <NPC>
-            <bounds X="131" Y="160" W="30" H="32" />
+            <bounds X="256" Y="250" W="30" H="32" />
             <NpcType type="TOWN" />
             <Dialoge idDialoge="0" />
           </NPC>
           <NPC>
-            <bounds X="1100" Y="832" W="30" H="32" />
+            <bounds X="610" Y="863" W="30" H="32" />
+            <NpcType type="RAY" />
+            <Dialoge idDialoge="3" />
+          </NPC>
+          <NPC>
+            <bounds X="781" Y="732" W="30" H="32" />
             <NpcType type="TABERN" />
             <Dialoge idDialoge="2" />
           </NPC>
           <NPC>
-            <bounds X="891" Y="416" W="30" H="32" />
+            <bounds X="581" Y="336" W="30" H="32" />
             <NpcType type="NPC_WIZARD" />
             <Dialoge idDialoge="1" />
           </NPC>
@@ -28,7 +32,7 @@
         <players amount="4">
           <player>
             <isCurrent current="true" />
-            <bounds X="310" Y="151" W="26" H="26" />
+            <bounds X="385" Y="678" W="26" H="26" />
             <playerType type="HUNTER" />
           </player>
           <player>

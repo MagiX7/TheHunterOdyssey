@@ -104,11 +104,11 @@ bool MainMenu::Load(Font* font)
 	lastButton = nullptr;
 
 	// Check-boxes
-	checkFullscreen = new GuiCheckBox(10, { 94,318,185,32 }, "Fullscreen", this);
+	checkFullscreen = new GuiCheckBox(10, { 94,318,185,32 }, "Fullscreen", this, app->win->fullscreenWindow);
 	checkFullscreen->section = { 528,5,32,32 };
 	checkFullscreen->texture = guiTex;
 
-	checkVSync = new GuiCheckBox(11, { 94,378,120,32 }, "VSync", this);
+	checkVSync = new GuiCheckBox(11, { 94,378,120,32 }, "VSync", this, false);
 	checkVSync->section = { 528,5,32,32 };
 	checkVSync->texture = guiTex;
 

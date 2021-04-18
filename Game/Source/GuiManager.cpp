@@ -17,7 +17,7 @@ GuiManager::~GuiManager()
 {
 }
 
-GuiControl* GuiManager::CreateGuiControl(GuiControlType type, uint32 id, SDL_Rect bounds, const char* name, Menu* menu, int min, int max, int value)
+GuiControl* GuiManager::CreateGuiControl(GuiControlType type, uint32 id, SDL_Rect bounds, const char* name, Menu* menu, int min, int max, int value, bool checked)
 {
 	GuiControl* control = nullptr;
 
@@ -29,7 +29,7 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type, uint32 id, SDL_Rec
 			control->SetObserver(menu);
 			break;
 		case GuiControlType::CHECKBOX: 
-			control = new GuiCheckBox(id, bounds, name, menu);
+			control = new GuiCheckBox(id, bounds, name, menu, checked);
 			control->SetObserver(menu);
 			break;
 		case GuiControlType::SLIDER: 

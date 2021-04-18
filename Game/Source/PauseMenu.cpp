@@ -71,11 +71,11 @@ bool PauseMenu::Load(Font* font)
 	slideFXVolume->section = { 440,83,339,46 };
 	slideFXVolume->texture = guiTex;
 
-	checkFullscreen = new GuiCheckBox(12, { 1151,396,32,32 }, "Fullscreen", this);
+	checkFullscreen = new GuiCheckBox(12, { 1151,396,32,32 }, "Fullscreen", this, app->win->fullscreenWindow);
 	checkFullscreen->section = { 440,192,32,32 };
 	checkFullscreen->texture = guiTex;
 
-	checkVSync = new GuiCheckBox(13, { 1114,469,32,32 }, "VSync", this);
+	checkVSync = new GuiCheckBox(13, { 1114,469,32,32 }, "VSync", this, false);
 	checkVSync->section = { 440,192,32,32 };
 	checkVSync->texture = guiTex;
 
@@ -116,7 +116,7 @@ bool PauseMenu::Load(Font* font)
 bool PauseMenu::Update(float dt)
 {
 	bool ret = true;
-	
+
 	UpdatingButtons(app->input);
 
 	int id = -1;

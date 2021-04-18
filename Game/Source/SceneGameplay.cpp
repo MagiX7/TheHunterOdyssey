@@ -933,6 +933,7 @@ void SceneGameplay::Fading(float dt)
 				}
 				currentPlayer->bounds.x = tmpPosPlayer.x;
 				currentPlayer->bounds.y = tmpPosPlayer.y;
+				app->audio->PlayMusic("Assets/Audio/Music/village_theme_1.ogg", 0);
 			}
 			fadeOut = false;
 			alpha = 1.0f;

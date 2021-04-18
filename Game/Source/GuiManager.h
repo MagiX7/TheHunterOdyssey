@@ -23,7 +23,7 @@ public:
 	bool CleanUp();
 
 	// Additional methods
-	GuiControl* CreateGuiControl(GuiControlType type, uint32 id, SDL_Rect bounds, const char* name, Menu* menu, int min, int max, int value);
+	GuiControl* CreateGuiControl(GuiControlType type, uint32 id, SDL_Rect bounds, const char* name, Menu* menu, int min, int max, int value, bool checked);
 	void DestroyGuiControl(GuiControl* entity);
 
 public:

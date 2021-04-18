@@ -3,13 +3,13 @@
 
 #include "GuiCheckBox.h"
 
-GuiCheckBox::GuiCheckBox(uint32 id, SDL_Rect bounds, const char* text, Menu* listener) : GuiControl(GuiControlType::CHECKBOX, id)
+GuiCheckBox::GuiCheckBox(uint32 id, SDL_Rect bounds, const char* text, Menu* listener, bool checked) : GuiControl(GuiControlType::CHECKBOX, id)
 {
 	this->bounds = bounds;
 	this->text = text;
 	this->observer = listener;
 
-	checked = false;
+	this->checked = checked;
 	
 	//Load Fx
 	clickFx = app->audio->LoadFx("Assets/Audio/Fx/button_click.wav");
