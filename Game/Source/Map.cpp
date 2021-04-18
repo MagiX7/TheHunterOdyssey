@@ -80,7 +80,6 @@ void Map::Draw(bool showColliders)
 	{
 		if (((*item)->properties.GetProperty("draw", 1) != 0) || showColliders) DrawLayer(app->render, (*item));
 	}
-
 }
 
 void Map::DrawLayer(Render* render, MapLayer* layer)

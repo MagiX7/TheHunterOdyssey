@@ -152,8 +152,11 @@ bool SceneGameplay::Load()
 
 	pause->Load(font);
 
-
 	sceneBattle = nullptr;
+
+
+	SDL_ShowCursor(SDL_ENABLE);
+
 
 	return ret;
 }
@@ -171,21 +174,27 @@ bool SceneGameplay::Update(float dt)
 		switch (menuState)
 		{
 		case GameplayMenuState::NONE:
+			if(SDL_ShowCursor(-1) == SDL_DISABLE)
+				SDL_ShowCursor(SDL_ENABLE);
+
 			if (dialogueManager->isDialogueActive == false)
 			{
 				map->Update(dt);
 				HandleInput(dt);
 				SDL_Rect tmpBounds = currentPlayer->bounds;
 				currentPlayer->Update(dt);
-				eastl::list<Enemy*>::iterator enemies = enemyList.begin();
-				for (; enemies != enemyList.end(); ++enemies)
+				if (isTown)
 				{
-					(*enemies)->Update(dt);
-					if (CheckCollision((*enemies)->bounds, currentPlayer->bounds))
+					eastl::list<Enemy*>::iterator enemies = enemyList.begin();
+					for (; enemies != enemyList.end(); ++enemies)
 					{
-						GenerateBattle();
-						tmp = (*enemies);
-						break;
+						(*enemies)->Update(dt);
+						if (CheckCollision((*enemies)->bounds, currentPlayer->bounds))
+						{
+							GenerateBattle();
+							tmp = (*enemies);
+							break;
+						}
 					}
 				}
 				if (showColliders == false && CollisionMapEntity(currentPlayer->bounds,currentPlayer->type) == true) 
@@ -233,20 +242,27 @@ void SceneGameplay::Draw()
 		map->Draw(showColliders);
 		entityManager->Draw(showColliders);
 		currentPlayer->Draw(showColliders);
-		for (; enemies != enemyList.end(); ++enemies)
+
+		if (isTown)
 		{
-			(*enemies)->Draw(showColliders);
+			for (; enemies != enemyList.end(); ++enemies)
+			{
+				(*enemies)->Draw(showColliders);
+			}
 		}
+
 		if (dialogueManager->isDialogueActive)
 		{
 			app->render->DrawRectangle({ -(app->render->camera.x),-(app->render->camera.y),1280, 720 }, 0, 0, 0, 150);
 			dialogueManager->Draw();
 		}
+
 		if (menuState == GameplayMenuState::CHARACTER_SWAP)
 		{
 			app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 150);
 			charManager->Draw(font, showColliders);
 		}
+
 		if (menuState == GameplayMenuState::PAUSE)
 		{
 			//app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 150);
@@ -455,7 +471,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 {
 	iPoint pos = map->WorldToMap(rect.x, rect.y);
 
-	if (rect.x > map->data.width * map->data.tileWidth) return true;
+	if (rect.x + rect.w > map->data.width * map->data.tileWidth) return true;
 	else if (rect.x < 0) return true;
 	else if (rect.y > map->data.tileWidth * map->data.height) return true;
 	else if (rect.y < 0) return true;

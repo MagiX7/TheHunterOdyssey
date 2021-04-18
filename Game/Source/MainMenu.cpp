@@ -40,6 +40,7 @@ bool MainMenu::Load(Font* font)
 {
 	guiTex = app->tex->Load("Assets/Textures/UI/gui_main_menu.png");
 	bg = app->tex->Load("Assets/Textures/UI/main_menu_textures.png");
+	creditsTexture = app->tex->Load("Assets/Textures/Scenes/credits.png");
 
 	btnNewGame = new GuiButton(1, { 380, 36, 520, 117 }, "New Game", this, font);
 	btnNewGame->section = { 0,0,520,117 };
@@ -243,6 +244,9 @@ void MainMenu::Draw(Font* font, bool showColliders)
 	{
 		section = { 0,0,1280,720 };
 		app->render->DrawTexture(bg, 0, 0, &section);
+
+		app->render->DrawTexture(creditsTexture, 0, 0, NULL);
+
 		btnCreditsBack->Draw(app->render, showColliders, 36, { 0,0,0,225 });
 		//app->render->DrawText(font, btnCreditsBack->text.GetString(), 1045, 625, 36, 2, { 0,0,0,255 });
 	}
@@ -265,6 +269,7 @@ bool MainMenu::UnLoad()
 {
 	app->tex->UnLoad(guiTex);
 	app->tex->UnLoad(bg);
+	app->tex->UnLoad(creditsTexture);
 
 	RELEASE(btnNewGame);
 	RELEASE(btnContinue);

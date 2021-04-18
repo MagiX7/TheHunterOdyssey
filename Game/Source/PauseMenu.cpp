@@ -145,8 +145,16 @@ bool PauseMenu::Update(float dt)
 
 		break;
 	case PauseState::SAVE:
-		if (scene->isTown == false) btnSave->state = GuiControlState::DISABLED;
-		else btnSave->state = GuiControlState::FOCUSED;
+		if (scene->isTown == false)
+		{
+			btnSave->state = GuiControlState::DISABLED;
+			btnLoad->state = GuiControlState::DISABLED;
+		}
+		else
+		{
+			btnSave->state = GuiControlState::FOCUSED;
+			btnLoad->state = GuiControlState::FOCUSED;
+		}
 		btnSave->Update(app->input, dt, id);
 		btnLoad->Update(app->input, dt, id);
 		btnBack->Update(app->input, dt, id);
@@ -321,8 +329,11 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 			else btnLoad->state = GuiControlState::NORMAL;
 
 			buttons.clear();
-			buttons.push_back(btnSave);
-			buttons.push_back(btnLoad);
+			if (scene->isTown)
+			{
+				buttons.push_back(btnSave);
+				buttons.push_back(btnLoad);
+			}
 			buttons.push_back(btnBack);
 			currentButton = nullptr;
 			lastButton = nullptr;

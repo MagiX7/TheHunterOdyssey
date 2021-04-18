@@ -45,6 +45,7 @@ private:
 
 	SDL_Texture* guiTex;
 	SDL_Texture* bg;
+	SDL_Texture* creditsTexture;
 	
 	// Buttons declaration
 	GuiButton* btnNewGame;
