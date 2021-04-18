@@ -482,6 +482,8 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 	if (rect.w < map->data.tileWidth) x = pos.x + 1;
 	if (rect.h < map->data.tileHeight) y = pos.y + 1;
 
+	bool exit = false;
+
 	// Only check adyacent tiles
 	for (int j = pos.y; j <= y; j++)
 	{
@@ -496,8 +498,9 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 				{
 					return true;
 				}
-				if (type != EntityType::TOWN && type != EntityType::TABERN && type != EntityType::NPC_WIZARD) {
-					if (((*map->data.layers.end().prev())->Get(i, j) == 771) && CheckCollision(map->GetTilemapRec(i, j), rect))
+				if (type != EntityType::TOWN && type != EntityType::TABERN && type != EntityType::NPC_WIZARD)
+				{
+					if (isTown && ((*map->data.layers.end().prev())->Get(i, j) == 771) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = false;
 						entityManager->SetAllNpcInactive();
@@ -507,19 +510,25 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("house1.tmx", app->tex);
+
+						exit = true;
+						break;
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 771) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					else if (((*map->data.layers.end().prev())->Get(i, j) == 771) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
-						iPoint position = { 97,505 };
+						iPoint position = { 97,520 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+
+						exit = true;
+						break;
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 772) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					if (isTown && ((*map->data.layers.end().prev())->Get(i, j) == 772) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = false;
 						entityManager->SetAllNpcInactive();
@@ -528,8 +537,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("house2.tmx", app->tex);
+
+						exit = true;
+						break;
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 772) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					else if (((*map->data.layers.end().prev())->Get(i, j) == 772) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
@@ -539,8 +551,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+
+						exit = true;
+						break;
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 773) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					if (isTown && ((*map->data.layers.end().prev())->Get(i, j) == 773) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = false;
 						entityManager->SetAllNpcInactive();
@@ -549,8 +564,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("house3.tmx", app->tex);
+
+						exit = true;
+						break;
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 773) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					else if (((*map->data.layers.end().prev())->Get(i, j) == 773) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
@@ -560,8 +578,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+
+						exit = true;
+						break;
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 774) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					if (isTown && ((*map->data.layers.end().prev())->Get(i, j) == 774) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = false;
 						entityManager->SetAllNpcInactive();
@@ -570,8 +591,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("cave_house.tmx", app->tex);
+
+						exit = true;
+						break;
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 6) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					else if (((*map->data.layers.end().prev())->Get(i, j) == 6) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
@@ -581,8 +605,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+
+						exit = true;
+						break;
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 775) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					if (isTown && ((*map->data.layers.end().prev())->Get(i, j) == 775) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = false;
 						entityManager->SetAllNpcInactive();
@@ -609,9 +636,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 
 						position = { 670,360 };
 						generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 1);
-						
+
+						exit = true;
+						break;						
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 7) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					else if (((*map->data.layers.end().prev())->Get(i, j) == 7) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
@@ -621,8 +650,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+
+						exit = true;
+						break;
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 776) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					if (isTown && ((*map->data.layers.end().prev())->Get(i, j) == 776) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = false;
 						entityManager->SetAllNpcInactive();
@@ -645,8 +677,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 
 						position = { 630,420 };
 						generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 1);
+
+						exit = true;
+						break;
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 1544) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					else if (((*map->data.layers.end().prev())->Get(i, j) == 1544) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
@@ -656,8 +691,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+
+						exit = true;
+						break;
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 777) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					if (isTown && ((*map->data.layers.end().prev())->Get(i, j) == 777) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = false;
 						entityManager->SetAllNpcInactive();
@@ -681,8 +719,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						position = { 630,420 };
 						generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 1);
 
+						exit = true;
+						break;
+
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 1545) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					else if (((*map->data.layers.end().prev())->Get(i, j) == 1545) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
@@ -692,8 +733,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+
+						exit = true;
+						break;
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 778) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					if (isTown && ((*map->data.layers.end().prev())->Get(i, j) == 778) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = false;
 						entityManager->SetAllNpcInactive();
@@ -702,8 +746,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("inn.tmx", app->tex);
+
+						exit = true;
+						break;
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 1546) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					else if (((*map->data.layers.end().prev())->Get(i, j) == 1546) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
@@ -713,8 +760,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+
+						exit = true;
+						break;
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 779) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					if (isTown && ((*map->data.layers.end().prev())->Get(i, j) == 779) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = false;
 						entityManager->SetAllNpcInactive();
@@ -736,8 +786,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						position = { 600,450 };
 						generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 6);
 						map->Load("library.tmx", app->tex);
+
+						exit = true;
+						break;
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 1547) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					else if (((*map->data.layers.end().prev())->Get(i, j) == 1547) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
@@ -747,8 +800,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+
+						exit = true;
+						break;
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 780) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					if (isTown && ((*map->data.layers.end().prev())->Get(i, j) == 780) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = false;
 						entityManager->SetAllNpcInactive();
@@ -757,8 +813,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("shop.tmx", app->tex);
+
+						exit = true;
+						break;
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 12) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					else if (((*map->data.layers.end().prev())->Get(i, j) == 12) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
@@ -768,8 +827,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+
+						exit = true;
+						break;
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 782) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					if (isTown && ((*map->data.layers.end().prev())->Get(i, j) == 782) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = false;
 						entityManager->SetAllNpcInactive();
@@ -778,8 +840,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("shop2.tmx", app->tex);
+
+						exit = true;
+						break;
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 14) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					else if (((*map->data.layers.end().prev())->Get(i, j) == 14) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
@@ -789,8 +854,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+
+						exit = true;
+						break;
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 783) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					if (isTown && ((*map->data.layers.end().prev())->Get(i, j) == 783) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = false;
 						entityManager->SetAllNpcInactive();
@@ -799,8 +867,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("red_house.tmx", app->tex);
+
+						exit = true;
+						break;
 					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 1551) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					else if (((*map->data.layers.end().prev())->Get(i, j) == 1551) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
@@ -810,6 +881,9 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+
+						exit = true;
+						break;
 					}
 					/*if (((*map->data.layers.end().prev())->Get(i, j) == 784) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
@@ -820,8 +894,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("graveyard_path.tmx", app->tex);
+
+						exit = true;
+						break;
 					}*/
-					if (((*map->data.layers.end().prev())->Get(i, j) == 785) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					/*if (((*map->data.layers.end().prev())->Get(i, j) == 785) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = false;
 						entityManager->SetAllNpcInactive();
@@ -830,8 +907,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("bath_house.tmx", app->tex);
-					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 3089) && CheckCollision(map->GetTilemapRec(i, j), rect))
+
+						exit = true;
+						break;
+					}*/
+					/*if (((*map->data.layers.end().prev())->Get(i, j) == 3089) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = true;
 						iPoint position = { 320,380 };
@@ -839,8 +919,11 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("graveyard_path.tmx", app->tex);
-					}
-					if (((*map->data.layers.end().prev())->Get(i, j) == 784) && CheckCollision(map->GetTilemapRec(i, j), rect))
+
+						exit = true;
+						break;
+					}*/
+					/*if (((*map->data.layers.end().prev())->Get(i, j) == 784) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
@@ -850,10 +933,14 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
-					}
+
+						exit = true;
+						break;
+					}*/
 				}
 			}
 		}
+		if (exit) break;
 	}
 
 	return false;
