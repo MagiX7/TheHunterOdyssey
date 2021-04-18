@@ -95,12 +95,14 @@ Battle scene pointer: http://www.rw-designer.com/licenses
 
 Gameplay and title scene audio: https://svl.itch.io/rpg-music-pack-svl
 
+Battle scene music: https://tallbeard.itch.io/three-red-hearts-prepare-to-dev
+
 Logo screen FX (introduction bell sound): https://mixkit.co/free-sound-effects/intro/
 
 Title screen FX: https://opengameart.org/content/ui-sound-effects-pack
 
 
+----
+Check the github repository [here](https://github.com/MagiX7/Project-II)
 
-
-
-
+Stay tuned!
