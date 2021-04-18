@@ -87,7 +87,7 @@ Title background image: https://creativecommons.org/licenses/by-sa/3.0/
 
 Characters: https://alexdraws.itch.io/pixel-champions
 
-UI:
+UI atlas:
  - https://karwisch.itch.io/pxui-basic
  - https://mounirtohami.itch.io/pixel-art-gui-elements
 
