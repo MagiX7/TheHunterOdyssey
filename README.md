@@ -9,45 +9,53 @@ The Hunter Odyssey is our RPG turn-based video game based on the roots of the ge
  - Branching dialogues.
  - Character swapping in-game.
  - Turn Based Combat.
- - Navigable locations like houses or tarberns.
+ - Navigable locations like houses, taberns or a pub.
  - NPCs AI.
- - Puzzles.
- - Inventory system.
- - Items, such as potions, armors, weapons...
+ - Easings for GUI.
+ - Responsive GUI.
+ - Gamepad and keyboard support.
  
 ## Controls
 
 ### Keyboard
- - W,A,S,D to move the player.
- - E open inventory.
- - In menus, arrows to interact with the different buttons.
+ - "W","A","S","D" to move the player.
+ - "I" to open character swap menu.
+ - "ESC" to open pause menu.
+ - In menus, UP and DOWN arrows to interact with the different buttons.
+
+ - Debug keys:
+   · F10: Enable god mode + view all colliders.
+   · "M" to trigger battle scene.
 
 ### Gamepad (XBOX keys)
  - Gameplay:
  
    · Left joystick or directional pad to move the player.
    
-   · Y to open the character swap menu.
+   · "Y" to open the character swap menu.
    
-   · A to start a dialogue.
+   · "A" to start a dialogue.
    
-   · X to trigger battle scene.
-   
-   · Start button to open the pause menu.
-   
-   · Back button to enable god mode + view all colliders.
+   · "START" button to open the pause menu.
 
  - In Menu - inventory - combat:
  
-   · A to accept.
+   · "A" to accept.
    
-   · B to decline or going back.
+   · "B" to decline or going back.
    
    · Left joystick and pad to move the selection.
 
 - Title scene:
  
-   · A or START to go to the main menu.
+   · "A" or "START" to go to the main menu.
+   
+   
+- Debug keys:
+   
+   · "BACK" button to enable god mode + view all colliders.
+   
+   · "X" to trigger battle scene.
 
 ## Developers
 
@@ -75,8 +83,9 @@ Title background image: https://creativecommons.org/licenses/by-sa/3.0/
 
 Characters: https://alexdraws.itch.io/pixel-champions
 
-UI: https://karwisch.itch.io/pxui-basic
-    https://mounirtohami.itch.io/pixel-art-gui-elements
+UI:
+ - https://karwisch.itch.io/pxui-basic
+ - https://mounirtohami.itch.io/pixel-art-gui-elements
 
 Battle scene pointer: http://www.rw-designer.com/licenses
 
