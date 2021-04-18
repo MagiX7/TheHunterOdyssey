@@ -104,6 +104,6 @@ Title screen FX: https://opengameart.org/content/ui-sound-effects-pack
 
 
 ----
-Check the github repository [here](https://github.com/MagiX7/Project-II)
+Check the github repository [here](https://github.com/MagiX7/Project-II).
 
 Stay tuned!
