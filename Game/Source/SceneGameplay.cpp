@@ -189,7 +189,7 @@ bool SceneGameplay::Update(float dt)
 					for (; enemies != enemyList.end(); ++enemies)
 					{
 						(*enemies)->Update(dt);
-						if (CheckCollision((*enemies)->bounds, currentPlayer->bounds))
+						if (!showColliders && CheckCollision((*enemies)->bounds, currentPlayer->bounds))
 						{
 							GenerateBattle();
 							tmp = (*enemies);
