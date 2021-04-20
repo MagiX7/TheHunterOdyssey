@@ -9,22 +9,22 @@
       <entities>
         <NPCs amount="4">
           <NPC>
-            <bounds X="256" Y="250" W="30" H="32" />
+            <bounds X="245" Y="360" W="30" H="32" />
             <NpcType type="TOWN" />
             <Dialoge idDialoge="0" />
           </NPC>
           <NPC>
-            <bounds X="610" Y="863" W="30" H="32" />
+            <bounds X="704" Y="831" W="30" H="32" />
             <NpcType type="RAY" />
             <Dialoge idDialoge="3" />
           </NPC>
           <NPC>
-            <bounds X="781" Y="732" W="30" H="32" />
+            <bounds X="648" Y="760" W="30" H="32" />
             <NpcType type="TABERN" />
             <Dialoge idDialoge="2" />
           </NPC>
           <NPC>
-            <bounds X="581" Y="336" W="30" H="32" />
+            <bounds X="547" Y="263" W="30" H="32" />
             <NpcType type="NPC_WIZARD" />
             <Dialoge idDialoge="1" />
           </NPC>
@@ -32,7 +32,7 @@
         <players amount="4">
           <player>
             <isCurrent current="true" />
-            <bounds X="385" Y="678" W="26" H="26" />
+            <bounds X="758" Y="1126" W="26" H="26" />
             <playerType type="HUNTER" />
           </player>
           <player>

@@ -284,6 +284,10 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad, pugi::xml_node* anims)
 		{
 			npcType = EntityType::NPC_WIZARD;
 		}
+		else if (string == "RAY")
+		{
+			npcType = EntityType::RAY;
+		}
 		else
 		{
 			npcType = EntityType::UNKNOWN;
