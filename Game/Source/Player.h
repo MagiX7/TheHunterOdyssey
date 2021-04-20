@@ -67,7 +67,9 @@ public:
 
 	// Getters
 	inline int GetHealthPoints() const { return healthPoints; }
+	inline int GetMaxHealthPoints() const { return maxHealthPoints; }
 	inline int GetManaPoints() const { return manaPoints; }
+	inline int GetMaxManaPoints() const { return maxManaPoints; }
 	inline int GetAbilitySelected() const { return currentAbilitySelected; }
 	inline int GetObjectSelected() const { return currentObjectSelected; }
 	inline bool GetDefend() const { return isDefending; }

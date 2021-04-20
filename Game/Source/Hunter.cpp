@@ -265,6 +265,7 @@ void Hunter::Ability(Enemy* enemy, int currentAbility)
 	{
 	case 1:
 		enemy->GetDamage(meleeDamage + 200);
+		manaPoints -= 500;
 		LOG("Casting STEADY SHOT");
 		break;
 	case 2:

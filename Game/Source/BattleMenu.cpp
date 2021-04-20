@@ -618,13 +618,46 @@ void BattleMenu::DrawStats(Font* font)
 
 	for (int i = 0; it != sceneBattle->playerList.end(); ++it, ++i)
 	{
-		app->render->DrawText(font, (*it)->GetName().c_str(), 850, 480+(i*55), 25, 2, { 0,0,0 });
-		app->render->DrawText(font, "HP", 1000, 480 + (i * 55), 25, 2, { 0,0,0 });
+		app->render->DrawText(font, (*it)->GetName().c_str(), 852, 465+(i*55), 25, 2, { 0,0,0 });
+		app->render->DrawText(font, (*it)->GetName().c_str(), 850, 463+(i*55), 25, 2, { 255, 255, 255 });
+		app->render->DrawText(font, "HP", 1002, 465 + (i * 55), 25, 2, { 0,0,0 });
+		app->render->DrawText(font, "HP", 1000, 463 + (i * 55), 25, 2, { 102, 230, 151 });
 		std::string points = std::to_string((*it)->GetHealthPoints());
-		app->render->DrawText(font, points.c_str(), 1030, 480 + (i * 55), 25, 2, { 0,0,0 });
+		app->render->DrawText(font, points.c_str(), 1032, 465 + (i * 55), 25, 2, { 0,0,0 });
+		app->render->DrawText(font, points.c_str(), 1030, 463 + (i * 55), 25, 2, { 255, 255, 255 });
 		points = std::to_string((*it)->GetManaPoints());
-		app->render->DrawText(font, "MP", 1130, 480 + (i * 55), 25, 2, { 0,0,0 });
-		app->render->DrawText(font, points.c_str(), 1160, 480 + (i * 55), 25, 2, { 0,0,0 });
+		app->render->DrawText(font, "MP", 1132, 465 + (i * 55), 25, 2, { 0,0,0 });
+		app->render->DrawText(font, "MP", 1130, 463 + (i * 55), 25, 2, { 43, 142, 226 });
+		app->render->DrawText(font, points.c_str(), 1162, 465 + (i * 55), 25, 2, { 0,0,0 });
+		app->render->DrawText(font, points.c_str(), 1160, 463 + (i * 55), 25, 2, { 255, 255, 255 });
+
+		SDL_Rect statsBar = { 124, 357, 367 , 9 };
+		app->render->DrawTexture(guiTex, 854, 491 + (i * 55), &statsBar);
+		app->render->DrawTexture(guiTex, 854, 506 + (i * 55), &statsBar);
+		
+		int currHealth = (*it)->GetHealthPoints();
+		int maxHealth = (*it)->GetMaxHealthPoints();
+		if (currHealth < (maxHealth / 4))
+			statsBar = { 127, 333, ((361 * currHealth) / maxHealth), 5 };
+		else if (currHealth < (maxHealth / 2))
+			statsBar = { 127, 322, ((361 * currHealth) / maxHealth), 5 };
+		else
+			statsBar = { 127, 347, ((361 * currHealth) / maxHealth), 5 };
+
+		app->render->DrawTexture(guiTex, 857, 493 + (i * 55), &statsBar);
+
+		
+		statsBar = { 127, 312, ((361 * (*it)->GetManaPoints()) / (*it)->GetMaxManaPoints()), 5 };
+		app->render->DrawTexture(guiTex, 857, 508 + (i * 55), &statsBar);
+
+
+	}
+	
+	if (type != BattleState::ENEMY_TURN)
+	{
+		SDL_Rect rectangle = { 27, 406, 191, 55 };
+		app->render->DrawRectangle(rectangle, 68, 67, 109, 200);
+		app->render->DrawText(font, currPlayer->GetName().c_str(), 38, 418, 25, 2, { 255, 255, 255 });
 	}
 }
 
@@ -669,21 +702,6 @@ bool BattleMenu::HandleInput(Input* input)
 		currPlayer->Attack(currEnemy);
 		
 		type = BattleState::ATTACKING;
-
-		//if (sceneBattle->enemyList.size() != 0)
-		//{
-		//	eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
-		//	for (int i = 0; it != sceneBattle->playerList.end(); ++it, ++i)
-		//	{
-		//		if (currPlayer == (*sceneBattle->playerList.end().prev()))
-		//		{
-		//			tempPlayer = currPlayer;
-		//			currPlayer = (*sceneBattle->playerList.begin());
-		//			type = BattleState::ENEMY_TURN;
-		//			break;
-		//		}
-		//	}
-		//}
 	}
 
 	if (currPlayer->stance == PlayerStance::ATTACK_FINISHED && type != BattleState::ENEMY_TURN)
