@@ -137,6 +137,8 @@ bool SceneBattle::UnLoad()
 		(*item)->SetIdleRoaming();
 	}
 
+	playerList.clear();
+
 	enemyList.clear();
 
 	map->CleanUp();

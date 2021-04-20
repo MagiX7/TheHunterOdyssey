@@ -792,15 +792,12 @@ bool BattleMenu::HandleAbilities(Input* input, int currentAbility)
 
 		if (sceneBattle->enemyList.size() != 0)
 		{
-			eastl::list<Player*>::iterator it = sceneBattle->playerList.begin();
-			for (int i = 0; it != sceneBattle->playerList.end(); ++it, ++i)
+			if (currPlayer == (*sceneBattle->playerList.end().prev()))
 			{
-				if (currPlayer == (*sceneBattle->playerList.end().prev()))
-				{
-					currPlayer = (*sceneBattle->playerList.begin());
-					type = BattleState::ENEMY_TURN;
-					break;
-				}
+				currPlayer->stance = PlayerStance::BATTLE;
+				tempPlayer = currPlayer;
+				currPlayer = (*sceneBattle->playerList.begin());
+				type = BattleState::ENEMY_TURN;
 			}
 		}
 	}
