@@ -24,6 +24,8 @@
 #include "CharacterManager.h"
 #include "PauseMenu.h"
 
+#include "Inventory.h"
+
 #include "Log.h"
 
 #define NPC_RADIUS 10
@@ -113,6 +115,10 @@ SceneGameplay::SceneGameplay()
 
 	pause = new PauseMenu(this);
 
+	font = new Font("Assets/Font/font3.xml", app->tex);
+
+	inventory = new Inventory(playerList);
+
 	showColliders = false;
 	transition = false;
 	fadeOut = false;
@@ -124,7 +130,6 @@ bool SceneGameplay::Load()
 	LOG("Loading Scene Gameplay");
 	bool ret = true;
 
-	font = new Font("Assets/Font/font3.xml", app->tex);
 
 	entityManager->Load();
 
@@ -151,6 +156,8 @@ bool SceneGameplay::Load()
 	dialogueManager->Start();
 
 	pause->Load(font);
+
+	inventory->Load(font);
 
 	sceneBattle = nullptr;
 
@@ -214,9 +221,15 @@ bool SceneGameplay::Update(float dt)
 		case GameplayMenuState::CHARACTER_SWAP:
 			charManager->Update(dt);
 			break;
+
+		case GameplayMenuState::INVENTORY:
+			inventory->Update(dt);
+			break;
+
 		case GameplayMenuState::PAUSE:
 			ret = pause->Update(dt);
 			break;
+
 		}
 		break;
 	case GameplayState::BATTLE:
@@ -225,7 +238,7 @@ bool SceneGameplay::Update(float dt)
 			transition = true;
 			fadeOut = true;
 		}
-		break;
+	break;
 	}
 
 	if (transition) Fading(dt);
@@ -257,17 +270,32 @@ void SceneGameplay::Draw()
 			dialogueManager->Draw();
 		}
 
-		if (menuState == GameplayMenuState::CHARACTER_SWAP)
+		switch (menuState)
 		{
+		case GameplayMenuState::CHARACTER_SWAP:
 			app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 150);
 			charManager->Draw(font, showColliders);
-		}
+			break;
 
-		if (menuState == GameplayMenuState::PAUSE)
-		{
-			//app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 150);
+		case GameplayMenuState::PAUSE:
 			pause->Draw(font, showColliders);
+			break;
+
+		case GameplayMenuState::INVENTORY:
+			inventory->Draw(font, showColliders);
+			break;
 		}
+		//if (menuState == GameplayMenuState::CHARACTER_SWAP)
+		//{
+		//	app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 150);
+		//	charManager->Draw(font, showColliders);
+		//}
+
+		//if (menuState == GameplayMenuState::PAUSE)
+		//{
+		//	//app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 150);
+		//	pause->Draw(font, showColliders);
+		//}
 		break;
 	case GameplayState::BATTLE:
 		sceneBattle->Draw(showColliders);
@@ -304,13 +332,15 @@ bool SceneGameplay::UnLoad()
 
 	pause->UnLoad();
 	RELEASE(pause);
+
+	inventory->UnLoad();
+	RELEASE(inventory);
 	
 	dialogueManager->UnLoad();
 	RELEASE(dialogueManager);
 
 	font->UnLoad(app->tex);
 	RELEASE(font);
-	
 	
 
 	return ret;
@@ -465,6 +495,11 @@ void SceneGameplay::HandleInput(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN) menuState = GameplayMenuState::CHARACTER_SWAP;
 	
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_START) == KEY_DOWN) menuState = GameplayMenuState::PAUSE;
+
+	if (app->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+	{
+		menuState = GameplayMenuState::INVENTORY;
+	}
 }
 
 bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)

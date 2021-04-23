@@ -8,6 +8,7 @@
 #include "Animation.h"
 
 class Player;
+class SDL_Texture;
 
 enum class EntityState
 {
@@ -23,7 +24,6 @@ enum class EntityState
 	INACTIVE
 };
 
-struct SDL_Texture;
 
 enum class EntityType
 {

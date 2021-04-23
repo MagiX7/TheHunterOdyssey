@@ -15,6 +15,8 @@ class Map;
 class DialogueManager;
 class PauseMenu;
 class Render;
+class Inventory;
+
 enum class PlayerType;
 enum class EntityType;
 
@@ -23,7 +25,7 @@ enum class GameplayMenuState
 	NONE = 0,
 	CHARACTER_SWAP,
 	INVENTORY,
-	PAUSE
+	PAUSE,
 };
 
 enum class GameplayState
@@ -31,7 +33,7 @@ enum class GameplayState
 	NONE = 0,
 	ROAMING,
 	BATTLE,
-	DIALOG
+	DIALOG,
 };
 
 class SceneGameplay : public Scene
@@ -69,29 +71,36 @@ private:
 	void CameraFollow(Render* render);
 	void Fading(float dt);
 
+	//void GenerateInventory();
+
 public:
 	DialogueManager* dialogueManager;
 	
 private:
+
+	// Player stuff
 	Player* currentPlayer;
-	
 	eastl::list<Player*> playerList;
 
+
+	// Menus
 	CharacterManager* charManager;
-
-	SceneBattle* sceneBattle;
-
+	PauseMenu* pause;
 	GameplayMenuState menuState;
-
 	GameplayState gameState;
 
-	EntityManager* entityManager;
-
+	// Scenes
+	SceneBattle* sceneBattle;
 	Map* map;
 
-	PauseMenu* pause;
+	// Managers
+	EntityManager* entityManager;
 
+	// Font
 	Font* font;
+
+	// Inventory
+	Inventory* inventory;
 
 	iPoint tmpPosPlayer;
 

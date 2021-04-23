@@ -108,6 +108,7 @@
     <ClCompile Include="Source\GuiManager.cpp" />
     <ClCompile Include="Source\GuiSlider.cpp" />
     <ClCompile Include="Source\Hunter.cpp" />
+    <ClCompile Include="Source\Inventory.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\App.cpp" />
     <ClCompile Include="Source\Audio.cpp" />
@@ -118,6 +119,7 @@
     <ClCompile Include="Source\NpcWizard.cpp" />
     <ClCompile Include="Source\PauseMenu.cpp" />
     <ClCompile Include="Source\Player.cpp" />
+    <ClCompile Include="Source\Potion.cpp" />
     <ClCompile Include="Source\Ray.cpp" />
     <ClCompile Include="Source\Render.cpp" />
     <ClCompile Include="Source\SceneBattle.cpp" />
@@ -152,6 +154,8 @@
     <ClInclude Include="Source\GuiManager.h" />
     <ClInclude Include="Source\GuiSlider.h" />
     <ClInclude Include="Source\Hunter.h" />
+    <ClInclude Include="Source\Inventory.h" />
+    <ClInclude Include="Source\Item.h" />
     <ClInclude Include="Source\MainMenu.h" />
     <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\Menu.h" />
@@ -160,6 +164,7 @@
     <ClInclude Include="Source\PauseMenu.h" />
     <ClInclude Include="Source\PerfTimer.h" />
     <ClInclude Include="Source\Player.h" />
+    <ClInclude Include="Source\Potion.h" />
     <ClInclude Include="Source\Queue.h" />
     <ClInclude Include="Source\Ray.h" />
     <ClInclude Include="Source\Scene.h" />

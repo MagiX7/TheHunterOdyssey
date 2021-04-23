@@ -123,6 +123,12 @@
     <ClCompile Include="Source\DialogueManager.cpp">
       <Filter>Dialogues</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Potion.cpp">
+      <Filter>Entities\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Inventory.cpp">
+      <Filter>Inventory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -294,6 +300,15 @@
     <ClInclude Include="Source\Dialogue.h">
       <Filter>Dialogues</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Potion.h">
+      <Filter>Entities\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Item.h">
+      <Filter>Entities\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Inventory.h">
+      <Filter>Inventory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -331,6 +346,12 @@
     </Filter>
     <Filter Include="Dialogues">
       <UniqueIdentifier>{c999d0f2-3ca6-4670-9ac2-3421ff285e6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Items">
+      <UniqueIdentifier>{bcc44611-e7bf-4537-9a15-4687ff9061a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Inventory">
+      <UniqueIdentifier>{c571fe04-dddb-48a0-99ca-80c8331a129f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
