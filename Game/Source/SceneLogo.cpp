@@ -3,6 +3,7 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Audio.h"
+#include "Easings.h"
 
 #include "SceneLogo.h"
 
@@ -20,6 +21,25 @@ SceneLogo::SceneLogo()
 	logoAlpha = 1.0f;
 	drawCounter = 0.75f;
 
+	//Easings
+	easing1 = new Easing();
+	easing2 = new Easing();
+
+	easing1->currentIteration = 0;
+	easing1->totalIterations = 180;
+	easing1->initialPos = -650;
+	easing1->deltaPos = 1930;
+	easing1->easingsActivated = true;
+
+	easing2->easingsActivated = false;
+	easing2->deltaPos = -965;
+	easing2->initialPos = 1280;
+	easing2->totalIterations = 180;
+	easing2->currentIteration = 0;
+
+	logoPositionX = -650.0f;
+	logoPositionX = 1280.0f;
+
 	showColliders = false;
 }
 
@@ -36,6 +56,37 @@ bool SceneLogo::Load()
 bool SceneLogo::Update(float dt)
 {
 	bool ret = true;
+
+	if (easing1->easingsActivated)
+	{
+		logoPositionX = easing1->sineEaseOut(easing1->currentIteration, easing1->initialPos, easing1->deltaPos, easing1->totalIterations);
+		logoPositionX2 = easing1->sineEaseOut(easing1->currentIteration, 1280, (easing1->deltaPos)*-1, easing1->totalIterations);
+		if (easing1->currentIteration < easing1->totalIterations)
+		{
+			easing1->currentIteration++;
+		}
+		else
+		{
+			easing1->currentIteration = 0;
+			easing1->easingsActivated = false;
+			easing2->easingsActivated = true;
+		}
+	}
+
+	if (easing2->easingsActivated)
+	{
+		logoPositionX = easing2->elasticEaseOut(easing2->currentIteration, easing2->initialPos, easing2->deltaPos, easing2->totalIterations);
+		logoPositionX2 = easing2->elasticEaseOut(easing2->currentIteration, easing1->initialPos, 965, easing2->totalIterations);
+		if (easing2->currentIteration < easing2->totalIterations)
+		{
+			easing2->currentIteration++;
+		}
+		else
+		{
+			easing2->currentIteration = 0;
+			easing2->easingsActivated = false;
+		}
+	}
 
 	switch (state)
 	{
@@ -81,7 +132,11 @@ void SceneLogo::Draw()
 	{
 		drawCounter = 0;
 		app->render->DrawRectangle({ 0,0,1280,720 }, 255, 255, 255, 255);
-		app->render->DrawTexture(logo, 315, 35, NULL);
+
+		SDL_Rect rect = {0,0,651,325};
+		app->render->DrawTexture(logo, logoPositionX, 35, &rect);
+		rect = {0,325,651,325};
+		app->render->DrawTexture(logo, logoPositionX2, 35+325, &rect);
 	}
 
 	// Fade in Logo
@@ -92,7 +147,10 @@ bool SceneLogo::UnLoad()
 {
 	LOG("Unloading Scene Logo");
 	bool ret = true;
+
 	app->tex->UnLoad(logo);
+	RELEASE(easing1);
+	RELEASE(easing2);
 
 	return ret;
 }

@@ -3,6 +3,8 @@
 
 #include "Scene.h"
 
+class Easing;
+
 class SceneLogo : public Scene
 {
 public:
@@ -20,6 +22,10 @@ public:
 
 private:
 	SDL_Texture* logo;
+	Easing* easing1;
+	Easing* easing2;
+	float logoPositionX;
+	float logoPositionX2;
 	
 	int state;
 	float timeCounter;
