@@ -5,7 +5,7 @@
 #include "EASTL/list.h"
 #include "Font.h"
 #include "Point.h"
-
+#include"ParticlesManager.h"
 class Player;
 class Enemy;
 class CharacterManager;
@@ -17,6 +17,8 @@ class PauseMenu;
 class Render;
 enum class PlayerType;
 enum class EntityType;
+class ParticlesManager;
+class Generator;
 
 enum class GameplayMenuState
 {
@@ -86,6 +88,10 @@ private:
 	GameplayState gameState;
 
 	EntityManager* entityManager;
+
+	ParticlesManager* particles;
+
+	
 
 	Map* map;
 

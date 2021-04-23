@@ -20,7 +20,7 @@ Hunter::Hunter(iPoint position, pugi::xml_node anim) : Player(PlayerType::HUNTER
 	isDefending = false;
 	attack = false;
 	name = "Hunter";
-
+	
 	pugi::xml_node player = anim.child("hunter").child("overworld");
 
 	for (pugi::xml_node n = player.child("walk_front").child("pushback"); n; n = n.next_sibling("pushback"))
@@ -81,7 +81,7 @@ bool Hunter::Load()
 {
 	texture = app->tex->Load("Assets/Textures/Players/hunter2.png");
 	battlerTexture = app->tex->Load("Assets/Textures/Players/battler_hunter.png");
-
+	generator->SetGoal({ bounds.x,bounds.y - 50 });
 	return true;
 }
 
@@ -171,6 +171,10 @@ void Hunter::HandleInput(float dt)
 	case PlayerStance::ROAMING:
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_REPEAT || app->input->pad->l_y < -0.5)
 		{
+			generator->Restart();
+			generator->SetParameters({ 10,1 });
+			generator->SetPosition({ bounds.x+(bounds.w /2),bounds.y+(bounds.h-5) });
+			generator->SetGoal({ bounds.x + (bounds.w / 2),bounds.y + 150 + (bounds.h - 5) });
 			bounds.y -= SPEED_Y * dt;
 			if (currentAnim != &walkUp)
 			{
@@ -178,8 +182,12 @@ void Hunter::HandleInput(float dt)
 				currentAnim = &walkUp;
 			}
 		}
-		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_REPEAT || app->input->pad->l_y > 0.5)
+		else if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_REPEAT || app->input->pad->l_y > 0.5)
 		{
+			generator->Restart();
+			generator->SetParameters({ 10,1 });
+			generator->SetPosition({ bounds.x + (bounds.w / 2),bounds.y + (bounds.h - 5) });
+			generator->SetGoal({ bounds.x + (bounds.w / 2),bounds.y - 150 + (bounds.h - 5) });
 			bounds.y += SPEED_Y * dt;
 			if (currentAnim != &walkDown)
 			{
@@ -187,8 +195,12 @@ void Hunter::HandleInput(float dt)
 				currentAnim = &walkDown;
 			}
 		}
-		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_REPEAT || app->input->pad->l_x < -0.5)
+		else if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_REPEAT || app->input->pad->l_x < -0.5)
 		{
+			generator->Restart();
+			generator->SetParameters({ 1,4 });
+			generator->SetPosition({ bounds.x + (bounds.w / 2),bounds.y + (bounds.h - 5) });
+			generator->SetGoal({ bounds.x + (bounds.w / 2) + 150,bounds.y + (bounds.h - 5) });
 			bounds.x -= SPEED_X * dt;
 			if (currentAnim != &walkLeft)
 			{
@@ -196,14 +208,21 @@ void Hunter::HandleInput(float dt)
 				currentAnim = &walkLeft;
 			}
 		}
-		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_REPEAT || app->input->pad->l_x > 0.5)
+		else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_REPEAT || app->input->pad->l_x > 0.5)
 		{
+			generator->SetParameters({ 1,4 });
+			generator->Restart();
+			generator->SetPosition({ bounds.x + (bounds.w / 2),bounds.y + (bounds.h - 5) });
+			generator->SetGoal({ bounds.x + (bounds.w / 2) - 150,bounds.y + (bounds.h - 5) });
 			bounds.x += SPEED_X * dt;
 			if (currentAnim != &walkRight)
 			{
 				walkRight.Reset();
 				currentAnim = &walkRight;
 			}
+		}
+		else {
+			generator->Stop();
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_IDLE && app->input->GetKey(SDL_SCANCODE_S) == KEY_IDLE &&

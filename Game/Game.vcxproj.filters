@@ -123,6 +123,15 @@
     <ClCompile Include="Source\DialogueManager.cpp">
       <Filter>Dialogues</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ParticlesManager.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Generator.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Particle.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -293,6 +302,15 @@
     </ClInclude>
     <ClInclude Include="Source\Dialogue.h">
       <Filter>Dialogues</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ParticlesManager.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Generator.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Particle.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

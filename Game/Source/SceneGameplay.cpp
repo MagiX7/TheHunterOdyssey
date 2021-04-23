@@ -7,6 +7,7 @@
 #include "SceneGameplay.h"
 #include "SceneBattle.h"
 
+
 #include "EntityManager.h"
 #include "Hunter.h"
 #include "Wizard.h"
@@ -33,7 +34,7 @@ SceneGameplay::SceneGameplay()
 	name.Create("scenegameplay");
 
 	entityManager = new EntityManager();
-
+	particles = new ParticlesManager();
 	iPoint position = { 260,290 };
 
 	pugi::xml_document animations;
@@ -117,6 +118,9 @@ SceneGameplay::SceneGameplay()
 	transition = false;
 	fadeOut = false;
 	alpha = 0.0f;
+	currentPlayer->generator= particles->CreateGenerator({ currentPlayer->bounds.x,currentPlayer->bounds.y }, ParticleType::DUST);
+	
+	currentPlayer->generator->SetParameters({ 4,4 });
 }
 
 bool SceneGameplay::Load()
@@ -156,15 +160,14 @@ bool SceneGameplay::Load()
 
 
 	SDL_ShowCursor(SDL_ENABLE);
-
-
+	//particles->StartSimulation(currentPlayer->generator);
+	
 	return ret;
 }
 
 bool SceneGameplay::Update(float dt)
 {
 	bool ret = true;
-
 	switch (gameState)
 	{
 	case GameplayState::NONE:
@@ -179,10 +182,12 @@ bool SceneGameplay::Update(float dt)
 
 			if (dialogueManager->isDialogueActive == false)
 			{
+				particles->PreUpdate();
 				map->Update(dt);
 				HandleInput(dt);
 				SDL_Rect tmpBounds = currentPlayer->bounds;
 				currentPlayer->Update(dt);
+				particles->Update(dt);
 				if (isTown)
 				{
 					eastl::list<Enemy*>::iterator enemies = enemyList.begin();
@@ -241,8 +246,9 @@ void SceneGameplay::Draw()
 	case GameplayState::ROAMING:
 		map->Draw(showColliders);
 		entityManager->Draw(showColliders);
+		particles->PostUpdate();
 		currentPlayer->Draw(showColliders);
-
+		
 		if (isTown)
 		{
 			for (; enemies != enemyList.end(); ++enemies)

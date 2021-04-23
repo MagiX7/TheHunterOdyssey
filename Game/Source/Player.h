@@ -3,7 +3,7 @@
 #include "Entity.h"
 #include "Point.h"
 #include "Log.h"
-
+#include"ParticlesManager.h"
 #include "EASTL/string.h"
 
 #define SPEED_X 200.0f
@@ -87,7 +87,7 @@ public:
 	PlayerType playerType;
 	PlayerStance stance;
 	iPoint battlePos;
-
+	Generator* generator;
 protected:
 	SDL_Texture* battlerTexture;
 
@@ -108,6 +108,8 @@ protected:
 	int defense;
 	int currentAbilitySelected;
 	int currentObjectSelected;
+
+	
 
 	//Animations
 	Animation idleDown;

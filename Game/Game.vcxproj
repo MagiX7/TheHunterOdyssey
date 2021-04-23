@@ -102,6 +102,7 @@
     <ClCompile Include="Source\Easings.cpp" />
     <ClCompile Include="Source\EntityManager.cpp" />
     <ClCompile Include="Source\Font.cpp" />
+    <ClCompile Include="Source\Generator.cpp" />
     <ClCompile Include="Source\Golem.cpp" />
     <ClCompile Include="Source\GuiButton.cpp" />
     <ClCompile Include="Source\GuiCheckBox.cpp" />
@@ -116,6 +117,8 @@
     <ClCompile Include="Source\Map.cpp" />
     <ClCompile Include="Source\Npc.cpp" />
     <ClCompile Include="Source\NpcWizard.cpp" />
+    <ClCompile Include="Source\Particle.cpp" />
+    <ClCompile Include="Source\ParticlesManager.cpp" />
     <ClCompile Include="Source\PauseMenu.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\Ray.cpp" />
@@ -145,6 +148,7 @@
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\EntityManager.h" />
     <ClInclude Include="Source\Font.h" />
+    <ClInclude Include="Source\Generator.h" />
     <ClInclude Include="Source\Golem.h" />
     <ClInclude Include="Source\GuiButton.h" />
     <ClInclude Include="Source\GuiCheckBox.h" />
@@ -157,6 +161,8 @@
     <ClInclude Include="Source\Menu.h" />
     <ClInclude Include="Source\Npc.h" />
     <ClInclude Include="Source\NpcWizard.h" />
+    <ClInclude Include="Source\Particle.h" />
+    <ClInclude Include="Source\ParticlesManager.h" />
     <ClInclude Include="Source\PauseMenu.h" />
     <ClInclude Include="Source\PerfTimer.h" />
     <ClInclude Include="Source\Player.h" />
