@@ -13,12 +13,14 @@ void ParticlesManager::Restart(Generator* generator){
 
 }
 void ParticlesManager::DeleteGenerator(Generator* generator) {
-	generator->CleanUp();
-	delete generator;
-	int gen=geneartorList.Find(generator);
-	ListItem<Generator*>* auxiliar=geneartorList.start;
-	for (int a = 0; a < gen; a++) {auxiliar = auxiliar->next;}
-	geneartorList.Del(auxiliar);
+	if (generator != nullptr) {
+		generator->CleanUp();
+		delete generator;
+		int gen = geneartorList.Find(generator);
+		ListItem<Generator*>* auxiliar = geneartorList.start;
+		for (int a = 0; a < gen; a++) { auxiliar = auxiliar->next; }
+		geneartorList.Del(auxiliar);
+	}
 }
 bool ParticlesManager::PreUpdate(){
 	for (ListItem<Generator*>* auxiliar = geneartorList.start; auxiliar != nullptr; auxiliar = auxiliar->next)

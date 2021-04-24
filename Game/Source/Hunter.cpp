@@ -81,6 +81,7 @@ Hunter::~Hunter()
 
 bool Hunter::Load()
 {
+	Particles->DeleteGenerator(generator);
 	generator=Particles->CreateGenerator({ bounds.x,bounds.y }, ParticleType::DUST);
 	generator->SetParameters({ 4,4 });
 	texture = app->tex->Load("Assets/Textures/Players/hunter2.png");

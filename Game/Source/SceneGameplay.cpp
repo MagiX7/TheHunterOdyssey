@@ -125,7 +125,7 @@ bool SceneGameplay::Load()
 {
 	LOG("Loading Scene Gameplay");
 	bool ret = true;
-
+	//particles->CleanUp();
 	font = new Font("Assets/Font/font3.xml", app->tex);
 
 	entityManager->Load();
