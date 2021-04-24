@@ -5,7 +5,7 @@
 class Warrior : public Player
 {
 public:
-	Warrior(iPoint position, pugi::xml_node anim);
+	Warrior(iPoint position, pugi::xml_node anim, ParticlesManager* particles);
 	virtual ~Warrior();
 
 	bool Load() override;

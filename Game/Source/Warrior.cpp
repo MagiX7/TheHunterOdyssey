@@ -6,7 +6,7 @@
 #include "Warrior.h"
 #include "Enemy.h"
 
-Warrior::Warrior(iPoint position, pugi::xml_node anim) : Player(PlayerType::WARRIOR, EntityType::WARRIOR,position)
+Warrior::Warrior(iPoint position, pugi::xml_node anim, ParticlesManager* particles) : Player(PlayerType::WARRIOR, EntityType::WARRIOR,position)
 {
 	stance = PlayerStance::ROAMING;
 	healthPoints = 3500;
@@ -19,7 +19,7 @@ Warrior::Warrior(iPoint position, pugi::xml_node anim) : Player(PlayerType::WARR
 	isDefending = false;
 	attack = false;
 	name = "Warrior";
-
+	Particles = particles;
 	pugi::xml_node player = anim.child("warrior").child("overworld");
 
 	for (pugi::xml_node n = player.child("walk_front").child("pushback"); n; n = n.next_sibling("pushback"))

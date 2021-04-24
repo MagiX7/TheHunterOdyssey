@@ -2,11 +2,11 @@
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
-
+#include"SceneManager.h"
 #include "Hunter.h"
 #include "Enemy.h"
-
-Hunter::Hunter(iPoint position, pugi::xml_node anim) : Player(PlayerType::HUNTER, EntityType::HUNTER, position)
+#include"SceneGameplay.h"
+Hunter::Hunter(iPoint position, pugi::xml_node anim, ParticlesManager* particles) : Player(PlayerType::HUNTER, EntityType::HUNTER, position)
 {
 	//bounds = { 0,0, 16,32 };
 	stance = PlayerStance::ROAMING;
@@ -20,7 +20,7 @@ Hunter::Hunter(iPoint position, pugi::xml_node anim) : Player(PlayerType::HUNTER
 	isDefending = false;
 	attack = false;
 	name = "Hunter";
-	
+	Particles = particles;
 	pugi::xml_node player = anim.child("hunter").child("overworld");
 
 	for (pugi::xml_node n = player.child("walk_front").child("pushback"); n; n = n.next_sibling("pushback"))
@@ -69,7 +69,9 @@ Hunter::Hunter(iPoint position, pugi::xml_node anim) : Player(PlayerType::HUNTER
 	this->idleLeft.PushBack(walkLeft.frames[0]);
 	this->idleRight.PushBack(walkRight.frames[0]);
 	this->idleUp.PushBack(walkUp.frames[0]);
+	
 
+	
 	currentAnim = &idleDown;
 }
 
@@ -79,6 +81,8 @@ Hunter::~Hunter()
 
 bool Hunter::Load()
 {
+	generator=Particles->CreateGenerator({ bounds.x,bounds.y }, ParticleType::DUST);
+	generator->SetParameters({ 4,4 });
 	texture = app->tex->Load("Assets/Textures/Players/hunter2.png");
 	battlerTexture = app->tex->Load("Assets/Textures/Players/battler_hunter.png");
 	generator->SetGoal({ bounds.x,bounds.y - 50 });
@@ -158,6 +162,7 @@ void Hunter::Draw(bool showColliders)
 
 bool Hunter::UnLoad()
 {
+	Particles->DeleteGenerator(generator);
 	app->tex->UnLoad(texture);
 	app->tex->UnLoad(battlerTexture);
 

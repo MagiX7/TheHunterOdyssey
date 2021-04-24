@@ -5,7 +5,7 @@
 class Wizard : public Player
 {
 public:
-	Wizard(iPoint position, pugi::xml_node anim);
+	Wizard(iPoint position, pugi::xml_node anim, ParticlesManager* particles);
 	virtual ~Wizard();
 
 	bool Load() override;

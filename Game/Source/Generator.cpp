@@ -125,7 +125,7 @@ bool Generator::PreUpdate(){
 			
 		
 	}
-	if (timeCounter % 2 == 0 && state == GeneratorState::NORMAL) {
+	if (timeCounter % 4 == 0 && state == GeneratorState::NORMAL) {
 
 		float positionX;
 		float positionY;

@@ -164,6 +164,10 @@ bool Golem::LoadState(pugi::xml_node& node)
 
 bool Golem::SaveState(pugi::xml_node& node)
 {
+	Enemy::SaveState(node);
+	pugi::xml_node auxiliar1;
+	auxiliar1 = node.append_child("EnemyType");
+	auxiliar1.append_attribute("type").set_value("GOLEM");
 	return true;
 }
 

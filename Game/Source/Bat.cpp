@@ -54,7 +54,14 @@ Bat::Bat(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::BAT)
 Bat::~Bat()
 {
 }
-
+bool Bat::SaveState(pugi::xml_node& node)
+{
+	Enemy::SaveState(node);
+	pugi::xml_node auxiliar1;
+	auxiliar1 = node.append_child("EnemyType");
+	auxiliar1.append_attribute("type").set_value("BAT");
+	return true;
+}
 bool Bat::Load()
 {
 	return true;
@@ -157,11 +164,6 @@ bool Bat::UnLoad()
 }
 
 bool Bat::LoadState(pugi::xml_node& node)
-{
-	return true;
-}
-
-bool Bat::SaveState(pugi::xml_node& node)
 {
 	return true;
 }

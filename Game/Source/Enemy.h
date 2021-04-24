@@ -30,7 +30,16 @@ public:
 	{
 		return this->deathAnim.HasFinished();
 	}
+	virtual bool SaveState(pugi::xml_node& node)
+	{
+		pugi::xml_node auxiliar1 = node.append_child("bounds");
+		auxiliar1.append_attribute("X").set_value(bounds.x);
+		auxiliar1.append_attribute("Y").set_value(bounds.y);
+		auxiliar1.append_attribute("W").set_value(bounds.w);
+		auxiliar1.append_attribute("H").set_value(bounds.h);
 
+		return true;
+	}
 	// Setters
 	void SetCurrentState(EnemyState state) { currentState = state; }
 

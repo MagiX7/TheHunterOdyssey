@@ -163,6 +163,10 @@ bool Skull::LoadState(pugi::xml_node& node)
 
 bool Skull::SaveState(pugi::xml_node& node)
 {
+	Enemy::SaveState(node);
+	pugi::xml_node auxiliar1;
+	auxiliar1 = node.append_child("EnemyType");
+	auxiliar1.append_attribute("type").set_value("SKULL");
 	return true;
 }
 

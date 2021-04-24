@@ -5,7 +5,7 @@
 class Hunter : public Player
 {
 public:
-	Hunter(iPoint position, pugi::xml_node anim);
+	Hunter(iPoint position, pugi::xml_node anim, ParticlesManager* particles);
 	virtual ~Hunter();
 
 	bool Load() override;

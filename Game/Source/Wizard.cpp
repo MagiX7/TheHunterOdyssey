@@ -7,7 +7,7 @@
 #include "Wizard.h"
 #include "Enemy.h"
 
-Wizard::Wizard(iPoint position, pugi::xml_node anim) : Player(PlayerType::WIZARD, EntityType::HUNTER, position)
+Wizard::Wizard(iPoint position, pugi::xml_node anim, ParticlesManager* particles) : Player(PlayerType::WIZARD, EntityType::HUNTER, position)
 {
 	//bounds = { 0,0, 16,32 };
 	stance = PlayerStance::ROAMING;
@@ -21,7 +21,7 @@ Wizard::Wizard(iPoint position, pugi::xml_node anim) : Player(PlayerType::WIZARD
 	isDefending = false;
 	attack = false;
 	name = "Wizard";
-
+	Particles = particles;
 	pugi::xml_node player = anim.child("wizard").child("overworld");
 
 	for (pugi::xml_node n = player.child("walk_front").child("pushback"); n; n = n.next_sibling("pushback"))

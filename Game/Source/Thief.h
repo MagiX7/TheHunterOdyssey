@@ -5,7 +5,7 @@
 class Thief : public Player
 {
 public:
-	Thief(iPoint position, pugi::xml_node anim);
+	Thief(iPoint position, pugi::xml_node anim, ParticlesManager* particles);
 	virtual ~Thief();
 
 	bool Load() override;

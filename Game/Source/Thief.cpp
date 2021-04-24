@@ -6,7 +6,7 @@
 #include "Thief.h"
 #include "Enemy.h"
 
-Thief::Thief(iPoint position, pugi::xml_node anim) : Player(PlayerType::THIEF, EntityType::THIEF,position)
+Thief::Thief(iPoint position, pugi::xml_node anim, ParticlesManager* particles) : Player(PlayerType::THIEF, EntityType::THIEF,position)
 {
 	stance = PlayerStance::ROAMING;
 	healthPoints = 1500;
@@ -19,7 +19,7 @@ Thief::Thief(iPoint position, pugi::xml_node anim) : Player(PlayerType::THIEF, E
 	isDefending = false;
 	attack = false;
 	name = "Thief";
-
+	Particles = particles;
 	pugi::xml_node player = anim.child("thief").child("overworld");
 
 	for (pugi::xml_node n = player.child("walk_front").child("pushback"); n; n = n.next_sibling("pushback"))

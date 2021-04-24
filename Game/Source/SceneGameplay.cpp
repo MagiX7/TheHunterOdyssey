@@ -47,19 +47,19 @@ SceneGameplay::SceneGameplay()
 		anims = animations.child("animations");
 
 	Player* player = nullptr;
-	player = new Hunter(position, anims);
+	player = new Hunter(position, anims, particles);
 	currentPlayer = player;
 	playerList.push_back(player);
 	position = { 18,90 };
-	player = new Wizard(position, anims);
+	player = new Wizard(position, anims, particles);
 	playerList.push_back(player);
 
 	position = { 12,45 };
-	player = new Thief(position, anims);
+	player = new Thief(position, anims, particles);
 	playerList.push_back(player);
 
 	position = { 13,56 };
-	player = new Warrior(position, anims);
+	player = new Warrior(position, anims, particles);
 	playerList.push_back(player);
 
 	tmpPosPlayer = { 0,0 };
@@ -118,9 +118,7 @@ SceneGameplay::SceneGameplay()
 	transition = false;
 	fadeOut = false;
 	alpha = 0.0f;
-	currentPlayer->generator= particles->CreateGenerator({ currentPlayer->bounds.x,currentPlayer->bounds.y }, ParticleType::DUST);
 	
-	currentPlayer->generator->SetParameters({ 4,4 });
 }
 
 bool SceneGameplay::Load()
@@ -317,7 +315,7 @@ bool SceneGameplay::UnLoad()
 	font->UnLoad(app->tex);
 	RELEASE(font);
 	
-	
+	particles->CleanUp();
 
 	return ret;
 }
@@ -364,7 +362,6 @@ bool SceneGameplay::CheckDialogue()
 	}
 	return ret;
 }
-
 bool SceneGameplay::LoadState(pugi::xml_node& load)
 {
 	pugi::xml_node toLoadEntities = load.child("entities");
@@ -400,13 +397,13 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 		EntityType plType;
 		Player* player = nullptr;
 		if (string == "HUNTER") 
-			player = new Hunter({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims);
+			player = new Hunter({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims,particles);
 		else if (string == "WIZARD") 
-			player = new Wizard({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims);
+			player = new Wizard({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims, particles);
 		else if (string == "WARRIOR") 
-			player = new Warrior({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims);
+			player = new Warrior({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims, particles);
 		else if (string == "THIEF") 
-			player = new Thief({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims);
+			player = new Thief({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims, particles);
 		else 
 			plType = EntityType::UNKNOWN;
 		
@@ -414,6 +411,35 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 		playerList.push_back(player);
 		player->Load();
 		NodePlayerAuxiliar = NodePlayerAuxiliar.next_sibling();
+	}
+	eastl::list<Enemy*>::iterator enemies = enemyList.begin().mpNode;
+
+	for (; enemies != enemyList.end(); ++enemies)
+	{
+		(*enemies)->UnLoad();
+		delete (*enemies);
+		enemyList.remove((*enemies));
+	}
+	enemyList.clear();
+	int enemyAmount = toLoadEntities.child("Enemies").attribute("amount").as_int();
+	pugi::xml_node NodeEnemy = toLoadEntities.child("Enemies");
+	pugi::xml_node NodeEnemyAuxiliar = NodeEnemy.child("Enemy");
+	for (int a = 0; a < enemyAmount; a++)
+	{
+		SString string;
+		string = NodeEnemyAuxiliar.child("EnemyType").attribute("type").as_string();
+
+		EntityType plType;
+		Enemy* enemy = nullptr;
+		if (string == "BAT")
+			enemy = new Bat({ NodeEnemyAuxiliar.child("bounds").attribute("X").as_int(), NodeEnemyAuxiliar.child("bounds").attribute("Y").as_int() }, anims);
+		else if (string == "GOLEM")
+			enemy = new Golem({ NodeEnemyAuxiliar.child("bounds").attribute("X").as_int(), NodeEnemyAuxiliar.child("bounds").attribute("Y").as_int() }, anims);
+		else if (string == "SKULL")
+			enemy = new Skull({ NodeEnemyAuxiliar.child("bounds").attribute("X").as_int(), NodeEnemyAuxiliar.child("bounds").attribute("Y").as_int() }, anims);
+		enemy->SetCurrentState(EnemyState::ROAMING);
+		enemyList.push_back(enemy);
+		NodeEnemyAuxiliar = NodeEnemyAuxiliar.next_sibling();
 	}
 	return true;
 }
@@ -423,13 +449,24 @@ bool SceneGameplay::SaveState(pugi::xml_node& save) const
 	if (isTown == false) return true;
 
 	save.append_attribute("map_name").set_value(map->name.GetString());
-
+	
 	pugi::xml_node toSaveEntites = save.append_child("entities");
 	entityManager->SaveState(&toSaveEntites);
 	/*const pugi::char_t* name = map->name.GetString();
 	pugi::xml_node toSaveScene = toSaveEntites.append_child("scene");
 	toSaveScene.append_attribute("mapName").set_value(name);
 	toSaveScene.append_attribute("sceneType").set_value("sceneGameplay");*/
+	pugi::xml_node toSaveEnemies = toSaveEntites.append_child("Enemies");
+	pugi::xml_node enemiesAuxiliar;
+	toSaveEnemies.append_attribute("amount").set_value(enemyList.size());
+	eastl::list<Enemy*>::iterator enemies = enemyList.begin().mpNode;
+
+	for (; enemies != enemyList.end(); ++enemies)
+	{
+		enemiesAuxiliar = toSaveEnemies.append_child("Enemy");
+		(*enemies)->SaveState(enemiesAuxiliar);
+	}
+
 
 	pugi::xml_node nodePlayers = toSaveEntites.append_child("players");
 	pugi::xml_node nodePlayersAuxiliar;

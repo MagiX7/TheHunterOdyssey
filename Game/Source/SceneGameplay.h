@@ -70,7 +70,6 @@ private:
 	void GenerateBattle();
 	void CameraFollow(Render* render);
 	void Fading(float dt);
-
 public:
 	DialogueManager* dialogueManager;
 	

@@ -2,7 +2,6 @@
 #define __SCENE_H__
 
 #include "Log.h"
-
 enum class SceneType
 {
 	LOGO,
@@ -50,7 +49,7 @@ public:
 public:
 	SString name;
 	bool active;
-
+	
 	bool transitionRequired;
 	SceneType nextScene;
 	bool isTown;

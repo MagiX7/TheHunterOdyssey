@@ -90,7 +90,7 @@ public:
 	Generator* generator;
 protected:
 	SDL_Texture* battlerTexture;
-
+	ParticlesManager* Particles;
 	eastl::string name;
 
 	// Enemy target
