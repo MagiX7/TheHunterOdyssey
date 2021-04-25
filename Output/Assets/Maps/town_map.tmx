@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="48" height="48" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="48" height="48" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
  <editorsettings>
   <chunksize width="32" height="32"/>
  </editorsettings>
@@ -7210,7 +7210,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="3" name="Hitboxes" width="48" height="48">
+ <layer id="3" name="Hitboxes" width="48" height="48" visible="0">
   <properties>
    <property name="draw" type="bool" value="false"/>
   </properties>

@@ -1008,7 +1008,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="101"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1048,7 +1048,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="149"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1895,7 +1895,7 @@
    <tile/>
    <tile gid="97"/>
    <tile gid="98"/>
-   <tile gid="101"/>
+   <tile gid="10"/>
    <tile gid="99"/>
    <tile gid="100"/>
    <tile gid="101"/>
@@ -1935,7 +1935,7 @@
    <tile/>
    <tile gid="145"/>
    <tile gid="146"/>
-   <tile gid="149"/>
+   <tile gid="106"/>
    <tile gid="147"/>
    <tile gid="148"/>
    <tile gid="149"/>

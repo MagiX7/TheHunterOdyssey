@@ -83,16 +83,16 @@ bool BattleMenu::Load(Font* font)
 	btnObject->texture = guiTex;
 	btnObject->sectionFocused = { 0,260,204,43 };
 
-	btnAbilitySlot1 = new GuiButton(5, { 72, 500, 204, 43 }, "Ability1", this, font);
+	btnAbilitySlot1 = new GuiButton(5, { 472, 500, 204, 43 }, "Ability1", this, font);
 	btnAbilitySlot1->texture = guiTex;
 	btnAbilitySlot1->sectionFocused = { 0,260,204,43 };
-	btnAbilitySlot2 = new GuiButton(6, { 314, 500, 204, 43 }, "Ability2", this, font);
+	btnAbilitySlot2 = new GuiButton(6, { 714, 500, 204, 43 }, "Ability2", this, font);
 	btnAbilitySlot2->texture = guiTex;
 	btnAbilitySlot2->sectionFocused = { 0,260,204,43 };
-	btnAbilitySlot3 = new GuiButton(7, { 72, 565, 204, 43 }, "Ability3", this, font);
+	btnAbilitySlot3 = new GuiButton(7, { 472, 565, 204, 43 }, "Ability3", this, font);
 	btnAbilitySlot3->texture = guiTex;
 	btnAbilitySlot3->sectionFocused = { 0,260,204,43 };
-	btnAbilitySlot4 = new GuiButton(8, { 314, 565, 204, 43 }, "Ability4", this, font);
+	btnAbilitySlot4 = new GuiButton(8, { 714, 565, 204, 43 }, "Ability4", this, font);
 	btnAbilitySlot4->texture = guiTex;
 	btnAbilitySlot4->sectionFocused = { 0,260,204,43 };
 
