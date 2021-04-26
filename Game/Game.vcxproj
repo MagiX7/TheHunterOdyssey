@@ -101,6 +101,9 @@
     <ClCompile Include="Source\DialogueManager.cpp" />
     <ClCompile Include="Source\Easings.cpp" />
     <ClCompile Include="Source\EntityManager.cpp" />
+    <ClCompile Include="Source\FairyBottle.cpp" />
+    <ClCompile Include="Source\FairyTear.cpp" />
+    <ClCompile Include="Source\FairyWing.cpp" />
     <ClCompile Include="Source\Font.cpp" />
     <ClCompile Include="Source\Golem.cpp" />
     <ClCompile Include="Source\GuiButton.cpp" />
@@ -117,6 +120,7 @@
     <ClCompile Include="Source\Map.cpp" />
     <ClCompile Include="Source\Npc.cpp" />
     <ClCompile Include="Source\NpcWizard.cpp" />
+    <ClCompile Include="Source\OmniPotion.cpp" />
     <ClCompile Include="Source\PauseMenu.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\Potion.cpp" />
@@ -134,6 +138,7 @@
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\Thief.cpp" />
     <ClCompile Include="Source\Town.cpp" />
+    <ClCompile Include="Source\UltraPotion.cpp" />
     <ClCompile Include="Source\Warrior.cpp" />
     <ClCompile Include="Source\Window.cpp" />
     <ClCompile Include="Source\Wizard.cpp" />
@@ -146,6 +151,9 @@
     <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\EntityManager.h" />
+    <ClInclude Include="Source\FairyBottle.h" />
+    <ClInclude Include="Source\FairyTear.h" />
+    <ClInclude Include="Source\FairyWing.h" />
     <ClInclude Include="Source\Font.h" />
     <ClInclude Include="Source\Golem.h" />
     <ClInclude Include="Source\GuiButton.h" />
@@ -161,6 +169,7 @@
     <ClInclude Include="Source\Menu.h" />
     <ClInclude Include="Source\Npc.h" />
     <ClInclude Include="Source\NpcWizard.h" />
+    <ClInclude Include="Source\OmniPotion.h" />
     <ClInclude Include="Source\PauseMenu.h" />
     <ClInclude Include="Source\PerfTimer.h" />
     <ClInclude Include="Source\Player.h" />
@@ -186,6 +195,7 @@
     <ClInclude Include="Source\Thief.h" />
     <ClInclude Include="Source\Timer.h" />
     <ClInclude Include="Source\Town.h" />
+    <ClInclude Include="Source\UltraPotion.h" />
     <ClInclude Include="Source\Warrior.h" />
     <ClInclude Include="Source\Window.h" />
     <ClInclude Include="Source\Defs.h" />

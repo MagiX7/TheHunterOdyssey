@@ -6,6 +6,13 @@ enum class ItemType
 {
 	NONE = 0,
 	POTION,
+	ULTRA_POTION,
+	ETER,
+	ULTRA_ETER,
+	OMNI_POTION,
+	FAIRY_TEAR,
+	FAIRY_WING,
+	FAIRY_BOTTLE
 };
 
 class Item : public Entity

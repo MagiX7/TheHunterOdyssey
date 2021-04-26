@@ -14,14 +14,14 @@ Potion::~Potion()
 
 bool Potion::Load()
 {
-	texture = app->tex->Load("Assets/Textures/Items/elixir_of_gods.png");
+	texture = app->tex->Load("Assets/Textures/Items/potion.png");
 
 	return true;
 }
 
 bool Potion::Update(float dt)
 {
-	return false;
+	return true;
 }
 
 void Potion::Draw(bool showColliders, SDL_Rect bounds)
