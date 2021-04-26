@@ -178,7 +178,7 @@ void Hunter::HandleInput(float dt)
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_REPEAT || app->input->pad->l_y < -0.5)
 		{
 			generator->Restart();
-			generator->SetParameters({ 10,1 });
+			generator->SetParameters({ 13,1 });
 			generator->SetPosition({ bounds.x+(bounds.w /2),bounds.y+(bounds.h-5) });
 			generator->SetGoal({ bounds.x + (bounds.w / 2),bounds.y + 150 + (bounds.h - 5) });
 			bounds.y -= SPEED_Y * dt;
@@ -191,7 +191,7 @@ void Hunter::HandleInput(float dt)
 		else if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_REPEAT || app->input->pad->l_y > 0.5)
 		{
 			generator->Restart();
-			generator->SetParameters({ 10,1 });
+			generator->SetParameters({ 13,1 });
 			generator->SetPosition({ bounds.x + (bounds.w / 2),bounds.y + (bounds.h - 5) });
 			generator->SetGoal({ bounds.x + (bounds.w / 2),bounds.y - 150 + (bounds.h - 5) });
 			bounds.y += SPEED_Y * dt;

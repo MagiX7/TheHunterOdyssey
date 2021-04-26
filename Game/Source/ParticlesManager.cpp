@@ -1,7 +1,8 @@
 #include"ParticlesManager.h"
 
 ParticlesManager::ParticlesManager() {
-
+	
+	SDL_SetRenderDrawBlendMode(app->render->renderer, SDL_BLENDMODE_BLEND);
 }
 ParticlesManager::~ParticlesManager() {
 
@@ -30,6 +31,14 @@ bool ParticlesManager::PreUpdate(){
 		}
 	}
 	return true;
+}
+void ParticlesManager::SetAllParticlesDesactivated() {
+	for (ListItem<Generator*>* auxiliar = geneartorList.start; auxiliar != nullptr; auxiliar = auxiliar->next)
+	{
+		if (auxiliar->data->GetState() != GeneratorState::DISABLE) {
+			auxiliar->data->SetParticlesDesactivated();
+		}
+	}
 }
 void ParticlesManager::CleanUp() {
 	ListItem<Generator*>* auxiliar = geneartorList.start;

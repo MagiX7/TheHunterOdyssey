@@ -20,9 +20,10 @@ public:
 	void SetCurrentLive(float num);
 	Point<float> GetVelocity();
 	Point<float>* GetVelocityPointer();
-	float GetAngle();
+	int GetAngle();
 	Point<float> GetAceleration();
 	void SetAceleration(Point<float> Aceleration);
+	void SetRotation(int Rotation);
 	void SetVelocity(Point<float> Velocity);
 	void SumPosition(Point<float> sum);
 	void SumLive(float num);
@@ -35,7 +36,7 @@ private:
 	Point<float> position;
 	Point<float> aceleartion;
 	Point<float> velocity;
-	float rotation;
+	int rotation;
 	ParticleState state;
 	float maxLive;
 	float currentLive;

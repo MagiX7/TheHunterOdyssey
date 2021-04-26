@@ -2,9 +2,7 @@
 
 #include<time.h>
 #include<stdlib.h>
-#include "App.h"
-#include "Render.h"
-#include "Textures.h"
+
 
 Generator::Generator(ParticleType Type) {
 	srand(time(NULL));
@@ -32,6 +30,15 @@ Generator::Generator(ParticleType Type) {
 Generator::~Generator() {
 
 }
+void Generator::SetParticlesDesactivated() {
+	for (ListItem<Particle*>* auxiliar = particleList.start; auxiliar != nullptr; auxiliar = auxiliar->next)
+	{
+		if (auxiliar->data->GetState() != ParticleState::DESACTIVATED)
+		{
+				auxiliar->data->SetState(ParticleState::DESACTIVATED);
+		}
+	}
+}
 void Generator::Stop() {
 	state = GeneratorState::STOP;
 }
@@ -49,51 +56,6 @@ void Generator::SetParameters(Point<int> Rang) {
 	rang = Rang;
 }
 void Generator::Start() {
-	//state = GeneratorState::STARTING;
-	//float positionX;
-	//float positionY;
-	//float acelerationX;
-	//float acelerationY;
-	//ListItem<Particle*>* auxiliar = particleList.start;
-	//int a = 0;
-	//while (auxiliar != nullptr && a < 5)
-	//{
-	//	if (auxiliar->data->GetState() == ParticleState::DESACTIVATED) {
-	//		auxiliar->data->SetGoal(temporalGoal);
-
-
-	//		/*acelerationX = (rand() % 2) + 1;
-	//		acelerationY = (rand() % 2) + 1;*/
-	//		positionX = ((rand() % (rang.x * 2)) - rang.x) + temporalPosition.x;
-	//		positionY = ((rand() % (rang.y * 2)) - rang.y) + temporalPosition.y;
-
-	//		if (temporalGoal.x > temporalPosition.x) {
-	//			acelerationX = (rand() % 2) + 1;
-	//			//acelerationX = 0.2;
-	//			acelerationY = 0;
-	//		}else if (temporalGoal.x < temporalPosition.x) {
-	//			acelerationX = (rand() % 2) - 2;
-	//			//acelerationX = -0.2;
-	//			acelerationY = 0;
-	//		}else if (temporalGoal.y > temporalPosition.y) {
-	//			acelerationY = (rand() % 2) - 2;
-	//			//acelerationY = -0.2;
-	//			acelerationX = 0;
-	//		}else if (temporalGoal.y < temporalPosition.y) {
-	//			acelerationY = (rand() % 2) + 1;	
-	//			//acelerationY = 0.2;
-	//			acelerationX = 0;
-	//		}
-	//		auxiliar->data->SetMaxLive(1);
-	//		auxiliar->data->SetState(ParticleState::STARTING);
-	//		auxiliar->data->SetPosition({ positionX ,positionY });
-	//		auxiliar->data->SetAceleration({ acelerationX ,acelerationY });
-	//		auxiliar->data->SetVelocity({ 0,0 });
-	//		
-	//	}
-	//	auxiliar = auxiliar->next; 
-	//	a++;
-	//}
 }
 void Generator::CleanUp() {
 	ListItem<Particle*>* auxiliar1;
@@ -113,9 +75,7 @@ bool Generator::PreUpdate(){
 	{
 		if (auxiliar->data->GetState() != ParticleState::DESACTIVATED) 
 		{
-			auxiliar->data->SetAlpha(auxiliar->data->GetAlpha() - 1);
-			SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
-			SDL_SetTextureAlphaMod(texture, auxiliar->data->GetAlpha());
+			
 			
 			
 			if (auxiliar->data->GetState()==ParticleState::TOELIM || auxiliar->data->GetAlpha() <= 0 ||(IfHasFinished(auxiliar->data->GetPosition(), auxiliar->data->GetGoal())) || auxiliar->data->IsDead() ) {
@@ -139,8 +99,8 @@ bool Generator::PreUpdate(){
 			{
 				auxiliar->data->SetGoal(temporalGoal);
 
-				positionX = ((rand() % (rang.x * 2)) - rang.x) + temporalPosition.x;
-				positionY = ((rand() % (rang.y * 2)) - rang.y) + temporalPosition.y;
+				positionX = (rand() % (rang.x * 2)) - rang.x + temporalPosition.x;
+				positionY = (rand() % (rang.y * 2)) - rang.y + temporalPosition.y;
 				selection = (rand() % 2) + 1;
 				if (temporalGoal.x > temporalPosition.x) {
 					switch (selection)
@@ -212,6 +172,7 @@ bool Generator::PreUpdate(){
 				auxiliar->data->SetAceleration({ acelerationX ,acelerationY });
 				auxiliar->data->SetCurrentLive(0);
 				auxiliar->data->SetMaxLive((rand() % 10) + 3);
+				auxiliar->data->SetRotation((rand() % 38));
 				auxiliar->data->SetAlpha(255);
 				break;
 			}
@@ -276,8 +237,12 @@ bool Generator::PostUpdate(){
 	{
 		if (auxiliar->data->GetState() != ParticleState::DESACTIVATED)
 		{
-			SDL_Rect rect = {0,0,30,20};
-			app->render->DrawTexture(texture, auxiliar->data->GetPosition().x, auxiliar->data->GetPosition().y, NULL);
+			
+			auxiliar->data->SetAlpha(auxiliar->data->GetAlpha() - 1);
+			SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+			SDL_SetTextureAlphaMod(texture, auxiliar->data->GetAlpha());
+
+			app->render->DrawTexture(texture, auxiliar->data->GetPosition().x, auxiliar->data->GetPosition().y, NULL,1.0f, auxiliar->data->GetAngle());
 			auxiliar->data->SumLive(0.1);
 		}
 	}

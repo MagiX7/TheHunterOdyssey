@@ -3,6 +3,9 @@
 #include"Particle.h"
 #include"External/SDL_image/include/SDL_image.h"
 #include"List.h"
+#include "App.h"
+#include "Render.h"
+#include "Textures.h"
 #define pixelsToMeters(x) x/30
 #define metersToPixels(x) x*30
 enum class ParticleType {
@@ -27,6 +30,7 @@ public:
 	void SetGoal(Point<int> Goal);
 	void SetPosition(Point<int> Position);
 	void SetParameters(Point<int> Rang);
+	void SetParticlesDesactivated();
 	bool PreUpdate();
 	bool Update(float dt);
 	bool PostUpdate();

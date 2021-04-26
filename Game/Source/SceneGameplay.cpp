@@ -553,7 +553,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("house1.tmx", app->tex);
-
+						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
 					}
@@ -567,7 +567,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
-
+						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
 					}
@@ -580,7 +580,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("house2.tmx", app->tex);
-
+						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
 					}
@@ -594,7 +594,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
-
+						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
 					}
@@ -607,7 +607,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("house3.tmx", app->tex);
-
+						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
 					}
@@ -621,7 +621,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
-
+						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
 					}
@@ -634,7 +634,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("cave_house.tmx", app->tex);
-
+						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
 					}
@@ -648,7 +648,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
-
+						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
 					}
@@ -663,7 +663,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("pub.tmx", app->tex);
-						
+						particles->SetAllParticlesDesactivated();
 						pugi::xml_document animations;
 						pugi::xml_node anims;
 						pugi::xml_parse_result result = animations.load_file("animations.xml");
@@ -693,7 +693,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
-
+						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
 					}
@@ -706,7 +706,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("adventurer_house.tmx", app->tex);
-
+						particles->SetAllParticlesDesactivated();
 						pugi::xml_document animations;
 						pugi::xml_node anims;
 						pugi::xml_parse_result result = animations.load_file("animations.xml");
@@ -734,7 +734,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
-
+						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
 					}
@@ -747,7 +747,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("adventurer_house.tmx", app->tex);
-
+						particles->SetAllParticlesDesactivated();
 						pugi::xml_document animations;
 						pugi::xml_node anims;
 						pugi::xml_parse_result result = animations.load_file("animations.xml");
@@ -776,7 +776,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
-
+						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
 					}
@@ -789,7 +789,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("inn.tmx", app->tex);
-
+						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
 					}
@@ -803,7 +803,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
-
+						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
 					}
@@ -814,6 +814,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						iPoint position = { 615,480 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
+						particles->SetAllParticlesDesactivated();
 						map->CleanUp();
 						pugi::xml_document animations;
 						pugi::xml_node anims;
@@ -843,7 +844,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
-
+						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
 					}
@@ -856,7 +857,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("shop.tmx", app->tex);
-
+						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
 					}
@@ -870,7 +871,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
-
+						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
 					}
@@ -883,7 +884,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("shop2.tmx", app->tex);
-
+						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
 					}
@@ -897,7 +898,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
-
+						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
 					}
@@ -924,7 +925,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
-
+						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
 					}

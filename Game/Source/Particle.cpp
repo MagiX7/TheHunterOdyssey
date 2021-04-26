@@ -11,6 +11,9 @@ ParticleState Particle::GetState() {
 void Particle::Draw() {
 
 }
+void Particle::SetRotation(int Rotation) {
+	rotation = Rotation;
+}
 int Particle::GetAlpha() {
 	return alpha;
 }
@@ -75,6 +78,6 @@ void Particle::SetGoal(Point<int> goal)
 	Goal.x = goal.x;
 	Goal.y = goal.y;
 }
-float Particle::GetAngle() {
+int Particle::GetAngle() {
 	return rotation;
 }

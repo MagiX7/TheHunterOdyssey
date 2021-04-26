@@ -15,6 +15,7 @@ public:
 	void UpdateGeneratorGoal(Generator* generator,Point<int> Goal);
 	void UpdateGeneratorPosition(Generator* generator, Point<int> Goal);
 	void DeleteGenerator(Generator* generator);
+	void SetAllParticlesDesactivated();
 	void CleanUp();
 	bool PreUpdate();
 	bool Update(float dt);
