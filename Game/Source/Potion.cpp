@@ -4,7 +4,7 @@
 
 #include "Potion.h"
 
-Potion::Potion() : Item(ItemType::POTION)
+Potion::Potion(iPoint pos) : Item(ItemType::POTION, pos)
 {
 }
 
@@ -24,7 +24,7 @@ bool Potion::Update(float dt)
 	return true;
 }
 
-void Potion::Draw(bool showColliders, SDL_Rect bounds)
+void Potion::Draw(bool showColliders)
 {
 	app->render->DrawTexture(texture, bounds.x, bounds.y);
 }

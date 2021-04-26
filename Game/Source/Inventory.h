@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Menu.h"
+#include "Item.h"
 
 #include "GuiButton.h"
 
@@ -9,7 +10,7 @@
 
 class Input;
 class Player;
-class Item;
+class SDL_Texture;
 
 enum class InventoryState
 {
@@ -19,12 +20,13 @@ enum class InventoryState
 	WEAPONS
 };
 
-//struct InventorySlot
-//{
-//	SDL_Rect bounds;
-//	//Item* items[MAX_INVENTORY_SLOTS_ITEMS];
-//	eastl::list<Item*> items;
-//};
+struct InventorySlot
+{
+	SDL_Rect bounds;
+	//Item* items[MAX_INVENTORY_SLOTS_ITEMS];
+	int itemsAmount;
+	ItemType itemType;
+};
 
 class Inventory : public Menu
 {
@@ -39,6 +41,8 @@ public:
 	bool OnGuiMouseClickEvent(GuiControl* control) override;
 	void UpdatingButtons(Input* input) override;
 
+	void AddItem(ItemType type);
+
 public:
 	eastl::list<Player*> players;
 
@@ -48,9 +52,10 @@ public:
 
 
 private:
+	SDL_Texture* atlasTexture;
+
 	InventoryState state;
 
 	// There will be 32 slots
-	//InventorySlot slots[MAX_INVENTORY_SLOTS];
-	eastl::list<Item*> slots;
+	InventorySlot slots[MAX_INVENTORY_SLOTS];
 };

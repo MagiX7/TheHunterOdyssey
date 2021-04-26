@@ -4,7 +4,7 @@
 
 #include "FairyBottle.h"
 
-FairyBottle::FairyBottle() : Item(ItemType::FAIRY_BOTTLE)
+FairyBottle::FairyBottle(iPoint pos) : Item(ItemType::FAIRY_BOTTLE, pos)
 {
 }
 
@@ -24,7 +24,7 @@ bool FairyBottle::Update(float dt)
 	return true;
 }
 
-void FairyBottle::Draw(bool showColliders, SDL_Rect bounds)
+void FairyBottle::Draw(bool showColliders)
 {
 	app->render->DrawTexture(texture, bounds.x, bounds.y);
 }

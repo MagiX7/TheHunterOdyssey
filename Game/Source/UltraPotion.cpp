@@ -4,8 +4,9 @@
 
 #include "UltraPotion.h"
 
-UltraPotion::UltraPotion() : Item(ItemType::ULTRA_POTION)
+UltraPotion::UltraPotion(iPoint pos) : Item(ItemType::ULTRA_POTION, pos)
 {
+	
 }
 
 UltraPotion::~UltraPotion()
@@ -24,7 +25,7 @@ bool UltraPotion::Update(float dt)
 	return true;
 }
 
-void UltraPotion::Draw(bool showColliders, SDL_Rect bounds)
+void UltraPotion::Draw(bool showColliders)
 {
 	app->render->DrawTexture(texture, bounds.x, bounds.y);
 }

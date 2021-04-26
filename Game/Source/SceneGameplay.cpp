@@ -17,6 +17,8 @@
 #include "Bat.h"
 #include "Skull.h"
 
+#include "UltraPotion.h"
+
 #include "Npc.h"
 #include "Map.h"
 #include "DialogueManager.h"
@@ -95,7 +97,9 @@ SceneGameplay::SceneGameplay()
 	position = { 500,350 };
 	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 1);
 
+	ultraPotion = new UltraPotion(iPoint(200,250)); 
 	
+
 	//Create Enemies
 
 	/*Enemy* skull = nullptr;
@@ -159,8 +163,9 @@ bool SceneGameplay::Load()
 
 	inventory->Load(font);
 
-	sceneBattle = nullptr;
+	ultraPotion->Load();
 
+	sceneBattle = nullptr;
 
 	SDL_ShowCursor(SDL_ENABLE);
 
@@ -203,6 +208,7 @@ bool SceneGameplay::Update(float dt)
 							break;
 						}
 					}
+					if (ultraPotion != nullptr) ultraPotion->Update(dt);
 				}
 				if (showColliders == false && CollisionMapEntity(currentPlayer->bounds,currentPlayer->type) == true) 
 					currentPlayer->bounds = tmpBounds;
@@ -212,6 +218,12 @@ bool SceneGameplay::Update(float dt)
 				entityManager->Update(dt);
 				entityManager->CheckEntityColision(this);
 				CheckDialogue();
+
+				if (ultraPotion != nullptr && CheckCollision(currentPlayer->bounds, ultraPotion->bounds))
+				{
+					inventory->AddItem(ultraPotion->GetItemType());
+					RELEASE(ultraPotion);
+				}
 			}
 			else
 			{
@@ -224,12 +236,12 @@ bool SceneGameplay::Update(float dt)
 
 		case GameplayMenuState::INVENTORY:
 			inventory->Update(dt);
+			HandleInput(dt);
 			break;
 
 		case GameplayMenuState::PAUSE:
 			ret = pause->Update(dt);
 			break;
-
 		}
 		break;
 	case GameplayState::BATTLE:
@@ -262,6 +274,8 @@ void SceneGameplay::Draw()
 			{
 				(*enemies)->Draw(showColliders);
 			}
+
+			if (ultraPotion != nullptr) ultraPotion->Draw(showColliders);
 		}
 
 		if (dialogueManager->isDialogueActive)
@@ -498,7 +512,14 @@ void SceneGameplay::HandleInput(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
 	{
-		menuState = GameplayMenuState::INVENTORY;
+		if (menuState == GameplayMenuState::INVENTORY)
+		{
+			menuState = GameplayMenuState::NONE;
+		}
+		else
+		{
+			menuState = GameplayMenuState::INVENTORY;
+		}
 	}
 }
 

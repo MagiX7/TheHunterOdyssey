@@ -4,7 +4,7 @@
 
 #include "FairyWing.h"
 
-FairyWing::FairyWing() : Item(ItemType::FAIRY_WING)
+FairyWing::FairyWing(iPoint pos) : Item(ItemType::FAIRY_WING, pos)
 {
 }
 
@@ -24,7 +24,7 @@ bool FairyWing::Update(float dt)
 	return true;
 }
 
-void FairyWing::Draw(bool showColliders, SDL_Rect bounds)
+void FairyWing::Draw(bool showColliders)
 {
 	app->render->DrawTexture(texture, bounds.x, bounds.y);
 }

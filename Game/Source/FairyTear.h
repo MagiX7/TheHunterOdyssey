@@ -5,12 +5,12 @@
 class FairyTear : public Item
 {
 public:
-	FairyTear();
+	FairyTear(iPoint pos);
 	virtual ~FairyTear();
 
 	bool Load() override;
 	bool Update(float dt) override;
-	void Draw(bool showColliders, SDL_Rect bounds);
+	void Draw(bool showColliders);
 	bool UnLoad() override;
 
 public:

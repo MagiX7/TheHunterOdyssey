@@ -5,12 +5,12 @@
 class UltraPotion : public Item
 {
 public:
-	UltraPotion();
+	UltraPotion(iPoint pos);
 	virtual ~UltraPotion();
 
 	bool Load() override;
 	bool Update(float dt) override;
-	void Draw(bool showColliders, SDL_Rect bounds);
+	void Draw(bool showColliders);
 	bool UnLoad() override;
 
 public:

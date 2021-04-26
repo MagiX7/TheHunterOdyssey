@@ -5,12 +5,12 @@
 class FairyBottle : public Item
 {
 public:
-	FairyBottle();
+	FairyBottle(iPoint pos);
 	virtual ~FairyBottle();
 
 	bool Load() override;
 	bool Update(float dt) override;
-	void Draw(bool showColliders, SDL_Rect bounds);
+	void Draw(bool showColliders);
 	bool UnLoad() override;
 
 public:

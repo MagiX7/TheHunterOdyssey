@@ -4,7 +4,7 @@
 
 #include "FairyTear.h"
 
-FairyTear::FairyTear() : Item(ItemType::FAIRY_TEAR)
+FairyTear::FairyTear(iPoint pos) : Item(ItemType::FAIRY_TEAR, pos)
 {
 }
 
@@ -24,7 +24,7 @@ bool FairyTear::Update(float dt)
 	return true;
 }
 
-void FairyTear::Draw(bool showColliders, SDL_Rect bounds)
+void FairyTear::Draw(bool showColliders)
 {
 	app->render->DrawTexture(texture, bounds.x, bounds.y);
 }

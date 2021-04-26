@@ -4,7 +4,7 @@
 
 #include "OmniPotion.h"
 
-OmniPotion::OmniPotion() : Item(ItemType::OMNI_POTION)
+OmniPotion::OmniPotion(iPoint pos) : Item(ItemType::OMNI_POTION, pos)
 {
 }
 
@@ -24,7 +24,7 @@ bool OmniPotion::Update(float dt)
 	return true;
 }
 
-void OmniPotion::Draw(bool showColliders, SDL_Rect bounds)
+void OmniPotion::Draw(bool showColliders)
 {
 	app->render->DrawTexture(texture, bounds.x, bounds.y);
 }

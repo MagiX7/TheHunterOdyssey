@@ -18,12 +18,24 @@ enum class ItemType
 class Item : public Entity
 {
 public:
-	Item(ItemType type, EntityType entType = EntityType::ITEM) : Entity(entType) {}
+	Item(ItemType type, iPoint pos, EntityType entType = EntityType::ITEM) : Entity(entType), iType(type)
+	{
+		bounds.x = pos.x;
+		bounds.y = pos.y;
+		bounds.w = 32;
+		bounds.h = 32;
+	}
+
 	virtual ~Item() {}
 
 	//virtual bool Load() override { return true; }
 	//virtual bool Update(float dt) override;
-	virtual void Draw(bool showColliders, SDL_Rect bounds) {}
+	virtual void Draw(bool showColliders) {}
 	//virtual bool UnLoad() override;
 
+	inline ItemType GetItemType() const { return iType; }
+
+
+private:
+	ItemType iType;
 };

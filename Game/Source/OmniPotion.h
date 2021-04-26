@@ -5,12 +5,12 @@
 class OmniPotion : public Item
 {
 public:
-	OmniPotion();
+	OmniPotion(iPoint pos);
 	virtual ~OmniPotion();
 
 	bool Load() override;
 	bool Update(float dt) override;
-	void Draw(bool showColliders, SDL_Rect bounds);
+	void Draw(bool showColliders);
 	bool UnLoad() override;
 
 public:

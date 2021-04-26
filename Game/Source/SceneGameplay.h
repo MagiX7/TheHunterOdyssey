@@ -2,9 +2,10 @@
 #define __SCENEGAMEPLAY_H__
 
 #include "Scene.h"
-#include "EASTL/list.h"
-#include "Font.h"
 #include "Point.h"
+#include "Font.h"
+
+#include "EASTL/list.h"
 
 class Player;
 class Enemy;
@@ -15,6 +16,7 @@ class Map;
 class DialogueManager;
 class PauseMenu;
 class Render;
+class Item;
 class Inventory;
 
 enum class PlayerType;
@@ -101,6 +103,9 @@ private:
 
 	// Inventory
 	Inventory* inventory;
+
+	// Items
+	Item* ultraPotion;
 
 	iPoint tmpPosPlayer;
 

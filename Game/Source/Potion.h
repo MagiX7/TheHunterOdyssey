@@ -5,12 +5,12 @@
 class Potion : public Item
 {
 public:
-	Potion();
+	Potion(iPoint pos);
 	virtual ~Potion();
 
 	bool Load() override;
 	bool Update(float dt) override;
-	void Draw(bool showColliders, SDL_Rect bounds);
+	void Draw(bool showColliders);
 	bool UnLoad() override;
 
 public:

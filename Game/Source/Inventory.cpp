@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Textures.h"
 #include "Render.h"
 
 #include "Inventory.h"
@@ -17,6 +18,8 @@ Inventory::~Inventory()
 
 bool Inventory::Load(Font* font)
 {
+	atlasTexture = app->tex->Load("Assets/Textures/Items/items_atlas.png");
+
 	btnEquipment = new GuiButton(1, { 182,100,260,50 }, "Equipment", this, font);
 	btnItems = new GuiButton(2, { 182,160,260,50 }, "Items", this, font);
 	btnWeapons = new GuiButton(3, { 182,220,260,50 }, "Weapons", this, font);
@@ -29,19 +32,17 @@ bool Inventory::Load(Font* font)
 	int offsetX = 0;
 	int offsetY = 0;
 
-	//for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
-	//{
-	//	slots[i].bounds = { 466 + offsetX,369 + offsetY,40,40 };
-	//	for (int j = 0; j < MAX_INVENTORY_SLOTS_ITEMS; ++j)
-	//		slots[i].items[j] = nullptr;
+	for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
+	{
+		slots[i].bounds = { 466 + offsetX,369 + offsetY,40,40 };
 
-	//	offsetX += slots[i].bounds.w + 7;
-	//	if (i == 7 || i == 15 || i == 23)
-	//	{
-	//		offsetY += slots[i].bounds.h + 7;
-	//		offsetX = 0;
-	//	}
-	//}
+		offsetX += slots[i].bounds.w + 7;
+		if (i == 7 || i == 15 || i == 23)
+		{
+			offsetY += slots[i].bounds.h + 7;
+			offsetX = 0;
+		}
+	}
 
 	//eastl::list<InventorySlot*>::iterator it = slots.begin();
 
@@ -132,18 +133,23 @@ void Inventory::Draw(Font* font, bool showColliders)
 	r = { 450, 100, 400, 250 };
 	app->render->DrawCenterText(font, "Pj image", r, 40, 5, { 0,0,0,255 });
 
-
-
-	//for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
-	//{
-	//	for (int j = 0; j < MAX_INVENTORY_SLOTS_ITEMS; ++j)
-	//	{
-	//		slots[i].items[j]->Draw(showColliders, slots[i].bounds);
-
-	//	}
-	//	app->render->DrawRectangle(slots[i].bounds, 255, 0, 0);
-	//}
-
+	for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
+	{
+		SDL_Rect textureRect = { 228,290,26,28 };
+		std::string iQuantity = std::to_string(slots[i].itemsAmount);
+		switch (slots[i].itemType)
+		{
+		case ItemType::ULTRA_POTION:
+			app->render->DrawTexture(atlasTexture, slots[i].bounds.x, slots[i].bounds.y, &textureRect);
+			
+			app->render->DrawText(font, iQuantity.c_str(), (slots[i].bounds.x + slots[i].bounds.w) - 15 + 2, (slots[i].bounds.y + slots[i].bounds.h) - 25 + 2, 25, 2, { 0,0,0});
+			app->render->DrawText(font, iQuantity.c_str(), (slots[i].bounds.x + slots[i].bounds.w) - 15, slots[i].bounds.y + slots[i].bounds.h - 25, 25, 2, { 255,255,255 });
+			break;
+		default:
+			app->render->DrawRectangle(slots[i].bounds, 255, 0, 0);
+			break;
+		}
+	}
 
 
 	//btnEquipment->Draw(app->render, showColliders);
@@ -156,6 +162,8 @@ bool Inventory::UnLoad()
 	RELEASE(btnEquipment);
 	RELEASE(btnItems);
 	RELEASE(btnWeapons);
+	app->tex->UnLoad(atlasTexture);
+	RELEASE(atlasTexture);
 
 	players.clear();
 
@@ -180,8 +188,22 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 
 void Inventory::UpdatingButtons(Input* input)
 {
+}
 
-
-
-
+void Inventory::AddItem(ItemType type)
+{
+	for (int i = 0; i < MAX_INVENTORY_SLOTS; i++)
+	{
+		if (slots[i].itemType == type)
+		{
+			slots[i].itemsAmount++;
+			break;
+		}
+		else
+		{
+			slots[i].itemType = type;
+			slots[i].itemsAmount = 1;
+			break;
+		}
+	}
 }
