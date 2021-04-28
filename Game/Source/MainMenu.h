@@ -66,4 +66,6 @@ private:
 	Easing* easingUp;
 	Easing* easingDown;
 	float titlePosition;
+
+	bool playMusicOptions;
 };

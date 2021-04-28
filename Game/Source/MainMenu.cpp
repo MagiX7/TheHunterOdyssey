@@ -30,6 +30,8 @@ MainMenu::MainMenu(SceneTitle* s)
 	easingDown->easingsActivated = false;
 
 	titlePosition = 588;
+
+	playMusicOptions = true;
 }
 
 MainMenu::~MainMenu()
@@ -147,6 +149,12 @@ bool MainMenu::Update(float dt)
 	break;
 	case MenuState::NORMAL:
 	{
+		if (playMusicOptions == false)
+		{
+			app->audio->PlayMusic("Assets/Audio/Music/intro_theme.ogg");
+			playMusicOptions = true;
+		}
+
 		btnNewGame->Update(app->input, dt, id);
 		btnContinue->Update(app->input, dt, id);
 		btnOptions->Update(app->input, dt, id);
@@ -179,6 +187,11 @@ bool MainMenu::Update(float dt)
 	break;
 	case MenuState::OPTIONS:
 	{
+		if (playMusicOptions == true)
+		{
+			app->audio->PlayMusic("Assets/Audio/Music/options_theme.ogg");
+			playMusicOptions = false;
+		}
 		btnOptionsBack->Update(app->input, dt, id);
 
 		checkFullscreen->Update(app->input, dt);

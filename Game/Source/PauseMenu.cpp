@@ -8,6 +8,7 @@
 
 PauseMenu::PauseMenu(SceneGameplay* s) : scene(s)
 {
+	playMusicOptions = true;
 }
 
 PauseMenu::~PauseMenu()
@@ -128,6 +129,13 @@ bool PauseMenu::Update(float dt)
 	switch (state)
 	{
 	case PauseState::DEFAULT:
+
+		if (playMusicOptions == false)
+		{
+			app->audio->PlayMusic("Assets/Audio/Music/village_theme_1.ogg");
+			playMusicOptions = true;
+		}
+
 		btnResume->Update(app->input, dt, id);
 		btnLoadSave->Update(app->input, dt, id);
 		btnOptions->Update(app->input, dt, id);
@@ -136,6 +144,13 @@ bool PauseMenu::Update(float dt)
 
 		break;
 	case PauseState::OPTIONS:
+
+		if (playMusicOptions == true)
+		{
+			app->audio->PlayMusic("Assets/Audio/Music/options_theme.ogg");
+			playMusicOptions = false;
+		}
+
 		btnOptionsBack->Update(app->input, dt, id);
 
 		slideMusicVolume->Update(app->input, dt);

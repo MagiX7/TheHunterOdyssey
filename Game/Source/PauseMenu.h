@@ -59,4 +59,6 @@ private:
 	GuiCheckBox* checkFullscreen;
 	GuiCheckBox* checkVSync;
 	GuiButton* btnOptionsBack;
+
+	bool playMusicOptions;
 };
