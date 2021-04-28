@@ -68,6 +68,7 @@ bool Inventory::Load(Font* font)
 		}
 	}
 	slots->itemsAmount = 0;
+	slots->filled = false;
 
 	return true;
 }
@@ -154,17 +155,17 @@ void Inventory::Draw(Font* font, bool showColliders)
 	btnWeapons->Draw(app->render, showColliders);
 
 	// Big rectangle in the background
-	app->render->DrawRectangle({ 0 - app->render->camera.x,0 - app->render->camera.y,1280,720 }, 0, 0, 0, 150);
+	app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 150, true, false);
 
 	// Shape of the inventory
-	app->render->DrawRectangle({ 442 - app->render->camera.x, 100 - app->render->camera.y, 415, 500 }, 205, 205, 205, 200);
+	app->render->DrawRectangle({ 442, 100, 415, 500 }, 205, 205, 205, 200, true, false);
 
 	// Shape of the current elements and the slots
-	app->render->DrawRectangle({ 480 - app->render->camera.x, 350 - app->render->camera.y, 340, 220 }, 225, 225, 225, 200);
+	app->render->DrawRectangle({ 480, 350, 340, 220 }, 225, 225, 225, 200, true, false);
 
 	// Shape where the stats should go
-	SDL_Rect r = { 850 - app->render->camera.x, 100 - app->render->camera.y, 230, 500 };
-	app->render->DrawRectangle(r, 240, 240, 240);
+	SDL_Rect r = { 850, 100, 230, 500 };
+	app->render->DrawRectangle(r, 240, 240, 240, 255, true, false);
 	r.h = 100;
 	app->render->DrawCenterText(font, "HUNTER", r, 30, 5, { 0,0,0,255 });
 	r.h = 300;
@@ -173,8 +174,6 @@ void Inventory::Draw(Font* font, bool showColliders)
 	app->render->DrawCenterText(font, "THIEF", r, 30, 5, { 0,0,0,255 });
 	r.h = 700;
 	app->render->DrawCenterText(font, "WARRIOR", r, 30, 5, { 0,0,0,255 });
-
-
 
 	// Equipment button
 	/*SDL_Rect r = btnEquipment->bounds;
@@ -215,19 +214,29 @@ void Inventory::Draw(Font* font, bool showColliders)
 	int id = 0;
 	for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
 	{
-		r = slots[i].bounds;
-		r.x -= app->render->camera.x;
-		r.y -= app->render->camera.y;
-		app->render->DrawRectangle(r, 255, 0, 0);
+		r = { 163, 715, 40, 40};
+		app->render->DrawTexture(atlasTexture, slots[i].bounds.x, slots[i].bounds.y, &r, false);
 
 		if (slots[i].itemsAmount > 0)
 		{
-			SDL_Rect textureRect = { 228,290,26,28 };
+			SDL_Rect textureRect = { 226,289,32,32 };
 			std::string iQuantity = std::to_string(slots[i].itemsAmount);
-			switch (slots[i].item.iType)
+
+			app->render->DrawTexture(atlasTexture, slots[i].bounds.x + 4, slots[i].bounds.y + 4, &slots[i].item.atlasSection, false);
+
+			app->render->DrawText(font, iQuantity.c_str(), (slots[i].bounds.x + slots[i].bounds.w) - 13, (slots[i].bounds.y + slots[i].bounds.h) - 25 + 2, 25, 2, { 0,0,0 });
+			app->render->DrawText(font, iQuantity.c_str(), (slots[i].bounds.x + slots[i].bounds.w) - 15, slots[i].bounds.y + slots[i].bounds.h - 25, 25, 2, { 255,255,255 });
+	/*		switch (slots[i].item.iType)
 			{
 			case ItemType::ULTRA_POTION:
-				app->render->DrawTexture(atlasTexture, slots[i].bounds.x - app->render->camera.x + 6, slots[i].bounds.y - app->render->camera.y + 6, &textureRect);
+				app->render->DrawTexture(atlasTexture, slots[i].bounds.x + 4, slots[i].bounds.y + 4, &textureRect, false);
+
+				app->render->DrawText(font, iQuantity.c_str(), (slots[i].bounds.x + slots[i].bounds.w) - 13, (slots[i].bounds.y + slots[i].bounds.h) - 25 + 2, 25, 2, { 0,0,0 });
+				app->render->DrawText(font, iQuantity.c_str(), (slots[i].bounds.x + slots[i].bounds.w) - 15, slots[i].bounds.y + slots[i].bounds.h - 25, 25, 2, { 255,255,255 });
+
+				break;
+			case ItemType::POTION:
+				app->render->DrawTexture(atlasTexture, slots[i].bounds.x, slots[i].bounds.y, &textureRect, false);
 
 				app->render->DrawText(font, iQuantity.c_str(), (slots[i].bounds.x + slots[i].bounds.w) - 13, (slots[i].bounds.y + slots[i].bounds.h) - 25 + 2, 25, 2, { 0,0,0 });
 				app->render->DrawText(font, iQuantity.c_str(), (slots[i].bounds.x + slots[i].bounds.w) - 15, slots[i].bounds.y + slots[i].bounds.h - 25, 25, 2, { 255,255,255 });
@@ -236,7 +245,7 @@ void Inventory::Draw(Font* font, bool showColliders)
 			default:
 
 				break;
-			}
+			}*/
 		}
 	}
 
@@ -245,7 +254,7 @@ void Inventory::Draw(Font* font, bool showColliders)
 	{
 		tmpBounds = slots[id].bounds;
 		SDL_Rect r = { tmpBounds.x, tmpBounds.y, 128, 95 };
-		app->render->DrawRectangle(r, 0, 0, 0);
+		app->render->DrawRectangle(r, 0, 0, 0, 255, true, false);
 
 		btnHunter->bounds.x = tmpBounds.x + 20;
 		btnHunter->bounds.y = tmpBounds.y + 5;
@@ -357,9 +366,10 @@ void Inventory::AddItem(Item it)
 			slots[i].itemsAmount++;
 			break;
 		}
-		else
+		else if (!slots[i].filled)
 		{
 			slots[i].item = it;
+			slots[i].filled = true;
 			slots[i].itemsAmount = 1;
 			break;
 		}
@@ -378,7 +388,7 @@ void Inventory::DisplayText(SDL_Rect bounds, bool showColliders)
 {
 	tmpBounds = bounds;
 	SDL_Rect r = { bounds.x, bounds.y, 128, 95 };
-	app->render->DrawRectangle(r, 0, 0, 0);
+	app->render->DrawRectangle(r, 0, 0, 0, 255, true, false);
 	
 	// Draw buttons
 	btnUse->bounds.x = bounds.x;

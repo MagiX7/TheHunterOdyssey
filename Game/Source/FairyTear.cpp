@@ -6,6 +6,7 @@
 
 FairyTear::FairyTear(iPoint pos) : Item(ItemType::FAIRY_TEAR, pos)
 {
+	atlasSection = { 96, 289, 32, 32 };
 }
 
 FairyTear::~FairyTear()

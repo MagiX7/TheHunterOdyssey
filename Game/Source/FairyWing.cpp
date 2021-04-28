@@ -6,6 +6,7 @@
 
 FairyWing::FairyWing(iPoint pos) : Item(ItemType::FAIRY_WING, pos)
 {
+	atlasSection = { 225, 289, 32, 32 };
 }
 
 FairyWing::~FairyWing()

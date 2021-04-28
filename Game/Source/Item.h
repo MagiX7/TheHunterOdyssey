@@ -45,4 +45,5 @@ public:
 
 public:
 	ItemType iType;
+	SDL_Rect atlasSection;
 };

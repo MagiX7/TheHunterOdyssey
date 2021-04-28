@@ -6,6 +6,7 @@
 
 FairyBottle::FairyBottle(iPoint pos) : Item(ItemType::FAIRY_BOTTLE, pos)
 {
+	atlasSection = { 353, 289, 32, 32 };
 }
 
 FairyBottle::~FairyBottle()

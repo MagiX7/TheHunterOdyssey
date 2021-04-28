@@ -12,6 +12,7 @@ UltraPotion::UltraPotion(iPoint pos) : Item(ItemType::ULTRA_POTION, pos)
 	bounds.y = pos.y - 5;
 	bounds.w = 40;
 	bounds.h = 40;*/
+	atlasSection = { 194, 289, 32, 32 };
 }
 
 UltraPotion::~UltraPotion()

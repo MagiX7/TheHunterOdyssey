@@ -18,6 +18,7 @@
 #include "Skull.h"
 
 #include "UltraPotion.h"
+#include "Potion.h"
 
 #include "Npc.h"
 #include "Map.h"
@@ -99,10 +100,11 @@ SceneGameplay::SceneGameplay()
 
 	ultraPotion = new UltraPotion(iPoint(200,250));
 	ultraPotion2 = new UltraPotion(iPoint(300,350));
-
+	Potion* p = new Potion(iPoint(250, 350));
+	
 	items.push_back(ultraPotion);
 	items.push_back(ultraPotion2);
-	
+	items.push_back(p);
 
 	//Create Enemies
 
@@ -173,11 +175,9 @@ bool SceneGameplay::Load()
 		(*item)->Load();
 	}
 
-
 	sceneBattle = nullptr;
 
 	SDL_ShowCursor(SDL_ENABLE);
-
 
 	return ret;
 }
@@ -306,14 +306,14 @@ void SceneGameplay::Draw()
 
 		if (dialogueManager->isDialogueActive)
 		{
-			app->render->DrawRectangle({ -(app->render->camera.x),-(app->render->camera.y),1280, 720 }, 0, 0, 0, 150);
+			app->render->DrawRectangle({ 0, 0,1280, 720 }, 0, 0, 0, 150, true, false);
 			dialogueManager->Draw();
 		}
 
 		switch (menuState)
 		{
 		case GameplayMenuState::CHARACTER_SWAP:
-			app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 150);
+			app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 150, true, false);
 			charManager->Draw(font, showColliders);
 			break;
 
@@ -343,7 +343,7 @@ void SceneGameplay::Draw()
 	}
 
 	if (transition) 
-		app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 255 * alpha);
+		app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 255 * alpha, true, false);
 }
 
 bool SceneGameplay::UnLoad()
@@ -381,7 +381,6 @@ bool SceneGameplay::UnLoad()
 
 	font->UnLoad(app->tex);
 	RELEASE(font);
-	
 
 	return ret;
 }

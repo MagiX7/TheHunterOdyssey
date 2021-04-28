@@ -6,6 +6,7 @@
 
 Potion::Potion(iPoint pos) : Item(ItemType::POTION, pos)
 {
+	atlasSection = { 64, 289, 32, 32};
 }
 
 Potion::~Potion()

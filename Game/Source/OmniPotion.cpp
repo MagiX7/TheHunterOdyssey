@@ -6,6 +6,7 @@
 
 OmniPotion::OmniPotion(iPoint pos) : Item(ItemType::OMNI_POTION, pos)
 {
+	atlasSection = { 325, 290, 24, 28 };
 }
 
 OmniPotion::~OmniPotion()

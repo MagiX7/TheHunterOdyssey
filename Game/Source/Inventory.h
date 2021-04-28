@@ -29,6 +29,7 @@ struct InventorySlot
 	//Item* items[MAX_INVENTORY_SLOTS_ITEMS];
 	Item item;
 	int itemsAmount;
+	bool filled;
 	//ItemType itemType;
 };
 

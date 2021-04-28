@@ -99,7 +99,7 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node 
 
 	switch (type)
 	{
-	case EntityType::HUNTER:
+	case EntityType::PLAYER:
 
 		//entity = new Hunter(pos);
 
@@ -114,14 +114,12 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node 
 		
 
 		//entity->scene = Scene;
-		entity->Load();
 		break;
 	case EntityType::TABERN:
 		if (id > -1)
 			entity = new Tabern(pos, anim, id);
 		
 		//entity->scene = Scene;
-		entity->Load();
 		break;
 	case EntityType::BAT:
 
@@ -143,7 +141,6 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node 
 			entity = new Town(pos, anim, id);
 
 		//entity->scene = Scene;
-		entity->Load();
 		break;
 	case EntityType::RAY:
 		if (id > -1)
@@ -151,7 +148,6 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node 
 
 		
 		//entity->scene = Scene;
-		entity->Load();
 		break;
 	case EntityType::WARRIOR:
 
