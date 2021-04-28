@@ -49,6 +49,7 @@ enum class EntityType
 class Entity
 {
 public:
+	Entity() {}
 	Entity(EntityType type) : type(type) {}
 
 	virtual ~Entity(){}

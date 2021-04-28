@@ -17,15 +17,19 @@ enum class InventoryState
 	NONE = 0,
 	EQUIPMENT,
 	ITEMS,
-	WEAPONS
+	WEAPONS,
+	ITEM_SELECTED,
+	USE_ITEM,
+	DELETE_ITEM,
 };
 
 struct InventorySlot
 {
 	SDL_Rect bounds;
 	//Item* items[MAX_INVENTORY_SLOTS_ITEMS];
+	Item item;
 	int itemsAmount;
-	ItemType itemType;
+	//ItemType itemType;
 };
 
 class Inventory : public Menu
@@ -41,7 +45,14 @@ public:
 	bool OnGuiMouseClickEvent(GuiControl* control) override;
 	void UpdatingButtons(Input* input) override;
 
-	void AddItem(ItemType type);
+	void AddItem(Item it);
+
+	bool IsMouseInside(SDL_Rect r);
+
+	void DisplayText(SDL_Rect bounds, bool showColliders);
+
+private:
+	Player* GetPlayer(PlayerType type);
 
 public:
 	eastl::list<Player*> players;
@@ -50,12 +61,29 @@ public:
 	GuiButton* btnItems;     // Potions etc
 	GuiButton* btnWeapons;   // Weapons
 
-
 private:
 	SDL_Texture* atlasTexture;
+	SDL_Texture* playersTexture;
 
 	InventoryState state;
 
 	// There will be 32 slots
 	InventorySlot slots[MAX_INVENTORY_SLOTS];
+	int currentSlotId;
+	Player* currentPlayer;
+
+	//bool displayText;
+
+	// Display Text buttons to select with player uses the item
+	GuiButton* btnHunter;
+	GuiButton* btnWizard;
+	GuiButton* btnThief;
+	GuiButton* btnWarrior;
+
+	GuiButton* btnUse;       // Use item
+	GuiButton* btnDelete;	 // Delete an item.
+
+
+	SDL_Rect tmpBounds;
+
 };

@@ -106,6 +106,9 @@ private:
 
 	// Items
 	Item* ultraPotion;
+	Item* ultraPotion2;
+
+	eastl::list<Item*> items;
 
 	iPoint tmpPosPlayer;
 

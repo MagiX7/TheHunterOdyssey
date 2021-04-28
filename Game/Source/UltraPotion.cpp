@@ -2,11 +2,16 @@
 #include "Textures.h"
 #include "Render.h"
 
+#include "Player.h"
+
 #include "UltraPotion.h"
 
 UltraPotion::UltraPotion(iPoint pos) : Item(ItemType::ULTRA_POTION, pos)
 {
-	
+	/*bounds.x = pos.x - 5;
+	bounds.y = pos.y - 5;
+	bounds.w = 40;
+	bounds.h = 40;*/
 }
 
 UltraPotion::~UltraPotion()
@@ -28,6 +33,10 @@ bool UltraPotion::Update(float dt)
 void UltraPotion::Draw(bool showColliders)
 {
 	app->render->DrawTexture(texture, bounds.x, bounds.y);
+	if (showColliders)
+	{
+		app->render->DrawRectangle(bounds, 255, 0, 0);
+	}
 }
 
 bool UltraPotion::UnLoad()
@@ -35,4 +44,9 @@ bool UltraPotion::UnLoad()
 	app->tex->UnLoad(texture);
 
 	return false;
+}
+
+void UltraPotion::UseItem(Player* player)
+{
+	player->GetHealed(1000);
 }

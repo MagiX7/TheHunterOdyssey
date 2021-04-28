@@ -18,6 +18,7 @@ enum class ItemType
 class Item : public Entity
 {
 public:
+	Item() {};
 	Item(ItemType type, iPoint pos, EntityType entType = EntityType::ITEM) : Entity(entType), iType(type)
 	{
 		bounds.x = pos.x;
@@ -33,9 +34,15 @@ public:
 	virtual void Draw(bool showColliders) {}
 	//virtual bool UnLoad() override;
 
+	virtual void UseItem(Player* player) {};
+
 	inline ItemType GetItemType() const { return iType; }
 
+	bool operator==(Item& it)
+	{
+		return this->iType == it.iType;
+	}
 
-private:
+public:
 	ItemType iType;
 };

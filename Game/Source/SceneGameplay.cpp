@@ -97,7 +97,11 @@ SceneGameplay::SceneGameplay()
 	position = { 500,350 };
 	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 1);
 
-	ultraPotion = new UltraPotion(iPoint(200,250)); 
+	ultraPotion = new UltraPotion(iPoint(200,250));
+	ultraPotion2 = new UltraPotion(iPoint(300,350));
+
+	items.push_back(ultraPotion);
+	items.push_back(ultraPotion2);
 	
 
 	//Create Enemies
@@ -163,7 +167,12 @@ bool SceneGameplay::Load()
 
 	inventory->Load(font);
 
-	ultraPotion->Load();
+	eastl::list<Item*>::iterator item = items.begin();
+	for (; item != items.end(); ++item)
+	{
+		(*item)->Load();
+	}
+
 
 	sceneBattle = nullptr;
 
@@ -208,7 +217,7 @@ bool SceneGameplay::Update(float dt)
 							break;
 						}
 					}
-					if (ultraPotion != nullptr) ultraPotion->Update(dt);
+					//if (ultraPotion != nullptr) ultraPotion->Update(dt);
 				}
 				if (showColliders == false && CollisionMapEntity(currentPlayer->bounds,currentPlayer->type) == true) 
 					currentPlayer->bounds = tmpBounds;
@@ -219,11 +228,22 @@ bool SceneGameplay::Update(float dt)
 				entityManager->CheckEntityColision(this);
 				CheckDialogue();
 
-				if (ultraPotion != nullptr && CheckCollision(currentPlayer->bounds, ultraPotion->bounds))
+				eastl::list<Item*>::iterator it = items.begin();
+				for (; it != items.end(); ++it)
 				{
-					inventory->AddItem(ultraPotion->GetItemType());
-					RELEASE(ultraPotion);
+					(*it)->Update(dt);
+					if (CheckCollision(currentPlayer->bounds, (*it)->bounds))
+					{
+						inventory->AddItem(*(*it));
+						items.erase(it);
+						RELEASE((*it));
+					}
 				}
+				//if (ultraPotion != nullptr && CheckCollision(currentPlayer->bounds, ultraPotion->bounds))
+				//{
+				//	inventory->AddItem(*ultraPotion/*->GetItemType()*/);
+				//	RELEASE(ultraPotion);
+				//}
 			}
 			else
 			{
@@ -275,7 +295,13 @@ void SceneGameplay::Draw()
 				(*enemies)->Draw(showColliders);
 			}
 
-			if (ultraPotion != nullptr) ultraPotion->Draw(showColliders);
+			//if (ultraPotion != nullptr) ultraPotion->Draw(showColliders);
+
+			eastl::list<Item*>::iterator it = items.begin();
+			for(; it != items.end(); ++it)
+			{
+				(*it)->Draw(showColliders);
+			}
 		}
 
 		if (dialogueManager->isDialogueActive)
@@ -508,7 +534,7 @@ void SceneGameplay::HandleInput(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN) menuState = GameplayMenuState::CHARACTER_SWAP;
 	
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_START) == KEY_DOWN) menuState = GameplayMenuState::PAUSE;
+	if (menuState != GameplayMenuState::INVENTORY && app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_START) == KEY_DOWN) menuState = GameplayMenuState::PAUSE;
 
 	if (app->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
 	{
