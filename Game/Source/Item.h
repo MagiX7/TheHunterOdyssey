@@ -19,7 +19,7 @@ class Item : public Entity
 {
 public:
 	Item() {};
-	Item(ItemType type, iPoint pos, EntityType entType = EntityType::ITEM) : Entity(entType), iType(type)
+	Item(ItemType type, iPoint pos, EntityType entType = EntityType::ITEM) : Entity(entType), iType(type), isDragging(false)
 	{
 		bounds.x = pos.x;
 		bounds.y = pos.y;
@@ -46,4 +46,6 @@ public:
 public:
 	ItemType iType;
 	SDL_Rect atlasSection;
+
+	bool isDragging; // For inventory
 };

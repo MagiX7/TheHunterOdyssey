@@ -30,7 +30,19 @@ struct InventorySlot
 	Item item;
 	int itemsAmount;
 	bool filled;
-	//ItemType itemType;
+	int id;
+
+	bool operator==(InventorySlot& i) const
+	{
+		return (i.bounds.x == bounds.x && i.bounds.y == bounds.y && i.bounds.w == bounds.w && i.bounds.h == bounds.h); /*&&
+			i.item.iType == item.iType && i.itemsAmount == itemsAmount && i.filled == filled);*/
+	}
+	bool operator!=(InventorySlot& i) const
+	{
+		return (i.bounds.x != bounds.x || i.bounds.y != bounds.y || i.bounds.w != bounds.w || i.bounds.h != bounds.h); /*&&
+			i.item.iType != item.iType && i.itemsAmount != itemsAmount && i.filled != filled);*/
+	}
+
 };
 
 class Inventory : public Menu
@@ -52,6 +64,8 @@ public:
 
 	void DisplayText(SDL_Rect bounds, bool showColliders);
 
+	void DragItem(Item& item);
+
 private:
 	Player* GetPlayer(PlayerType type);
 
@@ -71,9 +85,9 @@ private:
 	// There will be 32 slots
 	InventorySlot slots[MAX_INVENTORY_SLOTS];
 	int currentSlotId;
-	Player* currentPlayer;
+	InventorySlot originSlot;
 
-	//bool displayText;
+	Player* currentPlayer;
 
 	// Display Text buttons to select with player uses the item
 	GuiButton* btnHunter;
@@ -87,4 +101,6 @@ private:
 
 	SDL_Rect tmpBounds;
 
+	bool grabbed;
+	float toGrabCount;
 };
