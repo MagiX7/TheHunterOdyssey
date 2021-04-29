@@ -32,7 +32,7 @@ SceneLogo::SceneLogo()
 	easing1->easingsActivated = true;
 
 	easing2->easingsActivated = false;
-	easing2->deltaPos = -965;
+	easing2->deltaPos = -968;
 	easing2->initialPos = 1280;
 	easing2->totalIterations = 180;
 	easing2->currentIteration = 0;
