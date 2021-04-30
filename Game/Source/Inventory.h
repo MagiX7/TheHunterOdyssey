@@ -85,7 +85,7 @@ private:
 	// There will be 32 slots
 	InventorySlot slots[MAX_INVENTORY_SLOTS];
 	int currentSlotId;
-	InventorySlot originSlot;
+	InventorySlot* originSlot;
 
 	Player* currentPlayer;
 

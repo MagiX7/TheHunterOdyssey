@@ -26,7 +26,6 @@ EntityManager::~EntityManager()
 
 bool EntityManager::Load()
 {
-	LOG("Updating Entities");
 	bool ret = true;
 
 	// Update Logic
@@ -40,7 +39,7 @@ bool EntityManager::Load()
 
 bool EntityManager::Update(float dt)
 {
-	LOG("Updating Entities");
+	//LOG("Updating Entities");
 	bool ret = true;
 	
 	// Update Logic
