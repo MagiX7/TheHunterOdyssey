@@ -112,11 +112,11 @@ bool Inventory::Update(float dt)
 						state = InventoryState::ITEM_SELECTED;
 						break;
 					}
-					if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+					if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
 					{
 						//toGrabCount += dt;
 						//if (toGrabCount >= 0.2f)
-						if(slots[i].filled)
+						/*if(slots[i].filled)
 						{
 							originSlot = slots[i];
 							toGrabCount = 0;
@@ -125,62 +125,53 @@ bool Inventory::Update(float dt)
 							slots[i].filled = false;
 							currentSlotId = i;
 							break;
-						}
+						}*/
+						originSlot = slots[i];
+						slots[i].filled = false;
+						slots[i].item.isDragging = true;
+						grabbed = true;
+						break;
 					}
 				}
 			}
 		}
 		else
 		{
-			//if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
-			//{
-			//}
-			if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+			if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
 			{
 				for (int j = 0; j < MAX_INVENTORY_SLOTS; ++j)
 				{
 					if (IsMouseInside(slots[j].bounds))
 					{
-						/*slots[j].item = slots[currentSlotId].item;
-						slots[j].filled = true;
-						slots[j].itemsAmount = slots[currentSlotId].itemsAmount;
-						slots[j].item.isDragging = false;
-
-						slots[currentSlotId].item.isDragging = true;
-						slots[currentSlotId].filled = false;*/
-						if (slots[j] != originSlot)
+						/*if (slots[j].bounds.x == originSlot.bounds.x && slots[j].bounds.y == originSlot.bounds.y)
 						{
-							slots[j].item = originSlot.item;
-							slots[j].filled = true;
-							slots[j].itemsAmount = originSlot.itemsAmount;
-							slots[j].item.isDragging = false;
-							//slots[j] = originSlot;
-							
-							originSlot.filled = false;
-							slots[currentSlotId].item.isDragging = true;
-							slots[currentSlotId].filled = false;
-							grabbed = false;
-						}
-						break;
-					}
-					else
-					{
-						/*slots[currentSlotId] = originSlot;
-						grabbed = false;*/
 
-						slots[currentSlotId].item.bounds = slots[currentSlotId].bounds;
-						slots[currentSlotId].item.bounds.w = 32;
-						slots[currentSlotId].item.bounds.h = 32;
-						grabbed = false;
-						slots[currentSlotId].item.isDragging = false;
-						slots[currentSlotId].filled = true;
+						}
+						else
+						{*/
+							slots[j].item = originSlot.item;
+							slots[j].itemsAmount = originSlot.itemsAmount;
+							slots[j].filled = true;
+							slots[j].item.isDragging = false;
+							slots[j].item.bounds = slots[j].bounds;
+							//originSlot = slots[j];
+							/*slots[originSlot.id].filled = false;
+							slots[originSlot.id].itemsAmount = 0;
+							slots[originSlot.id].item.iType = ItemType::NONE;*/
+							grabbed = false;
+
+							break;
+						//}	
 					}
 				}
 			}
 		}
 		
-		if(grabbed) DragItem(slots[originSlot.id].item);
-		
+		if (grabbed)
+		{
+			DragItem(slots[originSlot.id].item);
+		}
+
 		break;
 
 	case InventoryState::WEAPONS:
@@ -263,6 +254,7 @@ void Inventory::Draw(Font* font, bool showColliders)
 
 		for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
 		{
+			if (showColliders) app->render->DrawRectangle(slots[i].item.bounds, 255, 0, 0);
 			r = { 163, 715, 40, 40 };
 			app->render->DrawTexture(atlasTexture, slots[i].bounds.x, slots[i].bounds.y, &r, false);
 
@@ -427,6 +419,7 @@ void Inventory::AddItem(Item it)
 			slots[i].itemsAmount = 1;
 			break;
 		}
+		slots[i].item.bounds = slots[i].bounds;
 	}
 }
 

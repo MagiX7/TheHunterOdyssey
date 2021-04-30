@@ -34,13 +34,13 @@ struct InventorySlot
 
 	bool operator==(InventorySlot& i) const
 	{
-		return (i.bounds.x == bounds.x && i.bounds.y == bounds.y && i.bounds.w == bounds.w && i.bounds.h == bounds.h); /*&&
-			i.item.iType == item.iType && i.itemsAmount == itemsAmount && i.filled == filled);*/
+		return (i.bounds.x == bounds.x && i.bounds.y == bounds.y && i.bounds.w == bounds.w && i.bounds.h == bounds.h &&
+			i.item.iType == item.iType && i.itemsAmount == itemsAmount && i.filled == filled);
 	}
 	bool operator!=(InventorySlot& i) const
 	{
-		return (i.bounds.x != bounds.x || i.bounds.y != bounds.y || i.bounds.w != bounds.w || i.bounds.h != bounds.h); /*&&
-			i.item.iType != item.iType && i.itemsAmount != itemsAmount && i.filled != filled);*/
+		return (i.bounds.x != bounds.x || i.bounds.y != bounds.y || i.bounds.w != bounds.w || i.bounds.h != bounds.h ||
+			i.item.iType != item.iType || i.itemsAmount != itemsAmount || i.filled != filled);
 	}
 
 };
