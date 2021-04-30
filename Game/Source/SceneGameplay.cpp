@@ -22,6 +22,8 @@
 #include "Map.h"
 #include "DialogueManager.h"
 
+#include "QuestManager.h"
+
 #include "CharacterManager.h"
 #include "PauseMenu.h"
 
@@ -82,7 +84,7 @@ SceneGameplay::SceneGameplay()
 	generalNpc=(Npc*)entityManager->CreateEntity(EntityType::TABERN, position,anims);*/
 
 	position = { 200,250 };
-	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position, anims, 0);
+	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position, anims, 7);
 
 	position = { 700,1060 };
 	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::RAY, position, anims, 3);
@@ -203,6 +205,8 @@ bool SceneGameplay::Update(float dt)
 				if (showColliders == false && CollisionMapEntity(currentPlayer->bounds,currentPlayer->type) == true) 
 					currentPlayer->bounds = tmpBounds;
 
+				QuestManager::GetInstance()->Update(currentPlayer);
+
 				CameraFollow(app->render);
 				/*npc->Update(dt);*/
 				entityManager->Update(dt);
@@ -260,6 +264,8 @@ void SceneGameplay::Draw()
 			app->render->DrawRectangle({ -(app->render->camera.x),-(app->render->camera.y),1280, 720 }, 0, 0, 0, 150);
 			dialogueManager->Draw();
 		}
+
+		QuestManager::GetInstance()->Draw();
 
 		if (menuState == GameplayMenuState::CHARACTER_SWAP)
 		{

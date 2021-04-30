@@ -90,7 +90,7 @@ private:
 
 	ParticlesManager* particles;
 
-	
+	float temp;
 
 	Map* map;
 

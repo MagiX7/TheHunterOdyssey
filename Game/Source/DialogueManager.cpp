@@ -4,6 +4,7 @@
 #include "Textures.h"
 
 #include "DialogueManager.h"
+#include "QuestManager.h"
 #include "Easings.h"
 
 #include "Log.h"
@@ -137,6 +138,8 @@ bool DialogueManager::Update(float dt)
 			{
 				NpcNode* aux = GetNodeById(current->currentNode->currentOption->nextNodeId);
 				/*current->currentNode=current->currentNode.*/
+				if (current->currentNode->currentOption->missionId != -1) QuestManager::GetInstance()->ActivateQuest(current->currentNode->currentOption->missionId);
+				
 				RELEASE(current->currentNode);
 				current->currentNode = aux;
 				current->currentNode->Reset();
@@ -231,6 +234,7 @@ NpcNode* DialogueManager::LoadNode(int id, pugi::xml_node node)
 		option->text = m.attribute("text").as_string();
 		option->id = m.attribute("id").as_int();
 		option->nextNodeId = m.attribute("nextNodeId").as_int();
+		option->missionId = m.attribute("missionId").as_int();
 		option->bounds.x = 710;
 		option->bounds.y = 215 + i;
 		//option->bounds.w = 400;

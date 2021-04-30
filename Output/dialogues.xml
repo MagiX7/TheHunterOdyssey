@@ -233,4 +233,28 @@
 			<npc_text text ="Press enter to back"/>
 		</node>
 	</npc>
+
+  <npc id ="7">
+    <node id="0">
+      <npc_text text="Do you want the mission?"/>
+      <option id="0" nextNodeId="-1" text="Yes." missionId="0"/>
+      <option id="1" nextNodeId="-1" text="No." missionId="-1"/>
+    </node>
+    <node id ="-1">
+      <!-- Keep this here to avoid crashes -->
+      <npc_text text ="Press enter to back"/>
+    </node>
+  </npc>
+
+  <npc id ="8">
+    <node id="0">
+      <npc_text text="Do you want to complete the mission?"/>
+      <option id="0" nextNodeId="-1" text="Yes." missionId="0"/>
+      <option id="1" nextNodeId="-1" text="No." missionId="-1"/>
+    </node>
+    <node id ="-1">
+      <!-- Keep this here to avoid crashes -->
+      <npc_text text ="Press enter to back"/>
+    </node>
+  </npc>
 </dialogues>

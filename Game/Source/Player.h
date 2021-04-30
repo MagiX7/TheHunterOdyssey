@@ -74,11 +74,11 @@ public:
 	inline int GetObjectSelected() const { return currentObjectSelected; }
 	inline bool GetDefend() const { return isDefending; }
 	inline eastl::string GetName() const { return name; }
+	inline int GetMovements() { return movements; }
 
 	// Setters
 	inline void SetAbilitySelected(int num) { currentAbilitySelected = num; }
 	inline void SetObjectSelected(int num) { currentObjectSelected = num; }
-
 protected:
 	virtual void HandleInput(float dt);
 	virtual void Travel(iPoint destination, float dt) {}
@@ -109,7 +109,7 @@ protected:
 	int currentAbilitySelected;
 	int currentObjectSelected;
 
-	
+	int movements;
 
 	//Animations
 	Animation idleDown;

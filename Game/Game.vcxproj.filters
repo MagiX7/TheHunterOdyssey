@@ -132,6 +132,7 @@
     <ClCompile Include="Source\Particle.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Source\QuestManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -312,6 +313,7 @@
     <ClInclude Include="Source\Particle.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Source\QuestManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
