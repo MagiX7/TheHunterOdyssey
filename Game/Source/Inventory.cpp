@@ -72,6 +72,7 @@ bool Inventory::Load(Font* font)
 	slots->itemsAmount = 0;
 	slots->filled = false;
 
+	state = InventoryState::EQUIPMENT;
 	grabbed = false;
 	toGrabCount = 0.0f;
 	currentSlotId = -1;
@@ -104,7 +105,7 @@ bool Inventory::Update(float dt)
 			{
 				if ((slots[i].itemsAmount > 0) && (IsMouseInside(slots[i].bounds)))
 				{
-					if (!grabbed && app->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_UP)
+					if (app->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_UP)
 					{
 						currentSlotId = i;
 						//originSlot = slots[i];
@@ -115,6 +116,7 @@ bool Inventory::Update(float dt)
 					{
 						//toGrabCount += dt;
 						//if (toGrabCount >= 0.2f)
+						if(slots[i].filled)
 						{
 							originSlot = slots[i];
 							toGrabCount = 0;
@@ -132,7 +134,6 @@ bool Inventory::Update(float dt)
 		{
 			//if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
 			//{
-				DragItem(slots[originSlot.id].item);
 			//}
 			if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 			{
@@ -237,71 +238,93 @@ void Inventory::Draw(Font* font, bool showColliders)
 	r.h = 700;
 	app->render->DrawCenterText(font, "WARRIOR", r, 30, 5, { 0,0,0,255 });
 
-
-	// Debug text
-	/*r = { 850 , 100, 230, 500 };
-	app->render->DrawCenterText(font, "Stats", r, 40, 5, { 0,0,0,255 });*/
-
 	r = { 480, 350, 340, 220 };
 	app->render->DrawCenterText(font, "Slots", r, 40, 5, { 0,0,0,255 });
 
 	r = { 450, 100, 400, 250 };
 	app->render->DrawCenterText(font, "Pj image", r, 40, 5, { 0,0,0,255 });
 
-	int id = -1;
+
 	std::string iQuantity;
-	for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
+	int id = -1;
+	switch (state)
 	{
-		r = { 163, 715, 40, 40};
-		app->render->DrawTexture(atlasTexture, slots[i].bounds.x, slots[i].bounds.y, &r, false);
-
-		if (slots[i].itemsAmount > 0)
+	case InventoryState::EQUIPMENT:
+		for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
 		{
-			SDL_Rect textureRect = { 226,289,32,32 };
-			iQuantity = std::to_string(slots[i].itemsAmount);
+			r = { 163, 715, 40, 40 };
+			app->render->DrawTexture(atlasTexture, slots[i].bounds.x, slots[i].bounds.y, &r, false);
 
-			if (slots[i].item.isDragging) id = i;
-			else
+			// Draw Equipment
+		}
+
+		break;
+	case InventoryState::ITEMS:
+
+		for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
+		{
+			r = { 163, 715, 40, 40 };
+			app->render->DrawTexture(atlasTexture, slots[i].bounds.x, slots[i].bounds.y, &r, false);
+
+			if (slots[i].itemsAmount > 0)
 			{
-				app->render->DrawTexture(atlasTexture, slots[i].bounds.x + 4, slots[i].bounds.y + 4, &slots[i].item.atlasSection, false);
+				SDL_Rect textureRect = { 226,289,32,32 };
+				iQuantity = std::to_string(slots[i].itemsAmount);
 
-				app->render->DrawText(font, iQuantity.c_str(), (slots[i].bounds.x + slots[i].bounds.w) - 13, (slots[i].bounds.y + slots[i].bounds.h) - 25 + 2, 25, 2, { 0,0,0 });
-				app->render->DrawText(font, iQuantity.c_str(), (slots[i].bounds.x + slots[i].bounds.w) - 15, slots[i].bounds.y + slots[i].bounds.h - 25, 25, 2, { 255,255,255 });
+				if (slots[i].item.isDragging) id = i;
+				else
+				{
+					app->render->DrawTexture(atlasTexture, slots[i].bounds.x + 4, slots[i].bounds.y + 4, &slots[i].item.atlasSection, false);
+
+					app->render->DrawText(font, iQuantity.c_str(), (slots[i].bounds.x + slots[i].bounds.w) - 13, (slots[i].bounds.y + slots[i].bounds.h) - 25 + 2, 25, 2, { 0,0,0 });
+					app->render->DrawText(font, iQuantity.c_str(), (slots[i].bounds.x + slots[i].bounds.w) - 15, slots[i].bounds.y + slots[i].bounds.h - 25, 25, 2, { 255,255,255 });
+				}
 			}
 		}
-	}
 
-	if (id >= 0 && grabbed)
-	{
-		iQuantity = std::to_string(slots[id].itemsAmount);
-		app->render->DrawTexture(atlasTexture, slots[id].item.bounds.x + 4, slots[id].item.bounds.y + 4, &slots[id].item.atlasSection, false);
-		app->render->DrawText(font, iQuantity.c_str(), (slots[id].item.bounds.x + slots[id].item.bounds.w) - 4, (slots[id].item.bounds.y + slots[id].item.bounds.h) - 16 + 2, 25, 2, { 0,0,0 });
-		app->render->DrawText(font, iQuantity.c_str(), (slots[id].item.bounds.x + slots[id].item.bounds.w) - 6, (slots[id].item.bounds.y + slots[id].item.bounds.h) - 16, 25, 2, { 255,255,255 });
-	}
+		if (id >= 0 && grabbed)
+		{
+			iQuantity = std::to_string(slots[id].itemsAmount);
+			app->render->DrawTexture(atlasTexture, slots[id].item.bounds.x + 4, slots[id].item.bounds.y + 4, &slots[id].item.atlasSection, false);
+			app->render->DrawText(font, iQuantity.c_str(), (slots[id].item.bounds.x + slots[id].item.bounds.w) - 4, (slots[id].item.bounds.y + slots[id].item.bounds.h) - 16 + 2, 25, 2, { 0,0,0 });
+			app->render->DrawText(font, iQuantity.c_str(), (slots[id].item.bounds.x + slots[id].item.bounds.w) - 6, (slots[id].item.bounds.y + slots[id].item.bounds.h) - 16, 25, 2, { 255,255,255 });
+		}
 
-	if (state == InventoryState::ITEM_SELECTED /*&& slots[currentSlotId].filled*/)
-		DisplayText(slots[currentSlotId].bounds, showColliders);
-	else if (state == InventoryState::USE_ITEM /*&& slots[currentSlotId].filled*/)
-	{
-		tmpBounds = slots[currentSlotId].bounds;
-		SDL_Rect r = { tmpBounds.x, tmpBounds.y, 128, 95 };
-		app->render->DrawRectangle(r, 0, 0, 0, 255, true, false);
+		if (state == InventoryState::ITEM_SELECTED /*&& slots[currentSlotId].filled*/)
+			DisplayText(slots[currentSlotId].bounds, showColliders);
+		else if (state == InventoryState::USE_ITEM /*&& slots[currentSlotId].filled*/)
+		{
+			tmpBounds = slots[currentSlotId].bounds;
+			SDL_Rect r = { tmpBounds.x, tmpBounds.y, 128, 95 };
+			app->render->DrawRectangle(r, 0, 0, 0, 255, true, false);
 
-		btnHunter->bounds.x = tmpBounds.x + 20;
-		btnHunter->bounds.y = tmpBounds.y + 5;
-		btnHunter->Draw(app->render, showColliders);
+			btnHunter->bounds.x = tmpBounds.x + 20;
+			btnHunter->bounds.y = tmpBounds.y + 5;
+			btnHunter->Draw(app->render, showColliders);
 
-		btnWizard->bounds.x = tmpBounds.x + 70;
-		btnWizard->bounds.y = tmpBounds.y + 5;
-		btnWizard->Draw(app->render, showColliders);
+			btnWizard->bounds.x = tmpBounds.x + 70;
+			btnWizard->bounds.y = tmpBounds.y + 5;
+			btnWizard->Draw(app->render, showColliders);
 
-		btnThief->bounds.x = tmpBounds.x + 20;
-		btnThief->bounds.y = btnWizard->bounds.y + btnWizard->bounds.h + 5;
-		btnThief->Draw(app->render, showColliders);
+			btnThief->bounds.x = tmpBounds.x + 20;
+			btnThief->bounds.y = btnWizard->bounds.y + btnWizard->bounds.h + 5;
+			btnThief->Draw(app->render, showColliders);
 
-		btnWarrior->bounds.x = tmpBounds.x + 70;
-		btnWarrior->bounds.y = btnWizard->bounds.y + btnWizard->bounds.h + 5;
-		btnWarrior->Draw(app->render, showColliders);
+			btnWarrior->bounds.x = tmpBounds.x + 70;
+			btnWarrior->bounds.y = btnWizard->bounds.y + btnWizard->bounds.h + 5;
+			btnWarrior->Draw(app->render, showColliders);
+		}
+		break;
+
+	case InventoryState::WEAPONS:
+		for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
+		{
+			r = { 163, 715, 40, 40 };
+			app->render->DrawTexture(atlasTexture, slots[i].bounds.x, slots[i].bounds.y, &r, false);
+
+			// Draw Weapons
+		}
+		break;
 	}
 }
 
