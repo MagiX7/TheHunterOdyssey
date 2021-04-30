@@ -1,6 +1,7 @@
 #include "App.h"
 #include "Render.h"
 #include "Player.h"
+#include "Audio.h"
 
 #include "QuestManager.h"
 
@@ -28,7 +29,6 @@ QuestManager::QuestManager()
 		{
 		case 1:
 			quest = new ItemQuest(node);
-			
 			break;
 		case 2:
 			quest = new MurderQuest(node);
@@ -39,6 +39,8 @@ QuestManager::QuestManager()
 
 		if (quest != nullptr) loadedQuests.push_back(quest);
 	}
+
+	completedQuestFx = app->audio->LoadFx("Assets/Audio/Fx/quest_completed.wav");
 }
 
 QuestManager::~QuestManager()
@@ -55,7 +57,6 @@ bool QuestManager::Update(Player* player)
 		switch ((*it)->id)
 		{
 		case 0:
-			if (player->GetMovements() == 10) CompleteQuest((*it)->id);
 			break;
 		case 1:
 			break;
@@ -85,6 +86,7 @@ bool QuestManager::CheckQuests(EntityType type, SString string)
 		{
 			activeQuests.erase(it);
 			finishedQuests.push_back(*it);
+			app->audio->PlayFx(completedQuestFx);
 		}
 	}
 
@@ -108,23 +110,23 @@ bool QuestManager::ActivateQuest(int id)
 	return true;
 }
 
-bool QuestManager::CompleteQuest(int id)
-{
-	eastl::list<Quest*>::iterator it = activeQuests.begin();
-	eastl::list<Quest*>::iterator itEnd = activeQuests.end();
-	for (; it != itEnd; ++it)
-	{
-		if ((*it)->id == id)
-		{
-			(*it)->isCompleted = true;
-			finishedQuests.push_back(*it);
-			activeQuests.erase(it);
-			break;
-		}
-	}
-
-	return true;
-}
+//bool QuestManager::CompleteQuest(int id)
+//{
+//	eastl::list<Quest*>::iterator it = activeQuests.begin();
+//	eastl::list<Quest*>::iterator itEnd = activeQuests.end();
+//	for (; it != itEnd; ++it)
+//	{
+//		if ((*it)->id == id)
+//		{
+//			(*it)->isCompleted = true;
+//			finishedQuests.push_back(*it);
+//			activeQuests.erase(it);
+//			break;
+//		}
+//	}
+//
+//	return true;
+//}
 
 bool QuestManager::Draw(Font* font)
 {

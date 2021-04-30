@@ -9,7 +9,8 @@
 enum class QuestType
 {
 	ITEM_QUEST = 0,
-	MURDER_QUEST
+	MURDER_QUEST,
+	VISIT_QUEST
 };
 
 enum class EntityType;

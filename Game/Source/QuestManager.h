@@ -23,7 +23,7 @@ public:
 
 	bool ActivateQuest(int id);
 
-	bool CompleteQuest(int id);
+	//bool CompleteQuest(int id);
 
 	bool Draw(Font* font);
 
@@ -39,4 +39,5 @@ private:
 	pugi::xml_document questFile;
 
 	int quest;
+	int completedQuestFx;
 };
