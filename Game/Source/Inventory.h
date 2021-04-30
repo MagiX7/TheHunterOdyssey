@@ -12,15 +12,21 @@ class Input;
 class Player;
 class SDL_Texture;
 
+enum class SlotState
+{
+	NONE = 0,
+	UNSELECTED,
+	SELECTED,
+	USE,
+	DELETE
+};
+
 enum class InventoryState
 {
 	NONE = 0,
 	EQUIPMENT,
 	ITEMS,
 	WEAPONS,
-	ITEM_SELECTED,
-	USE_ITEM,
-	DELETE_ITEM,
 };
 
 struct InventorySlot
@@ -31,6 +37,7 @@ struct InventorySlot
 	int itemsAmount;
 	bool filled;
 	int id;
+	SlotState state;
 
 	bool operator==(InventorySlot& i) const
 	{
