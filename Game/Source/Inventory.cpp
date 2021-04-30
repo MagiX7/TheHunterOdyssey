@@ -367,8 +367,12 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 			--slots[currentSlotId].itemsAmount;
 
 			if (slots[currentSlotId].itemsAmount > 0) slots[currentSlotId].state = SlotState::SELECTED;
-			else slots[currentSlotId].state = SlotState::UNSELECTED;
-
+			else
+			{
+				slots[currentSlotId].state = SlotState::UNSELECTED;
+				slots[currentSlotId].filled = false;
+				isTextDisplayed = false;
+			}
 			//currentSlotId = -1;
 		}
 		else if (control->id == 7)
@@ -379,7 +383,12 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 			--slots[currentSlotId].itemsAmount;
 
 			if (slots[currentSlotId].itemsAmount > 0) slots[currentSlotId].state = SlotState::SELECTED;
-			else slots[currentSlotId].state = SlotState::UNSELECTED;
+			else
+			{
+				slots[currentSlotId].state = SlotState::UNSELECTED;
+				slots[currentSlotId].filled = false;
+				isTextDisplayed = false;
+			}
 
 			//currentSlotId = -1;
 		}
@@ -391,7 +400,12 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 			--slots[currentSlotId].itemsAmount;
 
 			if (slots[currentSlotId].itemsAmount > 0) slots[currentSlotId].state = SlotState::SELECTED;
-			else slots[currentSlotId].state = SlotState::UNSELECTED;
+			else
+			{
+				slots[currentSlotId].state = SlotState::UNSELECTED;
+				slots[currentSlotId].filled = false;
+				isTextDisplayed = false;
+			}
 
 			//currentSlotId = -1;
 		}
@@ -403,7 +417,12 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 			--slots[currentSlotId].itemsAmount;
 
 			if (slots[currentSlotId].itemsAmount > 0) slots[currentSlotId].state = SlotState::SELECTED;
-			else slots[currentSlotId].state = SlotState::UNSELECTED;
+			else
+			{
+				slots[currentSlotId].state = SlotState::UNSELECTED;
+				slots[currentSlotId].filled = false;
+				isTextDisplayed = false;
+			}
 			
 			//currentSlotId = -1;
 		}
