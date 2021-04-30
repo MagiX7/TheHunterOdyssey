@@ -294,6 +294,7 @@ bool Map::CleanUp()
 bool Map::Load(const char* filename, Textures* tex)
 {
 	bool ret = true;
+	
 	name.Create(filename);
 
 	SString tmp("%s%s", folder.GetString(), filename);

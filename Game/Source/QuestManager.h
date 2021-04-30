@@ -1,23 +1,11 @@
 #pragma once
 
 #include "EASTL/list.h"
-#include "EASTL/string.h"
 #include "PugiXml/src/pugixml.hpp"
+#include "Quest.h"
 
 class Player;
-
-class Quest
-{
-public:
-	Quest();
-
-	virtual ~Quest();
-
-	int id;
-	eastl::string name;
-	int requiredId;
-	bool isCompleted;
-};
+enum class EntityType;
 
 class QuestManager
 {
@@ -31,13 +19,13 @@ public:
 
 	bool Update(Player* player);
 
+	bool CheckQuests(EntityType t, SString s = "");
+
 	bool ActivateQuest(int id);
 
 	bool CompleteQuest(int id);
 
-	inline int ActiveListSize() { return activeQuests.size(); }
-
-	bool Draw();
+	bool Draw(Font* font);
 
 private:
 	QuestManager();

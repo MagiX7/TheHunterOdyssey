@@ -201,11 +201,15 @@ bool SceneGameplay::Update(float dt)
 							break;
 						}
 					}
+
+					if (!transition && tmp != nullptr)
+					{
+						QuestManager::GetInstance()->CheckQuests(tmp->type);
+						tmp = nullptr;
+					}
 				}
 				if (showColliders == false && CollisionMapEntity(currentPlayer->bounds,currentPlayer->type) == true) 
 					currentPlayer->bounds = tmpBounds;
-
-				QuestManager::GetInstance()->Update(currentPlayer);
 
 				CameraFollow(app->render);
 				/*npc->Update(dt);*/
@@ -265,7 +269,7 @@ void SceneGameplay::Draw()
 			dialogueManager->Draw();
 		}
 
-		QuestManager::GetInstance()->Draw();
+		QuestManager::GetInstance()->Draw(font);
 
 		if (menuState == GameplayMenuState::CHARACTER_SWAP)
 		{
@@ -673,6 +677,8 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						pugi::xml_document animations;
 						pugi::xml_node anims;
 						pugi::xml_parse_result result = animations.load_file("animations.xml");
+
+						QuestManager::GetInstance()->CheckQuests(EntityType::MAP, map->name);
 
 						if (result == NULL)
 							LOG("Could not load xml file: %s. pugi error: %s", CONFIG_FILENAME, result.description());

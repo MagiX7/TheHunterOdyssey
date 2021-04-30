@@ -133,6 +133,9 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="Source\QuestManager.cpp" />
+    <ClCompile Include="Source\GetItemQuest.cpp" />
+    <ClCompile Include="Source\MurderQuest.cpp" />
+    <ClCompile Include="Source\VisitQuest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -314,6 +317,10 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="Source\QuestManager.h" />
+    <ClInclude Include="Source\Quest.h" />
+    <ClInclude Include="Source\GetItemQuest.h" />
+    <ClInclude Include="Source\MurderQuest.h" />
+    <ClInclude Include="Source\VisitQuest.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

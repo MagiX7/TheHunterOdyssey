@@ -4,13 +4,9 @@
 
 #include "QuestManager.h"
 
-Quest::Quest()
-{
-}
-
-Quest::~Quest()
-{
-}
+#include "GetItemQuest.h"
+#include "MurderQuest.h"
+#include "VisitQuest.h"
 
 QuestManager* QuestManager::instance = nullptr;
 
@@ -27,13 +23,21 @@ QuestManager::QuestManager()
 	pugi::xml_node node = questFile.child("quests").child("quest");
 	for (; node; node = node.next_sibling("quest"))
 	{
-		Quest* quest = new Quest();
-		quest->id = node.attribute("id").as_int();
-		quest->name = node.attribute("name").as_string();
-		quest->requiredId = node.attribute("requiredId").as_int();
-		quest->isCompleted = node.attribute("isCompleted").as_bool();
+		Quest* quest = nullptr;
+		switch (node.attribute("type").as_int())
+		{
+		case 1:
+			quest = new ItemQuest(node);
+			
+			break;
+		case 2:
+			quest = new MurderQuest(node);
+			break;
+		case 3:
+			quest = new VisitQuest(node);
+		}
 
-		loadedQuests.push_back(quest);
+		if (quest != nullptr) loadedQuests.push_back(quest);
 	}
 }
 
@@ -67,6 +71,23 @@ bool QuestManager::Update(Player* player)
 			break;
 		}
 	}
+	return true;
+}
+
+bool QuestManager::CheckQuests(EntityType type, SString string)
+{
+	eastl::list<Quest*>::iterator it = activeQuests.begin();
+	eastl::list<Quest*>::iterator itEnd = activeQuests.end();
+
+	for (; it != itEnd; ++it)
+	{
+		if ((*it)->Update(type, string) == true)
+		{
+			activeQuests.erase(it);
+			finishedQuests.push_back(*it);
+		}
+	}
+
 	return true;
 }
 
@@ -105,13 +126,14 @@ bool QuestManager::CompleteQuest(int id)
 	return true;
 }
 
-bool QuestManager::Draw()
+bool QuestManager::Draw(Font* font)
 {
 	eastl::list<Quest*>::iterator it = activeQuests.begin();
 	eastl::list<Quest*>::iterator itEnd = activeQuests.end();
 	for (; it != itEnd; ++it)
 	{
-		app->render->DrawRectangle({ 0,0,50,50 }, 0, 0, 0, 255);
+		app->render->DrawRectangle({ 0,0,200,50 }, 0, 0, 0, 255, true, false);
+		(*it)->Draw(font);
 	}
 
 	return true;
