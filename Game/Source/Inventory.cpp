@@ -316,6 +316,47 @@ void Inventory::Draw(Font* font, bool showColliders)
 		}
 		break;
 	}
+
+	// Stats drawing
+
+	
+	eastl::list<Player*>::iterator it = players.begin();
+
+	for (int i = 0; i < 4; ++i, ++it)
+	{
+		Player *pl = (*it);
+
+		// Color bars
+		// Black bar
+		SDL_Rect statsBar = { 225, 797, 196, 9 };
+		for (int j = 0; j < 3; ++j)
+		{
+			app->render->DrawTexture(atlasTexture, 868, 173 + (j * 14) + (i * 105), &statsBar);
+		}
+
+		int currHealth = (*it)->GetHealthPoints();
+		int maxHealth = (*it)->GetMaxHealthPoints();
+
+		if (currHealth < (maxHealth / 4))
+			statsBar = { 228, 750, (190 * currHealth) / maxHealth, 5 };
+		else if (currHealth < (maxHealth / 2))
+			statsBar = { 228, 737, (190 * currHealth) / maxHealth, 5 };
+		else
+			statsBar = { 228, 725, (190 * currHealth) / maxHealth, 5 };
+		
+		// Green Bar
+		app->render->DrawTexture(atlasTexture, 871, 175 + (i * 105), &statsBar);
+
+		// Blue Bar
+		statsBar = { 228, 764, (190 * pl->GetManaPoints()) / (pl->GetMaxManaPoints()), 5 };
+		app->render->DrawTexture(atlasTexture, 871, 189 + (i * 105), &statsBar);
+
+		// Yellow Bar
+		statsBar = { 228, 778, (190 * pl->GetArmorPoints()) / (pl->GetMaxArmorPoints()), 5 };
+		app->render->DrawTexture(atlasTexture, 871, 203 + (i * 105), &statsBar);
+	}
+	
+
 }
 
 bool Inventory::UnLoad()

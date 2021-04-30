@@ -13,7 +13,8 @@ Wizard::Wizard(iPoint position, pugi::xml_node anim) : Player(PlayerType::WIZARD
 	stance = PlayerStance::ROAMING;
 	healthPoints = 1000;
 	maxHealthPoints = healthPoints;
-	defense = 5;
+	armorPoints = 5;
+	maxArmorPoints = armorPoints;
 	manaPoints = 5000;
 	maxManaPoints = manaPoints;
 	meleeDamage = 10;
@@ -250,11 +251,11 @@ void Wizard::GetDamage(int dmg)
 {
 	if (isDefending == false)
 	{
-		healthPoints -= dmg * dmg / (dmg + defense);
+		healthPoints -= dmg * dmg / (dmg + armorPoints);
 	}
 	else
 	{
-		healthPoints -= (dmg * dmg / (dmg + defense)) * 0.75;
+		healthPoints -= (dmg * dmg / (dmg + armorPoints)) * 0.75;
 		isDefending = false;
 	}
 	damageTaken.Reset();

@@ -11,7 +11,8 @@ Warrior::Warrior(iPoint position, pugi::xml_node anim) : Player(PlayerType::WARR
 	stance = PlayerStance::ROAMING;
 	healthPoints = 3500;
 	maxHealthPoints = healthPoints;
-	defense = 20;
+	armorPoints = 20;
+	maxArmorPoints = armorPoints;
 	manaPoints = 500;
 	maxManaPoints = manaPoints;
 	meleeDamage = 100;
@@ -245,11 +246,11 @@ void Warrior::GetDamage(int dmg)
 {
 	if (isDefending == false)
 	{
-		healthPoints -= dmg * dmg / (dmg + defense);
+		healthPoints -= dmg * dmg / (dmg + armorPoints);
 	}
 	else
 	{
-		healthPoints -= (dmg * dmg / (dmg + defense)) * 0.01;
+		healthPoints -= (dmg * dmg / (dmg + armorPoints)) * 0.01;
 		isDefending = false;
 	}
 	damageTaken.Reset();
