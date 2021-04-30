@@ -110,4 +110,5 @@ private:
 
 	bool grabbed;
 	float toGrabCount;
+	bool isTextDisplayed;
 };

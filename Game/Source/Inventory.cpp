@@ -78,6 +78,7 @@ bool Inventory::Load(Font* font)
 	toGrabCount = 0.0f;
 	currentSlotId = -1;
 	originSlot = nullptr;
+	isTextDisplayed = false;
 
 	return true;
 }
@@ -110,16 +111,18 @@ bool Inventory::Update(float dt)
 					{
 						currentSlotId = i;
 						slots[i].state = SlotState::SELECTED;
+						isTextDisplayed = true;
 						break;
 					}
 					if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
 					{
-						if (slots[i].filled && slots[i].state == SlotState::UNSELECTED)
+						if (slots[i].filled && !isTextDisplayed)
 						{
 							originSlot = &slots[i];
 							slots[i].filled = false;
 							slots[i].item.isDragging = true;
 							grabbed = true;
+							slots[i].state = SlotState::NONE;
 							break;
 						}
 					}
@@ -140,6 +143,7 @@ bool Inventory::Update(float dt)
 						slots[j].item.isDragging = false;
 						slots[j].item.bounds = slots[j].bounds;
 						originSlot = nullptr;
+						slots[j].state = SlotState::UNSELECTED;
 
 						grabbed = false;
 
@@ -172,6 +176,7 @@ bool Inventory::Update(float dt)
 			if (!IsMouseInside(tmpBounds) && app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
 			{
 				slots[currentSlotId].state = SlotState::UNSELECTED;
+				isTextDisplayed = false;
 			}
 			btnUse->Update(app->input, dt, -1);
 			btnDelete->Update(app->input, dt, -1);
@@ -420,6 +425,7 @@ void Inventory::AddItem(Item it)
 		if (slots[i].item == it)
 		{
 			slots[i].itemsAmount++;
+			slots[i].state = SlotState::UNSELECTED;
 			break;
 		}
 		else if (!slots[i].filled)
@@ -427,6 +433,7 @@ void Inventory::AddItem(Item it)
 			slots[i].item = it;
 			slots[i].filled = true;
 			slots[i].itemsAmount = 1;
+			slots[i].state = SlotState::UNSELECTED;
 			break;
 		}
 		slots[i].item.bounds = slots[i].bounds;
