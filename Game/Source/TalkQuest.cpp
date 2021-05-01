@@ -20,7 +20,7 @@ TalkQuest::~TalkQuest()
 
 bool TalkQuest::Update(Entity* entity, SString name)
 {
-	if (npcId == entity->GetDialogeId()) isCompleted = true;
+	if ((entity != nullptr) && (npcId == entity->GetDialogeId())) isCompleted = true;
     
 	return isCompleted;
 }

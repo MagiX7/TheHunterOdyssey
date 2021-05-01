@@ -17,7 +17,7 @@ VisitQuest::~VisitQuest()
 
 bool VisitQuest::Update(Entity* entity, SString n)
 {
-	if (mapName == n) isCompleted = true;
+	if ((n != nullptr) && (mapName == n)) isCompleted = true;
 	
 	return isCompleted;
 }

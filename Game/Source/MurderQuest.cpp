@@ -19,7 +19,7 @@ MurderQuest::~MurderQuest()
 
 bool MurderQuest::Update(Entity* entity, SString n)
 {
-	if (type == entity->type) isCompleted = true;
+	if ((entity != nullptr) && (type == entity->type)) isCompleted = true;
 
 	return isCompleted;
 }

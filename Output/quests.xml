@@ -1,5 +1,5 @@
 <quests>
-  <quest type="4" id="0" name="Talk with the wizard" requiredId="-1" isCompleted="false" npcId="3"></quest>
+  <quest type="4" id="0" name="Talk with Ray" requiredId="-1" isCompleted="false" npcId="3"></quest>
   <quest type="2" id="1" name="Kill the skull" requiredId="-1" isCompleted="false" enemy="7" actual="0" total="1"></quest>
   <quest type="3" id="2" name="Visit the pub" requiredId="-1" isCompleted="false" mapName="pub.tmx"></quest>
   <quest type="3" id="3" name="Visit the shop" requiredId="-1" isCompleted="false" mapName="shop.tmx"></quest>
