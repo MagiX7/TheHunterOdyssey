@@ -117,9 +117,9 @@ bool Inventory::Update(float dt)
 						break;
 					}
 					// Drag Items
-					if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
+					if (!isTextDisplayed && app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
 					{
-						if (slots[i].filled && !isTextDisplayed)
+						if (slots[i].filled)
 						{
 							originSlot = &slots[i];
 							slots[i].filled = false;
@@ -178,21 +178,26 @@ bool Inventory::Update(float dt)
 		case SlotState::UNSELECTED:
 			break;
 		case SlotState::SELECTED:
-			if (!IsMouseInside(tmpBounds) && app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
+			if (!IsMouseInside(slots[currentSlotId].bounds) && app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
 			{
 				slots[currentSlotId].state = SlotState::UNSELECTED;
 				isTextDisplayed = false;
-				break;
 			}
 			btnUse->Update(app->input, dt, -1);
 			btnDelete->Update(app->input, dt, -1);
 			break;
 
 		case SlotState::USE:
+			if (!IsMouseInside(slots[currentSlotId].bounds) && app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
+			{
+				slots[currentSlotId].state = SlotState::UNSELECTED;
+				isTextDisplayed = false;
+			}
 			btnHunter->Update(app->input, dt, -1);
 			btnWizard->Update(app->input, dt, -1);
 			btnThief->Update(app->input, dt, -1);
 			btnWarrior->Update(app->input, dt, -1);
+			break;
 
 		case SlotState::DELETE:
 			break;
@@ -423,7 +428,7 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 			{
 				slots[currentSlotId].state = SlotState::UNSELECTED;
 				slots[currentSlotId].filled = false;
-				isTextDisplayed = false;
+				//isTextDisplayed = false;
 			}
 		}
 		else if (control->id == 7)
@@ -442,7 +447,7 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 			{
 				slots[currentSlotId].state = SlotState::UNSELECTED;
 				slots[currentSlotId].filled = false;
-				isTextDisplayed = false;
+				//isTextDisplayed = false;
 			}
 		}
 		else if (control->id == 8)
@@ -461,7 +466,7 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 			{
 				slots[currentSlotId].state = SlotState::UNSELECTED;
 				slots[currentSlotId].filled = false;
-				isTextDisplayed = false;
+				//isTextDisplayed = false;
 			}
 		}
 		else if (control->id == 9)
@@ -480,7 +485,7 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 			{
 				slots[currentSlotId].state = SlotState::UNSELECTED;
 				slots[currentSlotId].filled = false;
-				isTextDisplayed = false;
+				//isTextDisplayed = false;
 			}
 		}
 
