@@ -6,7 +6,6 @@
 #include "GuiButton.h"
 
 #define MAX_INVENTORY_SLOTS 32
-#define MAX_INVENTORY_SLOTS_ITEMS 32
 
 class Input;
 class Player;
@@ -49,7 +48,6 @@ struct InventorySlot
 		return (i.bounds.x != bounds.x || i.bounds.y != bounds.y || i.bounds.w != bounds.w || i.bounds.h != bounds.h ||
 			i.item.iType != item.iType || i.itemsAmount != itemsAmount || i.filled != filled);
 	}
-
 };
 
 class Inventory : public Menu

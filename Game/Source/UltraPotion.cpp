@@ -23,6 +23,8 @@ bool UltraPotion::Load()
 {
 	texture = app->tex->Load("Assets/Textures/Items/ultra_potion.png");
 
+	healAmount = 1000;
+
 	return true;
 }
 
@@ -49,5 +51,5 @@ bool UltraPotion::UnLoad()
 
 void UltraPotion::UseItem(Player* player)
 {
-	player->GetHealed(1000);
+	player->GetHealed(healAmount);
 }

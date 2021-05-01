@@ -13,6 +13,10 @@ public:
 	void Draw(bool showColliders);
 	bool UnLoad() override;
 
+	void UseItem(Player* player) override;
+
 public:
+
+	int healAmount;
 
 };

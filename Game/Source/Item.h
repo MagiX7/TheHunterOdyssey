@@ -31,14 +31,14 @@ public:
 
 	//virtual bool Load() override { return true; }
 	//virtual bool Update(float dt) override;
-	virtual void Draw(bool showColliders) {}
+	//virtual void Draw(bool showColliders) {}
 	//virtual bool UnLoad() override;
 
 	virtual void UseItem(Player* player) {};
 
 	inline ItemType GetItemType() const { return iType; }
 
-	bool operator==(Item& it)
+	bool operator==(Item& it) const
 	{
 		return this->iType == it.iType;
 	}

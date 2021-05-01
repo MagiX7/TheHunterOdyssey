@@ -17,4 +17,5 @@ public:
 
 public:
 
+	int healAmount;
 };

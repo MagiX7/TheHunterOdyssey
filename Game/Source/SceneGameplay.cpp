@@ -239,11 +239,6 @@ bool SceneGameplay::Update(float dt)
 						RELEASE((*it));
 					}
 				}
-				//if (ultraPotion != nullptr && CheckCollision(currentPlayer->bounds, ultraPotion->bounds))
-				//{
-				//	inventory->AddItem(*ultraPotion/*->GetItemType()*/);
-				//	RELEASE(ultraPotion);
-				//}
 			}
 			else
 			{
@@ -413,7 +408,6 @@ bool SceneGameplay::CheckDialogue()
 			ret = (*it)->CheckCollision(currentPlayer);
 			if (ret) break;
 		}
-
 		++it;
 	}
 

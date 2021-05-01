@@ -12,7 +12,7 @@ Wizard::Wizard(iPoint position, pugi::xml_node anim) : Player(PlayerType::WIZARD
 	//bounds = { 0,0, 16,32 };
 	stance = PlayerStance::ROAMING;
 	healthPoints = 1000;
-	maxHealthPoints = healthPoints;
+	maxHealthPoints = 2000;
 	armorPoints = 5;
 	maxArmorPoints = armorPoints;
 	manaPoints = 5000;

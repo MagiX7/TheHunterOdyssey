@@ -61,6 +61,7 @@ bool Inventory::Load(Font* font)
 		slots[i].bounds = { 466 + offsetX,369 + offsetY,40,40 };
 		slots[i].id = i;
 		slots[i].state = SlotState::NONE;
+		//slots[i].item = nullptr;
 
 		offsetX += slots[i].bounds.w + 7;
 		if (i == 7 || i == 15 || i == 23)
@@ -107,13 +108,15 @@ bool Inventory::Update(float dt)
 			{
 				if ((slots[i].itemsAmount > 0) && (IsMouseInside(slots[i].bounds)))
 				{
-					if (app->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_UP)
+					// Pop the Use and Delete menu
+					if (!isTextDisplayed && app->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_UP)
 					{
 						currentSlotId = i;
 						slots[i].state = SlotState::SELECTED;
 						isTextDisplayed = true;
 						break;
 					}
+					// Drag Items
 					if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
 					{
 						if (slots[i].filled && !isTextDisplayed)
@@ -131,6 +134,7 @@ bool Inventory::Update(float dt)
 		}
 		else
 		{
+			// Drop the item to a new Inventory Slot
 			if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
 			{
 				for (int j = 0; j < MAX_INVENTORY_SLOTS; ++j)
@@ -153,6 +157,7 @@ bool Inventory::Update(float dt)
 			}
 		}
 		
+		// Drag the item. This is done here because otherwise there is one frame that the item's position is not uploaded
 		if (grabbed && originSlot != nullptr)
 		{
 			DragItem(slots[originSlot->id].item);
@@ -177,6 +182,7 @@ bool Inventory::Update(float dt)
 			{
 				slots[currentSlotId].state = SlotState::UNSELECTED;
 				isTextDisplayed = false;
+				break;
 			}
 			btnUse->Update(app->input, dt, -1);
 			btnDelete->Update(app->input, dt, -1);
@@ -265,6 +271,11 @@ void Inventory::Draw(Font* font, bool showColliders)
 					app->render->DrawText(font, iQuantity.c_str(), (slots[i].bounds.x + slots[i].bounds.w) - 15, slots[i].bounds.y + slots[i].bounds.h - 25, 25, 2, { 255,255,255 });
 					if(showColliders) app->render->DrawRectangle(slots[i].item.bounds, 0, 0, 255, 120, true, false);
 				}
+
+				if (IsMouseInside(slots[i].bounds) && !isTextDisplayed)
+				{
+					app->render->DrawRectangle(slots[i].bounds, 200, 200, 200, 50, true, false);
+				}
 			}
 		}
 
@@ -317,9 +328,9 @@ void Inventory::Draw(Font* font, bool showColliders)
 		break;
 	}
 
+
 	// Stats drawing
 
-	
 	eastl::list<Player*>::iterator it = players.begin();
 
 	for (int i = 0; i < 4; ++i, ++it)
@@ -331,10 +342,10 @@ void Inventory::Draw(Font* font, bool showColliders)
 		SDL_Rect statsBar = { 225, 797, 196, 9 };
 		for (int j = 0; j < 3; ++j)
 		{
-			app->render->DrawTexture(atlasTexture, 868, 173 + (j * 14) + (i * 105), &statsBar);
+			app->render->DrawTexture(atlasTexture, 868, 173 + (j * 14) + (i * 105), &statsBar, false);
 		}
 
-		int currHealth = (*it)->GetHealthPoints();
+		int currHealth = (*it)->GetHealthPoints() - 700;
 		int maxHealth = (*it)->GetMaxHealthPoints();
 
 		if (currHealth < (maxHealth / 4))
@@ -345,18 +356,16 @@ void Inventory::Draw(Font* font, bool showColliders)
 			statsBar = { 228, 725, (190 * currHealth) / maxHealth, 5 };
 		
 		// Green Bar
-		app->render->DrawTexture(atlasTexture, 871, 175 + (i * 105), &statsBar);
+		app->render->DrawTexture(atlasTexture, 871, 175 + (i * 105), &statsBar, false);
 
 		// Blue Bar
 		statsBar = { 228, 764, (190 * pl->GetManaPoints()) / (pl->GetMaxManaPoints()), 5 };
-		app->render->DrawTexture(atlasTexture, 871, 189 + (i * 105), &statsBar);
+		app->render->DrawTexture(atlasTexture, 871, 189 + (i * 105), &statsBar, false);
 
 		// Yellow Bar
 		statsBar = { 228, 778, (190 * pl->GetArmorPoints()) / (pl->GetMaxArmorPoints()), 5 };
-		app->render->DrawTexture(atlasTexture, 871, 203 + (i * 105), &statsBar);
+		app->render->DrawTexture(atlasTexture, 871, 203 + (i * 105), &statsBar, false);
 	}
-	
-
 }
 
 bool Inventory::UnLoad()
@@ -372,7 +381,7 @@ bool Inventory::UnLoad()
 	RELEASE(btnWarrior);
 
 	app->tex->UnLoad(atlasTexture);
-	RELEASE(atlasTexture);
+	//RELEASE(atlasTexture);
 
 	buttons.clear();
 	players.clear();
@@ -392,12 +401,10 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 		else if (control->id == 3) state = InventoryState::WEAPONS;
 		else if (control->id == 4)
 		{
-			//state = InventoryState::USE_ITEM;
 			slots[currentSlotId].state = SlotState::USE;
 		}
 		else if (control->id == 5)
 		{
-			//state = InventoryState::DELETE_ITEM;
 			slots[currentSlotId].state = SlotState::DELETE;
 		}
 		else if (control->id == 6)
@@ -407,14 +414,17 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 			slots[currentSlotId].item.UseItem(currentPlayer);
 			--slots[currentSlotId].itemsAmount;
 
-			if (slots[currentSlotId].itemsAmount > 0) slots[currentSlotId].state = SlotState::SELECTED;
+			if (slots[currentSlotId].itemsAmount > 0)
+			{
+				slots[currentSlotId].state = SlotState::SELECTED;
+				isTextDisplayed = true;
+			}
 			else
 			{
 				slots[currentSlotId].state = SlotState::UNSELECTED;
 				slots[currentSlotId].filled = false;
 				isTextDisplayed = false;
 			}
-			//currentSlotId = -1;
 		}
 		else if (control->id == 7)
 		{
@@ -423,15 +433,17 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 			slots[currentSlotId].item.UseItem(currentPlayer);
 			--slots[currentSlotId].itemsAmount;
 
-			if (slots[currentSlotId].itemsAmount > 0) slots[currentSlotId].state = SlotState::SELECTED;
+			if (slots[currentSlotId].itemsAmount > 0)
+			{
+				slots[currentSlotId].state = SlotState::SELECTED;
+				isTextDisplayed = true;
+			}
 			else
 			{
 				slots[currentSlotId].state = SlotState::UNSELECTED;
 				slots[currentSlotId].filled = false;
 				isTextDisplayed = false;
 			}
-
-			//currentSlotId = -1;
 		}
 		else if (control->id == 8)
 		{
@@ -440,15 +452,17 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 			slots[currentSlotId].item.UseItem(currentPlayer);
 			--slots[currentSlotId].itemsAmount;
 
-			if (slots[currentSlotId].itemsAmount > 0) slots[currentSlotId].state = SlotState::SELECTED;
+			if (slots[currentSlotId].itemsAmount > 0)
+			{
+				slots[currentSlotId].state = SlotState::SELECTED;
+				isTextDisplayed = true;
+			}
 			else
 			{
 				slots[currentSlotId].state = SlotState::UNSELECTED;
 				slots[currentSlotId].filled = false;
 				isTextDisplayed = false;
 			}
-
-			//currentSlotId = -1;
 		}
 		else if (control->id == 9)
 		{
@@ -457,15 +471,17 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 			slots[currentSlotId].item.UseItem(currentPlayer);
 			--slots[currentSlotId].itemsAmount;
 
-			if (slots[currentSlotId].itemsAmount > 0) slots[currentSlotId].state = SlotState::SELECTED;
+			if (slots[currentSlotId].itemsAmount > 0)
+			{
+				slots[currentSlotId].state = SlotState::SELECTED;
+				isTextDisplayed = true;
+			}
 			else
 			{
 				slots[currentSlotId].state = SlotState::UNSELECTED;
 				slots[currentSlotId].filled = false;
 				isTextDisplayed = false;
 			}
-			
-			//currentSlotId = -1;
 		}
 
 		break;
@@ -486,6 +502,7 @@ void Inventory::AddItem(Item it)
 		{
 			slots[i].itemsAmount++;
 			slots[i].state = SlotState::UNSELECTED;
+			slots[i].item.bounds = slots[i].bounds;
 			break;
 		}
 		else if (!slots[i].filled)
@@ -494,9 +511,9 @@ void Inventory::AddItem(Item it)
 			slots[i].filled = true;
 			slots[i].itemsAmount = 1;
 			slots[i].state = SlotState::UNSELECTED;
+			slots[i].item.bounds = slots[i].bounds;
 			break;
 		}
-		slots[i].item.bounds = slots[i].bounds;
 	}
 }
 

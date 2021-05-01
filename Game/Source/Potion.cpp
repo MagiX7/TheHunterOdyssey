@@ -2,6 +2,8 @@
 #include "Textures.h"
 #include "Render.h"
 
+#include "Player.h"
+
 #include "Potion.h"
 
 Potion::Potion(iPoint pos) : Item(ItemType::POTION, pos)
@@ -16,6 +18,8 @@ Potion::~Potion()
 bool Potion::Load()
 {
 	texture = app->tex->Load("Assets/Textures/Items/potion.png");
+
+	healAmount = 500;
 
 	return true;
 }
@@ -35,4 +39,9 @@ bool Potion::UnLoad()
 	app->tex->UnLoad(texture);
 
 	return false;
+}
+
+void Potion::UseItem(Player* player)
+{
+	player->GetHealed(healAmount);
 }
