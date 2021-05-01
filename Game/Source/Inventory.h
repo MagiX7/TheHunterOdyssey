@@ -32,7 +32,7 @@ struct InventorySlot
 {
 	SDL_Rect bounds;
 	//Item* items[MAX_INVENTORY_SLOTS_ITEMS];
-	Item item;
+	Item *item;
 	int itemsAmount;
 	bool filled;
 	int id;
@@ -41,12 +41,12 @@ struct InventorySlot
 	bool operator==(InventorySlot& i) const
 	{
 		return (i.bounds.x == bounds.x && i.bounds.y == bounds.y && i.bounds.w == bounds.w && i.bounds.h == bounds.h &&
-			i.item.iType == item.iType && i.itemsAmount == itemsAmount && i.filled == filled);
+			i.item->iType == item->iType && i.itemsAmount == itemsAmount && i.filled == filled);
 	}
 	bool operator!=(InventorySlot& i) const
 	{
 		return (i.bounds.x != bounds.x || i.bounds.y != bounds.y || i.bounds.w != bounds.w || i.bounds.h != bounds.h ||
-			i.item.iType != item.iType || i.itemsAmount != itemsAmount || i.filled != filled);
+			i.item->iType != item->iType || i.itemsAmount != itemsAmount || i.filled != filled);
 	}
 };
 
@@ -63,7 +63,7 @@ public:
 	bool OnGuiMouseClickEvent(GuiControl* control) override;
 	void UpdatingButtons(Input* input) override;
 
-	void AddItem(Item it);
+	void AddItem(Item *it);
 
 	bool IsMouseInside(SDL_Rect r);
 

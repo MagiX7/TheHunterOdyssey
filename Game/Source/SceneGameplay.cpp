@@ -234,9 +234,10 @@ bool SceneGameplay::Update(float dt)
 					(*it)->Update(dt);
 					if (CheckCollision(currentPlayer->bounds, (*it)->bounds))
 					{
-						inventory->AddItem(*(*it));
+						inventory->AddItem(*it);
 						items.erase(it);
-						RELEASE((*it));
+						//items.erase(it);
+						//RELEASE((*it));
 					}
 				}
 			}
