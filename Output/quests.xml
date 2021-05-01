@@ -2,4 +2,5 @@
   <quest type="2" id="0" name="Kill the skull" requiredId="-1" isCompleted="false" enemy="7" actual="0" total="1"></quest>
   <quest type="3" id="1" name="Visit the pub" requiredId="-1" isCompleted="false" mapName="pub.tmx"></quest>
   <quest type="3" id="2" name="Visit the shop" requiredId="-1" isCompleted="false" mapName="shop.tmx"></quest>
+  <quest type="4" id="3" name="Talk with Ray" requiredId="-1" isCompleted="false" entityType="13"></quest>
 </quests>

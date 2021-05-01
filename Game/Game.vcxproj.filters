@@ -136,6 +136,7 @@
     <ClCompile Include="Source\GetItemQuest.cpp" />
     <ClCompile Include="Source\MurderQuest.cpp" />
     <ClCompile Include="Source\VisitQuest.cpp" />
+    <ClCompile Include="Source\TalkQuest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -321,6 +322,7 @@
     <ClInclude Include="Source\GetItemQuest.h" />
     <ClInclude Include="Source\MurderQuest.h" />
     <ClInclude Include="Source\VisitQuest.h" />
+    <ClInclude Include="Source\TalkQuest.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

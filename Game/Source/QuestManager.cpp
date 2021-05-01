@@ -8,6 +8,7 @@
 #include "GetItemQuest.h"
 #include "MurderQuest.h"
 #include "VisitQuest.h"
+#include "TalkQuest.h"
 
 QuestManager* QuestManager::instance = nullptr;
 
@@ -35,6 +36,9 @@ QuestManager::QuestManager()
 			break;
 		case 3:
 			quest = new VisitQuest(node);
+			break;
+		case 4: 
+			quest = new TalkQuest(node);
 		}
 
 		if (quest != nullptr) loadedQuests.push_back(quest);
