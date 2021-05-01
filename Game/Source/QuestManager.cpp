@@ -86,7 +86,7 @@ bool QuestManager::CheckQuests(EntityType type, SString string)
 
 	for (; it != itEnd; ++it)
 	{
-		if ((*it)->Update(type, string) == true)
+		if (((*it) != nullptr) && ((*it)->Update(type, string) == true))
 		{
 			activeQuests.erase(it);
 			finishedQuests.push_back(*it);
