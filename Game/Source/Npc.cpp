@@ -5,6 +5,8 @@
 #include "Npc.h"
 #include "Player.h"
 
+#include "QuestManager.h"
+
 #include <time.h>
 
 #define SPEED_X 60.0f
@@ -142,6 +144,7 @@ bool Npc::CheckCollision(Player* player)
 
 			if (app->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 			{
+				QuestManager::GetInstance()->CheckQuests(type);
 				return true;
 				state = EntityState::TALKING;
 			}

@@ -11,7 +11,8 @@ enum class QuestType
 {
 	ITEM_QUEST = 0,
 	MURDER_QUEST,
-	VISIT_QUEST
+	VISIT_QUEST,
+	TALK_QUEST
 };
 
 class Render;

@@ -14,4 +14,5 @@ public:
 	void Draw(Render* render, Font* font, bool showMore);
 private:
 	int npcId;
+	EntityType type;
 };

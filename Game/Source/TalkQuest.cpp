@@ -1,6 +1,7 @@
 #include "Render.h"
-
 #include "TalkQuest.h"
+
+#include "Entity.h"
 
 TalkQuest::TalkQuest(pugi::xml_node n)
 {
@@ -9,11 +10,13 @@ TalkQuest::TalkQuest(pugi::xml_node n)
 	this->requiredId = n.attribute("requiredId").as_int();
 	this->isCompleted = n.attribute("isCompleted").as_bool();
 	this->npcId = n.attribute("npcId").as_int();
+	this->type = (EntityType)n.attribute("entityType").as_int();
 }
 
 TalkQuest::~TalkQuest()
 {
 }
+
 
 bool TalkQuest::Update(Entity* entity, SString name)
 {
