@@ -1,28 +1,28 @@
 #include "Render.h"
 
-#include "VisitQuest.h"
+#include "TalkQuest.h"
 
-VisitQuest::VisitQuest(pugi::xml_node n)
+TalkQuest::TalkQuest(pugi::xml_node n)
 {
 	this->id = n.attribute("id").as_int();
 	this->name = n.attribute("name").as_string();
 	this->requiredId = n.attribute("requiredId").as_int();
 	this->isCompleted = n.attribute("isCompleted").as_bool();
-	this->mapName = n.attribute("mapName").as_string();
+	this->npcId = n.attribute("npcId").as_int();
 }
 
-VisitQuest::~VisitQuest()
+TalkQuest::~TalkQuest()
 {
 }
 
-bool VisitQuest::Update(Entity* entity, SString n)
+bool TalkQuest::Update(Entity* entity, SString name)
 {
-	if (mapName == n) isCompleted = true;
-	
+	if (npcId == entity->GetDialogeId()) isCompleted = true;
+    
 	return isCompleted;
 }
 
-void VisitQuest::Draw(Render* render, Font* font, bool showMore)
+void TalkQuest::Draw(Render* render, Font* font, bool showMore)
 {
 	render->DrawText(font, name.c_str(), 10, 10, 24, 2, { 255, 255, 255 });
 }

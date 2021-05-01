@@ -5,6 +5,7 @@
 #include "SString.h"
 
 #include "Font.h"
+#include "Entity.h"
 
 enum class QuestType
 {
@@ -13,7 +14,7 @@ enum class QuestType
 	VISIT_QUEST
 };
 
-enum class EntityType;
+class Render;
 
 class Quest
 {
@@ -22,9 +23,9 @@ public:
 
 	virtual ~Quest() {}
 
-	virtual bool Update(EntityType t, SString n = "") { return true; }
+	virtual bool Update(Entity* entity, SString n = "") { return true; }
 
-	virtual void Draw(Font* font) {}
+	virtual void Draw(Render* render, Font* font, bool showMore) {}
 
 public:
 	QuestType qType;

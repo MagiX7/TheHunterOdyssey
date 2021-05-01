@@ -9,9 +9,9 @@ public:
 
 	virtual ~VisitQuest();
 
-	bool Update(EntityType t, SString n = "") override;
+	bool Update(Entity* entity, SString n = "") override;
 
-	void Draw(Font* font) override;
+	void Draw(Render* render, Font* font, bool showMore) override;
 private:
 	SString mapName;
 };

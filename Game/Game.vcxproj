@@ -135,6 +135,7 @@
     <ClCompile Include="Source\CharacterManager.cpp" />
     <ClCompile Include="Source\Skull.cpp" />
     <ClCompile Include="Source\Tabern.cpp" />
+    <ClCompile Include="Source\TalkQuest.cpp" />
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\Thief.cpp" />
     <ClCompile Include="Source\Town.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="Source\CharacterManager.h" />
     <ClInclude Include="Source\Skull.h" />
     <ClInclude Include="Source\Tabern.h" />
+    <ClInclude Include="Source\TalkQuest.h" />
     <ClInclude Include="Source\Textures.h" />
     <ClInclude Include="Source\Thief.h" />
     <ClInclude Include="Source\Timer.h" />

@@ -1,5 +1,5 @@
-#include "App.h"
 #include "Render.h"
+
 #include "MurderQuest.h"
 
 MurderQuest::MurderQuest(pugi::xml_node n) : Quest()
@@ -17,14 +17,14 @@ MurderQuest::~MurderQuest()
 {
 }
 
-bool MurderQuest::Update(EntityType t, SString n)
+bool MurderQuest::Update(Entity* entity, SString n)
 {
-	if (type == t) isCompleted = true;
+	if (type == entity->type) isCompleted = true;
 
 	return isCompleted;
 }
 
-void MurderQuest::Draw(Font* font)
+void MurderQuest::Draw(Render* render, Font* font, bool showMore)
 {
-	app->render->DrawText(font, name.c_str(), 10, 10, 30, 4, { 255, 255, 255 });
+	render->DrawText(font, name.c_str(), 10, 10, 24, 2, { 255, 255, 255 });
 }

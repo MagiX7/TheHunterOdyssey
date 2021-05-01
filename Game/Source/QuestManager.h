@@ -17,15 +17,17 @@ public:
 
 	virtual ~QuestManager();
 
-	bool Update(Player* player);
+	bool Update(Input* input, float dt);
 
-	bool CheckQuests(EntityType t, SString s = "");
+	bool CheckQuests(Entity* entity, SString s = "");
 
 	bool ActivateQuest(int id);
 
+	bool QuestState();
+
 	//bool CompleteQuest(int id);
 
-	bool Draw(Font* font);
+	bool Draw(Render* render, Font* font);
 
 private:
 	QuestManager();
@@ -36,8 +38,10 @@ private:
 	eastl::list<Quest*> activeQuests;
 	eastl::list<Quest*> finishedQuests;
 
-	pugi::xml_document questFile;
+	Quest* questFinished;
+	Quest* questActive;
 
-	int quest;
 	int completedQuestFx;
+	bool playFx;
+	bool showMore;
 };
