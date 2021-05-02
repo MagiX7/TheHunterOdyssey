@@ -121,7 +121,7 @@ bool SceneManager::Update(float dt)
 			}
 			else if (current->transitionType == TransitionType::HALF_HEIGHT_RECTANGLES)
 			{
-				if (rectUpper.w <= (int)w)
+				if (rectUpper.w <= (int)w + 100)
 					rectUpper.w += 1000 * dt;
 				else
 				{
