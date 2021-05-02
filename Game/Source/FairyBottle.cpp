@@ -4,7 +4,7 @@
 
 #include "FairyBottle.h"
 
-FairyBottle::FairyBottle(iPoint pos) : Item(ItemType::FAIRY_BOTTLE, pos)
+FairyBottle::FairyBottle(iPoint pos, SDL_Texture* atlas) : Item(ItemType::FAIRY_BOTTLE, pos, atlas)
 {
 	atlasSection = { 353, 289, 32, 32 };
 }
@@ -15,8 +15,6 @@ FairyBottle::~FairyBottle()
 
 bool FairyBottle::Load()
 {
-	texture = app->tex->Load("Assets/Textures/Items/fairy_bottle.png");
-
 	return true;
 }
 
@@ -27,12 +25,10 @@ bool FairyBottle::Update(float dt)
 
 void FairyBottle::Draw(bool showColliders)
 {
-	app->render->DrawTexture(texture, bounds.x, bounds.y);
+	app->render->DrawTexture(texture, bounds.x, bounds.y, &atlasSection);
 }
 
 bool FairyBottle::UnLoad()
 {
-	app->tex->UnLoad(texture);
-
-	return false;
+	return true;
 }

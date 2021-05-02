@@ -144,6 +144,9 @@
     <ClCompile Include="Source\FairyBottle.cpp">
       <Filter>Entities\Items</Filter>
     </ClCompile>
+    <ClCompile Include="Source\KnightHelmet.cpp">
+      <Filter>Entities\Armors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -339,6 +342,12 @@
     <ClInclude Include="Source\FairyBottle.h">
       <Filter>Entities\Items</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Armor.h">
+      <Filter>Entities\Armors</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\KnightHelmet.h">
+      <Filter>Entities\Armors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -382,6 +391,9 @@
     </Filter>
     <Filter Include="Inventory">
       <UniqueIdentifier>{c571fe04-dddb-48a0-99ca-80c8331a129f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Armors">
+      <UniqueIdentifier>{b0b80c5e-6482-402d-800f-82599ebd3b1a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -6,7 +6,7 @@
 
 #include "UltraPotion.h"
 
-UltraPotion::UltraPotion(iPoint pos) : Item(ItemType::ULTRA_POTION, pos)
+UltraPotion::UltraPotion(iPoint pos, SDL_Texture* atlas) : Item(ItemType::ULTRA_POTION, pos, atlas)
 {
 	/*bounds.x = pos.x - 5;
 	bounds.y = pos.y - 5;
@@ -21,8 +21,6 @@ UltraPotion::~UltraPotion()
 
 bool UltraPotion::Load()
 {
-	texture = app->tex->Load("Assets/Textures/Items/ultra_potion.png");
-
 	healAmount = 1000;
 
 	return true;
@@ -35,7 +33,7 @@ bool UltraPotion::Update(float dt)
 
 void UltraPotion::Draw(bool showColliders)
 {
-	app->render->DrawTexture(texture, bounds.x, bounds.y);
+	app->render->DrawTexture(texture, bounds.x, bounds.y, &atlasSection);
 	if (showColliders)
 	{
 		app->render->DrawRectangle(bounds, 255, 0, 0);
@@ -44,8 +42,6 @@ void UltraPotion::Draw(bool showColliders)
 
 bool UltraPotion::UnLoad()
 {
-	app->tex->UnLoad(texture);
-
 	return false;
 }
 

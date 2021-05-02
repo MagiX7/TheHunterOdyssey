@@ -5,7 +5,7 @@
 class FairyBottle : public Item
 {
 public:
-	FairyBottle(iPoint pos);
+	FairyBottle(iPoint pos, SDL_Texture* atlas);
 	virtual ~FairyBottle();
 
 	bool Load() override;

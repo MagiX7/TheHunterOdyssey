@@ -11,6 +11,7 @@
 
 class SDL_Texture;
 class Enemy;
+class Armor;
 
 enum class PlayerType
 {
@@ -95,6 +96,9 @@ protected:
 
 	eastl::string name;
 
+	// Armor
+	Armor* currArmor;
+
 	// Enemy target
 	Enemy* target;
 
@@ -126,4 +130,5 @@ protected:
 	Animation death;
 	Animation attackAnim;
 	Animation damageTaken;
+
 };

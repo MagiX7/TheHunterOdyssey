@@ -17,6 +17,7 @@ class DialogueManager;
 class PauseMenu;
 class Render;
 class Item;
+class KnightHelmet;
 class Inventory;
 
 enum class PlayerType;
@@ -104,9 +105,9 @@ private:
 	// Inventory
 	Inventory* inventory;
 
-	// Items
-	Item* ultraPotion;
-	Item* ultraPotion2;
+	// Armor
+	KnightHelmet* helmet;
+	SDL_Texture* helmetTexture;
 
 	eastl::list<Item*> items;
 

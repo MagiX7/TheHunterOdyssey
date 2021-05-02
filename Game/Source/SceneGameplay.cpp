@@ -20,6 +20,8 @@
 #include "UltraPotion.h"
 #include "Potion.h"
 
+#include "KnightHelmet.h"
+
 #include "Npc.h"
 #include "Map.h"
 #include "DialogueManager.h"
@@ -98,13 +100,19 @@ SceneGameplay::SceneGameplay()
 	position = { 500,350 };
 	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 1);
 
-	ultraPotion = new UltraPotion(iPoint(200,250));
-	ultraPotion2 = new UltraPotion(iPoint(300,350));
-	Potion* p = new Potion(iPoint(250, 350));
+	SDL_Texture* atlas = app->tex->Load("Assets/Textures/Items/items_atlas.png");
+	inventory = new Inventory(playerList, atlas);
+
+	Item *item = new UltraPotion(iPoint(200,250), atlas);
+	items.push_back(item);
 	
-	items.push_back(ultraPotion);
-	items.push_back(ultraPotion2);
-	items.push_back(p);
+	item = new UltraPotion(iPoint(300,350), atlas);
+	items.push_back(item);
+
+	item = new Potion(iPoint(250, 350), atlas);
+	items.push_back(item);
+
+	helmet = new KnightHelmet({ 270, 350, 32, 32 }, atlas);
 
 	//Create Enemies
 
@@ -123,11 +131,12 @@ SceneGameplay::SceneGameplay()
 	/*player = new Player(PlayerType::HUNTER);
 	npc = new Npc(EntityType::NPC);*/
 
+	
+
+
 	pause = new PauseMenu(this);
 
 	font = new Font("Assets/Font/font3.xml", app->tex);
-
-	inventory = new Inventory(playerList);
 
 	showColliders = false;
 	transition = false;
@@ -168,6 +177,8 @@ bool SceneGameplay::Load()
 	pause->Load(font);
 
 	inventory->Load(font);
+
+	helmet->Load();
 
 	eastl::list<Item*>::iterator item = items.begin();
 	for (; item != items.end(); ++item)
@@ -298,6 +309,8 @@ void SceneGameplay::Draw()
 			{
 				(*it)->Draw(showColliders);
 			}
+
+			helmet->Draw(showColliders);
 		}
 
 		if (dialogueManager->isDialogueActive)

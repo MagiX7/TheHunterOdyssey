@@ -4,7 +4,7 @@
 
 #include "FairyWing.h"
 
-FairyWing::FairyWing(iPoint pos) : Item(ItemType::FAIRY_WING, pos)
+FairyWing::FairyWing(iPoint pos, SDL_Texture* atlas) : Item(ItemType::FAIRY_WING, pos, atlas)
 {
 	atlasSection = { 225, 289, 32, 32 };
 }
@@ -15,8 +15,6 @@ FairyWing::~FairyWing()
 
 bool FairyWing::Load()
 {
-	texture = app->tex->Load("Assets/Textures/Items/fairy_wing.png");
-
 	return true;
 }
 
@@ -27,12 +25,10 @@ bool FairyWing::Update(float dt)
 
 void FairyWing::Draw(bool showColliders)
 {
-	app->render->DrawTexture(texture, bounds.x, bounds.y);
+	app->render->DrawTexture(texture, bounds.x, bounds.y, &atlasSection);
 }
 
 bool FairyWing::UnLoad()
 {
-	app->tex->UnLoad(texture);
-
-	return false;
+	return true;
 }

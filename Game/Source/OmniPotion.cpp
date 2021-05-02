@@ -4,7 +4,7 @@
 
 #include "OmniPotion.h"
 
-OmniPotion::OmniPotion(iPoint pos) : Item(ItemType::OMNI_POTION, pos)
+OmniPotion::OmniPotion(iPoint pos, SDL_Texture* atlas) : Item(ItemType::OMNI_POTION, pos, atlas)
 {
 	atlasSection = { 325, 290, 24, 28 };
 }
@@ -15,8 +15,6 @@ OmniPotion::~OmniPotion()
 
 bool OmniPotion::Load()
 {
-	texture = app->tex->Load("Assets/Textures/Items/omni_potion.png");
-
 	return true;
 }
 
@@ -32,7 +30,5 @@ void OmniPotion::Draw(bool showColliders)
 
 bool OmniPotion::UnLoad()
 {
-	app->tex->UnLoad(texture);
-
-	return false;
+	return true;
 }

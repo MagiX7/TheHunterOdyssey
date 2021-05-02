@@ -5,7 +5,7 @@
 class Potion : public Item
 {
 public:
-	Potion(iPoint pos);
+	Potion(iPoint pos, SDL_Texture* atlas);
 	virtual ~Potion();
 
 	bool Load() override;

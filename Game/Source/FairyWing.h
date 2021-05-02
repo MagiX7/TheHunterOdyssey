@@ -5,7 +5,7 @@
 class FairyWing : public Item
 {
 public:
-	FairyWing(iPoint pos);
+	FairyWing(iPoint pos, SDL_Texture* atlas);
 	virtual ~FairyWing();
 
 	bool Load() override;
@@ -14,5 +14,4 @@ public:
 	bool UnLoad() override;
 
 public:
-
 };

@@ -4,7 +4,7 @@
 
 #include "FairyTear.h"
 
-FairyTear::FairyTear(iPoint pos) : Item(ItemType::FAIRY_TEAR, pos)
+FairyTear::FairyTear(iPoint pos, SDL_Texture* atlas) : Item(ItemType::FAIRY_TEAR, pos, atlas)
 {
 	atlasSection = { 96, 289, 32, 32 };
 }
@@ -15,8 +15,6 @@ FairyTear::~FairyTear()
 
 bool FairyTear::Load()
 {
-	texture = app->tex->Load("Assets/Textures/Items/fairy_tear.png");
-
 	return true;
 }
 
@@ -27,12 +25,10 @@ bool FairyTear::Update(float dt)
 
 void FairyTear::Draw(bool showColliders)
 {
-	app->render->DrawTexture(texture, bounds.x, bounds.y);
+	app->render->DrawTexture(texture, bounds.x, bounds.y, &atlasSection);
 }
 
 bool FairyTear::UnLoad()
 {
-	app->tex->UnLoad(texture);
-
-	return false;
+	return true;
 }

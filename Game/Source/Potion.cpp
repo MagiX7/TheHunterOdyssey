@@ -6,7 +6,7 @@
 
 #include "Potion.h"
 
-Potion::Potion(iPoint pos) : Item(ItemType::POTION, pos)
+Potion::Potion(iPoint pos, SDL_Texture* atlas) : Item(ItemType::POTION, pos, atlas)
 {
 	atlasSection = { 64, 289, 32, 32};
 }
@@ -17,8 +17,6 @@ Potion::~Potion()
 
 bool Potion::Load()
 {
-	texture = app->tex->Load("Assets/Textures/Items/potion.png");
-
 	healAmount = 500;
 
 	return true;
@@ -31,14 +29,12 @@ bool Potion::Update(float dt)
 
 void Potion::Draw(bool showColliders)
 {
-	app->render->DrawTexture(texture, bounds.x, bounds.y);
+	app->render->DrawTexture(texture, bounds.x, bounds.y, &atlasSection);
 }
 
 bool Potion::UnLoad()
 {
-	app->tex->UnLoad(texture);
-
-	return false;
+	return true;
 }
 
 void Potion::UseItem(Player* player)

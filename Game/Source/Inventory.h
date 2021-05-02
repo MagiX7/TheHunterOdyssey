@@ -53,7 +53,7 @@ struct InventorySlot
 class Inventory : public Menu
 {
 public:
-	Inventory(eastl::list<Player*> pls);
+	Inventory(eastl::list<Player*> pls, SDL_Texture* atlas);
 	virtual ~Inventory();
 
 	bool Load(Font* font) override;
@@ -71,6 +71,10 @@ public:
 
 	void DragItem(Item& item);
 
+	void HandleItems();
+
+	void HandleEquipment();
+
 private:
 	Player* GetPlayer(PlayerType type);
 
@@ -87,10 +91,15 @@ private:
 
 	InventoryState state;
 
-	// There will be 32 slots
+	// There will be 32 slots for items
 	InventorySlot slots[MAX_INVENTORY_SLOTS];
 	int currentSlotId;
 	InventorySlot* originSlot;
+
+	// There will be 32 slots for Armor
+	InventorySlot armorSlots[MAX_INVENTORY_SLOTS];
+	int currentArmorSlotId;
+	InventorySlot* originArmorSlot;
 
 	Player* currentPlayer;
 

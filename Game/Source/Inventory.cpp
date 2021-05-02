@@ -11,9 +11,10 @@
 #include "UltraPotion.h"
 #include "Potion.h"
 
-Inventory::Inventory(eastl::list<Player*> pls)
+Inventory::Inventory(eastl::list<Player*> pls, SDL_Texture* atlas)
 {
 	players = pls;
+	atlasTexture = atlas;
 }
 
 Inventory::~Inventory()
@@ -22,8 +23,6 @@ Inventory::~Inventory()
 
 bool Inventory::Load(Font* font)
 {
-	atlasTexture = app->tex->Load("Assets/Textures/Items/items_atlas_2.png");
-
 	btnEquipment = new GuiButton(1, { 182,100,260,50 }, "Equipment", this, font);
 	//btnEquipment->texture = 
 	btnItems = new GuiButton(2, { 182,160,260,50 }, "Items", this, font);
@@ -100,87 +99,12 @@ bool Inventory::Update(float dt)
 
 	case InventoryState::EQUIPMENT:
 		// TODO
+		HandleEquipment();
 		break;
 
 	case InventoryState::ITEMS:
 
-		if (!grabbed)
-		{
-			for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
-			{
-				if ((slots[i].itemsAmount > 0) && (IsMouseInside(slots[i].bounds)))
-				{
-					// Pop the Use and Delete menu
-					if (!isTextDisplayed && app->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_UP)
-					{
-						currentSlotId = i;
-						slots[i].state = SlotState::SELECTED;
-						isTextDisplayed = true;
-						break;
-					}
-					// Drag Items
-					if (!isTextDisplayed && app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
-					{
-						if (slots[i].item != nullptr && slots[i].filled)
-						{
-							originSlot = &slots[i];
-							slots[i].filled = false;
-							slots[i].item->isDragging = true;
-							grabbed = true;
-							slots[i].state = SlotState::NONE;
-							break;
-						}
-					}
-				}
-			}
-		}
-		else
-		{
-			// Drop the item to a new Inventory Slot
-			if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
-			{
-				for (int j = 0; j < MAX_INVENTORY_SLOTS; ++j)
-				{
-					if (IsMouseInside(slots[j].bounds) && !slots[j].filled)
-					{
-						slots[j].item = originSlot->item;
-						slots[j].itemsAmount = originSlot->itemsAmount;
-						slots[j].filled = true;
-						slots[j].item->isDragging = false;
-						slots[j].item->bounds = slots[j].bounds;
-						slots[j].state = SlotState::UNSELECTED;
-
-						if (slots[j].id != originSlot->id)
-						{
-							slots[originSlot->id].item->isDragging = false;
-							slots[originSlot->id].filled = false;
-							slots[originSlot->id].item = nullptr;
-						}
-
-						originSlot = nullptr;
-						
-						grabbed = false;
-
-						break;
-					}
-					/*else
-					{
-						slots[originSlot->id].item = originSlot->item;
-						slots[originSlot->id].filled = true;
-						slots[originSlot->id].item->isDragging = false;
-						grabbed = false;
-						slots[originSlot->id].state = SlotState::NONE;
-						break;
-					}*/
-				}
-			}
-		}
-		
-		// Drag the item. This is done here because otherwise there is one frame that the item's position is not uploaded
-		if (grabbed && originSlot != nullptr)
-		{
-			DragItem(*slots[originSlot->id].item);
-		}
+		HandleItems();
 
 		break;
 
@@ -586,4 +510,85 @@ Player* Inventory::GetPlayer(PlayerType type)
 		if ((*it)->playerType == type) return (*it);
 	}
 	return nullptr;
+}
+
+void Inventory::HandleItems()
+{
+	if (!grabbed)
+	{
+		for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
+		{
+			if ((slots[i].itemsAmount > 0) && (IsMouseInside(slots[i].bounds)))
+			{
+				// Pop the Use and Delete menu
+				if (!isTextDisplayed && app->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_UP)
+				{
+					currentSlotId = i;
+					slots[i].state = SlotState::SELECTED;
+					isTextDisplayed = true;
+					break;
+				}
+				// Drag Items
+				if (!isTextDisplayed && app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
+				{
+					if (slots[i].item != nullptr && slots[i].filled)
+					{
+						originSlot = &slots[i];
+						slots[i].filled = false;
+						slots[i].item->isDragging = true;
+						grabbed = true;
+						slots[i].state = SlotState::NONE;
+						break;
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		// Drop the item to a new Inventory Slot
+		if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
+		{
+			for (int j = 0; j < MAX_INVENTORY_SLOTS; ++j)
+			{
+				if (IsMouseInside(slots[j].bounds) && !slots[j].filled)
+				{
+					slots[j].item = originSlot->item;
+					slots[j].itemsAmount = originSlot->itemsAmount;
+					slots[j].filled = true;
+					slots[j].item->isDragging = false;
+					slots[j].item->bounds = slots[j].bounds;
+					slots[j].state = SlotState::UNSELECTED;
+
+					if (slots[j].id != originSlot->id)
+					{
+						slots[originSlot->id].item->isDragging = false;
+						slots[originSlot->id].filled = false;
+						slots[originSlot->id].item = nullptr;
+					}
+
+					originSlot = nullptr;
+
+					grabbed = false;
+
+					break;
+				}
+				/*else
+				{
+					slots[originSlot->id].item = originSlot->item;
+					slots[originSlot->id].filled = true;
+					slots[originSlot->id].item->isDragging = false;
+					grabbed = false;
+					slots[originSlot->id].state = SlotState::NONE;
+					break;
+				}*/
+			}
+		}
+	}
+
+	// Drag the item. This is done here because otherwise there is one frame that the item's position is not uploaded
+	if (grabbed && originSlot != nullptr)
+	{
+		DragItem(*slots[originSlot->id].item);
+	}
 }

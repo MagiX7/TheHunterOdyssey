@@ -5,7 +5,7 @@
 class OmniPotion : public Item
 {
 public:
-	OmniPotion(iPoint pos);
+	OmniPotion(iPoint pos, SDL_Texture* atlas);
 	virtual ~OmniPotion();
 
 	bool Load() override;
