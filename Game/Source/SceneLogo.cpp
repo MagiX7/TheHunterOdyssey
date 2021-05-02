@@ -118,7 +118,7 @@ bool SceneLogo::Update(float dt)
 		if (logoAlpha > 1.0f)
 		{
 			logoAlpha = 1.0f;
-			TransitionToScene(SceneType::TITLE);
+			TransitionToScene(SceneType::TITLE, TransitionType::WIPE);
 		}
 		break;
 	}

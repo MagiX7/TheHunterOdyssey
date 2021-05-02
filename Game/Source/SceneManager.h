@@ -38,6 +38,10 @@ private:
 	bool onTransition;
 	bool fadeOutCompleted;
 	float transitionAlpha;
+
+
+	// Transitions rects
+	SDL_Rect rectWipe;
 };
 
 #endif // __SCENE_H__

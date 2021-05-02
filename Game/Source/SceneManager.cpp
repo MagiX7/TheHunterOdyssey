@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Window.h"
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
@@ -51,6 +52,11 @@ bool SceneManager::Start()
 
 	next = nullptr;
 
+	// Transition rects
+	uint w, h;
+	app->win->GetWindowSize(w, h);
+	rectWipe = { 0,0,0,(int)h };
+
 	return ret;
 }
 
@@ -70,32 +76,79 @@ bool SceneManager::Update(float dt)
 	}
 	else
 	{
-		if (!fadeOutCompleted)
+		switch (current->transitionStep)
 		{
-			transitionAlpha += (FADEOUT_TRANSITION_SPEED * dt);
-
-			// NOTE: Due to float internal representation, condition jumps on 1.0f instead of 1.05f
-			// For that reason we compare against 1.01f, to avoid last frame loading stop
-			if (transitionAlpha > 1.01f)
+		case TransitionStep::ENTERING:
+			if (current->transitionType == TransitionType::WIPE)
 			{
-				transitionAlpha = 1.0f;
-				current->UnLoad();	// Unload current screen
+				rectWipe.w += 1000 * dt;
+				
+				uint w, h;
+				app->win->GetWindowSize(w, h);
+				if (rectWipe.w >= w) current->transitionStep = TransitionStep::CHANGING;
+			}
+			break;
 
+		case TransitionStep::CHANGING:
+			if (current->transitionType == TransitionType::WIPE)
+			{
+				current->UnLoad();
 				if (app->audio->FadeOutCompleted() == false)
 				{
-					next->Load();	// Load next screen
-
-					RELEASE(current);	// Free current pointer
-					current = next;		// Assign next pointer
+					next->Load();
+					RELEASE(current);
+					current = next;
 					next = nullptr;
 
-					// Activate fade out effect to next loaded screen
-					fadeOutCompleted = true;
+					current->transitionStep = TransitionStep::EXITING;
 				}
 			}
+			break;
+
+		case TransitionStep::EXITING:
+			if (current->transitionType == TransitionType::WIPE)
+			{
+				rectWipe.w -= 1000 * dt;
+
+				uint w, h;
+				app->win->GetWindowSize(w, h);
+				if (rectWipe.w <= 0)
+				{
+					current->transitionStep = TransitionStep::NONE;
+					onTransition = false;
+					break;
+				}
+			}
+			break;
 		}
-		else  // Transition fade out logic
-		{
+
+
+		//if (!fadeOutCompleted)
+		//{
+		//	transitionAlpha += (FADEOUT_TRANSITION_SPEED * dt);
+
+		//	// NOTE: Due to float internal representation, condition jumps on 1.0f instead of 1.05f
+		//	// For that reason we compare against 1.01f, to avoid last frame loading stop
+		//	if (transitionAlpha > 1.01f)
+		//	{
+		//		transitionAlpha = 1.0f;
+		//		current->UnLoad();	// Unload current screen
+
+		//		if (app->audio->FadeOutCompleted() == false)
+		//		{
+		//			next->Load();	// Load next screen
+
+		//			RELEASE(current);	// Free current pointer
+		//			current = next;		// Assign next pointer
+		//			next = nullptr;
+
+		//			// Activate fade out effect to next loaded screen
+		//			fadeOutCompleted = true;
+		//		}
+		//	}
+		//}
+		//else  // Transition fade out logic
+		/*{
 			transitionAlpha -= (FADEIN_TRANSITION_SPEED * dt);
 
 			if (transitionAlpha < -0.01f)
@@ -104,7 +157,7 @@ bool SceneManager::Update(float dt)
 				fadeOutCompleted = false;
 				onTransition = false;
 			}
-		}
+		}*/
 	}
 
 	// Draw current scene
@@ -113,7 +166,14 @@ bool SceneManager::Update(float dt)
 	// Draw full screen rectangle in front of everything
 	if (onTransition)
 	{
-		app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, (unsigned char)(255.0f * transitionAlpha));
+		//app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, (unsigned char)(255.0f * transitionAlpha));
+		switch (current->transitionType)
+		{
+		case TransitionType::WIPE:
+			app->render->DrawRectangle(rectWipe, 0, 0, 0, true, false);
+			break;
+		}
+	
 	}
 
 	if (current->transitionRequired)

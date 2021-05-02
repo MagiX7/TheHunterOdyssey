@@ -315,10 +315,10 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 	{
 	case GuiControlType::BUTTON:
 	{
-		if (control->id == 1) scene->TransitionToScene(SceneType::GAMEPLAY); // New Game
+		if (control->id == 1) scene->TransitionToScene(SceneType::GAMEPLAY, TransitionType::WIPE); // New Game
 		else if (control->id == 2) // Continue
 		{
-			scene->TransitionToScene(SceneType::GAMEPLAY);
+			scene->TransitionToScene(SceneType::GAMEPLAY, TransitionType::WIPE);
 			app->LoadGameRequest();
 		}
 		else if (control->id == 3) // Options
