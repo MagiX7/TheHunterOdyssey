@@ -99,7 +99,7 @@ bool Inventory::Update(float dt)
 
 	case InventoryState::EQUIPMENT:
 		// TODO
-		HandleEquipment();
+		
 		break;
 
 	case InventoryState::ITEMS:
