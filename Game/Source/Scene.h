@@ -7,15 +7,9 @@ enum class TransitionType
 {
 	WIPE = 0,
 	FADE_TO_BLACK,
-	ALTERNATING_BARS
-};
+	ALTERNATING_BARS,
+	HALF_HEIGHT_RECTANGLES,
 
-enum class TransitionStep
-{
-	NONE = 0,
-	ENTERING,
-	CHANGING,
-	EXITING
 };
 
 enum class SceneType
@@ -61,7 +55,7 @@ public:
 		transitionRequired = true;
 		nextScene = scene;
 		transitionType = type;
-		transitionStep = TransitionStep::ENTERING;
+		//ransitionStep = TransitionStep::ENTERING;
 	}
 
 public:
@@ -76,7 +70,6 @@ public:
 
 	//Transition* currentTransition = nullptr;
 	TransitionType transitionType;
-	TransitionStep transitionStep;
 };
 
 #endif // __SCENE_H__

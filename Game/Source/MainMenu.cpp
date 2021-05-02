@@ -315,7 +315,7 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 	{
 	case GuiControlType::BUTTON:
 	{
-		if (control->id == 1) scene->TransitionToScene(SceneType::GAMEPLAY, TransitionType::WIPE); // New Game
+		if (control->id == 1) scene->TransitionToScene(SceneType::GAMEPLAY, TransitionType::ALTERNATING_BARS); // New Game
 		else if (control->id == 2) // Continue
 		{
 			scene->TransitionToScene(SceneType::GAMEPLAY, TransitionType::WIPE);

@@ -425,7 +425,7 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 
 			currentButton = lastButton;
 		}
-		else if (control->id == 16)	scene->TransitionToScene(SceneType::TITLE, TransitionType::WIPE);
+		else if (control->id == 16)	scene->TransitionToScene(SceneType::TITLE, TransitionType::FADE_TO_BLACK);
 		else if (control->id == 17)
 		{
 			state = PauseState::DEFAULT;
