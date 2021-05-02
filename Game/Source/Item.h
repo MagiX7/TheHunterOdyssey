@@ -12,7 +12,8 @@ enum class ItemType
 	OMNI_POTION,
 	FAIRY_TEAR,
 	FAIRY_WING,
-	FAIRY_BOTTLE
+	FAIRY_BOTTLE,
+	KNIGHT_HELMET
 };
 
 class Item : public Entity

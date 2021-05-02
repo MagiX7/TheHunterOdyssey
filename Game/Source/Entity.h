@@ -42,6 +42,7 @@ enum class EntityType
 	TOWN,
 	RAY,
 	ITEM,
+	ARMOR,
 	MAP,
 	UNKNOWN
 };

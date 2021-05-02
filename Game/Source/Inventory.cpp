@@ -10,6 +10,7 @@
 #include "Item.h"
 #include "UltraPotion.h"
 #include "Potion.h"
+#include "KnightHelmet.h"
 
 Inventory::Inventory(eastl::list<Player*> pls, SDL_Texture* atlas)
 {
@@ -64,6 +65,10 @@ bool Inventory::Load(Font* font)
 		slots[i].state = SlotState::NONE;
 		//slots[i].item = nullptr;
 
+		armorSlots[i].bounds = { 466 + offsetX,369 + offsetY,40,40 };
+		armorSlots[i].id = i;
+		armorSlots[i].state = SlotState::NONE;
+
 		offsetX += slots[i].bounds.w + 7;
 		if (i == 7 || i == 15 || i == 23)
 		{
@@ -71,6 +76,9 @@ bool Inventory::Load(Font* font)
 			offsetX = 0;
 		}
 	}
+
+	armorSlots->filled = false;
+	armorSlots->itemsAmount = 0;
 
 	slots->itemsAmount = 0;
 	slots->filled = false;
@@ -99,7 +107,7 @@ bool Inventory::Update(float dt)
 
 	case InventoryState::EQUIPMENT:
 		// TODO
-		
+		HandleEquipment();
 		break;
 
 	case InventoryState::ITEMS:
@@ -193,9 +201,67 @@ void Inventory::Draw(Font* font, bool showColliders)
 			r = { 163, 715, 40, 40 };
 			app->render->DrawTexture(atlasTexture, slots[i].bounds.x, slots[i].bounds.y, &r, false);
 
-			// Draw Equipment
+			if (showColliders) app->render->DrawRectangle(armorSlots[i].bounds, 255, 0, 0, 120, true, false);
+
+			if (armorSlots[i].itemsAmount > 0)
+			{
+				SDL_Rect textureRect = { 226,289,32,32 };
+				iQuantity = std::to_string(armorSlots[i].itemsAmount);
+
+				// Draw Item
+				if (armorSlots[i].item != nullptr && !armorSlots[i].item->isDragging)
+				{
+					
+					app->render->DrawTexture(atlasTexture, armorSlots[i].bounds.x + 4, armorSlots[i].bounds.y + 4, &armorSlots[i].item->atlasSection, false);
+
+					app->render->DrawText(font, iQuantity.c_str(), (armorSlots[i].bounds.x + armorSlots[i].bounds.w) - 13, (armorSlots[i].bounds.y + armorSlots[i].bounds.h) - 25 + 2, 25, 2, { 0,0,0 });
+					app->render->DrawText(font, iQuantity.c_str(), (armorSlots[i].bounds.x + armorSlots[i].bounds.w) - 15, armorSlots[i].bounds.y + armorSlots[i].bounds.h - 25, 25, 2, { 255,255,255 });
+					if (showColliders) app->render->DrawRectangle(armorSlots[i].item->bounds, 0, 0, 255, 120, true, false);
+				}
+
+				if (IsMouseInside(armorSlots[i].bounds) && !isTextDisplayed)
+				{
+					app->render->DrawRectangle(armorSlots[i].bounds, 200, 200, 200, 50, true, false);
+				}
+			}
 		}
 
+		if (originArmorSlot != nullptr && grabbed)
+		{
+			iQuantity = std::to_string(originArmorSlot->itemsAmount);
+			app->render->DrawTexture(atlasTexture, originArmorSlot->item->bounds.x + 4, originArmorSlot->item->bounds.y + 4, &originArmorSlot->item->atlasSection, false);
+			app->render->DrawText(font, iQuantity.c_str(), (originArmorSlot->item->bounds.x + originArmorSlot->item->bounds.w) - 4, (originArmorSlot->item->bounds.y + originArmorSlot->item->bounds.h) - 16 + 2, 25, 2, { 0,0,0 });
+			app->render->DrawText(font, iQuantity.c_str(), (originArmorSlot->item->bounds.x + originArmorSlot->item->bounds.w) - 6, (originArmorSlot->item->bounds.y + originArmorSlot->item->bounds.h) - 16, 25, 2, { 255,255,255 });
+			if (showColliders) app->render->DrawRectangle(originArmorSlot->item->bounds, 0, 255, 0, 120, true, false);
+		}
+
+		if (currentArmorSlotId > -1)
+		{
+			if (slots[currentArmorSlotId].state == SlotState::SELECTED)
+				DisplayText(slots[currentArmorSlotId].bounds, showColliders);
+			else if (slots[currentArmorSlotId].state == SlotState::USE)
+			{
+				tmpBounds = armorSlots[currentArmorSlotId].bounds;
+				SDL_Rect r = { tmpBounds.x, tmpBounds.y, 128, 95 };
+				app->render->DrawRectangle(r, 0, 0, 0, 255, true, false);
+
+				btnHunter->bounds.x = tmpBounds.x + 20;
+				btnHunter->bounds.y = tmpBounds.y + 5;
+				btnHunter->Draw(app->render, showColliders);
+
+				btnWizard->bounds.x = tmpBounds.x + 70;
+				btnWizard->bounds.y = tmpBounds.y + 5;
+				btnWizard->Draw(app->render, showColliders);
+
+				btnThief->bounds.x = tmpBounds.x + 20;
+				btnThief->bounds.y = btnWizard->bounds.y + btnWizard->bounds.h + 5;
+				btnThief->Draw(app->render, showColliders);
+
+				btnWarrior->bounds.x = tmpBounds.x + 70;
+				btnWarrior->bounds.y = btnWizard->bounds.y + btnWizard->bounds.h + 5;
+				btnWarrior->Draw(app->render, showColliders);
+			}
+		}
 		break;
 	case InventoryState::ITEMS:
 
@@ -445,23 +511,48 @@ void Inventory::UpdatingButtons(Input* input)
 
 void Inventory::AddItem(Item *it)
 {
+		for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
+		{
+			if (slots[i].item != nullptr && slots[i].item->iType == (it)->iType)
+			{
+				RELEASE(it);
+				slots[i].itemsAmount++;
+				slots[i].state = SlotState::UNSELECTED;
+				slots[i].item->bounds = slots[i].bounds;
+				break;
+			}
+			else if (slots[i].item == nullptr)
+			{
+				slots[i].item = it;
+				slots[i].filled = true;
+				slots[i].itemsAmount = 1;
+				slots[i].state = SlotState::UNSELECTED;
+				slots[i].item->bounds = slots[i].bounds;
+				break;
+			}
+		}
+}
+
+void Inventory::AddArmor(Item* ar)
+{
 	for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
 	{
-		if (slots[i].item != nullptr && slots[i].item->iType == (it)->iType)
+		if (armorSlots[i].item != nullptr && armorSlots[i].item->iType == (ar)->iType)
 		{
-			RELEASE(it);
-			slots[i].itemsAmount++;
-			slots[i].state = SlotState::UNSELECTED;
-			slots[i].item->bounds = slots[i].bounds;
+			RELEASE(ar);
+			armorSlots[i].itemsAmount++;
+			armorSlots[i].state = SlotState::UNSELECTED;
+			armorSlots[i].item->bounds = armorSlots[i].bounds;
 			break;
 		}
-		else if (slots[i].item == nullptr)
+		else if (armorSlots[i].item == nullptr)
 		{
-			slots[i].item = it;
-			slots[i].filled = true;
-			slots[i].itemsAmount = 1;
-			slots[i].state = SlotState::UNSELECTED;
-			slots[i].item->bounds = slots[i].bounds;
+			armorSlots[i].item = ar;
+			armorSlots[i].item->isDragging = false;
+			armorSlots[i].filled = true;
+			armorSlots[i].itemsAmount = 1;
+			armorSlots[i].state = SlotState::UNSELECTED;
+			armorSlots[i].item->bounds = armorSlots[i].bounds;
 			break;
 		}
 	}
@@ -573,15 +664,6 @@ void Inventory::HandleItems()
 
 					break;
 				}
-				/*else
-				{
-					slots[originSlot->id].item = originSlot->item;
-					slots[originSlot->id].filled = true;
-					slots[originSlot->id].item->isDragging = false;
-					grabbed = false;
-					slots[originSlot->id].state = SlotState::NONE;
-					break;
-				}*/
 			}
 		}
 	}
@@ -590,5 +672,77 @@ void Inventory::HandleItems()
 	if (grabbed && originSlot != nullptr)
 	{
 		DragItem(*slots[originSlot->id].item);
+	}
+}
+
+void Inventory::HandleEquipment()
+{
+	if (!grabbed)
+	{
+		for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
+		{
+			if ((armorSlots[i].itemsAmount > 0) && (IsMouseInside(armorSlots[i].bounds)))
+			{
+				// Pop the Use and Delete menu
+				if (!isTextDisplayed && app->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_UP)
+				{
+					currentArmorSlotId = i;
+					armorSlots[i].state = SlotState::SELECTED;
+					isTextDisplayed = true;
+					break;
+				}
+				// Drag Items
+				if (!isTextDisplayed && app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
+				{
+					if (armorSlots[i].item != nullptr && armorSlots[i].filled)
+					{
+						originArmorSlot = &armorSlots[i];
+						armorSlots[i].filled = false;
+						armorSlots[i].item->isDragging = true;
+						grabbed = true;
+						armorSlots[i].state = SlotState::NONE;
+						break;
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		// Drop the item to a new Inventory Slot
+		if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
+		{
+			for (int j = 0; j < MAX_INVENTORY_SLOTS; ++j)
+			{
+				if (IsMouseInside(armorSlots[j].bounds) && !armorSlots[j].filled)
+				{
+					armorSlots[j].item = originArmorSlot->item;
+					armorSlots[j].itemsAmount = originArmorSlot->itemsAmount;
+					armorSlots[j].filled = true;
+					armorSlots[j].item->isDragging = false;
+					armorSlots[j].item->bounds = armorSlots[j].bounds;
+					armorSlots[j].state = SlotState::UNSELECTED;
+
+					if (armorSlots[j].id != originArmorSlot->id)
+					{
+						armorSlots[originArmorSlot->id].item->isDragging = false;
+						armorSlots[originArmorSlot->id].filled = false;
+						armorSlots[originArmorSlot->id].item = nullptr;
+					}
+
+					originArmorSlot = nullptr;
+
+					grabbed = false;
+
+					break;
+				}
+			}
+		}
+	}
+
+	// Drag the item. This is done here because otherwise there is one frame that the item's position is not uploaded
+	if (grabbed && originArmorSlot != nullptr)
+	{
+		DragItem(*armorSlots[originArmorSlot->id].item);
 	}
 }

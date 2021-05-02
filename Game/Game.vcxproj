@@ -144,7 +144,6 @@
     <ClCompile Include="Source\Window.cpp" />
     <ClCompile Include="Source\Wizard.cpp" />
     <ClInclude Include="Source\Animation.h" />
-    <ClInclude Include="Source\Armor.h" />
     <ClInclude Include="Source\Bat.h" />
     <ClInclude Include="Source\BattleMenu.h" />
     <ClInclude Include="Source\Dialogue.h" />

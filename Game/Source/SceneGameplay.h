@@ -17,7 +17,6 @@ class DialogueManager;
 class PauseMenu;
 class Render;
 class Item;
-class KnightHelmet;
 class Inventory;
 
 enum class PlayerType;
@@ -106,7 +105,7 @@ private:
 	Inventory* inventory;
 
 	// Armor
-	KnightHelmet* helmet;
+	Item* helmet;
 	SDL_Texture* helmetTexture;
 
 	eastl::list<Item*> items;

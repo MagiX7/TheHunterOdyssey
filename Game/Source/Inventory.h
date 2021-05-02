@@ -5,6 +5,8 @@
 
 #include "GuiButton.h"
 
+#include <iostream>
+
 #define MAX_INVENTORY_SLOTS 32
 
 class Input;
@@ -31,8 +33,7 @@ enum class InventoryState
 struct InventorySlot
 {
 	SDL_Rect bounds;
-	//Item* items[MAX_INVENTORY_SLOTS_ITEMS];
-	Item *item;
+	Item* item;
 	int itemsAmount;
 	bool filled;
 	int id;
@@ -64,6 +65,8 @@ public:
 	void UpdatingButtons(Input* input) override;
 
 	void AddItem(Item *it);
+
+	void AddArmor(Item* ar);
 
 	bool IsMouseInside(SDL_Rect r);
 

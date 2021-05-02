@@ -342,9 +342,6 @@
     <ClInclude Include="Source\FairyBottle.h">
       <Filter>Entities\Items</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Armor.h">
-      <Filter>Entities\Armors</Filter>
-    </ClInclude>
     <ClInclude Include="Source\KnightHelmet.h">
       <Filter>Entities\Armors</Filter>
     </ClInclude>

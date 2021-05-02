@@ -112,7 +112,7 @@ SceneGameplay::SceneGameplay()
 	item = new Potion(iPoint(250, 350), atlas);
 	items.push_back(item);
 
-	helmet = new KnightHelmet({ 270, 350, 32, 32 }, atlas);
+	helmet = new KnightHelmet({ 270, 350, 32, 32 }, iPoint(270, 350),atlas);
 
 	//Create Enemies
 
@@ -250,6 +250,13 @@ bool SceneGameplay::Update(float dt)
 						//items.erase(it);
 						//RELEASE((*it));
 					}
+				}
+
+				if (CheckCollision(currentPlayer->bounds, helmet->bounds))
+				{
+					inventory->AddArmor(helmet);
+					helmet->bounds.x = 20000;
+					helmet->bounds.y = 20000;
 				}
 			}
 			else
