@@ -60,6 +60,11 @@ private:
 	// Fade to Black
 	float transitionAlpha;
 
+	// Half Width Rectangles
+	SDL_Rect rectUpper2;
+	SDL_Rect rectLower2;
+	float halfWidthCount;
+
 };
 
 #endif // __SCENE_H__

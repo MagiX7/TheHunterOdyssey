@@ -79,6 +79,11 @@ bool SceneManager::Start()
 	// Fade to Black
 	transitionAlpha = 0.0f;
 
+	// Half Width Rectangles
+	rectUpper2 = { 0,0,(int)w, 0 };
+	rectLower2 = { 0,(int)h,(int)w,0 };
+	halfWidthCount = 0.0f;
+
 	return ret;
 }
 
@@ -103,13 +108,13 @@ bool SceneManager::Update(float dt)
 		switch (transitionStep)
 		{
 		case TransitionStep::ENTERING:
-			if (current->transitionType == TransitionType::WIPE)
+			if (current->transitionEnteringType == TransitionType::WIPE)
 			{
 				rectWipe.w += 1000 * dt;
 				
 				if (rectWipe.w >= w) transitionStep = TransitionStep::CHANGING;
 			}
-			else if (current->transitionType == TransitionType::ALTERNATING_BARS)
+			else if (current->transitionEnteringType == TransitionType::ALTERNATING_BARS)
 			{
 				for (int i = 0; i < MAX_BARS_SIZE; ++i)
 				{
@@ -119,7 +124,7 @@ bool SceneManager::Update(float dt)
 
 				if (bars[MAX_BARS_SIZE - 1].w < -(int)w) transitionStep = TransitionStep::CHANGING;
 			}
-			else if (current->transitionType == TransitionType::HALF_HEIGHT_RECTANGLES)
+			else if (current->transitionEnteringType == TransitionType::HALF_HEIGHT_RECTANGLES)
 			{
 				if (rectUpper.w <= (int)w + 100)
 					rectUpper.w += 1000 * dt;
@@ -129,10 +134,16 @@ bool SceneManager::Update(float dt)
 					if(rectLower.w <= -(int)w) transitionStep = TransitionStep::CHANGING;
 				}
 			}
-			else if (current->transitionType == TransitionType::FADE_TO_BLACK)
+			else if (current->transitionEnteringType == TransitionType::FADE_TO_BLACK)
 			{
 				transitionAlpha += dt;
 				if(transitionAlpha > 1.01f) transitionStep = TransitionStep::CHANGING;
+			}
+			else if (current->transitionEnteringType == TransitionType::HALF_WIDHT_RECTANGLES)
+			{
+				rectUpper2.h += 500 * dt;
+				rectLower2.h -= 500 * dt;
+				if(rectLower2.h <= -(int)h/2) transitionStep = TransitionStep::CHANGING;
 			}
 			break;
 
@@ -140,25 +151,27 @@ bool SceneManager::Update(float dt)
 			current->UnLoad();
 			if (app->audio->FadeOutCompleted() == false)
 			{
-				TransitionType tmpType = current->transitionType;
+				TransitionType tmpType = current->transitionEnteringType;
 				next->Load();
 				RELEASE(current);
 				current = next;
 				next = nullptr;
-				current->transitionType = tmpType;
+				current->transitionEnteringType = tmpType;
 				transitionStep = TransitionStep::EXITING;
 			}
 			break;
 
 		case TransitionStep::EXITING:
-			if (current->transitionType == TransitionType::WIPE)
+			if (current->transitionExitingType == TransitionType::WIPE)
 			{
+				if (current->transitionEnteringType != current->transitionExitingType)
+					rectWipe.w = (int)w;
 				rectWipe.w -= 1000 * dt;
 				LOG("%i", rectWipe.w);
 
 				if (rectWipe.w <= 0) transitionStep = TransitionStep::NONE;
 			}
-			else if (current->transitionType == TransitionType::ALTERNATING_BARS)
+			else if (current->transitionExitingType == TransitionType::ALTERNATING_BARS)
 			{
 				for (int i = 0; i < MAX_BARS_SIZE; ++i)
 				{
@@ -168,7 +181,7 @@ bool SceneManager::Update(float dt)
 
 				if (bars[MAX_BARS_SIZE - 1].w > 0) transitionStep = TransitionStep::NONE;
 			}
-			else if (current->transitionType == TransitionType::HALF_HEIGHT_RECTANGLES)
+			else if (current->transitionExitingType == TransitionType::HALF_HEIGHT_RECTANGLES)
 			{
 				if (rectLower.w <= 0)
 					rectLower.w += 1000 * dt;
@@ -178,10 +191,20 @@ bool SceneManager::Update(float dt)
 					if(rectUpper.w <= 0) transitionStep = TransitionStep::NONE;
 				}
 			}
-			else if (current->transitionType == TransitionType::FADE_TO_BLACK)
+			else if (current->transitionExitingType == TransitionType::FADE_TO_BLACK)
 			{
 				transitionAlpha -= dt;
 				if (transitionAlpha < -0.01f) transitionStep = TransitionStep::NONE;
+			}
+			else if (current->transitionExitingType == TransitionType::HALF_WIDHT_RECTANGLES)
+			{
+				halfWidthCount += dt;
+				if (halfWidthCount >= 0.5f)
+				{
+					rectUpper2.h -= 500 * dt;
+					rectLower2.h += 500 * dt;
+					if (rectLower2.h >= 0) transitionStep = TransitionStep::NONE;
+				}
 			}
 			break;
 		}
@@ -194,7 +217,7 @@ bool SceneManager::Update(float dt)
 	//if (onTransition)
 	if(transitionStep != TransitionStep::NONE)
 	{
-		switch (current->transitionType)
+		switch (current->transitionEnteringType)
 		{
 		case TransitionType::WIPE:
 			app->render->DrawRectangle(rectWipe, 0, 0, 0);
@@ -211,6 +234,17 @@ bool SceneManager::Update(float dt)
 
 		case TransitionType::FADE_TO_BLACK:
 			app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280,720 }, 0, 0, 0);
+			break;
+
+		case TransitionType::HALF_WIDHT_RECTANGLES:
+			app->render->DrawRectangle(rectUpper2, 0, 0, 0);
+			app->render->DrawRectangle(rectLower2, 0, 0, 0);
+			break;
+		}
+		switch (current->transitionEnteringType)
+		{
+		case TransitionType::WIPE:
+			app->render->DrawRectangle(rectWipe, 0, 0, 0);
 			break;
 		}
 	}

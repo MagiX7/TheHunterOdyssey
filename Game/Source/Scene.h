@@ -5,11 +5,12 @@
 
 enum class TransitionType
 {
-	WIPE = 0,
+	NONE = 0,
+	WIPE,
 	FADE_TO_BLACK,
 	ALTERNATING_BARS,
 	HALF_HEIGHT_RECTANGLES,
-
+	HALF_WIDHT_RECTANGLES
 };
 
 enum class SceneType
@@ -49,13 +50,16 @@ public:
 
 	virtual bool SaveState(pugi::xml_node&) const { return true; }
 
-	void TransitionToScene(SceneType scene, TransitionType type)
+	void TransitionToScene(SceneType scene, TransitionType enteringType, TransitionType exitingType = TransitionType::NONE)
 	{
 		LOG("Changing Scene");
 		transitionRequired = true;
 		nextScene = scene;
-		transitionType = type;
-		//ransitionStep = TransitionStep::ENTERING;
+		transitionEnteringType = enteringType;
+		if (exitingType == TransitionType::NONE)
+			transitionExitingType = transitionEnteringType;
+		else
+			transitionExitingType = exitingType;
 	}
 
 public:
@@ -69,7 +73,8 @@ public:
 
 
 	//Transition* currentTransition = nullptr;
-	TransitionType transitionType;
+	TransitionType transitionEnteringType;
+	TransitionType transitionExitingType;
 };
 
 #endif // __SCENE_H__
