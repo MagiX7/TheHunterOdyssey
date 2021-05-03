@@ -50,16 +50,12 @@ public:
 
 	virtual bool SaveState(pugi::xml_node&) const { return true; }
 
-	void TransitionToScene(SceneType scene, TransitionType enteringType, TransitionType exitingType = TransitionType::NONE)
+	void TransitionToScene(SceneType scene, TransitionType type)
 	{
 		LOG("Changing Scene");
 		transitionRequired = true;
 		nextScene = scene;
-		transitionEnteringType = enteringType;
-		if (exitingType == TransitionType::NONE)
-			transitionExitingType = transitionEnteringType;
-		else
-			transitionExitingType = exitingType;
+		transitionType = type;
 	}
 
 public:
@@ -71,10 +67,7 @@ public:
 	bool isTown;
 	bool showColliders;
 
-
-	//Transition* currentTransition = nullptr;
-	TransitionType transitionEnteringType;
-	TransitionType transitionExitingType;
+	TransitionType transitionType;
 };
 
 #endif // __SCENE_H__
