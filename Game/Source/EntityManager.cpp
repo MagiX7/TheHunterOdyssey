@@ -31,8 +31,9 @@ bool EntityManager::Load()
 
 	// Update Logic
 	eastl::list<Entity*>::iterator item;
+	eastl::list<Entity*>::iterator itEnd = entities.end();
 
-	for (item = entities.begin(); item != entities.end(); ++item)
+	for (item = entities.begin(); item != itEnd; ++item)
 		(*item)->Load();
 
 	return ret;
@@ -45,8 +46,9 @@ bool EntityManager::Update(float dt)
 	
 	// Update Logic
 	eastl::list<Entity*>::iterator item;
+	eastl::list<Entity*>::iterator itEnd = entities.end();
 	
-	for (item = entities.begin(); item != entities.end(); ++item)
+	for (item = entities.begin(); item != itEnd; ++item)
 		(*item)->Update(dt);
 
 	return ret;
@@ -55,8 +57,9 @@ bool EntityManager::Update(float dt)
 void EntityManager::Draw(bool showColliders)
 {
 	eastl::list<Entity*>::iterator item;
+	eastl::list<Entity*>::iterator itEnd = entities.end();
 	
-	for (item = entities.begin(); item != entities.end(); ++item)
+	for (item = entities.begin(); item != itEnd; ++item)
 		(*item)->Draw(showColliders);
 }
 
@@ -65,9 +68,10 @@ bool EntityManager::UnLoad()
 	LOG("Unloading Entities");
 	bool ret = true;
 
-	eastl::list<Entity*>::iterator item = entities.begin();
+	eastl::list<Entity*>::iterator item;
+	eastl::list<Entity*>::iterator itEnd = entities.end();
 
-	for (item = entities.begin(); item != entities.end(); ++item)
+	for (item = entities.begin(); item != itEnd; ++item)
 	{
 		(*item)->UnLoad();
 		RELEASE((*item));
@@ -80,12 +84,14 @@ bool EntityManager::UnLoad()
 bool EntityManager::CheckEntityColision(SceneGameplay* scene)
 {
 	eastl::list<Entity*>::iterator item;
+	eastl::list<Entity*>::iterator itEnd = entities.end();
 
-	for (item = entities.begin(); item != entities.end(); ++item)
+	for (item = entities.begin(); item != itEnd; ++item)
 	{
-		if (scene->CollisionMapEntity((*item)->bounds, (*item)->type))
+		Entity* entity = (*item);
+		if (scene->CollisionMapEntity(entity->bounds, entity->type))
 		{
-			(*item)->OnCollision();
+			entity->OnCollision();
 		}
 	}
 
@@ -176,15 +182,17 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node 
 void EntityManager::DeleteAllNpcActive()
 {
 	eastl::list<Entity*>::iterator item;
+	eastl::list<Entity*>::iterator itEnd = entities.end();
 
-	for (item = entities.begin(); item != entities.end(); ++item)
+	for (item = entities.begin(); item != itEnd; ++item)
 	{
-		if ((*item)->GetState() != EntityState::INACTIVE) 
+		Entity* entity = (*item);
+		if (entity->GetState() != EntityState::INACTIVE) 
 		{
-			if ((*item)->type == EntityType::NPC_WIZARD || (*item)->type == EntityType::RAY || 
-				(*item)->type == EntityType::TOWN || (*item)->type == EntityType::TABERN)
+			if (entity->type == EntityType::NPC_WIZARD || entity->type == EntityType::RAY ||
+				entity->type == EntityType::TOWN || entity->type == EntityType::TABERN)
 			{
-				(*item)->UnLoad();
+				entity->UnLoad();
 				RELEASE((*item));
 				entities.remove(*item);
 			}
@@ -195,13 +203,15 @@ void EntityManager::DeleteAllNpcActive()
 void EntityManager::SetAllNpcInactive()
 {
 	eastl::list<Entity*>::iterator item;
+	eastl::list<Entity*>::iterator itEnd = entities.end();
 
-	for (item = entities.begin(); item != entities.end(); ++item) 
+	for (item = entities.begin(); item != itEnd; ++item) 
 	{
-		if ((*item)->type == EntityType::NPC_WIZARD|| (*item)->type == EntityType::RAY || 
-			(*item)->type == EntityType::TOWN || (*item)->type == EntityType::TABERN)
+		Entity* entity = (*item);
+		if (entity->type == EntityType::NPC_WIZARD || entity->type == EntityType::RAY || 
+			entity->type == EntityType::TOWN || entity->type == EntityType::TABERN)
 		{
-			(*item)->SetInactive();
+			entity->SetInactive();
 		}
 	}
 }
@@ -209,13 +219,15 @@ void EntityManager::SetAllNpcInactive()
 void EntityManager::SetAllNpcActive()
 {
 	eastl::list<Entity*>::iterator item;
+	eastl::list<Entity*>::iterator itEnd = entities.end();
 
-	for (item = entities.begin(); item != entities.end(); ++item)
+	for (item = entities.begin(); item != itEnd; ++item)
 	{
-		if ((*item)->type == EntityType::NPC_WIZARD || (*item)->type == EntityType::RAY
-			|| (*item)->type == EntityType::TOWN || (*item)->type == EntityType::TABERN)
+		Entity* entity = (*item);
+		if (entity->type == EntityType::NPC_WIZARD || entity->type == EntityType::RAY
+			|| entity->type == EntityType::TOWN || entity->type == EntityType::TABERN)
 		{
-			(*item)->SetActive();
+			entity->SetActive();
 		}
 	}
 }
@@ -224,12 +236,14 @@ void EntityManager::DeleteEntity(Entity* entity)
 {
 	LOG("Deleting Entity");
 	eastl::list<Entity*>::iterator item;
+	eastl::list<Entity*>::iterator itEnd = entities.end();
 
-	for (item = entities.begin(); item != entities.end(); ++item)
+	for (item = entities.begin(); item != itEnd; ++item)
 	{
-		if (*item == entity)
+		Entity* en = (*item);
+		if (en == entity)
 		{
-			(*item)->UnLoad();
+			en->UnLoad();
 			entities.remove(*item);
 			RELEASE(*item);
 			break;
@@ -241,8 +255,9 @@ void EntityManager::DeleteAllEntities()
 {
 	LOG("Deleting All Entities");
 	eastl::list<Entity*>::iterator item;
+	eastl::list<Entity*>::iterator itEnd = entities.end();
 
-	for (item = entities.begin(); item != entities.end(); ++item)
+	for (item = entities.begin(); item != itEnd; ++item)
 	{
 		(*item)->UnLoad();
 		entities.remove(*item);
@@ -316,15 +331,16 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad, pugi::xml_node* anims)
 bool EntityManager::SaveState(pugi::xml_node* toSave)
 {
 	eastl::list<Entity*>::iterator item;
+	eastl::list<Entity*>::iterator itEnd = entities.end();
 	pugi::xml_node nodeNpc = toSave->append_child("NPCs");
 	pugi::xml_node nodeNpcAuxiliar;
 
 
 	int npcAmount = 0;
 
-	for (item = entities.begin(); item != entities.end(); ++item)
+	for (item = entities.begin(); item != itEnd; ++item)
 	{
-		switch (item.mpNode->mValue->type)
+		switch ((*item)->type)
 		{
 		case EntityType::NPC_WIZARD:
 			npcAmount++;
@@ -344,28 +360,27 @@ bool EntityManager::SaveState(pugi::xml_node* toSave)
 	nodeNpc.append_attribute("amount").set_value(npcAmount);
 
 
-	for (item = entities.begin(); item != entities.end(); ++item)
+	for (item = entities.begin(); item != itEnd; ++item)
 	{
-
-		switch ((*item)->type)
+		Entity* entity = (*item);
+		switch (entity->type)
 		{
 		case EntityType::NPC_WIZARD:
 			nodeNpcAuxiliar = nodeNpc.append_child("NPC");
-			(*item)->SaveState(nodeNpcAuxiliar);
+			entity->SaveState(nodeNpcAuxiliar);
 			break;
 		case EntityType::TABERN:
 			nodeNpcAuxiliar = nodeNpc.append_child("NPC");
-			(*item)->SaveState(nodeNpcAuxiliar);
+			entity->SaveState(nodeNpcAuxiliar);
 			break;
 		case EntityType::RAY:
 			nodeNpcAuxiliar = nodeNpc.append_child("NPC");
-			(*item)->SaveState(nodeNpcAuxiliar);
+			entity->SaveState(nodeNpcAuxiliar);
 			break;
 		case EntityType::TOWN:
 			nodeNpcAuxiliar = nodeNpc.append_child("NPC");
-			(*item)->SaveState(nodeNpcAuxiliar);
+			entity->SaveState(nodeNpcAuxiliar);
 			break;
-
 		}
 	}
 

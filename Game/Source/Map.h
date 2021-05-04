@@ -168,6 +168,5 @@ private:
 	bool mapLoaded;
 
 	uint32 scale;
-
 };
 #endif // __MAP_H__
