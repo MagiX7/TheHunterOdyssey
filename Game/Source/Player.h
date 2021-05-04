@@ -11,7 +11,7 @@
 
 class SDL_Texture;
 class Enemy;
-class Armor;
+class Item;
 
 enum class PlayerType
 {
@@ -77,10 +77,74 @@ public:
 	inline int GetObjectSelected() const { return currentObjectSelected; }
 	inline bool GetDefend() const { return isDefending; }
 	inline eastl::string GetName() const { return name; }
-
+	inline Item* GetHelmet() const {if (helmet) return helmet; }
+	inline Item* GetChest() const { if (chest) return chest; }
+	inline Item* GetBoots() const { if (boots) return boots; }
+	inline Item* GetWeapon() const { if (weapon) return weapon; }
+	
 	// Setters
 	inline void SetAbilitySelected(int num) { currentAbilitySelected = num; }
 	inline void SetObjectSelected(int num) { currentObjectSelected = num; }
+	Item* SetHelmet(Item* helm) 
+	{
+		Item* ret = nullptr;
+
+		if (helmet == nullptr)
+		{
+			helmet = helm;
+		}
+		else
+		{
+			ret = helmet;
+			helmet = helm;
+		}
+		return ret;
+	}
+	Item* SetChest(Item* che) 
+	{ 
+		Item* ret = nullptr;
+
+		if (chest == nullptr)
+		{
+			chest = che;
+		}
+		else
+		{
+			ret = chest;
+			chest = che;
+		}
+		return ret;
+	}
+	Item* SetBoots(Item* boot)
+	{ 
+		Item* ret = nullptr;
+
+		if (boots == nullptr)
+		{
+			boots = boot;
+		}
+		else
+		{
+			ret = boots;
+			boots = boot;
+		}
+		return ret;
+	}
+	Item* SetWeapon(Item* weap) 
+	{
+		Item* ret = nullptr;
+
+		if (weapon == nullptr)
+		{
+			weapon = weap;
+		}
+		else
+		{
+			ret = weapon;
+			weapon = weap;
+		}
+		return ret;
+	}
 
 protected:
 	virtual void HandleInput(float dt);
@@ -96,8 +160,10 @@ protected:
 
 	eastl::string name;
 
-	// Armor
-	Armor* currArmor;
+	Item* helmet;
+	Item* boots;
+	Item* chest;
+	Item* weapon;
 
 	// Enemy target
 	Enemy* target;

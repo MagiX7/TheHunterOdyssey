@@ -77,6 +77,15 @@ bool Inventory::Load(Font* font)
 		}
 	}
 
+	currentPlayer = (*players.begin());
+	for (int i = 0; i < MAX_EQUIPMENT_SLOTS; ++i)
+	{
+		equipment[i].bounds = {526 + i * 50, 288, 40, 40};
+		equipment[i].filled = false;
+		equipment[i].id = i;
+		equipment[i].state = SlotState::NONE;
+	}
+
 	armorSlots->filled = false;
 	armorSlots->itemsAmount = 0;
 
@@ -342,6 +351,16 @@ void Inventory::Draw(Font* font, bool showColliders)
 		break;
 	}
 
+	// Equipment drawing
+	for (int i = 0; i < MAX_EQUIPMENT_SLOTS; ++i)
+	{
+		r = { 163, 715, 40, 40 };
+		app->render->DrawTexture(atlasTexture, equipment[i].bounds.x, equipment[i].bounds.y, &r, false);
+	}
+	app->render->DrawTexture(atlasTexture, equipment[0].bounds.x, equipment->bounds.y, &currentPlayer->GetHelmet()->atlasSection, false);
+	app->render->DrawTexture(atlasTexture, equipment[1].bounds.x, equipment->bounds.y, &currentPlayer->GetChest()->atlasSection, false);
+	app->render->DrawTexture(atlasTexture, equipment[2].bounds.x, equipment->bounds.y, &currentPlayer->GetBoots()->atlasSection, false);
+	app->render->DrawTexture(atlasTexture, equipment[3].bounds.x, equipment->bounds.y, &currentPlayer->GetWeapon()->atlasSection, false);
 
 	// Stats drawing
 

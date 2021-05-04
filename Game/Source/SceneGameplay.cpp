@@ -255,6 +255,7 @@ bool SceneGameplay::Update(float dt)
 				if (CheckCollision(currentPlayer->bounds, helmet->bounds))
 				{
 					inventory->AddArmor(helmet);
+					(*playerList.begin())->SetHelmet(helmet);
 					helmet->bounds.x = 20000;
 					helmet->bounds.y = 20000;
 				}

@@ -8,6 +8,7 @@
 #include <iostream>
 
 #define MAX_INVENTORY_SLOTS 32
+#define MAX_EQUIPMENT_SLOTS 4
 
 class Input;
 class Player;
@@ -93,6 +94,9 @@ private:
 	SDL_Texture* playersTexture;
 
 	InventoryState state;
+
+	// Armor and weapons equiped slots
+	InventorySlot equipment[MAX_EQUIPMENT_SLOTS];
 
 	// There will be 32 slots for items
 	InventorySlot slots[MAX_INVENTORY_SLOTS];
