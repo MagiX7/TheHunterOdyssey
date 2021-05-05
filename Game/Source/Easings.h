@@ -9,6 +9,7 @@ class Easing
 public:
 	//CONSTRUCTOR AND DESTRUCTOR
 	Easing() {}
+	Easing(bool easingActivated, float currIt, float initPos, float deltaPos, float totalIt);
 	~Easing() {}
 
 	//BACK METHODS
