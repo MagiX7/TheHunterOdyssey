@@ -145,6 +145,10 @@ bool SceneGameplay::Load()
 	// Start music
 	app->audio->PlayMusic("Assets/Audio/Music/village_theme_1.ogg", 0);
 
+	//Load Fx
+	doorOpenedFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/door_open.ogg");
+	doorClosedFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/door_close.ogg");
+
 	map = new Map();
 	isTown = true;
 	map->Load("town_map.tmx", app->tex);
@@ -541,6 +545,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 				{
 					if (isTown && (layer->Get(i, j) == 771) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorOpenedFx);
 						isTown = false;
 						entityManager->SetAllNpcInactive();
 
@@ -555,6 +560,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					else if ((layer->Get(i, j) == 771) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
@@ -569,6 +575,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (isTown && (layer->Get(i, j) == 772) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorOpenedFx);
 						isTown = false;
 						entityManager->SetAllNpcInactive();
 						iPoint position = { 625,480 };
@@ -582,6 +589,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					else if ((layer->Get(i, j) == 772) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
@@ -596,6 +604,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (isTown && (layer->Get(i, j) == 773) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorOpenedFx);
 						isTown = false;
 						entityManager->SetAllNpcInactive();
 						iPoint position = { 625,480 };
@@ -609,6 +618,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					else if ((layer->Get(i, j) == 773) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
@@ -623,6 +633,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (isTown && (layer->Get(i, j) == 774) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorOpenedFx);
 						isTown = false;
 						entityManager->SetAllNpcInactive();
 						iPoint position = { 625,430 };
@@ -636,6 +647,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					else if ((layer->Get(i, j) == 6) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
@@ -650,6 +662,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (isTown && (layer->Get(i, j) == 775) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorOpenedFx);
 						isTown = false;
 						entityManager->SetAllNpcInactive();
 						iPoint position;
@@ -681,6 +694,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					else if ((layer->Get(i, j) == 7) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
@@ -695,6 +709,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (isTown && (layer->Get(i, j) == 776) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorOpenedFx);
 						isTown = false;
 						entityManager->SetAllNpcInactive();
 						iPoint position = { 630,450 };
@@ -722,6 +737,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					else if ((layer->Get(i, j) == 1544) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
@@ -736,6 +752,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (isTown && (layer->Get(i, j) == 777) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorOpenedFx);
 						isTown = false;
 						entityManager->SetAllNpcInactive();
 						iPoint position = { 750,300 };
@@ -764,6 +781,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					else if ((layer->Get(i, j) == 1545) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
@@ -778,6 +796,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (isTown && (layer->Get(i, j) == 778) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorOpenedFx);
 						isTown = false;
 						entityManager->SetAllNpcInactive();
 						iPoint position = { 650,480 };
@@ -791,6 +810,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					else if ((layer->Get(i, j) == 1546) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
@@ -805,6 +825,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (isTown && (layer->Get(i, j) == 779) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorOpenedFx);
 						isTown = false;
 						entityManager->SetAllNpcInactive();
 						iPoint position = { 615,480 };
@@ -832,6 +853,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					else if ((layer->Get(i, j) == 1547) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
@@ -846,6 +868,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (isTown && (layer->Get(i, j) == 780) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorOpenedFx);
 						isTown = false;
 						entityManager->SetAllNpcInactive();
 						iPoint position = { 615,480 };
@@ -859,6 +882,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					else if ((layer->Get(i, j) == 12) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
@@ -873,6 +897,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (isTown && (layer->Get(i, j) == 782) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorOpenedFx);
 						isTown = false;
 						entityManager->SetAllNpcInactive();
 						iPoint position = { 615,480 };
@@ -886,6 +911,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					else if ((layer->Get(i, j) == 14) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();
@@ -900,6 +926,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (isTown && (layer->Get(i, j) == 783) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorOpenedFx);
 						isTown = false;
 						entityManager->SetAllNpcInactive();
 						iPoint position = { 615,480 };
@@ -913,6 +940,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					else if ((layer->Get(i, j) == 1551) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						app->audio->PlayFx(doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
 						entityManager->SetAllNpcActive();

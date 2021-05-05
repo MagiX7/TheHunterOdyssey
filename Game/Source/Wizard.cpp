@@ -3,6 +3,7 @@
 #include "Render.h"
 #include "Textures.h"
 #include "GuiButton.h"
+#include "Audio.h"
 
 #include "Wizard.h"
 #include "Enemy.h"
@@ -83,6 +84,8 @@ bool Wizard::Load()
 	// TODO implement textures for wizard. 
 	texture = app->tex->Load("Assets/Textures/Players/wizard2.png");
 	battlerTexture = app->tex->Load("Assets/Textures/Players/battler_wizard.png");
+
+	footStepFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/footstep_wizard.ogg");
 
 	return true;
 }
@@ -173,6 +176,7 @@ void Wizard::HandleInput(float dt)
 	case PlayerStance::ROAMING:
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_REPEAT || app->input->pad->l_y < -0.5)
 		{
+			if (app->frameCount % 15 == 0) app->audio->PlayFx(footStepFx);
 			bounds.y -= SPEED_Y * dt;
 			if (currentAnim != &walkUp)
 			{
@@ -182,6 +186,7 @@ void Wizard::HandleInput(float dt)
 		}
 		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_REPEAT || app->input->pad->l_y > 0.5)
 		{
+			if (app->frameCount % 15 == 0) app->audio->PlayFx(footStepFx);
 			bounds.y += SPEED_Y * dt;
 			if (currentAnim != &walkDown)
 			{
@@ -191,6 +196,7 @@ void Wizard::HandleInput(float dt)
 		}
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_REPEAT || app->input->pad->l_x < -0.5)
 		{
+			if (app->frameCount % 15 == 0) app->audio->PlayFx(footStepFx);
 			bounds.x -= SPEED_X * dt;
 			if (currentAnim != &walkLeft)
 			{
@@ -200,6 +206,7 @@ void Wizard::HandleInput(float dt)
 		}
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_REPEAT || app->input->pad->l_x > 0.5)
 		{
+			if (app->frameCount % 15 == 0) app->audio->PlayFx(footStepFx);
 			bounds.x += SPEED_X * dt;
 			if (currentAnim != &walkRight)
 			{

@@ -103,6 +103,10 @@ private:
 	float alpha;
 	bool transition;
 	bool fadeOut;
+
+	//Fx
+	int doorOpenedFx;
+	int doorClosedFx;
 	
 	eastl::list<Enemy*> enemyList;
 	Enemy* tmp;
