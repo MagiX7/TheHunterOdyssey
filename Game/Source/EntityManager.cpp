@@ -1,5 +1,4 @@
 #include "EntityManager.h"
-#include "Collisions.h"
 
 #include "NpcWizard.h"
 #include "Tabern.h"
