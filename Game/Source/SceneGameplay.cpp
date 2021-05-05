@@ -7,7 +7,6 @@
 #include "SceneGameplay.h"
 #include "SceneBattle.h"
 
-
 #include "EntityManager.h"
 #include "Hunter.h"
 #include "Wizard.h"
@@ -181,12 +180,14 @@ bool SceneGameplay::Update(float dt)
 
 			if (dialogueManager->isDialogueActive == false)
 			{
-				particles->PreUpdate();
+				//particles->PreUpdate();
 				map->Update(dt);
 				HandleInput(dt);
 				SDL_Rect tmpBounds = currentPlayer->bounds;
 				currentPlayer->Update(dt);
+
 				particles->Update(dt);
+				
 				if (isTown)
 				{
 					eastl::list<Enemy*>::iterator enemies = enemyList.begin();
@@ -207,10 +208,14 @@ bool SceneGameplay::Update(float dt)
 					currentPlayer->bounds = tmpBounds;
 
 				CameraFollow(app->render);
-				/*npc->Update(dt);*/
-				entityManager->Update(dt);
-				entityManager->CheckEntityColision(this);
-				CheckDialogue();
+
+				int tmpId = -1;
+				entityManager->Update(dt, currentPlayer, dialogueManager->isDialogueActive, tmpId, this);
+				if (tmpId != -1)
+				{
+					dialogueManager->LoadDialogue(tmpId);
+					dialogueManager->printText = true;
+				}
 			}
 			else
 			{
@@ -345,36 +350,6 @@ void SceneGameplay::CharacterSwap(PlayerType player)
 	currentPlayer->bounds = tmpBounds;
 }
 
-bool SceneGameplay::CheckDialogue()
-{
-	bool ret = false;
-	eastl::list<Entity*>::iterator it = entityManager->entities.begin();
-	eastl::list<Entity*>::iterator itEnd = entityManager->entities.end();
-	Entity* entity = nullptr;
-
-	while (it != itEnd)
-	{
-		entity = (*it);
-		if (entity != nullptr)
-		{
-			ret = entity->CheckCollision(currentPlayer);
-			if (ret) break;
-		}
-
-		++it;
-	}
-
-	if (ret)
-	{
-		dialogueManager->current = dialogueManager->LoadDialogue(entity->GetDialogeId());
-		dialogueManager->isDialogueActive = true;
-		dialogueManager->printText = true;
-		entity->SetDrawPtext(false);
-		entity->SetTalkStart(true);
-	}
-
-	return ret;
-}
 bool SceneGameplay::LoadState(pugi::xml_node& load)
 {
 	pugi::xml_node toLoadEntities = load.child("entities");

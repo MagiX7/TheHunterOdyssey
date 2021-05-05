@@ -77,7 +77,7 @@ public:
 
 	virtual bool CheckCollision(Player* player) { return true; }
 
-	virtual inline int GetDialogeId() { return -1; }
+	virtual inline int const GetDialogeId() const { return -1; }
 
 	virtual void SetDrawPtext(bool DrawPtext) {}
 	virtual void SetTalkStart(bool TalkStart) {}

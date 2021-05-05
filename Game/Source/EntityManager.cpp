@@ -1,4 +1,5 @@
 #include "EntityManager.h"
+#include "Collisions.h"
 
 #include "NpcWizard.h"
 #include "Tabern.h"
@@ -39,7 +40,7 @@ bool EntityManager::Load()
 	return ret;
 }
 
-bool EntityManager::Update(float dt)
+bool EntityManager::Update(float dt, Player* currentPlayer, bool& triggerDialogue, int& dialogueId, SceneGameplay* scene)
 {
 	//LOG("Updating Entities");
 	bool ret = true;
@@ -49,7 +50,14 @@ bool EntityManager::Update(float dt)
 	eastl::list<Entity*>::iterator itEnd = entities.end();
 	
 	for (item = entities.begin(); item != itEnd; ++item)
+	{
 		(*item)->Update(dt);
+		CheckEntityCollision(*item, scene);
+		if ((*item)->CheckCollision(currentPlayer))
+		{
+			dialogueId = TriggerDialogue(triggerDialogue, (*item));
+		}
+	}
 
 	return ret;
 }
@@ -81,21 +89,22 @@ bool EntityManager::UnLoad()
 	return ret;
 }
 
-bool EntityManager::CheckEntityColision(SceneGameplay* scene)
+bool EntityManager::CheckEntityCollision(Entity* entity, SceneGameplay* scene)
 {
-	eastl::list<Entity*>::iterator item;
-	eastl::list<Entity*>::iterator itEnd = entities.end();
-
-	for (item = entities.begin(); item != itEnd; ++item)
+	if (scene->CollisionMapEntity(entity->bounds, entity->type))
 	{
-		Entity* entity = (*item);
-		if (scene->CollisionMapEntity(entity->bounds, entity->type))
-		{
-			entity->OnCollision();
-		}
+		entity->OnCollision();
 	}
 
 	return true;
+}
+
+int EntityManager::TriggerDialogue(bool& triggerDialogue, Entity* item)
+{
+	triggerDialogue = true;
+	item->SetDrawPtext(false);
+	item->SetTalkStart(true);
+	return item->GetDialogeId();
 }
 
 Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node anim, int id)

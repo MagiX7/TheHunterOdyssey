@@ -44,7 +44,7 @@ bool SceneManager::Start()
 	LOG("Scene Manager Start");
 	bool ret = true;
 
-	current = new SceneLogo();
+	current = new SceneGameplay();
 	current->Load();
 
 	next = nullptr;

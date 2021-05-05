@@ -14,7 +14,7 @@ public:
 
 	virtual ~EntityManager();
 
-	bool Update(float dt);
+	bool Update(float dt, Player* currentPlayer, bool& triggerDialogue, int& dialogueId, SceneGameplay* scene);
 
 	void Draw(bool showColliders);
 
@@ -32,7 +32,9 @@ public:
 
 	bool Load();
 
-	bool CheckEntityColision(SceneGameplay* scene);
+	bool CheckEntityCollision(Entity* entity, SceneGameplay* scene);
+
+	int TriggerDialogue(bool& triggerDialogue, Entity* item);
 
 	void SetAllNpcActive();
 

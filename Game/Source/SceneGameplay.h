@@ -59,7 +59,7 @@ public:
 
 	void CharacterSwap(PlayerType pType);
 
-	bool CheckDialogue();
+	//bool CheckDialogue();
 	
 	bool CollisionMapEntity(SDL_Rect rect, EntityType type);
 
