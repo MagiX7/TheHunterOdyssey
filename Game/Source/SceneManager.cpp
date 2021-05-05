@@ -46,7 +46,7 @@ bool SceneManager::Start()
 	LOG("Scene Manager Start");
 	bool ret = true;
 
-	current = new SceneGameplay();
+	current = new SceneEnding(false);
 	current->Load();
 
 	next = nullptr;
@@ -127,7 +127,7 @@ bool SceneManager::Update(float dt)
 		case SceneType::LOGO: next = new SceneLogo(); break;
 		case SceneType::TITLE: next = new SceneTitle(); break;
 		case SceneType::GAMEPLAY: next = new SceneGameplay(); break;
-		case SceneType::ENDING: next = new SceneEnding(); break;
+		case SceneType::ENDING: next = new SceneEnding(true); break;
 		default: break;
 		}
 		current->transitionRequired = false;
