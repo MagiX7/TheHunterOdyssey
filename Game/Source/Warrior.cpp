@@ -161,6 +161,7 @@ bool Warrior::UnLoad()
 {
 	app->tex->UnLoad(texture);
 	app->tex->UnLoad(battlerTexture);
+	app->audio->UnLoadFx(footStepFx);
 
 	return true;
 }

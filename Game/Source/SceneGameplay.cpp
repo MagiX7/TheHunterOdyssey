@@ -331,6 +331,9 @@ bool SceneGameplay::UnLoad()
 	
 	particles->CleanUp();
 
+	app->audio->UnLoadFx(doorClosedFx);
+	app->audio->UnLoadFx(doorOpenedFx);
+
 	return ret;
 }
 
