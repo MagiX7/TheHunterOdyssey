@@ -79,6 +79,8 @@ public:
 
 	void HandleEquipment();
 
+	void GetEquipment(Player* player);
+
 private:
 	Player* GetPlayer(PlayerType type);
 
@@ -118,6 +120,10 @@ private:
 
 	GuiButton* btnUse;       // Use item
 	GuiButton* btnDelete;	 // Delete an item.
+
+	// Use this buttons for going through characters
+	GuiButton* btnNext;
+	GuiButton* btnPrev;
 
 
 	SDL_Rect tmpBounds;

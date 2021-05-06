@@ -25,11 +25,8 @@ Inventory::~Inventory()
 bool Inventory::Load(Font* font)
 {
 	btnEquipment = new GuiButton(1, { 182,100,260,50 }, "Equipment", this, font);
-	//btnEquipment->texture = 
 	btnItems = new GuiButton(2, { 182,160,260,50 }, "Items", this, font);
-	//btnEquipment->texture =
 	btnWeapons = new GuiButton(3, { 182,220,260,50 }, "Weapons", this, font);
-	//btnEquipment->texture =
 	
 	btnUse = new GuiButton(4, { 0,0,128,32 }, "USE", this, font);
 	btnDelete = new GuiButton(5, { 0,0,128,32 }, "DEL", this, font);
@@ -49,6 +46,15 @@ bool Inventory::Load(Font* font)
 	btnWarrior = new GuiButton(9, { 0,0, 40,40 }, "", this, font);
 	btnWarrior->texture = atlasTexture;
 	btnWarrior->section = { 103,722,25,32 };
+
+	// Next and back character buttons
+	btnNext = new GuiButton(10, { 554, 171, 29, 29 }, "", this, font);
+	btnNext->texture = atlasTexture;
+	btnNext->section = { 81, 786, 29, 29 };
+
+	btnPrev = new GuiButton(11, { 455, 171, 29, 29 }, "", this, font);
+	btnPrev->texture = atlasTexture;
+	btnPrev->section = { 24, 786, 29, 29 };
 
 	buttons.push_back(btnEquipment);
 	buttons.push_back(btnItems);
@@ -107,6 +113,10 @@ bool Inventory::Update(float dt)
 	btnEquipment->Update(app->input, dt, -1);
 	btnItems->Update(app->input, dt, -1);
 	btnWeapons->Update(app->input, dt, -1);
+
+	// Next and Prev character buttons update
+	btnNext->Update(app->input, dt, -1);
+	btnPrev->Update(app->input, dt, -1);
 
 	switch (state)
 	{
@@ -356,11 +366,15 @@ void Inventory::Draw(Font* font, bool showColliders)
 	{
 		r = { 163, 715, 40, 40 };
 		app->render->DrawTexture(atlasTexture, equipment[i].bounds.x, equipment[i].bounds.y, &r, false);
+		if (equipment[i].item != nullptr) app->render->DrawTexture(atlasTexture, equipment[i].bounds.x, equipment[i].bounds.y, &equipment[i].item->atlasSection, false);
 	}
-	app->render->DrawTexture(atlasTexture, equipment[0].bounds.x, equipment->bounds.y, &currentPlayer->GetHelmet()->atlasSection, false);
-	app->render->DrawTexture(atlasTexture, equipment[1].bounds.x, equipment->bounds.y, &currentPlayer->GetChest()->atlasSection, false);
-	app->render->DrawTexture(atlasTexture, equipment[2].bounds.x, equipment->bounds.y, &currentPlayer->GetBoots()->atlasSection, false);
-	app->render->DrawTexture(atlasTexture, equipment[3].bounds.x, equipment->bounds.y, &currentPlayer->GetWeapon()->atlasSection, false);
+	//app->render->DrawTexture(atlasTexture, equipment[0].bounds.x, equipment->bounds.y, &currentPlayer->GetHelmet()->atlasSection, false);
+	//app->render->DrawTexture(atlasTexture, equipment[1].bounds.x, equipment->bounds.y, &currentPlayer->GetChest()->atlasSection, false);
+	//app->render->DrawTexture(atlasTexture, equipment[2].bounds.x, equipment->bounds.y, &currentPlayer->GetBoots()->atlasSection, false);
+	//app->render->DrawTexture(atlasTexture, equipment[3].bounds.x, equipment->bounds.y, &currentPlayer->GetWeapon()->atlasSection, false);
+
+	btnNext->Draw(app->render, showColliders);
+	btnPrev->Draw(app->render, showColliders);
 
 	// Stats drawing
 
@@ -399,6 +413,12 @@ void Inventory::Draw(Font* font, bool showColliders)
 		statsBar = { 228, 778, (190 * pl->GetArmorPoints()) / (pl->GetMaxArmorPoints()), 5 };
 		app->render->DrawTexture(atlasTexture, 871, 203 + (i * 105), &statsBar, false);
 	}
+	SDL_Rect rectan = { 492, 153, 50, 67 };
+	if (currentPlayer->playerType == PlayerType::HUNTER) app->render->DrawRectangle(rectan, 255, 0, 0);
+	else if (currentPlayer->playerType == PlayerType::THIEF) app->render->DrawRectangle(rectan, 0, 0, 255);
+	else if (currentPlayer->playerType == PlayerType::WIZARD) app->render->DrawRectangle(rectan, 0, 255, 0);
+	else if (currentPlayer->playerType == PlayerType::WARRIOR) 
+		app->render->DrawRectangle(rectan, 0, 255, 255);
 }
 
 bool Inventory::UnLoad()
@@ -412,6 +432,8 @@ bool Inventory::UnLoad()
 	RELEASE(btnWizard);
 	RELEASE(btnThief);
 	RELEASE(btnWarrior);
+	RELEASE(btnNext);
+	RELEASE(btnPrev);
 
 	app->tex->UnLoad(atlasTexture);
 	//RELEASE(atlasTexture);
@@ -517,7 +539,34 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 				isTextDisplayed = false;
 			}
 		}
-
+		else if (control->id == 10)
+		{
+			eastl::list<Player*>::iterator it = players.begin();
+			eastl::list<Player*>::iterator itEnd = players.end().prev();
+			for (; it != itEnd; ++it)
+			{
+				if ((*it) == currentPlayer && (*it.next()) != nullptr)
+				{
+					currentPlayer = *(it.next());
+					GetEquipment(currentPlayer);
+					break;
+				}
+			}
+		}
+		else if (control->id == 11)
+		{
+			eastl::list<Player*>::iterator it = players.end().prev();
+			eastl::list<Player*>::iterator itBegin = players.begin();
+			for (; it != itBegin; --it)
+			{
+				if ((*it) == currentPlayer && (*it.prev()) != nullptr)
+				{
+					currentPlayer = *(it.prev());
+					GetEquipment(currentPlayer);
+					break;
+				}
+			}
+		}
 		break;
 	}
 
@@ -620,6 +669,14 @@ Player* Inventory::GetPlayer(PlayerType type)
 		if ((*it)->playerType == type) return (*it);
 	}
 	return nullptr;
+}
+
+void Inventory::GetEquipment(Player* player)
+{
+	equipment[0].item = player->GetHelmet();
+	equipment[1].item = player->GetChest();
+	equipment[2].item = player->GetBoots();
+	equipment[3].item = player->GetWeapon();
 }
 
 void Inventory::HandleItems()
