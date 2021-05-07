@@ -293,7 +293,8 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 		}
 		else if (control->id == 5)
 		{
-			slots[currentSlotId].state = SlotState::DELETE;
+			if (state == InventoryState::ITEMS) slots[currentSlotId].state = SlotState::DELETE;
+			else if (state == InventoryState::EQUIPMENT) armorSlots[currentSlotId].state = SlotState::DELETE;
 		}
 		else if (control->id == 6)
 		{
@@ -777,6 +778,10 @@ void Inventory::HandleSlot(InventorySlot objects[], float dt)
 		break;
 
 	case SlotState::DELETE:
+		objects[currentSlotId].itemsAmount--;
+		objects[currentSlotId].state = SlotState::UNSELECTED;
+		isTextDisplayed = false;
+		usingItem = false;
 		break;
 	}
 }
