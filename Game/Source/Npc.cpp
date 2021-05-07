@@ -3,6 +3,7 @@
 #include "Render.h"
 #include "Input.h"
 #include "Npc.h"
+#include "Audio.h"
 #include "Player.h"
 
 #include <time.h>

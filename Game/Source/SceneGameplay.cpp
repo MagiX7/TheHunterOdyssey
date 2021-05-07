@@ -184,7 +184,7 @@ bool SceneGameplay::Update(float dt)
 
 			if (dialogueManager->isDialogueActive == false)
 			{
-				//particles->PreUpdate();
+				particles->PreUpdate();
 				map->Update(dt);
 				HandleInput(dt);
 				SDL_Rect tmpBounds = currentPlayer->bounds;

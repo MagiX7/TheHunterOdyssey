@@ -63,4 +63,7 @@ public:
 
 	NpcNode* currentNode;
 	eastl::list<NpcNode*> nodes;
+
+	int talkingFx1;
+	int talkingFx2;
 };

@@ -3,6 +3,9 @@
 #include "Render.h"
 #include "DialogueManager.h"
 #include "Dialogue.h"
+#include "Audio.h"
+
+#include <time.h>
 
 DialogueOption::DialogueOption()
 {
@@ -16,6 +19,11 @@ DialogueOption::~DialogueOption()
 Dialogue::Dialogue(int dialogueId) : id(dialogueId)
 {
 	isDialogueActive = false;
+
+	talkingFx1 = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/talking_1.ogg");
+	talkingFx2 = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/talking_2.ogg");
+
+	srand(time(NULL));
 }
 
 Dialogue::~Dialogue()
@@ -32,6 +40,13 @@ void Dialogue::Draw(int& count, Font* font)
 		{
 			textToPrint += currentNode->text.at(currentNode->letterCount);
 			++currentNode->letterCount;
+
+			if (count % 30 == 0)
+			{
+				int whichAudio = (rand() % 2) + 1;
+				if (whichAudio == 1) app->audio->PlayFx(talkingFx1);
+				else if (whichAudio == 2) app->audio->PlayFx(talkingFx2);
+			}
 		}
 		else currentNode->dialogFinished = true;
 	}
