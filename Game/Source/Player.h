@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Entity.h"
+#include "Armor.h"
+
 #include "Point.h"
 #include "Log.h"
 
@@ -11,7 +13,6 @@
 
 class SDL_Texture;
 class Enemy;
-class Item;
 
 enum class PlayerType
 {
@@ -77,71 +78,44 @@ public:
 	inline int GetObjectSelected() const { return currentObjectSelected; }
 	inline bool GetDefend() const { return isDefending; }
 	inline eastl::string GetName() const { return name; }
-	inline Item* GetHelmet() const {if (helmet) return helmet; }
-	inline Item* GetChest() const { if (chest) return chest; }
-	inline Item* GetBoots() const { if (boots) return boots; }
-	inline Item* GetWeapon() const { if (weapon) return weapon; }
+	inline Armor* GetHelmet() const {if (helmet) return helmet; }
+	inline Armor* GetChest() const { if (chest) return chest; }
+	inline Armor* GetBoots() const { if (boots) return boots; }
 	
 	// Setters
 	inline void SetAbilitySelected(int num) { currentAbilitySelected = num; }
 	inline void SetObjectSelected(int num) { currentObjectSelected = num; }
-	Item* SetHelmet(Item* helm) 
+
+	Armor* SetEquipment(Armor* armor)
 	{
-		Item* ret = nullptr;
+		Armor* ret = nullptr;
 
-		if (helmet == nullptr)
+		if (armor->armorType == ArmorType::HELMET)
 		{
-			helmet = helm;
+			if(helmet == nullptr) helmet = armor;
+			else
+			{
+				ret = helmet;
+				helmet = armor;
+			}
 		}
-		else
+		else if (armor->armorType == ArmorType::CHEST)
 		{
-			ret = helmet;
-			helmet = helm;
+			if (chest == nullptr) chest = armor;
+			else
+			{
+				ret = chest;
+				chest = armor;
+			}
 		}
-		return ret;
-	}
-	Item* SetChest(Item* che) 
-	{ 
-		Item* ret = nullptr;
-
-		if (chest == nullptr)
+		else if(armor->armorType == ArmorType::BOOTS)
 		{
-			chest = che;
-		}
-		else
-		{
-			ret = chest;
-			chest = che;
-		}
-		return ret;
-	}
-	Item* SetBoots(Item* boot)
-	{ 
-		Item* ret = nullptr;
-
-		if (boots == nullptr)
-		{
-			boots = boot;
-		}
-		else
-		{
-			ret = boots;
-			boots = boot;
-		}
-		return ret;
-	}
-	Item* SetWeapon(Item* weap) 
-	{
-		Item* ret = nullptr;
-
-		if (weapon == nullptr)
-		{
-			weapon = weap;
-		}
-		else
-		{
-			ret = weapon;
-			weapon = weap;
+			if (boots == nullptr) boots = armor;
+			else
+			{
+				ret = boots;
+				boots = armor;
+			}
 		}
 		return ret;
 	}
@@ -160,10 +134,9 @@ protected:
 
 	eastl::string name;
 
-	Item* helmet;
-	Item* boots;
-	Item* chest;
-	Item* weapon;
+	Armor* helmet;
+	Armor* boots;
+	Armor* chest;
 
 	// Enemy target
 	Enemy* target;

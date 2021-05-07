@@ -17,9 +17,10 @@ public:
 	Armor(iPoint pos, SDL_Texture* atlas) : Item(ObjectType::ARMOR, pos, atlas) {}
 	virtual~Armor(){}
 
-protected:
+public:
 	ArmorType armorType;
 
+protected:
 	int durability;
 	int defenseAmount;
 

@@ -8,7 +8,7 @@
 #include <iostream>
 
 #define MAX_INVENTORY_SLOTS 32
-#define MAX_EQUIPMENT_SLOTS 4
+#define MAX_EQUIPMENT_SLOTS 3
 
 class Input;
 class Player;
@@ -81,6 +81,8 @@ private:
 	void HandleObjects(InventorySlot objects[]);
 
 	void DrawObjects(InventorySlot objects[], Font* font, bool showColliders);
+
+	void HandleSlot(InventorySlot objects[], float dt);
 
 public:
 	eastl::list<Player*> players;
