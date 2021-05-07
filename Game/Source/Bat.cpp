@@ -2,6 +2,7 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Font.h"
+#include "Audio.h"
 
 #include "Bat.h"
 #include "Player.h"
@@ -11,6 +12,9 @@ Bat::Bat(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::BAT)
 {
 	bounds = { pos.x, pos.y, 37, 33 };
 	texture = app->tex->Load("Assets/Textures/Enemies/bat.png");
+	attackFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/bat_attack.wav");
+	dieFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/bat_die.wav");
+	hurtFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/bat_hurt.wav");
 	name = "Bat";
 
 	battlePos = pos;
@@ -93,6 +97,7 @@ bool Bat::Update(float dt)
 			if (bounds.x < (target->bounds.x + (target->bounds.w / 2)) && bounds.y == target->bounds.y)
 			{
 				attack = true;
+				app->audio->PlayFx(attackFx);
 				target->GetDamage(damage);
 				attackAnim.Reset();
 				currentAnim = &attackAnim;
@@ -156,6 +161,9 @@ void Bat::Draw(bool showColliders)
 bool Bat::UnLoad()
 {
 	app->tex->UnLoad(texture);
+	app->audio->UnLoadFx(attackFx);
+	app->audio->UnLoadFx(hurtFx);
+	app->audio->UnLoadFx(dieFx);
 	font->UnLoad(app->tex);
 
 	RELEASE(font);
@@ -176,10 +184,12 @@ void Bat::GetDamage(int dmg)
 	{
 		health = 0;
 		deathAnim.Reset();
+		app->audio->PlayFx(dieFx);
 		currentAnim = &deathAnim;
 	}
 	else
 	{
+		app->audio->PlayFx(hurtFx);
 		hitAnim.Reset();
 		currentAnim = &hitAnim;
 	}

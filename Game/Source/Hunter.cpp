@@ -22,6 +22,7 @@ Hunter::Hunter(iPoint position, pugi::xml_node anim, ParticlesManager* particles
 	attack = false;
 	name = "Hunter";
 	Particles = particles;
+	isDead = false;
 	pugi::xml_node player = anim.child("hunter").child("overworld");
 
 	for (pugi::xml_node n = player.child("walk_front").child("pushback"); n; n = n.next_sibling("pushback"))
@@ -90,6 +91,9 @@ bool Hunter::Load()
 	generator->SetGoal({ bounds.x,bounds.y - 50 });
 
 	footStepFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/footstep_hunter.ogg");
+	dieFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/hunter_die.wav");
+	attackFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/hunter_attack.wav");
+	hurtFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/hunter_hurt.ogg");
 
 	return true;
 }
@@ -103,6 +107,11 @@ bool Hunter::Update(float dt)
 	case PlayerStance::BATTLE:
 		if (healthPoints <= 0)
 		{
+			if (isDead == false)
+			{
+				app->audio->PlayFx(dieFx);
+				isDead = true;
+			}
 			healthPoints = 0;
 			currentAnim = &death;
 		}
@@ -113,6 +122,7 @@ bool Hunter::Update(float dt)
 		}
 		if (currentAnim == &damageTaken && damageTaken.HasFinished())
 		{
+			app->audio->PlayFx(hurtFx);
 			idleBattle.Reset();
 			currentAnim = &idleBattle;
 		}
@@ -124,6 +134,7 @@ bool Hunter::Update(float dt)
 
 			if (bounds.x == target->bounds.x && bounds.y == target->bounds.y)
 			{
+				app->audio->PlayFx(attackFx);
 				attack = true;
 				attackAnim.Reset();
 				currentAnim = &attackAnim;
@@ -171,6 +182,9 @@ bool Hunter::UnLoad()
 	app->tex->UnLoad(texture);
 	app->tex->UnLoad(battlerTexture);
 	app->audio->UnLoadFx(footStepFx);
+	app->audio->UnLoadFx(attackFx);
+	app->audio->UnLoadFx(hurtFx);
+	app->audio->UnLoadFx(dieFx);
 
 	return true;
 }

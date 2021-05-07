@@ -21,6 +21,7 @@ Thief::Thief(iPoint position, pugi::xml_node anim, ParticlesManager* particles) 
 	attack = false;
 	name = "Thief";
 	Particles = particles;
+	isDead = false;
 	pugi::xml_node player = anim.child("thief").child("overworld");
 
 	for (pugi::xml_node n = player.child("walk_front").child("pushback"); n; n = n.next_sibling("pushback"))
@@ -83,6 +84,9 @@ bool Thief::Load()
 	battlerTexture = app->tex->Load("Assets/Textures/Players/battler_thief.png");
 
 	footStepFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/footstep_thief.ogg");
+	dieFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/thief_die.wav");
+	attackFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/thief_attack.wav");
+	hurtFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/thief_hurt.ogg");
 
 	return true;
 }
@@ -96,6 +100,11 @@ bool Thief::Update(float dt)
 	case PlayerStance::BATTLE:
 		if (healthPoints <= 0)
 		{
+			if (isDead == false)
+			{
+				app->audio->PlayFx(dieFx);
+				isDead = true;
+			}
 			healthPoints = 0;
 			currentAnim = &death;
 		}
@@ -106,6 +115,7 @@ bool Thief::Update(float dt)
 		}
 		if (currentAnim == &damageTaken && damageTaken.HasFinished())
 		{
+			app->audio->PlayFx(hurtFx);
 			idleBattle.Reset();
 			currentAnim = &idleBattle;
 		}
@@ -117,6 +127,7 @@ bool Thief::Update(float dt)
 
 			if (bounds.x == target->bounds.x && bounds.y == target->bounds.y)
 			{
+				app->audio->PlayFx(attackFx);
 				attack = true;
 				attackAnim.Reset();
 				currentAnim = &attackAnim;
@@ -162,6 +173,9 @@ bool Thief::UnLoad()
 	app->tex->UnLoad(texture);
 	app->tex->UnLoad(battlerTexture);
 	app->audio->UnLoadFx(footStepFx);
+	app->audio->UnLoadFx(attackFx);
+	app->audio->UnLoadFx(hurtFx);
+	app->audio->UnLoadFx(dieFx);
 
 	return true;
 }

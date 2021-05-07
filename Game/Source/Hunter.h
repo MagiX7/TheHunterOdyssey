@@ -42,4 +42,9 @@ protected:
 	void Travel(iPoint destination, float dt) override;
 
 	int footStepFx;
+	int attackFx;
+	int dieFx;
+	int hurtFx;
+
+	bool isDead;
 };

@@ -35,4 +35,7 @@ private:
 	Animation flightAnim;
 
 	bool attack;
+	int attackFx;
+	int dieFx;
+	int hurtFx;
 };
