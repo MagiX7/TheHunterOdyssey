@@ -105,6 +105,8 @@ bool Inventory::Load(Font* font)
 	originSlot = nullptr;
 	isTextDisplayed = false;
 
+	usingItem = false;
+
 	return true;
 }
 
@@ -319,15 +321,15 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 				--armorSlots[currentSlotId].itemsAmount;
 				if (currentPlayer == tmpPlayer) GetEquipment(tmpPlayer);
 
-				if (slots[currentSlotId].itemsAmount > 0)
+				if (armorSlots[currentSlotId].itemsAmount > 0)
 				{
-					slots[currentSlotId].state = SlotState::SELECTED;
+					armorSlots[currentSlotId].state = SlotState::SELECTED;
 					isTextDisplayed = true;
 				}
 				else
 				{
-					slots[currentSlotId].state = SlotState::UNSELECTED;
-					slots[currentSlotId].filled = false;
+					armorSlots[currentSlotId].state = SlotState::UNSELECTED;
+					armorSlots[currentSlotId].filled = false;
 					isTextDisplayed = false;
 				}
 				break;
@@ -359,15 +361,15 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 				--armorSlots[currentSlotId].itemsAmount;
 				if (currentPlayer == tmpPlayer) GetEquipment(tmpPlayer);
 
-				if (slots[currentSlotId].itemsAmount > 0)
+				if (armorSlots[currentSlotId].itemsAmount > 0)
 				{
 					slots[currentSlotId].state = SlotState::SELECTED;
 					isTextDisplayed = true;
 				}
 				else
 				{
-					slots[currentSlotId].state = SlotState::UNSELECTED;
-					slots[currentSlotId].filled = false;
+					armorSlots[currentSlotId].state = SlotState::UNSELECTED;
+					armorSlots[currentSlotId].filled = false;
 					isTextDisplayed = false;
 				}
 				break;
@@ -399,15 +401,15 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 				--armorSlots[currentSlotId].itemsAmount;
 				if (currentPlayer == tmpPlayer) GetEquipment(tmpPlayer);
 
-				if (slots[currentSlotId].itemsAmount > 0)
+				if (armorSlots[currentSlotId].itemsAmount > 0)
 				{
-					slots[currentSlotId].state = SlotState::SELECTED;
+					armorSlots[currentSlotId].state = SlotState::SELECTED;
 					isTextDisplayed = true;
 				}
 				else
 				{
-					slots[currentSlotId].state = SlotState::UNSELECTED;
-					slots[currentSlotId].filled = false;
+					armorSlots[currentSlotId].state = SlotState::UNSELECTED;
+					armorSlots[currentSlotId].filled = false;
 					isTextDisplayed = false;
 				}
 				break;
@@ -439,15 +441,15 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 			--armorSlots[currentSlotId].itemsAmount;
 			if (currentPlayer == tmpPlayer) GetEquipment(tmpPlayer);
 
-			if (slots[currentSlotId].itemsAmount > 0)
+			if (armorSlots[currentSlotId].itemsAmount > 0)
 			{
-				slots[currentSlotId].state = SlotState::SELECTED;
+				armorSlots[currentSlotId].state = SlotState::SELECTED;
 				isTextDisplayed = true;
 			}
 			else
 			{
-				slots[currentSlotId].state = SlotState::UNSELECTED;
-				slots[currentSlotId].filled = false;
+				armorSlots[currentSlotId].state = SlotState::UNSELECTED;
+				armorSlots[currentSlotId].filled = false;
 				isTextDisplayed = false;
 			}
 			break;
@@ -565,6 +567,8 @@ void Inventory::DisplayText(SDL_Rect bounds, bool showColliders)
 	btnDelete->bounds.x = bounds.x;
 	btnDelete->bounds.y = btnUse->bounds.y + btnUse->bounds.h + 5; // 5 stands for offset
 	btnDelete->Draw(app->render, showColliders, 32);
+
+	tmpUsingBounds = r;
 }
 
 void Inventory::DragItem(Item& item)
@@ -609,10 +613,11 @@ void Inventory::HandleObjects(InventorySlot objects[])
 					currentSlotId = i;
 					objects[i].state = SlotState::SELECTED;
 					isTextDisplayed = true;
+					usingItem = true;
 					break;
 				}
 				// Drag Items
-				if (!isTextDisplayed && app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
+				if (usingItem == false && !isTextDisplayed && app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
 				{
 					if (objects[i].item != nullptr && objects[i].filled)
 					{
@@ -735,6 +740,8 @@ void Inventory::DrawObjects(InventorySlot objects[], Font *font, bool showCollid
 			btnWarrior->bounds.x = tmpBounds.x + 70;
 			btnWarrior->bounds.y = btnWizard->bounds.y + btnWizard->bounds.h + 5;
 			btnWarrior->Draw(app->render, showColliders);
+
+			tmpCharBounds = r;
 		}
 	}
 }
@@ -746,20 +753,22 @@ void Inventory::HandleSlot(InventorySlot objects[], float dt)
 	case SlotState::UNSELECTED:
 		break;
 	case SlotState::SELECTED:
-		if (!IsMouseInside(objects[currentSlotId].bounds) && app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
+		if (!IsMouseInside(tmpCharBounds) && !IsMouseInside(tmpUsingBounds) && app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
 		{
 			objects[currentSlotId].state = SlotState::UNSELECTED;
 			isTextDisplayed = false;
+			usingItem = false;
 		}
 		btnUse->Update(app->input, dt, -1);
 		btnDelete->Update(app->input, dt, -1);
 		break;
 
 	case SlotState::USE:
-		if (!IsMouseInside(objects[currentSlotId].bounds) && app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
+		if (!IsMouseInside(tmpCharBounds) && !IsMouseInside(tmpUsingBounds) && app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP)
 		{
 			objects[currentSlotId].state = SlotState::UNSELECTED;
 			isTextDisplayed = false;
+			usingItem = false;
 		}
 		btnHunter->Update(app->input, dt, -1);
 		btnWizard->Update(app->input, dt, -1);

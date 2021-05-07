@@ -127,8 +127,11 @@ private:
 
 
 	SDL_Rect tmpBounds;
+	SDL_Rect tmpUsingBounds;
+	SDL_Rect tmpCharBounds;
 
 	bool grabbed;
 	float toGrabCount;
 	bool isTextDisplayed;
+	bool usingItem;
 };
