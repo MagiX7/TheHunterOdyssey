@@ -27,7 +27,13 @@ public:
 
 	//bool CompleteQuest(int id);
 
-	bool Draw(Render* render, Font* font);
+	bool LoadQuests(pugi::xml_node& n);
+
+	bool SaveQuests(pugi::xml_node& n);
+
+	void Draw(Render* render, Font* font);
+
+	bool UnLoad();
 
 private:
 	QuestManager();

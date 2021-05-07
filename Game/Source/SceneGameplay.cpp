@@ -307,6 +307,8 @@ bool SceneGameplay::UnLoad()
 	//entityManager->DeleteAllEntities();
 	RELEASE(entityManager);
 
+	QuestManager::GetInstance()->UnLoad();
+
 	map->CleanUp();
 	RELEASE(map);
 	
@@ -381,6 +383,7 @@ bool SceneGameplay::CheckDialogue()
 	}
 	return ret;
 }
+
 bool SceneGameplay::LoadState(pugi::xml_node& load)
 {
 	pugi::xml_node toLoadEntities = load.child("entities");
@@ -460,6 +463,9 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 		enemyList.push_back(enemy);
 		NodeEnemyAuxiliar = NodeEnemyAuxiliar.next_sibling();
 	}
+
+	QuestManager::GetInstance()->LoadQuests(load);
+
 	return true;
 }
 
@@ -486,7 +492,6 @@ bool SceneGameplay::SaveState(pugi::xml_node& save) const
 		(*enemies)->SaveState(enemiesAuxiliar);
 	}
 
-
 	pugi::xml_node nodePlayers = toSaveEntites.append_child("players");
 	pugi::xml_node nodePlayersAuxiliar;
 	int playerAmount = 0;
@@ -507,6 +512,8 @@ bool SceneGameplay::SaveState(pugi::xml_node& save) const
 		(*aux)->SaveState(nodePlayersAuxiliar);
 		nodePlayersAuxiliar = nodePlayers.append_child("player");
 	}
+
+	QuestManager::GetInstance()->SaveQuests(save);
 
 	return true;
 }

@@ -15,6 +15,8 @@ public:
 
 	void Draw(Render* render, Font* font, bool showMore) override;
 
+	bool SaveState(pugi::xml_node& node) override;
+
 public:
 	EntityType type;
 

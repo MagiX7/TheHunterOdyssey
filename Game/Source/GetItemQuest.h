@@ -15,6 +15,8 @@ public:
 
 	void Draw(Font* font);
 
+	bool SaveState(pugi::xml_node& node) override;
+
 private:
 	ItemType type;
 

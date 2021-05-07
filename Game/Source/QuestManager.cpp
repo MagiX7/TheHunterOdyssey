@@ -150,6 +150,126 @@ bool QuestManager::QuestState()
 	return true;
 }
 
+bool QuestManager::LoadQuests(pugi::xml_node& n)
+{
+	pugi::xml_node generalNode = n.child("questmanager");
+	pugi::xml_node node = generalNode.child("loaded_quests").child("quests");
+
+	loadedQuests.clear();
+	for (; node; node = node.next_sibling("quests"))
+	{
+		Quest* quest;
+		switch ((QuestType)node.attribute("type").as_int())
+		{
+		case QuestType::ITEM_QUEST:
+			quest = new ItemQuest(node);
+			break;
+		case QuestType::MURDER_QUEST:
+			quest = new MurderQuest(node);
+			break;
+		case QuestType::VISIT_QUEST:
+			quest = new VisitQuest(node);
+			break;
+		case QuestType::TALK_QUEST:
+			quest = new TalkQuest(node);
+			break;
+		}
+		loadedQuests.push_back(quest);
+	}
+
+	node = generalNode.child("active_quests").child("quests");
+
+	activeQuests.clear();
+	for (; node; node = node.next_sibling("quests"))
+	{
+		Quest* quest;
+		switch ((QuestType)node.attribute("type").as_int())
+		{
+		case QuestType::ITEM_QUEST:
+			quest = new ItemQuest(node);
+			break;
+		case QuestType::MURDER_QUEST:
+			quest = new MurderQuest(node);
+			break;
+		case QuestType::VISIT_QUEST:
+			quest = new VisitQuest(node);
+			break;
+		case QuestType::TALK_QUEST:
+			quest = new TalkQuest(node);
+			break;
+		}
+		activeQuests.push_back(quest);
+	}
+
+	node = generalNode.child("finished_quests").child("quests");
+
+	finishedQuests.clear();
+	for (; node; node = node.next_sibling("quests"))
+	{
+		Quest* quest;
+		switch ((QuestType)node.attribute("type").as_int())
+		{
+		case QuestType::ITEM_QUEST:
+			quest = new ItemQuest(node);
+			break;
+		case QuestType::MURDER_QUEST:
+			quest = new MurderQuest(node);
+			break;
+		case QuestType::VISIT_QUEST:
+			quest = new VisitQuest(node);
+			break;
+		case QuestType::TALK_QUEST:
+			quest = new TalkQuest(node);
+			break;
+		}
+		finishedQuests.push_back(quest);
+	}
+
+	return true;
+}
+
+bool QuestManager::SaveQuests(pugi::xml_node& n)
+{
+	pugi::xml_node generalNode = n.append_child("questmanager");
+	pugi::xml_node node = generalNode.append_child("loaded_quests");
+
+	eastl::list<Quest*>::iterator it;
+	eastl::list<Quest*>::iterator itEnd;
+	if (!loadedQuests.empty())
+	{
+		it = loadedQuests.begin();
+		itEnd = loadedQuests.end();
+		for (; it != itEnd; ++it)
+		{
+			(*it)->SaveState(node.append_child("quests"));
+		}
+	}
+
+	node = generalNode.append_child("active_quests");
+	if (!activeQuests.empty())
+	{
+		it = activeQuests.begin();
+		itEnd = activeQuests.end();
+		for (; it != itEnd; ++it)
+		{
+			(*it)->SaveState(node.append_child("quests"));
+		}
+	}
+
+	node = generalNode.append_child("finished_quests");
+	if (!finishedQuests.empty())
+	{
+		it = finishedQuests.begin();
+		itEnd = finishedQuests.end();
+		for (; it != itEnd; ++it)
+		{
+			(*it)->SaveState(node.append_child("quests"));
+		}
+	}
+	
+	return true;
+}
+
 //bool QuestManager::CompleteQuest(int id)
 //{
 //	eastl::list<Quest*>::iterator it = activeQuests.begin();
@@ -168,7 +288,7 @@ bool QuestManager::QuestState()
 //	return true;
 //}
 
-bool QuestManager::Draw(Render* render, Font* font)
+void QuestManager::Draw(Render* render, Font* font)
 {
 	SDL_Rect r;
 	if (showMore) r = {0, 0, 200, 150};
@@ -198,6 +318,42 @@ bool QuestManager::Draw(Render* render, Font* font)
 	{
 		render->DrawRectangle(rect, 0, 0, 0, 150, true, false);
 		render->DrawCenterText(font, "New Quest!", rect, 36, 5, { 255, 255, 255 });
+	}
+}
+
+bool QuestManager::UnLoad()
+{
+	if (!loadedQuests.empty())
+	{
+		eastl::list<Quest*>::iterator it = loadedQuests.begin();
+		eastl::list<Quest*>::iterator itEnd = loadedQuests.end();
+		for (; it != itEnd; ++it)
+		{
+			RELEASE(*it);
+			loadedQuests.erase(it);
+		}
+	}
+
+	if (!activeQuests.empty())
+	{
+		eastl::list<Quest*>::iterator it = activeQuests.begin();
+		eastl::list<Quest*>::iterator itEnd = activeQuests.end();
+		for (; it != itEnd; ++it)
+		{
+			RELEASE(*it);
+			activeQuests.erase(it);
+		}
+	}
+
+	if (!finishedQuests.empty())
+	{
+		eastl::list<Quest*>::iterator it = finishedQuests.begin();
+		eastl::list<Quest*>::iterator itEnd = finishedQuests.end();
+		for (; it != itEnd; ++it)
+		{
+			RELEASE(*it);
+			finishedQuests.erase(it);
+		}
 	}
 
 	return true;

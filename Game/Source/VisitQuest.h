@@ -12,6 +12,8 @@ public:
 	bool Update(Entity* entity, SString n = "") override;
 
 	void Draw(Render* render, Font* font, bool showMore) override;
+
+	bool SaveState(pugi::xml_node& node) override;
 private:
 	SString mapName;
 };

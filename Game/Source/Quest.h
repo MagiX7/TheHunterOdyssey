@@ -20,13 +20,17 @@ class Render;
 class Quest
 {
 public:
-	Quest() {}
+	Quest(QuestType type) : qType(type){}
 
 	virtual ~Quest() {}
 
 	virtual bool Update(Entity* entity, SString n = "") { return true; }
 
 	virtual void Draw(Render* render, Font* font, bool showMore) {}
+
+	virtual bool LoadState(pugi::xml_node node) { return true; }
+
+	virtual bool SaveState(pugi::xml_node& node) { return true; }
 
 public:
 	QuestType qType;

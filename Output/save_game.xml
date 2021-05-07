@@ -9,22 +9,22 @@
       <entities>
         <NPCs amount="4">
           <NPC>
-            <bounds X="327" Y="257" W="30" H="32" />
+            <bounds X="79" Y="250" W="30" H="32" />
             <NpcType type="TOWN" />
-            <Dialoge idDialoge="0" />
+            <Dialoge idDialoge="7" />
           </NPC>
           <NPC>
-            <bounds X="576" Y="643" W="30" H="32" />
+            <bounds X="850" Y="1120" W="30" H="32" />
             <NpcType type="RAY" />
             <Dialoge idDialoge="3" />
           </NPC>
           <NPC>
-            <bounds X="577" Y="528" W="30" H="32" />
+            <bounds X="682" Y="810" W="30" H="32" />
             <NpcType type="TABERN" />
             <Dialoge idDialoge="2" />
           </NPC>
           <NPC>
-            <bounds X="644" Y="0" W="30" H="32" />
+            <bounds X="555" Y="302" W="30" H="32" />
             <NpcType type="NPC_WIZARD" />
             <Dialoge idDialoge="1" />
           </NPC>
@@ -46,7 +46,7 @@
         <players amount="4">
           <player>
             <isCurrent current="true" />
-            <bounds X="370" Y="162" W="26" H="26" />
+            <bounds X="298" Y="290" W="26" H="26" />
             <playerType type="HUNTER" />
           </player>
           <player>
@@ -67,6 +67,17 @@
           <player />
         </players>
       </entities>
+      <questmanager>
+        <loaded_quests>
+          <quests type="3" id="0" name="Talk with Ray" requiredId="-1" isCompleted="false" npcId="3" />
+          <quests type="2" id="2" name="Visit the pub" requiredId="-1" isCompleted="false" mapName="pub.tmx" />
+          <quests type="2" id="3" name="Visit the shop" requiredId="-1" isCompleted="false" mapName="shop.tmx" />
+        </loaded_quests>
+        <active_quests>
+          <quests type="1" id="1" name="Kill the skull" requiredId="-1" isCompleted="false" enemy="7" actual="0" total="1" />
+        </active_quests>
+        <finished_quests />
+      </questmanager>
     </scenegameplay>
   </scenemanager>
   <renderer />

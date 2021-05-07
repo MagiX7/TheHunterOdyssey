@@ -2,7 +2,7 @@
 
 #include "MurderQuest.h"
 
-MurderQuest::MurderQuest(pugi::xml_node n) : Quest()
+MurderQuest::MurderQuest(pugi::xml_node n) : Quest(QuestType::MURDER_QUEST)
 {
 	this->id = n.attribute("id").as_int();
 	this->name = n.attribute("name").as_string();
@@ -27,4 +27,18 @@ bool MurderQuest::Update(Entity* entity, SString n)
 void MurderQuest::Draw(Render* render, Font* font, bool showMore)
 {
 	render->DrawText(font, name.c_str(), 10, 10, 24, 2, { 255, 255, 255 });
+}
+
+bool MurderQuest::SaveState(pugi::xml_node& node)
+{
+	node.append_attribute("type").set_value((int)qType);
+	node.append_attribute("id").set_value(id);
+	node.append_attribute("name").set_value(name.c_str());
+	node.append_attribute("requiredId").set_value(requiredId);
+	node.append_attribute("isCompleted").set_value(isCompleted);
+	node.append_attribute("enemy").set_value((int)type);
+	node.append_attribute("actual").set_value(actual);
+	node.append_attribute("total").set_value(total);
+
+	return true;
 }
