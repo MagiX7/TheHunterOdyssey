@@ -112,7 +112,8 @@ SceneGameplay::SceneGameplay()
 	item = new Potion(iPoint(250, 350), atlas);
 	items.push_back(item);
 
-	helmet = new KnightHelmet({ 270, 350, 32, 32 }, iPoint(270, 350),atlas);
+	item = new KnightHelmet({ 270, 350, 32, 32 }, iPoint(270, 350),atlas);
+	items.push_back(item);
 
 	//Create Enemies
 
@@ -177,8 +178,6 @@ bool SceneGameplay::Load()
 	pause->Load(font);
 
 	inventory->Load(font);
-
-	helmet->Load();
 
 	eastl::list<Item*>::iterator item = items.begin();
 	for (; item != items.end(); ++item)
@@ -252,10 +251,10 @@ bool SceneGameplay::Update(float dt)
 					}
 				}
 
-				if (CheckCollision(currentPlayer->bounds, helmet->bounds))
+				/*if (CheckCollision(currentPlayer->bounds, helmet->bounds))
 				{
 					inventory->AddArmor(helmet);
-				}
+				}*/
 			}
 			else
 			{
@@ -314,8 +313,6 @@ void SceneGameplay::Draw()
 			{
 				(*it)->Draw(showColliders);
 			}
-
-			helmet->Draw(showColliders);
 		}
 
 		if (dialogueManager->isDialogueActive)

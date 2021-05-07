@@ -43,12 +43,12 @@ struct InventorySlot
 	bool operator==(InventorySlot& i) const
 	{
 		return (i.bounds.x == bounds.x && i.bounds.y == bounds.y && i.bounds.w == bounds.w && i.bounds.h == bounds.h &&
-			i.item->iType == item->iType && i.itemsAmount == itemsAmount && i.filled == filled);
+			i.item->objectType == item->objectType && i.itemsAmount == itemsAmount && i.filled == filled);
 	}
 	bool operator!=(InventorySlot& i) const
 	{
 		return (i.bounds.x != bounds.x || i.bounds.y != bounds.y || i.bounds.w != bounds.w || i.bounds.h != bounds.h ||
-			i.item->iType != item->iType || i.itemsAmount != itemsAmount || i.filled != filled);
+			i.item->objectType != item->objectType || i.itemsAmount != itemsAmount || i.filled != filled);
 	}
 };
 
@@ -66,8 +66,6 @@ public:
 	void UpdatingButtons(Input* input) override;
 
 	void AddItem(Item *it);
-
-	void AddArmor(Item* ar);
 
 	bool IsMouseInside(SDL_Rect r);
 

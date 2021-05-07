@@ -4,9 +4,10 @@
 
 #include "FairyWing.h"
 
-FairyWing::FairyWing(iPoint pos, SDL_Texture* atlas) : Item(ItemType::FAIRY_WING, pos, atlas)
+FairyWing::FairyWing(iPoint pos, SDL_Texture* atlas) : Item(ObjectType::ITEM, pos, atlas)
 {
 	atlasSection = { 225, 289, 32, 32 };
+	itemType = ItemType::FAIRY_WING;
 }
 
 FairyWing::~FairyWing()

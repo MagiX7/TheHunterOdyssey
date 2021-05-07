@@ -1,13 +1,14 @@
 #pragma once
 
-#include "Item.h"
+#include "Armor.h"
 
-class KnightHelmet : public Item
+class KnightHelmet : public Armor
 {
 public:
-	KnightHelmet(SDL_Rect b, iPoint(pos), SDL_Texture* atlas) : Item(ItemType::KNIGHT_HELMET, pos, atlas)
+	KnightHelmet(SDL_Rect b, iPoint(pos), SDL_Texture* atlas) : Armor(pos, atlas)
 	{
 		bounds = b;
+		armorType = ArmorType::HELMET;
 	}
 	virtual ~KnightHelmet() {}
 	

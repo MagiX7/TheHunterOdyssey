@@ -345,6 +345,9 @@
     <ClInclude Include="Source\KnightHelmet.h">
       <Filter>Entities\Armors</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Armor.h">
+      <Filter>Entities\Armors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

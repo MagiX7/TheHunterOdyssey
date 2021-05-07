@@ -579,9 +579,35 @@ void Inventory::UpdatingButtons(Input* input)
 
 void Inventory::AddItem(Item *it)
 {
+	switch ((*it).objectType)
+	{
+	case ObjectType::ARMOR:
 		for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
 		{
-			if (slots[i].item != nullptr && slots[i].item->iType == (it)->iType)
+			if (armorSlots[i].item != nullptr && armorSlots[i].item->objectType == it->objectType)
+			{
+				RELEASE(it);
+				armorSlots[i].itemsAmount++;
+				armorSlots[i].state = SlotState::UNSELECTED;
+				armorSlots[i].item->bounds = armorSlots[i].bounds;
+				break;
+			}
+			else if (armorSlots[i].item == nullptr)
+			{
+				armorSlots[i].item = it;
+				armorSlots[i].item->isDragging = false;
+				armorSlots[i].filled = true;
+				armorSlots[i].itemsAmount = 1;
+				armorSlots[i].state = SlotState::UNSELECTED;
+				armorSlots[i].item->bounds = armorSlots[i].bounds;
+				break;
+			}
+		}
+		break;
+	case ObjectType::ITEM:
+		for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
+		{
+			if (slots[i].item != nullptr && slots[i].item->itemType == (it)->itemType)
 			{
 				RELEASE(it);
 				slots[i].itemsAmount++;
@@ -599,30 +625,7 @@ void Inventory::AddItem(Item *it)
 				break;
 			}
 		}
-}
-
-void Inventory::AddArmor(Item* ar)
-{
-	for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
-	{
-		if (armorSlots[i].item != nullptr && armorSlots[i].item->iType == (ar)->iType)
-		{
-			RELEASE(ar);
-			armorSlots[i].itemsAmount++;
-			armorSlots[i].state = SlotState::UNSELECTED;
-			armorSlots[i].item->bounds = armorSlots[i].bounds;
-			break;
-		}
-		else if (armorSlots[i].item == nullptr)
-		{
-			armorSlots[i].item = ar;
-			armorSlots[i].item->isDragging = false;
-			armorSlots[i].filled = true;
-			armorSlots[i].itemsAmount = 1;
-			armorSlots[i].state = SlotState::UNSELECTED;
-			armorSlots[i].item->bounds = armorSlots[i].bounds;
-			break;
-		}
+		break;
 	}
 }
 

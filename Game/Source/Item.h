@@ -2,9 +2,15 @@
 
 #include "Entity.h"
 
-enum class ItemType
+enum class ObjectType
 {
 	NONE = 0,
+	ITEM,
+	ARMOR
+};
+
+enum class ItemType
+{
 	POTION,
 	ULTRA_POTION,
 	ETER,
@@ -13,14 +19,13 @@ enum class ItemType
 	FAIRY_TEAR,
 	FAIRY_WING,
 	FAIRY_BOTTLE,
-	KNIGHT_HELMET
 };
 
 class Item : public Entity
 {
 public:
 	Item() {};
-	Item(ItemType type, iPoint pos, SDL_Texture* atlas ,EntityType entType = EntityType::ITEM) : Entity(entType), iType(type), texture(atlas) ,isDragging(false)
+	Item(ObjectType type, iPoint pos, SDL_Texture* atlas ,EntityType entType = EntityType::ITEM) : Entity(entType), objectType(type), texture(atlas) ,isDragging(false)
 	{
 		bounds.x = pos.x;
 		bounds.y = pos.y;
@@ -37,15 +42,16 @@ public:
 
 	virtual void UseItem(Player* player) {};
 
-	inline ItemType GetItemType() const { return iType; }
+	inline ObjectType GetItemType() const { return objectType; }
 
 	bool operator==(Item& it) const
 	{
-		return this->iType == it.iType;
+		return this->objectType == it.objectType;
 	}
 
 public:
-	ItemType iType;
+	ObjectType objectType;
+	ItemType itemType;
 
 	SDL_Texture* texture;
 	SDL_Rect atlasSection;

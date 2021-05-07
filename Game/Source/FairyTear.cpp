@@ -4,9 +4,10 @@
 
 #include "FairyTear.h"
 
-FairyTear::FairyTear(iPoint pos, SDL_Texture* atlas) : Item(ItemType::FAIRY_TEAR, pos, atlas)
+FairyTear::FairyTear(iPoint pos, SDL_Texture* atlas) : Item(ObjectType::ITEM, pos, atlas)
 {
 	atlasSection = { 96, 289, 32, 32 };
+	itemType = ItemType::FAIRY_TEAR;
 }
 
 FairyTear::~FairyTear()

@@ -6,13 +6,14 @@
 
 #include "UltraPotion.h"
 
-UltraPotion::UltraPotion(iPoint pos, SDL_Texture* atlas) : Item(ItemType::ULTRA_POTION, pos, atlas)
+UltraPotion::UltraPotion(iPoint pos, SDL_Texture* atlas) : Item(ObjectType::ITEM, pos, atlas)
 {
 	/*bounds.x = pos.x - 5;
 	bounds.y = pos.y - 5;
 	bounds.w = 40;
 	bounds.h = 40;*/
 	atlasSection = { 194, 289, 32, 32 };
+	itemType = ItemType::ULTRA_POTION;
 }
 
 UltraPotion::~UltraPotion()

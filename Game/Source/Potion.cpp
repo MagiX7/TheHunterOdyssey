@@ -6,9 +6,10 @@
 
 #include "Potion.h"
 
-Potion::Potion(iPoint pos, SDL_Texture* atlas) : Item(ItemType::POTION, pos, atlas)
+Potion::Potion(iPoint pos, SDL_Texture* atlas) : Item(ObjectType::ITEM, pos, atlas)
 {
 	atlasSection = { 64, 289, 32, 32};
+	itemType = ItemType::POTION;
 }
 
 Potion::~Potion()
