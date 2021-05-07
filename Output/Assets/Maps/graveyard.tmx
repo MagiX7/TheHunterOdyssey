@@ -1350,7 +1350,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="889"/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -1390,11 +1390,11 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="937"/>
-   <tile/>
-   <tile/>
    <tile/>
    <tile gid="884"/>
+   <tile/>
+   <tile/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -5145,7 +5145,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="1" name="Hitboxes" width="40" height="32" visible="0">
+ <layer id="1" name="Hitboxes" width="40" height="32">
   <properties>
    <property name="draw" type="bool" value="false"/>
   </properties>
@@ -5205,21 +5205,6 @@
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>
-   <tile gid="1"/>
-   <tile gid="2"/>
-   <tile gid="2"/>
-   <tile gid="2"/>
-   <tile gid="2"/>
-   <tile gid="2"/>
-   <tile gid="2"/>
-   <tile gid="1"/>
-   <tile gid="2"/>
-   <tile gid="2"/>
-   <tile gid="2"/>
-   <tile gid="2"/>
-   <tile gid="2"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>
@@ -5234,6 +5219,22 @@
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="1"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="1"/>
+   <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>
@@ -5249,7 +5250,6 @@
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>
-   <tile gid="1"/>
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>
