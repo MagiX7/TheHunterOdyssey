@@ -2,6 +2,17 @@
 #define __SCENE_H__
 
 #include "Log.h"
+
+enum class TransitionType
+{
+	NONE = 0,
+	WIPE,
+	FADE_TO_BLACK,
+	ALTERNATING_BARS,
+	HALF_HEIGHT_RECTANGLES,
+	HALF_WIDHT_RECTANGLES
+};
+
 enum class SceneType
 {
 	LOGO,
@@ -39,11 +50,12 @@ public:
 
 	virtual bool SaveState(pugi::xml_node&) const { return true; }
 
-	void TransitionToScene(SceneType scene)
+	void TransitionToScene(SceneType scene, TransitionType type)
 	{
 		LOG("Changing Scene");
 		transitionRequired = true;
 		nextScene = scene;
+		transitionType = type;
 	}
 
 public:
@@ -54,6 +66,8 @@ public:
 	SceneType nextScene;
 	bool isTown;
 	bool showColliders;
+
+	TransitionType transitionType;
 };
 
 #endif // __SCENE_H__

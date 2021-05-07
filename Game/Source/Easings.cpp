@@ -1,5 +1,14 @@
 #include "Easings.h"
 
+Easing::Easing(bool easingActivated, float currIt, float initPos, float deltaPosition, float totalIt)
+{
+	easingsActivated = easingActivated;
+	currentIteration = currIt;
+	initialPos = initPos;
+	deltaPos = deltaPosition;
+	totalIterations = totalIt;
+}
+
 //BACK
 float Easing::backEaseIn(float t, float b, float c, float d)
 {

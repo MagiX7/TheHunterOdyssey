@@ -200,6 +200,9 @@ bool DialogueManager::UnLoad()
 	font->UnLoad(app->tex);
 	RELEASE(font);
 
+	current->CleanUp();
+	RELEASE(current);
+
 	RELEASE(easingArrow);
 	RELEASE(easingArrow2);
 
@@ -215,7 +218,7 @@ bool DialogueManager::UnLoad()
 
 	/*if (current != nullptr) current->CleanUp();*/
 
-	dialogues.clear();
+	//dialogues.clear();
 
 	return true;
 }
@@ -267,6 +270,7 @@ Dialogue* DialogueManager::LoadDialogue(int id)
 
 	while (npcNode.attribute("id").as_int() != id)
 		npcNode = npcNode.next_sibling("npc");
+
 	int a = npcNode.attribute("id").as_int();
 	// Load the npc text + all the possible options
 	NpcNode* tmp = nullptr;
@@ -299,5 +303,6 @@ Dialogue* DialogueManager::LoadDialogue(int id)
 
 	isDialogueActive = true;
 
+	current = ret;
 	return ret;
 }

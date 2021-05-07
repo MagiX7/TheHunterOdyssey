@@ -3,6 +3,9 @@
 #include "Render.h"
 #include "DialogueManager.h"
 #include "Dialogue.h"
+#include "Audio.h"
+
+#include <time.h>
 
 DialogueOption::DialogueOption()
 {
@@ -16,6 +19,13 @@ DialogueOption::~DialogueOption()
 Dialogue::Dialogue(int dialogueId) : id(dialogueId)
 {
 	isDialogueActive = false;
+
+	talkingFx1 = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/talking_1.ogg");
+	talkingFx2 = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/talking_2.ogg");
+	talkingFx3 = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/talking_3.ogg");
+	talkingFx4 = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/talking_4.ogg");
+	firstTime = true;
+	srand(time(NULL));
 }
 
 Dialogue::~Dialogue()
@@ -32,8 +42,22 @@ void Dialogue::Draw(int& count, Font* font)
 		{
 			textToPrint += currentNode->text.at(currentNode->letterCount);
 			++currentNode->letterCount;
+
+			if (firstTime || count % 40 == 0)
+			{
+				firstTime = false;
+				int whichAudio = (rand() % 4) + 1;
+				if (whichAudio == 1) app->audio->PlayFx(talkingFx1);
+				else if (whichAudio == 2) app->audio->PlayFx(talkingFx2);
+				else if (whichAudio == 3) app->audio->PlayFx(talkingFx3);
+				else if (whichAudio == 4) app->audio->PlayFx(talkingFx4);
+			}
 		}
-		else currentNode->dialogFinished = true;
+		else
+		{
+			firstTime = true;
+			currentNode->dialogFinished = true;
+		}
 	}
 
 	app->render->DrawText(font, textToPrint.c_str(), 70, 115, 40, 5, { 0,0,0,255 }, 630);
@@ -66,6 +90,11 @@ void Dialogue::Draw(int& count, Font* font)
 
 bool Dialogue::CleanUp()
 {
+	app->audio->UnLoadFx(talkingFx1);
+	app->audio->UnLoadFx(talkingFx2);
+	app->audio->UnLoadFx(talkingFx3);
+	app->audio->UnLoadFx(talkingFx4);
+
 	textToPrint.clear();
 	eastl::list<NpcNode*>::iterator it = nodes.begin();
 	eastl::list<DialogueOption*>::iterator item;

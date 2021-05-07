@@ -70,42 +70,42 @@ bool BattleMenu::Load(Font* font)
 {
 	guiTex = app->tex->Load("Assets/Textures/UI/gui_battle_menu.png");
 
-	btnAttack = new GuiButton(1, { 72, 480, 204, 43 }, "Attack", this, font);
+	btnAttack = new GuiButton(1, { 160, 480, 204, 43 }, "Attack", this, font);
 	btnAttack->texture = guiTex;
 	btnAttack->sectionFocused = { 0,260,204,43 };
-	btnAbility = new GuiButton(2, { 72, 530, 204, 43 }, "Ability", this, font);
+	btnAbility = new GuiButton(2, { 160, 530, 204, 43 }, "Ability", this, font);
 	btnAbility->texture = guiTex;
 	btnAbility->sectionFocused = { 0,260,204,43 };
-	btnDefense = new GuiButton(3, { 72, 580, 204, 43 }, "Defense", this, font);
+	btnDefense = new GuiButton(3, { 160, 580, 204, 43 }, "Defense", this, font);
 	btnDefense->texture = guiTex;
 	btnDefense->sectionFocused = { 0,260,204,43 };
-	btnObject = new GuiButton(4, { 72, 630, 204, 43 }, "Object", this, font);
+	btnObject = new GuiButton(4, { 160, 630, 204, 43 }, "Object", this, font);
 	btnObject->texture = guiTex;
 	btnObject->sectionFocused = { 0,260,204,43 };
 
-	btnAbilitySlot1 = new GuiButton(5, { 472, 500, 204, 43 }, "Ability1", this, font);
+	btnAbilitySlot1 = new GuiButton(5, { 461, 480, 204, 43 }, "Ability1", this, font);
 	btnAbilitySlot1->texture = guiTex;
 	btnAbilitySlot1->sectionFocused = { 0,260,204,43 };
-	btnAbilitySlot2 = new GuiButton(6, { 714, 500, 204, 43 }, "Ability2", this, font);
+	btnAbilitySlot2 = new GuiButton(6, { 461, 530, 204, 43 }, "Ability2", this, font);
 	btnAbilitySlot2->texture = guiTex;
 	btnAbilitySlot2->sectionFocused = { 0,260,204,43 };
-	btnAbilitySlot3 = new GuiButton(7, { 472, 565, 204, 43 }, "Ability3", this, font);
+	btnAbilitySlot3 = new GuiButton(7, { 461, 580, 204, 43 }, "Ability3", this, font);
 	btnAbilitySlot3->texture = guiTex;
 	btnAbilitySlot3->sectionFocused = { 0,260,204,43 };
-	btnAbilitySlot4 = new GuiButton(8, { 714, 565, 204, 43 }, "Ability4", this, font);
+	btnAbilitySlot4 = new GuiButton(8, { 461, 630, 204, 43 }, "Ability4", this, font);
 	btnAbilitySlot4->texture = guiTex;
 	btnAbilitySlot4->sectionFocused = { 0,260,204,43 };
 
-	btnObjectSlot1 = new GuiButton(9, { 72, 500, 204, 43 }, "Potion", this, font);
+	btnObjectSlot1 = new GuiButton(9, { 461, 480, 204, 43 }, "Potion", this, font);
 	btnObjectSlot1->texture = guiTex;
 	btnObjectSlot1->sectionFocused = { 0,260,204,43 };
-	btnObjectSlot2 = new GuiButton(10, { 314, 500, 204, 43 }, "Ultra Potion", this, font);
+	btnObjectSlot2 = new GuiButton(10, { 461, 530, 204, 43 }, "Ultra Potion", this, font);
 	btnObjectSlot2->texture = guiTex;
 	btnObjectSlot2->sectionFocused = { 0,260,204,43 };
-	btnObjectSlot3 = new GuiButton(11, { 72, 565, 204, 43 }, "Eter", this, font);
+	btnObjectSlot3 = new GuiButton(11, { 461, 580, 204, 43 }, "Eter", this, font);
 	btnObjectSlot3->texture = guiTex;
 	btnObjectSlot3->sectionFocused = { 0,260,204,43 };
-	btnObjectSlot4 = new GuiButton(12, { 314, 565, 204, 43 }, "Ultra Eter", this, font);
+	btnObjectSlot4 = new GuiButton(12, { 461, 630, 204, 43 }, "Ultra Eter", this, font);
 	btnObjectSlot4->texture = guiTex;
 	btnObjectSlot4->sectionFocused = { 0,260,204,43 };
 
@@ -339,11 +339,17 @@ bool BattleMenu::Update(float dt)
 
 void BattleMenu::Draw(Font* font, bool showColliders)
 {
-	SDL_Rect section = { 0,0,1240,260 };
-	app->render->DrawTexture(guiTex, 20, 440, &section);
+	SDL_Rect section = { 204,0,1076,296 };
+	app->render->DrawTexture(guiTex, 96, 420, &section);
 
-	SDL_Rect gauntletPlayers = { 564, 291, 29, 25 };
-	SDL_Rect gauntletEnemies = { 645, 291, 29, 25 };
+	SDL_Rect gauntletPlayers = { 561, 322, 29, 25 };
+	SDL_Rect gauntletEnemies = { 642, 321, 29, 25 };
+
+	//AROCA BORRA ESTAS 4 LINEAS CUANDO ARREGLES LO DE LOS EASINGS Y DESCOMENTES LO DE MAS ABAJO
+	btnAttack->Draw(app->render, showColliders, 25, { 255,255,255,225 });
+	btnAbility->Draw(app->render, showColliders, 25, { 255,255,255,225 });
+	btnDefense->Draw(app->render, showColliders, 25, { 255,255,255,225 });
+	btnObject->Draw(app->render, showColliders, 25, { 255,255,255,225 });
 
 	switch (type)
 	{
@@ -351,7 +357,7 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		break;
 	case BattleState::DEFAULT:
 		app->render->DrawTexture(guiTex, playerPos, currPlayer->bounds.y, &gauntletPlayers);
-		if (btnAttack->state == GuiControlState::FOCUSED)
+		/*if (btnAttack->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
 			btnAttack->bounds.x = position_x;
@@ -360,7 +366,7 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		else
 		{
 			btnAttack->bounds.x = 20;
-			btnAttack->Draw(app->render, showColliders, 25, { 0,0,0,225 });
+			btnAttack->Draw(app->render, showColliders, 25, { 255,255,255,225 });
 		}
 		if (btnAbility->state == GuiControlState::FOCUSED)
 		{
@@ -371,7 +377,7 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		else
 		{
 			btnAbility->bounds.x = 20;
-			btnAbility->Draw(app->render, showColliders, 25, { 0,0,0,225 });
+			btnAbility->Draw(app->render, showColliders, 25, { 255,255,255,225 });
 		}
 
 		if (btnDefense->state == GuiControlState::FOCUSED)
@@ -383,7 +389,7 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		else
 		{
 			btnDefense->bounds.x = 20;
-			btnDefense->Draw(app->render, showColliders, 25, { 0,0,0,225 });
+			btnDefense->Draw(app->render, showColliders, 25, { 255,255,255,225 });
 		}
 
 		if (btnObject->state == GuiControlState::FOCUSED)
@@ -395,15 +401,15 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		else
 		{
 			btnObject->bounds.x = 20;
-			btnObject->Draw(app->render, showColliders, 25, { 0,0,0,225 });
-		}
+			btnObject->Draw(app->render, showColliders, 25, { 255,255,255,225 });
+		}*/
 		break;
 	case BattleState::ATTACK:
 		app->render->DrawTexture(guiTex, enemyPos, currEnemy->bounds.y - 20, &gauntletEnemies);
 		app->render->DrawTexture(guiTex, playerPos, currPlayer->bounds.y, &gauntletPlayers);
 		break;
 	case BattleState::ABILITY_SELECT:
-		if (btnAbilitySlot1->state == GuiControlState::FOCUSED)
+		/*if (btnAbilitySlot1->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
 			btnAbilitySlot1->bounds.x = position_x;
@@ -411,9 +417,9 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		}
 		else
 		{
-			btnAbilitySlot1->bounds.x = 20;
-			btnAbilitySlot1->Draw(app->render, showColliders, 25, { 0,0,0,225 });
-		}
+			btnAbilitySlot1->bounds.x = 20;*/
+			btnAbilitySlot1->Draw(app->render, showColliders, 25, { 255,255,255,225 });
+		/*}
 		if (btnAbilitySlot2->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
@@ -422,9 +428,9 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		}
 		else
 		{
-			btnAbilitySlot2->bounds.x = 200;
-			btnAbilitySlot2->Draw(app->render, showColliders, 25, { 0,0,0,225 });
-		}
+			btnAbilitySlot2->bounds.x = 200;*/
+			btnAbilitySlot2->Draw(app->render, showColliders, 25, { 255,255,255,225 });
+		/*}
 		if (btnAbilitySlot3->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
@@ -433,9 +439,9 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		}
 		else
 		{
-			btnAbilitySlot3->bounds.x = 20;
-			btnAbilitySlot3->Draw(app->render, showColliders, 25, { 0,0,0,225 });
-		}
+			btnAbilitySlot3->bounds.x = 20;*/
+			btnAbilitySlot3->Draw(app->render, showColliders, 25, { 255,255,255,225 });
+		/*}
 		if (btnAbilitySlot4->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
@@ -444,9 +450,9 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		}
 		else
 		{
-			btnAbilitySlot4->bounds.x = 200;
-			btnAbilitySlot4->Draw(app->render, showColliders, 25, { 0,0,0,225 });
-		}
+			btnAbilitySlot4->bounds.x = 200;*/
+			btnAbilitySlot4->Draw(app->render, showColliders, 25, { 255,255,255,225 });
+		/*}*/
 		app->render->DrawTexture(guiTex, playerPos, currPlayer->bounds.y, &gauntletPlayers);
 		break;
 	case BattleState::ABILITY:
@@ -460,7 +466,7 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		
 		break;
 	case BattleState::OBJECT_SELECT:
-		if (btnObjectSlot1->state == GuiControlState::FOCUSED)
+		/*if (btnObjectSlot1->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
 			btnObjectSlot1->bounds.x = position_x;
@@ -468,9 +474,9 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		}
 		else
 		{
-			btnObjectSlot1->bounds.x = 20;
-			btnObjectSlot1->Draw(app->render, showColliders, 25, { 0,0,0,225 });
-		}
+			btnObjectSlot1->bounds.x = 20;*/
+			btnObjectSlot1->Draw(app->render, showColliders, 25, { 255,255,255,225 });
+		/*}
 		if (btnObjectSlot2->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
@@ -479,9 +485,9 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		}
 		else
 		{
-			btnObjectSlot2->bounds.x = 200;
-			btnObjectSlot2->Draw(app->render, showColliders, 25, { 0,0,0,225 });
-		}
+			btnObjectSlot2->bounds.x = 200;*/
+			btnObjectSlot2->Draw(app->render, showColliders, 25, { 255,255,255,225 });
+		/*}
 		if (btnObjectSlot3->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
@@ -490,9 +496,9 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		}
 		else
 		{
-			btnObjectSlot3->bounds.x = 20;
-			btnObjectSlot3->Draw(app->render, showColliders, 25, { 0,0,0,225 });
-		}
+			btnObjectSlot3->bounds.x = 20;*/
+			btnObjectSlot3->Draw(app->render, showColliders, 25, { 255,255,255,225 });
+		/*}
 		if (btnObjectSlot4->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
@@ -501,9 +507,9 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		}
 		else
 		{
-			btnObjectSlot4->bounds.x = 200;
-			btnObjectSlot4->Draw(app->render, showColliders, 25, { 0,0,0,225 });
-		}
+			btnObjectSlot4->bounds.x = 200;*/
+			btnObjectSlot4->Draw(app->render, showColliders, 25, { 255,255,255,225 });
+		/*}*/
 
 		app->render->DrawTexture(guiTex, playerPos, currPlayer->bounds.y, &gauntletPlayers);
 		break;
@@ -618,22 +624,22 @@ void BattleMenu::DrawStats(Font* font)
 
 	for (int i = 0; it != sceneBattle->playerList.end(); ++it, ++i)
 	{
-		app->render->DrawText(font, (*it)->GetName().c_str(), 852, 465+(i*55), 25, 2, { 0,0,0 });
-		app->render->DrawText(font, (*it)->GetName().c_str(), 850, 463+(i*55), 25, 2, { 255, 255, 255 });
-		app->render->DrawText(font, "HP", 1002, 465 + (i * 55), 25, 2, { 0,0,0 });
-		app->render->DrawText(font, "HP", 1000, 463 + (i * 55), 25, 2, { 102, 230, 151 });
+		app->render->DrawText(font, (*it)->GetName().c_str(), 746, 465+(i*55), 25, 2, { 0,0,0 });
+		app->render->DrawText(font, (*it)->GetName().c_str(), 744, 463+(i*55), 25, 2, { 255, 255, 255 });
+		app->render->DrawText(font, "HP", 892, 465 + (i * 55), 25, 2, { 0,0,0 });
+		app->render->DrawText(font, "HP", 890, 463 + (i * 55), 25, 2, { 102, 230, 151 });
 		std::string points = std::to_string((*it)->GetHealthPoints());
-		app->render->DrawText(font, points.c_str(), 1032, 465 + (i * 55), 25, 2, { 0,0,0 });
-		app->render->DrawText(font, points.c_str(), 1030, 463 + (i * 55), 25, 2, { 255, 255, 255 });
+		app->render->DrawText(font, points.c_str(), 924, 465 + (i * 55), 25, 2, { 0,0,0 });
+		app->render->DrawText(font, points.c_str(), 922, 463 + (i * 55), 25, 2, { 255, 255, 255 });
 		points = std::to_string((*it)->GetManaPoints());
-		app->render->DrawText(font, "MP", 1132, 465 + (i * 55), 25, 2, { 0,0,0 });
-		app->render->DrawText(font, "MP", 1130, 463 + (i * 55), 25, 2, { 43, 142, 226 });
-		app->render->DrawText(font, points.c_str(), 1162, 465 + (i * 55), 25, 2, { 0,0,0 });
-		app->render->DrawText(font, points.c_str(), 1160, 463 + (i * 55), 25, 2, { 255, 255, 255 });
+		app->render->DrawText(font, "MP", 1024, 465 + (i * 55), 25, 2, { 0,0,0 });
+		app->render->DrawText(font, "MP", 1022, 463 + (i * 55), 25, 2, { 43, 142, 226 });
+		app->render->DrawText(font, points.c_str(), 1054, 465 + (i * 55), 25, 2, { 0,0,0 });
+		app->render->DrawText(font, points.c_str(), 1052, 463 + (i * 55), 25, 2, { 255, 255, 255 });
 
 		SDL_Rect statsBar = { 124, 357, 367 , 9 };
-		app->render->DrawTexture(guiTex, 854, 491 + (i * 55), &statsBar);
-		app->render->DrawTexture(guiTex, 854, 506 + (i * 55), &statsBar);
+		app->render->DrawTexture(guiTex, 747, 489 + (i * 55), &statsBar);
+		app->render->DrawTexture(guiTex, 747, 504 + (i * 55), &statsBar);
 		
 		int currHealth = (*it)->GetHealthPoints();
 		int maxHealth = (*it)->GetMaxHealthPoints();
@@ -644,20 +650,20 @@ void BattleMenu::DrawStats(Font* font)
 		else
 			statsBar = { 127, 347, ((361 * currHealth) / maxHealth), 5 };
 
-		app->render->DrawTexture(guiTex, 857, 493 + (i * 55), &statsBar);
+		app->render->DrawTexture(guiTex, 750, 491 + (i * 55), &statsBar);
 
 		
 		statsBar = { 127, 312, ((361 * (*it)->GetManaPoints()) / (*it)->GetMaxManaPoints()), 5 };
-		app->render->DrawTexture(guiTex, 857, 508 + (i * 55), &statsBar);
+		app->render->DrawTexture(guiTex, 750, 506 + (i * 55), &statsBar);
 
 
 	}
 	
 	if (type != BattleState::ENEMY_TURN)
 	{
-		SDL_Rect rectangle = { 27, 406, 191, 55 };
+		SDL_Rect rectangle = { 124, 406, 191, 55 };
 		app->render->DrawRectangle(rectangle, 68, 67, 109, 200);
-		app->render->DrawText(font, currPlayer->GetName().c_str(), 38, 418, 25, 2, { 255, 255, 255 });
+		app->render->DrawText(font, currPlayer->GetName().c_str(), 135, 423, 25, 2, { 255, 255, 255 });
 	}
 }
 

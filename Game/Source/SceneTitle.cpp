@@ -15,7 +15,7 @@
 SceneTitle::SceneTitle()
 {
 	bg = nullptr;
-	state = TitleState::NONE;
+	state = TitleState::TITLE;
 	showColliders = false;
 
 	currIt = 0;
@@ -37,7 +37,7 @@ SceneTitle::SceneTitle()
 	section2 = {174, 0, 349, 123};
 	section3 = {87, 123, 348, 100};
 
-	titleAlpha = 1.0f;
+	titleAlpha = 0.0f;
 }
 
 bool SceneTitle::Load()
@@ -199,11 +199,11 @@ bool SceneTitle::Update(float dt)
 			}
 		}
 
-		titleAlpha -= (TITLE_FADE_SPEED * dt);
+		/*titleAlpha -= (TITLE_FADE_SPEED * dt);
 		if (titleAlpha <= 0.0f)
 		{
 			titleAlpha = 0.0f;
-		}
+		}*/
 
 		if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || app->input->pad->GetButton(SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_A) == KEY_DOWN || app->input->pad->GetButton(SDL_GameControllerButton::SDL_CONTROLLER_BUTTON_START) == KEY_DOWN)
 		{

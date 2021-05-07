@@ -41,5 +41,11 @@ protected:
 	void HandleInput(float dt) override;
 	void Travel(iPoint destination, float dt) override;
 
+	int footStepFx;
+	int attackFx;
+	int dieFx;
+	int hurtFx;
+
+	bool isDead;
 private:
 };

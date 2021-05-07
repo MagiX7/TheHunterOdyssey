@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Window.h"
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
@@ -22,9 +23,6 @@
 SceneManager::SceneManager() : Module()
 {
 	name.Create("scenemanager");
-	onTransition = false;
-	fadeOutCompleted = false;
-	transitionAlpha = 0.0f;
 }
 
 // Destructor
@@ -46,10 +44,45 @@ bool SceneManager::Start()
 	LOG("Scene Manager Start");
 	bool ret = true;
 
-	current = new SceneLogo();
+	current = new SceneGameplay();
 	current->Load();
 
 	next = nullptr;
+
+	// Transition rects
+	// Wipe
+	uint w, h;
+	app->win->GetWindowSize(w, h);
+	rectWipe = { 0,0,0,(int)h };
+
+	// Alternating bars
+	for (int i = 0; i < MAX_BARS_SIZE; ++i)
+	{
+		bars[i].h = h / MAX_BARS_SIZE;
+		bars[i].y = i * bars[i].h;
+		if (i % 2 == 0)
+		{
+			bars[i].w = 0;
+			bars[i].x = 0;
+		}
+		else
+		{
+			bars[i].w = 0;
+			bars[i].x = (int)w;
+		}
+	}
+
+	// Half Height Rectangles
+	rectUpper = { 0,0,0,(int)h / 2 };
+	rectLower = { (int)w,(int)h / 2,0,(int)h / 2 };
+
+	// Fade to Black
+	transitionAlpha = 0.0f;
+
+	// Half Width Rectangles
+	rectUpper2 = { 0,0,(int)w, 0 };
+	rectLower2 = { 0,(int)h,(int)w,0 };
+	halfWidthCount = 0.0f;
 
 	return ret;
 }
@@ -59,51 +92,119 @@ bool SceneManager::Update(float dt)
 {
 	OPTICK_EVENT();
 
-	LOG("Updating Current Scene");
+	//LOG("Updating Current Scene");
 	bool ret = true;
 
 	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_BACK)== KEY_DOWN) current->showColliders = !current->showColliders;
 
-	if (!onTransition)
+	if (transitionStep == TransitionStep::NONE)
 	{
 		ret = current->Update(dt);
 	}
 	else
 	{
-		if (!fadeOutCompleted)
+		uint w, h;
+		app->win->GetWindowSize(w, h);
+		switch (transitionStep)
 		{
-			transitionAlpha += (FADEOUT_TRANSITION_SPEED * dt);
-
-			// NOTE: Due to float internal representation, condition jumps on 1.0f instead of 1.05f
-			// For that reason we compare against 1.01f, to avoid last frame loading stop
-			if (transitionAlpha > 1.01f)
+		case TransitionStep::ENTERING:
+			if (current->transitionType == TransitionType::WIPE)
 			{
-				transitionAlpha = 1.0f;
-				current->UnLoad();	// Unload current screen
-
-				if (app->audio->FadeOutCompleted() == false)
+				rectWipe.w += 1000 * dt;
+				
+				if (rectWipe.w >= w) transitionStep = TransitionStep::CHANGING;
+			}
+			else if (current->transitionType == TransitionType::ALTERNATING_BARS)
+			{
+				for (int i = 0; i < MAX_BARS_SIZE; ++i)
 				{
-					next->Load();	// Load next screen
+					if (i % 2 == 0) bars[i].w += 1000 * dt;
+					else bars[i].w -= 1000 * dt;
+				}
 
-					RELEASE(current);	// Free current pointer
-					current = next;		// Assign next pointer
-					next = nullptr;
-
-					// Activate fade out effect to next loaded screen
-					fadeOutCompleted = true;
+				if (bars[MAX_BARS_SIZE - 1].w < -(int)w) transitionStep = TransitionStep::CHANGING;
+			}
+			else if (current->transitionType == TransitionType::HALF_HEIGHT_RECTANGLES)
+			{
+				if (rectUpper.w <= (int)w + 100)
+					rectUpper.w += 1000 * dt;
+				else
+				{
+					rectLower.w -= 1000 * dt;
+					if(rectLower.w <= -(int)w) transitionStep = TransitionStep::CHANGING;
 				}
 			}
-		}
-		else  // Transition fade out logic
-		{
-			transitionAlpha -= (FADEIN_TRANSITION_SPEED * dt);
-
-			if (transitionAlpha < -0.01f)
+			else if (current->transitionType == TransitionType::FADE_TO_BLACK)
 			{
-				transitionAlpha = 0.0f;
-				fadeOutCompleted = false;
-				onTransition = false;
+				transitionAlpha += dt;
+				if(transitionAlpha > 1.01f) transitionStep = TransitionStep::CHANGING;
 			}
+			else if (current->transitionType == TransitionType::HALF_WIDHT_RECTANGLES)
+			{
+				rectUpper2.h += 500 * dt;
+				rectLower2.h -= 500 * dt;
+				if (rectLower2.h <= -(int)h / 2) transitionStep = TransitionStep::CHANGING;
+			}
+			break;
+
+		case TransitionStep::CHANGING:
+			current->UnLoad();
+			if (app->audio->FadeOutCompleted() == false)
+			{
+				TransitionType tmpEnteringType = current->transitionType;
+				next->Load();
+				RELEASE(current);
+				current = next;
+				next = nullptr;
+				current->transitionType = tmpEnteringType;
+				transitionStep = TransitionStep::EXITING;
+			}
+			break;
+
+		case TransitionStep::EXITING:
+			if (current->transitionType == TransitionType::WIPE)
+			{
+				rectWipe.w -= 1000 * dt;
+				LOG("%i", rectWipe.w);
+
+				if (rectWipe.w < 0) transitionStep = TransitionStep::NONE;
+			}
+			else if (current->transitionType == TransitionType::ALTERNATING_BARS)
+			{
+				for (int i = 0; i < MAX_BARS_SIZE; ++i)
+				{
+					if (i % 2 == 0) bars[i].w -= 1000 * dt;
+					else bars[i].w += 1000 * dt;
+				}
+
+				if (bars[MAX_BARS_SIZE - 1].w > 0) transitionStep = TransitionStep::NONE;
+			}
+			else if (current->transitionType == TransitionType::HALF_HEIGHT_RECTANGLES)
+			{
+				if (rectLower.w <= 0)
+					rectLower.w += 1000 * dt;
+				else
+				{
+					rectUpper.w -= 1000 * dt;
+					if(rectUpper.w <= 0) transitionStep = TransitionStep::NONE;
+				}
+			}
+			else if (current->transitionType == TransitionType::FADE_TO_BLACK)
+			{
+				transitionAlpha -= dt;
+				if (transitionAlpha < -0.01f) transitionStep = TransitionStep::NONE;
+			}
+			else if (current->transitionType == TransitionType::HALF_WIDHT_RECTANGLES)
+			{
+				halfWidthCount += dt;
+				if (halfWidthCount >= 0.5f)
+				{
+					rectUpper2.h -= 500 * dt;
+					rectLower2.h += 500 * dt;
+					if (rectLower2.h >= 0) transitionStep = TransitionStep::NONE;
+				}
+			}
+			break;
 		}
 	}
 
@@ -111,16 +212,38 @@ bool SceneManager::Update(float dt)
 	current->Draw();
 
 	// Draw full screen rectangle in front of everything
-	if (onTransition)
+
+	if(transitionStep != TransitionStep::NONE)
 	{
-		app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, (unsigned char)(255.0f * transitionAlpha));
+		switch (current->transitionType)
+		{
+		case TransitionType::WIPE:
+			app->render->DrawRectangle(rectWipe, 0, 0, 0);
+			break;
+
+		case TransitionType::ALTERNATING_BARS:
+			for (int i = 0; i < MAX_BARS_SIZE; ++i) app->render->DrawRectangle(bars[i], 0, 0, 0);
+			break;
+
+		case TransitionType::HALF_HEIGHT_RECTANGLES:
+			app->render->DrawRectangle(rectUpper, 0, 0, 0);
+			app->render->DrawRectangle(rectLower, 0, 0, 0);
+			break;
+
+		case TransitionType::FADE_TO_BLACK:
+			app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280,720 }, 0, 0, 0);
+			break;
+
+		case TransitionType::HALF_WIDHT_RECTANGLES:
+			app->render->DrawRectangle(rectUpper2, 0, 0, 0);
+			app->render->DrawRectangle(rectLower2, 0, 0, 0);
+			break;
+		}
 	}
 
 	if (current->transitionRequired)
 	{
-		onTransition = true;
-		fadeOutCompleted = false;
-		transitionAlpha = 0.0f;
+		transitionStep = TransitionStep::ENTERING;
 
 		switch (current->nextScene)
 		{
@@ -132,9 +255,6 @@ bool SceneManager::Update(float dt)
 		}
 		current->transitionRequired = false;
 	}
-
-	// Quit the game
-	//if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) ret = false;
 
 	return ret;
 }

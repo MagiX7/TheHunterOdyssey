@@ -59,7 +59,7 @@ public:
 
 	void CharacterSwap(PlayerType pType);
 
-	bool CheckDialogue();
+	//bool CheckDialogue();
 	
 	bool CollisionMapEntity(SDL_Rect rect, EntityType type);
 
@@ -103,6 +103,10 @@ private:
 	float alpha;
 	bool transition;
 	bool fadeOut;
+
+	//Fx
+	int doorOpenedFx;
+	int doorClosedFx;
 	
 	eastl::list<Enemy*> enemyList;
 	Enemy* tmp;

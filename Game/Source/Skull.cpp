@@ -2,6 +2,7 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Font.h"
+#include "Audio.h"
 
 #include "Skull.h"
 #include "Player.h"
@@ -11,6 +12,9 @@ Skull::Skull(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::SKULL)
 {
 	bounds = { pos.x, pos.y, 74, 74 };
 	texture = app->tex->Load("Assets/Textures/Enemies/floating_skull.png");
+	attackFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/skull_attack.wav");
+	dieFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/skull_die.wav");
+	hurtFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/skull_hurt.wav");
 	name = "Skull";
 
 	battlePos = pos;
@@ -85,6 +89,7 @@ bool Skull::Update(float dt)
 			if (bounds.x == target->bounds.x && bounds.y == target->bounds.y)
 			{
 				attack = true;
+				app->audio->PlayFx(attackFx);
 				target->GetDamage(damage);
 				attackAnim.Reset();
 				currentAnim = &attackAnim;
@@ -149,7 +154,10 @@ void Skull::Draw(bool showColliders)
 bool Skull::UnLoad()
 {
 	app->tex->UnLoad(texture);
-	
+	app->audio->UnLoadFx(attackFx);
+	app->audio->UnLoadFx(hurtFx);
+	app->audio->UnLoadFx(dieFx);
+
 	font->UnLoad(app->tex);
 	RELEASE(font);
 
@@ -173,10 +181,11 @@ bool Skull::SaveState(pugi::xml_node& node)
 void Skull::GetDamage(int dmg)
 {
 	health -= dmg * dmg / (dmg + defense);
-
+	if (health > 0) app->audio->PlayFx(hurtFx);
 	if (health <= 0)
 	{
 		health = 0;
+		app->audio->PlayFx(dieFx);
 		deathAnim.Reset();
 		currentAnim = &deathAnim;
 	}

@@ -51,16 +51,20 @@ bool Map::Awake(pugi::xml_node& config)
 bool Map::Update(float dt)
 {
 	eastl::list<TileSet*>::iterator item = data.tilesets.begin();
-	for (; item != data.tilesets.end(); ++item)
+	eastl::list<TileSet*>::iterator itEnd = data.tilesets.end();
+	for (; item != itEnd; ++item)
 	{
-		eastl::list<AnimatedTiles*>::iterator tiles = (*item)->animatedTiles.begin();
-		for (; tiles != (*item)->animatedTiles.end(); ++tiles)
+		TileSet* tSet = (*item);
+		eastl::list<AnimatedTiles*>::iterator tiles = tSet->animatedTiles.begin();
+		eastl::list<AnimatedTiles*>::iterator tileEnd = tSet->animatedTiles.end();
+		for (; tiles != tileEnd; ++tiles)
 		{
-			if ((*tiles)->timer >= (*tiles)->maxTime)
+			AnimatedTiles* animTiles = (*tiles);
+			if (animTiles->timer >= animTiles->maxTime)
 			{
-				(*tiles)->timer = 0;
+				animTiles->timer = 0;
 			}
-			(*tiles)->timer++;
+			animTiles->timer++;
 		}
 	}
 
@@ -75,19 +79,22 @@ void Map::Draw(bool showColliders)
 	if (mapLoaded == false) return;
 
 	eastl::list<MapLayer*>::iterator item = data.layers.begin();
+	eastl::list<MapLayer*>::iterator itEnd = data.layers.end();
 
-	for (; item != data.layers.end(); ++item)
+	for (; item != itEnd; ++item)
 	{
-		if (((*item)->properties.GetProperty("draw", 1) != 0) || showColliders) DrawLayer(app->render, (*item));
+		MapLayer* layer = (*item);
+		if ((layer->properties.GetProperty("draw", 1) != 0) || showColliders) DrawLayer(app->render, layer);
 	}
 }
 
 void Map::DrawLayer(Render* render, MapLayer* layer)
 {
-	for (int y = 0; y < data.height; ++y)
+	iPoint startTile = WorldToMap(-render->camera.x, -render->camera.y);
+	iPoint finalTile = WorldToMap(-render->camera.x + render->camera.w + 32, -render->camera.y + render->camera.h + 32);
+	for (int y = startTile.y; y < finalTile.y; ++y)
 	{
-
-		for (int x = 0; x < data.width; ++x)
+		for (int x = startTile.x; x < finalTile.x; ++x)
 		{
 			int tileId = layer->Get(x, y);
 
@@ -96,18 +103,21 @@ void Map::DrawLayer(Render* render, MapLayer* layer)
 				// L04: DONE 9: Complete the draw function
 				TileSet* tileset = GetTilesetFromTileId(tileId); 
 				eastl::list<AnimatedTiles*>::iterator anim;
+				eastl::list<AnimatedTiles*>::iterator animEnd;
 
 				anim = tileset->animatedTiles.begin();
+				animEnd = tileset->animatedTiles.end();
 
-				for (; anim != tileset->animatedTiles.end(); ++anim)
+				for (; anim != animEnd; ++anim)
 				{
-					if ((*anim)->timer >= (*anim)->maxTime)
+					AnimatedTiles* tile = (*anim);
+					if (tile->timer >= tile->maxTime)
 					{
-						eastl::list<int>::iterator frames = (*anim)->frames.begin();
+						eastl::list<int>::iterator frames = tile->frames.begin();
 						if (layer->Get(x, y) == (*frames))
 						{
 							layer->ChangeTile(x, y, (*frames.next()));
-							(*anim)->hasChanged = true;
+							tile->hasChanged = true;
 							break;
 						}
 					}
@@ -115,12 +125,8 @@ void Map::DrawLayer(Render* render, MapLayer* layer)
 
 				SDL_Rect rec = tileset->GetTileRect(tileId);
 				iPoint pos = MapToWorld(x, y);
-				SDL_Rect r = rec;
-				r.x = pos.x + tileset->offsetX;
-				r.y = pos.y + tileset->offsetY;
 
-				if (IsTileOnCamera(r, render->camera))
-					render->DrawTexture(tileset->texture, pos.x + tileset->offsetX, pos.y + tileset->offsetY, &rec);
+				render->DrawTexture(tileset->texture, pos.x + tileset->offsetX, pos.y + tileset->offsetY, &rec);
 			}
 		}
 	}
@@ -206,19 +212,24 @@ TileSet* Map::GetTilesetFromTileId(int id) const
 void Map::UpdateTiles()
 {
 	eastl::list<AnimatedTiles*>::iterator anim;
+	eastl::list<AnimatedTiles*>::iterator animEnd;
 	eastl::list<TileSet*>::iterator tile = data.tilesets.begin();
+	eastl::list<TileSet*>::iterator tileEnd = data.tilesets.end();
 	
-	for (; tile != data.tilesets.end(); ++tile)
+	for (; tile != tileEnd; ++tile)
 	{
-		anim = (*tile)->animatedTiles.begin();
-		for (; anim != (*tile)->animatedTiles.end(); ++anim)
+		TileSet* set = (*tile);
+		anim = set->animatedTiles.begin();
+		animEnd = set->animatedTiles.end();
+		for (; anim != animEnd; ++anim)
 		{
-			if ((*anim)->hasChanged)
+			AnimatedTiles* animTiles = (*anim);
+			if (animTiles->hasChanged)
 			{
-				(*anim)->hasChanged = false;
-				int aux = (*anim)->frames.begin().mpNode->mValue;
-				(*anim)->frames.pop_front();
-				(*anim)->frames.push_back(aux);
+				animTiles->hasChanged = false;
+				int aux = (*animTiles->frames.begin());
+				animTiles->frames.pop_front();
+				animTiles->frames.push_back(aux);
 			}
 		}
 	}

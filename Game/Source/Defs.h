@@ -36,6 +36,8 @@
 #define MAX( a, b ) ( ((a) > (b)) ? (a) : (b) )
 #define TO_BOOL( a )  ( (a != 0) ? true : false )
 
+#define LERP( start, end, rate ) ( start + ((end - start) * rate) )
+
 typedef unsigned int uint;
 typedef unsigned char uchar;
 typedef unsigned __int32 uint32;

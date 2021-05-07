@@ -109,8 +109,6 @@ protected:
 	int currentAbilitySelected;
 	int currentObjectSelected;
 
-	
-
 	//Animations
 	Animation idleDown;
 	Animation idleLeft;

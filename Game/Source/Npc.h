@@ -26,7 +26,7 @@ public:
 
 	bool CheckCollision(Player* player) override;
 
-	inline int GetDialogeId() override { return dialogeId; }
+	inline int const GetDialogeId() const override { return dialogeId; }
 
 	void SetDrawPtext(bool DrawPtext) override;
 	void SetTalkStart(bool TalkStart) override;

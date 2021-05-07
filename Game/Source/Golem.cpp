@@ -2,6 +2,7 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Font.h"
+#include "Audio.h"
 
 #include "Golem.h"
 #include "Player.h"
@@ -11,6 +12,9 @@ Golem::Golem(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::GOLEM)
 {
 	bounds = { pos.x, pos.y, 70, 69 };
 	texture = app->tex->Load("Assets/Textures/Enemies/golem.png");
+	attackFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/golem_attack.wav");
+	dieFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/golem_die.wav");
+	hurtFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/golem_hurt.wav");
 	name = "Golem";
 	
 	battlePos = pos;
@@ -84,6 +88,7 @@ bool Golem::Update(float dt)
 			if (bounds.x <= target->bounds.x + 5 && bounds.y <= target->bounds.y + 5)
 			{
 				attack = true;
+				app->audio->PlayFx(attackFx);
 				idleAnim.Reset();
 				attackAnim.Reset();
 				currentAnim = &attackAnim;
@@ -150,7 +155,10 @@ void Golem::Draw(bool showColliders)
 bool Golem::UnLoad()
 {
 	app->tex->UnLoad(texture);
-	
+	app->audio->UnLoadFx(attackFx);
+	app->audio->UnLoadFx(hurtFx);
+	app->audio->UnLoadFx(dieFx);
+
 	font->UnLoad(app->tex);
 	RELEASE(font);
 
@@ -178,11 +186,13 @@ void Golem::GetDamage(int dmg)
 	if (health <= 0)
 	{
 		health = 0;
+		app->audio->PlayFx(dieFx);
 		deathAnim.Reset();
 		currentAnim = &deathAnim;
 	}
 	else
 	{
+		app->audio->PlayFx(hurtFx);
 		hitAnim.Reset();
 		currentAnim = &hitAnim;
 	}

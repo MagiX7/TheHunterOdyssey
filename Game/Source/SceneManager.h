@@ -4,7 +4,17 @@
 #include "Module.h"
 #include "Scene.h"
 
+#define MAX_BARS_SIZE 20
+
 struct SDL_Texture;
+
+enum class TransitionStep
+{
+	NONE = 0,
+	ENTERING,
+	CHANGING,
+	EXITING
+};
 
 class SceneManager : public Module
 {
@@ -35,9 +45,26 @@ private:
 	Scene* current;
 	Scene* next;
 
-	bool onTransition;
-	bool fadeOutCompleted;
+	TransitionStep transitionStep;
+	// Transitions rects
+	// Wipe
+	SDL_Rect rectWipe;
+
+	// Alternating bars
+	SDL_Rect bars[MAX_BARS_SIZE];
+
+	// Half Height Recangles
+	SDL_Rect rectUpper;
+	SDL_Rect rectLower;
+
+	// Fade to Black
 	float transitionAlpha;
+
+	// Half Width Rectangles
+	SDL_Rect rectUpper2;
+	SDL_Rect rectLower2;
+	float halfWidthCount;
+
 };
 
 #endif // __SCENE_H__

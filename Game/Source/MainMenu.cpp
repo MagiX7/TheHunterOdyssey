@@ -29,7 +29,7 @@ MainMenu::MainMenu(SceneTitle* s)
 	easingDown->deltaPos = 20;
 	easingDown->easingsActivated = false;
 
-	titlePosition = 588;
+	titlePosition = 13;
 
 	playMusicOptions = true;
 }
@@ -44,28 +44,28 @@ bool MainMenu::Load(Font* font)
 	bg = app->tex->Load("Assets/Textures/UI/main_menu_textures.png");
 	creditsTexture = app->tex->Load("Assets/Textures/Scenes/credits.png");
 
-	btnNewGame = new GuiButton(1, { 380, 36, 520, 117 }, "New Game", this, font);
-	btnNewGame->section = { 0,0,520,117 };
+	btnNewGame = new GuiButton(1, { 510, 325, 260, 59 }, "New Game", this, font);
+	btnNewGame->section = { 0,0,260,59 };
 	btnNewGame->texture = guiTex;
 	btnNewGame->alineation = 1;
 
-	btnContinue = new GuiButton(2, { 380, 174, 520, 117 }, "Continue", this, font);
-	btnContinue->section = { 0,0,520,117 };
+	btnContinue = new GuiButton(2, { 510, 393, 260, 59 }, "Continue", this, font);
+	btnContinue->section = { 0,0,260,59 };
 	btnContinue->texture = guiTex;
 	btnContinue->alineation = 1;
 
-	btnOptions = new GuiButton(3, { 380, 305, 520, 117 }, "Options", this, font);
-	btnOptions->section = { 0,0,520,117 };
+	btnOptions = new GuiButton(3, { 510, 461, 260, 59 }, "Options", this, font);
+	btnOptions->section = { 0,0,260,59 };
 	btnOptions->texture = guiTex;
 	btnOptions->alineation = 1;
 
-	btnCredits = new GuiButton(4, { 380, 440, 520, 117 }, "Credits", this, font);
-	btnCredits->section = { 0,0,520,117 };
+	btnCredits = new GuiButton(4, { 510, 529, 260, 59 }, "Credits", this, font);
+	btnCredits->section = { 0,0,260,59 };
 	btnCredits->texture = guiTex;
 	btnCredits->alineation = 1;
 
-	btnExit = new GuiButton(5, { 380, 574, 520, 117 }, "Exit", this, font);
-	btnExit->section = { 0,0,520,117 };
+	btnExit = new GuiButton(5, { 510, 597, 260, 59 }, "Exit", this, font);
+	btnExit->section = { 0,0,260,59 };
 	btnExit->texture = guiTex;
 	btnExit->alineation = 1;
 
@@ -161,7 +161,7 @@ bool MainMenu::Update(float dt)
 		btnCredits->Update(app->input, dt, id);
 		btnExit->Update(app->input, dt, id);
 
-		if (easingUp->easingsActivated)
+	/*	if (easingUp->easingsActivated)
 		{
 			titlePosition = easingUp->sineEaseOut(easingUp->currentIteration, easingUp->initialPos, easingUp->deltaPos, easingUp->totalIterations);
 			if (easingUp->currentIteration < easingUp->totalIterations) easingUp->currentIteration++;
@@ -182,7 +182,7 @@ bool MainMenu::Update(float dt)
 				easingDown->easingsActivated = false;
 				easingUp->easingsActivated = true;
 			}
-		}
+		}*/
 	}
 	break;
 	case MenuState::OPTIONS:
@@ -223,17 +223,21 @@ void MainMenu::Draw(Font* font, bool showColliders)
 	{
 	case MenuState::NORMAL:
 	{
-		section = { 734,720,271,106 };
+		SDL_Rect auxSection = { 734,720,372,454 };
+
+		app->render->DrawTexture(bg, 454, 266, &auxSection);
+
+		section = { 1106,720,633,248 };
 
 		//if (currentButton != nullptr) currentButton->Draw(app->render, showColliders);
 
-		btnNewGame->Draw(app->render, showColliders, 64, { 255,255,255,255 });
-		btnContinue->Draw(app->render, showColliders, 64, { 255,255,255,255 });
-		btnOptions->Draw(app->render, showColliders, 64, { 255,255,255,255 });
-		btnCredits->Draw(app->render, showColliders, 64, { 255,255,255,255 });
-		btnExit->Draw(app->render, showColliders, 64, { 255,255,255,255 });
+		btnNewGame->Draw(app->render, showColliders, 36, { 255,255,255,255 });
+		btnContinue->Draw(app->render, showColliders, 36, { 255,255,255,255 });
+		btnOptions->Draw(app->render, showColliders, 36, { 255,255,255,255 });
+		btnCredits->Draw(app->render, showColliders, 36, { 255,255,255,255 });
+		btnExit->Draw(app->render, showColliders, 36, { 255,255,255,255 });
 
-		app->render->DrawTexture(bg, 987, titlePosition, &section);
+		app->render->DrawTexture(bg, 323, titlePosition, &section);
 	}
 	break;
 	case MenuState::OPTIONS:
@@ -311,10 +315,10 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 	{
 	case GuiControlType::BUTTON:
 	{
-		if (control->id == 1) scene->TransitionToScene(SceneType::GAMEPLAY); // New Game
+		if (control->id == 1) scene->TransitionToScene(SceneType::GAMEPLAY, TransitionType::ALTERNATING_BARS); // New Game
 		else if (control->id == 2) // Continue
 		{
-			scene->TransitionToScene(SceneType::GAMEPLAY);
+			scene->TransitionToScene(SceneType::GAMEPLAY, TransitionType::WIPE);
 			app->LoadGameRequest();
 		}
 		else if (control->id == 3) // Options

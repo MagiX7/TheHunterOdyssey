@@ -39,4 +39,7 @@ private:
 	Animation melee;
 
 	bool attack;
+	int attackFx;
+	int dieFx;
+	int hurtFx;
 };

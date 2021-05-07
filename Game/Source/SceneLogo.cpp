@@ -22,20 +22,8 @@ SceneLogo::SceneLogo()
 	drawCounter = 0.75f;
 
 	//Easings
-	easing1 = new Easing();
-	easing2 = new Easing();
-
-	easing1->currentIteration = 0;
-	easing1->totalIterations = 180;
-	easing1->initialPos = -650;
-	easing1->deltaPos = 1930;
-	easing1->easingsActivated = true;
-
-	easing2->easingsActivated = false;
-	easing2->deltaPos = -968;
-	easing2->initialPos = 1280;
-	easing2->totalIterations = 180;
-	easing2->currentIteration = 0;
+	easing1 = new Easing(true,0,-650,1930,180);
+	easing2 = new Easing(false,0,1280,-968,180);
 
 	logoPositionX = -650.0f;
 	logoPositionX = 1280.0f;
@@ -118,7 +106,7 @@ bool SceneLogo::Update(float dt)
 		if (logoAlpha > 1.0f)
 		{
 			logoAlpha = 1.0f;
-			TransitionToScene(SceneType::TITLE);
+			TransitionToScene(SceneType::TITLE, TransitionType::HALF_WIDHT_RECTANGLES);
 		}
 		break;
 	}

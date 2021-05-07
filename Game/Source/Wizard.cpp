@@ -3,6 +3,7 @@
 #include "Render.h"
 #include "Textures.h"
 #include "GuiButton.h"
+#include "Audio.h"
 
 #include "Wizard.h"
 #include "Enemy.h"
@@ -22,6 +23,7 @@ Wizard::Wizard(iPoint position, pugi::xml_node anim, ParticlesManager* particles
 	attack = false;
 	name = "Wizard";
 	Particles = particles;
+	isDead = false;
 	pugi::xml_node player = anim.child("wizard").child("overworld");
 
 	for (pugi::xml_node n = player.child("walk_front").child("pushback"); n; n = n.next_sibling("pushback"))
@@ -84,6 +86,11 @@ bool Wizard::Load()
 	texture = app->tex->Load("Assets/Textures/Players/wizard2.png");
 	battlerTexture = app->tex->Load("Assets/Textures/Players/battler_wizard.png");
 
+	footStepFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/footstep_wizard.ogg");
+	dieFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/wizard_die.wav");
+	attackFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/wizard_attack.wav");
+	hurtFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/wizard_hurt.ogg");
+
 	return true;
 }
 
@@ -96,6 +103,11 @@ bool Wizard::Update(float dt)
 	case PlayerStance::BATTLE:
 		if (healthPoints <= 0)
 		{
+			if (isDead == false)
+			{
+				app->audio->PlayFx(dieFx);
+				isDead = true;
+			}
 			healthPoints = 0;
 			currentAnim = &death;
 		}
@@ -106,6 +118,7 @@ bool Wizard::Update(float dt)
 		}
 		if (currentAnim == &damageTaken && damageTaken.HasFinished())
 		{
+			app->audio->PlayFx(hurtFx);
 			idleBattle.Reset();
 			currentAnim = &idleBattle;
 		}
@@ -117,6 +130,7 @@ bool Wizard::Update(float dt)
 
 			if (bounds.x == target->bounds.x && bounds.y == target->bounds.y)
 			{
+				app->audio->PlayFx(attackFx);
 				attack = true;
 				attackAnim.Reset();
 				currentAnim = &attackAnim;
@@ -162,6 +176,10 @@ bool Wizard::UnLoad()
 {
 	app->tex->UnLoad(texture);
 	app->tex->UnLoad(battlerTexture);
+	app->audio->UnLoadFx(footStepFx);
+	app->audio->UnLoadFx(attackFx);
+	app->audio->UnLoadFx(hurtFx);
+	app->audio->UnLoadFx(dieFx);
 
 	return true;
 }
@@ -173,6 +191,7 @@ void Wizard::HandleInput(float dt)
 	case PlayerStance::ROAMING:
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_REPEAT || app->input->pad->l_y < -0.5)
 		{
+			if (app->frameCount % 15 == 0) app->audio->PlayFx(footStepFx);
 			bounds.y -= SPEED_Y * dt;
 			if (currentAnim != &walkUp)
 			{
@@ -182,6 +201,7 @@ void Wizard::HandleInput(float dt)
 		}
 		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_REPEAT || app->input->pad->l_y > 0.5)
 		{
+			if (app->frameCount % 15 == 0) app->audio->PlayFx(footStepFx);
 			bounds.y += SPEED_Y * dt;
 			if (currentAnim != &walkDown)
 			{
@@ -191,6 +211,7 @@ void Wizard::HandleInput(float dt)
 		}
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_REPEAT || app->input->pad->l_x < -0.5)
 		{
+			if (app->frameCount % 15 == 0) app->audio->PlayFx(footStepFx);
 			bounds.x -= SPEED_X * dt;
 			if (currentAnim != &walkLeft)
 			{
@@ -200,6 +221,7 @@ void Wizard::HandleInput(float dt)
 		}
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_REPEAT || app->input->pad->l_x > 0.5)
 		{
+			if (app->frameCount % 15 == 0) app->audio->PlayFx(footStepFx);
 			bounds.x += SPEED_X * dt;
 			if (currentAnim != &walkRight)
 			{

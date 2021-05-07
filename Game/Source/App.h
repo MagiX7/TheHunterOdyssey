@@ -88,6 +88,7 @@ public:
 	Audio* audio;
 	SceneManager* sceneManager;
 
+	uint64 frameCount = 0;
 private:
 
 	int argc;
@@ -105,7 +106,6 @@ private:
 	bool loadGameRequested;
 
 	PerfTimer ptimer;
-	uint64 frameCount = 0;
 
 	Timer startupTime;
 	Timer frameTime;
