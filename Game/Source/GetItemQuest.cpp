@@ -2,7 +2,6 @@
 
 ItemQuest::ItemQuest(pugi::xml_node n) : Quest(QuestType::ITEM_QUEST)
 {
-    qType = QuestType::ITEM_QUEST;
 }
 
 ItemQuest::~ItemQuest()

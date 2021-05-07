@@ -50,4 +50,6 @@ private:
 	int completedQuestFx;
 	bool playFx;
 	bool showMore;
+	bool nextQuest;
+	float timer;
 };

@@ -36,6 +36,6 @@ public:
 	QuestType qType;
 	int id;
 	eastl::string name;
-	int requiredId;
+	int nextQuestId;
 	bool isCompleted;
 };

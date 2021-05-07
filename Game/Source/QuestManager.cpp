@@ -28,18 +28,18 @@ QuestManager::QuestManager()
 	for (; node; node = node.next_sibling("quest"))
 	{
 		Quest* quest;
-		switch (node.attribute("type").as_int())
+		switch ((QuestType)node.attribute("type").as_int())
 		{
-		case 1:
+		case QuestType::ITEM_QUEST:
 			quest = new ItemQuest(node);
 			break;
-		case 2:
+		case QuestType::MURDER_QUEST:
 			quest = new MurderQuest(node);
 			break;
-		case 3:
+		case QuestType::VISIT_QUEST:
 			quest = new VisitQuest(node);
 			break;
-		case 4:
+		case QuestType::TALK_QUEST:
 			quest = new TalkQuest(node);
 			break;
 		}
@@ -52,6 +52,8 @@ QuestManager::QuestManager()
 	questActive = nullptr;
 	playFx = false;
 	showMore = false;
+	nextQuest = false;
+	timer = 0.0f;
 }
 
 QuestManager::~QuestManager()
@@ -68,6 +70,7 @@ bool QuestManager::Update(Input* input, float dt)
 		{
 			finishedQuests.push_back(questFinished);
 			questFinished = nullptr;
+			nextQuest = true;
 		}
 	}
 	if (questActive != nullptr)
@@ -79,30 +82,19 @@ bool QuestManager::Update(Input* input, float dt)
 		}
 	}
 
-	if (!activeQuests.empty() && input->GetKey(SDL_SCANCODE_E) == KEY_DOWN) showMore = !showMore;
-	//eastl::list<Quest*>::iterator it = activeQuests.begin();
-	//eastl::list<Quest*>::iterator itEnd = activeQuests.end();
+	if (!activeQuests.empty() && input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN) showMore = !showMore;
+	
+	if (nextQuest)
+	{
+		timer += 2.0f * dt;
+		if (timer >= 5.01f)
+		{
+			ActivateQuest((*finishedQuests.end().prev())->nextQuestId);
+			nextQuest = false;
+			timer = 0.0f;
+		}
+	}
 
-	//for (; it != itEnd; ++it)
-	//{
-	//	switch ((*it)->id)
-	//	{
-	//	case 0:
-	//		break;
-	//	case 1:
-	//		break;
-	//	case 2:
-	//		break;
-	//	case 3:
-	//		break;
-	//	case 4:
-	//		break;
-	//	case 5:
-	//		break;
-	//	default:
-	//		break;
-	//	}
-	//}
 	return true;
 }
 
@@ -127,16 +119,18 @@ bool QuestManager::CheckQuests(Entity* entity, SString string)
 
 bool QuestManager::ActivateQuest(int id)
 {
-	eastl::list<Quest*>::iterator it = loadedQuests.begin();
-	eastl::list<Quest*>::iterator itEnd = loadedQuests.end();
-	for (; it != itEnd; ++it)
+	if (id != -1)
 	{
-		if ((*it)->id == id)
+		eastl::list<Quest*>::iterator it = loadedQuests.begin();
+		eastl::list<Quest*>::iterator itEnd = loadedQuests.end();
+		for (; it != itEnd; ++it)
 		{
-			loadedQuests.erase(it);
-			questActive = *it;
-			//activeQuests.push_back(*it);
-			break;
+			if ((*it)->id == id)
+			{
+				loadedQuests.erase(it);
+				questActive = *it;
+				break;
+			}
 		}
 	}
 
