@@ -73,14 +73,14 @@ public:
 
 	void DragItem(Item& item);
 
-	void HandleItems();
-
-	void HandleEquipment();
-
 	void GetEquipment(Player* player);
 
 private:
 	Player* GetPlayer(PlayerType type);
+
+	void HandleObjects(InventorySlot objects[]);
+
+	void DrawObjects(InventorySlot objects[], Font* font, bool showColliders);
 
 public:
 	eastl::list<Player*> players;
