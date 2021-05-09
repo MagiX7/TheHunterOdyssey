@@ -15,6 +15,7 @@ class Map;
 class DialogueManager;
 class PauseMenu;
 class Render;
+class Font;
 enum class PlayerType;
 enum class EntityType;
 class ParticlesManager;
@@ -75,6 +76,8 @@ public:
 	
 private:
 	Player* currentPlayer;
+
+	SDL_Texture* goldTexture;
 	
 	eastl::list<Player*> playerList;
 

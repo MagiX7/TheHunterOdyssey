@@ -51,14 +51,14 @@ void Dialogue::Draw(int& count, Font* font)
 			for (; optionsIterator != (*currentNode).options.end(); ++optionsIterator)
 			{
 				r.y += offsetY;
-				app->render->DrawText(font, (*optionsIterator)->text.c_str(), r, 30, 5, { 20,20,20,255 }, 1210);
+				app->render->DrawText2(font, (*optionsIterator)->text.c_str(), r, 30, 5, { 20,20,20,255 }, 1210);
 				//(*optionsIterator)->bounds.y += offsetY;
 				offsetY += 90;
 			}
 		}
 		else
 		{
-			app->render->DrawText(font, (*optionsIterator)->text.c_str(), (*optionsIterator)->bounds, 30, 5, { 20,20,20,255 }, 1210);
+			app->render->DrawText2(font, (*optionsIterator)->text.c_str(), (*optionsIterator)->bounds, 30, 5, { 20,20,20,255 }, 1210);
 		}
 
 	}

@@ -3,6 +3,7 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Audio.h"
+#include "Font.h"
 
 #include "SceneGameplay.h"
 #include "SceneBattle.h"
@@ -129,6 +130,8 @@ bool SceneGameplay::Load()
 	bool ret = true;
 	//particles->CleanUp();
 	font = new Font("Assets/Font/font3.xml", app->tex);
+
+	goldTexture = app->tex->Load("Assets/Textures/UI/gold.png");
 
 	entityManager->Load();
 
@@ -260,6 +263,13 @@ void SceneGameplay::Draw()
 		particles->PostUpdate();
 		currentPlayer->Draw(showColliders);
 		
+		app->render->DrawTexture(goldTexture, (app->render->camera.x * -1) + 5, (app->render->camera.y * -1) + 60);
+
+		char tmp[32];
+		sprintf_s(tmp, "%i", currentPlayer->gold);
+		app->render->DrawText(font, tmp, 80, 75, 50, 10, SDL_Color({ 0,0,0,255 }));
+		app->render->DrawText(font, tmp, 77, 72, 50, 10, SDL_Color({ 255,255,255,255 }));
+
 		if (isTown)
 		{
 			for (; enemies != enemyList.end(); ++enemies)
@@ -335,6 +345,8 @@ bool SceneGameplay::UnLoad()
 	RELEASE(font);
 	
 	particles->CleanUp();
+
+	app->tex->UnLoad(goldTexture);
 
 	return ret;
 }
