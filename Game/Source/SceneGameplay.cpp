@@ -158,6 +158,7 @@ bool SceneGameplay::Load()
 
 	sceneBattle = nullptr;
 
+	QuestManager::GetInstance()->SetPlayer(currentPlayer);
 
 	SDL_ShowCursor(SDL_ENABLE);
 	//particles->StartSimulation(currentPlayer->generator);

@@ -38,4 +38,5 @@ public:
 	eastl::string name;
 	int nextQuestId;
 	bool isCompleted;
+	int reward;
 };

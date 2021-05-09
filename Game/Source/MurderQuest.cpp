@@ -1,6 +1,7 @@
 #include "Render.h"
 
 #include "MurderQuest.h"
+#include "QuestManager.h"
 
 MurderQuest::MurderQuest(pugi::xml_node n) : Quest(QuestType::MURDER_QUEST)
 {
@@ -11,6 +12,7 @@ MurderQuest::MurderQuest(pugi::xml_node n) : Quest(QuestType::MURDER_QUEST)
 	this->type = (EntityType)n.attribute("enemy").as_int();
 	this->total = n.attribute("total").as_int();
 	this->actual = n.attribute("actual").as_int();
+	this->reward = n.attribute("reward").as_int();
 }
 
 MurderQuest::~MurderQuest()
@@ -19,14 +21,18 @@ MurderQuest::~MurderQuest()
 
 bool MurderQuest::Update(Entity* entity, SString n)
 {
-	if ((entity != nullptr) && (type == entity->type)) isCompleted = true;
+	if ((entity != nullptr) && (type == entity->type))
+	{
+		isCompleted = true;
+		QuestManager::GetInstance()->GetReward(this->reward);
+	}
 
 	return isCompleted;
 }
 
 void MurderQuest::Draw(Render* render, Font* font, bool showMore)
 {
-	render->DrawText(font, name.c_str(), 10, 10, 24, 2, { 255, 255, 255 });
+	render->DrawText(font, name.c_str(), 15, 15, 24, 2, { 255, 255, 255 });
 }
 
 bool MurderQuest::SaveState(pugi::xml_node& node)
@@ -39,6 +45,7 @@ bool MurderQuest::SaveState(pugi::xml_node& node)
 	node.append_attribute("enemy").set_value((int)type);
 	node.append_attribute("actual").set_value(actual);
 	node.append_attribute("total").set_value(total);
+	node.append_attribute("reward").set_value(reward);
 
 	return true;
 }

@@ -15,7 +15,7 @@ Player::Player(PlayerType t, EntityType type, iPoint position) : Entity(type), p
 	bounds.w = 26;
 	bounds.h = 26;
 	currentAbilitySelected = 0;
-	
+	gold = 500;
 }
 
 Player::~Player()

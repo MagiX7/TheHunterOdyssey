@@ -1,6 +1,8 @@
 #include "App.h"
 #include "Input.h"
 #include "Render.h"
+#include "Textures.h"
+#include "Player.h"
 
 #include "Audio.h"
 
@@ -48,6 +50,7 @@ QuestManager::QuestManager()
 	}
 
 	completedQuestFx = app->audio->LoadFx("Assets/Audio/Fx/quest_completed.wav");
+	questTexture = app->tex->Load("Assets/Textures/UI/quest_texture.png");
 	questFinished = nullptr;
 	questActive = nullptr;
 	playFx = false;
@@ -287,10 +290,10 @@ void QuestManager::Draw(Render* render, Font* font)
 	SDL_Rect r;
 	if (showMore) r = {0, 0, 200, 150};
 	else r = { 0, 0, 200, 50 };
-	render->DrawRectangle(r, 0, 0, 0, 150, true, false);
+	render->DrawTexture(questTexture, -render->camera.x, -render->camera.y, &r);
 	
 	if (activeQuests.empty()) 
-		render->DrawText(font, "No active quests", 10, 10, 24, 2, { 255, 255, 255 });
+		render->DrawText(font, "No active quests", 15, 15, 24, 2, { 255, 255, 255 });
 	else
 	{
 		eastl::list<Quest*>::iterator it = activeQuests.begin();
@@ -350,5 +353,18 @@ bool QuestManager::UnLoad()
 		}
 	}
 
+	app->tex->UnLoad(questTexture);
+
 	return true;
+}
+
+Player* QuestManager::SetPlayer(Player* player)
+{
+	currentPlayer = player;
+	return currentPlayer;
+}
+
+void QuestManager::GetReward(int reward)
+{
+	currentPlayer->gold += reward;
 }

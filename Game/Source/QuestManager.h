@@ -3,6 +3,7 @@
 #include "EASTL/list.h"
 #include "PugiXml/src/pugixml.hpp"
 #include "Quest.h"
+#include "Input.h"
 
 class Player;
 enum class EntityType;
@@ -35,6 +36,10 @@ public:
 
 	bool UnLoad();
 
+	Player* SetPlayer(Player* player);
+
+	void GetReward(int reward);
+
 private:
 	QuestManager();
 
@@ -52,4 +57,7 @@ private:
 	bool showMore;
 	bool nextQuest;
 	float timer;
+
+	SDL_Texture* questTexture;
+	Player* currentPlayer;
 };

@@ -1,6 +1,7 @@
 #include "Render.h"
 
 #include "VisitQuest.h"
+#include "QuestManager.h"
 
 VisitQuest::VisitQuest(pugi::xml_node n) : Quest(QuestType::VISIT_QUEST)
 {
@@ -9,6 +10,7 @@ VisitQuest::VisitQuest(pugi::xml_node n) : Quest(QuestType::VISIT_QUEST)
 	this->nextQuestId = n.attribute("nextQuestId").as_int();
 	this->isCompleted = n.attribute("isCompleted").as_bool();
 	this->mapName = n.attribute("mapName").as_string();
+	this->reward = n.attribute("reward").as_int();
 }
 
 VisitQuest::~VisitQuest()
@@ -17,14 +19,18 @@ VisitQuest::~VisitQuest()
 
 bool VisitQuest::Update(Entity* entity, SString n)
 {
-	if ((n != nullptr) && (mapName == n)) isCompleted = true;
+	if ((n != nullptr) && (mapName == n))
+	{
+		isCompleted = true;
+		QuestManager::GetInstance()->GetReward(this->reward);
+	}
 	
 	return isCompleted;
 }
 
 void VisitQuest::Draw(Render* render, Font* font, bool showMore)
 {
-	render->DrawText(font, name.c_str(), 10, 10, 24, 2, { 255, 255, 255 });
+	render->DrawText(font, name.c_str(), 15, 15, 24, 2, { 255, 255, 255 });
 }
 
 bool VisitQuest::SaveState(pugi::xml_node& node)
@@ -35,6 +41,7 @@ bool VisitQuest::SaveState(pugi::xml_node& node)
 	node.append_attribute("nextQuestId").set_value(nextQuestId);
 	node.append_attribute("isCompleted").set_value(isCompleted);
 	node.append_attribute("mapName").set_value(mapName.GetString());
+	node.append_attribute("reward").set_value(reward);
 
 	return true;
 }

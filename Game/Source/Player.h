@@ -88,6 +88,7 @@ public:
 	PlayerStance stance;
 	iPoint battlePos;
 	Generator* generator;
+	int gold;
 protected:
 	SDL_Texture* battlerTexture;
 	ParticlesManager* Particles;
