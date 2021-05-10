@@ -84,12 +84,14 @@ private:
 
 	void HandleSlot(InventorySlot objects[], float dt);
 
+	void UseObject(InventorySlot objects[], Player* player);
+
 public:
 	eastl::list<Player*> players;
 
 	GuiButton* btnEquipment; // Armors
 	GuiButton* btnItems;     // Potions etc
-	GuiButton* btnWeapons;   // Weapons
+	GuiButton* btnInfo;   // Weapons
 
 private:
 	SDL_Texture* atlasTexture;

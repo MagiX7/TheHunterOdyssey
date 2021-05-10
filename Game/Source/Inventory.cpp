@@ -26,7 +26,7 @@ bool Inventory::Load(Font* font)
 {
 	btnEquipment = new GuiButton(1, { 182,100,260,50 }, "Equipment", this, font);
 	btnItems = new GuiButton(2, { 182,160,260,50 }, "Items", this, font);
-	btnWeapons = new GuiButton(3, { 182,220,260,50 }, "Weapons", this, font);
+	btnInfo = new GuiButton(3, { 182,220,260,50 }, "Weapons", this, font);
 	
 	btnUse = new GuiButton(4, { 0,0,128,32 }, "USE", this, font);
 	btnDelete = new GuiButton(5, { 0,0,128,32 }, "DEL", this, font);
@@ -58,7 +58,7 @@ bool Inventory::Load(Font* font)
 
 	buttons.push_back(btnEquipment);
 	buttons.push_back(btnItems);
-	buttons.push_back(btnWeapons);
+	buttons.push_back(btnInfo);
 
 	// Initialize items;
 	int offsetX = 0;
@@ -114,7 +114,7 @@ bool Inventory::Update(float dt)
 {
 	btnEquipment->Update(app->input, dt, -1);
 	btnItems->Update(app->input, dt, -1);
-	btnWeapons->Update(app->input, dt, -1);
+	btnInfo->Update(app->input, dt, -1);
 
 	// Next and Prev character buttons update
 	btnNext->Update(app->input, dt, -1);
@@ -127,14 +127,12 @@ bool Inventory::Update(float dt)
 		break;
 
 	case InventoryState::EQUIPMENT:
-		// TODO
 		HandleObjects(armorSlots);
 		if (currentSlotId > -1) HandleSlot(armorSlots, dt);
 
 		break;
 
 	case InventoryState::ITEMS:
-
 		HandleObjects(slots);
 		if (currentSlotId > -1) HandleSlot(slots, dt);
 
@@ -146,8 +144,6 @@ bool Inventory::Update(float dt)
 
 	}
 
-	
-
 	return true;
 }
 
@@ -155,7 +151,7 @@ void Inventory::Draw(Font* font, bool showColliders)
 {
 	btnEquipment->Draw(app->render, showColliders);
 	btnItems->Draw(app->render, showColliders);
-	btnWeapons->Draw(app->render, showColliders);
+	btnInfo->Draw(app->render, showColliders);
 
 	// Big rectangle in the background
 	app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 150, true, false);
@@ -185,7 +181,7 @@ void Inventory::Draw(Font* font, bool showColliders)
 	app->render->DrawCenterText(font, "Pj image", r, 40, 5, { 0,0,0,255 });
 
 
-	// Equipment drawing
+	// Equipment equiped drawing
 	for (int i = 0; i < MAX_EQUIPMENT_SLOTS; ++i)
 	{
 		r = { 163, 715, 40, 40 };
@@ -244,6 +240,7 @@ void Inventory::Draw(Font* font, bool showColliders)
 		statsBar = { 228, 778, (190 * pl->GetArmorPoints()) / (pl->GetMaxArmorPoints()), 5 };
 		app->render->DrawTexture(atlasTexture, 871, 203 + (i * 105), &statsBar, false);
 	}
+	// Draw current player
 	SDL_Rect rectan = { 492, 153, 50, 67 };
 	if (currentPlayer->playerType == PlayerType::HUNTER) app->render->DrawRectangle(rectan, 255, 0, 0);
 	else if (currentPlayer->playerType == PlayerType::THIEF) app->render->DrawRectangle(rectan, 0, 0, 255);
@@ -256,7 +253,7 @@ bool Inventory::UnLoad()
 {
 	RELEASE(btnEquipment);
 	RELEASE(btnItems);
-	RELEASE(btnWeapons);
+	RELEASE(btnInfo);
 	RELEASE(btnUse);
 	RELEASE(btnDelete);
 	RELEASE(btnHunter);
@@ -285,54 +282,32 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 		else if (control->id == 2)
 			state = InventoryState::ITEMS;
 		else if (control->id == 3) state = InventoryState::WEAPONS;
-		else if (control->id == 4)
+		else if (control->id == 4) // Use
 		{
 			if (state == InventoryState::ITEMS) slots[currentSlotId].state = SlotState::USE;
 			else if (state == InventoryState::EQUIPMENT) armorSlots[currentSlotId].state = SlotState::USE;
 			
 		}
-		else if (control->id == 5)
+		else if (control->id == 5) // Delete
 		{
 			if (state == InventoryState::ITEMS) slots[currentSlotId].state = SlotState::DELETE;
 			else if (state == InventoryState::EQUIPMENT) armorSlots[currentSlotId].state = SlotState::DELETE;
 		}
-		else if (control->id == 6)
+		else if (control->id == 6) // Hunter
 		{
 			switch (state)
 			{
 			case InventoryState::ITEMS:
-				slots[currentSlotId].item->UseItem(GetPlayer(PlayerType::HUNTER));
-				--slots[currentSlotId].itemsAmount;
-
-				if (slots[currentSlotId].itemsAmount > 0)
-				{
-					slots[currentSlotId].state = SlotState::SELECTED;
-					isTextDisplayed = true;
-				}
-				else
-				{
-					slots[currentSlotId].state = SlotState::UNSELECTED;
-					slots[currentSlotId].filled = false;
-					isTextDisplayed = false;
-				}
+				UseObject(slots, GetPlayer(PlayerType::HUNTER));
 				break;
+
 			case InventoryState::EQUIPMENT:
 				Player* tmpPlayer = GetPlayer(PlayerType::HUNTER);
 				tmpPlayer->SetEquipment((Armor*)armorSlots[currentSlotId].item);
-				--armorSlots[currentSlotId].itemsAmount;
+				
 				if (currentPlayer == tmpPlayer) GetEquipment(tmpPlayer);
-
-				if (armorSlots[currentSlotId].itemsAmount > 0)
-				{
-					armorSlots[currentSlotId].state = SlotState::SELECTED;
-					isTextDisplayed = true;
-				}
-				else
-				{
-					armorSlots[currentSlotId].state = SlotState::UNSELECTED;
-					armorSlots[currentSlotId].filled = false;
-					isTextDisplayed = false;
-				}
+				
+				UseObject(armorSlots, tmpPlayer);
 				break;
 			}
 		}
@@ -341,38 +316,16 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 			switch (state)
 			{
 			case InventoryState::ITEMS:
-				slots[currentSlotId].item->UseItem(GetPlayer(PlayerType::WIZARD));
-				--slots[currentSlotId].itemsAmount;
-
-				if (slots[currentSlotId].itemsAmount > 0)
-				{
-					slots[currentSlotId].state = SlotState::SELECTED;
-					isTextDisplayed = true;
-				}
-				else
-				{
-					slots[currentSlotId].state = SlotState::UNSELECTED;
-					slots[currentSlotId].filled = false;
-					isTextDisplayed = false;
-				}
+				UseObject(slots, GetPlayer(PlayerType::WIZARD));
 				break;
+
 			case InventoryState::EQUIPMENT:
 				Player* tmpPlayer = GetPlayer(PlayerType::WIZARD);
 				tmpPlayer->SetEquipment((Armor*)armorSlots[currentSlotId].item);
-				--armorSlots[currentSlotId].itemsAmount;
+
 				if (currentPlayer == tmpPlayer) GetEquipment(tmpPlayer);
 
-				if (armorSlots[currentSlotId].itemsAmount > 0)
-				{
-					slots[currentSlotId].state = SlotState::SELECTED;
-					isTextDisplayed = true;
-				}
-				else
-				{
-					armorSlots[currentSlotId].state = SlotState::UNSELECTED;
-					armorSlots[currentSlotId].filled = false;
-					isTextDisplayed = false;
-				}
+				UseObject(armorSlots, tmpPlayer);
 				break;
 			}
 		}
@@ -381,80 +334,36 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 			switch (state)
 			{
 			case InventoryState::ITEMS:
-				slots[currentSlotId].item->UseItem(GetPlayer(PlayerType::THIEF));
-				--slots[currentSlotId].itemsAmount;
-
-				if (slots[currentSlotId].itemsAmount > 0)
-				{
-					slots[currentSlotId].state = SlotState::SELECTED;
-					isTextDisplayed = true;
-				}
-				else
-				{
-					slots[currentSlotId].state = SlotState::UNSELECTED;
-					slots[currentSlotId].filled = false;
-					isTextDisplayed = false;
-				}
+				UseObject(slots, GetPlayer(PlayerType::THIEF));
 				break;
+
 			case InventoryState::EQUIPMENT:
 				Player* tmpPlayer = GetPlayer(PlayerType::THIEF);
 				tmpPlayer->SetEquipment((Armor*)armorSlots[currentSlotId].item);
-				--armorSlots[currentSlotId].itemsAmount;
+
 				if (currentPlayer == tmpPlayer) GetEquipment(tmpPlayer);
 
-				if (armorSlots[currentSlotId].itemsAmount > 0)
-				{
-					armorSlots[currentSlotId].state = SlotState::SELECTED;
-					isTextDisplayed = true;
-				}
-				else
-				{
-					armorSlots[currentSlotId].state = SlotState::UNSELECTED;
-					armorSlots[currentSlotId].filled = false;
-					isTextDisplayed = false;
-				}
+				UseObject(armorSlots, tmpPlayer);
 				break;
 			}
 		}
 		else if (control->id == 9)
 		{
-		switch (state)
-		{
-		case InventoryState::ITEMS:
-			slots[currentSlotId].item->UseItem(GetPlayer(PlayerType::WARRIOR));
-			--slots[currentSlotId].itemsAmount;
+			switch (state)
+			{
+			case InventoryState::ITEMS:
+				UseObject(slots, GetPlayer(PlayerType::WARRIOR));
+				break;
 
-			if (slots[currentSlotId].itemsAmount > 0)
-			{
-				slots[currentSlotId].state = SlotState::SELECTED;
-				isTextDisplayed = true;
-			}
-			else
-			{
-				slots[currentSlotId].state = SlotState::UNSELECTED;
-				slots[currentSlotId].filled = false;
-				isTextDisplayed = false;
-			}
-			break;
-		case InventoryState::EQUIPMENT:
-			Player* tmpPlayer = GetPlayer(PlayerType::WARRIOR);
-			tmpPlayer->SetEquipment((Armor*)armorSlots[currentSlotId].item);
-			--armorSlots[currentSlotId].itemsAmount;
-			if (currentPlayer == tmpPlayer) GetEquipment(tmpPlayer);
+			case InventoryState::EQUIPMENT:
+				Player* tmpPlayer = GetPlayer(PlayerType::WARRIOR);
+				tmpPlayer->SetEquipment((Armor*)armorSlots[currentSlotId].item);
 
-			if (armorSlots[currentSlotId].itemsAmount > 0)
-			{
-				armorSlots[currentSlotId].state = SlotState::SELECTED;
-				isTextDisplayed = true;
+				if (currentPlayer == tmpPlayer) GetEquipment(tmpPlayer);
+
+				UseObject(armorSlots, tmpPlayer);
+				break;
 			}
-			else
-			{
-				armorSlots[currentSlotId].state = SlotState::UNSELECTED;
-				armorSlots[currentSlotId].filled = false;
-				isTextDisplayed = false;
-			}
-			break;
-		}
 		}
 		else if (control->id == 10)
 		{
@@ -579,8 +488,6 @@ void Inventory::DragItem(Item& item)
 
 	item.bounds.x = x - 16;
 	item.bounds.y = y - 16;
-
-	LOG("  =================== ITEM POS: %i    %i  =============== ", item.bounds.x, item.bounds.y);
 }
 
 Player* Inventory::GetPlayer(PlayerType type)
@@ -707,12 +614,13 @@ void Inventory::DrawObjects(InventorySlot objects[], Font *font, bool showCollid
 		}
 	}
 
+	// Draw the grabbed object
 	if (originSlot != nullptr && grabbed)
 	{
 		iQuantity = std::to_string(originSlot->itemsAmount);
 		app->render->DrawTexture(atlasTexture, originSlot->item->bounds.x + 4, originSlot->item->bounds.y + 4, &originSlot->item->atlasSection, false);
-		app->render->DrawText(font, iQuantity.c_str(), (originSlot->item->bounds.x + originSlot->item->bounds.w) - 4, (originSlot->item->bounds.y + originSlot->item->bounds.h) - 16 + 2, 25, 2, { 0,0,0 });
-		app->render->DrawText(font, iQuantity.c_str(), (originSlot->item->bounds.x + originSlot->item->bounds.w) - 6, (originSlot->item->bounds.y + originSlot->item->bounds.h) - 16, 25, 2, { 255,255,255 });
+		app->render->DrawText(font, iQuantity.c_str(), (originSlot->item->bounds.x + originSlot->item->bounds.w) - 13, (originSlot->item->bounds.y + originSlot->item->bounds.h) - 25 + 2, 25, 2, { 0,0,0 });
+		app->render->DrawText(font, iQuantity.c_str(), (originSlot->item->bounds.x + originSlot->item->bounds.w) - 15, (originSlot->item->bounds.y + originSlot->item->bounds.h) - 25, 25, 2, { 255,255,255 });
 		if (showColliders) app->render->DrawRectangle(originSlot->item->bounds, 0, 255, 0, 120, true, false);
 	}
 
@@ -783,5 +691,23 @@ void Inventory::HandleSlot(InventorySlot objects[], float dt)
 		isTextDisplayed = false;
 		usingItem = false;
 		break;
+	}
+}
+
+void Inventory::UseObject(InventorySlot objects[], Player* player)
+{
+	objects[currentSlotId].item->UseItem(player);
+	--objects[currentSlotId].itemsAmount;
+
+	if (objects[currentSlotId].itemsAmount > 0)
+	{
+		objects[currentSlotId].state = SlotState::SELECTED;
+		isTextDisplayed = true;
+	}
+	else
+	{
+		objects[currentSlotId].state = SlotState::UNSELECTED;
+		objects[currentSlotId].filled = false;
+		isTextDisplayed = false;
 	}
 }

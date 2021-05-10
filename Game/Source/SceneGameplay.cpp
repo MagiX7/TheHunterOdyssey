@@ -33,6 +33,8 @@
 
 #include "Log.h"
 
+#include "Optick/include/optick.h"
+
 #define NPC_RADIUS 10
 
 SceneGameplay::SceneGameplay()
@@ -132,9 +134,6 @@ SceneGameplay::SceneGameplay()
 	/*player = new Player(PlayerType::HUNTER);
 	npc = new Npc(EntityType::NPC);*/
 
-	
-
-
 	pause = new PauseMenu(this);
 
 	font = new Font("Assets/Font/font3.xml", app->tex);
@@ -194,6 +193,8 @@ bool SceneGameplay::Load()
 
 bool SceneGameplay::Update(float dt)
 {
+	OPTICK_EVENT("Scene Gameplay Update");
+
 	bool ret = true;
 
 	switch (gameState)
