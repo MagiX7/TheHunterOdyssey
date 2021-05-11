@@ -78,9 +78,24 @@ public:
 	inline int GetObjectSelected() const { return currentObjectSelected; }
 	inline bool GetDefend() const { return isDefending; }
 	inline eastl::string GetName() const { return name; }
-	inline Armor* GetHelmet() const {if (helmet) return helmet; }
-	inline Armor* GetChest() const { if (chest) return chest; }
-	inline Armor* GetBoots() const { if (boots) return boots; }
+	Armor* GetHelmet() const 
+	{
+		if (helmet) return helmet;
+
+		return nullptr;
+	}
+	Armor* GetChest() const 
+	{
+		if (chest) return chest; 
+
+		return nullptr;
+	}
+	Armor* GetBoots() const
+	{
+		if (boots) return boots; 
+
+		return nullptr;
+	}
 	
 	// Setters
 	inline void SetAbilitySelected(int num) { currentAbilitySelected = num; }

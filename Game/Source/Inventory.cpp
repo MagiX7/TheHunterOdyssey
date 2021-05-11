@@ -57,6 +57,7 @@ bool Inventory::Load(Font* font)
 	btnPrev->section = { 24, 786, 29, 29 };
 
 	btnUnEquip = new GuiButton(12, { 0,0,128, 32 }, "UNEQUIP", this, font);
+	btnUnEquip->alineation = 1;
 
 	buttons.push_back(btnEquipment);
 	buttons.push_back(btnItems);
@@ -547,7 +548,7 @@ void Inventory::HandleEquipment(float dt)
 				if (IsMouseInside(equipment[i].bounds) && equipment[i].filled == true)
 				{
 					displayEquipmentMenu = true;
-					tmpEquipMenuBounds = { equipment[i].bounds.x, equipment[i].bounds.y, 128, 50 };
+					tmpEquipMenuBounds = { equipment[i].bounds.x + 16, equipment[i].bounds.y + 16, 128, 50 };
 					currentEquipmentId = i;
 					break;
 				}
@@ -567,11 +568,12 @@ void Inventory::DisplayMenuEquipment(bool showColliders)
 {
 	app->render->DrawRectangle(tmpEquipMenuBounds, 0, 0, 0);
 
-	btnUnEquip->bounds.x = tmpEquipMenuBounds.x;
-	btnUnEquip->bounds.y = tmpEquipMenuBounds.y;
-
 	
-	btnUnEquip->Draw(app->render, showColliders);
+	btnUnEquip->bounds.x = tmpEquipMenuBounds.x;
+	btnUnEquip->bounds.y = tmpEquipMenuBounds.y + tmpEquipMenuBounds.h / 4;
+
+	btnUnEquip->Draw(app->render, showColliders, 32);
+	
 }
 
 void Inventory::HandleObjects(InventorySlot objects[])
@@ -776,5 +778,9 @@ void Inventory::UseObject(InventorySlot objects[], Player* player)
 		objects[currentSlotId].state = SlotState::UNSELECTED;
 		objects[currentSlotId].filled = false;
 		isTextDisplayed = false;
+		if (objects[currentSlotId].item->objectType == ObjectType::ARMOR)
+		{
+			objects[currentSlotId].item = nullptr;
+		}
 	}
 }
