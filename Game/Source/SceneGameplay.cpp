@@ -208,7 +208,8 @@ bool SceneGameplay::Update(float dt)
 						}
 					}
 				}
-				if (showColliders == false && CollisionMapEntity(currentPlayer->bounds, currentPlayer->type) == true) 
+				SDL_Rect bounds = { currentPlayer->bounds.x,currentPlayer->bounds.y + currentPlayer->bounds.h-7,currentPlayer->bounds.w,7 };
+				if (showColliders == false && CollisionMapEntity(bounds, currentPlayer->type) == true) 
 					currentPlayer->bounds = tmpBounds;
 
 				CameraFollow(app->render);
@@ -255,10 +256,10 @@ void SceneGameplay::Draw()
 	switch (gameState)
 	{
 	case GameplayState::ROAMING:
-		map->Draw(showColliders);
-		entityManager->Draw(showColliders);
+		map->Draw(showColliders,entityManager,currentPlayer);
+		//entityManager->Draw(showColliders);
 		particles->PostUpdate();
-		currentPlayer->Draw(showColliders);
+		//currentPlayer->Draw(showColliders);
 		
 		if (isTown)
 		{
@@ -294,7 +295,6 @@ void SceneGameplay::Draw()
 	if (transition) 
 		app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 255 * alpha);
 }
-
 bool SceneGameplay::UnLoad()
 {
 	LOG("Unloading Scene Gameplay");

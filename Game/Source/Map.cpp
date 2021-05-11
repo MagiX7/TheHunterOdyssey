@@ -3,7 +3,7 @@
 #include "Textures.h"
 
 #include "Map.h"
-
+#include"Player.h"
 #include "Defs.h"
 #include "Log.h"
 
@@ -26,18 +26,18 @@ Map::~Map()
 
 int Properties::GetProperty(const char* value, int defaultValue) const
 {
-	eastl::list<Property*>::iterator prop = list.begin().mpNode;
+eastl::list<Property*>::iterator prop = list.begin().mpNode;
 
-	while(prop != list.end())
+while (prop != list.end())
+{
+	if (strcmp(value, (*prop)->name.GetString()) == 0)
 	{
-		if (strcmp(value, (*prop)->name.GetString()) == 0)
-		{
-			return (*prop)->value;
-		}
-		++prop;
+		return (*prop)->value;
 	}
+	++prop;
+}
 
-	return defaultValue;
+return defaultValue;
 }
 
 bool Map::Awake(pugi::xml_node& config)
@@ -74,20 +74,96 @@ bool Map::Update(float dt)
 }
 
 // Draw the map (all required layers)
-void Map::Draw(bool showColliders)
+void Map::Draw(bool showColliders, EntityManager* manager, Player* current)
 {
 	if (mapLoaded == false) return;
-
+	//entityList.
 	eastl::list<MapLayer*>::iterator item = data.layers.begin();
 	eastl::list<MapLayer*>::iterator itEnd = data.layers.end();
-
+	MapLayer* layer;
+	MapLayer* auxiliar = nullptr;
 	for (; item != itEnd; ++item)
 	{
-		MapLayer* layer = (*item);
+		layer = (*item);
 		if ((layer->properties.GetProperty("draw", 1) != 0) || showColliders) DrawLayer(app->render, layer);
+		if (layer->name == "Edificios" || layer->name == "Muebles") {
+			auxiliar = layer;
+		}
+		
 	}
-}
+	if (auxiliar != nullptr)DrawAllWithMap(showColliders, app->render, manager, current, auxiliar);
 
+}
+void Map::DrawAllWithMap(bool showColliders, Render* render, EntityManager* manager, Player* current, MapLayer* layer)
+{
+	SDL_Rect rec;
+	iPoint tileMapPosition;
+	TileSet* tileset;
+	iPoint points[4];
+	int point[4] = { -1,-1,-1,-1 };
+	eastl::list<Entity*>::iterator item = manager->entities.begin();
+	manager->Draw(showColliders);
+	current->Draw(showColliders);
+	//combine  player and npc, npc and npc
+	for (; item != manager->entities.end(); item++)
+	{
+		if ((*item)->type == EntityType::NPC_WIZARD || (*item)->type == EntityType::RAY || (*item)->type == EntityType::TABERN || (*item)->type == EntityType::TOWN)
+		{
+			if ((current->bounds.x < ((*item)->bounds.x + (*item)->bounds.w) && (current->bounds.x + current->bounds.w) >(*item)->bounds.x) &&
+				(current->bounds.y < ((*item)->bounds.y + (*item)->bounds.h) && (current->bounds.y + current->bounds.h) >(*item)->bounds.y))
+			{
+				if ((*item)->bounds.y + (*item)->bounds.h > current->bounds.y + current->bounds.h)
+				{
+					(*item)->Draw(showColliders);
+				}
+			}
+			points[0] = WorldToMap((*item)->bounds.x, (*item)->bounds.y);
+			points[1] = WorldToMap((*item)->bounds.x + (*item)->bounds.w, (*item)->bounds.y);
+			points[2] = WorldToMap((*item)->bounds.x, (*item)->bounds.y + (*item)->bounds.h);
+			points[3] = WorldToMap((*item)->bounds.x + (*item)->bounds.w, (*item)->bounds.y + (*item)->bounds.h);
+			for (int a = 0; a < 4; a++)
+			{
+				point[a] = layer->Get(points[a].x, points[a].y);
+				tileMapPosition = MapToWorld(points[a].x, points[a].y);
+				if (point[a] > 0 && tileMapPosition.y < (*item)->bounds.y + (*item)->bounds.w + 32)
+				{
+					tileset = GetTilesetFromTileId(point[a]);
+					rec = tileset->GetTileRect(point[a]);
+					render->DrawTexture(tileset->texture, tileMapPosition.x, tileMapPosition.y, &rec);
+				}
+				point[a] = -1;
+			}
+			
+			
+		}
+	
+	}
+
+
+	points[0] = WorldToMap(current->bounds.x, current->bounds.y);
+	points[1] = WorldToMap(current->bounds.x + current->bounds.w, current->bounds.y);
+	points[2] = WorldToMap(current->bounds.x, current->bounds.y + current->bounds.h);
+	points[3] = WorldToMap(current->bounds.x + current->bounds.w, current->bounds.y + current->bounds.h);
+	for (int a = 0; a < 4; a++)
+	{
+		point[a] = layer->Get(points[a].x, points[a].y);
+		tileMapPosition = MapToWorld(points[a].x, points[a].y);
+		if (point[a] > 0 && current->bounds.y + current->bounds.w <tileMapPosition.y+32)
+		{
+			tileset = GetTilesetFromTileId(point[a]);
+			rec=tileset->GetTileRect(point[a]);
+			render->DrawTexture(tileset->texture, tileMapPosition.x, tileMapPosition.y, &rec);
+
+			point[a] = layer->Get(points[a].x, points[a].y - 1);
+			if (point[a] > 0) {
+				tileMapPosition = MapToWorld(points[a].x, points[a].y-1);
+				rec = tileset->GetTileRect(point[a]);
+				render->DrawTexture(tileset->texture, tileMapPosition.x, tileMapPosition.y, &rec);
+			}
+		}
+	}
+
+}
 void Map::DrawLayer(Render* render, MapLayer* layer)
 {
 	iPoint startTile = WorldToMap(-render->camera.x, -render->camera.y);
@@ -96,6 +172,7 @@ void Map::DrawLayer(Render* render, MapLayer* layer)
 	{
 		for (int x = startTile.x; x < finalTile.x; ++x)
 		{
+			
 			int tileId = layer->Get(x, y);
 
 			if (tileId > 0)

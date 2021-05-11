@@ -72,9 +72,9 @@ private:
 	void Fading(float dt);
 public:
 	DialogueManager* dialogueManager;
-	
-private:
 	Player* currentPlayer;
+private:
+	
 	
 	eastl::list<Player*> playerList;
 

@@ -2,7 +2,6 @@
 #define __SCENE_H__
 
 #include "Log.h"
-
 enum class TransitionType
 {
 	NONE = 0,
@@ -49,6 +48,7 @@ public:
 	virtual bool LoadState(pugi::xml_node&) { return true; }
 
 	virtual bool SaveState(pugi::xml_node&) const { return true; }
+
 
 	void TransitionToScene(SceneType scene, TransitionType type)
 	{

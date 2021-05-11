@@ -3,7 +3,7 @@
 
 #include "SString.h"
 #include "Point.h"
-
+#include"EntityManager.h"
 #include "PugiXml\src\pugixml.hpp"
 
 struct AnimatedTiles
@@ -125,10 +125,11 @@ public:
 	bool Update(float dt);
 
 	// Called each loop iteration
-	void Draw(bool showColliders);
+	void Draw(bool showColliders, EntityManager* manager,Player* current);
 
 	void DrawLayer(Render* render, MapLayer* layer);
 
+	void DrawAllWithMap(bool showColliders, Render* render, EntityManager* manager,Player* player, MapLayer* layer);
 	// Called before quitting
 	bool CleanUp();
 
@@ -154,6 +155,8 @@ private:
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
 	TileSet* GetTilesetFromTileId(int id) const;
+
+	eastl::list<Entity*> entityList;
 
 	void UpdateTiles();
 	bool IsTileOnCamera(SDL_Rect rect, SDL_Rect cam);

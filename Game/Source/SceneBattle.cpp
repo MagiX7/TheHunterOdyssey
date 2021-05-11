@@ -12,7 +12,6 @@
 #include "Skull.h"
 #include "Bat.h"
 #include "Audio.h"
-
 #include <time.h>
 
 SceneBattle::SceneBattle(eastl::list<Player*> list, int enemies, SceneGameplay* s) : playerList(list), numEnemies(enemies), scene(s)
@@ -105,7 +104,7 @@ bool SceneBattle::Update(float dt)
 void SceneBattle::Draw(bool colliders)
 {
 	//app->render->DrawTexture(backgroundTexture,0,0);
-	map->Draw(colliders);
+	map->Draw(colliders,nullptr, nullptr);
 
 	eastl::list<Player*>::iterator item = playerList.begin();
 	for (; item != playerList.end(); ++item)

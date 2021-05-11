@@ -41,6 +41,7 @@ public:
 
 	bool SaveState(pugi::xml_node&) const;
 
+	
 private:
 	Scene* current;
 	Scene* next;
