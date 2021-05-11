@@ -75,6 +75,10 @@ public:
 
 	void GetEquipment(Player* player);
 
+	void HandleEquipment(float dt);
+
+	void DisplayMenuEquipment(bool showColliders);
+
 private:
 	Player* GetPlayer(PlayerType type);
 
@@ -122,6 +126,7 @@ private:
 
 	GuiButton* btnUse;       // Use item
 	GuiButton* btnDelete;	 // Delete an item.
+	GuiButton* btnUnEquip;	// Unequip an armor
 
 	// Use this buttons for going through characters
 	GuiButton* btnNext;
@@ -131,9 +136,12 @@ private:
 	SDL_Rect tmpBounds;
 	SDL_Rect tmpUsingBounds;
 	SDL_Rect tmpCharBounds;
+	SDL_Rect tmpEquipMenuBounds;
 
 	bool grabbed;
 	float toGrabCount;
 	bool isTextDisplayed;
 	bool usingItem;
+	bool displayEquipmentMenu;
+	int currentEquipmentId;
 };

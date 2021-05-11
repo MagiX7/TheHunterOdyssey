@@ -56,6 +56,8 @@ bool Inventory::Load(Font* font)
 	btnPrev->texture = atlasTexture;
 	btnPrev->section = { 24, 786, 29, 29 };
 
+	btnUnEquip = new GuiButton(12, { 0,0,128, 32 }, "UNEQUIP", this, font);
+
 	buttons.push_back(btnEquipment);
 	buttons.push_back(btnItems);
 	buttons.push_back(btnInfo);
@@ -104,6 +106,7 @@ bool Inventory::Load(Font* font)
 	currentSlotId = -1;
 	originSlot = nullptr;
 	isTextDisplayed = false;
+	displayEquipmentMenu = false;
 
 	usingItem = false;
 
@@ -143,6 +146,8 @@ bool Inventory::Update(float dt)
 		break;
 
 	}
+
+	HandleEquipment(dt);
 
 	return true;
 }
@@ -200,6 +205,8 @@ void Inventory::Draw(Font* font, bool showColliders)
 		break;
 	}
 	
+	if(displayEquipmentMenu) DisplayMenuEquipment(showColliders);
+
 	btnNext->Draw(app->render, showColliders);
 	btnPrev->Draw(app->render, showColliders);
 
@@ -262,6 +269,7 @@ bool Inventory::UnLoad()
 	RELEASE(btnWarrior);
 	RELEASE(btnNext);
 	RELEASE(btnPrev);
+	RELEASE(btnUnEquip);
 
 	app->tex->UnLoad(atlasTexture);
 	//RELEASE(atlasTexture);
@@ -393,6 +401,14 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 				}
 			}
 		}
+		else if (control->id == 12)
+		{
+			AddItem(equipment[currentEquipmentId].item);
+			equipment[currentEquipmentId].item = nullptr;
+			equipment[currentEquipmentId].itemsAmount--;
+			equipment[currentEquipmentId].filled = false;
+			displayEquipmentMenu = false;
+		}
 		break;
 	}
 
@@ -505,6 +521,57 @@ void Inventory::GetEquipment(Player* player)
 	equipment[0].item = player->GetHelmet();
 	equipment[1].item = player->GetChest();
 	equipment[2].item = player->GetBoots();
+	for (int i = 0; i < MAX_EQUIPMENT_SLOTS; ++i)
+	{
+		if (equipment[i].item != nullptr)
+		{
+			equipment[i].filled = true;
+			equipment[i].itemsAmount = 1;
+		}
+		else
+		{
+			equipment[i].filled = false;
+			equipment[i].itemsAmount = 0;
+		}
+	}
+}
+
+void Inventory::HandleEquipment(float dt)
+{
+	if (displayEquipmentMenu == false)
+	{
+		if (app->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_UP)
+		{
+			for (int i = 0; i < MAX_EQUIPMENT_SLOTS; i++)
+			{
+				if (IsMouseInside(equipment[i].bounds) && equipment[i].filled == true)
+				{
+					displayEquipmentMenu = true;
+					tmpEquipMenuBounds = { equipment[i].bounds.x, equipment[i].bounds.y, 128, 50 };
+					currentEquipmentId = i;
+					break;
+				}
+			}
+		}
+	}
+	else
+	{
+		if(app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_UP && !IsMouseInside(tmpEquipMenuBounds)) 
+			displayEquipmentMenu = false;
+
+		btnUnEquip->Update(app->input, dt, 1);
+	}
+}
+
+void Inventory::DisplayMenuEquipment(bool showColliders)
+{
+	app->render->DrawRectangle(tmpEquipMenuBounds, 0, 0, 0);
+
+	btnUnEquip->bounds.x = tmpEquipMenuBounds.x;
+	btnUnEquip->bounds.y = tmpEquipMenuBounds.y;
+
+	
+	btnUnEquip->Draw(app->render, showColliders);
 }
 
 void Inventory::HandleObjects(InventorySlot objects[])
