@@ -19,6 +19,6 @@ jobs:
     - name: Build Library (MSVC16)
       run: |
         cd projects/VS2019
-        msbuild.exe Development.sln /property:Configuration=Release /property:Platform=x86
+        msbuild.exe Dvelopment.sln /property:Configuration=Release /property:Platform=x86
         cd ../..
       shell: cmd
