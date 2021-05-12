@@ -38,7 +38,7 @@ bool GuiCheckBox::Update(Input* input, float dt)
 
 			if (isPlayable == true)
 			{
-				app->audio->PlayFx(focusedFx);
+				app->audio->PlayFx(channel, focusedFx);
 				isPlayable = false;
 			}
 
@@ -47,7 +47,7 @@ bool GuiCheckBox::Update(Input* input, float dt)
 				state = GuiControlState::PRESSED;
 				if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
 				{
-					app->audio->PlayFx(clickFx);
+					app->audio->PlayFx(channel, clickFx);
 				}
 			}
 

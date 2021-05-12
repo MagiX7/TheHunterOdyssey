@@ -67,6 +67,8 @@ public:
 	bool isTown;
 	bool showColliders;
 
+	int channel;
+
 	TransitionType transitionType;
 };
 

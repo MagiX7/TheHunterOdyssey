@@ -88,7 +88,7 @@ bool Golem::Update(float dt)
 			if (bounds.x <= target->bounds.x + 5 && bounds.y <= target->bounds.y + 5)
 			{
 				attack = true;
-				app->audio->PlayFx(attackFx);
+				app->audio->PlayFx(channel, attackFx);
 				idleAnim.Reset();
 				attackAnim.Reset();
 				currentAnim = &attackAnim;
@@ -186,13 +186,13 @@ void Golem::GetDamage(int dmg)
 	if (health <= 0)
 	{
 		health = 0;
-		app->audio->PlayFx(dieFx);
+		app->audio->PlayFx(channel, dieFx);
 		deathAnim.Reset();
 		currentAnim = &deathAnim;
 	}
 	else
 	{
-		app->audio->PlayFx(hurtFx);
+		app->audio->PlayFx(channel, hurtFx);
 		hitAnim.Reset();
 		currentAnim = &hitAnim;
 	}

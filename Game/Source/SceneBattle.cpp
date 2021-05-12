@@ -14,10 +14,13 @@
 #include "Audio.h"
 #include <time.h>
 
-SceneBattle::SceneBattle(eastl::list<Player*> list, int enemies, SceneGameplay* s) : playerList(list), numEnemies(enemies), scene(s)
+SceneBattle::SceneBattle(eastl::list<Player*> list, Enemy* enemy, SceneGameplay* s) : playerList(list), scene(s)
 {
 	battleMenu = new BattleMenu(this);
 	map = new Map();
+	enemy->SetCurrentState(EnemyState::NORMAL);
+	enemy->SetPos(iPoint(650, 190));
+	enemyList.push_back(enemy);
 }
 
 SceneBattle::~SceneBattle()
@@ -54,19 +57,19 @@ bool SceneBattle::Load()
 		anims = animations.child("animations");
 
 	Enemy* enemy = nullptr;
-	for (int i = 0; i < numEnemies; ++i)
+	for (int i = 0; i < 2; ++i)
 	{
 		int num = (rand() % 3) + 1;
 		switch(num)
 		{
 		case 1:
-			enemy = new Golem(iPoint(650, 190 + (i * 90)), anims);
+			enemy = new Golem(iPoint(650, 280 + (i * 90)), anims);
 			break;
 		case 2:
-			enemy = new Skull(iPoint(650, 190 + (i * 90)), anims);
+			enemy = new Skull(iPoint(650, 280 + (i * 90)), anims);
 			break;
 		case 3:
-			enemy = new Bat(iPoint(650, 190 + (i * 90)), anims);
+			enemy = new Bat(iPoint(650, 280 + (i * 90)), anims);
 			break;
 		}
 		if (enemy != nullptr) enemyList.push_back(enemy);

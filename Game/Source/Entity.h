@@ -92,6 +92,7 @@ public:
 	SDL_Texture* texture;
 
 	Animation* currentAnim;
+	int channel;
 };
 
 #endif //__ENTITY_H__

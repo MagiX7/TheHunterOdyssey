@@ -2,7 +2,6 @@
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
-#include "GuiButton.h"
 #include "Audio.h"
 
 #include "Wizard.h"
@@ -106,7 +105,7 @@ bool Wizard::Update(float dt)
 		{
 			if (isDead == false)
 			{
-				app->audio->PlayFx(dieFx);
+				app->audio->PlayFx(channel, dieFx);
 				isDead = true;
 			}
 			healthPoints = 0;
@@ -119,7 +118,7 @@ bool Wizard::Update(float dt)
 		}
 		if (currentAnim == &damageTaken && damageTaken.HasFinished())
 		{
-			app->audio->PlayFx(hurtFx);
+			app->audio->PlayFx(channel, hurtFx);
 			idleBattle.Reset();
 			currentAnim = &idleBattle;
 		}
@@ -131,7 +130,7 @@ bool Wizard::Update(float dt)
 
 			if (bounds.x == target->bounds.x && bounds.y == target->bounds.y)
 			{
-				app->audio->PlayFx(attackFx);
+				app->audio->PlayFx(channel, attackFx);
 				attack = true;
 				attackAnim.Reset();
 				currentAnim = &attackAnim;
@@ -192,7 +191,7 @@ void Wizard::HandleInput(float dt)
 	case PlayerStance::ROAMING:
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_REPEAT || app->input->pad->l_y < -0.5)
 		{
-			if (app->frameCount % 15 == 0) app->audio->PlayFx(footStepFx);
+			if (app->frameCount % 15 == 0) app->audio->PlayFx(channel, footStepFx);
 			bounds.y -= SPEED_Y * dt;
 			if (currentAnim != &walkUp)
 			{
@@ -202,7 +201,7 @@ void Wizard::HandleInput(float dt)
 		}
 		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_REPEAT || app->input->pad->l_y > 0.5)
 		{
-			if (app->frameCount % 15 == 0) app->audio->PlayFx(footStepFx);
+			if (app->frameCount % 15 == 0) app->audio->PlayFx(channel, footStepFx);
 			bounds.y += SPEED_Y * dt;
 			if (currentAnim != &walkDown)
 			{
@@ -212,7 +211,7 @@ void Wizard::HandleInput(float dt)
 		}
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_REPEAT || app->input->pad->l_x < -0.5)
 		{
-			if (app->frameCount % 15 == 0) app->audio->PlayFx(footStepFx);
+			if (app->frameCount % 15 == 0) app->audio->PlayFx(channel, footStepFx);
 			bounds.x -= SPEED_X * dt;
 			if (currentAnim != &walkLeft)
 			{
@@ -222,7 +221,7 @@ void Wizard::HandleInput(float dt)
 		}
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_REPEAT || app->input->pad->l_x > 0.5)
 		{
-			if (app->frameCount % 15 == 0) app->audio->PlayFx(footStepFx);
+			if (app->frameCount % 15 == 0) app->audio->PlayFx(channel, footStepFx);
 			bounds.x += SPEED_X * dt;
 			if (currentAnim != &walkRight)
 			{

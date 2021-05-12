@@ -69,4 +69,6 @@ public:
 	int talkingFx3;
 	int talkingFx4;
 	bool firstTime;
+
+	int channel;
 };

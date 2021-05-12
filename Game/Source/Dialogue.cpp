@@ -26,6 +26,8 @@ Dialogue::Dialogue(int dialogueId) : id(dialogueId)
 	talkingFx4 = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/talking_4.ogg");
 	firstTime = true;
 	srand(time(NULL));
+
+	channel = app->audio->SetChannel();
 }
 
 Dialogue::~Dialogue()
@@ -47,10 +49,10 @@ void Dialogue::Draw(int& count, Font* font)
 			{
 				firstTime = false;
 				int whichAudio = (rand() % 4) + 1;
-				if (whichAudio == 1) app->audio->PlayFx(talkingFx1);
-				else if (whichAudio == 2) app->audio->PlayFx(talkingFx2);
-				else if (whichAudio == 3) app->audio->PlayFx(talkingFx3);
-				else if (whichAudio == 4) app->audio->PlayFx(talkingFx4);
+				if (whichAudio == 1) app->audio->PlayFx(channel, talkingFx1);
+				else if (whichAudio == 2) app->audio->PlayFx(channel, talkingFx2);
+				else if (whichAudio == 3) app->audio->PlayFx(channel, talkingFx3);
+				else if (whichAudio == 4) app->audio->PlayFx(channel, talkingFx4);
 			}
 		}
 		else

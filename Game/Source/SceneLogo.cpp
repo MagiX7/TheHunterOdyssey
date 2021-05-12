@@ -87,7 +87,7 @@ bool SceneLogo::Update(float dt)
 
 		if (drawCounter <= 0)
 		{
-			app->audio->PlayFx(logoFx);
+			app->audio->PlayFx(channel, logoFx);
 			logoAlpha -= (LOGO_FADE_IN_SPEED * dt);
 		}
 		if (logoAlpha < 0.0f)

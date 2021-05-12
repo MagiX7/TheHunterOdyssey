@@ -3,10 +3,9 @@
 
 #include "Scene.h"
 #include "Point.h"
-#include"ParticlesManager.h"
+#include "ParticlesManager.h"
 
 #include "Font.h"
-
 #include "EASTL/list.h"
 
 class Player;
@@ -95,6 +94,7 @@ private:
 
 	// Scenes
 	SceneBattle* sceneBattle;
+
 	Map* map;
 
 	// Font

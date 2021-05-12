@@ -43,7 +43,7 @@ bool GuiButton::Update(Input* input, float dt, int id)
 
 			if (isPlayable == true)
 			{
-				app->audio->PlayFx(focusedFx);
+				app->audio->PlayFx(channel, focusedFx);
 				isPlayable = false;
 			}
 
@@ -52,7 +52,7 @@ bool GuiButton::Update(Input* input, float dt, int id)
 				state = GuiControlState::PRESSED;
 				if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)
 				{
-					app->audio->PlayFx(clickFx);
+					app->audio->PlayFx(channel, clickFx);
 				}
 			}
 
@@ -73,7 +73,7 @@ bool GuiButton::Update(Input* input, float dt, int id)
 
 			if (isPlayable == true && SDL_ShowCursor(-1) == SDL_DISABLE)
 			{
-				app->audio->PlayFx(focusedFx);
+				app->audio->PlayFx(channel, focusedFx);
 				isPlayable = false;
 			}
 
@@ -83,7 +83,7 @@ bool GuiButton::Update(Input* input, float dt, int id)
 				state = GuiControlState::PRESSED;
 				if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 				{
-					app->audio->PlayFx(clickFx);
+					app->audio->PlayFx(channel, clickFx);
 				}
 			}
 

@@ -18,6 +18,7 @@ Audio::Audio() : Module()
 	transition = false;
 	nextMusic = "";
 	auxMusic = 0;
+	maxChannels = 10;
 }
 
 // Destructor
@@ -60,6 +61,8 @@ bool Audio::Awake(pugi::xml_node& config)
 	musicVolume = config.child("musicVolume").attribute("value").as_float();
 	fxVolume = config.child("fxVolume").attribute("value").as_int();
 
+	Mix_AllocateChannels(maxChannels);
+
 	return ret;
 }
 
@@ -93,6 +96,7 @@ bool Audio::Update(float dt)
 			Mix_VolumeMusic(musicVolume);
 		}
 	}
+
 	return true;
 }
 
@@ -109,11 +113,9 @@ bool Audio::CleanUp()
 		Mix_FreeMusic(music);
 	}
 
-	/*eastl::array<Mix_Chunk*>::iterator item;
-	for(item = fx.begin(); item != fx.end(); ++item)
-		Mix_FreeChunk(*item);*/
-
-	fx.clear();
+	UnLoadFxs();
+	Mix_AllocateChannels(0);
+	//channels.Clear();
 
 	Mix_CloseAudio();
 	Mix_Quit();
@@ -163,7 +165,7 @@ unsigned int Audio::LoadFx(const char* path)
 }
 
 // Play WAV
-bool Audio::PlayFx(unsigned int id, int repeat)
+bool Audio::PlayFx(int channel, unsigned int id, int repeat, int volume)
 {
 	bool ret = false;
 
@@ -172,8 +174,13 @@ bool Audio::PlayFx(unsigned int id, int repeat)
 
 	if(id > 0 && id <= fx.size())
 	{
-		Mix_VolumeChunk(fx.at(id-1), fxVolume);
-		Mix_PlayChannel(-1, fx.at(id - 1), repeat);
+		if (Mix_Playing(channel) == 0)
+		{
+			if (volume != -1) Mix_Volume(channel, volume);
+			if (Mix_Volume(channel, -1) > fxVolume)
+				Mix_Volume(channel, fxVolume);
+			Mix_PlayChannel(-1, fx.at(id - 1), repeat);
+		}
 	}
 
 	return ret;
@@ -185,6 +192,13 @@ bool Audio::UnLoadFx(int index)
 		Mix_FreeChunk(fx.at(index - 1));
 
 	return true;
+}
+
+void Audio::SetDistanceFx(int channel, int angle, uint distance, uint maxDistance)
+{
+	distance = distance * 255 / maxDistance;
+	if (distance > 255) distance = 255;
+	Mix_SetPosition(channel, angle, distance);
 }
 
 void Audio::Reset()
@@ -212,4 +226,32 @@ int Audio::GetMusicVolume()
 int Audio::GetFxVolume()
 {
 	return fxVolume;
+}
+
+void Audio::UnLoadFxs()
+{
+	eastl::deque<Mix_Chunk*>::iterator item;
+	eastl::deque<Mix_Chunk*>::iterator itEnd = fx.end();
+	for (item = fx.begin(); item != itEnd; ++item)
+		Mix_FreeChunk(*item);
+
+	fx.clear();
+}
+
+int Audio::SetChannel()
+{
+	int ret = -1;
+	++numChannels;
+	if (numChannels < maxChannels)
+	{
+		return numChannels;
+	}
+	else
+	{
+		maxChannels += 10;
+		Mix_AllocateChannels(maxChannels);
+		return numChannels;
+	}
+
+	return ret;
 }

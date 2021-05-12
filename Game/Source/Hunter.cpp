@@ -3,10 +3,10 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Audio.h"
-#include"SceneManager.h"
+
 #include "Hunter.h"
 #include "Enemy.h"
-#include"SceneGameplay.h"
+
 Hunter::Hunter(iPoint position, pugi::xml_node anim, ParticlesManager* particles) : Player(PlayerType::HUNTER, EntityType::HUNTER, position)
 {
 	//bounds = { 0,0, 16,32 };
@@ -20,6 +20,9 @@ Hunter::Hunter(iPoint position, pugi::xml_node anim, ParticlesManager* particles
 	meleeDamage = 75;
 	magicDamage = 10;
 	isDefending = false;
+
+	channel = app->audio->SetChannel();
+
 	attack = false;
 	name = "Hunter";
 	Particles = particles;
@@ -110,7 +113,7 @@ bool Hunter::Update(float dt)
 		{
 			if (isDead == false)
 			{
-				app->audio->PlayFx(dieFx);
+				app->audio->PlayFx(channel, dieFx);
 				isDead = true;
 			}
 			healthPoints = 0;
@@ -123,7 +126,7 @@ bool Hunter::Update(float dt)
 		}
 		if (currentAnim == &damageTaken && damageTaken.HasFinished())
 		{
-			app->audio->PlayFx(hurtFx);
+			app->audio->PlayFx(channel, hurtFx);
 			idleBattle.Reset();
 			currentAnim = &idleBattle;
 		}
@@ -135,7 +138,7 @@ bool Hunter::Update(float dt)
 
 			if (bounds.x == target->bounds.x && bounds.y == target->bounds.y)
 			{
-				app->audio->PlayFx(attackFx);
+				app->audio->PlayFx(channel, attackFx);
 				attack = true;
 				attackAnim.Reset();
 				currentAnim = &attackAnim;
@@ -197,7 +200,7 @@ void Hunter::HandleInput(float dt)
 	case PlayerStance::ROAMING:
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_REPEAT || app->input->pad->l_y < -0.5)
 		{
-			if (app->frameCount % 15 == 0) app->audio->PlayFx(footStepFx);
+			if (app->frameCount % 15 == 0) app->audio->PlayFx(channel, footStepFx);
 			generator->Restart();
 			generator->SetParameters({ 13,1 });
 			generator->SetPosition({ bounds.x+(bounds.w /2),bounds.y+(bounds.h-5) });
@@ -211,7 +214,7 @@ void Hunter::HandleInput(float dt)
 		}
 		else if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_REPEAT || app->input->pad->l_y > 0.5)
 		{
-			if (app->frameCount % 15 == 0) app->audio->PlayFx(footStepFx);
+			if (app->frameCount % 15 == 0) app->audio->PlayFx(channel, footStepFx);
 			generator->Restart();
 			generator->SetParameters({ 13,1 });
 			generator->SetPosition({ bounds.x + (bounds.w / 2),bounds.y + (bounds.h - 5) });
@@ -225,7 +228,7 @@ void Hunter::HandleInput(float dt)
 		}
 		else if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_REPEAT || app->input->pad->l_x < -0.5)
 		{
-			if (app->frameCount % 15 == 0) app->audio->PlayFx(footStepFx);
+			if (app->frameCount % 15 == 0) app->audio->PlayFx(channel, footStepFx);
 			generator->Restart();
 			generator->SetParameters({ 1,4 });
 			generator->SetPosition({ bounds.x + (bounds.w / 2),bounds.y + (bounds.h - 5) });
@@ -239,7 +242,7 @@ void Hunter::HandleInput(float dt)
 		}
 		else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_REPEAT || app->input->pad->l_x > 0.5)
 		{
-			if (app->frameCount % 15 == 0) app->audio->PlayFx(footStepFx);
+			if (app->frameCount % 15 == 0) app->audio->PlayFx(channel, footStepFx);
 			generator->SetParameters({ 1,4 });
 			generator->Restart();
 			generator->SetPosition({ bounds.x + (bounds.w / 2),bounds.y + (bounds.h - 5) });

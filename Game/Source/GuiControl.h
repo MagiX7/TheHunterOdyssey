@@ -93,6 +93,8 @@ public:
 
 	//Font font;			  // Text font
 
+	int channel;
+
 	Menu* observer;		// Observer module (it should probably be an array/list)
 };
 

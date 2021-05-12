@@ -7,7 +7,6 @@
 #include "Skull.h"
 #include "Player.h"
 
-
 Skull::Skull(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::SKULL)
 {
 	bounds = { pos.x, pos.y, 74, 74 };
@@ -89,7 +88,7 @@ bool Skull::Update(float dt)
 			if (bounds.x == target->bounds.x && bounds.y == target->bounds.y)
 			{
 				attack = true;
-				app->audio->PlayFx(attackFx);
+				app->audio->PlayFx(channel, attackFx);
 				target->GetDamage(damage);
 				attackAnim.Reset();
 				currentAnim = &attackAnim;
@@ -181,11 +180,11 @@ bool Skull::SaveState(pugi::xml_node& node)
 void Skull::GetDamage(int dmg)
 {
 	health -= dmg * dmg / (dmg + defense);
-	if (health > 0) app->audio->PlayFx(hurtFx);
+	if (health > 0) app->audio->PlayFx(channel, hurtFx);
 	if (health <= 0)
 	{
 		health = 0;
-		app->audio->PlayFx(dieFx);
+		app->audio->PlayFx(channel, dieFx);
 		deathAnim.Reset();
 		currentAnim = &deathAnim;
 	}

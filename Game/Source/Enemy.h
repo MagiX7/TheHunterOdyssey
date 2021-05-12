@@ -30,6 +30,7 @@ public:
 	{
 		return this->deathAnim.HasFinished();
 	}
+
 	virtual bool SaveState(pugi::xml_node& node)
 	{
 		pugi::xml_node auxiliar1 = node.append_child("bounds");
@@ -40,11 +41,19 @@ public:
 
 		return true;
 	}
+
 	// Setters
-	void SetCurrentState(EnemyState state) { currentState = state; }
+	inline void SetCurrentState(EnemyState state) { currentState = state; }
+	
+	void SetPos(iPoint pos) 
+	{ 
+		bounds.x = pos.x; 
+		bounds.y = pos.y;
+		battlePos = pos;
+	}
 
 	// Getters
-	EnemyState GetCurrentState() const { return currentState; }
+	inline EnemyState GetCurrentState() const { return currentState; }
 	
 	inline int GetHealth() const { return health; }
 

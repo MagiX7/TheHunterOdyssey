@@ -12,7 +12,7 @@ class Map;
 class SceneBattle : public Scene
 {
 public:
-	SceneBattle(eastl::list<Player*> list, int enemies, SceneGameplay* s);
+	SceneBattle(eastl::list<Player*> list, Enemy* enemy, SceneGameplay* s);
 	virtual ~SceneBattle();
 
 	// Called before the first frame

@@ -97,7 +97,7 @@ bool Bat::Update(float dt)
 			if (bounds.x < (target->bounds.x + (target->bounds.w / 2)) && bounds.y == target->bounds.y)
 			{
 				attack = true;
-				app->audio->PlayFx(attackFx);
+				app->audio->PlayFx(channel, attackFx);
 				target->GetDamage(damage);
 				attackAnim.Reset();
 				currentAnim = &attackAnim;
@@ -184,12 +184,12 @@ void Bat::GetDamage(int dmg)
 	{
 		health = 0;
 		deathAnim.Reset();
-		app->audio->PlayFx(dieFx);
+		app->audio->PlayFx(channel, dieFx);
 		currentAnim = &deathAnim;
 	}
 	else
 	{
-		app->audio->PlayFx(hurtFx);
+		app->audio->PlayFx(channel, hurtFx);
 		hitAnim.Reset();
 		currentAnim = &hitAnim;
 	}

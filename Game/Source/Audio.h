@@ -34,9 +34,11 @@ public:
 	unsigned int LoadFx(const char* path);
 
 	// Play a previously loaded WAV
-	bool PlayFx(unsigned int fx, int repeat = 0);
+	bool PlayFx(int channel, unsigned int fx, int repeat = 0, int volume = -1);
 
 	bool UnLoadFx(int index);
+
+	void SetDistanceFx(int channel, int angle, uint distance, uint maxDistance);
 
 	void Reset();
 
@@ -50,10 +52,14 @@ public:
 
 	inline bool FadeOutCompleted() { return fadeOut; }
 
+	int SetChannel();
 private:
+	void UnLoadFxs();
 
+private:
 	_Mix_Music* music;
 	eastl::deque<Mix_Chunk*> fx;
+	eastl::list<int> channels;
 
 	float musicVolume;
 	int fxVolume;
@@ -62,6 +68,9 @@ private:
 	float auxMusic;
 	bool transition;
 	bool fadeOut;
+
+	int maxChannels;
+	int numChannels;
 };
 
 #endif // __AUDIO_H__
