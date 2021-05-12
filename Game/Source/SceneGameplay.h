@@ -85,8 +85,6 @@ public:
 	eastl::list<Player*> playerList;
 
 private:
-	eastl::list<Player*> playerList;
-
 
 	// Menus
 	CharacterManager* charManager;

@@ -59,6 +59,7 @@ QuestManager::QuestManager()
 	nextQuest = false;
 	timer = 0.0f;
 	questTimer = 0.0f;
+	channel = app->audio->SetChannel();
 }
 
 QuestManager::~QuestManager()
@@ -69,7 +70,7 @@ bool QuestManager::Update(Input* input, float dt)
 {
 	if (questFinished != nullptr)
 	{
-		if (!playFx) app->audio->PlayFx(completedQuestFx);
+		if (!playFx) app->audio->PlayFx(channel, completedQuestFx);
 		playFx = true;
 		questTimer += 2.0f * dt;
 		if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)

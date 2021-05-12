@@ -136,9 +136,6 @@ public:
 		return ret;
 	}
 
-	// Setters
-	inline void SetAbilitySelected(int num) { currentAbilitySelected = num; }
-	inline void SetObjectSelected(int num) { currentObjectSelected = num; }
 protected:
 	virtual void HandleInput(float dt);
 	virtual void Travel(iPoint destination, float dt) {}

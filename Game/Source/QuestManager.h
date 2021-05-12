@@ -59,6 +59,8 @@ private:
 	float timer;
 	float questTimer;
 
+	int channel;
+
 	SDL_Texture* questTexture;
 	SDL_Texture* texture;
 	Player* currentPlayer;
