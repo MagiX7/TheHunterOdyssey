@@ -179,10 +179,6 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node 
 		//entity = new Thief(pos);
 
 		break;
-	case EntityType::ICE_BLOCK:
-		entity = new IceBlock(type, pos);
-		entity->Load();
-		break;
 	case EntityType::ITEM: break;
 	case EntityType::ENEMY: break;
 	}
@@ -193,7 +189,7 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node 
 	return entity;
 }
 
-Entity* EntityManager::CreateEntity2(EntityType type, iPoint pos)
+Entity* EntityManager::CreateEntity2(EntityType type, iPoint pos, Player* player)
 {
 	/*LOG("Creating %s", type);*/
 	Entity* entity = nullptr;
@@ -201,7 +197,7 @@ Entity* EntityManager::CreateEntity2(EntityType type, iPoint pos)
 	switch (type)
 	{
 	case EntityType::ICE_BLOCK:
-		entity = new IceBlock(type, pos);
+		entity = new IceBlock(type, pos, player);
 		entity->Load();
 		break;
 	}
