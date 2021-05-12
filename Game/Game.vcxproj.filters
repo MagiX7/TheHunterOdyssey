@@ -132,6 +132,9 @@
     <ClCompile Include="Source\Particle.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Source\IceBlock.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -311,6 +314,9 @@
     </ClInclude>
     <ClInclude Include="Source\Particle.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IceBlock.h">
+      <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

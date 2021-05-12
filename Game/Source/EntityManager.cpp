@@ -14,6 +14,8 @@
 #include "Golem.h"
 #include "Skull.h"
 
+#include "IceBlock.h"
+
 #include "Log.h"
 
 EntityManager::EntityManager()
@@ -177,8 +179,31 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node 
 		//entity = new Thief(pos);
 
 		break;
+	case EntityType::ICE_BLOCK:
+		entity = new IceBlock(type, pos);
+		entity->Load();
+		break;
 	case EntityType::ITEM: break;
 	case EntityType::ENEMY: break;
+	}
+
+	// Created entities are added to the list
+	if (entity != nullptr) entities.push_back(entity); // Should player be on the list?
+
+	return entity;
+}
+
+Entity* EntityManager::CreateEntity2(EntityType type, iPoint pos)
+{
+	/*LOG("Creating %s", type);*/
+	Entity* entity = nullptr;
+
+	switch (type)
+	{
+	case EntityType::ICE_BLOCK:
+		entity = new IceBlock(type, pos);
+		entity->Load();
+		break;
 	}
 
 	// Created entities are added to the list

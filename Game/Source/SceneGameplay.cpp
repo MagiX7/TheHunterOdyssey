@@ -21,6 +21,8 @@
 #include "Map.h"
 #include "DialogueManager.h"
 
+#include "IceBlock.h"
+
 #include "CharacterManager.h"
 #include "PauseMenu.h"
 
@@ -93,7 +95,6 @@ SceneGameplay::SceneGameplay()
 	position = { 500,350 };
 	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 1);
 
-	
 	//Create Enemies
 
 	/*Enemy* skull = nullptr;
@@ -1042,7 +1043,9 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("dungeon_map.tmx", app->tex);
-
+						IceBlock* iceBlock = nullptr;
+						position = { 2048,320 };
+						iceBlock = (IceBlock*)entityManager->CreateEntity2(EntityType::ICE_BLOCK, position);
 						exit = true;
 						break;
 					}

@@ -793,6 +793,14 @@
       </hit>
   </golem>
   
+  <iceblock>
+    <overworld>
+      <idle>
+        <pushback x ="0" y="0" w="32" h="32"/>
+      </idle>
+    </overworld>
+  </iceblock>
+  
   <skull>
     <idle>
       <pushback x="0" y="0" w="74" h="74"/>

@@ -43,6 +43,7 @@ enum class EntityType
 	RAY,
 	ITEM,
 	MAP,
+	ICE_BLOCK,
 	UNKNOWN
 };
 
