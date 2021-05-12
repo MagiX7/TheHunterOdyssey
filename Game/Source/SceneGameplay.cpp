@@ -1049,6 +1049,36 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						exit = true;
 						break;
 					}
+					if ((layer->Get(i, j) == 3) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						isTown = false;
+						entityManager->SetAllNpcInactive();
+						iPoint position = { 1950,1650 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("dungeon_map.tmx", app->tex);
+						IceBlock* iceBlock = nullptr;
+						position = { 2048,320 };
+						iceBlock = (IceBlock*)entityManager->CreateEntity2(EntityType::ICE_BLOCK, position);
+						exit = true;
+						break;
+					}
+					if ((layer->Get(i, j) == 4) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						isTown = false;
+						entityManager->SetAllNpcInactive();
+						iPoint position = { 2570,1650 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("dungeon_map.tmx", app->tex);
+						IceBlock* iceBlock = nullptr;
+						position = { 2048,320 };
+						iceBlock = (IceBlock*)entityManager->CreateEntity2(EntityType::ICE_BLOCK, position);
+						exit = true;
+						break;
+					}
 					if ((layer->Get(i, j) == 13) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = true;
