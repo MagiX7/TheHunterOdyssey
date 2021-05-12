@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
+<map version="1.2" tiledversion="1.3.5" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
  <tileset firstgid="1" name="map_tileset" tilewidth="32" tileheight="32" tilecount="768" columns="48">
   <image source="map_tileset.png" width="1536" height="512"/>
  </tileset>
@@ -672,7 +672,7 @@
    <tile gid="135"/>
    <tile gid="135"/>
    <tile gid="135"/>
-   <tile gid="135"/>
+   <tile gid="840"/>
    <tile gid="135"/>
    <tile gid="135"/>
    <tile gid="135"/>
@@ -933,7 +933,7 @@
    <tile gid="183"/>
   </data>
  </layer>
- <layer id="1" name="Suelo" width="40" height="23" visible="0" locked="1">
+ <layer id="1" name="Suelo" width="40" height="23" locked="1">
   <data>
    <tile gid="1"/>
    <tile gid="1"/>
@@ -2517,10 +2517,10 @@
    <tile gid="840"/>
    <tile gid="840"/>
    <tile gid="840"/>
-   <tile gid="840"/>
+   <tile gid="1413"/>
    <tile/>
    <tile/>
-   <tile gid="840"/>
+   <tile gid="1417"/>
    <tile gid="840"/>
    <tile gid="840"/>
    <tile gid="840"/>
@@ -2781,7 +2781,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="5" name="Detalles" width="40" height="23">
+ <layer id="5" name="Bordes" width="40" height="23">
   <data>
    <tile/>
    <tile/>
@@ -3441,10 +3441,10 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="1413"/>
    <tile/>
    <tile/>
-   <tile gid="1417"/>
+   <tile/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>

@@ -82,16 +82,26 @@ void Map::Draw(bool showColliders, EntityManager* manager, Player* current)
 	eastl::list<MapLayer*>::iterator itEnd = data.layers.end();
 	MapLayer* layer;
 	MapLayer* auxiliar = nullptr;
+	MapLayer* auxiliar2 = nullptr;
 	for (; item != itEnd; ++item)
 	{
 		layer = (*item);
-		if ((layer->properties.GetProperty("draw", 1) != 0) || showColliders) DrawLayer(app->render, layer);
-		if (layer->name == "Edificios" || layer->name == "Muebles") {
+		if (layer->name != "Bordes") 
+		{
+			if ((layer->properties.GetProperty("draw", 1) != 0) || showColliders) DrawLayer(app->render, layer);
+		}
+		else
+		{
+			auxiliar2 = layer;
+		}
+		if (layer->name == "Edificios" || layer->name == "Muebles") 
+		{
 			auxiliar = layer;
 		}
 		
 	}
 	if (auxiliar != nullptr)DrawAllWithMap(showColliders, app->render, manager, current, auxiliar);
+	if (auxiliar2 != nullptr) DrawLayer(app->render, auxiliar2);
 
 }
 void Map::DrawAllWithMap(bool showColliders, Render* render, EntityManager* manager, Player* current, MapLayer* layer)

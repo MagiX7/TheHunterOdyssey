@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
+<map version="1.2" tiledversion="1.3.5" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
  <tileset firstgid="1" name="hitboxes" tilewidth="32" tileheight="32" tilecount="20" columns="20">
   <image source="hitboxes.png" width="640" height="32"/>
  </tileset>
@@ -1469,8 +1469,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="376"/>
-   <tile gid="377"/>
+   <tile/>
+   <tile/>
    <tile gid="229"/>
    <tile gid="230"/>
    <tile gid="230"/>
@@ -1479,8 +1479,6 @@
    <tile gid="230"/>
    <tile gid="230"/>
    <tile gid="231"/>
-   <tile gid="376"/>
-   <tile gid="377"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1509,8 +1507,10 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="424"/>
-   <tile gid="425"/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
    <tile gid="229"/>
    <tile gid="230"/>
    <tile gid="230"/>
@@ -1519,8 +1519,8 @@
    <tile gid="230"/>
    <tile gid="230"/>
    <tile gid="231"/>
-   <tile gid="424"/>
-   <tile gid="425"/>
+   <tile/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -1713,6 +1713,10 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="1374"/>
+   <tile gid="1325"/>
+   <tile gid="1325"/>
+   <tile gid="1325"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1749,6 +1753,9 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="1373"/>
+   <tile gid="1373"/>
+   <tile gid="1373"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1786,17 +1793,10 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="1373"/>
+   <tile gid="1374"/>
+   <tile gid="1325"/>
+   <tile gid="1325"/>
    <tile/>
    <tile/>
    <tile/>
@@ -1857,7 +1857,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="5" name="Extra2" width="40" height="23">
+ <layer id="5" name="Bordes" width="40" height="23">
   <data>
    <tile/>
    <tile/>
@@ -2513,18 +2513,18 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="743"/>
+   <tile gid="743"/>
+   <tile gid="743"/>
+   <tile gid="743"/>
+   <tile gid="694"/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="696"/>
+   <tile gid="743"/>
+   <tile gid="743"/>
+   <tile gid="743"/>
+   <tile gid="743"/>
    <tile/>
    <tile/>
    <tile/>
@@ -3317,6 +3317,8 @@
    <tile/>
    <tile/>
    <tile gid="645"/>
+   <tile gid="376"/>
+   <tile gid="377"/>
    <tile/>
    <tile/>
    <tile/>
@@ -3325,10 +3327,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="376"/>
+   <tile gid="377"/>
    <tile gid="649"/>
    <tile/>
    <tile/>
@@ -3357,6 +3357,8 @@
    <tile/>
    <tile/>
    <tile gid="645"/>
+   <tile gid="424"/>
+   <tile gid="425"/>
    <tile/>
    <tile/>
    <tile/>
@@ -3365,10 +3367,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="424"/>
+   <tile gid="425"/>
    <tile gid="649"/>
    <tile/>
    <tile/>
@@ -3437,18 +3437,18 @@
    <tile/>
    <tile/>
    <tile gid="645"/>
-   <tile gid="743"/>
-   <tile gid="743"/>
-   <tile gid="743"/>
-   <tile gid="743"/>
-   <tile gid="694"/>
    <tile/>
    <tile/>
-   <tile gid="696"/>
-   <tile gid="743"/>
-   <tile gid="743"/>
-   <tile gid="743"/>
-   <tile gid="743"/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
    <tile gid="649"/>
    <tile/>
    <tile/>
@@ -3561,10 +3561,10 @@
    <tile/>
    <tile gid="1373"/>
    <tile gid="1374"/>
-   <tile gid="1374"/>
-   <tile gid="1325"/>
-   <tile gid="1325"/>
-   <tile gid="1325"/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
    <tile gid="1326"/>
    <tile gid="1326"/>
    <tile/>
@@ -3601,9 +3601,9 @@
    <tile gid="1326"/>
    <tile gid="1326"/>
    <tile gid="1326"/>
-   <tile gid="1373"/>
-   <tile gid="1373"/>
-   <tile gid="1373"/>
+   <tile/>
+   <tile/>
+   <tile/>
    <tile/>
    <tile gid="1373"/>
    <tile gid="1373"/>
@@ -3641,10 +3641,10 @@
    <tile/>
    <tile gid="1326"/>
    <tile gid="1373"/>
-   <tile gid="1373"/>
-   <tile gid="1374"/>
-   <tile gid="1325"/>
-   <tile gid="1325"/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
    <tile gid="1374"/>
    <tile gid="1326"/>
    <tile gid="1326"/>

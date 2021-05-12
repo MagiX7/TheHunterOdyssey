@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="1">
+<map version="1.2" tiledversion="1.3.5" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="1">
  <tileset firstgid="1" name="interior_tileset" tilewidth="32" tileheight="32" tilecount="768" columns="48">
   <image source="interior_tileset.png" width="1536" height="512"/>
  </tileset>
@@ -1636,7 +1636,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="145"/>
    <tile/>
    <tile/>
    <tile/>
@@ -3480,11 +3480,11 @@
    <tile gid="145"/>
    <tile gid="145"/>
    <tile gid="145"/>
-   <tile gid="145"/>
+   <tile gid="625"/>
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="145"/>
+   <tile gid="629"/>
    <tile gid="145"/>
    <tile gid="145"/>
    <tile gid="145"/>
@@ -5281,25 +5281,25 @@
    <tile/>
    <tile/>
    <tile gid="625"/>
+   <tile gid="723"/>
+   <tile gid="723"/>
+   <tile gid="723"/>
+   <tile gid="723"/>
+   <tile gid="723"/>
+   <tile gid="723"/>
+   <tile gid="723"/>
+   <tile gid="674"/>
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="676"/>
+   <tile gid="723"/>
+   <tile gid="723"/>
+   <tile gid="723"/>
+   <tile gid="723"/>
+   <tile gid="723"/>
+   <tile gid="723"/>
+   <tile gid="723"/>
    <tile gid="629"/>
    <tile/>
    <tile/>

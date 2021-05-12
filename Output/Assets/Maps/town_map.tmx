@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="48" height="48" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
+<map version="1.2" tiledversion="1.3.5" orientation="orthogonal" renderorder="right-down" width="48" height="48" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
  <editorsettings>
   <chunksize width="32" height="32"/>
  </editorsettings>
@@ -280,7 +280,7 @@
    </animation>
   </tile>
  </tileset>
- <layer id="1" name="Suelo" width="48" height="48" visible="0">
+ <layer id="1" name="Suelo" width="48" height="48">
   <properties>
    <property name="draw" type="bool" value="true"/>
   </properties>
@@ -2768,7 +2768,7 @@
    <tile gid="405"/>
    <tile gid="149"/>
    <tile gid="441"/>
-   <tile gid="442"/>
+   <tile/>
    <tile gid="443"/>
    <tile gid="149"/>
    <tile/>
@@ -2816,7 +2816,7 @@
    <tile gid="405"/>
    <tile gid="692"/>
    <tile gid="489"/>
-   <tile gid="490"/>
+   <tile/>
    <tile gid="491"/>
    <tile gid="4"/>
    <tile/>
@@ -4448,7 +4448,7 @@
    <tile/>
    <tile/>
    <tile gid="250"/>
-   <tile gid="251"/>
+   <tile/>
    <tile gid="252"/>
    <tile/>
    <tile/>
@@ -4496,7 +4496,7 @@
    <tile/>
    <tile gid="297"/>
    <tile gid="298"/>
-   <tile gid="299"/>
+   <tile/>
    <tile gid="300"/>
    <tile/>
    <tile/>
@@ -5076,7 +5076,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="442"/>
    <tile/>
    <tile/>
    <tile/>
@@ -5124,7 +5124,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="490"/>
    <tile/>
    <tile/>
    <tile/>
@@ -6756,7 +6756,7 @@
    <tile gid="538"/>
    <tile gid="292"/>
    <tile/>
-   <tile/>
+   <tile gid="251"/>
    <tile/>
    <tile gid="551"/>
    <tile/>
@@ -6804,7 +6804,7 @@
    <tile gid="537"/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="299"/>
    <tile/>
    <tile gid="301"/>
    <tile gid="158"/>
@@ -7210,7 +7210,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="3" name="Hitboxes" width="48" height="48">
+ <layer id="3" name="Hitboxes" width="48" height="48" visible="0">
   <properties>
    <property name="draw" type="bool" value="false"/>
   </properties>
