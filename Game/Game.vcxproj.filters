@@ -134,6 +134,7 @@
     </ClCompile>
     <ClCompile Include="Source\IceBlock.cpp">
       <Filter>Entities</Filter>
+	</ClCompile>
     <ClCompile Include="Source\Potion.cpp">
       <Filter>Entities\Items</Filter>
     </ClCompile>
@@ -340,6 +341,7 @@
     </ClInclude>
     <ClInclude Include="Source\IceBlock.h">
       <Filter>Entities</Filter>
+	</ClInclude>
     <ClInclude Include="Source\Potion.h">
       <Filter>Entities\Items</Filter>
     </ClInclude>

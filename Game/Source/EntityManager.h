@@ -21,7 +21,7 @@ public:
 	bool UnLoad();
 
 	Entity* CreateEntity(EntityType type, iPoint position, pugi::xml_node anim, int id= -1);
-	Entity* CreateEntity2(EntityType type, iPoint position);
+	Entity* CreateEntity2(EntityType type, iPoint position, Player* player);
 
 	void DeleteEntity(Entity* entity);
 
