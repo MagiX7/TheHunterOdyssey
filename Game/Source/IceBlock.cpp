@@ -48,10 +48,13 @@ void IceBlock::SetActive()
 
 bool IceBlock::Update(float dt)
 {
-	lastPosition = bounds;
-
+	if (CheckCollision(currPlayer)) 
+		currPlayer->bounds = lastPosition;
+	
 	if (!CheckCollision(currPlayer))
 	{
+		lastPosition = currPlayer->bounds;
+
 		switch (state)
 		{
 		case EntityState::WALLKING_LEFT:
@@ -116,23 +119,24 @@ bool IceBlock::CheckCollision(Player* player)
 		{
 			if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT && !isMoving)
 			{
-				if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+				if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 				{
 					state = EntityState::WALLKING_UP;
 				}
-				else if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+				else if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 				{
 					state = EntityState::WALLKING_DOWN;
 				}
-				else if (app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+				else if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 				{
 					state = EntityState::WALLKING_LEFT;
 				}
-				else if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+				else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 				{
 					state = EntityState::WALKING_RIGHT;
 				}
 			}
+			return true;
 		}
 	}
 	return false;

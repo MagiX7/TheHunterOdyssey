@@ -1211,10 +1211,17 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("dungeon_map.tmx", app->tex);
+<<<<<<< Updated upstream
 						IceBlock* iceBlock = nullptr;
 						position = { 2048,320 };
 						iceBlock = (IceBlock*)entityManager->CreateEntity2(EntityType::ICE_BLOCK, position, currentPlayer);
 						exit = true;
+=======
+						//IceBlock* iceBlock = nullptr;
+						//position = { 2048,320 };
+						//iceBlock = (IceBlock*)entityManager->CreateEntity2(EntityType::ICE_BLOCK, position);
+						//exit = true;
+>>>>>>> Stashed changes
 						break;
 					}
 					if ((layer->Get(i, j) == 4) && CheckCollision(map->GetTilemapRec(i, j), rect))
@@ -1226,9 +1233,13 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("dungeon_map.tmx", app->tex);
-						IceBlock* iceBlock = nullptr;
+					/*	IceBlock* iceBlock = nullptr;
 						position = { 2048,320 };
+<<<<<<< Updated upstream
 						iceBlock = (IceBlock*)entityManager->CreateEntity2(EntityType::ICE_BLOCK, position, currentPlayer);
+=======
+						iceBlock = (IceBlock*)entityManager->CreateEntity2(EntityType::ICE_BLOCK, position);*/
+>>>>>>> Stashed changes
 						exit = true;
 						break;
 					}
