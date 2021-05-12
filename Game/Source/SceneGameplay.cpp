@@ -1161,7 +1161,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						map->Load("dungeon_map.tmx", app->tex);
 						IceBlock* iceBlock = nullptr;
 						position = { 2048,320 };
-						iceBlock = (IceBlock*)entityManager->CreateEntity2(EntityType::ICE_BLOCK, position);
+						iceBlock = (IceBlock*)entityManager->CreateEntity2(EntityType::ICE_BLOCK, position, currentPlayer);
 						exit = true;
 						break;
 					}
@@ -1176,7 +1176,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						map->Load("dungeon_map.tmx", app->tex);
 						IceBlock* iceBlock = nullptr;
 						position = { 2048,320 };
-						iceBlock = (IceBlock*)entityManager->CreateEntity2(EntityType::ICE_BLOCK, position);
+						iceBlock = (IceBlock*)entityManager->CreateEntity2(EntityType::ICE_BLOCK, position, currentPlayer);
 						exit = true;
 						break;
 					}

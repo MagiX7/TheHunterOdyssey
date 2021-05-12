@@ -72,68 +72,63 @@ bool GuiCheckBox::Draw(Render* render, bool showColliders)
 {
 	// Draw the right button depending on state
 	SDL_Rect checkSection = { section.x + 35, section.y + 10, 16, 12 };
-	SDL_Rect r = bounds;
-	r.x = -render->camera.x + bounds.x;
-	r.y = -render->camera.y + bounds.y;
+	SDL_Rect r;
 
 	switch (state)
 	{
 	case GuiControlState::DISABLED:
 	{
-		render->DrawTexture(texture, -render->camera.x + bounds.x + bounds.w - 32, -render->camera.y + bounds.y, &section);
+		render->DrawTexture(texture, bounds.x + bounds.w - 32, bounds.y, &section, false);
 		if (showColliders)
 		{
 			//if (checked) render->DrawTexture(texture, bounds.x + 8, bounds.y + 10, &checkSection);
-			if (checked) render->DrawTexture(texture, -render->camera.x + bounds.x + bounds.w - 24, -render->camera.y + bounds.y + 10, &checkSection);
+			if (checked) render->DrawTexture(texture, bounds.x + bounds.w - 24, bounds.y + 10, &checkSection, false);
 			
-			render->DrawRectangle(r, 150, 150, 150, 150);
+			render->DrawRectangle(bounds, 150, 150, 150, 150, true, false);
 		}
 	} 
 	break;
 	case GuiControlState::NORMAL:
 
-		render->DrawTexture(texture, -render->camera.x + bounds.x + bounds.w - 32, -render->camera.y + bounds.y, &section);
-		if (checked) render->DrawTexture(texture, -render->camera.x + bounds.x + bounds.w - 24, -render->camera.y + bounds.y + 10, &checkSection);
+		render->DrawTexture(texture, bounds.x + bounds.w - 32, bounds.y, &section, false);
+		if (checked) render->DrawTexture(texture, bounds.x + bounds.w - 24, bounds.y + 10, &checkSection, false);
 		if (showColliders)
 		{
-			render->DrawRectangle(r, 255, 0, 0, 150);
+			render->DrawRectangle(bounds, 255, 0, 0, 150, true, false);
 		}
 
 	break;
 	case GuiControlState::FOCUSED:
 
-		render->DrawTexture(texture, -render->camera.x + bounds.x + bounds.w - 32, -render->camera.y + bounds.y, &section);
-		r = { -render->camera.x + bounds.x + bounds.w - 32, -render->camera.y + bounds.y, 32,32 };
-		render->DrawRectangle(r, 255, 255, 0, 150);
+		render->DrawTexture(texture, bounds.x + bounds.w - 32, bounds.y, &section, false);
+		r = { bounds.x + bounds.w - 32, bounds.y, 32,32 };
+		render->DrawRectangle(r, 255, 255, 0, 150, true, false);
 
-		if (checked) render->DrawTexture(texture, -render->camera.x + bounds.x + bounds.w - 24, -render->camera.y + bounds.y + 10, &checkSection);
+		if (checked) render->DrawTexture(texture, bounds.x + bounds.w - 24, bounds.y + 10, &checkSection, false);
 		if (showColliders)
 		{
-			r = bounds;
-			r.x = -render->camera.x + bounds.x;
-			r.y = -render->camera.y + bounds.y;
-			render->DrawRectangle(bounds, 255, 255, 0, 150);
+			render->DrawRectangle(bounds, 255, 255, 0, 150, true, false);
 		}
 	break;
 	case GuiControlState::PRESSED:
 
-		render->DrawTexture(texture, -render->camera.x + bounds.x + bounds.w - 32, -render->camera.y + bounds.y, &section);
-		render->DrawTexture(texture, -render->camera.x + bounds.x + bounds.w - 24, -render->camera.y + bounds.y + 10, &checkSection);
+		render->DrawTexture(texture, bounds.x + bounds.w - 32, bounds.y, &section, false);
+		render->DrawTexture(texture, bounds.x + bounds.w - 24, bounds.y + 10, &checkSection, false);
 		if (showColliders)
 		{
 			//if (checked) render->DrawTexture(texture, bounds.x + 8, bounds.y + 10, &checkSection);
-			render->DrawRectangle(r, 0, 255, 255, 150);
+			render->DrawRectangle(bounds, 0, 255, 255, 150, true, false);
 		}
 
 		break;
 	case GuiControlState::SELECTED:
 
-		render->DrawTexture(texture, -render->camera.x + bounds.x + bounds.w - 32, -render->camera.y + bounds.y, &section);
-		render->DrawTexture(texture, -render->camera.x + bounds.x + bounds.w - 24, -render->camera.y + bounds.y + 10, &checkSection);
+		render->DrawTexture(texture, bounds.x + bounds.w - 32, bounds.y, &section, false);
+		render->DrawTexture(texture, bounds.x + bounds.w - 24, bounds.y + 10, &checkSection, false);
 		if (showColliders)
 		{
 			//if (checked) render->DrawTexture(texture, bounds.x + 8, bounds.y + 10, &checkSection);
-			render->DrawRectangle(r, 0, 255, 0, 150);
+			render->DrawRectangle(bounds, 0, 255, 0, 150, true, false);
 		}
 
 		break;

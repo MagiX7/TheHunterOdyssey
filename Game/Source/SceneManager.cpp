@@ -231,7 +231,7 @@ bool SceneManager::Update(float dt)
 			break;
 
 		case TransitionType::FADE_TO_BLACK:
-			app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280,720 }, 0, 0, 0);
+			app->render->DrawRectangle({ 0, 0, 1280,720 }, 0, 0, 0, true, false);
 			break;
 
 		case TransitionType::HALF_WIDHT_RECTANGLES:

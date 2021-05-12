@@ -3,7 +3,6 @@
 #include<time.h>
 #include<stdlib.h>
 
-
 Generator::Generator(ParticleType Type) {
 	srand(time(NULL));
 	maxParticles = 200;
@@ -25,12 +24,15 @@ Generator::Generator(ParticleType Type) {
 		particle = new Particle(ParticleState::DESACTIVATED);
 		particleList.Add(particle);
 	}
-	
 }
-Generator::~Generator() {
+
+Generator::~Generator() 
+{
 
 }
-void Generator::SetParticlesDesactivated() {
+
+void Generator::SetParticlesDesactivated() 
+{
 	for (ListItem<Particle*>* auxiliar = particleList.start; auxiliar != nullptr; auxiliar = auxiliar->next)
 	{
 		if (auxiliar->data->GetState() != ParticleState::DESACTIVATED)
@@ -39,27 +41,40 @@ void Generator::SetParticlesDesactivated() {
 		}
 	}
 }
-void Generator::Stop() {
+
+void Generator::Stop() 
+{
 	state = GeneratorState::STOP;
 }
-void Generator::Restart(){
+
+void Generator::Restart()
+{
 	state = GeneratorState::NORMAL;
 }
-void Generator::SetPosition(Point<int> Position) {
+
+void Generator::SetPosition(Point<int> Position) 
+{
 	temporalPosition.x = Position.x;
 	temporalPosition.y = Position.y;
 }
-GeneratorState Generator::GetState() {
+
+GeneratorState Generator::GetState() 
+{
 	return state;
 }
-void Generator::SetParameters(Point<int> Rang) {
+
+void Generator::SetParameters(Point<int> Rang) 
+{
 	rang = Rang;
 }
-void Generator::Start() {
-}
-void Generator::CleanUp() {
+
+void Generator::Start() {}
+
+void Generator::CleanUp() 
+{
 	ListItem<Particle*>* auxiliar1;
 	ListItem<Particle*>* auxiliar=particleList.start;
+	
 	while (auxiliar !=nullptr)
 	{
 		auxiliar1=auxiliar->next;
@@ -67,10 +82,13 @@ void Generator::CleanUp() {
 		particleList.Del(auxiliar);
 		auxiliar = auxiliar1;
 	}
+	
 	particleList.Clear();
 	app->tex->UnLoad(texture);
 }
-bool Generator::PreUpdate(){
+
+bool Generator::PreUpdate()
+{
 	for (ListItem<Particle*>* auxiliar = particleList.start; auxiliar!= nullptr; auxiliar = auxiliar->next)
 	{
 		if (auxiliar->data->GetState() != ParticleState::DESACTIVATED) 
@@ -82,11 +100,9 @@ bool Generator::PreUpdate(){
 				auxiliar->data->SetState(ParticleState::DESACTIVATED);
 			}
 		}
-			
-		
 	}
-	if (timeCounter % 4 == 0 && state == GeneratorState::NORMAL) {
-
+	if (timeCounter % 4 == 0 && state == GeneratorState::NORMAL) 
+	{
 		float positionX;
 		float positionY;
 		float acelerationX;
@@ -102,7 +118,8 @@ bool Generator::PreUpdate(){
 				positionX = (rand() % (rang.x * 2)) - rang.x + temporalPosition.x;
 				positionY = (rand() % (rang.y * 2)) - rang.y + temporalPosition.y;
 				selection = (rand() % 2) + 1;
-				if (temporalGoal.x > temporalPosition.x) {
+				if (temporalGoal.x > temporalPosition.x) 
+				{
 					switch (selection)
 					{
 					case 0:
@@ -118,7 +135,8 @@ bool Generator::PreUpdate(){
 					acelerationY = 0;
 					auxiliar->data->SetVelocity({ 1,0 });
 				}
-				else if (temporalGoal.x < temporalPosition.x) {
+				else if (temporalGoal.x < temporalPosition.x) 
+				{
 					switch (selection)
 					{
 					case 0:
@@ -134,7 +152,8 @@ bool Generator::PreUpdate(){
 					acelerationY = 0;
 					auxiliar->data->SetVelocity({ -1,0 });
 				}
-				else if (temporalGoal.y > temporalPosition.y) {
+				else if (temporalGoal.y > temporalPosition.y) 
+				{
 					switch (selection)
 					{
 					case 0:
@@ -150,7 +169,8 @@ bool Generator::PreUpdate(){
 					acelerationX = 0;
 					auxiliar->data->SetVelocity({ 0,1 });
 				}
-				else if (temporalGoal.y < temporalPosition.y) {
+				else if (temporalGoal.y < temporalPosition.y) 
+				{
 					switch (selection)
 					{
 					case 0:
@@ -181,14 +201,16 @@ bool Generator::PreUpdate(){
 	}
 	return true;
 }
-bool Generator::IfHasFinished(Point<float> positionA, Point<int> positionB) {
+bool Generator::IfHasFinished(Point<float> positionA, Point<int> positionB) 
+{
 	/*if (positionB.x - 20 < positionA.x && positionB.x + 20 > positionA.x&& positionB.y - 20 < positionA.y && positionB.y + 20 > positionA.y) {
 		return true;
 	}*/
 	return false;
 }
 
-bool Generator::Update(float dt){
+bool Generator::Update(float dt)
+{
 	int sumX=0;
 	int sumY=0;
 	for (ListItem<Particle*>* auxiliar = particleList.start; auxiliar != nullptr; auxiliar = auxiliar->next)
@@ -202,22 +224,27 @@ bool Generator::Update(float dt){
 			switch (type)
 			{
 			case ParticleType::DUST:
-				if (auxiliar->data->GetAceleration().x > 0) {
+				if (auxiliar->data->GetAceleration().x > 0) 
+				{
 					sumX = 1;
 					sumY = 0;
-				}else if (auxiliar->data->GetAceleration().x < 0) {	
+				}else if (auxiliar->data->GetAceleration().x < 0) 
+				{	
 					sumX = -1;
 					sumY = 0;
 				}
-				else if (auxiliar->data->GetAceleration().y > 0) {
+				else if (auxiliar->data->GetAceleration().y > 0) 
+				{
 					sumX = 0;
 					sumY = 1;
 				}
-				else if (auxiliar->data->GetAceleration().y < 0) {
+				else if (auxiliar->data->GetAceleration().y < 0) 
+				{
 					sumX = 0;
 					sumY = -1;
 				}
-				else {
+				else 
+				{
 					auxiliar->data->SetState(ParticleState::DESACTIVATED);
 				}
 				auxiliar->data->SetAceleration({ auxiliar->data->GetAceleration().x + ((dt)*sumX), auxiliar->data->GetAceleration().y + ((dt) * sumY) });
@@ -227,12 +254,13 @@ bool Generator::Update(float dt){
 			default:
 				break;
 			}
-			
 		}
 	}
 	return true;
 }
-bool Generator::PostUpdate(){
+
+bool Generator::PostUpdate()
+{
 	for (ListItem<Particle*>* auxiliar = particleList.start; auxiliar != nullptr; auxiliar = auxiliar->next)
 	{
 		if (auxiliar->data->GetState() != ParticleState::DESACTIVATED)
@@ -242,7 +270,7 @@ bool Generator::PostUpdate(){
 			SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
 			SDL_SetTextureAlphaMod(texture, auxiliar->data->GetAlpha());
 
-			app->render->DrawTexture(texture, auxiliar->data->GetPosition().x, auxiliar->data->GetPosition().y, NULL,1.0f, auxiliar->data->GetAngle());
+			app->render->DrawTexture(texture, auxiliar->data->GetPosition().x, auxiliar->data->GetPosition().y, NULL, 1.0f, auxiliar->data->GetAngle(), false);
 			auxiliar->data->SumLive(0.1);
 		}
 	}
@@ -252,10 +280,14 @@ bool Generator::PostUpdate(){
 	timeCounter++;
 	return true;
 }
-void Generator::SetGoal(Point<int> Goal) {
+
+void Generator::SetGoal(Point<int> Goal) 
+{
 	temporalGoal = Goal;
 }
-Point<float> Generator::Integrator(Point<float>*Velocity, float dt, Point<float>Acceleration) {
+
+Point<float> Generator::Integrator(Point<float>*Velocity, float dt, Point<float>Acceleration) 
+{
 	Point<float> pos={0,0};
 	Velocity->x += Acceleration.x * dt;
 	Velocity->y += Acceleration.y * dt;

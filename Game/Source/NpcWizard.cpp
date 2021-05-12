@@ -62,7 +62,8 @@ void NpcWizard::Draw(bool showColliders)
 {
 	if (state != EntityState::INACTIVE) 
 	{
-		if (bounds.x + bounds.w > (-app->render->camera.x) && bounds.x < (-app->render->camera.x) + app->render->camera.w && bounds.y + bounds.h >(-app->render->camera.y) && bounds.y < (-app->render->camera.y) + app->render->camera.h) {
+		if (bounds.x + bounds.w > (-app->render->camera.x) && bounds.x < (-app->render->camera.x) + app->render->camera.w && bounds.y + bounds.h >(-app->render->camera.y) && bounds.y < (-app->render->camera.y) + app->render->camera.h) 
+		{
 			Npc::Draw(showColliders);
 			if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0);
 			SDL_Rect textureRect = { 14, 11, 46,49 };

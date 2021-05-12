@@ -92,31 +92,31 @@ bool GuiSlider::Draw(Render* render, bool showColliders)
 	switch (state)
 	{
 	case GuiControlState::DISABLED: 
-		render->DrawTexture(texture, -render->camera.x + bounds.x, -render->camera.y + bounds.y, &section);
-		render->DrawTexture(texture, -render->camera.x + bounds.x + 59, -render->camera.y + bounds.y + 6, &slider);
-		if (showColliders) render->DrawRectangle(bounds, 100, 100, 100, 255);
+		render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
+		render->DrawTexture(texture, bounds.x + 59, bounds.y + 6, &slider, false);
+		if (showColliders) render->DrawRectangle(bounds, 100, 100, 100, 255, true, false);
 		break;
 	case GuiControlState::NORMAL: 
-		render->DrawTexture(texture, -render->camera.x + bounds.x, -render->camera.y + bounds.y, &section);
-		render->DrawTexture(texture, -render->camera.x + bounds.x + 59, -render->camera.y + bounds.y + 6, &slider);
-		if (showColliders) render->DrawRectangle(bounds, 0, 255, 0, 255);
+		render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
+		render->DrawTexture(texture, bounds.x + 59, bounds.y + 6, &slider, false);
+		if (showColliders) render->DrawRectangle(bounds, 0, 255, 0, 255, true, false);
 		break;
 	case GuiControlState::FOCUSED: 
-		render->DrawTexture(texture, -render->camera.x + bounds.x, -render->camera.y + bounds.y, &section);
-		render->DrawTexture(texture, -render->camera.x + bounds.x + 59, -render->camera.y + bounds.y + 6, &slider);
-		if (showColliders) render->DrawRectangle(bounds, 255, 255, 0, 255);
+		render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
+		render->DrawTexture(texture, bounds.x + 59, bounds.y + 6, &slider, false);
+		if (showColliders) render->DrawRectangle(bounds, 255, 255, 0, 255, true, false);
 		break;
 	case GuiControlState::PRESSED: 
-		render->DrawTexture(texture, -render->camera.x + bounds.x, -render->camera.y + bounds.y, &section);
-		render->DrawTexture(texture, -render->camera.x + bounds.x + 59, -render->camera.y + bounds.y + 6, &slider);
-		if ((mouseX > bounds.x) && (mouseX < bounds.x + 46)) render->DrawTexture(texture, -render->camera.x + bounds.x, -render->camera.y + bounds.y, &sectionFocused);
-		else if ((mouseX < bounds.x + bounds.w) && (mouseX > bounds.x + bounds.w - 46)) render->DrawTexture(texture, -render->camera.x + bounds.x + bounds.w - 46, -render->camera.y + bounds.y, &sectionFocused);
-		if (showColliders) render->DrawRectangle(bounds, 0, 255, 255, 255);
+		render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
+		render->DrawTexture(texture, bounds.x + 59, bounds.y + 6, &slider, false);
+		if ((mouseX > bounds.x) && (mouseX < bounds.x + 46)) render->DrawTexture(texture, bounds.x, bounds.y, &sectionFocused, false);
+		else if ((mouseX < bounds.x + bounds.w) && (mouseX > bounds.x + bounds.w - 46)) render->DrawTexture(texture, bounds.x + bounds.w - 46, bounds.y, &sectionFocused, false);
+		if (showColliders) render->DrawRectangle(bounds, 0, 255, 255, 255, true, false);
 		break;
 	case GuiControlState::SELECTED: 
-		render->DrawTexture(texture, -render->camera.x + bounds.x, -render->camera.y + bounds.y, &section);
-		render->DrawTexture(texture, -render->camera.x + bounds.x + 59, -render->camera.y + bounds.y + 6, &slider);
-		if (showColliders) render->DrawRectangle(bounds, 0, 255, 0, 255);
+		render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
+		render->DrawTexture(texture, bounds.x + 59, bounds.y + 6, &slider, false);
+		if (showColliders) render->DrawRectangle(bounds, 0, 255, 0, 255, true, false);
 		break;
 	default:
 		break;
