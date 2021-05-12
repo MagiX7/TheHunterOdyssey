@@ -26,7 +26,7 @@ bool Inventory::Load(Font* font)
 {
 	btnEquipment = new GuiButton(1, { 182,100,260,50 }, "Equipment", this, font);
 	btnItems = new GuiButton(2, { 182,160,260,50 }, "Items", this, font);
-	btnInfo = new GuiButton(3, { 182,220,260,50 }, "Weapons", this, font);
+	btnInfo = new GuiButton(3, { 182,220,260,50 }, "Stats", this, font);
 	
 	btnUse = new GuiButton(4, { 0,0,128,32 }, "USE", this, font);
 	btnDelete = new GuiButton(5, { 0,0,128,32 }, "DEL", this, font);
@@ -142,13 +142,13 @@ bool Inventory::Update(float dt)
 
 		break;
 
-	case InventoryState::WEAPONS:
+	case InventoryState::STATS:
 		// TODO
 		break;
 
 	}
 
-	HandleEquipment(dt);
+	if (state != InventoryState::STATS) HandleEquipment(dt);
 
 	return true;
 }
@@ -187,14 +187,6 @@ void Inventory::Draw(Font* font, bool showColliders)
 	app->render->DrawCenterText(font, "Pj image", r, 40, 5, { 0,0,0,255 });
 
 
-	// Equipment equiped drawing
-	for (int i = 0; i < MAX_EQUIPMENT_SLOTS; ++i)
-	{
-		r = { 163, 715, 40, 40 };
-		app->render->DrawTexture(atlasTexture, equipment[i].bounds.x, equipment[i].bounds.y, &r, false);
-		if (equipment[i].item != nullptr) app->render->DrawTexture(atlasTexture, equipment[i].bounds.x, equipment[i].bounds.y, &equipment[i].item->atlasSection, false);
-	}
-
 	std::string iQuantity;
 	switch (state)
 	{
@@ -204,57 +196,71 @@ void Inventory::Draw(Font* font, bool showColliders)
 	case InventoryState::ITEMS:
 		DrawObjects(slots, font, showColliders);
 		break;
+	case InventoryState::STATS:
+
+		break;
 	}
 	
-	if(displayEquipmentMenu) DisplayMenuEquipment(showColliders);
+	if(displayEquipmentMenu && state != InventoryState::STATS) DisplayMenuEquipment(showColliders);
 
-	btnNext->Draw(app->render, showColliders);
-	btnPrev->Draw(app->render, showColliders);
-
-	// Stats drawing
-
-	eastl::list<Player*>::iterator it = players.begin();
-
-	for (int i = 0; i < 4; ++i, ++it)
+	if (state != InventoryState::STATS)
 	{
-		Player *pl = (*it);
+		// Draw current player
+		SDL_Rect rectan = { 492, 153, 50, 67 };
+		if (currentPlayer->playerType == PlayerType::HUNTER) app->render->DrawRectangle(rectan, 255, 0, 0, 255, true, false);
+		else if (currentPlayer->playerType == PlayerType::THIEF) app->render->DrawRectangle(rectan, 0, 0, 255, 255, true, false);
+		else if (currentPlayer->playerType == PlayerType::WIZARD) app->render->DrawRectangle(rectan, 0, 255, 0, 255, true, false);
+		else if (currentPlayer->playerType == PlayerType::WARRIOR) app->render->DrawRectangle(rectan, 0, 255, 255, 255, true, false);
 
-		// Color bars
-		// Black bar
-		SDL_Rect statsBar = { 225, 797, 196, 9 };
-		for (int j = 0; j < 3; ++j)
+		// Equipment equiped drawing
+		for (int i = 0; i < MAX_EQUIPMENT_SLOTS; ++i)
 		{
-			app->render->DrawTexture(atlasTexture, 868, 173 + (j * 14) + (i * 105), &statsBar, false);
+			r = { 163, 715, 40, 40 };
+			app->render->DrawTexture(atlasTexture, equipment[i].bounds.x, equipment[i].bounds.y, &r, false);
+			if (equipment[i].item != nullptr) app->render->DrawTexture(atlasTexture, equipment[i].bounds.x, equipment[i].bounds.y, &equipment[i].item->atlasSection, false);
 		}
 
-		int currHealth = (*it)->GetHealthPoints();
-		int maxHealth = (*it)->GetMaxHealthPoints();
+		btnNext->Draw(app->render, showColliders);
+		btnPrev->Draw(app->render, showColliders);
 
-		if (currHealth < (maxHealth / 4))
-			statsBar = { 228, 750, (190 * currHealth) / maxHealth, 5 };
-		else if (currHealth < (maxHealth / 2))
-			statsBar = { 228, 737, (190 * currHealth) / maxHealth, 5 };
-		else
-			statsBar = { 228, 725, (190 * currHealth) / maxHealth, 5 };
-		
-		// Green Bar
-		app->render->DrawTexture(atlasTexture, 871, 175 + (i * 105), &statsBar, false);
+		// Stats drawing
 
-		// Blue Bar
-		statsBar = { 228, 764, (190 * pl->GetManaPoints()) / (pl->GetMaxManaPoints()), 5 };
-		app->render->DrawTexture(atlasTexture, 871, 189 + (i * 105), &statsBar, false);
+		eastl::list<Player*>::iterator it = players.begin();
 
-		// Yellow Bar
-		statsBar = { 228, 778, (190 * pl->GetArmorPoints()) / (pl->GetMaxArmorPoints()), 5 };
-		app->render->DrawTexture(atlasTexture, 871, 203 + (i * 105), &statsBar, false);
+		for (int i = 0; i < 4; ++i, ++it)
+		{
+			Player* pl = (*it);
+
+			// Color bars
+			// Black bar
+			SDL_Rect statsBar = { 225, 797, 196, 9 };
+			for (int j = 0; j < 3; ++j)
+			{
+				app->render->DrawTexture(atlasTexture, 868, 173 + (j * 14) + (i * 105), &statsBar, false);
+			}
+
+			int currHealth = (*it)->GetHealthPoints();
+			int maxHealth = (*it)->GetMaxHealthPoints();
+
+			if (currHealth < (maxHealth / 4))
+				statsBar = { 228, 750, (190 * currHealth) / maxHealth, 5 };
+			else if (currHealth < (maxHealth / 2))
+				statsBar = { 228, 737, (190 * currHealth) / maxHealth, 5 };
+			else
+				statsBar = { 228, 725, (190 * currHealth) / maxHealth, 5 };
+
+			// Green Bar
+			app->render->DrawTexture(atlasTexture, 871, 175 + (i * 105), &statsBar, false);
+
+			// Blue Bar
+			statsBar = { 228, 764, (190 * pl->GetManaPoints()) / (pl->GetMaxManaPoints()), 5 };
+			app->render->DrawTexture(atlasTexture, 871, 189 + (i * 105), &statsBar, false);
+
+			// Yellow Bar
+			statsBar = { 228, 778, (190 * pl->GetArmorPoints()) / (pl->GetMaxArmorPoints()), 5 };
+			app->render->DrawTexture(atlasTexture, 871, 203 + (i * 105), &statsBar, false);
+		}
 	}
-	// Draw current player
-	SDL_Rect rectan = { 492, 153, 50, 67 };
-	if (currentPlayer->playerType == PlayerType::HUNTER) app->render->DrawRectangle(rectan, 255, 0, 0);
-	else if (currentPlayer->playerType == PlayerType::THIEF) app->render->DrawRectangle(rectan, 0, 0, 255);
-	else if (currentPlayer->playerType == PlayerType::WIZARD) app->render->DrawRectangle(rectan, 0, 255, 0);
-	else if (currentPlayer->playerType == PlayerType::WARRIOR) app->render->DrawRectangle(rectan, 0, 255, 255);
-		
 }
 
 bool Inventory::UnLoad()
@@ -290,7 +296,7 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 		if (control->id == 1) state = InventoryState::EQUIPMENT;
 		else if (control->id == 2)
 			state = InventoryState::ITEMS;
-		else if (control->id == 3) state = InventoryState::WEAPONS;
+		else if (control->id == 3) state = InventoryState::STATS;
 		else if (control->id == 4) // Use
 		{
 			if (state == InventoryState::ITEMS) slots[currentSlotId].state = SlotState::USE;
@@ -405,6 +411,7 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 		else if (control->id == 12)
 		{
 			AddItem(equipment[currentEquipmentId].item);
+			currentPlayer->UnequipArmor((Armor*)equipment[currentEquipmentId].item);
 			equipment[currentEquipmentId].item = nullptr;
 			equipment[currentEquipmentId].itemsAmount--;
 			equipment[currentEquipmentId].filled = false;
@@ -566,7 +573,7 @@ void Inventory::HandleEquipment(float dt)
 
 void Inventory::DisplayMenuEquipment(bool showColliders)
 {
-	app->render->DrawRectangle(tmpEquipMenuBounds, 0, 0, 0);
+	app->render->DrawRectangle(tmpEquipMenuBounds, 0, 0, 0, 255, true, false);
 
 	
 	btnUnEquip->bounds.x = tmpEquipMenuBounds.x;
@@ -783,4 +790,12 @@ void Inventory::UseObject(InventorySlot objects[], Player* player)
 			objects[currentSlotId].item = nullptr;
 		}
 	}
+}
+
+void Inventory::HandleStatsInfo()
+{
+}
+
+void Inventory::DrawStatsInfo(bool showColliders)
+{
 }

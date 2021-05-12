@@ -136,6 +136,13 @@ public:
 		return ret;
 	}
 
+	void UnequipArmor(Armor* armor)
+	{
+		if (armor->armorType == ArmorType::HELMET) helmet = nullptr;
+		else if (armor->armorType == ArmorType::CHEST) chest = nullptr;
+		else if (armor->armorType == ArmorType::BOOTS) boots = nullptr;
+	}
+
 protected:
 	virtual void HandleInput(float dt);
 	virtual void Travel(iPoint destination, float dt) {}

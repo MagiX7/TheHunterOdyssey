@@ -28,7 +28,7 @@ enum class InventoryState
 	NONE = 0,
 	EQUIPMENT,
 	ITEMS,
-	WEAPONS,
+	STATS,
 };
 
 struct InventorySlot
@@ -89,6 +89,10 @@ private:
 	void HandleSlot(InventorySlot objects[], float dt);
 
 	void UseObject(InventorySlot objects[], Player* player);
+
+	void HandleStatsInfo();
+
+	void DrawStatsInfo(bool showColliders);
 
 public:
 	eastl::list<Player*> players;
