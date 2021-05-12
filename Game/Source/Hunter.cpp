@@ -28,6 +28,7 @@ Hunter::Hunter(iPoint position, pugi::xml_node anim, ParticlesManager* particles
 	Particles = particles;
 	isDead = false;
 	pugi::xml_node player = anim.child("hunter").child("overworld");
+	movements = 0;
 
 	for (pugi::xml_node n = player.child("walk_front").child("pushback"); n; n = n.next_sibling("pushback"))
 	{
@@ -75,8 +76,6 @@ Hunter::Hunter(iPoint position, pugi::xml_node anim, ParticlesManager* particles
 	this->idleLeft.PushBack(walkLeft.frames[0]);
 	this->idleRight.PushBack(walkRight.frames[0]);
 	this->idleUp.PushBack(walkUp.frames[0]);
-	
-
 	
 	currentAnim = &idleDown;
 }
@@ -211,6 +210,7 @@ void Hunter::HandleInput(float dt)
 				walkUp.Reset();
 				currentAnim = &walkUp;
 			}
+			movements++;
 		}
 		else if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_REPEAT || app->input->pad->l_y > 0.5)
 		{
@@ -225,6 +225,7 @@ void Hunter::HandleInput(float dt)
 				walkDown.Reset();
 				currentAnim = &walkDown;
 			}
+			movements++;
 		}
 		else if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_REPEAT || app->input->pad->l_x < -0.5)
 		{
@@ -239,6 +240,7 @@ void Hunter::HandleInput(float dt)
 				walkLeft.Reset();
 				currentAnim = &walkLeft;
 			}
+			movements++;
 		}
 		else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_REPEAT || app->input->pad->l_x > 0.5)
 		{
@@ -253,6 +255,7 @@ void Hunter::HandleInput(float dt)
 				walkRight.Reset();
 				currentAnim = &walkRight;
 			}
+			movements++;
 		}
 		else {
 			generator->Stop();

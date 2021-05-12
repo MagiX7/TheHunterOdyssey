@@ -1,0 +1,6 @@
+<quests>
+  <quest type="3" id="0" name="Talk with Ray" description="You can find Ray below the pub, near the beach. If you try to talk with him too late, you may not find him. He will be programming Raylib." nextQuestId="1" isCompleted="false" npcId="3" reward="700"></quest>
+  <quest type="1" id="1" name="Kill the skull" nextQuestId="2" isCompleted="false" enemy="7" actual="0" total="1" reward="300"></quest>
+  <quest type="2" id="2" name="Visit the pub" nextQuestId="3" isCompleted="false" mapName="pub.tmx" reward="500"></quest>
+  <quest type="2" id="3" name="Visit the shop" nextQuestId="-1" isCompleted="false" mapName="shop.tmx" reward="600"></quest>
+</quests>

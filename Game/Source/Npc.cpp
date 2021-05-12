@@ -6,6 +6,8 @@
 #include "Audio.h"
 #include "Player.h"
 
+#include "QuestManager.h"
+
 #include <time.h>
 
 #define SPEED_X 60.0f

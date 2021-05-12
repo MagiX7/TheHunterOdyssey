@@ -5,7 +5,7 @@
 
 #include "Point.h"
 #include "Log.h"
-#include"ParticlesManager.h"
+#include "ParticlesManager.h"
 #include "EASTL/string.h"
 
 #define SPEED_X 200.0f
@@ -78,6 +78,7 @@ public:
 	inline int GetObjectSelected() const { return currentObjectSelected; }
 	inline bool GetDefend() const { return isDefending; }
 	inline eastl::string GetName() const { return name; }
+
 	Armor* GetHelmet() const 
 	{
 		if (helmet) return helmet;
@@ -135,6 +136,9 @@ public:
 		return ret;
 	}
 
+	// Setters
+	inline void SetAbilitySelected(int num) { currentAbilitySelected = num; }
+	inline void SetObjectSelected(int num) { currentObjectSelected = num; }
 protected:
 	virtual void HandleInput(float dt);
 	virtual void Travel(iPoint destination, float dt) {}
@@ -144,6 +148,7 @@ public:
 	PlayerStance stance;
 	iPoint battlePos;
 	Generator* generator;
+	int gold;
 protected:
 	SDL_Texture* battlerTexture;
 	ParticlesManager* Particles;

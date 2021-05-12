@@ -3,6 +3,7 @@
 #include "Render.h"
 #include "Textures.h"
 #include "Audio.h"
+#include "Font.h"
 
 #include "SceneGameplay.h"
 #include "SceneBattle.h"
@@ -27,6 +28,7 @@
 #include "DialogueManager.h"
 
 #include "IceBlock.h"
+#include "QuestManager.h"
 
 #include "CharacterManager.h"
 #include "PauseMenu.h"
@@ -92,7 +94,7 @@ SceneGameplay::SceneGameplay()
 	generalNpc=(Npc*)entityManager->CreateEntity(EntityType::TABERN, position,anims);*/
 
 	position = { 200,250 };
-	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position, anims, 0);
+	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position, anims, 7);
 
 	position = { 700,1060 };
 	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::RAY, position, anims, 3);
@@ -155,6 +157,8 @@ bool SceneGameplay::Load()
 	//particles->CleanUp();
 	font = new Font("Assets/Font/font3.xml", app->tex);
 
+	goldTexture = app->tex->Load("Assets/Textures/UI/gold.png");
+
 	entityManager->Load();
 
 	eastl::list<Player*>::iterator it = playerList.begin();
@@ -194,6 +198,8 @@ bool SceneGameplay::Load()
 		(*item)->Load();
 	}
 
+	QuestManager::GetInstance()->SetPlayer(currentPlayer);
+
 	SDL_ShowCursor(SDL_ENABLE);
 	//particles->StartSimulation(currentPlayer->generator);
 	
@@ -223,58 +229,61 @@ bool SceneGameplay::Update(float dt)
 
 			if (dialogueManager->isDialogueActive == false)
 			{
-				particles->PreUpdate();
-				map->Update(dt);
-				HandleInput(dt);
-				SDL_Rect tmpBounds = currentPlayer->bounds;
-				currentPlayer->Update(dt);
-
-				particles->Update(dt);
-				
-				if (isTown)
+				QuestManager::GetInstance()->Update(app->input, dt);
+				if (QuestManager::GetInstance()->QuestState() == false)
 				{
-					eastl::list<Enemy*>::iterator enemies = enemyList.begin();
-					eastl::list<Enemy*>::iterator enemyEnd = enemyList.end();
-					for (; enemies != enemyEnd; ++enemies)
+					particles->PreUpdate();
+					map->Update(dt);
+					HandleInput(dt);
+					SDL_Rect tmpBounds = currentPlayer->bounds;
+					currentPlayer->Update(dt);
+
+					particles->Update(dt);
+
+					if (isTown)
 					{
-						Enemy* enemy = (*enemies);
-						enemy->Update(dt);
-						if (!showColliders && CheckCollision(enemy->bounds, currentPlayer->bounds))
+						eastl::list<Enemy*>::iterator enemies = enemyList.begin();
+						eastl::list<Enemy*>::iterator enemyEnd = enemyList.end();
+						for (; enemies != enemyEnd; ++enemies)
 						{
-							GenerateBattle();
-							tmp = enemy;
-							break;
+							Enemy* enemy = (*enemies);
+							enemy->Update(dt);
+							if (!showColliders && CheckCollision(enemy->bounds, currentPlayer->bounds))
+							{
+								GenerateBattle();
+								tmp = enemy;
+								break;
+							}
+						}
+						//if (ultraPotion != nullptr) ultraPotion->Update(dt);
+					}
+					SDL_Rect bounds = { currentPlayer->bounds.x,currentPlayer->bounds.y + currentPlayer->bounds.h - 7,currentPlayer->bounds.w,7 };
+					if (showColliders == false && CollisionMapEntity(bounds, currentPlayer->type) == true)
+						currentPlayer->bounds = tmpBounds;
+
+					CameraFollow(app->render);
+
+					int tmpId = -1;
+					entityManager->Update(dt, currentPlayer, dialogueManager->isDialogueActive, tmpId, this);
+					if (tmpId != -1)
+					{
+						dialogueManager->LoadDialogue(tmpId);
+						dialogueManager->printText = true;
+					}
+
+					eastl::list<Item*>::iterator it = items.begin();
+					for (; it != items.end(); ++it)
+					{
+						(*it)->Update(dt);
+						if (CheckCollision(currentPlayer->bounds, (*it)->bounds))
+						{
+							inventory->AddItem(*it);
+							items.erase(it);
+							//items.erase(it);
+							//RELEASE((*it));
 						}
 					}
-					//if (ultraPotion != nullptr) ultraPotion->Update(dt);
 				}
-				SDL_Rect bounds = { currentPlayer->bounds.x,currentPlayer->bounds.y + currentPlayer->bounds.h-7,currentPlayer->bounds.w,7 };
-				if (showColliders == false && CollisionMapEntity(bounds, currentPlayer->type) == true) 
-					currentPlayer->bounds = tmpBounds;
-
-				CameraFollow(app->render);
-
-				int tmpId = -1;
-				entityManager->Update(dt, currentPlayer, dialogueManager->isDialogueActive, tmpId, this);
-				if (tmpId != -1)
-				{
-					dialogueManager->LoadDialogue(tmpId);
-					dialogueManager->printText = true;
-				}
-
-				eastl::list<Item*>::iterator it = items.begin();
-				for (; it != items.end(); ++it)
-				{
-					(*it)->Update(dt);
-					if (CheckCollision(currentPlayer->bounds, (*it)->bounds))
-					{
-						inventory->AddItem(*it);
-						items.erase(it);
-						//items.erase(it);
-						//RELEASE((*it));
-					}
-				}
-
 				/*if (CheckCollision(currentPlayer->bounds, helmet->bounds))
 				{
 					inventory->AddArmor(helmet);
@@ -325,6 +334,13 @@ void SceneGameplay::Draw()
 		particles->PostUpdate();
 		//currentPlayer->Draw(showColliders);
 		
+		app->render->DrawTexture(goldTexture, (app->render->camera.x * -1) + 5, (app->render->camera.y * -1) + 60);
+
+		char tmp[32];
+		sprintf_s(tmp, "%i", currentPlayer->gold);
+		app->render->DrawText(font, tmp, 80, 75, 50, 10, SDL_Color({ 0,0,0,255 }));
+		app->render->DrawText(font, tmp, 77, 72, 50, 10, SDL_Color({ 255,255,255,255 }));
+
 		if (isTown)
 		{
 			for (; enemies != enemyEnd; ++enemies)
@@ -345,6 +361,10 @@ void SceneGameplay::Draw()
 		{
 			app->render->DrawRectangle({ 0, 0,1280, 720 }, 0, 0, 0, 150, true, false);
 			dialogueManager->Draw();
+		}
+		else
+		{
+			QuestManager::GetInstance()->Draw(app->render, font);
 		}
 
 		switch (menuState)
@@ -390,6 +410,8 @@ bool SceneGameplay::UnLoad()
 	entityManager->UnLoad();
 	RELEASE(entityManager);
 
+	QuestManager::GetInstance()->UnLoad();
+
 	map->CleanUp();
 	RELEASE(map);
 	
@@ -422,6 +444,7 @@ bool SceneGameplay::UnLoad()
 
 	app->audio->UnLoadFx(doorClosedFx);
 	app->audio->UnLoadFx(doorOpenedFx);
+	app->tex->UnLoad(goldTexture);
 
 	return ret;
 }
@@ -528,6 +551,9 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 		enemyList.push_back(enemy);
 		NodeEnemyAuxiliar = NodeEnemyAuxiliar.next_sibling();
 	}
+
+	QuestManager::GetInstance()->LoadQuests(load);
+
 	return true;
 }
 
@@ -555,7 +581,6 @@ bool SceneGameplay::SaveState(pugi::xml_node& save) const
 		(*enemies)->SaveState(enemiesAuxiliar);
 	}
 
-
 	pugi::xml_node nodePlayers = toSaveEntites.append_child("players");
 	pugi::xml_node nodePlayersAuxiliar;
 	int playerAmount = 0;
@@ -579,6 +604,8 @@ bool SceneGameplay::SaveState(pugi::xml_node& save) const
 		pl->SaveState(nodePlayersAuxiliar);
 		nodePlayersAuxiliar = nodePlayers.append_child("player");
 	}
+
+	QuestManager::GetInstance()->SaveQuests(save);
 
 	return true;
 }
@@ -633,9 +660,9 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 	MapLayer* layer = (*map->data.layers.end().prev());
 
 	// Only check adyacent tiles
-	for (int j = pos.y; j <= y; j++)
+	for (int j = pos.y; j <= y; ++j)
 	{
-		for (int i = pos.x; i <= x; i++)
+		for (int i = pos.x; i <= x; ++i)
 		{
 			if (i >= 0 && j >= 0)
 			{
@@ -659,6 +686,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("house1.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
@@ -674,6 +702,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
@@ -688,6 +717,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("house2.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
@@ -703,6 +733,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
@@ -717,6 +748,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("house3.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
@@ -732,6 +764,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
@@ -746,6 +779,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("cave_house.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
@@ -761,6 +795,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
@@ -781,6 +816,8 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						pugi::xml_document animations;
 						pugi::xml_node anims;
 						pugi::xml_parse_result result = animations.load_file("animations.xml");
+
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 
 						if (result == NULL)
 							LOG("Could not load xml file: %s. pugi error: %s", CONFIG_FILENAME, result.description());
@@ -808,6 +845,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
@@ -822,6 +860,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("adventurer_house.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 						particles->SetAllParticlesDesactivated();
 						pugi::xml_document animations;
 						pugi::xml_node anims;
@@ -851,6 +890,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
@@ -865,6 +905,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("adventurer_house.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 						particles->SetAllParticlesDesactivated();
 						pugi::xml_document animations;
 						pugi::xml_node anims;
@@ -895,6 +936,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
@@ -909,6 +951,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("inn.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
@@ -924,6 +967,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
@@ -952,6 +996,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						position = { 600,450 };
 						generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 6);
 						map->Load("library.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 
 						exit = true;
 						break;
@@ -967,6 +1012,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
@@ -981,6 +1027,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("shop.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
@@ -996,6 +1043,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
@@ -1010,6 +1058,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("shop2.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
@@ -1025,6 +1074,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
@@ -1039,6 +1089,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("red_house.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 
 						exit = true;
 						break;
@@ -1054,6 +1105,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;

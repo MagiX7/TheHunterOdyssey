@@ -106,6 +106,7 @@
     <ClCompile Include="Source\FairyWing.cpp" />
     <ClCompile Include="Source\Font.cpp" />
     <ClCompile Include="Source\Generator.cpp" />
+    <ClCompile Include="Source\GetItemQuest.cpp" />
     <ClCompile Include="Source\Golem.cpp" />
     <ClCompile Include="Source\GuiButton.cpp" />
     <ClCompile Include="Source\GuiCheckBox.cpp" />
@@ -121,6 +122,7 @@
     <ClCompile Include="Source\Input.cpp" />
     <ClCompile Include="Source\MainMenu.cpp" />
     <ClCompile Include="Source\Map.cpp" />
+    <ClCompile Include="Source\MurderQuest.cpp" />
     <ClCompile Include="Source\Npc.cpp" />
     <ClCompile Include="Source\NpcWizard.cpp" />
     <ClCompile Include="Source\Particle.cpp" />
@@ -129,6 +131,7 @@
     <ClCompile Include="Source\PauseMenu.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\Potion.cpp" />
+    <ClCompile Include="Source\QuestManager.cpp" />
     <ClCompile Include="Source\Ray.cpp" />
     <ClCompile Include="Source\Render.cpp" />
     <ClCompile Include="Source\SceneBattle.cpp" />
@@ -140,10 +143,12 @@
     <ClCompile Include="Source\CharacterManager.cpp" />
     <ClCompile Include="Source\Skull.cpp" />
     <ClCompile Include="Source\Tabern.cpp" />
+    <ClCompile Include="Source\TalkQuest.cpp" />
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\Thief.cpp" />
     <ClCompile Include="Source\Town.cpp" />
     <ClCompile Include="Source\UltraPotion.cpp" />
+    <ClCompile Include="Source\VisitQuest.cpp" />
     <ClCompile Include="Source\Warrior.cpp" />
     <ClCompile Include="Source\Window.cpp" />
     <ClCompile Include="Source\Wizard.cpp" />
@@ -162,6 +167,7 @@
     <ClInclude Include="Source\FairyWing.h" />
     <ClInclude Include="Source\Font.h" />
     <ClInclude Include="Source\Generator.h" />
+    <ClInclude Include="Source\GetItemQuest.h" />
     <ClInclude Include="Source\Golem.h" />
     <ClInclude Include="Source\GuiButton.h" />
     <ClInclude Include="Source\GuiCheckBox.h" />
@@ -176,6 +182,7 @@
     <ClInclude Include="Source\MainMenu.h" />
     <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\Menu.h" />
+    <ClInclude Include="Source\MurderQuest.h" />
     <ClInclude Include="Source\Npc.h" />
     <ClInclude Include="Source\NpcWizard.h" />
     <ClInclude Include="Source\Particle.h" />
@@ -185,6 +192,8 @@
     <ClInclude Include="Source\PerfTimer.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Potion.h" />
+    <ClInclude Include="Source\Quest.h" />
+    <ClInclude Include="Source\QuestManager.h" />
     <ClInclude Include="Source\Queue.h" />
     <ClInclude Include="Source\Ray.h" />
     <ClInclude Include="Source\Scene.h" />
@@ -202,11 +211,13 @@
     <ClInclude Include="Source\CharacterManager.h" />
     <ClInclude Include="Source\Skull.h" />
     <ClInclude Include="Source\Tabern.h" />
+    <ClInclude Include="Source\TalkQuest.h" />
     <ClInclude Include="Source\Textures.h" />
     <ClInclude Include="Source\Thief.h" />
     <ClInclude Include="Source\Timer.h" />
     <ClInclude Include="Source\Town.h" />
     <ClInclude Include="Source\UltraPotion.h" />
+    <ClInclude Include="Source\VisitQuest.h" />
     <ClInclude Include="Source\Warrior.h" />
     <ClInclude Include="Source\Window.h" />
     <ClInclude Include="Source\Defs.h" />

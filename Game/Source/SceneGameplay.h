@@ -20,6 +20,8 @@ class Render;
 class Item;
 class Inventory;
 
+class Font;
+
 enum class PlayerType;
 enum class EntityType;
 class ParticlesManager;
@@ -78,6 +80,10 @@ public:
 	DialogueManager* dialogueManager;
 	Player* currentPlayer;
 
+	SDL_Texture* goldTexture;
+	
+	eastl::list<Player*> playerList;
+
 private:
 	eastl::list<Player*> playerList;
 
@@ -94,6 +100,7 @@ private:
 
 	// Scenes
 	SceneBattle* sceneBattle;
+	float temp;
 
 	Map* map;
 

@@ -19,6 +19,7 @@ public:
 
 	int id;
 	int nextNodeId;
+	int missionId;
 
 	SDL_Rect bounds;
 };
