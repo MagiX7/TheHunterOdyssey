@@ -1,0 +1,24 @@
+  
+name: Automated Build
+
+on:
+  push:
+  pull_request:
+    branches: [ master ]
+    
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Build Library (MSVC16)
+      run: |
+        cd projects/VS2019
+        msbuild.exe Development.sln /property:Configuration=Release /property:Platform=x86
+        cd ../..
+      shell: cmd
