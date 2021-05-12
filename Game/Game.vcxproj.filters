@@ -134,6 +134,29 @@
     </ClCompile>
     <ClCompile Include="Source\IceBlock.cpp">
       <Filter>Entities</Filter>
+    <ClCompile Include="Source\Potion.cpp">
+      <Filter>Entities\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Inventory.cpp">
+      <Filter>Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UltraPotion.cpp">
+      <Filter>Entities\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OmniPotion.cpp">
+      <Filter>Entities\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FairyTear.cpp">
+      <Filter>Entities\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FairyWing.cpp">
+      <Filter>Entities\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FairyBottle.cpp">
+      <Filter>Entities\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\KnightHelmet.cpp">
+      <Filter>Entities\Armors</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -317,6 +340,35 @@
     </ClInclude>
     <ClInclude Include="Source\IceBlock.h">
       <Filter>Entities</Filter>
+    <ClInclude Include="Source\Potion.h">
+      <Filter>Entities\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Item.h">
+      <Filter>Entities\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Inventory.h">
+      <Filter>Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UltraPotion.h">
+      <Filter>Entities\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OmniPotion.h">
+      <Filter>Entities\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FairyTear.h">
+      <Filter>Entities\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FairyWing.h">
+      <Filter>Entities\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FairyBottle.h">
+      <Filter>Entities\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\KnightHelmet.h">
+      <Filter>Entities\Armors</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Armor.h">
+      <Filter>Entities\Armors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -355,6 +407,15 @@
     </Filter>
     <Filter Include="Dialogues">
       <UniqueIdentifier>{c999d0f2-3ca6-4670-9ac2-3421ff285e6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Items">
+      <UniqueIdentifier>{bcc44611-e7bf-4537-9a15-4687ff9061a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Inventory">
+      <UniqueIdentifier>{c571fe04-dddb-48a0-99ca-80c8331a129f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Armors">
+      <UniqueIdentifier>{b0b80c5e-6482-402d-800f-82599ebd3b1a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

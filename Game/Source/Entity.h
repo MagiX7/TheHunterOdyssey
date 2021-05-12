@@ -8,6 +8,7 @@
 #include "Animation.h"
 
 class Player;
+class SDL_Texture;
 
 enum class EntityState
 {
@@ -23,7 +24,6 @@ enum class EntityState
 	INACTIVE
 };
 
-struct SDL_Texture;
 
 enum class EntityType
 {
@@ -42,6 +42,7 @@ enum class EntityType
 	TOWN,
 	RAY,
 	ITEM,
+	ARMOR,
 	MAP,
 	ICE_BLOCK,
 	UNKNOWN
@@ -50,6 +51,7 @@ enum class EntityType
 class Entity
 {
 public:
+	Entity() {}
 	Entity(EntityType type) : type(type) {}
 
 	virtual ~Entity(){}

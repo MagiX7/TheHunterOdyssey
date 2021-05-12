@@ -15,7 +15,8 @@ Hunter::Hunter(iPoint position, pugi::xml_node anim, ParticlesManager* particles
 	maxHealthPoints = healthPoints;
 	manaPoints = 1000;
 	maxManaPoints = manaPoints;
-	defense = 15;
+	armorPoints = 15;
+	maxArmorPoints = armorPoints;
 	meleeDamage = 75;
 	magicDamage = 10;
 	isDefending = false;
@@ -295,11 +296,11 @@ void Hunter::GetDamage(int dmg)
 {
 	if (isDefending == false)
 	{
-		healthPoints -= dmg * dmg / (dmg + defense);
+		healthPoints -= dmg * dmg / (dmg + armorPoints);
 	}
 	else
 	{
-		healthPoints -= (dmg * dmg / (dmg + defense)) * 0.15;
+		healthPoints -= (dmg * dmg / (dmg + armorPoints)) * 0.15;
 	}
 	damageTaken.Reset();
 	currentAnim = &damageTaken;

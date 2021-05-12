@@ -198,10 +198,10 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 	{
 	case PauseState::DEFAULT:
 		// Black rectangle for the background
-		app->render->DrawRectangle({ 0 - app->render->camera.x, 0 - app->render->camera.y, 1280, 720 }, 0, 0, 0, 120);
+		app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 120, true, false);
 
 		section = { 0,0,430,650 };
-		app->render->DrawTexture(guiTex, -app->render->camera.x + 425, -app->render->camera.y + 48, &section);
+		app->render->DrawTexture(guiTex, 425, 48, &section, false);
 
 		btnResume->Draw(app->render, showColliders, 36, {0, 0, 0, 255});
 		btnLoadSave->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
@@ -214,7 +214,7 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		break;
 	case PauseState::OPTIONS:
 		section = { 0,0,430,650 };
-		app->render->DrawTexture(guiTex, -app->render->camera.x + 425, -app->render->camera.y + 48, &section);
+		app->render->DrawTexture(guiTex, 425, 48, &section, false);
 
 		btnResume->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
 		btnLoadSave->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
@@ -225,9 +225,9 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		app->render->DrawText(font, "PAUSE", 552, 121, 72, 5, { 255,255,255,255 });
 
 		// Black rectangle for the background
-		app->render->DrawRectangle({ 0 - app->render->camera.x, 0 - app->render->camera.y, 1280, 720 }, 0, 0, 0, 120);
+		app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 120, true, false);
 
-		app->render->DrawTexture(guiTex, -app->render->camera.x + 850, -app->render->camera.y + 48, &section);
+		app->render->DrawTexture(guiTex, 850, 48, &section, false);
 
 		btnOptionsBack->Draw(app->render, showColliders, 36, { 0,0,0,225 });
 		slideMusicVolume->Draw(app->render, showColliders);
@@ -242,10 +242,10 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		break;
 	case PauseState::SAVE:
 		// Black rectangle for the background
-		app->render->DrawRectangle({ 0 - app->render->camera.x, 0 - app->render->camera.y, 1280, 720 }, 0, 0, 0, 120);
+		app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 120, true, false);
 
 		section = { 0,0,430,650 };
-		app->render->DrawTexture(guiTex, -app->render->camera.x + 425, -app->render->camera.y + 48, &section);
+		app->render->DrawTexture(guiTex, 425, 48, &section, false);
 
 		btnSave->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
 		btnLoad->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
@@ -256,10 +256,10 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		break;
 	case PauseState::RETURN_TITLE:
 		// Black rectangle for the background
-		app->render->DrawRectangle({ 0 - app->render->camera.x, 0 - app->render->camera.y, 1280, 720 }, 0, 0, 0, 120);
+		app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 120, true, false);
 
 		section = { 0,0,430,650 };
-		app->render->DrawTexture(guiTex, -app->render->camera.x + 425, -app->render->camera.y + 48, &section);
+		app->render->DrawTexture(guiTex, 425, 48, &section, false);
 
 		btnReturnTitleYes->Draw(app->render, showColliders, 36, { 0,0,0,225 });
 		btnReturnTitleNo->Draw(app->render, showColliders, 36, { 0,0,0,225 });
@@ -268,10 +268,10 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		break;
 	case PauseState::EXIT:
 		// Black rectangle for the background
-		app->render->DrawRectangle({ 0 - app->render->camera.x, 0 - app->render->camera.y, 1280, 720 }, 0, 0, 0, 120);
+		app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 120, true, false);
 
 		section = { 0,0,430,650 };
-		app->render->DrawTexture(guiTex, -app->render->camera.x + 425, -app->render->camera.y + 48, &section);
+		app->render->DrawTexture(guiTex, 425, 48, &section, false);
 		
 		btnExitYes->Draw(app->render, showColliders, 36, { 0,0,0,225 });
 		btnExitNo->Draw(app->render, showColliders, 36, { 0,0,0,225 });

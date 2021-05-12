@@ -168,11 +168,11 @@ void DialogueManager::Draw()
 	{
 		// Draw the background for the npc text
 		SDL_Rect sect = { 0,0,612, 479 };
-		app->render->DrawTexture(texture, 50 - (app->render->camera.x ), 100 - (app->render->camera.y), &sect);
+		app->render->DrawTexture(texture, 50, 100, &sect, false);
 
 		// Draw the background for the player options
 		sect = { 615, 137, 556, 203 };
-		app->render->DrawTexture(texture, 670 - (app->render->camera.x ), 200 - (app->render->camera.y ), &sect);
+		app->render->DrawTexture(texture, 670, 200, &sect, false);
 
 		// Draw the text
 		if (printText == true && current->currentNode->id >= -1)
@@ -188,7 +188,7 @@ void DialogueManager::Draw()
 		if (current->currentNode->dialogFinished)
 		{
 			sect = { 622, 352, 16,23 };
-			app->render->DrawTexture(texture, arrowPosition -app->render->camera.x, current->currentNode->currentOption->bounds.y - app->render->camera.y, &sect);
+			app->render->DrawTexture(texture, arrowPosition, current->currentNode->currentOption->bounds.y, &sect, false);
 		}
 	}
 }
