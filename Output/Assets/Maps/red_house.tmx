@@ -4629,7 +4629,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="1" name="Hitboxes" width="40" height="23" visible="0">
+ <layer id="1" name="Hitboxes" width="40" height="23">
   <properties>
    <property name="draw" type="bool" value="false"/>
   </properties>
@@ -5061,46 +5061,6 @@
    <tile gid="1538"/>
    <tile gid="1538"/>
    <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1537"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1537"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1537"/>
-   <tile gid="1537"/>
-   <tile gid="1537"/>
-   <tile gid="1537"/>
-   <tile gid="1537"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
-   <tile gid="1538"/>
    <tile gid="1537"/>
    <tile gid="1537"/>
    <tile gid="1538"/>
@@ -5131,6 +5091,46 @@
    <tile gid="1538"/>
    <tile gid="1538"/>
    <tile gid="1538"/>
+   <tile gid="1537"/>
+   <tile gid="1537"/>
+   <tile gid="1537"/>
+   <tile gid="1537"/>
+   <tile gid="1537"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1537"/>
+   <tile gid="1537"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1537"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
+   <tile gid="1538"/>
    <tile gid="1538"/>
    <tile gid="1537"/>
    <tile gid="1537"/>
@@ -5141,7 +5141,7 @@
    <tile gid="1538"/>
    <tile gid="1538"/>
    <tile gid="1538"/>
-   <tile gid="1537"/>
+   <tile gid="1538"/>
    <tile gid="1537"/>
    <tile gid="1538"/>
    <tile gid="1538"/>

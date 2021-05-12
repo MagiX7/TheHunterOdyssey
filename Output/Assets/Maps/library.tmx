@@ -3279,13 +3279,13 @@
    <tile/>
    <tile/>
    <tile gid="583"/>
+   <tile gid="625"/>
    <tile/>
    <tile/>
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="629"/>
    <tile gid="583"/>
    <tile/>
    <tile/>
@@ -5127,13 +5127,13 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="625"/>
    <tile/>
    <tile/>
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="629"/>
+   <tile/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
