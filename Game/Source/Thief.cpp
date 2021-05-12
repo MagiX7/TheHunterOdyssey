@@ -12,7 +12,8 @@ Thief::Thief(iPoint position, pugi::xml_node anim, ParticlesManager* particles) 
 	stance = PlayerStance::ROAMING;
 	healthPoints = 1500;
 	maxHealthPoints = healthPoints;
-	defense = 10;
+	armorPoints = 10;
+	maxArmorPoints = armorPoints;
 	manaPoints = 500;
 	maxManaPoints = manaPoints;
 	meleeDamage = 50;
@@ -267,11 +268,11 @@ void Thief::GetDamage(int dmg)
 {
 	if (isDefending == false)
 	{
-		healthPoints -= dmg * dmg / (dmg + defense);
+		healthPoints -= dmg * dmg / (dmg + armorPoints);
 	}
 	else
 	{
-		healthPoints -= (dmg * dmg / (dmg + defense)) * 0.5;
+		healthPoints -= (dmg * dmg / (dmg + armorPoints)) * 0.5;
 		isDefending = false;
 	}
 	damageTaken.Reset();

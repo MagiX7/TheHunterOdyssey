@@ -3,10 +3,13 @@
 
 #include "Scene.h"
 
+class Font;
+class Easing;
+
 class SceneEnding : public Scene
 {
 public:
-	SceneEnding();
+	SceneEnding(bool win);
 
 	virtual ~SceneEnding() {}
 
@@ -20,6 +23,12 @@ public:
 
 private:
 	SDL_Texture* bg;
+	bool hasWin;
+	Font* font;
+
+	Easing* easingUp;
+	Easing* easingDown;
+	float easingPosition;
 };
 
 #endif //__SCENEENDING_H__

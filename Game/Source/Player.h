@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Entity.h"
+#include "Armor.h"
+
 #include "Point.h"
 #include "Log.h"
 #include"ParticlesManager.h"
@@ -70,14 +72,68 @@ public:
 	inline int GetMaxHealthPoints() const { return maxHealthPoints; }
 	inline int GetManaPoints() const { return manaPoints; }
 	inline int GetMaxManaPoints() const { return maxManaPoints; }
+	inline int GetArmorPoints() const { return armorPoints; }
+	inline int GetMaxArmorPoints() const { return maxArmorPoints; }
 	inline int GetAbilitySelected() const { return currentAbilitySelected; }
 	inline int GetObjectSelected() const { return currentObjectSelected; }
 	inline bool GetDefend() const { return isDefending; }
 	inline eastl::string GetName() const { return name; }
+	Armor* GetHelmet() const 
+	{
+		if (helmet) return helmet;
 
+		return nullptr;
+	}
+	Armor* GetChest() const 
+	{
+		if (chest) return chest; 
+
+		return nullptr;
+	}
+	Armor* GetBoots() const
+	{
+		if (boots) return boots; 
+
+		return nullptr;
+	}
+	
 	// Setters
 	inline void SetAbilitySelected(int num) { currentAbilitySelected = num; }
 	inline void SetObjectSelected(int num) { currentObjectSelected = num; }
+
+	Armor* SetEquipment(Armor* armor)
+	{
+		Armor* ret = nullptr;
+
+		if (armor->armorType == ArmorType::HELMET)
+		{
+			if(helmet == nullptr) helmet = armor;
+			else
+			{
+				ret = helmet;
+				helmet = armor;
+			}
+		}
+		else if (armor->armorType == ArmorType::CHEST)
+		{
+			if (chest == nullptr) chest = armor;
+			else
+			{
+				ret = chest;
+				chest = armor;
+			}
+		}
+		else if(armor->armorType == ArmorType::BOOTS)
+		{
+			if (boots == nullptr) boots = armor;
+			else
+			{
+				ret = boots;
+				boots = armor;
+			}
+		}
+		return ret;
+	}
 
 protected:
 	virtual void HandleInput(float dt);
@@ -93,6 +149,10 @@ protected:
 	ParticlesManager* Particles;
 	eastl::string name;
 
+	Armor* helmet;
+	Armor* boots;
+	Armor* chest;
+
 	// Enemy target
 	Enemy* target;
 
@@ -105,7 +165,8 @@ protected:
 	int maxManaPoints;
 	int meleeDamage;
 	int magicDamage;
-	int defense;
+	int armorPoints;
+	int maxArmorPoints;
 	int currentAbilitySelected;
 	int currentObjectSelected;
 
@@ -123,4 +184,5 @@ protected:
 	Animation death;
 	Animation attackAnim;
 	Animation damageTaken;
+
 };

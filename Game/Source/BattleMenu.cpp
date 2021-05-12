@@ -655,8 +655,6 @@ void BattleMenu::DrawStats(Font* font)
 		
 		statsBar = { 127, 312, ((361 * (*it)->GetManaPoints()) / (*it)->GetMaxManaPoints()), 5 };
 		app->render->DrawTexture(guiTex, 750, 506 + (i * 55), &statsBar);
-
-
 	}
 	
 	if (type != BattleState::ENEMY_TURN)

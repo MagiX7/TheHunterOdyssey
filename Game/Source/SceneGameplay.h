@@ -2,10 +2,13 @@
 #define __SCENEGAMEPLAY_H__
 
 #include "Scene.h"
-#include "EASTL/list.h"
-#include "Font.h"
 #include "Point.h"
 #include"ParticlesManager.h"
+
+#include "Font.h"
+
+#include "EASTL/list.h"
+
 class Player;
 class Enemy;
 class CharacterManager;
@@ -15,6 +18,9 @@ class Map;
 class DialogueManager;
 class PauseMenu;
 class Render;
+class Item;
+class Inventory;
+
 enum class PlayerType;
 enum class EntityType;
 class ParticlesManager;
@@ -25,7 +31,7 @@ enum class GameplayMenuState
 	NONE = 0,
 	CHARACTER_SWAP,
 	INVENTORY,
-	PAUSE
+	PAUSE,
 };
 
 enum class GameplayState
@@ -33,7 +39,7 @@ enum class GameplayState
 	NONE = 0,
 	ROAMING,
 	BATTLE,
-	DIALOG
+	DIALOG,
 };
 
 class SceneGameplay : public Scene
@@ -58,8 +64,6 @@ public:
 	void ChangeState(GameplayMenuState type);
 
 	void CharacterSwap(PlayerType pType);
-
-	//bool CheckDialogue();
 	
 	bool CollisionMapEntity(SDL_Rect rect, EntityType type);
 
@@ -70,33 +74,40 @@ private:
 	void GenerateBattle();
 	void CameraFollow(Render* render);
 	void Fading(float dt);
+
 public:
 	DialogueManager* dialogueManager;
 	Player* currentPlayer;
+
 private:
-	
-	
 	eastl::list<Player*> playerList;
 
+
+	// Menus
 	CharacterManager* charManager;
-
-	SceneBattle* sceneBattle;
-
+	PauseMenu* pause;
 	GameplayMenuState menuState;
-
 	GameplayState gameState;
 
 	EntityManager* entityManager;
 
 	ParticlesManager* particles;
 
-	
-
+	// Scenes
+	SceneBattle* sceneBattle;
 	Map* map;
 
-	PauseMenu* pause;
-
+	// Font
 	Font* font;
+
+	// Inventory
+	Inventory* inventory;
+
+	// Armor
+	Item* helmet;
+	SDL_Texture* helmetTexture;
+
+	eastl::list<Item*> items;
 
 	iPoint tmpPosPlayer;
 

@@ -17,6 +17,11 @@
 #include "Bat.h"
 #include "Skull.h"
 
+#include "UltraPotion.h"
+#include "Potion.h"
+
+#include "KnightHelmet.h"
+
 #include "Npc.h"
 #include "Map.h"
 #include "DialogueManager.h"
@@ -26,7 +31,11 @@
 #include "CharacterManager.h"
 #include "PauseMenu.h"
 
+#include "Inventory.h"
+
 #include "Log.h"
+
+#include "Optick/include/optick.h"
 
 #define NPC_RADIUS 10
 
@@ -95,6 +104,22 @@ SceneGameplay::SceneGameplay()
 	position = { 500,350 };
 	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 1);
 
+
+	SDL_Texture* atlas = app->tex->Load("Assets/Textures/Items/items_atlas.png");
+	inventory = new Inventory(playerList, atlas);
+
+	Item *item = new UltraPotion(iPoint(200,250), atlas);
+	items.push_back(item);
+	
+	item = new UltraPotion(iPoint(300,350), atlas);
+	items.push_back(item);
+
+	item = new Potion(iPoint(250, 350), atlas);
+	items.push_back(item);
+
+	item = new KnightHelmet({ 270, 350, 32, 32 }, iPoint(270, 350),atlas);
+	items.push_back(item);
+
 	//Create Enemies
 
 	/*Enemy* skull = nullptr;
@@ -113,6 +138,8 @@ SceneGameplay::SceneGameplay()
 	npc = new Npc(EntityType::NPC);*/
 
 	pause = new PauseMenu(this);
+
+	font = new Font("Assets/Font/font3.xml", app->tex);
 
 	showColliders = false;
 	transition = false;
@@ -159,17 +186,28 @@ bool SceneGameplay::Load()
 
 	pause->Load(font);
 
-	sceneBattle = nullptr;
+	inventory->Load(font);
 
+	eastl::list<Item*>::iterator item = items.begin();
+	for (; item != items.end(); ++item)
+	{
+		(*item)->Load();
+	}
 
 	SDL_ShowCursor(SDL_ENABLE);
 	//particles->StartSimulation(currentPlayer->generator);
 	
+	sceneBattle = nullptr;
+
+	SDL_ShowCursor(SDL_ENABLE);
+
 	return ret;
 }
 
 bool SceneGameplay::Update(float dt)
 {
+	OPTICK_EVENT("Scene Gameplay Update");
+
 	bool ret = true;
 	switch (gameState)
 	{
@@ -208,6 +246,7 @@ bool SceneGameplay::Update(float dt)
 							break;
 						}
 					}
+					//if (ultraPotion != nullptr) ultraPotion->Update(dt);
 				}
 				SDL_Rect bounds = { currentPlayer->bounds.x,currentPlayer->bounds.y + currentPlayer->bounds.h-7,currentPlayer->bounds.w,7 };
 				if (showColliders == false && CollisionMapEntity(bounds, currentPlayer->type) == true) 
@@ -222,6 +261,24 @@ bool SceneGameplay::Update(float dt)
 					dialogueManager->LoadDialogue(tmpId);
 					dialogueManager->printText = true;
 				}
+
+				eastl::list<Item*>::iterator it = items.begin();
+				for (; it != items.end(); ++it)
+				{
+					(*it)->Update(dt);
+					if (CheckCollision(currentPlayer->bounds, (*it)->bounds))
+					{
+						inventory->AddItem(*it);
+						items.erase(it);
+						//items.erase(it);
+						//RELEASE((*it));
+					}
+				}
+
+				/*if (CheckCollision(currentPlayer->bounds, helmet->bounds))
+				{
+					inventory->AddArmor(helmet);
+				}*/
 			}
 			else
 			{
@@ -231,6 +288,12 @@ bool SceneGameplay::Update(float dt)
 		case GameplayMenuState::CHARACTER_SWAP:
 			charManager->Update(dt);
 			break;
+
+		case GameplayMenuState::INVENTORY:
+			inventory->Update(dt);
+			HandleInput(dt);
+			break;
+
 		case GameplayMenuState::PAUSE:
 			ret = pause->Update(dt);
 			break;
@@ -242,7 +305,7 @@ bool SceneGameplay::Update(float dt)
 			transition = true;
 			fadeOut = true;
 		}
-		break;
+	break;
 	}
 
 	if (transition) Fading(dt);
@@ -268,25 +331,48 @@ void SceneGameplay::Draw()
 			{
 				(*enemies)->Draw(showColliders);
 			}
+
+			//if (ultraPotion != nullptr) ultraPotion->Draw(showColliders);
+
+			eastl::list<Item*>::iterator it = items.begin();
+			for(; it != items.end(); ++it)
+			{
+				(*it)->Draw(showColliders);
+			}
 		}
 
 		if (dialogueManager->isDialogueActive)
 		{
-			app->render->DrawRectangle({ -(app->render->camera.x),-(app->render->camera.y),1280, 720 }, 0, 0, 0, 150);
+			app->render->DrawRectangle({ 0, 0,1280, 720 }, 0, 0, 0, 150, true, false);
 			dialogueManager->Draw();
 		}
 
-		if (menuState == GameplayMenuState::CHARACTER_SWAP)
+		switch (menuState)
 		{
-			app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 150);
+		case GameplayMenuState::CHARACTER_SWAP:
+			app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 150, true, false);
 			charManager->Draw(font, showColliders);
-		}
+			break;
 
-		if (menuState == GameplayMenuState::PAUSE)
-		{
-			//app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 150);
+		case GameplayMenuState::PAUSE:
 			pause->Draw(font, showColliders);
+			break;
+
+		case GameplayMenuState::INVENTORY:
+			inventory->Draw(font, showColliders);
+			break;
 		}
+		//if (menuState == GameplayMenuState::CHARACTER_SWAP)
+		//{
+		//	app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 150);
+		//	charManager->Draw(font, showColliders);
+		//}
+
+		//if (menuState == GameplayMenuState::PAUSE)
+		//{
+		//	//app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 150);
+		//	pause->Draw(font, showColliders);
+		//}
 		break;
 	case GameplayState::BATTLE:
 		sceneBattle->Draw(showColliders);
@@ -294,7 +380,7 @@ void SceneGameplay::Draw()
 	}
 
 	if (transition) 
-		app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 255 * alpha);
+		app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 255 * alpha, true, false);
 }
 bool SceneGameplay::UnLoad()
 {
@@ -323,6 +409,9 @@ bool SceneGameplay::UnLoad()
 
 	pause->UnLoad();
 	RELEASE(pause);
+
+	inventory->UnLoad();
+	RELEASE(inventory);
 	
 	dialogueManager->UnLoad();
 	RELEASE(dialogueManager);
@@ -510,7 +599,20 @@ void SceneGameplay::HandleInput(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN) menuState = GameplayMenuState::CHARACTER_SWAP;
 	
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_START) == KEY_DOWN) menuState = GameplayMenuState::PAUSE;
+	if (menuState != GameplayMenuState::INVENTORY && app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_START) == KEY_DOWN) menuState = GameplayMenuState::PAUSE;
+
+	if (app->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+	{
+		if (menuState == GameplayMenuState::INVENTORY)
+		{
+			menuState = GameplayMenuState::NONE;
+		}
+		else
+		{
+			menuState = GameplayMenuState::INVENTORY;
+			inventory->GetEquipment(currentPlayer);
+		}
+	}
 }
 
 bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
@@ -1046,6 +1148,36 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						IceBlock* iceBlock = nullptr;
 						position = { 2048,320 };
 						iceBlock = (IceBlock*)entityManager->CreateEntity2(EntityType::ICE_BLOCK, position, currentPlayer);
+						exit = true;
+						break;
+					}
+					if ((layer->Get(i, j) == 3) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						isTown = false;
+						entityManager->SetAllNpcInactive();
+						iPoint position = { 1950,1650 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("dungeon_map.tmx", app->tex);
+						IceBlock* iceBlock = nullptr;
+						position = { 2048,320 };
+						iceBlock = (IceBlock*)entityManager->CreateEntity2(EntityType::ICE_BLOCK, position);
+						exit = true;
+						break;
+					}
+					if ((layer->Get(i, j) == 4) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						isTown = false;
+						entityManager->SetAllNpcInactive();
+						iPoint position = { 2570,1650 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("dungeon_map.tmx", app->tex);
+						IceBlock* iceBlock = nullptr;
+						position = { 2048,320 };
+						iceBlock = (IceBlock*)entityManager->CreateEntity2(EntityType::ICE_BLOCK, position);
 						exit = true;
 						break;
 					}
