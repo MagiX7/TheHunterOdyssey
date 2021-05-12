@@ -57,7 +57,9 @@ private:
 	bool showMore;
 	bool nextQuest;
 	float timer;
+	float questTimer;
 
 	SDL_Texture* questTexture;
+	SDL_Texture* texture;
 	Player* currentPlayer;
 };

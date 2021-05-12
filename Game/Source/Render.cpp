@@ -293,7 +293,7 @@ bool Render::DrawText(Font* font, const char* text, int x, int y, int size, int 
 	return ret;
 }
 
-bool Render::DrawText2(Font* font, const char* text, SDL_Rect bounds, int size, int spacing, SDL_Color tint, int maxX) const
+bool Render::DrawText(Font* font, const char* text, SDL_Rect bounds, int size, int spacing, SDL_Color tint, int maxX) const
 {
 	bool ret = true;
 

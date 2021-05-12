@@ -8,6 +8,7 @@ TalkQuest::TalkQuest(pugi::xml_node n) : Quest(QuestType::TALK_QUEST)
 {
 	this->id = n.attribute("id").as_int();
 	this->name = n.attribute("name").as_string();
+	this->description = n.attribute("description").as_string();
 	this->nextQuestId = n.attribute("nextQuestId").as_int();
 	this->isCompleted = n.attribute("isCompleted").as_bool();
 	this->npcId = n.attribute("npcId").as_int();
@@ -25,7 +26,6 @@ bool TalkQuest::Update(Entity* entity, SString name)
 	if ((entity != nullptr) && (npcId == entity->GetDialogeId()))
 	{
 		isCompleted = true;
-		QuestManager::GetInstance()->GetReward(this->reward);
 	}
     
 	return isCompleted;

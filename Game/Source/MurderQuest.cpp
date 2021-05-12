@@ -7,6 +7,7 @@ MurderQuest::MurderQuest(pugi::xml_node n) : Quest(QuestType::MURDER_QUEST)
 {
 	this->id = n.attribute("id").as_int();
 	this->name = n.attribute("name").as_string();
+	this->description = n.attribute("description").as_string();
 	this->nextQuestId = n.attribute("nextQuestId").as_int();
 	this->isCompleted = n.attribute("isCompleted").as_bool();
 	this->type = (EntityType)n.attribute("enemy").as_int();
@@ -24,7 +25,6 @@ bool MurderQuest::Update(Entity* entity, SString n)
 	if ((entity != nullptr) && (type == entity->type))
 	{
 		isCompleted = true;
-		QuestManager::GetInstance()->GetReward(this->reward);
 	}
 
 	return isCompleted;

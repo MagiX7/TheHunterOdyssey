@@ -7,6 +7,7 @@ VisitQuest::VisitQuest(pugi::xml_node n) : Quest(QuestType::VISIT_QUEST)
 {
 	this->id = n.attribute("id").as_int();
 	this->name = n.attribute("name").as_string();
+	this->description = n.attribute("description").as_string();
 	this->nextQuestId = n.attribute("nextQuestId").as_int();
 	this->isCompleted = n.attribute("isCompleted").as_bool();
 	this->mapName = n.attribute("mapName").as_string();
@@ -22,7 +23,6 @@ bool VisitQuest::Update(Entity* entity, SString n)
 	if ((n != nullptr) && (mapName == n))
 	{
 		isCompleted = true;
-		QuestManager::GetInstance()->GetReward(this->reward);
 	}
 	
 	return isCompleted;

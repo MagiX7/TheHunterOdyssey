@@ -51,12 +51,14 @@ QuestManager::QuestManager()
 
 	completedQuestFx = app->audio->LoadFx("Assets/Audio/Fx/quest_completed.wav");
 	questTexture = app->tex->Load("Assets/Textures/UI/quest_texture.png");
+	texture = app->tex->Load("Assets/Textures/UI/quests.png");
 	questFinished = nullptr;
 	questActive = nullptr;
 	playFx = false;
 	showMore = false;
 	nextQuest = false;
 	timer = 0.0f;
+	questTimer = 0.0f;
 }
 
 QuestManager::~QuestManager()
@@ -69,19 +71,24 @@ bool QuestManager::Update(Input* input, float dt)
 	{
 		if (!playFx) app->audio->PlayFx(completedQuestFx);
 		playFx = true;
+		questTimer += 2.0f * dt;
 		if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 		{
+			GetReward(questFinished->reward);
 			finishedQuests.push_back(questFinished);
 			questFinished = nullptr;
 			nextQuest = true;
+			questTimer = 0.0f;
 		}
 	}
 	if (questActive != nullptr)
 	{
+		questTimer += 2.0f * dt;
 		if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 		{
 			activeQuests.push_back(questActive);
 			questActive = nullptr;
+			questTimer = 0.0f;
 		}
 	}
 
@@ -304,17 +311,35 @@ void QuestManager::Draw(Render* render, Font* font)
 		}
 	}
 
-	SDL_Rect rect = { 390, 260,500,200 };
+	SDL_Rect rect = { 232, 152, 816, 435 };
 	if (questFinished != nullptr)
 	{
-		render->DrawRectangle(rect, 0, 0, 0, 150, true, false);
-		render->DrawCenterText(font, "Quest Completed!", rect, 36, 5, { 255, 255, 255 });
+		render->DrawTexture(texture, -render->camera.x + 140, -render->camera.y + 60);
+		if (questTimer < 5.0f)
+		{
+			render->DrawCenterText(font, "Quest Completed!", rect, 64, 5, { 255, 255, 255 });
+		}
+		else
+		{
+			render->DrawText(font, "Press ENTER to continue", 765, 560, 24, 3, { 255, 255, 255 });
+		}
 	}
 
 	if (questActive != nullptr)
 	{
-		render->DrawRectangle(rect, 0, 0, 0, 150, true, false);
-		render->DrawCenterText(font, "New Quest!", rect, 36, 5, { 255, 255, 255 });
+		render->DrawTexture(texture, -render->camera.x + 140, -render->camera.y + 60);
+		if (questTimer < 5.0f)
+		{
+			render->DrawCenterText(font, "New Quest!", rect, 64, 5, { 255, 255, 255 });
+		}
+		else
+		{
+			rect.y = 170;
+			rect.h = 0;
+			render->DrawCenterText(font, questActive->name.c_str(), rect, 50, 5, { 255, 255, 255 });
+			render->DrawText(font, questActive->description.c_str(), 250, 270, 24, 3, { 255, 255, 255 }, 1050);
+			render->DrawText(font, "Press ENTER to continue", 765, 560, 24, 3, { 255, 255, 255 });
+		}
 	}
 }
 
