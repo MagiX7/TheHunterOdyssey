@@ -28,6 +28,7 @@
 #include "DialogueManager.h"
 
 #include "IceBlock.h"
+#include "Door.h"
 #include "QuestManager.h"
 
 #include "CharacterManager.h"
@@ -285,22 +286,22 @@ bool SceneGameplay::Update(float dt)
 
 								if (tmpIceBlock->tmpState == EntityState::WALKING_RIGHT)
 								{
-									(*entity)->SetBounds({ tmpIceBlock->bounds.x - 2,  tmpIceBlock->bounds.y,  tmpIceBlock->bounds.w,  tmpIceBlock->bounds.h });
+									(*entity)->SetBounds({ tmpIceBlock->bounds.x - 1,  tmpIceBlock->bounds.y,  tmpIceBlock->bounds.w,  tmpIceBlock->bounds.h });
 									(*entity)->SetState(EntityState::STOP_DOWN);
 								}
 								if (tmpIceBlock->tmpState == EntityState::WALLKING_LEFT)
 								{
-									(*entity)->SetBounds({ tmpIceBlock->bounds.x + 2,  tmpIceBlock->bounds.y,  tmpIceBlock->bounds.w,  tmpIceBlock->bounds.h });
+									(*entity)->SetBounds({ tmpIceBlock->bounds.x + 1,  tmpIceBlock->bounds.y,  tmpIceBlock->bounds.w,  tmpIceBlock->bounds.h });
 									(*entity)->SetState(EntityState::STOP_DOWN);
 								}
 								if (tmpIceBlock->tmpState == EntityState::WALLKING_UP)
 								{
-									(*entity)->SetBounds({ tmpIceBlock->bounds.x,  tmpIceBlock->bounds.y + 2,  tmpIceBlock->bounds.w,  tmpIceBlock->bounds.h });
+									(*entity)->SetBounds({ tmpIceBlock->bounds.x,  tmpIceBlock->bounds.y + 1,  tmpIceBlock->bounds.w,  tmpIceBlock->bounds.h });
 									(*entity)->SetState(EntityState::STOP_DOWN);
 								}
 								if (tmpIceBlock->tmpState == EntityState::WALLKING_DOWN)
 								{
-									(*entity)->SetBounds({ tmpIceBlock->bounds.x,  tmpIceBlock->bounds.y - 2,  tmpIceBlock->bounds.w,  tmpIceBlock->bounds.h });
+									(*entity)->SetBounds({ tmpIceBlock->bounds.x,  tmpIceBlock->bounds.y - 1,  tmpIceBlock->bounds.w,  tmpIceBlock->bounds.h });
 									(*entity)->SetState(EntityState::STOP_DOWN);
 								}
 							}
@@ -1276,6 +1277,9 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						IceBlock* iceBlock = nullptr;
 						position = { 2112,320 };
 						iceBlock = (IceBlock*)entityManager->CreateEntity2(EntityType::ICE_BLOCK, position, currentPlayer);
+						Door* door = nullptr;
+						position = { 2240,992 };
+						door = (Door*)entityManager->CreateEntity2(EntityType::DOOR, position, currentPlayer);
 						exit = true;
 						break;
 					}

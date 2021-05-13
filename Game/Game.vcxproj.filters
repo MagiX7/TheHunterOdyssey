@@ -132,9 +132,6 @@
     <ClCompile Include="Source\Particle.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="Source\IceBlock.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Potion.cpp">
       <Filter>Entities\Items</Filter>
     </ClCompile>
@@ -164,6 +161,12 @@
     <ClCompile Include="Source\MurderQuest.cpp" />
     <ClCompile Include="Source\VisitQuest.cpp" />
     <ClCompile Include="Source\TalkQuest.cpp" />
+    <ClCompile Include="Source\IceBlock.cpp">
+      <Filter>Entities\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Door.cpp">
+      <Filter>Entities\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -344,9 +347,6 @@
     <ClInclude Include="Source\Particle.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Source\IceBlock.h">
-      <Filter>Entities</Filter>
-	</ClInclude>
     <ClInclude Include="Source\Potion.h">
       <Filter>Entities\Items</Filter>
     </ClInclude>
@@ -383,6 +383,12 @@
     <ClInclude Include="Source\MurderQuest.h" />
     <ClInclude Include="Source\VisitQuest.h" />
     <ClInclude Include="Source\TalkQuest.h" />
+    <ClInclude Include="Source\IceBlock.h">
+      <Filter>Entities\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Door.h">
+      <Filter>Entities\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -429,6 +435,9 @@
     </Filter>
     <Filter Include="Entities\Armors">
       <UniqueIdentifier>{b0b80c5e-6482-402d-800f-82599ebd3b1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Objects">
+      <UniqueIdentifier>{b94f3bf7-1cd2-4d67-b270-d2b0b5540f52}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

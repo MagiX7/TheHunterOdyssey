@@ -6,48 +6,47 @@
 #include "Player.h"
 #include "SceneGameplay.h"
 
-#include "IceBlock.h"
+#include "Door.h"
 
 #include <time.h>
 
 #define SPEED_X 180.0f
 #define SPEED_Y 180.0f
 
-IceBlock::IceBlock(EntityType type, iPoint position, Player* player) : Entity(type)
+Door::Door(EntityType type, iPoint position, Player* player) : Entity(type)
 {
 	bounds.x = position.x;
 	bounds.y = position.y;
 	bounds.w = 64;
-	bounds.h = 64;
+	bounds.h = 56;
 	state = EntityState::STOP_DOWN;
 	tmpState = EntityState::STOP_DOWN;
 	currPlayer = player;
-	isMoving = false;
 }
 
-IceBlock::~IceBlock()
+Door::~Door()
 {
 
 }
 
-bool IceBlock::Load()
+bool Door::Load()
 {
-	texture = app->tex->Load("Assets/Textures/Objects/block.png");
+	texture = app->tex->Load("Assets/Textures/Objects/door_1.png");
 
 	return true;
 }
 
-void IceBlock::SetInactive()
+void Door::SetInactive()
 {
 	state = EntityState::INACTIVE;
 }
 
-void IceBlock::SetActive()
+void Door::SetActive()
 {
 	state = GetNewState();
 }
 
-bool IceBlock::Update(float dt)
+bool Door::Update(float dt)
 {
 	if (CheckCollision(currPlayer)) currPlayer->bounds = lastPosition;
 
@@ -58,50 +57,43 @@ bool IceBlock::Update(float dt)
 		switch (state)
 		{
 		case EntityState::WALLKING_LEFT:
-			isMoving = true;
 			bounds.x -= SPEED_X * dt;
 			break;
 		case EntityState::WALKING_RIGHT:
-			isMoving = true;
 			bounds.x += SPEED_X * dt;
 			break;
 		case EntityState::WALLKING_UP:
-			isMoving = true;
 			bounds.y -= SPEED_Y * dt;
 			break;
 		case EntityState::WALLKING_DOWN:
-			isMoving = true;
 			bounds.y += SPEED_Y * dt;
 			break;
 		default:
-			isMoving = false;
 			break;
 		}
 	}
 
-	if (isMoving) tmpState = state;
-
 	return true;
 }
 
-void IceBlock::Draw(bool showColliders)
+void Door::Draw(bool showColliders)
 {
 	if (bounds.x + bounds.w > (-app->render->camera.x) && bounds.x < (-app->render->camera.x) + app->render->camera.w && bounds.y + bounds.h >(-app->render->camera.y) && bounds.y < (-app->render->camera.y) + app->render->camera.h) 
 	{
 		SDL_Rect rect = { 0,0,bounds.w,bounds.h };
 		app->render->DrawTexture(texture, bounds.x, bounds.y, &rect);
-		if (showColliders) app->render->DrawRectangle(bounds, 255, 0, 0, 100);
+		if (showColliders) app->render->DrawRectangle(bounds, 0, 0, 255, 100);
 	}
 }
 
-bool IceBlock::UnLoad()
+bool Door::UnLoad()
 {
 	app->tex->UnLoad(texture);
 
 	return true;
 }
 
-bool IceBlock::SaveState(pugi::xml_node& node)
+bool Door::SaveState(pugi::xml_node& node)
 {
 	pugi::xml_node auxiliar1 = node.append_child("bounds");
 	auxiliar1.append_attribute("X").set_value(bounds.x);
@@ -112,49 +104,49 @@ bool IceBlock::SaveState(pugi::xml_node& node)
 	return true;
 }
 
-bool IceBlock::CheckCollision(Player* player)
+bool Door::CheckCollision(Player* player)
 {
-	if (state != EntityState::INACTIVE)
-	{
-		//PULL BLOCK
-		if (player->bounds.x + player->bounds.w > bounds.x && player->bounds.x < bounds.x + bounds.w && player->bounds.y + player->bounds.h > bounds.y && player->bounds.y < bounds.y + bounds.h)
-		{
-			if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT && !isMoving)
-			{
-				if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-				{
-					state = EntityState::WALLKING_UP;
-				}
-				else if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-				{
-					state = EntityState::WALLKING_DOWN;
-				}
-				else if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-				{
-					state = EntityState::WALLKING_LEFT;
-				}
-				else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-				{
-					state = EntityState::WALKING_RIGHT;
-				}
-			}
-			return true;
-		}
-	}
+	//if (state != EntityState::INACTIVE)
+	//{
+	//	//PULL BLOCK
+	//	if (player->bounds.x + player->bounds.w > bounds.x && player->bounds.x < bounds.x + bounds.w && player->bounds.y + player->bounds.h > bounds.y && player->bounds.y < bounds.y + bounds.h)
+	//	{
+	//		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT && !isMoving)
+	//		{
+	//			if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	//			{
+	//				state = EntityState::WALLKING_UP;
+	//			}
+	//			else if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	//			{
+	//				state = EntityState::WALLKING_DOWN;
+	//			}
+	//			else if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	//			{
+	//				state = EntityState::WALLKING_LEFT;
+	//			}
+	//			else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	//			{
+	//				state = EntityState::WALKING_RIGHT;
+	//			}
+	//		}
+	//		return true;
+	//	}
+	//}
 	return false;
 }
 
-EntityState IceBlock::GetNewState()
+EntityState Door::GetNewState()
 {
 	return EntityState::INACTIVE;
 }
 
-void IceBlock::OnCollision()
+void Door::OnCollision()
 {
 
 }
 
-void IceBlock::SetBounds(SDL_Rect myBounds)
+void Door::SetBounds(SDL_Rect myBounds)
 {
 	bounds = myBounds;
 }

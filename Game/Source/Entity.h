@@ -45,6 +45,7 @@ enum class EntityType
 	ARMOR,
 	MAP,
 	ICE_BLOCK,
+	DOOR,
 	UNKNOWN
 };
 
