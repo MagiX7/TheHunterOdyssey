@@ -9,7 +9,7 @@ public:
 
 	virtual ~VisitQuest();
 
-	bool Update(Entity* entity, SString n = "") override;
+	bool Update(SString string) override;
 
 	void Draw(Render* render, Font* font, bool showMore) override;
 

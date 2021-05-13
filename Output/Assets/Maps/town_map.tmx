@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.5" orientation="orthogonal" renderorder="right-down" width="48" height="48" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
+<map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="right-down" width="48" height="48" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
  <editorsettings>
   <chunksize width="32" height="32"/>
  </editorsettings>
@@ -2601,7 +2601,7 @@
    <tile gid="3"/>
    <tile/>
    <tile/>
-   <tile gid="104"/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -2803,7 +2803,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="104"/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -2824,7 +2824,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="56"/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -2854,7 +2854,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="56"/>
+   <tile/>
    <tile gid="339"/>
    <tile/>
    <tile/>
@@ -3588,7 +3588,7 @@
    <tile gid="479"/>
    <tile/>
    <tile/>
-   <tile gid="578"/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -3930,7 +3930,7 @@
    <tile/>
    <tile/>
    <tile gid="707"/>
-   <tile gid="197"/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -4072,9 +4072,9 @@
    <tile gid="278"/>
    <tile gid="279"/>
    <tile gid="280"/>
-   <tile gid="53"/>
    <tile/>
-   <tile gid="578"/>
+   <tile/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -4122,7 +4122,7 @@
    <tile gid="328"/>
    <tile/>
    <tile/>
-   <tile gid="578"/>
+   <tile/>
    <tile/>
    <tile gid="51"/>
    <tile gid="52"/>

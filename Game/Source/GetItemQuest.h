@@ -11,9 +11,9 @@ public:
 
 	virtual ~ItemQuest();
 
-	bool Update();
+	bool Update(Item* item) override;
 
-	void Draw(Font* font);
+	void Draw(Render* render, Font* font, bool showMore);
 
 	bool SaveState(pugi::xml_node& node) override;
 

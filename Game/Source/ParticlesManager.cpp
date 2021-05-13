@@ -40,7 +40,8 @@ void ParticlesManager::SetAllParticlesDesactivated() {
 		}
 	}
 }
-void ParticlesManager::CleanUp() {
+void ParticlesManager::CleanUp() 
+{
 	ListItem<Generator*>* auxiliar = geneartorList.start;
 	ListItem<Generator*>* auxiliar1;
 	while (auxiliar != nullptr) 
@@ -53,24 +54,31 @@ void ParticlesManager::CleanUp() {
 	}
 	geneartorList.Clear();
 }
-bool ParticlesManager::Update(float dt){
+
+bool ParticlesManager::Update(float dt)
+{
 	for (ListItem<Generator*>* auxiliar = geneartorList.start; auxiliar != nullptr; auxiliar = auxiliar->next)
 	{
-		if (auxiliar->data->GetState() != GeneratorState::DISABLE) {
+		if (auxiliar->data->GetState() != GeneratorState::DISABLE)
+		{
 			if (auxiliar->data->Update(dt) == false)break;
 		}
 	}
 	return true;
 }
-bool ParticlesManager::PostUpdate(){
+
+bool ParticlesManager::PostUpdate()
+{
 	for (ListItem<Generator*>* auxiliar = geneartorList.start; auxiliar != nullptr; auxiliar = auxiliar->next)
 	{
-		if (auxiliar->data->GetState() != GeneratorState::DISABLE) {
-			if (auxiliar->data->PostUpdate() == false)break;
+		if (auxiliar->data->GetState() != GeneratorState::DISABLE)
+		{
+			if (auxiliar->data->PostUpdate() == false) break;
 		}
 	}
 	return true;
 }
+
 void ParticlesManager::StartSimulation(Generator* generator) {
 	/*ListItem<Generator*>* auxiliar = geneartorList.start;
 	for (int a = 0; a < geneartorList.Find(generator); a++) {

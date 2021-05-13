@@ -21,7 +21,7 @@ TalkQuest::~TalkQuest()
 }
 
 
-bool TalkQuest::Update(Entity* entity, SString name)
+bool TalkQuest::Update(Entity* entity)
 {
 	if ((entity != nullptr) && (npcId == entity->GetDialogeId()))
 	{

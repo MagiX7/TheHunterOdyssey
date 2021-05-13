@@ -20,7 +20,9 @@ public:
 
 	bool Update(Input* input, float dt);
 
-	bool CheckQuests(Entity* entity, SString s = "");
+	bool CheckQuests(Entity* entity);
+	bool CheckQuests(Item* item);
+	bool CheckQuests(SString string);
 
 	bool ActivateQuest(int id);
 

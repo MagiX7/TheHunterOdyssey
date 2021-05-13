@@ -11,7 +11,7 @@ public:
 
 	virtual ~MurderQuest();
 
-	bool Update(Entity* entity, SString n = "") override;
+	bool Update(Entity* entity) override;
 
 	void Draw(Render* render, Font* font, bool showMore) override;
 

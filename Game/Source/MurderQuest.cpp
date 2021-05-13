@@ -20,7 +20,7 @@ MurderQuest::~MurderQuest()
 {
 }
 
-bool MurderQuest::Update(Entity* entity, SString n)
+bool MurderQuest::Update(Entity* entity)
 {
 	if ((entity != nullptr) && (type == entity->type))
 	{
