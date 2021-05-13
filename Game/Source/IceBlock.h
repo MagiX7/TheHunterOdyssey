@@ -19,6 +19,8 @@ public:
 
 	void SetInactive() override;
 	void SetActive() override;
+	inline void SetState(EntityState myState) { state = myState; }
+	void SetBounds(SDL_Rect myBounds) override;
 	inline EntityState GetState() override { return state; }
 
 	EntityState GetNewState();
@@ -27,6 +29,7 @@ public:
 
 public:
 	EntityState state;
+	EntityState tmpState;
 	Animation idleAnim;
 	Player* currPlayer;
 	bool isMoving;

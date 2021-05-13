@@ -65,6 +65,7 @@ public:
 	bool transitionRequired;
 	SceneType nextScene;
 	bool isTown;
+	bool isDungeon;
 	bool showColliders;
 
 	int channel;

@@ -76,6 +76,9 @@ public:
 
 	virtual void SetActive() {}
 
+	virtual inline void SetState(EntityState myState) { state = myState; }
+	virtual void SetBounds(SDL_Rect myBounds) {}
+
 	virtual EntityState GetState() { return EntityState::STOP_DOWN; }
 
 	virtual bool CheckCollision(Player* player) { return true; }
@@ -89,6 +92,7 @@ public:
 	SDL_Rect bounds;
 	SString name;
 	EntityType type;
+	EntityState state;
 	SDL_Texture* texture;
 
 	Animation* currentAnim;

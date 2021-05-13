@@ -10,16 +10,17 @@
 
 #include <time.h>
 
-#define SPEED_X 60.0f
-#define SPEED_Y 60.0f
+#define SPEED_X 180.0f
+#define SPEED_Y 180.0f
 
 IceBlock::IceBlock(EntityType type, iPoint position, Player* player) : Entity(type)
 {
 	bounds.x = position.x;
 	bounds.y = position.y;
-	bounds.w = 64;
-	bounds.h = 64;
+	bounds.w = 32;
+	bounds.h = 32;
 	state = EntityState::STOP_DOWN;
+	tmpState = EntityState::STOP_DOWN;
 	currPlayer = player;
 	isMoving = false;
 }
@@ -48,9 +49,8 @@ void IceBlock::SetActive()
 
 bool IceBlock::Update(float dt)
 {
-	if (CheckCollision(currPlayer)) 
-		currPlayer->bounds = lastPosition;
-	
+	if (CheckCollision(currPlayer)) currPlayer->bounds = lastPosition;
+
 	if (!CheckCollision(currPlayer))
 	{
 		lastPosition = currPlayer->bounds;
@@ -78,6 +78,8 @@ bool IceBlock::Update(float dt)
 			break;
 		}
 	}
+
+	if (isMoving) tmpState = state;
 
 	return true;
 }
@@ -115,7 +117,7 @@ bool IceBlock::CheckCollision(Player* player)
 	if (state != EntityState::INACTIVE)
 	{
 		//PULL BLOCK
-		if (player->bounds.x < bounds.x + ((bounds.w + FIND_RADIOUS) * 1) && player->bounds.x > bounds.x - (bounds.w + FIND_RADIOUS) && player->bounds.y< bounds.y + ((bounds.h + FIND_RADIOUS) * 1) && player->bounds.y > bounds.y - (bounds.h + FIND_RADIOUS))
+		if (player->bounds.x + player->bounds.w > bounds.x && player->bounds.x < bounds.x + bounds.w && player->bounds.y + player->bounds.h > bounds.y && player->bounds.y < bounds.y + bounds.h)
 		{
 			if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT && !isMoving)
 			{
@@ -150,4 +152,9 @@ EntityState IceBlock::GetNewState()
 void IceBlock::OnCollision()
 {
 
+}
+
+void IceBlock::SetBounds(SDL_Rect myBounds)
+{
+	bounds = myBounds;
 }

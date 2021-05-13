@@ -126,6 +126,8 @@ private:
 	
 	eastl::list<Enemy*> enemyList;
 	Enemy* tmp;
+
+	SDL_Rect iceBlockRect;
 };
 
 #endif //__SCENEGAMEPLAY_H__
