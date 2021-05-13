@@ -109,18 +109,52 @@ bool QuestManager::Update(Input* input, float dt)
 	return true;
 }
 
-bool QuestManager::CheckQuests(Entity* entity, SString string)
+bool QuestManager::CheckQuests(Entity* entity)
 {
 	eastl::list<Quest*>::iterator it = activeQuests.begin();
 	eastl::list<Quest*>::iterator itEnd = activeQuests.end();
 
 	for (; it != itEnd; ++it)
 	{
-		if ((*it)->Update(entity, string) == true)
+		if ((*it)->Update(entity) == true)
 		{
 			activeQuests.erase(it);
 			playFx = false;
-			//finishedQuests.push_back(*it);
+			questFinished = *it;
+		}
+	}
+
+	return true;
+}
+
+bool QuestManager::CheckQuests(Item* item)
+{
+	eastl::list<Quest*>::iterator it = activeQuests.begin();
+	eastl::list<Quest*>::iterator itEnd = activeQuests.end();
+
+	for (; it != itEnd; ++it)
+	{
+		if ((*it)->Update(item) == true)
+		{
+			activeQuests.erase(it);
+			playFx = false;
+			questFinished = *it;
+		}
+	}
+	return true;
+}
+
+bool QuestManager::CheckQuests(SString string)
+{
+	eastl::list<Quest*>::iterator it = activeQuests.begin();
+	eastl::list<Quest*>::iterator itEnd = activeQuests.end();
+
+	for (; it != itEnd; ++it)
+	{
+		if ((*it)->Update(string) == true)
+		{
+			activeQuests.erase(it);
+			playFx = false;
 			questFinished = *it;
 		}
 	}

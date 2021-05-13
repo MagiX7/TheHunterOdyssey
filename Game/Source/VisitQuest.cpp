@@ -18,13 +18,13 @@ VisitQuest::~VisitQuest()
 {
 }
 
-bool VisitQuest::Update(Entity* entity, SString n)
+bool VisitQuest::Update(SString string)
 {
-	if ((n != nullptr) && (mapName == n))
+	if (mapName == string)
 	{
 		isCompleted = true;
 	}
-	
+
 	return isCompleted;
 }
 

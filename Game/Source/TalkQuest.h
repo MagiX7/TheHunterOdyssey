@@ -9,7 +9,7 @@ public:
 
 	virtual ~TalkQuest();
 
-	bool Update(Entity* entity, SString name = "");
+	bool Update(Entity* entity) override;
 
 	void Draw(Render* render, Font* font, bool showMore);
 

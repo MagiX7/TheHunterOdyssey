@@ -1,9 +1,10 @@
-#include"Generator.h"
+#include "Generator.h"
 
-#include<time.h>
-#include<stdlib.h>
+#include <time.h>
+#include <stdlib.h>
 
-Generator::Generator(ParticleType Type) {
+Generator::Generator(ParticleType Type) 
+{
 	srand(time(NULL));
 	maxParticles = 200;
 	timeCounter = 0;
@@ -20,7 +21,8 @@ Generator::Generator(ParticleType Type) {
 	}
 	state = GeneratorState::NORMAL;
 	Particle* particle;
-	for (int a = 0; a < maxParticles; a++) {
+	for (int a = 0; a < maxParticles; ++a) 
+	{
 		particle = new Particle(ParticleState::DESACTIVATED);
 		particleList.Add(particle);
 	}
@@ -37,7 +39,7 @@ void Generator::SetParticlesDesactivated()
 	{
 		if (auxiliar->data->GetState() != ParticleState::DESACTIVATED)
 		{
-				auxiliar->data->SetState(ParticleState::DESACTIVATED);
+			auxiliar->data->SetState(ParticleState::DESACTIVATED);
 		}
 	}
 }
@@ -68,17 +70,19 @@ void Generator::SetParameters(Point<int> Rang)
 	rang = Rang;
 }
 
-void Generator::Start() {}
+void Generator::Start() 
+{
+}
 
 void Generator::CleanUp() 
 {
 	ListItem<Particle*>* auxiliar1;
-	ListItem<Particle*>* auxiliar=particleList.start;
+	ListItem<Particle*>* auxiliar = particleList.start;
 	
 	while (auxiliar !=nullptr)
 	{
-		auxiliar1=auxiliar->next;
-		delete auxiliar->data;
+		auxiliar1 = auxiliar->next;
+		RELEASE(auxiliar->data);
 		particleList.Del(auxiliar);
 		auxiliar = auxiliar1;
 	}
@@ -93,14 +97,13 @@ bool Generator::PreUpdate()
 	{
 		if (auxiliar->data->GetState() != ParticleState::DESACTIVATED) 
 		{
-			
-			
-			
-			if (auxiliar->data->GetState()==ParticleState::TOELIM || auxiliar->data->GetAlpha() <= 0 ||(IfHasFinished(auxiliar->data->GetPosition(), auxiliar->data->GetGoal())) || auxiliar->data->IsDead() ) {
+			if (auxiliar->data->GetState() == ParticleState::TOELIM || auxiliar->data->GetAlpha() <= 0 || (IfHasFinished(auxiliar->data->GetPosition(), auxiliar->data->GetGoal())) || auxiliar->data->IsDead())
+			{
 				auxiliar->data->SetState(ParticleState::DESACTIVATED);
 			}
 		}
 	}
+
 	if (timeCounter % 4 == 0 && state == GeneratorState::NORMAL) 
 	{
 		float positionX;
@@ -201,6 +204,7 @@ bool Generator::PreUpdate()
 	}
 	return true;
 }
+
 bool Generator::IfHasFinished(Point<float> positionA, Point<int> positionB) 
 {
 	/*if (positionB.x - 20 < positionA.x && positionB.x + 20 > positionA.x&& positionB.y - 20 < positionA.y && positionB.y + 20 > positionA.y) {
@@ -270,11 +274,13 @@ bool Generator::PostUpdate()
 			SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
 			SDL_SetTextureAlphaMod(texture, auxiliar->data->GetAlpha());
 
-			app->render->DrawTexture(texture, auxiliar->data->GetPosition().x, auxiliar->data->GetPosition().y, NULL, 1.0f, auxiliar->data->GetAngle(), false);
+			app->render->DrawTexture(texture, auxiliar->data->GetPosition().x, auxiliar->data->GetPosition().y, NULL, true, 1.0f, auxiliar->data->GetAngle());
 			auxiliar->data->SumLive(0.1);
 		}
 	}
-	if (timeCounter == 10) {
+
+	if (timeCounter == 10) 
+	{
 		timeCounter = 0;
 	}
 	timeCounter++;
@@ -295,5 +301,5 @@ Point<float> Generator::Integrator(Point<float>*Velocity, float dt, Point<float>
 	pos.y += Velocity->y * dt;
 	pos.x += Velocity->x * dt;
 	
-	return { metersToPixels(pos.x),metersToPixels(pos.y) };
+	return { metersToPixels(pos.x), metersToPixels(pos.y) };
 }

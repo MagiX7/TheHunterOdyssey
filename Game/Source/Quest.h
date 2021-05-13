@@ -6,6 +6,7 @@
 
 #include "Font.h"
 #include "Entity.h"
+#include "Item.h"
 
 enum class QuestType
 {
@@ -24,7 +25,11 @@ public:
 
 	virtual ~Quest() {}
 
-	virtual bool Update(Entity* entity, SString n = "") { return true; }
+	virtual bool Update(Entity* entity) { return true; }
+
+	virtual bool Update(Item* item) { return true; }
+	
+	virtual bool Update(SString string) { return true; }
 
 	virtual void Draw(Render* render, Font* font, bool showMore) {}
 
