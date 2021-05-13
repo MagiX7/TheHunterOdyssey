@@ -103,7 +103,7 @@ public:
 
 private:
 	SDL_Texture* atlasTexture;
-	SDL_Texture* playersTexture;
+	SDL_Texture* guiTex;
 
 	InventoryState state;
 
@@ -135,6 +135,8 @@ private:
 	// Use this buttons for going through characters
 	GuiButton* btnNext;
 	GuiButton* btnPrev;
+	GuiButton* btnNextStats;
+	GuiButton* btnPrevStats;
 
 
 	SDL_Rect tmpBounds;

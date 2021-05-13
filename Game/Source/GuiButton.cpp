@@ -128,7 +128,7 @@ bool GuiButton::Draw(Render* render, bool showColliders, int size, SDL_Color col
 		if (showColliders) render->DrawRectangle(bounds, 255, 0, 0, 150, true, false);
 		break;
 	case GuiControlState::FOCUSED:
-		render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
+		if (this->sectionFocused.w == 0) render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
 
 		// Left alineation
 		if (alineation == 0) render->DrawText(font, text.GetString(), bounds.x + 37, bounds.y + (bounds.h - size) / 2, size, 5, color);
@@ -141,7 +141,8 @@ bool GuiButton::Draw(Render* render, bool showColliders, int size, SDL_Color col
 		else render->DrawRectangle(bounds, 255, 255, 0, 150, true, false);
 		break;
 	case GuiControlState::PRESSED:
-		render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
+		if (this->sectionFocused.w != 0) render->DrawTexture(texture, bounds.x, bounds.y, &sectionFocused, false);
+		else render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
 
 		if (alineation == 0) render->DrawText(font, text.GetString(), bounds.x + 37, bounds.y + (bounds.h - size) / 2, size, 5, color);
 		else if (alineation == 1) render->DrawCenterText(font, text.GetString(), bounds, size, 5, color);

@@ -24,12 +24,22 @@ Inventory::~Inventory()
 
 bool Inventory::Load(Font* font)
 {
-	btnEquipment = new GuiButton(1, { 182,100,260,50 }, "Equipment", this, font);
-	btnItems = new GuiButton(2, { 182,160,260,50 }, "Items", this, font);
-	btnInfo = new GuiButton(3, { 182,220,260,50 }, "Stats", this, font);
-	
-	btnUse = new GuiButton(4, { 0,0,128,32 }, "USE", this, font);
-	btnDelete = new GuiButton(5, { 0,0,128,32 }, "DEL", this, font);
+	guiTex = app->tex->Load("Assets/Textures/UI/gui_inventory.png");
+
+	btnEquipment = new GuiButton(1, { 150,116,274,78 }, "Equipment", this, font);
+	btnEquipment->alineation = 0;
+	btnEquipment->texture = guiTex;
+	btnEquipment->section = { 739,0,274,78 };
+
+	btnItems = new GuiButton(2, { 150,204,274,78 }, "Items", this, font);
+	btnItems->alineation = 0;
+	btnItems->texture = guiTex;
+	btnItems->section = { 739,0,274,78 };
+
+	btnInfo = new GuiButton(3, { 150,292,274,78 }, "Stats", this, font);
+	btnInfo->alineation = 0;
+	btnInfo->texture = guiTex;
+	btnInfo->section = { 739,0,274,78 };
 	
 	btnHunter = new GuiButton(6, { 0,0, 40,40 }, "", this, font);
 	btnHunter->texture = atlasTexture;
@@ -48,16 +58,24 @@ bool Inventory::Load(Font* font)
 	btnWarrior->section = { 103,722,25,32 };
 
 	// Next and back character buttons
-	btnNext = new GuiButton(10, { 554, 171, 29, 29 }, "", this, font);
-	btnNext->texture = atlasTexture;
-	btnNext->section = { 81, 786, 29, 29 };
+	btnNext = new GuiButton(10, { 645, 149, 46, 124 }, "", this, font);
+	btnNext->texture = guiTex;
+	btnNext->section = { 890, 219, 46, 124 };
+	btnNext->sectionFocused = { 890,469,46,124 };
 
-	btnPrev = new GuiButton(11, { 455, 171, 29, 29 }, "", this, font);
-	btnPrev->texture = atlasTexture;
-	btnPrev->section = { 24, 786, 29, 29 };
+	btnPrev = new GuiButton(11, { 469, 149, 46, 124 }, "", this, font);
+	btnPrev->texture = guiTex;
+	btnPrev->section = { 890, 90, 46, 124 };
+	btnPrev->sectionFocused = { 890, 345, 46, 124 };
+
+	btnUse = new GuiButton(4, { 0,0,128,32 }, "USE", this, font);
+	btnDelete = new GuiButton(5, { 0,0,128,32 }, "DEL", this, font);
 
 	btnUnEquip = new GuiButton(12, { 0,0,128, 32 }, "UNEQUIP", this, font);
 	btnUnEquip->alineation = 1;
+
+	//btnNextStats = new GuiButton(13, {}, "", this, font);
+	//btnPrevStats = new GuiButton(14, {}, "", this, font);
 
 	buttons.push_back(btnEquipment);
 	buttons.push_back(btnItems);
@@ -89,7 +107,7 @@ bool Inventory::Load(Font* font)
 	currentPlayer = (*players.begin());
 	for (int i = 0; i < MAX_EQUIPMENT_SLOTS; ++i)
 	{
-		equipment[i].bounds = {526 + i * 50, 288, 40, 40};
+		equipment[i].bounds = {755, 136 + (i * 55) , 40, 40};
 		equipment[i].filled = false;
 		equipment[i].id = i;
 		equipment[i].state = SlotState::NONE;
@@ -118,7 +136,7 @@ bool Inventory::Update(float dt)
 {
 	btnEquipment->Update(app->input, dt, -1);
 	btnItems->Update(app->input, dt, -1);
-	btnInfo->Update(app->input, dt, -1);
+	//btnInfo->Update(app->input, dt, -1);
 
 	// Next and Prev character buttons update
 	btnNext->Update(app->input, dt, -1);
@@ -155,69 +173,96 @@ bool Inventory::Update(float dt)
 
 void Inventory::Draw(Font* font, bool showColliders)
 {
-	btnEquipment->Draw(app->render, showColliders);
-	btnItems->Draw(app->render, showColliders);
-	btnInfo->Draw(app->render, showColliders);
-
 	// Big rectangle in the background
 	app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 150, true, false);
 
 	// Shape of the inventory
-	app->render->DrawRectangle({ 442, 100, 415, 500 }, 205, 205, 205, 200, true, false);
+	SDL_Rect section;
+	if (state != InventoryState::STATS)
+	{
+		section = { 0, 0, 739, 597 };
+		app->render->DrawTexture(guiTex, 406, 53, &section, false);
+	}
+	else if (state == InventoryState::STATS)
+	{
+		section = { 1144, 0, 739, 597 };
+		app->render->DrawTexture(guiTex, 406, 53, &section, false);
+	}
 
-	// Shape of the current elements and the slots
-	app->render->DrawRectangle({ 480, 350, 340, 220 }, 225, 225, 225, 200, true, false);
-
-	// Shape where the stats should go
-	SDL_Rect r = { 850, 100, 230, 500 };
-	app->render->DrawRectangle(r, 240, 240, 240, 255, true, false);
-	r.h = 100;
-	app->render->DrawCenterText(font, "HUNTER", r, 30, 5, { 0,0,0,255 });
-	r.h = 300;
-	app->render->DrawCenterText(font, "WIZARD", r, 30, 5, { 0,0,0,255 });
-	r.h = 500;
-	app->render->DrawCenterText(font, "THIEF", r, 30, 5, { 0,0,0,255 });
-	r.h = 700;
-	app->render->DrawCenterText(font, "WARRIOR", r, 30, 5, { 0,0,0,255 });
-
-	r = { 480, 350, 340, 220 };
-	app->render->DrawCenterText(font, "Slots", r, 40, 5, { 0,0,0,255 });
-
-	r = { 450, 100, 400, 250 };
-	app->render->DrawCenterText(font, "Pj image", r, 40, 5, { 0,0,0,255 });
-
+	btnEquipment->Draw(app->render, showColliders, 36);
+	btnItems->Draw(app->render, showColliders, 36);
+	//btnInfo->Draw(app->render, showColliders, 36);
 
 	std::string iQuantity;
 	switch (state)
 	{
 	case InventoryState::EQUIPMENT:
 		DrawObjects(armorSlots, font, showColliders);
+		app->render->DrawRectangle(btnItems->bounds, 0, 0, 0, 150, true, false);
 		break;
 	case InventoryState::ITEMS:
 		DrawObjects(slots, font, showColliders);
+		app->render->DrawRectangle(btnEquipment->bounds, 0, 0, 0, 150, true, false);
 		break;
 	case InventoryState::STATS:
-
 		break;
 	}
-	
-	if(displayEquipmentMenu && state != InventoryState::STATS) DisplayMenuEquipment(showColliders);
 
 	if (state != InventoryState::STATS)
 	{
-		// Draw current player
-		SDL_Rect rectan = { 492, 153, 50, 67 };
-		if (currentPlayer->playerType == PlayerType::HUNTER) app->render->DrawRectangle(rectan, 255, 0, 0, 255, true, false);
-		else if (currentPlayer->playerType == PlayerType::THIEF) app->render->DrawRectangle(rectan, 0, 0, 255, 255, true, false);
-		else if (currentPlayer->playerType == PlayerType::WIZARD) app->render->DrawRectangle(rectan, 0, 255, 0, 255, true, false);
-		else if (currentPlayer->playerType == PlayerType::WARRIOR) app->render->DrawRectangle(rectan, 0, 255, 255, 255, true, false);
+		// Shape where the stats should go
+		SDL_Rect r;
 
 		// Equipment equiped drawing
 		for (int i = 0; i < MAX_EQUIPMENT_SLOTS; ++i)
 		{
 			r = { 163, 715, 40, 40 };
 			app->render->DrawTexture(atlasTexture, equipment[i].bounds.x, equipment[i].bounds.y, &r, false);
-			if (equipment[i].item != nullptr) app->render->DrawTexture(atlasTexture, equipment[i].bounds.x, equipment[i].bounds.y, &equipment[i].item->atlasSection, false);
+			if (equipment[i].item != nullptr) app->render->DrawTexture(atlasTexture, equipment[i].bounds.x + 4, equipment[i].bounds.y + 4, &equipment[i].item->atlasSection, false);
+		}
+
+		r = { 890, 130, 196, 50 };
+		app->render->DrawCenterText(font, "HUNTER", r, 30, 5, { 255,255,255,255 });
+		r.y = 235;
+		app->render->DrawCenterText(font, "WIZARD", r, 30, 5, { 255,255,255,255 });
+		r.y = 340;
+		app->render->DrawCenterText(font, "THIEF", r, 30, 5, { 255,255,255,255 });
+		r.y = 445;
+		app->render->DrawCenterText(font, "WARRIOR", r, 30, 5, { 255,255,255,255 });
+
+		// Draw current player
+		SDL_Rect rectan;
+		SDL_Rect rectan2 = { 522,149,116,124 };
+		SDL_Rect rectan3;
+		app->render->DrawRectangle(rectan2, 205, 205, 205, 200, true, false);
+
+		if (currentPlayer->playerType == PlayerType::HUNTER)
+		{
+			rectan = { 739,103,106,113 };
+			app->render->DrawTexture(guiTex, 527, 154, &rectan, false);
+			rectan3 = { 885, 120, 206, 110 };
+			app->render->DrawRectangle(rectan3, 255, 255, 255, 255, false, false);
+		}
+		else if (currentPlayer->playerType == PlayerType::WIZARD)
+		{
+			rectan = { 739, 217,106,113 };
+			app->render->DrawTexture(guiTex, 527, 154, &rectan, false);
+			rectan3 = { 885, 225, 206, 110 };
+			app->render->DrawRectangle(rectan3, 255, 255, 255, 255, false, false);
+		}
+		else if (currentPlayer->playerType == PlayerType::THIEF)
+		{
+			rectan = { 739,331,106,113 };
+			app->render->DrawTexture(guiTex, 527, 154, &rectan, false);
+			rectan3 = { 885, 330, 206, 110 };
+			app->render->DrawRectangle(rectan3, 255, 255, 255, 255, false, false);
+		}
+		else if (currentPlayer->playerType == PlayerType::WARRIOR)
+		{
+			rectan = { 739,445,106,113 };
+			app->render->DrawTexture(guiTex, 527, 154, &rectan, false);
+			rectan3 = { 885, 435, 206, 110 };
+			app->render->DrawRectangle(rectan3, 255, 255, 255, 255, false, false);
 		}
 
 		btnNext->Draw(app->render, showColliders);
@@ -236,7 +281,7 @@ void Inventory::Draw(Font* font, bool showColliders)
 			SDL_Rect statsBar = { 225, 797, 196, 9 };
 			for (int j = 0; j < 3; ++j)
 			{
-				app->render->DrawTexture(atlasTexture, 868, 173 + (j * 14) + (i * 105), &statsBar, false);
+				app->render->DrawTexture(atlasTexture, 890, 173 + (j * 14) + (i * 105), &statsBar, false);
 			}
 
 			int currHealth = (*it)->GetHealthPoints();
@@ -250,17 +295,19 @@ void Inventory::Draw(Font* font, bool showColliders)
 				statsBar = { 228, 725, (190 * currHealth) / maxHealth, 5 };
 
 			// Green Bar
-			app->render->DrawTexture(atlasTexture, 871, 175 + (i * 105), &statsBar, false);
+			app->render->DrawTexture(atlasTexture, 893, 175 + (i * 105), &statsBar, false);
 
 			// Blue Bar
 			statsBar = { 228, 764, (190 * pl->GetManaPoints()) / (pl->GetMaxManaPoints()), 5 };
-			app->render->DrawTexture(atlasTexture, 871, 189 + (i * 105), &statsBar, false);
+			app->render->DrawTexture(atlasTexture, 893, 189 + (i * 105), &statsBar, false);
 
 			// Yellow Bar
 			statsBar = { 228, 778, (190 * pl->GetArmorPoints()) / (pl->GetMaxArmorPoints()), 5 };
-			app->render->DrawTexture(atlasTexture, 871, 203 + (i * 105), &statsBar, false);
+			app->render->DrawTexture(atlasTexture, 893, 203 + (i * 105), &statsBar, false);
 		}
 	}
+
+	if (displayEquipmentMenu && state != InventoryState::STATS) DisplayMenuEquipment(showColliders);
 }
 
 bool Inventory::UnLoad()
@@ -490,15 +537,16 @@ bool Inventory::IsMouseInside(SDL_Rect r)
 void Inventory::DisplayText(SDL_Rect bounds, bool showColliders)
 {
 	tmpBounds = bounds;
-	SDL_Rect r = { bounds.x, bounds.y, 128, 95 };
+
+	SDL_Rect r = { bounds.x + 20, bounds.y + 20, 128, 95 };
 	app->render->DrawRectangle(r, 0, 0, 0, 255, true, false);
 	
 	// Draw buttons
-	btnUse->bounds.x = bounds.x;
-	btnUse->bounds.y = bounds.y + 10; // 10 stands for offset
+	btnUse->bounds.x = r.x;
+	btnUse->bounds.y = r.y + 10; // 10 stands for offset
 	btnUse->Draw(app->render, showColliders, 32);
 
-	btnDelete->bounds.x = bounds.x;
+	btnDelete->bounds.x = r.x;
 	btnDelete->bounds.y = btnUse->bounds.y + btnUse->bounds.h + 5; // 5 stands for offset
 	btnDelete->Draw(app->render, showColliders, 32);
 
@@ -555,7 +603,7 @@ void Inventory::HandleEquipment(float dt)
 				if (IsMouseInside(equipment[i].bounds) && equipment[i].filled == true)
 				{
 					displayEquipmentMenu = true;
-					tmpEquipMenuBounds = { equipment[i].bounds.x + 16, equipment[i].bounds.y + 16, 128, 50 };
+					tmpEquipMenuBounds = { equipment[i].bounds.x + 20, equipment[i].bounds.y + 20, 128, 50 };
 					currentEquipmentId = i;
 					break;
 				}
@@ -580,7 +628,6 @@ void Inventory::DisplayMenuEquipment(bool showColliders)
 	btnUnEquip->bounds.y = tmpEquipMenuBounds.y + tmpEquipMenuBounds.h / 4;
 
 	btnUnEquip->Draw(app->render, showColliders, 32);
-	
 }
 
 void Inventory::HandleObjects(InventorySlot objects[])
@@ -707,22 +754,22 @@ void Inventory::DrawObjects(InventorySlot objects[], Font *font, bool showCollid
 		else if (objects[currentSlotId].state == SlotState::USE)
 		{
 			tmpBounds = objects[currentSlotId].bounds;
-			SDL_Rect r = { tmpBounds.x, tmpBounds.y, 128, 95 };
+			SDL_Rect r = { tmpBounds.x + 20, tmpBounds.y + 20, 128, 95 };
 			app->render->DrawRectangle(r, 0, 0, 0, 255, true, false);
 
-			btnHunter->bounds.x = tmpBounds.x + 20;
-			btnHunter->bounds.y = tmpBounds.y + 5;
+			btnHunter->bounds.x = r.x + 20;
+			btnHunter->bounds.y = r.y + 5;
 			btnHunter->Draw(app->render, showColliders);
 
-			btnWizard->bounds.x = tmpBounds.x + 70;
-			btnWizard->bounds.y = tmpBounds.y + 5;
+			btnWizard->bounds.x = r.x + 70;
+			btnWizard->bounds.y = r.y + 5;
 			btnWizard->Draw(app->render, showColliders);
 
-			btnThief->bounds.x = tmpBounds.x + 20;
+			btnThief->bounds.x = r.x + 20;
 			btnThief->bounds.y = btnWizard->bounds.y + btnWizard->bounds.h + 5;
 			btnThief->Draw(app->render, showColliders);
 
-			btnWarrior->bounds.x = tmpBounds.x + 70;
+			btnWarrior->bounds.x = r.x + 70;
 			btnWarrior->bounds.y = btnWizard->bounds.y + btnWizard->bounds.h + 5;
 			btnWarrior->Draw(app->render, showColliders);
 

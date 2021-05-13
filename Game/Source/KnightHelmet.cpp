@@ -5,7 +5,7 @@
 
 bool KnightHelmet::Load()
 {
-	atlasSection = { 101, 227, 23, 28 };
+	atlasSection = { 96, 225, 32, 32 };
 
 	return true;
 }
