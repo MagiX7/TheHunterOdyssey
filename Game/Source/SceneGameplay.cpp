@@ -1164,7 +1164,6 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						map->CleanUp();
 						map->Load("red_house.tmx", app->tex);
 						isDungeon = false;
-						QuestManager::GetInstance()->CheckQuests(nullptr, map->name);
 						QuestManager::GetInstance()->CheckQuests(map->name);
 
 						exit = true;
