@@ -4,12 +4,15 @@
 
 #include "BattleMenu.h"
 #include "SceneBattle.h"
+#include "Inventory.h"
 #include "Enemy.h"
 #include "Player.h"
 #include <time.h>
 
-BattleMenu::BattleMenu(SceneBattle* s) : type(BattleState::NONE), sceneBattle(s)
+BattleMenu::BattleMenu(SceneBattle* s, Inventory* inv) : type(BattleState::NONE), sceneBattle(s)
 {
+	inventory = inv;
+
 	enemyKilled = false;
 	playerSelected = false;
 
@@ -204,9 +207,21 @@ bool BattleMenu::Update(float dt)
 		}
 		else
 		{
+			objectsQuantity[0] = inventory->ObjectQuantity(ItemType::POTION);
+			objectsQuantity[1] = inventory->ObjectQuantity(ItemType::ULTRA_POTION);
+			objectsQuantity[2] = inventory->ObjectQuantity(ItemType::ETER);
+			objectsQuantity[3] = inventory->ObjectQuantity(ItemType::ULTRA_ETER);
+			if (objectsQuantity[0] <= 0) btnObjectSlot1->state = GuiControlState::DISABLED;
+			else if (objectsQuantity[0] > 0) btnObjectSlot1->state = GuiControlState::NORMAL;
 			btnObjectSlot1->Update(app->input, dt, id);
+			if (objectsQuantity[1] <= 0) btnObjectSlot2->state = GuiControlState::DISABLED;
+			else if (objectsQuantity[1] > 0) btnObjectSlot2->state = GuiControlState::NORMAL;
 			btnObjectSlot2->Update(app->input, dt, id);
+			if (objectsQuantity[2] <= 0) btnObjectSlot3->state = GuiControlState::DISABLED;
+			else if (objectsQuantity[2] > 0) btnObjectSlot3->state = GuiControlState::NORMAL;
 			btnObjectSlot3->Update(app->input, dt, id);
+			if (objectsQuantity[3] <= 0) btnObjectSlot4->state = GuiControlState::DISABLED;
+			else if (objectsQuantity[3] > 0) btnObjectSlot4->state = GuiControlState::NORMAL;
 			btnObjectSlot4->Update(app->input, dt, id);
 		}
 		break;
@@ -499,44 +514,60 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
 			btnObjectSlot1->bounds.x = position_x2;
 			btnObjectSlot1->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
+			sprintf_s(tmp, 32, "x%i", objectsQuantity[0]);
+			app->render->DrawText(font, tmp, { 650, 490, 80, 40 }, 25, 5, { 255,255,255 });
 		}
 		else
 		{
 			btnObjectSlot1->bounds.x = 400;
 			btnObjectSlot1->Draw(app->render, showColliders, 25, { 255,255,255,225 });
+			sprintf_s(tmp, 32, "x%i", objectsQuantity[0]);
+			app->render->DrawText(font, tmp, { 650, 490, 80, 40 }, 25, 5, { 255,255,255 });
 		}
 		if (btnObjectSlot2->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
 			btnObjectSlot2->bounds.x = position_x2;
 			btnObjectSlot2->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
+			sprintf_s(tmp, 32, "x%i", objectsQuantity[1]);
+			app->render->DrawText(font, tmp, { 650, 540, 80, 40 }, 25, 5, { 255,255,255 });
 		}
 		else
 		{
 			btnObjectSlot2->bounds.x = 400;
 			btnObjectSlot2->Draw(app->render, showColliders, 25, { 255,255,255,225 });
+			sprintf_s(tmp, 32, "x%i", objectsQuantity[1]);
+			app->render->DrawText(font, tmp, { 650, 540, 80, 40 }, 25, 5, { 255,255,255 });
 		}
 		if (btnObjectSlot3->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
 			btnObjectSlot3->bounds.x = position_x2;
 			btnObjectSlot3->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
+			sprintf_s(tmp, 32, "x%i", objectsQuantity[2]);
+			app->render->DrawText(font, tmp, { 650, 590, 80, 40 }, 25, 5, { 255,255,255 });
 		}
 		else
 		{
 			btnObjectSlot3->bounds.x = 400;
 			btnObjectSlot3->Draw(app->render, showColliders, 25, { 255,255,255,225 });
+			sprintf_s(tmp, 32, "x%i", objectsQuantity[2]);
+			app->render->DrawText(font, tmp, { 650, 590, 80, 40 }, 25, 5, { 255,255,255 });
 		}
 		if (btnObjectSlot4->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
 			btnObjectSlot4->bounds.x = position_x2;
 			btnObjectSlot4->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
+			sprintf_s(tmp, 32, "x%i", objectsQuantity[3]);
+			app->render->DrawText(font, tmp, { 650, 640, 80, 40 }, 25, 5, { 255,255,255 });
 		}
 		else
 		{
 			btnObjectSlot4->bounds.x = 400;
 			btnObjectSlot4->Draw(app->render, showColliders, 25, { 255,255,255,225 });
+			sprintf_s(tmp, 32, "x%i", objectsQuantity[3]);
+			app->render->DrawText(font, tmp, { 650, 640, 80, 40 }, 25, 5, { 255,255,255 });
 		}
 
 		app->render->DrawTexture(guiTex, playerPos, currPlayer->bounds.y, &gauntletPlayers);
@@ -614,48 +645,40 @@ bool BattleMenu::OnGuiMouseClickEvent(GuiControl* control)
 		{
 			type = BattleState::ABILITY;
 			currPlayer->SetAbilitySelected(2);
-			btnAbilitySlot1->state = GuiControlState::NORMAL;
-			btnAbilitySlot2->state = GuiControlState::NORMAL;
-			btnAbilitySlot3->state = GuiControlState::NORMAL;
-			btnAbilitySlot4->state = GuiControlState::NORMAL;
 		}
 		else if (control->id == 7)
 		{
 			type = BattleState::ABILITY;
 			currPlayer->SetAbilitySelected(3);
-			btnAbilitySlot1->state = GuiControlState::NORMAL;
-			btnAbilitySlot2->state = GuiControlState::NORMAL;
-			btnAbilitySlot3->state = GuiControlState::NORMAL;
-			btnAbilitySlot4->state = GuiControlState::NORMAL;
 		}
 		else if (control->id == 8)
 		{
 			type = BattleState::ABILITY;
 			currPlayer->SetAbilitySelected(4);
-			btnAbilitySlot1->state = GuiControlState::NORMAL;
-			btnAbilitySlot2->state = GuiControlState::NORMAL;
-			btnAbilitySlot3->state = GuiControlState::NORMAL;
-			btnAbilitySlot4->state = GuiControlState::NORMAL;
 		}
 		else if (control->id == 9)
 		{
 			type = BattleState::OBJECT;
 			tempPlayer->SetObjectSelected(1);
+			inventory->UseObject(ItemType::POTION);
 		}
 		else if (control->id == 10)
 		{
 			type = BattleState::OBJECT;
 			tempPlayer->SetObjectSelected(2);
+			inventory->UseObject(ItemType::ULTRA_POTION);
 		}
 		else if (control->id == 11)
 		{
 			type = BattleState::OBJECT;
 			tempPlayer->SetObjectSelected(3);
+			inventory->UseObject(ItemType::ETER);
 		}
 		else if (control->id == 12)
 		{
 			type = BattleState::OBJECT;
 			tempPlayer->SetObjectSelected(4);
+			inventory->UseObject(ItemType::ULTRA_ETER);
 		}
 		break;
 	}

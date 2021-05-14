@@ -12,11 +12,12 @@
 #include "Skull.h"
 #include "Bat.h"
 #include "Audio.h"
+#include "Inventory.h"
 #include <time.h>
 
-SceneBattle::SceneBattle(eastl::list<Player*> list, Enemy* enemy, SceneGameplay* s) : playerList(list), scene(s)
+SceneBattle::SceneBattle(eastl::list<Player*> list, Enemy* enemy, SceneGameplay* s, Inventory* inventory) : playerList(list), scene(s)
 {
-	battleMenu = new BattleMenu(this);
+	battleMenu = new BattleMenu(this, inventory);
 	map = new Map();
 	enemy->SetCurrentState(EnemyState::NORMAL);
 	enemy->SetPos(iPoint(650, 190));

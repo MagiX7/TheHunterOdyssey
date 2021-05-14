@@ -9,11 +9,13 @@
 
 #define MAX_INVENTORY_SLOTS 32
 #define MAX_EQUIPMENT_SLOTS 3
+#define ITEM_STACK 32
 
 class Input;
 class Player;
 class SDL_Texture;
 class Orb;
+enum class PlayerType;
 
 enum class SlotState
 {
@@ -84,6 +86,8 @@ public:
 
 	int ObjectQuantity(ItemType itemType);
 
+	void UseObject(ItemType itemType);
+
 private:
 	Player* GetPlayer(PlayerType type);
 
@@ -104,7 +108,7 @@ public:
 
 	GuiButton* btnEquipment; // Armors
 	GuiButton* btnItems;     // Potions etc
-	GuiButton* btnInfo;   // Weapons
+	/*GuiButton* btnInfo;*/   // Weapons
 
 private:
 	SDL_Texture* atlasTexture;

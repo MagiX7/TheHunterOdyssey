@@ -22,11 +22,12 @@ class SceneBattle;
 class Player;
 class Enemy;
 class Easing;
+class Inventory;
 
 class BattleMenu : public Menu
 {
 public:
-	BattleMenu(SceneBattle* s);
+	BattleMenu(SceneBattle* s, Inventory* inv);
 	virtual ~BattleMenu();
 
 	bool Load(Font* font) override;
@@ -102,9 +103,12 @@ private:
 	float enemyPos;
 
 	SceneBattle* sceneBattle;
+	Inventory* inventory;
 
 	SDL_Texture* guiTex;
 
 	bool enemyKilled;
 	bool playerSelected;
+
+	int objectsQuantity[4];
 };

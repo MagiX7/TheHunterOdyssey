@@ -8,11 +8,12 @@ class Enemy;
 class BattleMenu;
 class SceneGameplay;
 class Map;
+class Inventory;
 
 class SceneBattle : public Scene
 {
 public:
-	SceneBattle(eastl::list<Player*> list, Enemy* enemy, SceneGameplay* s);
+	SceneBattle(eastl::list<Player*> list, Enemy* enemy, SceneGameplay* s, Inventory* inventory);
 	virtual ~SceneBattle();
 
 	// Called before the first frame

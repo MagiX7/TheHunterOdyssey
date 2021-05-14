@@ -1398,7 +1398,7 @@ void SceneGameplay::Fading(float dt)
 		{
 			if (sceneBattle == nullptr)
 			{
-				sceneBattle = new SceneBattle(playerList, tmp, this);
+				sceneBattle = new SceneBattle(playerList, tmp, this, inventory);
 				sceneBattle->Load();
 				gameState = GameplayState::BATTLE;
 			}
