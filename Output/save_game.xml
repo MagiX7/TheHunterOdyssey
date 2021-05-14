@@ -9,22 +9,22 @@
       <entities>
         <NPCs amount="4">
           <NPC>
-            <bounds X="79" Y="250" W="30" H="32" />
+            <bounds X="220" Y="250" W="30" H="32" />
             <NpcType type="TOWN" />
             <Dialoge idDialoge="7" />
           </NPC>
           <NPC>
-            <bounds X="850" Y="1120" W="30" H="32" />
+            <bounds X="720" Y="1060" W="30" H="32" />
             <NpcType type="RAY" />
             <Dialoge idDialoge="3" />
           </NPC>
           <NPC>
-            <bounds X="682" Y="810" W="30" H="32" />
+            <bounds X="720" Y="810" W="30" H="32" />
             <NpcType type="TABERN" />
             <Dialoge idDialoge="2" />
           </NPC>
           <NPC>
-            <bounds X="555" Y="302" W="30" H="32" />
+            <bounds X="520" Y="350" W="30" H="32" />
             <NpcType type="NPC_WIZARD" />
             <Dialoge idDialoge="1" />
           </NPC>
@@ -46,22 +46,22 @@
         <players amount="4">
           <player>
             <isCurrent current="true" />
-            <bounds X="298" Y="290" W="26" H="26" />
+            <bounds X="260" Y="290" W="26" H="32" />
             <playerType type="HUNTER" />
           </player>
           <player>
             <isCurrent current="false" />
-            <bounds X="18" Y="90" W="26" H="26" />
+            <bounds X="18" Y="90" W="26" H="32" />
             <playerType type="WIZARD" />
           </player>
           <player>
             <isCurrent current="false" />
-            <bounds X="12" Y="45" W="26" H="26" />
+            <bounds X="12" Y="45" W="26" H="32" />
             <playerType type="THIEF" />
           </player>
           <player>
             <isCurrent current="false" />
-            <bounds X="13" Y="56" W="26" H="26" />
+            <bounds X="13" Y="56" W="26" H="32" />
             <playerType type="WARRIOR" />
           </player>
           <player />
@@ -69,13 +69,13 @@
       </entities>
       <questmanager>
         <loaded_quests>
-          <quests type="3" id="0" name="Talk with Ray" requiredId="-1" isCompleted="false" npcId="3" />
-          <quests type="2" id="2" name="Visit the pub" requiredId="-1" isCompleted="false" mapName="pub.tmx" />
-          <quests type="2" id="3" name="Visit the shop" requiredId="-1" isCompleted="false" mapName="shop.tmx" />
+          <quests type="0" id="0" name="Get a potion" nextQuestId="1" isCompleted="false" item="0" reward="700" />
+          <quests type="3" id="1" name="Talk with Ray" nextQuestId="1" isCompleted="false" npcId="3" reward="700" />
+          <quests type="1" id="2" name="Kill the skull" nextQuestId="2" isCompleted="false" enemy="7" actual="0" total="1" reward="300" />
+          <quests type="2" id="3" name="Visit the pub" nextQuestId="3" isCompleted="false" mapName="pub.tmx" reward="500" />
+          <quests type="2" id="4" name="Visit the shop" nextQuestId="-1" isCompleted="false" mapName="shop.tmx" reward="600" />
         </loaded_quests>
-        <active_quests>
-          <quests type="1" id="1" name="Kill the skull" requiredId="-1" isCompleted="false" enemy="7" actual="0" total="1" />
-        </active_quests>
+        <active_quests />
         <finished_quests />
       </questmanager>
     </scenegameplay>

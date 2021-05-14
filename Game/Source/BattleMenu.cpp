@@ -20,16 +20,16 @@ BattleMenu::BattleMenu(SceneBattle* s) : type(BattleState::NONE), sceneBattle(s)
 	playerEasing2 = new Easing();
 	enemyEasing2 = new Easing();
 
-	easingArrow->totalIterations = 60;
+	easingArrow->totalIterations = 30;
 	easingArrow->currentIteration = 0;
 	easingArrow->deltaPos = 10;
-	easingArrow->initialPos = 20;
+	easingArrow->initialPos = 160;
 	easingArrow->easingsActivated = false;
 
-	easingArrowBack->totalIterations = 60;
+	easingArrowBack->totalIterations = 30;
 	easingArrowBack->currentIteration = 0;
 	easingArrowBack->deltaPos = -10;
-	easingArrowBack->initialPos = 30;
+	easingArrowBack->initialPos = 170;
 	easingArrowBack->easingsActivated = false;
 
 	playerEasing->totalIterations = 30;
@@ -57,7 +57,7 @@ BattleMenu::BattleMenu(SceneBattle* s) : type(BattleState::NONE), sceneBattle(s)
 	enemyEasing2->easingsActivated = false;
 
 	alpha = 255;
-	position_x = 20;
+	position_x = 160;
 	playerPos = 0;
 	enemyPos = 0;
 }
@@ -233,7 +233,7 @@ bool BattleMenu::Update(float dt)
 	if (easingArrow->easingsActivated)
 	{
 		position_x = easingArrow->circularEaseInOut(easingArrow->currentIteration, easingArrow->initialPos, easingArrow->deltaPos, easingArrow->totalIterations);
-		position_x2 = easingArrow->circularEaseInOut(easingArrow->currentIteration, 200, 10, easingArrow->totalIterations);
+		position_x2 = easingArrow->circularEaseInOut(easingArrow->currentIteration, 461, 10, easingArrow->totalIterations);
 		alpha = easingArrow->circularEaseInOut(easingArrow->currentIteration, 0, 255, easingArrow->totalIterations);
 
 		if (easingArrow->currentIteration < easingArrow->totalIterations)
@@ -251,7 +251,7 @@ bool BattleMenu::Update(float dt)
 	if (easingArrowBack->easingsActivated)
 	{
 		position_x = easingArrowBack->circularEaseInOut(easingArrowBack->currentIteration, easingArrowBack->initialPos, easingArrowBack->deltaPos, easingArrowBack->totalIterations);
-		position_x2 = easingArrowBack->circularEaseInOut(easingArrowBack->currentIteration, 210, -10, easingArrowBack->totalIterations);
+		position_x2 = easingArrowBack->circularEaseInOut(easingArrowBack->currentIteration, 471, -10, easingArrowBack->totalIterations);
 		alpha = easingArrowBack->circularEaseInOut(easingArrowBack->currentIteration, 255, -255, easingArrowBack->totalIterations);
 
 		if (easingArrowBack->currentIteration < easingArrowBack->totalIterations)
@@ -345,38 +345,32 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 	SDL_Rect gauntletPlayers = { 561, 322, 29, 25 };
 	SDL_Rect gauntletEnemies = { 642, 321, 29, 25 };
 
-	//AROCA BORRA ESTAS 4 LINEAS CUANDO ARREGLES LO DE LOS EASINGS Y DESCOMENTES LO DE MAS ABAJO
-	btnAttack->Draw(app->render, showColliders, 25, { 255,255,255,225 });
-	btnAbility->Draw(app->render, showColliders, 25, { 255,255,255,225 });
-	btnDefense->Draw(app->render, showColliders, 25, { 255,255,255,225 });
-	btnObject->Draw(app->render, showColliders, 25, { 255,255,255,225 });
-
 	switch (type)
 	{
 	case BattleState::NONE:
 		break;
 	case BattleState::DEFAULT:
 		app->render->DrawTexture(guiTex, playerPos, currPlayer->bounds.y, &gauntletPlayers);
-		/*if (btnAttack->state == GuiControlState::FOCUSED)
+		if (btnAttack->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
 			btnAttack->bounds.x = position_x;
-			btnAttack->Draw(app->render, showColliders, 25, { alpha,0,0,225 });
+			btnAttack->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 		}
 		else
 		{
-			btnAttack->bounds.x = 20;
+			btnAttack->bounds.x = 160;
 			btnAttack->Draw(app->render, showColliders, 25, { 255,255,255,225 });
 		}
 		if (btnAbility->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
 			btnAbility->bounds.x = position_x;
-			btnAbility->Draw(app->render, showColliders, 25, { alpha,0,0,225 });
+			btnAbility->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 		}
 		else
 		{
-			btnAbility->bounds.x = 20;
+			btnAbility->bounds.x = 160;
 			btnAbility->Draw(app->render, showColliders, 25, { 255,255,255,225 });
 		}
 
@@ -384,11 +378,11 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
 			btnDefense->bounds.x = position_x;
-			btnDefense->Draw(app->render, showColliders, 25, { alpha,0,0,225 });
+			btnDefense->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 		}
 		else
 		{
-			btnDefense->bounds.x = 20;
+			btnDefense->bounds.x = 160;
 			btnDefense->Draw(app->render, showColliders, 25, { 255,255,255,225 });
 		}
 
@@ -396,63 +390,63 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
 			btnObject->bounds.x = position_x;
-			btnObject->Draw(app->render, showColliders, 25, { alpha,0,0,225 });
+			btnObject->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 		}
 		else
 		{
-			btnObject->bounds.x = 20;
+			btnObject->bounds.x = 160;
 			btnObject->Draw(app->render, showColliders, 25, { 255,255,255,225 });
-		}*/
+		}
 		break;
 	case BattleState::ATTACK:
 		app->render->DrawTexture(guiTex, enemyPos, currEnemy->bounds.y - 20, &gauntletEnemies);
 		app->render->DrawTexture(guiTex, playerPos, currPlayer->bounds.y, &gauntletPlayers);
 		break;
 	case BattleState::ABILITY_SELECT:
-		/*if (btnAbilitySlot1->state == GuiControlState::FOCUSED)
+		if (btnAbilitySlot1->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
-			btnAbilitySlot1->bounds.x = position_x;
-			btnAbilitySlot1->Draw(app->render, showColliders, 25, { alpha,0,0,225 });
+			btnAbilitySlot1->bounds.x = position_x2;
+			btnAbilitySlot1->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 		}
 		else
 		{
-			btnAbilitySlot1->bounds.x = 20;*/
+			btnAbilitySlot1->bounds.x = 461;
 			btnAbilitySlot1->Draw(app->render, showColliders, 25, { 255,255,255,225 });
-		/*}
+		}
 		if (btnAbilitySlot2->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
 			btnAbilitySlot2->bounds.x = position_x2;
-			btnAbilitySlot2->Draw(app->render, showColliders, 25, { alpha,0,0,225 });
+			btnAbilitySlot2->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 		}
 		else
 		{
-			btnAbilitySlot2->bounds.x = 200;*/
+			btnAbilitySlot2->bounds.x = 461;
 			btnAbilitySlot2->Draw(app->render, showColliders, 25, { 255,255,255,225 });
-		/*}
+		}
 		if (btnAbilitySlot3->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
-			btnAbilitySlot3->bounds.x = position_x;
-			btnAbilitySlot3->Draw(app->render, showColliders, 25, { alpha,0,0,225 });
+			btnAbilitySlot3->bounds.x = position_x2;
+			btnAbilitySlot3->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 		}
 		else
 		{
-			btnAbilitySlot3->bounds.x = 20;*/
+			btnAbilitySlot3->bounds.x = 461;
 			btnAbilitySlot3->Draw(app->render, showColliders, 25, { 255,255,255,225 });
-		/*}
+		}
 		if (btnAbilitySlot4->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
 			btnAbilitySlot4->bounds.x = position_x2;
-			btnAbilitySlot4->Draw(app->render, showColliders, 25, { alpha,0,0,225 });
+			btnAbilitySlot4->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 		}
 		else
 		{
-			btnAbilitySlot4->bounds.x = 200;*/
+			btnAbilitySlot4->bounds.x = 461;
 			btnAbilitySlot4->Draw(app->render, showColliders, 25, { 255,255,255,225 });
-		/*}*/
+		}
 		app->render->DrawTexture(guiTex, playerPos, currPlayer->bounds.y, &gauntletPlayers);
 		break;
 	case BattleState::ABILITY:
@@ -466,50 +460,50 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 		
 		break;
 	case BattleState::OBJECT_SELECT:
-		/*if (btnObjectSlot1->state == GuiControlState::FOCUSED)
+		if (btnObjectSlot1->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
-			btnObjectSlot1->bounds.x = position_x;
-			btnObjectSlot1->Draw(app->render, showColliders, 25, { alpha,0,0,225 });
+			btnObjectSlot1->bounds.x = position_x2;
+			btnObjectSlot1->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 		}
 		else
 		{
-			btnObjectSlot1->bounds.x = 20;*/
+			btnObjectSlot1->bounds.x = 461;
 			btnObjectSlot1->Draw(app->render, showColliders, 25, { 255,255,255,225 });
-		/*}
+		}
 		if (btnObjectSlot2->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
 			btnObjectSlot2->bounds.x = position_x2;
-			btnObjectSlot2->Draw(app->render, showColliders, 25, { alpha,0,0,225 });
+			btnObjectSlot2->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 		}
 		else
 		{
-			btnObjectSlot2->bounds.x = 200;*/
+			btnObjectSlot2->bounds.x = 461;
 			btnObjectSlot2->Draw(app->render, showColliders, 25, { 255,255,255,225 });
-		/*}
+		}
 		if (btnObjectSlot3->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
-			btnObjectSlot3->bounds.x = position_x;
-			btnObjectSlot3->Draw(app->render, showColliders, 25, { alpha,0,0,225 });
+			btnObjectSlot3->bounds.x = position_x2;
+			btnObjectSlot3->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 		}
 		else
 		{
-			btnObjectSlot3->bounds.x = 20;*/
+			btnObjectSlot3->bounds.x = 461;
 			btnObjectSlot3->Draw(app->render, showColliders, 25, { 255,255,255,225 });
-		/*}
+		}
 		if (btnObjectSlot4->state == GuiControlState::FOCUSED)
 		{
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
 			btnObjectSlot4->bounds.x = position_x2;
-			btnObjectSlot4->Draw(app->render, showColliders, 25, { alpha,0,0,225 });
+			btnObjectSlot4->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 		}
 		else
 		{
-			btnObjectSlot4->bounds.x = 200;*/
+			btnObjectSlot4->bounds.x = 461;
 			btnObjectSlot4->Draw(app->render, showColliders, 25, { 255,255,255,225 });
-		/*}*/
+		}
 
 		app->render->DrawTexture(guiTex, playerPos, currPlayer->bounds.y, &gauntletPlayers);
 		break;
