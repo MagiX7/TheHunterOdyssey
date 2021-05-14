@@ -26,6 +26,7 @@
 #include "OrbFragment.h"
 
 #include "KnightHelmet.h"
+#include "KnightChest.h"
 
 #include "Npc.h"
 #include "Map.h"
@@ -129,6 +130,9 @@ SceneGameplay::SceneGameplay()
 	items.push_back(item);
 
 	item = new KnightHelmet({ 1376, 1056, 32, 32 }, iPoint(1376, 1056),atlas);
+	items.push_back(item);
+
+	item = new KnightChest({1408, 1056, 32, 32}, iPoint(1408, 1056), atlas);
 	items.push_back(item);
 
 	pause = new PauseMenu(this);
