@@ -7,7 +7,7 @@
 class Statue : public Entity
 {
 public:
-	Statue(EntityType type, iPoint position, Player* player);
+	Statue(EntityType type, iPoint position, Player* player, int id);
 	virtual ~Statue();
 
 	bool Load() override;

@@ -46,6 +46,7 @@ enum class EntityType
 	MAP,
 	ICE_BLOCK,
 	DOOR,
+	STATUE,
 	UNKNOWN
 };
 

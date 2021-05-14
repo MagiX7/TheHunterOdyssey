@@ -27,7 +27,7 @@ public:
 
 	void DeleteEntity(EntityType entity);
 
-	void DeleteDoor(int exId);
+	void DeleteEntity(EntityType entity, int exId);
 
 	void DeleteAllEntities();
 

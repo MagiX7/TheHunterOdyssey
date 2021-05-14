@@ -29,6 +29,7 @@
 
 #include "IceBlock.h"
 #include "Door.h"
+#include "Statue.h"
 #include "QuestManager.h"
 
 #include "CharacterManager.h"
@@ -1297,9 +1298,26 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 							Door* door4 = nullptr;
 							position = { 1408,608 };
 							door4 = (Door*)entityManager->CreateEntity2(EntityType::DOOR, position, currentPlayer, 4);
-
+							Statue* statue = nullptr;
+							position = { 1184, 1937 };
+							statue = (Statue*)entityManager->CreateEntity2(EntityType::STATUE, position, currentPlayer, 1);
+							Statue* statue2 = nullptr;
+							position = { 1184, 1990 };
+							statue2 = (Statue*)entityManager->CreateEntity2(EntityType::STATUE, position, currentPlayer, 2);
+							Statue* statue3 = nullptr;
+							position = { 1184, 730 };
+							statue3 = (Statue*)entityManager->CreateEntity2(EntityType::STATUE, position, currentPlayer, 3);
+							Statue* statue4 = nullptr;
+							position = { 1664, 730 };
+							statue4 = (Statue*)entityManager->CreateEntity2(EntityType::STATUE, position, currentPlayer, 4);
 							loadObjects = false;
 						}
+						exit = true;
+						break;
+					}
+					if ((layer->Get(i, j) == 17) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						entityManager->DeleteEntity(EntityType::STATUE, 4);
 						exit = true;
 						break;
 					}
@@ -1322,7 +1340,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						isTown = false;
 						entityManager->SetAllNpcInactive();
 						//map->CleanUp();
-						entityManager->DeleteDoor(1);
+						entityManager->DeleteEntity(EntityType::DOOR, 1);
 						app->audio->PlayFx(channel, puzzleCompletedFx);
 						deleteDoor = false;
 						//map->Load("dungeon_map.tmx", app->tex);
@@ -1367,6 +1385,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						isDungeon = false;
 						entityManager->DeleteEntity(EntityType::DOOR);
 						entityManager->DeleteEntity(EntityType::ICE_BLOCK);
+						entityManager->DeleteEntity(EntityType::STATUE);
 						loadObjects = true;
 						exit = true;
 						break;

@@ -16,6 +16,8 @@
 
 #include "IceBlock.h"
 #include "Door.h"
+#include "Statue.h"
+
 #include "QuestManager.h"
 
 #include "Log.h"
@@ -203,6 +205,10 @@ Entity* EntityManager::CreateEntity2(EntityType type, iPoint pos, Player* player
 		entity = new Door(type, pos, player, id);
 		entity->Load();
 		break;
+	case EntityType::STATUE:
+		entity = new Statue(type, pos, player, id);
+		entity->Load();
+		break;
 	}
 
 	// Created entities are added to the list
@@ -301,7 +307,7 @@ void EntityManager::DeleteEntity(EntityType entity)
 	}
 }
 
-void EntityManager::DeleteDoor(int exId)
+void EntityManager::DeleteEntity(EntityType entity, int exId)
 {
 	LOG("Deleting Entity");
 	eastl::list<Entity*>::iterator item;
@@ -310,7 +316,7 @@ void EntityManager::DeleteDoor(int exId)
 	for (item = entities.begin(); item != itEnd; ++item)
 	{
 		Entity* en = (*item);
-		if (en->type == EntityType::DOOR && en->id == exId)
+		if (en->type == entity && en->id == exId)
 		{
 			en->UnLoad();
 			entities.remove(*item);

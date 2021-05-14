@@ -5,15 +5,16 @@
 #include "Statue.h"
 #include "Player.h"
 
-Statue::Statue(EntityType type, iPoint position, Player* player)
+Statue::Statue(EntityType type, iPoint position, Player* player, int exId) : Entity(type)
 {
 	bounds.x = position.x;
 	bounds.y = position.y;
-	bounds.w = 64;
-	bounds.h = 56;
+	bounds.w = 28;
+	bounds.h = 76;
 	state = EntityState::STOP_DOWN;
 	tmpState = EntityState::STOP_DOWN;
 	currPlayer = player;
+	id = exId;
 }
 
 Statue::~Statue()
@@ -22,7 +23,8 @@ Statue::~Statue()
 
 bool Statue::Load()
 {
-	texture = app->tex->Load("Assets/Textures/Objects/statue_1");
+	if (id == 1 || id == 2) texture = app->tex->Load("Assets/Textures/Objects/statue_1.png");
+	else texture = app->tex->Load("Assets/Textures/Objects/statue_2.png");
 
 	return true;
 }
@@ -30,39 +32,25 @@ bool Statue::Load()
 bool Statue::Update(float dt)
 {
 	if (CheckCollision(currPlayer)) currPlayer->bounds = lastPosition;
-
-	if (!CheckCollision(currPlayer))
-	{
-		lastPosition = currPlayer->bounds;
-
-		switch (state)
-		{
-		case EntityState::WALLKING_LEFT:
-			bounds.x -= SPEED_X * dt;
-			break;
-		case EntityState::WALKING_RIGHT:
-			bounds.x += SPEED_X * dt;
-			break;
-		case EntityState::WALLKING_UP:
-			bounds.y -= SPEED_Y * dt;
-			break;
-		case EntityState::WALLKING_DOWN:
-			bounds.y += SPEED_Y * dt;
-			break;
-		default:
-			break;
-		}
-	}
+	if (!CheckCollision(currPlayer)) lastPosition = currPlayer->bounds;
 
 	return true;
 }
 
 void Statue::Draw(bool showColliders)
 {
+	if (bounds.x + bounds.w > (-app->render->camera.x) && bounds.x < (-app->render->camera.x) + app->render->camera.w && bounds.y + bounds.h >(-app->render->camera.y) && bounds.y < (-app->render->camera.y) + app->render->camera.h)
+	{
+		SDL_Rect rect = { 0,0,bounds.w,bounds.h };
+		app->render->DrawTexture(texture, bounds.x, bounds.y, &rect);
+		if (showColliders) app->render->DrawRectangle(bounds, 0, 0, 255, 100);
+	}
 }
 
 bool Statue::UnLoad()
 {
+	app->tex->UnLoad(texture);
+
 	return true;
 }
 
@@ -80,18 +68,11 @@ bool Statue::SaveState(pugi::xml_node& node)
 bool Statue::CheckCollision(Player* player)
 {
 	if (state != EntityState::INACTIVE)
-{
-	//PULL BLOCK
-	if (player->bounds.x + player->bounds.w > bounds.x && player->bounds.x < bounds.x + bounds.w && player->bounds.y + player->bounds.h > bounds.y && player->bounds.y < bounds.y + bounds.h)
 	{
-		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
-		{
-			
-		}
-		return true;
+		//PULL BLOCK
+		if (player->bounds.x + player->bounds.w > bounds.x && player->bounds.x < bounds.x + bounds.w && player->bounds.y + player->bounds.h > bounds.y && player->bounds.y < bounds.y + bounds.h) return true;
 	}
-}
-	return true;
+	return false;
 }
 
 void Statue::SetInactive()
