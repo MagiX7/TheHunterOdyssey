@@ -1,5 +1,5 @@
   
-name: Automated Build
+name: Continuous Integration
 
 on:
   push:
@@ -19,6 +19,6 @@ jobs:
     - name: Build Library (MSVC16)
       run: |
         cd
-        msbuild.exe Development.sln /p:Configuration=Release /p:Platform="Any CPU"
+        msbuild.exe Development.sln /p:Configuration=Release
         cd ../..
       shell: cmd
