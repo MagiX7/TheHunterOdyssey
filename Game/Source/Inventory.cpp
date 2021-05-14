@@ -483,7 +483,7 @@ void Inventory::AddItem(Item *it)
 	case ObjectType::ARMOR:
 		for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
 		{
-			if (armorSlots[i].item != nullptr && armorSlots[i].item->objectType == it->objectType)
+			if (armorSlots[i].item != nullptr && armorSlots[i].item == it)
 			{
 				RELEASE(it);
 				armorSlots[i].itemsAmount++;

@@ -176,6 +176,9 @@
     <ClCompile Include="Source\OrbFragment.cpp">
       <Filter>Entities\Items</Filter>
     </ClCompile>
+    <ClCompile Include="Source\KnightChest.cpp">
+      <Filter>Entities\Armors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -406,6 +409,9 @@
     </ClInclude>
     <ClInclude Include="Source\OrbFragment.h">
       <Filter>Entities\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\KnightChest.h">
+      <Filter>Entities\Armors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
