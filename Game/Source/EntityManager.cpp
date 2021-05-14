@@ -345,7 +345,6 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad, pugi::xml_node* anims)
 
 	UnLoad();
 
-
 	int amount = toLoad->attribute("amount").as_int();
 	int npcAmount = toLoad->child("NPCs").attribute("amount").as_int();
 
@@ -354,8 +353,7 @@ bool EntityManager::LoadState(pugi::xml_node* toLoad, pugi::xml_node* anims)
 	pugi::xml_node NodeNpcAuxiliar = NodeNpc.child("NPC");
 	Npc* npcNode = nullptr;
 
-
-	for (int a = 0; a < npcAmount; a++)
+	for (int a = 0; a < npcAmount; ++a)
 	{
 		npcNode = nullptr;
 		SString string;
@@ -409,7 +407,6 @@ bool EntityManager::SaveState(pugi::xml_node* toSave)
 	pugi::xml_node nodeNpc = toSave->append_child("NPCs");
 	pugi::xml_node nodeNpcAuxiliar;
 
-
 	int npcAmount = 0;
 
 	for (item = entities.begin(); item != itEnd; ++item)
@@ -432,7 +429,6 @@ bool EntityManager::SaveState(pugi::xml_node* toSave)
 	}
 
 	nodeNpc.append_attribute("amount").set_value(npcAmount);
-
 
 	for (item = entities.begin(); item != itEnd; ++item)
 	{

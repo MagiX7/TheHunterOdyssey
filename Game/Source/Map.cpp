@@ -104,6 +104,7 @@ void Map::Draw(bool showColliders, EntityManager* manager, Player* current)
 	if (auxiliar2 != nullptr) DrawLayer(app->render, auxiliar2);
 
 }
+
 void Map::DrawAllWithMap(bool showColliders, Render* render, EntityManager* manager, Player* current, MapLayer* layer)
 {
 	SDL_Rect rec;
@@ -143,12 +144,8 @@ void Map::DrawAllWithMap(bool showColliders, Render* render, EntityManager* mana
 				}
 				point[a] = -1;
 			}
-			
-			
 		}
-	
 	}
-
 
 	points[0] = WorldToMap(current->bounds.x, current->bounds.y);
 	points[1] = WorldToMap(current->bounds.x + current->bounds.w, current->bounds.y);
@@ -174,6 +171,7 @@ void Map::DrawAllWithMap(bool showColliders, Render* render, EntityManager* mana
 	}
 
 }
+
 void Map::DrawLayer(Render* render, MapLayer* layer)
 {
 	iPoint startTile = WorldToMap(-render->camera.x, -render->camera.y);

@@ -5,30 +5,9 @@
   <textures />
   <audio />
   <scenemanager>
-    <scenegameplay map_name="town_map.tmx">
+    <scenegameplay map_name="graveyard_path.tmx">
       <entities>
-        <NPCs amount="4">
-          <NPC>
-            <bounds X="220" Y="250" W="30" H="32" />
-            <NpcType type="TOWN" />
-            <Dialoge idDialoge="7" />
-          </NPC>
-          <NPC>
-            <bounds X="720" Y="1060" W="30" H="32" />
-            <NpcType type="RAY" />
-            <Dialoge idDialoge="3" />
-          </NPC>
-          <NPC>
-            <bounds X="720" Y="810" W="30" H="32" />
-            <NpcType type="TABERN" />
-            <Dialoge idDialoge="2" />
-          </NPC>
-          <NPC>
-            <bounds X="520" Y="350" W="30" H="32" />
-            <NpcType type="NPC_WIZARD" />
-            <Dialoge idDialoge="1" />
-          </NPC>
-        </NPCs>
+        <NPCs amount="0" />
         <Enemies amount="3">
           <Enemy>
             <bounds X="865" Y="365" W="70" H="69" />
@@ -46,7 +25,7 @@
         <players amount="4">
           <player>
             <isCurrent current="true" />
-            <bounds X="260" Y="290" W="26" H="32" />
+            <bounds X="705" Y="817" W="26" H="32" />
             <playerType type="HUNTER" />
           </player>
           <player>
@@ -70,9 +49,9 @@
       <questmanager>
         <loaded_quests>
           <quests type="0" id="0" name="Get a potion" nextQuestId="1" isCompleted="false" item="0" reward="700" />
-          <quests type="3" id="1" name="Talk with Ray" nextQuestId="1" isCompleted="false" npcId="3" reward="700" />
-          <quests type="1" id="2" name="Kill the skull" nextQuestId="2" isCompleted="false" enemy="7" actual="0" total="1" reward="300" />
-          <quests type="2" id="3" name="Visit the pub" nextQuestId="3" isCompleted="false" mapName="pub.tmx" reward="500" />
+          <quests type="3" id="1" name="Talk with Ray" nextQuestId="2" isCompleted="false" npcId="3" reward="700" />
+          <quests type="1" id="2" name="Kill the skull" nextQuestId="3" isCompleted="false" enemy="7" actual="0" total="1" reward="300" />
+          <quests type="2" id="3" name="Visit the pub" nextQuestId="4" isCompleted="false" mapName="pub.tmx" reward="500" />
           <quests type="2" id="4" name="Visit the shop" nextQuestId="-1" isCompleted="false" mapName="shop.tmx" reward="600" />
         </loaded_quests>
         <active_quests />

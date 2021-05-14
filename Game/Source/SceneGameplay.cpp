@@ -96,23 +96,22 @@ SceneGameplay::SceneGameplay()
 	en->SetCurrentState(EnemyState::ROAMING);
 	enemyList.push_back(en);
 
-	Npc* generalNpc = nullptr;
-	/*position = { 500,500 };
-	generalNpc=(Npc*)entityManager->CreateEntity(EntityType::TABERN, position,anims);*/
+	//Npc* generalNpc = nullptr;
+	///*position = { 500,500 };
+	//generalNpc=(Npc*)entityManager->CreateEntity(EntityType::TABERN, position,anims);*/
 
-	position = { 200,250 };
-	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position, anims, 7);
+	//position = { 200,250 };
+	//generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position, anims, 7);
 
-	position = { 700,1060 };
-	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::RAY, position, anims, 3);
-	//generalNpc->NpcMove(false);
+	//position = { 700,1060 };
+	//generalNpc = (Npc*)entityManager->CreateEntity(EntityType::RAY, position, anims, 3);
+	////generalNpc->NpcMove(false);
 
-	position = { 700,810 };
-	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TABERN, position, anims, 2);
+	//position = { 700,810 };
+	//generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TABERN, position, anims, 2);
 
-	position = { 500,350 };
-	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 1);
-
+	//position = { 500,350 };
+	//generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 1);
 
 	atlas = app->tex->Load("Assets/Textures/Items/items_atlas.png");
 	inventory = new Inventory(playerList, atlas);
@@ -185,6 +184,8 @@ bool SceneGameplay::Load()
 	map = new Map();
 	isTown = true;
 	map->Load("town_map.tmx", app->tex);
+	
+	LoadNpc(map->name);
 
 	dialogueManager = new DialogueManager();
 	dialogueManager->Start();
@@ -524,6 +525,14 @@ void SceneGameplay::CharacterSwap(PlayerType player)
 
 bool SceneGameplay::LoadState(pugi::xml_node& load)
 {
+	// If the player is not in the map he saved at, set the current map to that one
+	SString mapName = load.attribute("map_name").as_string();
+	if (mapName != map->name)
+	{
+		map->CleanUp();
+		map->Load(mapName.GetString(), app->tex);
+	}
+
 	pugi::xml_node toLoadEntities = load.child("entities");
 	pugi::xml_document animations;
 	pugi::xml_node anims;
@@ -612,16 +621,13 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 
 bool SceneGameplay::SaveState(pugi::xml_node& save) const
 {
-	if (isTown == false) return true;
+	//if (isTown == false) return true;
 
 	save.append_attribute("map_name").set_value(map->name.GetString());
 	
 	pugi::xml_node toSaveEntites = save.append_child("entities");
 	entityManager->SaveState(&toSaveEntites);
-	/*const pugi::char_t* name = map->name.GetString();
-	pugi::xml_node toSaveScene = toSaveEntites.append_child("scene");
-	toSaveScene.append_attribute("mapName").set_value(name);
-	toSaveScene.append_attribute("sceneType").set_value("sceneGameplay");*/
+
 	pugi::xml_node toSaveEnemies = toSaveEntites.append_child("Enemies");
 	pugi::xml_node enemiesAuxiliar;
 	toSaveEnemies.append_attribute("amount").set_value(enemyList.size());
@@ -732,7 +738,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					{
 						app->audio->PlayFx(channel, doorOpenedFx);
 						isTown = false;
-						entityManager->SetAllNpcInactive();
+						entityManager->DeleteAllNpcActive();
 
 						iPoint position = { 625,480 };
 						currentPlayer->bounds.x = position.x;
@@ -750,12 +756,13 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						entityManager->SetAllNpcActive();
+						//entityManager->SetAllNpcActive();
 						iPoint position = { 97,520 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+						LoadNpc(map->name);
 						isDungeon = false;
 						QuestManager::GetInstance()->CheckQuests(map->name);
 						particles->SetAllParticlesDesactivated();
@@ -766,7 +773,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					{
 						app->audio->PlayFx(channel, doorOpenedFx);
 						isTown = false;
-						entityManager->SetAllNpcInactive();
+						entityManager->DeleteAllNpcActive();
 						iPoint position = { 625,480 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -783,12 +790,13 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						entityManager->SetAllNpcActive();
+						//entityManager->SetAllNpcActive();
 						iPoint position = { 70,765 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+						LoadNpc(map->name);
 						isDungeon = false;
 						QuestManager::GetInstance()->CheckQuests(map->name);
 						particles->SetAllParticlesDesactivated();
@@ -799,7 +807,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					{
 						app->audio->PlayFx(channel, doorOpenedFx);
 						isTown = false;
-						entityManager->SetAllNpcInactive();
+						entityManager->DeleteAllNpcActive();
 						iPoint position = { 625,480 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -816,12 +824,13 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						entityManager->SetAllNpcActive();
+						//entityManager->SetAllNpcActive();
 						iPoint position = { 380,1120 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+						LoadNpc(map->name);
 						isDungeon = false;
 						QuestManager::GetInstance()->CheckQuests(map->name);
 						particles->SetAllParticlesDesactivated();
@@ -832,7 +841,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					{
 						app->audio->PlayFx(channel, doorOpenedFx);
 						isTown = false;
-						entityManager->SetAllNpcInactive();
+						entityManager->DeleteAllNpcActive();
 						iPoint position = { 625,430 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -849,7 +858,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						entityManager->SetAllNpcActive();
+						//entityManager->SetAllNpcActive();
 						iPoint position = { 97,1100 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -865,7 +874,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					{
 						app->audio->PlayFx(channel, doorOpenedFx);
 						isTown = false;
-						entityManager->SetAllNpcInactive();
+						entityManager->DeleteAllNpcActive();
 						iPoint position;
 
 						position = { 655,430 };
@@ -875,24 +884,9 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						map->Load("pub.tmx", app->tex);
 						isDungeon = false;
 						particles->SetAllParticlesDesactivated();
-						pugi::xml_document animations;
-						pugi::xml_node anims;
-						pugi::xml_parse_result result = animations.load_file("animations.xml");
-
 						QuestManager::GetInstance()->CheckQuests(map->name);
 
-						if (result == NULL)
-							LOG("Could not load xml file: %s. pugi error: %s", CONFIG_FILENAME, result.description());
-						else
-							anims = animations.child("animations");
-						Npc* generalNpc = nullptr;
-						position = { 670,280 };
-						generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position, anims, 4);
-						generalNpc->NpcMove(false);
-
-						position = { 670,360 };
-						generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 1);
-
+						LoadNpc(map->name);
 						exit = true;
 						break;						
 					}
@@ -901,12 +895,13 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						entityManager->SetAllNpcActive();
+						//entityManager->SetAllNpcActive();
 						iPoint position = { 770,710 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+						LoadNpc(map->name);
 						isDungeon = false;
 						QuestManager::GetInstance()->CheckQuests(map->name);
 						particles->SetAllParticlesDesactivated();
@@ -917,29 +912,17 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					{
 						app->audio->PlayFx(channel, doorOpenedFx);
 						isTown = false;
-						entityManager->SetAllNpcInactive();
+						entityManager->DeleteAllNpcActive();
 						iPoint position = { 630,450 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("adventurer_house.tmx", app->tex);
+						LoadNpc(map->name);
 						isDungeon = false;
 						QuestManager::GetInstance()->CheckQuests(map->name);
 						particles->SetAllParticlesDesactivated();
-						pugi::xml_document animations;
-						pugi::xml_node anims;
-						pugi::xml_parse_result result = animations.load_file("animations.xml");
-						if (result == NULL)
-							LOG("Could not load xml file: %s. pugi error: %s", CONFIG_FILENAME, result.description());
-						else
-							anims = animations.child("animations");
-						Npc* generalNpc = nullptr;
-						position = { 630,450 };
-						generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TABERN, position, anims, 4);
-
-						position = { 630,420 };
-						generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 1);
-
+					
 						exit = true;
 						break;
 					}
@@ -948,60 +931,13 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						entityManager->SetAllNpcActive();
+						//entityManager->SetAllNpcActive();
 						iPoint position = { 385,610 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
-						isDungeon = false;
-						QuestManager::GetInstance()->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
-						exit = true;
-						break;
-					}
-					if (isTown && (layer->Get(i, j) == 777) && CheckCollision(map->GetTilemapRec(i, j), rect))
-					{
-						app->audio->PlayFx(channel, doorOpenedFx);
-						isTown = false;
-						entityManager->SetAllNpcInactive();
-						iPoint position = { 750,300 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("adventurer_house.tmx", app->tex);
-						isDungeon = false;
-						QuestManager::GetInstance()->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
-						pugi::xml_document animations;
-						pugi::xml_node anims;
-						pugi::xml_parse_result result = animations.load_file("animations.xml");
-						if (result == NULL)
-							LOG("Could not load xml file: %s. pugi error: %s", CONFIG_FILENAME, result.description());
-						else
-							anims = animations.child("animations");
-						Npc* generalNpc = nullptr;
-						position = { 630,450 };
-						generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TABERN, position, anims, 4);
-
-						position = { 630,420 };
-						generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 1);
-
-						exit = true;
-						break;
-
-					}
-					else if ((layer->Get(i, j) == 1545) && CheckCollision(map->GetTilemapRec(i, j), rect))
-					{
-						app->audio->PlayFx(channel, doorClosedFx);
-						isTown = true;
-						entityManager->DeleteAllNpcActive();
-						entityManager->SetAllNpcActive();
-						iPoint position = { 448,465 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("town_map.tmx", app->tex);
+						LoadNpc(map->name);
 						isDungeon = false;
 						QuestManager::GetInstance()->CheckQuests(map->name);
 						particles->SetAllParticlesDesactivated();
@@ -1012,7 +948,8 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					{
 						app->audio->PlayFx(channel, doorOpenedFx);
 						isTown = false;
-						entityManager->SetAllNpcInactive();
+						//entityManager->SetAllNpcInactive();
+						entityManager->DeleteAllNpcActive();
 						iPoint position = { 650,480 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1029,12 +966,13 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						entityManager->SetAllNpcActive();
+						//entityManager->SetAllNpcActive();
 						iPoint position = { 380,136 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+						LoadNpc(map->name);
 						isDungeon = false;
 						QuestManager::GetInstance()->CheckQuests(map->name);
 						particles->SetAllParticlesDesactivated();
@@ -1045,26 +983,15 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					{
 						app->audio->PlayFx(channel, doorOpenedFx);
 						isTown = false;
-						entityManager->SetAllNpcInactive();
+						entityManager->DeleteAllNpcActive();
 						iPoint position = { 615,480 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
 						particles->SetAllParticlesDesactivated();
 						map->CleanUp();
-						pugi::xml_document animations;
-						pugi::xml_node anims;
-						pugi::xml_parse_result result = animations.load_file("animations.xml");
-						if (result == NULL)
-							LOG("Could not load xml file: %s. pugi error: %s", CONFIG_FILENAME, result.description());
-						else
-							anims = animations.child("animations");
-						Npc* generalNpc = nullptr;
-						position = { 615,460 };
-						generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position, anims, 5);
-
-						position = { 600,450 };
-						generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 6);
 						map->Load("library.tmx", app->tex);
+						LoadNpc(map->name);
+
 						isDungeon = false;
 						QuestManager::GetInstance()->CheckQuests(map->name);
 
@@ -1076,12 +1003,13 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						entityManager->SetAllNpcActive();
+						//entityManager->SetAllNpcActive();
 						iPoint position = { 160,136 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+						LoadNpc(map->name);
 						isDungeon = false;
 						QuestManager::GetInstance()->CheckQuests(map->name);
 						particles->SetAllParticlesDesactivated();
@@ -1092,7 +1020,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					{
 						app->audio->PlayFx(channel, doorOpenedFx);
 						isTown = false;
-						entityManager->SetAllNpcInactive();
+						entityManager->DeleteAllNpcActive();
 						iPoint position = { 615,480 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1109,12 +1037,14 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						entityManager->SetAllNpcActive();
+						//entityManager->SetAllNpcActive();
 						iPoint position = { 898,152 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+						LoadNpc(map->name);
+
 						isDungeon = false;
 						QuestManager::GetInstance()->CheckQuests(map->name);
 						particles->SetAllParticlesDesactivated();
@@ -1125,7 +1055,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					{
 						app->audio->PlayFx(channel, doorOpenedFx);
 						isTown = false;
-						entityManager->SetAllNpcInactive();
+						entityManager->DeleteAllNpcActive();
 						iPoint position = { 615,480 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1142,12 +1072,14 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						entityManager->SetAllNpcActive();
+						//entityManager->SetAllNpcActive();
 						iPoint position = { 900,1250 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+						LoadNpc(map->name);
+
 						isDungeon = false;
 						QuestManager::GetInstance()->CheckQuests(map->name);
 						particles->SetAllParticlesDesactivated();
@@ -1158,7 +1090,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					{
 						app->audio->PlayFx(channel, doorOpenedFx);
 						isTown = false;
-						entityManager->SetAllNpcInactive();
+						entityManager->DeleteAllNpcActive();
 						iPoint position = { 615,480 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1175,12 +1107,14 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						entityManager->SetAllNpcActive();
+						//entityManager->SetAllNpcActive();
 						iPoint position = { 1350,390 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+						LoadNpc(map->name);
+
 						isDungeon = false;
 						QuestManager::GetInstance()->CheckQuests(map->name);
 						particles->SetAllParticlesDesactivated();
@@ -1190,7 +1124,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					if ((layer->Get(i, j) == 784) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = false;
-						entityManager->SetAllNpcInactive();
+						entityManager->DeleteAllNpcActive();
 						iPoint position = { 705,950 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1204,12 +1138,13 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					{
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						entityManager->SetAllNpcActive();
+						//entityManager->SetAllNpcActive();
 						iPoint position = { 705,30 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
 						map->Load("town_map.tmx", app->tex);
+						LoadNpc(map->name);
 						isDungeon = false;
 						exit = true;
 						break;
@@ -1217,7 +1152,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					if ((layer->Get(i, j) == 785) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = false;
-						entityManager->SetAllNpcInactive();
+						entityManager->DeleteAllNpcActive();
 						iPoint position = { 620,480 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1230,6 +1165,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					if ((layer->Get(i, j) == 3089) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = true;
+						entityManager->DeleteAllNpcActive();
 						iPoint position = { 320,380 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1242,7 +1178,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					if ((layer->Get(i, j) == 787) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = false;
-						entityManager->SetAllNpcInactive();
+						entityManager->DeleteAllNpcActive();
 						iPoint position = { 630,960 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1255,6 +1191,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					if ((layer->Get(i, j) == 19) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = true;
+						entityManager->DeleteAllNpcActive();
 						iPoint position = { 500,50 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1267,7 +1204,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					if ((layer->Get(i, j) == 20) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = false;
-						entityManager->SetAllNpcInactive();
+						entityManager->DeleteAllNpcActive();
 						iPoint position = { 1420,720 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1524,5 +1461,56 @@ void SceneGameplay::ChangeBlockBounds(int bounds_x, int bounds_y)
 				break;
 			}
 		}
+	}
+}
+
+void SceneGameplay::LoadNpc(SString mapName)
+{
+	pugi::xml_document animations;
+	pugi::xml_node anims;
+	pugi::xml_parse_result result = animations.load_file("animations.xml");
+	if (result == NULL)
+		LOG("Could not load xml file: %s. pugi error: %s", CONFIG_FILENAME, result.description());
+	else
+		anims = animations.child("animations");
+
+	if (mapName == "town_map.tmx")
+	{
+		iPoint position = { 200,250 };
+		entityManager->CreateEntity(EntityType::TOWN, position, anims, 7);
+
+		position = { 700,1060 };
+		entityManager->CreateEntity(EntityType::RAY, position, anims, 3);
+
+		position = { 700,810 };
+		entityManager->CreateEntity(EntityType::TABERN, position, anims, 2);
+
+		position = { 500,350 };
+		entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 1);
+	}
+	else if (mapName == "pub.tmx")
+	{
+		iPoint position = { 670,280 };
+		Npc* npc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position, anims, 4);
+		npc->NpcMove(false);
+
+		position = { 670,360 };
+		entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 1);
+	}
+	else if (mapName == "adventurer_house.tmx")
+	{
+		iPoint position = { 630,450 };
+		entityManager->CreateEntity(EntityType::TABERN, position, anims, 4);
+
+		position = { 630,420 };
+		entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 1);
+	}
+	else if (mapName == "library.tmx")
+	{
+		iPoint position = { 615,460 };
+		entityManager->CreateEntity(EntityType::TOWN, position, anims, 5);
+
+		position = { 600,450 };
+		entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 6);
 	}
 }

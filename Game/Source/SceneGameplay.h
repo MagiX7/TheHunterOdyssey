@@ -77,6 +77,8 @@ private:
 	void Fading(float dt);
 	void ChangeBlockBounds(int bounds_x, int bounds_y);
 
+	void LoadNpc(SString mapName);
+
 public:
 	DialogueManager* dialogueManager;
 	Player* currentPlayer;
