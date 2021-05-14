@@ -33,5 +33,4 @@ public:
 	Animation idleAnim;
 	Player* currPlayer;
 	SDL_Rect lastPosition;
-	int id;
 };

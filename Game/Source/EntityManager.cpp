@@ -56,7 +56,7 @@ bool EntityManager::Update(float dt, Player* currentPlayer, bool& triggerDialogu
 	{
 		(*item)->Update(dt);
 		CheckEntityCollision(*item, scene);
-		if ((*item)->CheckCollision(currentPlayer))
+		if ((*item != nullptr) && (*item)->CheckCollision(currentPlayer))
 		{
 			dialogueId = TriggerDialogue(triggerDialogue, (*item));
 		}
@@ -293,6 +293,24 @@ void EntityManager::DeleteEntity(EntityType entity)
 	{
 		Entity* en = (*item);
 		if (en->type == entity)
+		{
+			en->UnLoad();
+			entities.remove(*item);
+			RELEASE(*item);
+		}
+	}
+}
+
+void EntityManager::DeleteDoor(int exId)
+{
+	LOG("Deleting Entity");
+	eastl::list<Entity*>::iterator item;
+	eastl::list<Entity*>::iterator itEnd = entities.end();
+
+	for (item = entities.begin(); item != itEnd; ++item)
+	{
+		Entity* en = (*item);
+		if (en->type == EntityType::DOOR && en->id == exId)
 		{
 			en->UnLoad();
 			entities.remove(*item);

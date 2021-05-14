@@ -98,6 +98,7 @@ public:
 
 	Animation* currentAnim;
 	int channel;
+	int id;
 };
 
 #endif //__ENTITY_H__

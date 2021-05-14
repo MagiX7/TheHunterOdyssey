@@ -150,6 +150,7 @@ SceneGameplay::SceneGameplay()
 	alpha = 0.0f;
 	isDungeon = false;
 	loadObjects = true;
+	deleteDoor = true;
 }
 
 bool SceneGameplay::Load()
@@ -1306,19 +1307,21 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						iPoint position = { 1950,360 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("dungeon_map.tmx", app->tex);
+						//map->CleanUp();
+						//map->Load("dungeon_map.tmx", app->tex);
 						isDungeon = true;
 						ChangeBlockBounds(2048, 320);
 						exit = true;
 						break;
 					}
-					if ((layer->Get(i, j) == 10) && CheckCollision(map->GetTilemapRec(i, j), iceBlockRect))
+					if (deleteDoor && (layer->Get(i, j) == 10) && CheckCollision(map->GetTilemapRec(i, j), iceBlockRect))
 					{
 						isTown = false;
 						entityManager->SetAllNpcInactive();
-						map->CleanUp();
-						map->Load("dungeon_map.tmx", app->tex);
+						//map->CleanUp();
+						entityManager->DeleteDoor(1);
+						deleteDoor = false;
+						//map->Load("dungeon_map.tmx", app->tex);
 						isDungeon = true;
 						exit = true;
 						break;
@@ -1330,8 +1333,8 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						iPoint position = { 1950,1650 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("dungeon_map.tmx", app->tex);
+						//map->CleanUp();
+						//map->Load("dungeon_map.tmx", app->tex);
 						isDungeon = true;
 						exit = true;
 						break;
@@ -1343,8 +1346,8 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						iPoint position = { 2570,1650 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("dungeon_map.tmx", app->tex);
+						//map->CleanUp();
+						//map->Load("dungeon_map.tmx", app->tex);
 						isDungeon = true;
 						exit = true;
 						break;

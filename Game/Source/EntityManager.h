@@ -27,6 +27,8 @@ public:
 
 	void DeleteEntity(EntityType entity);
 
+	void DeleteDoor(int exId);
+
 	void DeleteAllEntities();
 
 	bool LoadState(pugi::xml_node* toLoad, pugi::xml_node* anims);

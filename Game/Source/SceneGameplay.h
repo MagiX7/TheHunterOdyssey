@@ -121,6 +121,7 @@ private:
 	bool transition;
 	bool fadeOut;
 	bool loadObjects;
+	bool deleteDoor;
 	//Fx
 	int doorOpenedFx;
 	int doorClosedFx;
