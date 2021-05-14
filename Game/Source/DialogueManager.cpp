@@ -30,7 +30,6 @@ bool DialogueManager::Start()
 		root = file.child("dialogues");
 		font = new Font("Assets/Font/font3.xml", app->tex);
 		texture = app->tex->Load("Assets/Textures/UI/gui_dialogue_textures.png");
-		//current = LoadDialogue(0);
 
 		letterCount = 0;
 		isDialogueActive = false;
@@ -154,7 +153,7 @@ bool DialogueManager::Update(float dt)
 			if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 			{
 				// Dialog finished
-				//current->currentNode->dialogFinished = false;
+				current->currentNode->dialogFinished = false;
 				isDialogueActive = false;
 				printText = false;
 				ret = false;
@@ -203,8 +202,11 @@ bool DialogueManager::UnLoad()
 	font->UnLoad(app->tex);
 	RELEASE(font);
 
-	current->CleanUp();
-	RELEASE(current);
+	if (current != nullptr)
+	{
+		current->CleanUp();
+		RELEASE(current);
+	}
 
 	RELEASE(easingArrow);
 	RELEASE(easingArrow2);
@@ -218,10 +220,6 @@ bool DialogueManager::UnLoad()
 	}
 	
 	dialogues.clear();
-
-	/*if (current != nullptr) current->CleanUp();*/
-
-	//dialogues.clear();
 
 	return true;
 }

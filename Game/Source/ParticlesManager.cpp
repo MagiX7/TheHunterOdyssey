@@ -16,7 +16,7 @@ void ParticlesManager::Restart(Generator* generator){
 void ParticlesManager::DeleteGenerator(Generator* generator) {
 	if (generator != nullptr) {
 		generator->CleanUp();
-		delete generator;
+		RELEASE(generator);
 		int gen = geneartorList.Find(generator);
 		ListItem<Generator*>* auxiliar = geneartorList.start;
 		for (int a = 0; a < gen; a++) { auxiliar = auxiliar->next; }
@@ -48,8 +48,8 @@ void ParticlesManager::CleanUp()
 	{
 		auxiliar1 = auxiliar->next;
 		auxiliar->data->CleanUp();
-		delete auxiliar;
 		geneartorList.Del(auxiliar);
+		RELEASE(auxiliar->data);
 		auxiliar = auxiliar1;
 	}
 	geneartorList.Clear();
