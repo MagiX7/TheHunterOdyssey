@@ -231,7 +231,7 @@ bool SceneManager::Update(float dt)
 			break;
 
 		case TransitionType::FADE_TO_BLACK:
-			app->render->DrawRectangle({ 0, 0, 1280,720 }, 0, 0, 0, true, false);
+			app->render->DrawRectangle({ 0, 0, 1280,720 }, 0, 0, 0, (unsigned char)(255.0f * transitionAlpha));
 			break;
 
 		case TransitionType::HALF_WIDHT_RECTANGLES:
@@ -247,10 +247,14 @@ bool SceneManager::Update(float dt)
 
 		switch (current->nextScene)
 		{
-		case SceneType::LOGO: next = new SceneLogo(); break;
-		case SceneType::TITLE: next = new SceneTitle(); break;
-		case SceneType::GAMEPLAY: next = new SceneGameplay(); break;
-		case SceneType::ENDING: next = new SceneEnding(true); break;
+		case SceneType::LOGO:
+			next = new SceneLogo(); break;
+		case SceneType::TITLE:
+			next = new SceneTitle(); break;
+		case SceneType::GAMEPLAY:
+			next = new SceneGameplay(); break;
+		case SceneType::ENDING:
+			next = new SceneEnding(true); break;
 		default: break;
 		}
 		current->transitionRequired = false;

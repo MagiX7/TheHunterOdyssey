@@ -143,6 +143,7 @@
     <ClCompile Include="Source\SceneTitle.cpp" />
     <ClCompile Include="Source\CharacterManager.cpp" />
     <ClCompile Include="Source\Skull.cpp" />
+    <ClCompile Include="Source\Statue.cpp" />
     <ClCompile Include="Source\Tabern.cpp" />
     <ClCompile Include="Source\TalkQuest.cpp" />
     <ClCompile Include="Source\Textures.cpp" />
@@ -212,6 +213,7 @@
     <ClInclude Include="Source\SceneTitle.h" />
     <ClInclude Include="Source\CharacterManager.h" />
     <ClInclude Include="Source\Skull.h" />
+    <ClInclude Include="Source\Statue.h" />
     <ClInclude Include="Source\Tabern.h" />
     <ClInclude Include="Source\TalkQuest.h" />
     <ClInclude Include="Source\Textures.h" />

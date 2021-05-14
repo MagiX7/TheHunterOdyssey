@@ -188,8 +188,11 @@ bool Audio::PlayFx(int channel, unsigned int id, int repeat, int volume)
 
 bool Audio::UnLoadFx(int index)
 {
-	if(index > 0 && index <= fx.size())
+	if (index > 0 && index <= fx.size())
+	{
 		Mix_FreeChunk(fx.at(index - 1));
+		eastl::erase(fx, fx.at(index - 1));
+	}
 
 	return true;
 }

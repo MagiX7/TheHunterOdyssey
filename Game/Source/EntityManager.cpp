@@ -16,6 +16,7 @@
 
 #include "IceBlock.h"
 #include "Door.h"
+#include "QuestManager.h"
 
 #include "Log.h"
 
@@ -106,6 +107,7 @@ int EntityManager::TriggerDialogue(bool& triggerDialogue, Entity* item)
 	triggerDialogue = true;
 	item->SetDrawPtext(false);
 	item->SetTalkStart(true);
+	QuestManager::GetInstance()->CheckQuests(item);
 	return item->GetDialogeId();
 }
 

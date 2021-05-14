@@ -167,6 +167,9 @@
     <ClCompile Include="Source\Door.cpp">
       <Filter>Entities\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Statue.cpp">
+      <Filter>Entities\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -387,6 +390,9 @@
       <Filter>Entities\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Source\Door.h">
+      <Filter>Entities\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Statue.h">
       <Filter>Entities\Objects</Filter>
     </ClInclude>
   </ItemGroup>
