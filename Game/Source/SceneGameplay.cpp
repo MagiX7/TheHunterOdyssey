@@ -208,8 +208,6 @@ bool SceneGameplay::Load()
 	
 	sceneBattle = nullptr;
 
-	SDL_ShowCursor(SDL_ENABLE);
-
 	return ret;
 }
 

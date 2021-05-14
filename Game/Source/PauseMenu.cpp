@@ -24,68 +24,68 @@ bool PauseMenu::Load(Font* font)
 	btnResume->texture = guiTex;
 	btnResume->alineation = 1;
 
-	btnOptions = new GuiButton(3, { 505, 393, 270, 64 }, "Options", this, font);
-	btnOptions->section = { 430,0,270,64 };
-	btnOptions->texture = guiTex;
-	btnOptions->alineation = 1;
-
-	btnReturnTitle = new GuiButton(4, { 505, 478, 270, 64 }, "Return to Title", this, font);
-	btnReturnTitle->section = { 430,0,270,64 };
-	btnReturnTitle->texture = guiTex;
-	btnReturnTitle->alineation = 1;
-
-	btnExit = new GuiButton(5, { 505, 563, 270, 64 }, "Exit Game", this, font);
-	btnExit->section = { 430,0,270,64 };
-	btnExit->texture = guiTex;
-	btnExit->alineation = 1;
-
-	btnSave = new GuiButton(6, { 505, 308, 130, 64 }, "Save", this, font);
+	btnSave = new GuiButton(2, { 505, 308, 130, 64 }, "Save", this, font);
 	btnSave->section = { 430,245,130,64 };
 	btnSave->texture = guiTex;
 	btnSave->alineation = 1;
 
-	btnLoad = new GuiButton(7, { 645, 308, 130, 64 }, "Load", this, font);
+	btnLoad = new GuiButton(3, { 645, 308, 130, 64 }, "Load", this, font);
 	btnLoad->section = { 430,245,130,64 };
 	btnLoad->texture = guiTex;
 	btnLoad->alineation = 1;
 
-	btnOptionsBack = new GuiButton(9, { 930, 561, 270, 64 }, "Back", this, font);
+	btnOptions = new GuiButton(4, { 505, 393, 270, 64 }, "Options", this, font);
+	btnOptions->section = { 430,0,270,64 };
+	btnOptions->texture = guiTex;
+	btnOptions->alineation = 1;
+
+	btnReturnTitle = new GuiButton(5, { 505, 478, 270, 64 }, "Return to Title", this, font);
+	btnReturnTitle->section = { 430,0,270,64 };
+	btnReturnTitle->texture = guiTex;
+	btnReturnTitle->alineation = 1;
+
+	btnExit = new GuiButton(6, { 505, 563, 270, 64 }, "Exit Game", this, font);
+	btnExit->section = { 430,0,270,64 };
+	btnExit->texture = guiTex;
+	btnExit->alineation = 1;
+
+	btnOptionsBack = new GuiButton(7, { 930, 561, 270, 64 }, "Back", this, font);
 	btnOptionsBack->section = { 430,0,270,64 };
 	btnOptionsBack->texture = guiTex;
 	btnOptionsBack->alineation = 1;
 
-	slideMusicVolume = new GuiSlider(10, { 897,198,339,46 }, "Music volume", this, 0, 128, app->audio->GetMusicVolume());
+	slideMusicVolume = new GuiSlider(8, { 897,198,339,46 }, "Music volume", this, 0, 128, app->audio->GetMusicVolume());
 	slideMusicVolume->section = { 440,83,339,46 };
 	slideMusicVolume->texture = guiTex;
 
-	slideFXVolume = new GuiSlider(11, { 897,313,339,46 }, "FX volume", this, 0, 128, app->audio->GetFxVolume());
+	slideFXVolume = new GuiSlider(9, { 897,313,339,46 }, "FX volume", this, 0, 128, app->audio->GetFxVolume());
 	slideFXVolume->section = { 440,83,339,46 };
 	slideFXVolume->texture = guiTex;
 
-	checkFullscreen = new GuiCheckBox(12, { 935,385,250,35 }, "Fullscreen", this, app->win->fullscreenWindow);
+	checkFullscreen = new GuiCheckBox(10, { 935,385,250,35 }, "Fullscreen", this, app->win->fullscreenWindow);
 	checkFullscreen->section = { 440,192,32,32 };
 	checkFullscreen->texture = guiTex;
 
-	checkVSync = new GuiCheckBox(13, { 977,460,170,35 }, "VSync", this, false);
+	checkVSync = new GuiCheckBox(11, { 977,460,170,35 }, "VSync", this, false);
 	checkVSync->section = { 440,192,32,32 };
 	checkVSync->texture = guiTex;
 
-	btnExitYes = new GuiButton(14, { 505, 256, 270, 64 }, "Yes", this, font);
+	btnExitYes = new GuiButton(12, { 505, 256, 270, 64 }, "Yes", this, font);
 	btnExitYes->section = { 430,0,270,64 };
 	btnExitYes->texture = guiTex;
 	btnExitYes->alineation = 1;
 
-	btnExitNo = new GuiButton(15, { 505, 341, 270, 64 }, "No", this, font);
+	btnExitNo = new GuiButton(13, { 505, 341, 270, 64 }, "No", this, font);
 	btnExitNo->section = { 430,0,270,64 };
 	btnExitNo->texture = guiTex;
 	btnExitNo->alineation = 1;
 
-	btnReturnTitleYes = new GuiButton(16, { 505, 256, 270, 64 }, "Yes", this, font);
+	btnReturnTitleYes = new GuiButton(14, { 505, 256, 270, 64 }, "Yes", this, font);
 	btnReturnTitleYes->section = { 430,0,270,64 };
 	btnReturnTitleYes->texture = guiTex;
 	btnReturnTitleYes->alineation = 1;
 
-	btnReturnTitleNo = new GuiButton(17, { 505, 341, 270, 64 }, "No", this, font);
+	btnReturnTitleNo = new GuiButton(15, { 505, 341, 270, 64 }, "No", this, font);
 	btnReturnTitleNo->section = { 430,0,270,64 };
 	btnReturnTitleNo->texture = guiTex;
 	btnReturnTitleNo->alineation = 1;
@@ -295,7 +295,15 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 			state = PauseState::DEFAULT;
 			scene->ChangeState(GameplayMenuState::NONE);
 		}
-		else if (control->id == 3) // Options
+		else if (control->id == 2) // Save
+		{
+			app->SaveGameRequest();
+		}
+		else if (control->id == 3) // Load
+		{
+			app->LoadGameRequest();
+		}
+		else if (control->id == 4) // Options
 		{
 			state = PauseState::OPTIONS;
 
@@ -304,7 +312,7 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 			lastButton = currentButton;
 			currentButton = (*buttons.begin());
 		}
-		else if (control->id == 4) // Return to title
+		else if (control->id == 5) // Return to title
 		{
 			state = PauseState::RETURN_TITLE;
 
@@ -314,7 +322,7 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 			lastButton = currentButton;
 			currentButton = (*buttons.end().prev());
 		}
-		else if (control->id == 5) // Exit
+		else if (control->id == 6) // Exit
 		{
 			state = PauseState::EXIT;
 
@@ -324,9 +332,7 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 			lastButton = currentButton;
 			currentButton = (*buttons.end().prev());
 		}
-		else if (control->id == 6) app->SaveGameRequest();// Save Game
-		else if (control->id == 7) app->LoadGameRequest(); // Load Game
-		else if (control->id == 9) // Back from options
+		else if (control->id == 7) // Back from options
 		{
 			state = PauseState::DEFAULT;
 
@@ -340,8 +346,9 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 
 			currentButton = lastButton;
 		}
-		else if (control->id == 14)	return false;
-		else if (control->id == 15)
+		else if (control->id == 12) // Exit yes
+			return false;
+		else if (control->id == 13) // Exit no
 		{
 			state = PauseState::DEFAULT;
 
@@ -355,9 +362,9 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 
 			currentButton = lastButton;
 		}
-		else if (control->id == 16)
-			scene->TransitionToScene(SceneType::TITLE, TransitionType::FADE_TO_BLACK);
-		else if (control->id == 17)
+		else if (control->id == 14) // Return to title yes
+			scene->TransitionToScene(SceneType::TITLE, TransitionType::WIPE);
+		else if (control->id == 15) // Return to title no
 		{
 			state = PauseState::DEFAULT;
 
@@ -374,16 +381,18 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 	}
 	case GuiControlType::SLIDER:
 	{
-		if (control->id == 10) app->audio->SetMusicVolume(slideMusicVolume->GetValue()); // Music Volume
-		else if (control->id == 11) app->audio->SetFxVolume(slideFXVolume->GetValue()); // FX Volume
+		if (control->id == 8) app->audio->SetMusicVolume(slideMusicVolume->GetValue()); // Music Volume
+		else if (control->id == 9) app->audio->SetFxVolume(slideFXVolume->GetValue()); // FX Volume
 	}
 	case GuiControlType::CHECKBOX:
 	{
-	if (control->id == 12) // Fullscreen
-	{
-		app->win->SetFullscreen();
-	}
-	else if (control->id == 13); // VSync
+		if (control->id == 10) // Fullscreen
+		{
+			app->win->SetFullscreen();
+		}
+		else if (control->id == 11) // VSync
+		{
+		}
 	}
 	}
 	
