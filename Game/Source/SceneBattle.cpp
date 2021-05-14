@@ -30,13 +30,13 @@ SceneBattle::~SceneBattle()
 
 bool SceneBattle::Load()
 {
-	font = new Font("Assets/Font/font3.xml", app->tex);
+	font = new Font(app, "Font/font3.xml", app->tex);
 
 	//backgroundTexture = app->tex->Load("Assets/Textures/Scenes/battle_bg.png");
 	map->Load("battle_map.tmx", app->tex);
 
 	// Start music
-	app->audio->PlayMusic("Assets/Audio/Music/fight_theme_2.ogg", 0);
+	app->audio->PlayMusic("Audio/Music/fight_theme_2.ogg", 0);
 	
 	eastl::list<Player*>::iterator it = playerList.begin();
 	for (int i = 0; it != playerList.end(); ++it, ++i)

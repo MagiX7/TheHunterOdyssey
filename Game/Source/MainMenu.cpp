@@ -40,9 +40,9 @@ MainMenu::~MainMenu()
 
 bool MainMenu::Load(Font* font)
 {
-	guiTex = app->tex->Load("Assets/Textures/UI/gui_main_menu.png");
-	bg = app->tex->Load("Assets/Textures/UI/main_menu_textures.png");
-	creditsTexture = app->tex->Load("Assets/Textures/Scenes/credits.png");
+	guiTex = app->tex->Load("Textures/UI/gui_main_menu.png");
+	bg = app->tex->Load("Textures/UI/main_menu_textures.png");
+	creditsTexture = app->tex->Load("Textures/Scenes/credits.png");
 
 	btnNewGame = new GuiButton(1, { 510, 325, 260, 59 }, "New Game", this, font);
 	btnNewGame->section = { 0,0,260,59 };
@@ -151,7 +151,7 @@ bool MainMenu::Update(float dt)
 	{
 		if (playMusicOptions == false)
 		{
-			app->audio->PlayMusic("Assets/Audio/Music/intro_theme.ogg");
+			app->audio->PlayMusic("Audio/Music/intro_theme.ogg");
 			playMusicOptions = true;
 		}
 
@@ -189,7 +189,7 @@ bool MainMenu::Update(float dt)
 	{
 		if (playMusicOptions == true)
 		{
-			app->audio->PlayMusic("Assets/Audio/Music/options_theme.ogg");
+			app->audio->PlayMusic("Audio/Music/options_theme.ogg");
 			playMusicOptions = false;
 		}
 		btnOptionsBack->Update(app->input, dt, id);

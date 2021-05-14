@@ -49,9 +49,9 @@ QuestManager::QuestManager()
 		loadedQuests.push_back(quest);
 	}
 
-	completedQuestFx = app->audio->LoadFx("Assets/Audio/Fx/quest_completed.wav");
-	questTexture = app->tex->Load("Assets/Textures/UI/quest_texture.png");
-	texture = app->tex->Load("Assets/Textures/UI/quests.png");
+	completedQuestFx = app->audio->LoadFx("Audio/Fx/quest_completed.wav");
+	questTexture = app->tex->Load("Textures/UI/quest_texture.png");
+	texture = app->tex->Load("Textures/UI/quests.png");
 	questFinished = nullptr;
 	questActive = nullptr;
 	playFx = false;

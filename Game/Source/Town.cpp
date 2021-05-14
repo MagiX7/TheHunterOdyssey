@@ -9,7 +9,7 @@ Town::Town(iPoint position, pugi::xml_node anim, int id) : Npc(EntityType::TOWN,
 {
 	/*bounds = { 0,0, 16,32 };
 	type = EntityType::TOWN;*/
-	texture = app->tex->Load("Assets/Textures/Npc/Town.png");
+	texture = app->tex->Load("Textures/Npc/Town.png");
 
 	state = EntityState::WALKING_RIGHT;
 	pugi::xml_node player = anim.child("town").child("overworld");

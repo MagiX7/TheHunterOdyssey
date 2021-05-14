@@ -28,8 +28,8 @@ bool DialogueManager::Start()
 	else
 	{
 		root = file.child("dialogues");
-		font = new Font("Assets/Font/font3.xml", app->tex);
-		texture = app->tex->Load("Assets/Textures/UI/gui_dialogue_textures.png");
+		font = new Font(app, "Font/font3.xml", app->tex);
+		texture = app->tex->Load("Textures/UI/gui_dialogue_textures.png");
 
 		letterCount = 0;
 		isDialogueActive = false;

@@ -9,7 +9,7 @@
 
 CharacterManager::CharacterManager(SceneGameplay* s, PlayerType type, Font* font) : scene(s)
 {
-	guiTex = app->tex->Load("Assets/Textures/UI/gui_character_swap_menu.png");
+	guiTex = app->tex->Load("Textures/UI/gui_character_swap_menu.png");
 
 	btnHunter = new GuiButton(1, { 505, 180, 270, 64 }, "Hunter", this, font);
 	btnHunter->texture = guiTex;

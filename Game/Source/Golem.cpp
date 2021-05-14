@@ -11,10 +11,10 @@
 Golem::Golem(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::GOLEM)
 {
 	bounds = { pos.x, pos.y, 70, 69 };
-	texture = app->tex->Load("Assets/Textures/Enemies/golem.png");
-	attackFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/golem_attack.wav");
-	dieFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/golem_die.wav");
-	hurtFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/golem_hurt.wav");
+	texture = app->tex->Load("Textures/Enemies/golem.png");
+	attackFx = app->audio->LoadFx("Audio/Fx/Battle/golem_attack.wav");
+	dieFx = app->audio->LoadFx("Audio/Fx/Battle/golem_die.wav");
+	hurtFx = app->audio->LoadFx("Audio/Fx/Battle/golem_hurt.wav");
 	name = "Golem";
 	
 	battlePos = pos;
@@ -51,7 +51,7 @@ Golem::Golem(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::GOLEM)
 	currentState = EnemyState::NORMAL;
 	currentAnim = &idleAnim;
 
-	font = new Font("Assets/Font/font3.xml", app->tex);
+	font = new Font(app, "Font/font3.xml", app->tex);
 }
 
 Golem::~Golem()

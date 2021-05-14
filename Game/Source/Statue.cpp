@@ -23,8 +23,8 @@ Statue::~Statue()
 
 bool Statue::Load()
 {
-	if (id == 1 || id == 2) texture = app->tex->Load("Assets/Textures/Objects/statue_1.png");
-	else texture = app->tex->Load("Assets/Textures/Objects/statue_2.png");
+	if (id == 1 || id == 2) texture = app->tex->Load("Textures/Objects/statue_1.png");
+	else texture = app->tex->Load("Textures/Objects/statue_2.png");
 
 	return true;
 }

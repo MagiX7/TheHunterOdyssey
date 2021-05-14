@@ -20,7 +20,7 @@ Npc::Npc(EntityType type, iPoint position, int id) : Entity(type), dialogeId(id)
 	bounds.y = position.y;
 	bounds.w = 30;
 	bounds.h = 32;
-	font = new Font("Assets/Font/font3.xml", app->tex);
+	font = new Font(app, "Font/font3.xml", app->tex);
 	drawPtext = false;
 	stateTimer = 0;
 	srand(time(NULL));

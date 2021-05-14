@@ -64,8 +64,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OptickCore.lib;EASTL.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)Source\External\Optick\lib\debug;$(ProjectDir)Source\External\SDL\libx86;$(ProjectDir)Source\External\SDL_image\libx86;$(ProjectDir)Source\External\SDL_mixer\libx86;$(ProjectDir)Source\External\EASTL-3.17.06\lib\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OptickCore.lib;EASTL.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Source\External\Optick\lib\debug;$(ProjectDir)Source\External\SDL\libx86;$(ProjectDir)Source\External\SDL_image\libx86;$(ProjectDir)Source\External\SDL_mixer\libx86;$(ProjectDir)Source\External\EASTL-3.17.06\lib\Debug;$(ProjectDir)Source\External\PhysFS\libx86</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(SolutionDir)Build\$(Configuration)\$(ProjectName).exe" "$(SolutionDir)Output\$(ProjectName).exe"</Command>
@@ -95,6 +95,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\AssetsManager.cpp" />
     <ClCompile Include="Source\Bat.cpp" />
     <ClCompile Include="Source\BattleMenu.cpp" />
     <ClCompile Include="Source\Dialogue.cpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="Source\Wizard.cpp" />
     <ClInclude Include="Source\Animation.h" />
     <ClInclude Include="Source\Armor.h" />
+    <ClInclude Include="Source\AssetsManager.h" />
     <ClInclude Include="Source\Bat.h" />
     <ClInclude Include="Source\BattleMenu.h" />
     <ClInclude Include="Source\Dialogue.h" />

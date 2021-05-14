@@ -9,7 +9,7 @@ NpcWizard::NpcWizard(iPoint position, pugi::xml_node anim, int id):Npc(EntityTyp
 {
 	//bounds = { 0,0, 16,32 };
 	//type = EntityType::NPC_WIZARD;
-	texture = app->tex->Load("Assets/Textures/Npc/Wizard.png");
+	texture = app->tex->Load("Textures/Npc/Wizard.png");
 
 	state = EntityState::WALKING_RIGHT;
 	pugi::xml_node player = anim.child("npc_wizard").child("overworld");

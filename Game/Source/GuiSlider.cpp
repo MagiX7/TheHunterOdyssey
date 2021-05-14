@@ -13,8 +13,8 @@ GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text, Menu* listene
 	this->value = value * 2;
 
 	//Load Fx
-	clickFx = app->audio->LoadFx("Assets/Audio/Fx/button_click.wav");
-	focusedFx = app->audio->LoadFx("Assets/Audio/Fx/button_focused.wav");
+	clickFx = app->audio->LoadFx("Audio/Fx/button_click.wav");
+	focusedFx = app->audio->LoadFx("Audio/Fx/button_focused.wav");
 	isPlayable = true;
 }
 

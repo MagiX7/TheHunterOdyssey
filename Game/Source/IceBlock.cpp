@@ -33,7 +33,7 @@ IceBlock::~IceBlock()
 
 bool IceBlock::Load()
 {
-	texture = app->tex->Load("Assets/Textures/Objects/block.png");
+	texture = app->tex->Load("Textures/Objects/block.png");
 
 	return true;
 }

@@ -2,12 +2,34 @@
 <save_status>
   <window />
   <input />
+  <:anonymous />
   <textures />
   <audio />
   <scenemanager>
-    <scenegameplay map_name="graveyard_path.tmx">
+    <scenegameplay map_name="town_map.tmx">
       <entities>
-        <NPCs amount="0" />
+        <NPCs amount="4">
+          <NPC>
+            <bounds X="287" Y="250" W="30" H="32" />
+            <NpcType type="TOWN" />
+            <Dialoge idDialoge="7" />
+          </NPC>
+          <NPC>
+            <bounds X="748" Y="1184" W="30" H="32" />
+            <NpcType type="RAY" />
+            <Dialoge idDialoge="3" />
+          </NPC>
+          <NPC>
+            <bounds X="851" Y="832" W="30" H="32" />
+            <NpcType type="TABERN" />
+            <Dialoge idDialoge="2" />
+          </NPC>
+          <NPC>
+            <bounds X="587" Y="350" W="30" H="32" />
+            <NpcType type="NPC_WIZARD" />
+            <Dialoge idDialoge="1" />
+          </NPC>
+        </NPCs>
         <Enemies amount="3">
           <Enemy>
             <bounds X="865" Y="365" W="70" H="69" />
@@ -25,7 +47,7 @@
         <players amount="4">
           <player>
             <isCurrent current="true" />
-            <bounds X="705" Y="877" W="26" H="32" />
+            <bounds X="683" Y="290" W="26" H="32" />
             <playerType type="HUNTER" />
           </player>
           <player>

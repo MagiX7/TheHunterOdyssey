@@ -33,8 +33,8 @@ Door::~Door()
 
 bool Door::Load()
 {
-	if (id == 1 || id == 2 || id == 3) texture = app->tex->Load("Assets/Textures/Objects/door_1.png");
-	else texture = app->tex->Load("Assets/Textures/Objects/door_2.png");
+	if (id == 1 || id == 2 || id == 3) texture = app->tex->Load("Textures/Objects/door_1.png");
+	else texture = app->tex->Load("Textures/Objects/door_2.png");
 
 	return true;
 }

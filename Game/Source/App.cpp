@@ -6,7 +6,7 @@
 #include "Audio.h"
 #include "SceneManager.h"
 #include "QuestManager.h"
-
+#include"AssetsManager.h"
 #include "Defs.h"
 #include "Log.h"
 
@@ -31,11 +31,12 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	tex = new Textures();
 	audio = new Audio();
 	sceneManager = new SceneManager();
-
+	assetsManager = new AssetsManager();
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(win);
 	AddModule(input);
+	AddModule(assetsManager);
 	AddModule(tex);
 	AddModule(audio);
 	AddModule(sceneManager);

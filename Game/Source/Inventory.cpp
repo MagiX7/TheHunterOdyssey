@@ -26,7 +26,7 @@ Inventory::~Inventory()
 
 bool Inventory::Load(Font* font)
 {
-	guiTex = app->tex->Load("Assets/Textures/UI/gui_inventory.png");
+	guiTex = app->tex->Load("Textures/UI/gui_inventory.png");
 
 	btnEquipment = new GuiButton(1, { 150,116,274,78 }, "Equipment", this, font);
 	btnEquipment->alineation = 0;

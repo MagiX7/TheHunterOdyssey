@@ -9,7 +9,7 @@ Tabern::Tabern(iPoint position, pugi::xml_node anim, int id) :Npc(EntityType::TA
 {
 	/*bounds = { 0,0, 16,32 };
 	type = EntityType::TABERN;*/
-	texture = app->tex->Load("Assets/Textures/Npc/Tabern.png");
+	texture = app->tex->Load("Textures/Npc/Tabern.png");
 
 	state = EntityState::WALKING_RIGHT;
 	pugi::xml_node player = anim.child("tabern").child("overworld");

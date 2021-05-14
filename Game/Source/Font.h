@@ -4,14 +4,14 @@
 #include "Defs.h"
 
 #include "SDL/include/SDL.h"
-
+#include"App.h"
 class Textures;
 
 class Font
 {
 public:
 
-	Font(const char* rtpFontFile, Textures* tex);
+	Font(App* App,const char* rtpFontFile, Textures* tex);
 
 	~Font();
 

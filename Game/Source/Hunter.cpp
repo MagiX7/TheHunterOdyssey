@@ -98,14 +98,14 @@ bool Hunter::Load()
 	Particles->DeleteGenerator(generator);
 	generator=Particles->CreateGenerator({ bounds.x,bounds.y }, ParticleType::DUST);
 	generator->SetParameters({ 4,4 });
-	texture = app->tex->Load("Assets/Textures/Players/hunter2.png");
-	battlerTexture = app->tex->Load("Assets/Textures/Players/battler_hunter.png");
+	texture = app->tex->Load("Textures/Players/hunter2.png");
+	battlerTexture = app->tex->Load("Textures/Players/battler_hunter.png");
 	generator->SetGoal({ bounds.x,bounds.y - 50 });
 
-	footStepFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/footstep_hunter.ogg");
-	dieFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/hunter_die.wav");
-	attackFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/hunter_attack.wav");
-	hurtFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/hunter_hurt.ogg");
+	footStepFx = app->audio->LoadFx("Audio/Fx/Gameplay/footstep_hunter.ogg");
+	dieFx = app->audio->LoadFx("Audio/Fx/Battle/hunter_die.wav");
+	attackFx = app->audio->LoadFx("Audio/Fx/Battle/hunter_attack.wav");
+	hurtFx = app->audio->LoadFx("Audio/Fx/Battle/hunter_hurt.ogg");
 
 	return true;
 }

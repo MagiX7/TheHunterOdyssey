@@ -17,8 +17,8 @@ SceneEnding::SceneEnding(bool win)
 	font = nullptr;
 	hasWin = win;
 
-	if (hasWin) app->audio->PlayMusic("Assets/Audio/Music/win_theme.ogg");
-	else app->audio->PlayMusic("Assets/Audio/Music/gameover_theme.ogg");
+	if (hasWin) app->audio->PlayMusic("Audio/Music/win_theme.ogg");
+	else app->audio->PlayMusic("Audio/Music/gameover_theme.ogg");
 
 	easingUp = new Easing();
 	easingDown = new Easing();
@@ -45,10 +45,10 @@ bool SceneEnding::Load()
 	LOG("Loading Scene Ending");
 	bool ret = true;
 
-	if (hasWin) bg = app->tex->Load("Assets/Textures/Scenes/battle_bg3.png");
-	else bg = app->tex->Load("Assets/Textures/Scenes/battle_bg2.png");
+	if (hasWin) bg = app->tex->Load("Textures/Scenes/battle_bg3.png");
+	else bg = app->tex->Load("Textures/Scenes/battle_bg2.png");
 
-	font = new Font("Assets/Font/font3.xml", app->tex);
+	font = new Font(app, "Font/font3.xml", app->tex);
 
 	return ret;
 }

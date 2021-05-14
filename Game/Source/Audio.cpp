@@ -1,6 +1,6 @@
 #include "App.h"
 #include "Audio.h"
-
+#include"AssetsManager.h"
 #include "Defs.h"
 #include "Log.h"
 
@@ -77,7 +77,7 @@ bool Audio::Update(float dt)
 			{
 				musicVolume = 0;
 				Mix_FreeMusic(music);
-				music = Mix_LoadMUS(nextMusic);
+				music = Mix_LoadMUS_RW(app->assetsManager->Load(nextMusic), 1);
 				Mix_PlayMusic(music, - 1);
 				nextMusic = "";
 				fadeOut = false;
@@ -149,8 +149,8 @@ unsigned int Audio::LoadFx(const char* path)
 	if(!active)
 		return 0;
 
-	Mix_Chunk* chunk = Mix_LoadWAV(path);
-
+	Mix_Chunk* chunk = Mix_LoadWAV_RW(app->assetsManager->Load(path), 1);
+	app->assetsManager->DeleteBuffer();
 	if(chunk == NULL)
 	{
 		LOG("Cannot load wav %s. Mix_GetError(): %s", path, Mix_GetError());

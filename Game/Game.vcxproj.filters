@@ -185,6 +185,9 @@
     <ClCompile Include="Source\TransitionsManager.cpp">
       <Filter>Transitions</Filter>
     </ClCompile>
+    <ClCompile Include="Source\AssetsManager.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -424,6 +427,9 @@
     </ClInclude>
     <ClInclude Include="Source\TransitionsManager.h">
       <Filter>Transitions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AssetsManager.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

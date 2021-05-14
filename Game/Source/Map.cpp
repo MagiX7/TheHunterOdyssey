@@ -1,7 +1,7 @@
 #include "App.h"
 #include "Render.h"
 #include "Textures.h"
-
+#include"AssetsManager.h"
 #include "Map.h"
 #include"Player.h"
 #include "Defs.h"
@@ -13,7 +13,7 @@ Map::Map()
 {
 	//name.Create("map");
 
-	folder.Create("Assets/Maps/");
+	folder.Create("Maps/");
 
 	scale = 1;
 	mapLoaded = false;
@@ -394,8 +394,9 @@ bool Map::Load(const char* filename, Textures* tex)
 	name.Create(filename);
 
 	SString tmp("%s%s", folder.GetString(), filename);
-
-	pugi::xml_parse_result result = mapFile.load_file(tmp.GetString());
+	int size = app->assetsManager->MakeLoad(tmp.GetString());
+	pugi::xml_parse_result result = mapFile.load_buffer(app->assetsManager->GetLastBuffer(), size);
+	app->assetsManager->DeleteBuffer();
 
 	if(result == NULL)
 	{

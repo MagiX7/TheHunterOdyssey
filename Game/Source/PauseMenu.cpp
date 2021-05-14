@@ -17,7 +17,7 @@ PauseMenu::~PauseMenu()
 
 bool PauseMenu::Load(Font* font)
 {
-	guiTex = app->tex->Load("Assets/Textures/UI/gui_pause_menu.png");
+	guiTex = app->tex->Load("Textures/UI/gui_pause_menu.png");
 
 	btnResume = new GuiButton(1, { 505, 223, 270, 64 }, "Resume Game", this, font);
 	btnResume->section = { 430,0,270,64 };
@@ -123,7 +123,7 @@ bool PauseMenu::Update(float dt)
 
 		if (playMusicOptions == false)
 		{
-			app->audio->PlayMusic("Assets/Audio/Music/village_theme_1.ogg");
+			app->audio->PlayMusic("Audio/Music/village_theme_1.ogg");
 			playMusicOptions = true;
 		}
 
@@ -139,7 +139,7 @@ bool PauseMenu::Update(float dt)
 
 		if (playMusicOptions == true)
 		{
-			app->audio->PlayMusic("Assets/Audio/Music/options_theme.ogg");
+			app->audio->PlayMusic("Audio/Music/options_theme.ogg");
 			playMusicOptions = false;
 		}
 

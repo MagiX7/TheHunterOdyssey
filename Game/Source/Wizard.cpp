@@ -93,13 +93,13 @@ Wizard::~Wizard()
 bool Wizard::Load()
 {
 	// TODO implement textures for wizard. 
-	texture = app->tex->Load("Assets/Textures/Players/wizard2.png");
-	battlerTexture = app->tex->Load("Assets/Textures/Players/battler_wizard.png");
+	texture = app->tex->Load("Textures/Players/wizard2.png");
+	battlerTexture = app->tex->Load("Textures/Players/battler_wizard.png");
 
-	footStepFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/footstep_wizard.ogg");
-	dieFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/wizard_die.wav");
-	attackFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/wizard_attack.wav");
-	hurtFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/wizard_hurt.ogg");
+	footStepFx = app->audio->LoadFx("Audio/Fx/Gameplay/footstep_wizard.ogg");
+	dieFx = app->audio->LoadFx("Audio/Fx/Battle/wizard_die.wav");
+	attackFx = app->audio->LoadFx("Audio/Fx/Battle/wizard_attack.wav");
+	hurtFx = app->audio->LoadFx("Audio/Fx/Battle/wizard_hurt.ogg");
 
 	return true;
 }

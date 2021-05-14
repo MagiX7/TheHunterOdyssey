@@ -71,7 +71,7 @@ BattleMenu::~BattleMenu()
 
 bool BattleMenu::Load(Font* font)
 {
-	guiTex = app->tex->Load("Assets/Textures/UI/gui_battle_menu.png");
+	guiTex = app->tex->Load("Textures/UI/gui_battle_menu.png");
 
 	btnAttack = new GuiButton(1, { 160, 480, 204, 43 }, "Attack", this, font);
 	btnAttack->texture = guiTex;

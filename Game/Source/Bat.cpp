@@ -11,10 +11,10 @@
 Bat::Bat(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::BAT)
 {
 	bounds = { pos.x, pos.y, 37, 33 };
-	texture = app->tex->Load("Assets/Textures/Enemies/bat.png");
-	attackFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/bat_attack.wav");
-	dieFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/bat_die.wav");
-	hurtFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/bat_hurt.wav");
+	texture = app->tex->Load("Textures/Enemies/bat.png");
+	attackFx = app->audio->LoadFx("Audio/Fx/Battle/bat_attack.wav");
+	dieFx = app->audio->LoadFx("Audio/Fx/Battle/bat_die.wav");
+	hurtFx = app->audio->LoadFx("Audio/Fx/Battle/bat_hurt.wav");
 	name = "Bat";
 
 	battlePos = pos;
@@ -52,7 +52,7 @@ Bat::Bat(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::BAT)
 	currentState = EnemyState::NORMAL;
 	currentAnim = &flightAnim;
 
-	font = new Font("Assets/Font/font3.xml", app->tex);
+	font = new Font(app,"Font/font3.xml", app->tex);
 }
 
 Bat::~Bat()

@@ -35,8 +35,8 @@ bool SceneLogo::Load()
 {
 	LOG("Loading Scene Logo");
 	bool ret = true;
-	logoFx = app->audio->LoadFx("Assets/Audio/Fx/logo_intro.wav");
-	logo = app->tex->Load("Assets/Textures/Scenes/logo.png");
+	logoFx = app->audio->LoadFx("Audio/Fx/logo_intro.wav");
+	logo = app->tex->Load("Textures/Scenes/logo.png");
 
 	return ret;
 }

@@ -97,7 +97,7 @@ SceneGameplay::SceneGameplay()
 	en->SetCurrentState(EnemyState::ROAMING);
 	enemyList.push_back(en);
 
-	atlas = app->tex->Load("Assets/Textures/Items/items_atlas.png");
+	atlas = app->tex->Load("Textures/Items/items_atlas.png");
 	inventory = new Inventory(playerList, atlas);
 
 	Item *item = new UltraPotion(iPoint(128,1248), atlas);
@@ -120,7 +120,7 @@ SceneGameplay::SceneGameplay()
 
 	pause = new PauseMenu(this);
 
-	font = new Font("Assets/Font/font3.xml", app->tex);
+	font = new Font(app, "Font/font3.xml", app->tex);
 
 	showColliders = false;
 	transition = false;
@@ -136,9 +136,9 @@ bool SceneGameplay::Load()
 	LOG("Loading Scene Gameplay");
 	bool ret = true;
 	//particles->CleanUp();
-	font = new Font("Assets/Font/font3.xml", app->tex);
+	font = new Font(app, "Font/font3.xml", app->tex);
 
-	goldTexture = app->tex->Load("Assets/Textures/UI/gold.png");
+	goldTexture = app->tex->Load("Textures/UI/gold.png");
 
 	entityManager->Load();
 
@@ -158,12 +158,12 @@ bool SceneGameplay::Load()
 	// Start music
 	channel = app->audio->SetChannel();
 
-	app->audio->PlayMusic("Assets/Audio/Music/village_theme_1.ogg", 0);
+	app->audio->PlayMusic("Audio/Music/village_theme_1.ogg", 0);
 
 	//Load Fx
-	doorOpenedFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/door_open.ogg");
-	doorClosedFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/door_close.ogg");
-	puzzleCompletedFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/puzzle_completed.ogg");
+	doorOpenedFx = app->audio->LoadFx("Audio/Fx/Gameplay/door_open.ogg");
+	doorClosedFx = app->audio->LoadFx("Audio/Fx/Gameplay/door_close.ogg");
+	puzzleCompletedFx = app->audio->LoadFx("Audio/Fx/Gameplay/puzzle_completed.ogg");
 
 	map = new Map();
 	isTown = true;
@@ -1426,7 +1426,7 @@ void SceneGameplay::Transitioning(float dt)
 				
 				currentPlayer->bounds.x = tmpPosPlayer.x;
 				currentPlayer->bounds.y = tmpPosPlayer.y;
-				app->audio->PlayMusic("Assets/Audio/Music/village_theme_1.ogg", 0);
+				app->audio->PlayMusic("Audio/Music/village_theme_1.ogg", 0);
 			}
 		}
 	}

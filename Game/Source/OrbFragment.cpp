@@ -15,7 +15,7 @@ OrbFragment::~OrbFragment()
 
 bool OrbFragment::Load()
 {
-	texture = app->tex->Load("Assets/Textures/Items/items_atlas.png");
+	texture = app->tex->Load("Textures/Items/items_atlas.png");
 
 	return true;
 }

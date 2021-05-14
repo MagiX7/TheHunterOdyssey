@@ -10,10 +10,10 @@
 Skull::Skull(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::SKULL)
 {
 	bounds = { pos.x, pos.y, 74, 74 };
-	texture = app->tex->Load("Assets/Textures/Enemies/floating_skull.png");
-	attackFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/skull_attack.wav");
-	dieFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/skull_die.wav");
-	hurtFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/skull_hurt.wav");
+	texture = app->tex->Load("Textures/Enemies/floating_skull.png");
+	attackFx = app->audio->LoadFx("Audio/Fx/Battle/skull_attack.wav");
+	dieFx = app->audio->LoadFx("Audio/Fx/Battle/skull_die.wav");
+	hurtFx = app->audio->LoadFx("Audio/Fx/Battle/skull_hurt.wav");
 	name = "Skull";
 
 	battlePos = pos;
@@ -49,7 +49,7 @@ Skull::Skull(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::SKULL)
 
 	currentAnim = &idleAnim;
 
-	font = new Font("Assets/Font/font3.xml", app->tex);
+	font = new Font(app, "Font/font3.xml", app->tex);
 }
 
 Skull::~Skull()

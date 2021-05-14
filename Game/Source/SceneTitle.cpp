@@ -46,20 +46,20 @@ bool SceneTitle::Load()
 	bool ret = true;
 	
 	// Logo texture loading
-	bgText = app->tex->Load("Assets/Textures/Scenes/battle_bg2.png");
-	bg = app->tex->Load("Assets/Textures/Scenes/game_title.png");
+	bgText = app->tex->Load("Textures/Scenes/battle_bg2.png");
+	bg = app->tex->Load("Textures/Scenes/game_title.png");
 
 	// Music startup
 	// TODO revise this when we change the module audio.
-	app->audio->PlayMusic("Assets/Audio/Music/intro_theme.ogg");
+	app->audio->PlayMusic("Audio/Music/intro_theme.ogg");
 
 	// Enter FX
-	enterFx = app->audio->LoadFx("Assets/Audio/Fx/title_enter.wav");
+	enterFx = app->audio->LoadFx("Audio/Fx/title_enter.wav");
 
 	// Title FX
 	//titleFx = app->audio->LoadFx("Assets/Audio/Fx/hello_man.wav");
 
-	font = new Font("Assets/Font/font3.xml", app->tex);
+	font = new Font(app,"Font/font3.xml", app->tex);
 	
 	mainMenu = new MainMenu(this);
 	mainMenu->Load(font);

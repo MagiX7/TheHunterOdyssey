@@ -20,10 +20,10 @@ Dialogue::Dialogue(int dialogueId) : id(dialogueId)
 {
 	isDialogueActive = false;
 
-	talkingFx1 = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/talking_1.ogg");
-	talkingFx2 = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/talking_2.ogg");
-	talkingFx3 = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/talking_3.ogg");
-	talkingFx4 = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/talking_4.ogg");
+	talkingFx1 = app->audio->LoadFx("Audio/Fx/Gameplay/talking_1.ogg");
+	talkingFx2 = app->audio->LoadFx("Audio/Fx/Gameplay/talking_2.ogg");
+	talkingFx3 = app->audio->LoadFx("Audio/Fx/Gameplay/talking_3.ogg");
+	talkingFx4 = app->audio->LoadFx("Audio/Fx/Gameplay/talking_4.ogg");
 	firstTime = true;
 	srand(time(NULL));
 

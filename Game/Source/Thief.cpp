@@ -91,13 +91,13 @@ Thief::~Thief()
 
 bool Thief::Load()
 {
-	texture = app->tex->Load("Assets/Textures/Players/thief_overworld.png");
-	battlerTexture = app->tex->Load("Assets/Textures/Players/battler_thief.png");
+	texture = app->tex->Load("Textures/Players/thief_overworld.png");
+	battlerTexture = app->tex->Load("Textures/Players/battler_thief.png");
 
-	footStepFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/footstep_thief.ogg");
-	dieFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/thief_die.wav");
-	attackFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/thief_attack.wav");
-	hurtFx = app->audio->LoadFx("Assets/Audio/Fx/Battle/thief_hurt.ogg");
+	footStepFx = app->audio->LoadFx("Audio/Fx/Gameplay/footstep_thief.ogg");
+	dieFx = app->audio->LoadFx("Audio/Fx/Battle/thief_die.wav");
+	attackFx = app->audio->LoadFx("Audio/Fx/Battle/thief_attack.wav");
+	hurtFx = app->audio->LoadFx("Audio/Fx/Battle/thief_hurt.ogg");
 
 	return true;
 }

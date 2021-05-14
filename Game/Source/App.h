@@ -18,7 +18,7 @@ class Render;
 class Textures;
 class Audio;
 class SceneManager;
-
+class AssetsManager;
 class App
 {
 public:
@@ -87,7 +87,7 @@ public:
 	Textures* tex;
 	Audio* audio;
 	SceneManager* sceneManager;
-
+	AssetsManager* assetsManager;
 	uint64 frameCount = 0;
 private:
 

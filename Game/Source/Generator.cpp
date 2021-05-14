@@ -12,7 +12,7 @@ Generator::Generator(ParticleType Type)
 	switch (type)
 	{
 	case ParticleType::DUST:
-		texture = app->tex->Load("Assets/Textures/Dust/dust_2.png");
+		texture = app->tex->Load("Textures/Dust/dust_2.png");
 		break;
 	case ParticleType::NONE:
 		break;
