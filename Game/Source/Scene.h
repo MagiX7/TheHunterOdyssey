@@ -1,16 +1,9 @@
 #ifndef __SCENE_H__
 #define __SCENE_H__
 
+#include "TransitionsManager.h"
+
 #include "Log.h"
-enum class TransitionType
-{
-	NONE = 0,
-	WIPE,
-	FADE_TO_BLACK,
-	ALTERNATING_BARS,
-	HALF_HEIGHT_RECTANGLES,
-	HALF_WIDHT_RECTANGLES
-};
 
 enum class SceneType
 {
@@ -21,11 +14,13 @@ enum class SceneType
 	ENDING
 };
 
+enum class TransitionType;
+
 class Scene
 {
 public:
 
-	Scene() : active(false), transitionRequired(false) {}
+	Scene() : active(false), transitionRequired(false), win(false) {}
 
 	// Destructor
 	virtual ~Scene() {}
@@ -50,12 +45,14 @@ public:
 	virtual bool SaveState(pugi::xml_node&) const { return true; }
 
 
-	void TransitionToScene(SceneType scene, TransitionType type)
+	void TransitionToScene(SceneType scene, TransitionType type, bool w = false)
 	{
 		LOG("Changing Scene");
 		transitionRequired = true;
 		nextScene = scene;
-		transitionType = type;
+		win = w;
+		//transitionType = type;
+		TransitionsManager::GetInstance()->SetType(type);
 	}
 
 public:
@@ -69,6 +66,7 @@ public:
 	bool showColliders;
 
 	int channel;
+	bool win;
 
 	TransitionType transitionType;
 };

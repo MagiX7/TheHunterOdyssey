@@ -378,6 +378,22 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 
 			currentButton = lastButton;
 		}
+		else if (control->id == 16) scene->TransitionToScene(SceneType::TITLE, TransitionType::FADE_TO_BLACK);
+		else if (control->id == 17)
+		{
+			state = PauseState::DEFAULT;
+
+			buttons.clear();
+			buttons.push_back(btnResume);
+			buttons.push_back(btnSave);
+			buttons.push_back(btnLoad);
+			buttons.push_back(btnOptions);
+			buttons.push_back(btnReturnTitle);
+			buttons.push_back(btnExit);
+
+			currentButton = lastButton;
+		}
+		break;
 	}
 	case GuiControlType::SLIDER:
 	{

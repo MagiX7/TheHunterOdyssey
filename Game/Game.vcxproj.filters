@@ -181,6 +181,8 @@
     </ClCompile>
     <ClCompile Include="Source\InterruptorBlock.cpp">
       <Filter>Entities\Objects</Filter>
+    <ClCompile Include="Source\TransitionsManager.cpp">
+      <Filter>Transitions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -418,6 +420,8 @@
     </ClInclude>
     <ClInclude Include="Source\InterruptorBlock.h">
       <Filter>Entities\Objects</Filter>
+    <ClInclude Include="Source\TransitionsManager.h">
+      <Filter>Transitions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -468,6 +472,9 @@
     </Filter>
     <Filter Include="Entities\Objects">
       <UniqueIdentifier>{b94f3bf7-1cd2-4d67-b270-d2b0b5540f52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Transitions">
+      <UniqueIdentifier>{1835ff14-efb7-4fab-9753-a0539d7bce6a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

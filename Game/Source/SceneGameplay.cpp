@@ -40,7 +40,6 @@
 
 #include "CharacterManager.h"
 #include "PauseMenu.h"
-
 #include "Inventory.h"
 
 #include "Log.h"
@@ -166,7 +165,7 @@ bool SceneGameplay::Load()
 
 	// Startup
 	menuState = GameplayMenuState::NONE;
-	gameState = GameplayState::NONE;
+	gameState = GameplayState::ROAMING;
 
 	// Instantiate character swap manager
 	charManager = new CharacterManager(this, currentPlayer->playerType, font);
@@ -218,9 +217,6 @@ bool SceneGameplay::Update(float dt)
 	bool ret = true;
 	switch (gameState)
 	{
-	case GameplayState::NONE:
-		gameState = GameplayState::ROAMING;
-		break;
 	case GameplayState::ROAMING:
 		switch (menuState)
 		{
@@ -232,6 +228,7 @@ bool SceneGameplay::Update(float dt)
 			{
 				if (!transition) 
 					QuestManager::GetInstance()->Update(app->input, dt);
+				
 				if (QuestManager::GetInstance()->QuestState() == false)
 				{
 					particles->PreUpdate();
@@ -386,7 +383,7 @@ void SceneGameplay::Draw()
 		particles->PostUpdate();
 		//currentPlayer->Draw(showColliders);
 		
-		app->render->DrawTexture(goldTexture, (app->render->camera.x * -1) + 5, (app->render->camera.y * -1) + 60);
+		app->render->DrawTexture(goldTexture, 5, 60, NULL, false);
 
 		char tmp[32];
 		sprintf_s(tmp, "%i", currentPlayer->gold);
@@ -434,25 +431,13 @@ void SceneGameplay::Draw()
 			inventory->Draw(font, showColliders);
 			break;
 		}
-		//if (menuState == GameplayMenuState::CHARACTER_SWAP)
-		//{
-		//	app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 150);
-		//	charManager->Draw(font, showColliders);
-		//}
-
-		//if (menuState == GameplayMenuState::PAUSE)
-		//{
-		//	//app->render->DrawRectangle({ -app->render->camera.x, -app->render->camera.y, 1280, 720 }, 0, 0, 0, 150);
-		//	pause->Draw(font, showColliders);
-		//}
 		break;
 	case GameplayState::BATTLE:
-		sceneBattle->Draw(showColliders);
+		if (sceneBattle != nullptr) sceneBattle->Draw(showColliders);
 		break;
 	}
 
-	if (transition) 
-		app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 255 * alpha, true, false);
+	if (transition) TransitionsManager::GetInstance()->Draw();
 }
 
 bool SceneGameplay::UnLoad()
@@ -1364,6 +1349,8 @@ void SceneGameplay::GenerateBattle()
 	tmpPosPlayer = iPoint(currentPlayer->bounds.x, currentPlayer->bounds.y);
 	transition = true;
 	fadeOut = true;
+	TransitionsManager::GetInstance()->SetType(TransitionType::WIPE);
+	TransitionsManager::GetInstance()->SetStep(TransitionStep::ENTERING);
 }
 
 void SceneGameplay::CameraFollow(Render* render)
@@ -1393,20 +1380,20 @@ void SceneGameplay::Fading(float dt)
 {
 	if (fadeOut)
 	{
-		alpha += 1.0f * dt;
-		if (alpha >= 1.01f)
+		TransitionsManager::GetInstance()->EnteringTransition(dt);
+		if (TransitionsManager::GetInstance()->GetStep() == TransitionStep::CHANGING)
 		{
 			if (sceneBattle == nullptr)
 			{
 				sceneBattle = new SceneBattle(playerList, tmp, this, inventory);
 				sceneBattle->Load();
 				gameState = GameplayState::BATTLE;
+				fadeOut = false;
 			}
 			else
 			{
 				sceneBattle->UnLoad();
 				RELEASE(sceneBattle);
-				gameState = GameplayState::ROAMING;
 				eastl::list<Enemy*>::iterator en = enemyList.begin();
 				eastl::list<Enemy*>::iterator enEnd = enemyList.end();
 				for (; en != enEnd; ++en)
@@ -1422,27 +1409,30 @@ void SceneGameplay::Fading(float dt)
 				}
 				eastl::list<Player*>::iterator pl = playerList.begin();
 				eastl::list<Player*>::iterator plEnd = playerList.end();
+				int num = 0;
 				for (; pl != plEnd; ++pl)
 				{
-					(*pl)->GetHealed(4000);
-					(*pl)->GetMana(7000);
+					if ((*pl)->GetHealthPoints() <= 0) ++num;
 				}
+				if (num == playerList.size())
+				{
+					TransitionToScene(SceneType::ENDING, TransitionType::ALTERNATING_BARS, false);
+				}
+				else
+				{
+					fadeOut = false;
+					gameState = GameplayState::ROAMING;
+				}
+				
 				currentPlayer->bounds.x = tmpPosPlayer.x;
 				currentPlayer->bounds.y = tmpPosPlayer.y;
 				app->audio->PlayMusic("Assets/Audio/Music/village_theme_1.ogg", 0);
 			}
-			fadeOut = false;
-			alpha = 1.0f;
 		}
 	}
 	else
 	{
-		alpha -= 2.0f * dt;
-		if (alpha < -0.1f)
-		{
-			transition = false;
-			alpha = 0.0f;
-		}
+		if (TransitionsManager::GetInstance()->ExitingTransition(dt) == TransitionStep::NONE) transition = false;
 	}
 }
 
