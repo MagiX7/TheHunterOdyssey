@@ -79,6 +79,11 @@ Wizard::Wizard(iPoint position, pugi::xml_node anim, ParticlesManager* particles
 	this->abilityName[1] = "Water ball";
 	this->abilityName[2] = "Thunder";
 	this->abilityName[3] = "Gravity";
+
+	this->abilityCost[0] = 200;
+	this->abilityCost[1] = 150;
+	this->abilityCost[2] = 250;
+	this->abilityCost[3] = 400;
 }
 
 Wizard::~Wizard()
@@ -307,23 +312,33 @@ void Wizard::Ability(Enemy* enemy, int currentAbility)
 	switch (currentAbility)
 	{
 	case 1:
+		GetMana(-this->abilityCost[0]);
 		enemy->GetDamage(magicDamage + 10);
 		LOG("Casting FIRE");
 		break;
 	case 2:
+		GetMana(-this->abilityCost[1]);
 		enemy->GetDamage(magicDamage);
 		LOG("Casting WATER");
 		break;
 	case 3:
-		enemy->GetDamage(magicDamage);
+		GetMana(-this->abilityCost[2]);
+		enemy->GetDamage(magicDamage + 150);
 		LOG("Casting THUNDER");
 		break;
 	case 4:
-		enemy->GetDamage(magicDamage);
+		GetMana(-this->abilityCost[3]);
+		enemy->GetDamage(magicDamage * 10);
 		LOG("Casting GRAVITY");
 		break;
 	}
 	stance = PlayerStance::ABILITY_FINISHED;
+}
+
+bool Wizard::CanUseAbility(int abilityNum)
+{
+	if (GetManaPoints() >= this->abilityCost[abilityNum]) return true;
+	return false;
 }
 
 void Wizard::UseObject(Player* player, int currentObject)

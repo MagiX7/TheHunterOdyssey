@@ -1454,6 +1454,7 @@ void SceneGameplay::Fading(float dt)
 				for (; pl != plEnd; ++pl)
 				{
 					(*pl)->GetHealed(4000);
+					(*pl)->GetMana(7000);
 				}
 				currentPlayer->bounds.x = tmpPosPlayer.x;
 				currentPlayer->bounds.y = tmpPosPlayer.y;

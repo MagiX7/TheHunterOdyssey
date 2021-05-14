@@ -78,6 +78,11 @@ Warrior::Warrior(iPoint position, pugi::xml_node anim, ParticlesManager* particl
 	this->abilityName[1] = "Rend";
 	this->abilityName[2] = "Cleave";
 	this->abilityName[3] = "War cry";
+
+	this->abilityCost[0] = 500;
+	this->abilityCost[1] = 200;
+	this->abilityCost[2] = 200;
+	this->abilityCost[3] = 400;
 }
 
 Warrior::~Warrior()
@@ -303,6 +308,7 @@ void Warrior::Ability(Enemy* enemy, int currentAbility)
 	switch (currentAbility)
 	{
 	case 1:
+		GetMana(-this->abilityCost[0]);
 		if (enemy->GetHealth() <= 1000)
 		{
 			enemy->GetDamage(2500);
@@ -311,6 +317,7 @@ void Warrior::Ability(Enemy* enemy, int currentAbility)
 		LOG("Casting EXECUTE");
 		break;
 	case 2:
+		GetMana(-this->abilityCost[1]);
 		if (enemy->GetHealth() > 2000)
 		{
 			enemy->GetDamage(enemy->GetHealth() * 0.15);
@@ -318,15 +325,23 @@ void Warrior::Ability(Enemy* enemy, int currentAbility)
 		LOG("Casting REND");
 		break;
 	case 3:
+		GetMana(-this->abilityCost[2]);
 		enemy->GetDamage(meleeDamage + rand() % 200);
 		LOG("Casting CLEAVE");
 		break;
 	case 4:
+		GetMana(-this->abilityCost[3]);
 		enemy->GetDamage(rand());
 		LOG("Casting WAR CRY");
 		break;
 	}
 	stance = PlayerStance::ABILITY_FINISHED;
+}
+
+bool Warrior::CanUseAbility(int abilityNum)
+{
+	if (GetManaPoints() >= this->abilityCost[abilityNum]) return true;
+	return false;
 }
 
 void Warrior::UseObject(Player* player, int currentObject)
