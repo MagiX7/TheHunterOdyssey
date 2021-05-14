@@ -1,16 +1,9 @@
 #ifndef __SCENE_H__
 #define __SCENE_H__
 
+#include "TransitionsManager.h"
+
 #include "Log.h"
-enum class TransitionType
-{
-	NONE = 0,
-	WIPE,
-	FADE_TO_BLACK,
-	ALTERNATING_BARS,
-	HALF_HEIGHT_RECTANGLES,
-	HALF_WIDHT_RECTANGLES
-};
 
 enum class SceneType
 {
@@ -20,6 +13,8 @@ enum class SceneType
 	GAMEPLAY,
 	ENDING
 };
+
+enum class TransitionType;
 
 class Scene
 {
@@ -55,7 +50,8 @@ public:
 		LOG("Changing Scene");
 		transitionRequired = true;
 		nextScene = scene;
-		transitionType = type;
+		//transitionType = type;
+		TransitionsManager::Get()->SetType(type);
 	}
 
 public:
