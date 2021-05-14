@@ -172,16 +172,17 @@ void TransitionsManager::Draw()
 	switch (type)
 	{
 	case TransitionType::WIPE:
-		app->render->DrawRectangle(rectWipe, 0, 0, 0);
+		app->render->DrawRectangle(rectWipe, 0, 0, 0, 255, true, false);
 		break;
 
 	case TransitionType::ALTERNATING_BARS:
-		for (int i = 0; i < MAX_BARS_SIZE; ++i) app->render->DrawRectangle(bars[i], 0, 0, 0);
+		for (int i = 0; i < MAX_BARS_SIZE; ++i) 
+			app->render->DrawRectangle(bars[i], 0, 0, 0, 255, true, false);
 		break;
 
 	case TransitionType::HALF_HEIGHT_RECTANGLES:
-		app->render->DrawRectangle(rectUpper, 0, 0, 0);
-		app->render->DrawRectangle(rectLower, 0, 0, 0);
+		app->render->DrawRectangle(rectUpper, 0, 0, 0, 255, true, false);
+		app->render->DrawRectangle(rectLower, 0, 0, 0, 255, true, false);
 		break;
 
 	case TransitionType::FADE_TO_BLACK:
@@ -189,8 +190,8 @@ void TransitionsManager::Draw()
 		break;
 
 	case TransitionType::HALF_WIDHT_RECTANGLES:
-		app->render->DrawRectangle(rectUpper2, 0, 0, 0);
-		app->render->DrawRectangle(rectLower2, 0, 0, 0);
+		app->render->DrawRectangle(rectUpper2, 0, 0, 0, 255, true, false);
+		app->render->DrawRectangle(rectLower2, 0, 0, 0, 255, true, false);
 		break;
 	}
 }
@@ -265,7 +266,8 @@ TransitionStep TransitionsManager::ExitingTransition(float dt)
 			else bars[i].w += 1000 * dt;
 		}
 
-		if (bars[MAX_BARS_SIZE - 1].w > 0) step = TransitionStep::NONE;
+		if (bars[MAX_BARS_SIZE - 1].w > 0) 
+			step = TransitionStep::NONE;
 	}
 	else if (type == TransitionType::HALF_HEIGHT_RECTANGLES)
 	{

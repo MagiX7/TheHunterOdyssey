@@ -170,7 +170,7 @@ bool SceneGameplay::Load()
 
 	// Startup
 	menuState = GameplayMenuState::NONE;
-	gameState = GameplayState::NONE;
+	gameState = GameplayState::ROAMING;
 
 	// Instantiate character swap manager
 	charManager = new CharacterManager(this, currentPlayer->playerType, font);
@@ -219,9 +219,6 @@ bool SceneGameplay::Update(float dt)
 	bool ret = true;
 	switch (gameState)
 	{
-	case GameplayState::NONE:
-		gameState = GameplayState::ROAMING;
-		break;
 	case GameplayState::ROAMING:
 		switch (menuState)
 		{
@@ -453,8 +450,7 @@ void SceneGameplay::Draw()
 		break;
 	}
 
-	if (transition) 
-		app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 255 * alpha, true, false);
+	if (transition) TransitionsManager::Get()->Draw();
 }
 
 bool SceneGameplay::UnLoad()
@@ -1359,6 +1355,8 @@ void SceneGameplay::GenerateBattle()
 	tmpPosPlayer = iPoint(currentPlayer->bounds.x, currentPlayer->bounds.y);
 	transition = true;
 	fadeOut = true;
+	TransitionsManager::Get()->SetType(TransitionType::WIPE);
+	TransitionsManager::Get()->SetStep(TransitionStep::ENTERING);
 }
 
 void SceneGameplay::CameraFollow(Render* render)
@@ -1388,8 +1386,8 @@ void SceneGameplay::Fading(float dt)
 {
 	if (fadeOut)
 	{
-		alpha += 1.0f * dt;
-		if (alpha >= 1.01f)
+		TransitionsManager::Get()->EnteringTransition(dt);
+		if (TransitionsManager::Get()->GetStep() == TransitionStep::CHANGING)
 		{
 			if (sceneBattle == nullptr)
 			{
@@ -1431,11 +1429,6 @@ void SceneGameplay::Fading(float dt)
 	}
 	else
 	{
-		alpha -= 2.0f * dt;
-		if (alpha < -0.1f)
-		{
-			transition = false;
-			alpha = 0.0f;
-		}
+		if (TransitionsManager::Get()->ExitingTransition(dt) == TransitionStep::NONE) transition = false;
 	}
 }

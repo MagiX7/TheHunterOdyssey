@@ -425,7 +425,7 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 
 			currentButton = lastButton;
 		}
-		else if (control->id == 16)
+		else if (control->id == 16) 
 			scene->TransitionToScene(SceneType::TITLE, TransitionType::FADE_TO_BLACK);
 		else if (control->id == 17)
 		{
@@ -440,19 +440,22 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 
 			currentButton = lastButton;
 		}
+		break;
 	}
 	case GuiControlType::SLIDER:
 	{
 		if (control->id == 10) app->audio->SetMusicVolume(slideMusicVolume->GetValue()); // Music Volume
 		else if (control->id == 11) app->audio->SetFxVolume(slideFXVolume->GetValue()); // FX Volume
+		break;
 	}
 	case GuiControlType::CHECKBOX:
 	{
-	if (control->id == 12) // Fullscreen
-	{
-		app->win->SetFullscreen();
-	}
-	else if (control->id == 13); // VSync
+		if (control->id == 12) // Fullscreen
+		{
+			app->win->SetFullscreen();
+		}
+		else if (control->id == 13); // VSync
+		break;
 	}
 	}
 	
