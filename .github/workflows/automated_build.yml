@@ -19,6 +19,6 @@ jobs:
     - name: Build Library (MSVC16)
       run: |
         cd
-        msbuild.exe Development.sln /property:Configuration=Release
+        msbuild.exe Development.sln /p:Configuration=Release /p:Platform="Any CPU"
         cd ../..
       shell: cmd
