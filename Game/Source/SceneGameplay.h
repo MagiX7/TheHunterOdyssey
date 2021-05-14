@@ -125,6 +125,7 @@ private:
 	//Fx
 	int doorOpenedFx;
 	int doorClosedFx;
+	int puzzleCompletedFx;
 	
 	eastl::list<Enemy*> enemyList;
 	Enemy* tmp;

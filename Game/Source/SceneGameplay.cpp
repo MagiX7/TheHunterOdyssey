@@ -178,11 +178,14 @@ bool SceneGameplay::Load()
 	charManager->Load(font);
 
 	// Start music
+	channel = app->audio->SetChannel();
+
 	app->audio->PlayMusic("Assets/Audio/Music/village_theme_1.ogg", 0);
 
 	//Load Fx
 	doorOpenedFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/door_open.ogg");
 	doorClosedFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/door_close.ogg");
+	puzzleCompletedFx = app->audio->LoadFx("Assets/Audio/Fx/Gameplay/puzzle_completed.ogg");
 
 	map = new Map();
 	isTown = true;
@@ -1320,6 +1323,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						entityManager->SetAllNpcInactive();
 						//map->CleanUp();
 						entityManager->DeleteDoor(1);
+						app->audio->PlayFx(channel, puzzleCompletedFx);
 						deleteDoor = false;
 						//map->Load("dungeon_map.tmx", app->tex);
 						isDungeon = true;

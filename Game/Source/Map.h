@@ -86,7 +86,10 @@ struct MapLayer
 	// Get the value of x and y
 	inline uint Get(int x, int y) const
 	{
-		return data[(y * width) + x];
+		int num = (y * width) + x;
+
+		if (num < height * width)return data[num];
+		return 0;
 	}
 
 	inline uint ChangeTile(int x, int y, int newValue)
