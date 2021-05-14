@@ -25,6 +25,8 @@ public:
 
 	void DeleteEntity(Entity* entity);
 
+	void DeleteEntity(EntityType entity);
+
 	void DeleteAllEntities();
 
 	bool LoadState(pugi::xml_node* toLoad, pugi::xml_node* anims);

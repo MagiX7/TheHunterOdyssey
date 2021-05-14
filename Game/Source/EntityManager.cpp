@@ -283,6 +283,24 @@ void EntityManager::DeleteEntity(Entity* entity)
 	}
 }
 
+void EntityManager::DeleteEntity(EntityType entity)
+{
+	LOG("Deleting Entity");
+	eastl::list<Entity*>::iterator item;
+	eastl::list<Entity*>::iterator itEnd = entities.end();
+
+	for (item = entities.begin(); item != itEnd; ++item)
+	{
+		Entity* en = (*item);
+		if (en->type == entity)
+		{
+			en->UnLoad();
+			entities.remove(*item);
+			RELEASE(*item);
+		}
+	}
+}
+
 void EntityManager::DeleteAllEntities() 
 {
 	LOG("Deleting All Entities");
