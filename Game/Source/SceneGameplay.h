@@ -107,9 +107,8 @@ private:
 	// Inventory
 	Inventory* inventory;
 
-	// Armor
-	Item* helmet;
-	SDL_Texture* helmetTexture;
+	// Interruptor block
+	Item* interruptorBlock;
 
 	SDL_Texture* atlas;
 

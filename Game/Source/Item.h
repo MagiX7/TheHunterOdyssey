@@ -35,6 +35,7 @@ public:
 		bounds.y = pos.y;
 		bounds.w = 32;
 		bounds.h = 32;
+		isDropped = false;
 	}
 
 	virtual ~Item() {}
@@ -62,4 +63,6 @@ public:
 	SDL_Rect atlasSection;
 
 	bool isDragging; // For inventory
+
+	bool isDropped; // For dropping items
 };

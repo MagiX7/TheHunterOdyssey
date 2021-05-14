@@ -7,6 +7,7 @@ InterruptorBlock::InterruptorBlock(iPoint pos, SDL_Texture* atlas) : Item(Object
 {
 	atlasSection = { 435, 615, 28, 26 };
 	itemType = ItemType::INTERRUPTOR_BLOCK;
+	isDropped = false;
 }
 
 InterruptorBlock::~InterruptorBlock()
@@ -16,7 +17,6 @@ InterruptorBlock::~InterruptorBlock()
 bool InterruptorBlock::Load()
 {
 	texture = app->tex->Load("Assets/Textures/Items/items_atlas.png");
-
 	return true;
 }
 

@@ -276,8 +276,9 @@ bool SceneTitle::UnLoad()
 
 	app->tex->UnLoad(bg);
 	app->tex->UnLoad(bgText);
-	app->audio->UnLoadFx(enterFx);
-	app->audio->UnLoadFx(titleFx);
+	//app->audio->UnLoadFx(enterFx);
+	//app->audio->UnLoadFx(titleFx);
+	app->audio->UnLoadFxs();
 
 	return ret;
 }

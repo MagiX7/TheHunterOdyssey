@@ -307,7 +307,7 @@ bool SceneGameplay::Update(float dt)
 					for (; it != items.end(); ++it)
 					{
 						(*it)->Update(dt);
-						if (CheckCollision(currentPlayer->bounds, (*it)->bounds))
+						if (CheckCollision(currentPlayer->bounds, (*it)->bounds) && (*it)->isDropped == false)
 						{
 							QuestManager::GetInstance()->CheckQuests(*it);
 							inventory->AddItem(*it);
@@ -464,8 +464,9 @@ bool SceneGameplay::UnLoad()
 	
 	particles->CleanUp();
 
-	app->audio->UnLoadFx(doorClosedFx);
-	app->audio->UnLoadFx(doorOpenedFx);
+	/*app->audio->UnLoadFx(doorClosedFx);
+	app->audio->UnLoadFx(doorOpenedFx);*/
+	app->audio->UnLoadFxs();
 	app->tex->UnLoad(goldTexture);
 
 	return ret;
@@ -1216,13 +1217,24 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 							position = { 1664, 730 };
 							statue4 = (Statue*)entityManager->CreateEntity2(EntityType::STATUE, position, currentPlayer, 4);
 
-							Item* interruptorBlock = new InterruptorBlock(iPoint(1024, 416), atlas);
+							interruptorBlock = new InterruptorBlock(iPoint(1024, 416), atlas);
 							items.push_back(interruptorBlock);
 
 							loadObjects = false;
 						}
 						exit = true;
 						break;
+					}
+					if ((layer->Get(i, j) == 18) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
+						{
+							// TODO IMPLEMENT PUZZLE BOX INTERRUPTOR
+							interruptorBlock->bounds.x = currentPlayer->bounds.x;
+							interruptorBlock->bounds.y = currentPlayer->bounds.y;
+							items.push_back(interruptorBlock);
+							interruptorBlock->isDropped = true;
+						}
 					}
 					if ((layer->Get(i, j) == 17) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{

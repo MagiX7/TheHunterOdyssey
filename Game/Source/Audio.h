@@ -53,9 +53,8 @@ public:
 	inline bool FadeOutCompleted() { return fadeOut; }
 
 	int SetChannel();
-private:
-	void UnLoadFxs();
 
+	void UnLoadFxs();
 private:
 	_Mix_Music* music;
 	eastl::deque<Mix_Chunk*> fx;
