@@ -38,10 +38,10 @@ bool Inventory::Load(Font* font)
 	btnItems->texture = guiTex;
 	btnItems->section = { 739,0,274,78 };
 
-	btnInfo = new GuiButton(3, { 150,292,274,78 }, "Stats", this, font);
+	/*btnInfo = new GuiButton(3, { 150,292,274,78 }, "Stats", this, font);
 	btnInfo->alineation = 0;
 	btnInfo->texture = guiTex;
-	btnInfo->section = { 739,0,274,78 };
+	btnInfo->section = { 739,0,274,78 };*/
 	
 	btnHunter = new GuiButton(6, { 0,0, 40,40 }, "", this, font);
 	btnHunter->texture = atlasTexture;
@@ -81,7 +81,7 @@ bool Inventory::Load(Font* font)
 
 	buttons.push_back(btnEquipment);
 	buttons.push_back(btnItems);
-	buttons.push_back(btnInfo);
+	//buttons.push_back(btnInfo);
 
 	// Initialize items;
 	int offsetX = 0;
@@ -316,7 +316,7 @@ bool Inventory::UnLoad()
 {
 	RELEASE(btnEquipment);
 	RELEASE(btnItems);
-	RELEASE(btnInfo);
+	//RELEASE(btnInfo);
 	RELEASE(btnUse);
 	RELEASE(btnDelete);
 	RELEASE(btnHunter);
@@ -329,6 +329,7 @@ bool Inventory::UnLoad()
 
 	app->tex->UnLoad(atlasTexture);
 	//RELEASE(atlasTexture);
+	app->tex->UnLoad(guiTex);
 
 	buttons.clear();
 	players.clear();
@@ -483,7 +484,7 @@ void Inventory::AddItem(Item *it)
 	case ObjectType::ARMOR:
 		for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
 		{
-			if (armorSlots[i].item != nullptr && armorSlots[i].item == it)
+			if (armorSlots[i].item != nullptr && armorSlots[i].item == it && armorSlots[i].itemsAmount <= ITEM_STACK)
 			{
 				RELEASE(it);
 				armorSlots[i].itemsAmount++;
@@ -506,7 +507,7 @@ void Inventory::AddItem(Item *it)
 	case ObjectType::ITEM:
 		for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
 		{
-			if (slots[i].item != nullptr && slots[i].item->itemType == (it)->itemType)
+			if (slots[i].item != nullptr && slots[i].item->itemType == (it)->itemType && slots[i].itemsAmount <= ITEM_STACK)
 			{
 				slots[i].itemsAmount++;
 				if (it->itemType == ItemType::ORB_FRAGMENT) CompleteOrb(i);
@@ -846,6 +847,70 @@ void Inventory::UseObject(InventorySlot objects[], Player* player)
 		if (objects[currentSlotId].item->objectType == ObjectType::ARMOR)
 		{
 			objects[currentSlotId].item = nullptr;
+		}
+	}
+}
+
+void Inventory::UseObject(ItemType itemType)
+{
+	int aux;
+	int aux2;
+	int counter = 0;
+	for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
+	{
+		if (slots[i].item != nullptr && slots[i].item->itemType == itemType)
+		{
+			aux = ObjectQuantity(itemType) / ITEM_STACK;
+			aux2 = ObjectQuantity(itemType) - (aux * ITEM_STACK);
+
+			if (aux == 0 && aux2 == slots[i].itemsAmount)
+			{
+				slots[i].itemsAmount--;
+
+				if (slots[i].itemsAmount <= 0)
+				{
+					slots[i].state = SlotState::UNSELECTED;
+					slots[i].filled = false;
+					isTextDisplayed = false;
+					slots[i].item = nullptr;
+
+					break;
+				}
+			}
+			else if (aux > 0 && slots[i].itemsAmount == aux2)
+			{
+				slots[i].itemsAmount--;
+
+				if (slots[i].itemsAmount <= 0)
+				{
+					slots[i].state = SlotState::UNSELECTED;
+					slots[i].filled = false;
+					isTextDisplayed = false;
+					slots[i].item = nullptr;
+
+					break;
+				}
+			}
+			else if (aux > 0 && slots[i].itemsAmount == ITEM_STACK)
+			{
+				counter++;
+
+				if (aux == counter && aux2 == 0)
+				{
+					slots[i].itemsAmount--;
+
+					if (slots[i].itemsAmount <= 0)
+					{
+						slots[i].state = SlotState::UNSELECTED;
+						slots[i].filled = false;
+						isTextDisplayed = false;
+						slots[i].item = nullptr;
+
+						break;
+					}
+				}
+			}
+
 		}
 	}
 }
