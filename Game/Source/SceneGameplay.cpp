@@ -433,7 +433,7 @@ void SceneGameplay::Draw()
 		break;
 	}
 
-	if (transition) TransitionsManager::Get()->Draw();
+	if (transition) TransitionsManager::GetInstance()->Draw();
 }
 
 bool SceneGameplay::UnLoad()
@@ -1338,8 +1338,8 @@ void SceneGameplay::GenerateBattle()
 	tmpPosPlayer = iPoint(currentPlayer->bounds.x, currentPlayer->bounds.y);
 	transition = true;
 	fadeOut = true;
-	TransitionsManager::Get()->SetType(TransitionType::WIPE);
-	TransitionsManager::Get()->SetStep(TransitionStep::ENTERING);
+	TransitionsManager::GetInstance()->SetType(TransitionType::WIPE);
+	TransitionsManager::GetInstance()->SetStep(TransitionStep::ENTERING);
 }
 
 void SceneGameplay::CameraFollow(Render* render)
@@ -1369,8 +1369,8 @@ void SceneGameplay::Fading(float dt)
 {
 	if (fadeOut)
 	{
-		TransitionsManager::Get()->EnteringTransition(dt);
-		if (TransitionsManager::Get()->GetStep() == TransitionStep::CHANGING)
+		TransitionsManager::GetInstance()->EnteringTransition(dt);
+		if (TransitionsManager::GetInstance()->GetStep() == TransitionStep::CHANGING)
 		{
 			if (sceneBattle == nullptr)
 			{
@@ -1421,6 +1421,6 @@ void SceneGameplay::Fading(float dt)
 	}
 	else
 	{
-		if (TransitionsManager::Get()->ExitingTransition(dt) == TransitionStep::NONE) transition = false;
+		if (TransitionsManager::GetInstance()->ExitingTransition(dt) == TransitionStep::NONE) transition = false;
 	}
 }

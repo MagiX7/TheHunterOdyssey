@@ -6,7 +6,7 @@
 
 TransitionsManager* TransitionsManager::instance = nullptr;
 
-TransitionsManager* TransitionsManager::Get()
+TransitionsManager* TransitionsManager::GetInstance()
 {
 	if (instance == nullptr) instance = new TransitionsManager();
 	return instance;
@@ -95,6 +95,7 @@ void TransitionsManager::Draw()
 
 bool TransitionsManager::UnLoad()
 {
+	RELEASE(instance);
 	return true;
 }
 

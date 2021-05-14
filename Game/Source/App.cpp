@@ -5,6 +5,7 @@
 #include "Textures.h"
 #include "Audio.h"
 #include "SceneManager.h"
+#include "QuestManager.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -284,6 +285,8 @@ bool App::CleanUp()
 	{
 		ret = (*item)->CleanUp();
 	}
+
+	TransitionsManager::GetInstance()->UnLoad();
 
 	return ret;
 }

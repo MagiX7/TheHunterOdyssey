@@ -52,7 +52,7 @@ public:
 		nextScene = scene;
 		win = w;
 		//transitionType = type;
-		TransitionsManager::Get()->SetType(type);
+		TransitionsManager::GetInstance()->SetType(type);
 	}
 
 public:

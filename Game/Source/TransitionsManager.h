@@ -29,7 +29,7 @@ public:
 	TransitionsManager(const TransitionsManager&) = delete;
 	TransitionsManager& operator=(const TransitionsManager&) = delete;
 
-	static TransitionsManager* Get();
+	static TransitionsManager* GetInstance();
 
 	virtual ~TransitionsManager();
 

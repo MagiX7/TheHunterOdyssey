@@ -72,10 +72,10 @@ bool SceneManager::Update(float dt)
 	{
 		uint w, h;
 		app->win->GetWindowSize(w, h);
-		switch (TransitionsManager::Get()->GetStep())
+		switch (TransitionsManager::GetInstance()->GetStep())
 		{
 		case TransitionStep::ENTERING:
-			/*transitionStep = */TransitionsManager::Get()->EnteringTransition(dt);
+			/*transitionStep = */TransitionsManager::GetInstance()->EnteringTransition(dt);
 			break;
 
 		case TransitionStep::CHANGING:
@@ -89,11 +89,11 @@ bool SceneManager::Update(float dt)
 				next = nullptr;
 				//current->transitionType = tmpEnteringType;
 				//transitionStep = TransitionStep::EXITING;
-				TransitionsManager::Get()->SetStep(TransitionStep::EXITING);
+				TransitionsManager::GetInstance()->SetStep(TransitionStep::EXITING);
 			}
 			break;
 		case TransitionStep::EXITING:
-			transitionStep = TransitionsManager::Get()->ExitingTransition(dt);
+			transitionStep = TransitionsManager::GetInstance()->ExitingTransition(dt);
 			break;
 		}
 	}
@@ -104,13 +104,13 @@ bool SceneManager::Update(float dt)
 	// Draw the current transition in front of everything
 	if(transitionStep != TransitionStep::NONE)
 	{
-		TransitionsManager::Get()->Draw();
+		TransitionsManager::GetInstance()->Draw();
 	}
 
 	if (current->transitionRequired)
 	{
-		TransitionsManager::Get()->SetStep(TransitionStep::ENTERING);
-		transitionStep = TransitionsManager::Get()->GetStep();
+		TransitionsManager::GetInstance()->SetStep(TransitionStep::ENTERING);
+		transitionStep = TransitionsManager::GetInstance()->GetStep();
 		switch (current->nextScene)
 		{
 		case SceneType::LOGO: next = new SceneLogo(); break;
