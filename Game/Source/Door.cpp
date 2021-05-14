@@ -4,6 +4,7 @@
 #include "Input.h"
 #include "Audio.h"
 #include "Player.h"
+#include "Scene.h"
 #include "SceneGameplay.h"
 
 #include "Door.h"
@@ -13,7 +14,7 @@
 #define SPEED_X 180.0f
 #define SPEED_Y 180.0f
 
-Door::Door(EntityType type, iPoint position, Player* player) : Entity(type)
+Door::Door(EntityType type, iPoint position, Player* player, int exId) : Entity(type)
 {
 	bounds.x = position.x;
 	bounds.y = position.y;
@@ -22,6 +23,7 @@ Door::Door(EntityType type, iPoint position, Player* player) : Entity(type)
 	state = EntityState::STOP_DOWN;
 	tmpState = EntityState::STOP_DOWN;
 	currPlayer = player;
+	id = exId;
 }
 
 Door::~Door()
@@ -31,7 +33,8 @@ Door::~Door()
 
 bool Door::Load()
 {
-	texture = app->tex->Load("Assets/Textures/Objects/door_1.png");
+	if (id == 1) texture = app->tex->Load("Assets/Textures/Objects/door_1.png");
+	else texture = app->tex->Load("Assets/Textures/Objects/door_2.png");
 
 	return true;
 }
@@ -106,33 +109,11 @@ bool Door::SaveState(pugi::xml_node& node)
 
 bool Door::CheckCollision(Player* player)
 {
-	//if (state != EntityState::INACTIVE)
-	//{
-	//	//PULL BLOCK
-	//	if (player->bounds.x + player->bounds.w > bounds.x && player->bounds.x < bounds.x + bounds.w && player->bounds.y + player->bounds.h > bounds.y && player->bounds.y < bounds.y + bounds.h)
-	//	{
-	//		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT && !isMoving)
-	//		{
-	//			if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-	//			{
-	//				state = EntityState::WALLKING_UP;
-	//			}
-	//			else if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-	//			{
-	//				state = EntityState::WALLKING_DOWN;
-	//			}
-	//			else if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-	//			{
-	//				state = EntityState::WALLKING_LEFT;
-	//			}
-	//			else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-	//			{
-	//				state = EntityState::WALKING_RIGHT;
-	//			}
-	//		}
-	//		return true;
-	//	}
-	//}
+	if (state != EntityState::INACTIVE)
+	{
+		//PULL BLOCK
+		if (player->bounds.x + player->bounds.w > bounds.x && player->bounds.x < bounds.x + bounds.w && player->bounds.y + player->bounds.h > bounds.y && player->bounds.y < bounds.y + bounds.h) return true;
+	}
 	return false;
 }
 

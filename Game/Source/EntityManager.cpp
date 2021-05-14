@@ -15,6 +15,8 @@
 #include "Skull.h"
 
 #include "IceBlock.h"
+#include "Door.h"
+#include "QuestManager.h"
 
 #include "Log.h"
 
@@ -105,6 +107,7 @@ int EntityManager::TriggerDialogue(bool& triggerDialogue, Entity* item)
 	triggerDialogue = true;
 	item->SetDrawPtext(false);
 	item->SetTalkStart(true);
+	QuestManager::GetInstance()->CheckQuests(item);
 	return item->GetDialogeId();
 }
 
@@ -185,7 +188,7 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node 
 	return entity;
 }
 
-Entity* EntityManager::CreateEntity2(EntityType type, iPoint pos, Player* player)
+Entity* EntityManager::CreateEntity2(EntityType type, iPoint pos, Player* player, int id)
 {
 	/*LOG("Creating %s", type);*/
 	Entity* entity = nullptr;
@@ -194,6 +197,10 @@ Entity* EntityManager::CreateEntity2(EntityType type, iPoint pos, Player* player
 	{
 	case EntityType::ICE_BLOCK:
 		entity = new IceBlock(type, pos, player);
+		entity->Load();
+		break;
+	case EntityType::DOOR:
+		entity = new Door(type, pos, player, id);
 		entity->Load();
 		break;
 	}

@@ -1,13 +1,14 @@
 #pragma once
+
+#include "Point.h"
+
 #include "Entity.h"
 
-#define FIND_RADIOUS 0
-
-class IceBlock : public Entity
+class Statue : public Entity
 {
 public:
-	IceBlock(EntityType type, iPoint position, Player* player);
-	virtual ~IceBlock();
+	Statue(EntityType type, iPoint position, Player* player);
+	virtual ~Statue();
 
 	bool Load() override;
 	bool Update(float dt) override;
@@ -32,6 +33,6 @@ public:
 	EntityState tmpState;
 	Animation idleAnim;
 	Player* currPlayer;
-	bool isMoving;
+
 	SDL_Rect lastPosition;
 };

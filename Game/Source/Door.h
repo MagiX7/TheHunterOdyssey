@@ -6,7 +6,7 @@
 class Door : public Entity
 {
 public:
-	Door(EntityType type, iPoint position, Player* player);
+	Door(EntityType type, iPoint position, Player* player, int id);
 	virtual ~Door();
 
 	bool Load() override;
@@ -32,6 +32,6 @@ public:
 	EntityState tmpState;
 	Animation idleAnim;
 	Player* currPlayer;
-
 	SDL_Rect lastPosition;
+	int id;
 };
