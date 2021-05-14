@@ -1318,6 +1318,18 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						exit = true;
 						break;
 					}
+					if ((layer->Get(i, j) == 15) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						entityManager->DeleteEntity(EntityType::DOOR, 4);
+						exit = true;
+						break;
+					}
+					if ((layer->Get(i, j) == 16) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						entityManager->DeleteEntity(EntityType::STATUE, 3);
+						exit = true;
+						break;
+					}
 					if ((layer->Get(i, j) == 9) && CheckCollision(map->GetTilemapRec(i, j), iceBlockRect))
 					{
 						isTown = false;
