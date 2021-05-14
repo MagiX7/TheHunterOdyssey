@@ -13,6 +13,7 @@
 class Input;
 class Player;
 class SDL_Texture;
+class Orb;
 
 enum class SlotState
 {
@@ -79,6 +80,8 @@ public:
 
 	void DisplayMenuEquipment(bool showColliders);
 
+	void CompleteOrb(int index);
+
 private:
 	Player* GetPlayer(PlayerType type);
 
@@ -121,6 +124,8 @@ private:
 	InventorySlot* originArmorSlot;
 
 	Player* currentPlayer;
+
+	Orb* orb;
 
 	// Display Text buttons to select with player uses the item
 	GuiButton* btnHunter;

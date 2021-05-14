@@ -20,6 +20,8 @@
 
 #include "UltraPotion.h"
 #include "Potion.h"
+#include "Orb.h"
+#include "OrbFragment.h"
 
 #include "KnightHelmet.h"
 
@@ -108,7 +110,7 @@ SceneGameplay::SceneGameplay()
 	generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 1);
 
 
-	SDL_Texture* atlas = app->tex->Load("Assets/Textures/Items/items_atlas.png");
+	atlas = app->tex->Load("Assets/Textures/Items/items_atlas.png");
 	inventory = new Inventory(playerList, atlas);
 
 	Item *item = new UltraPotion(iPoint(200,250), atlas);
@@ -399,19 +401,19 @@ void SceneGameplay::Draw()
 		app->render->DrawText(font, tmp, 80, 75, 50, 10, SDL_Color({ 0,0,0,255 }));
 		app->render->DrawText(font, tmp, 77, 72, 50, 10, SDL_Color({ 255,255,255,255 }));
 
+		{
+			eastl::list<Item*>::iterator it = items.begin();
+			for (; it != items.end(); ++it)
+			{
+				(*it)->Draw(showColliders);
+			}
+		}	
+
 		if (isTown)
 		{
 			for (; enemies != enemyEnd; ++enemies)
 			{
 				(*enemies)->Draw(showColliders);
-			}
-
-			//if (ultraPotion != nullptr) ultraPotion->Draw(showColliders);
-
-			eastl::list<Item*>::iterator it = items.begin();
-			for(; it != items.end(); ++it)
-			{
-				(*it)->Draw(showColliders);
 			}
 		}
 
@@ -1297,6 +1299,14 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 							Door* door4 = nullptr;
 							position = { 1408,608 };
 							door4 = (Door*)entityManager->CreateEntity2(EntityType::DOOR, position, currentPlayer, 4);
+
+							Item* item = new OrbFragment(iPoint(2144, 2496), atlas);
+							item->Load();
+							items.push_back(item);
+
+							item = new OrbFragment(iPoint(2368, 2496), atlas);
+							item->Load();
+							items.push_back(item);
 
 							loadObjects = false;
 						}

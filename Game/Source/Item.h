@@ -20,6 +20,8 @@ enum class ItemType
 	FAIRY_TEAR,
 	FAIRY_WING,
 	FAIRY_BOTTLE,
+	ORB,
+	ORB_FRAGMENT
 };
 
 class Item : public Entity

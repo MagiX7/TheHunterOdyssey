@@ -10,6 +10,8 @@
 #include "Item.h"
 #include "UltraPotion.h"
 #include "Potion.h"
+#include "Orb.h"
+#include "OrbFragment.h"
 #include "KnightHelmet.h"
 
 Inventory::Inventory(eastl::list<Player*> pls, SDL_Texture* atlas)
@@ -506,8 +508,9 @@ void Inventory::AddItem(Item *it)
 		{
 			if (slots[i].item != nullptr && slots[i].item->itemType == (it)->itemType)
 			{
-				RELEASE(it);
 				slots[i].itemsAmount++;
+				if (it->itemType == ItemType::ORB_FRAGMENT) CompleteOrb(i);
+				RELEASE(it);
 				slots[i].state = SlotState::UNSELECTED;
 				slots[i].item->bounds = slots[i].bounds;
 				break;
@@ -628,6 +631,14 @@ void Inventory::DisplayMenuEquipment(bool showColliders)
 	btnUnEquip->bounds.y = tmpEquipMenuBounds.y + tmpEquipMenuBounds.h / 4;
 
 	btnUnEquip->Draw(app->render, showColliders, 32);
+}
+
+void Inventory::CompleteOrb(int index)
+{
+	RELEASE(slots[index].item);
+	orb = new Orb(atlasTexture);
+	slots[index].item = orb;
+	slots[index].itemsAmount = 1;
 }
 
 void Inventory::HandleObjects(InventorySlot objects[])

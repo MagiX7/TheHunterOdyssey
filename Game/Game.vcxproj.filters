@@ -170,6 +170,12 @@
     <ClCompile Include="Source\Statue.cpp">
       <Filter>Entities\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Orb.cpp">
+      <Filter>Entities\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OrbFragment.cpp">
+      <Filter>Entities\Items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -394,6 +400,12 @@
     </ClInclude>
     <ClInclude Include="Source\Statue.h">
       <Filter>Entities\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Orb.h">
+      <Filter>Entities\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OrbFragment.h">
+      <Filter>Entities\Items</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

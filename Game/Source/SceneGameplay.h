@@ -113,6 +113,8 @@ private:
 	Item* helmet;
 	SDL_Texture* helmetTexture;
 
+	SDL_Texture* atlas;
+
 	eastl::list<Item*> items;
 
 	iPoint tmpPosPlayer;

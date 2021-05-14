@@ -126,6 +126,8 @@
     <ClCompile Include="Source\MurderQuest.cpp" />
     <ClCompile Include="Source\Npc.cpp" />
     <ClCompile Include="Source\NpcWizard.cpp" />
+    <ClCompile Include="Source\Orb.cpp" />
+    <ClCompile Include="Source\OrbFragment.cpp" />
     <ClCompile Include="Source\Particle.cpp" />
     <ClCompile Include="Source\ParticlesManager.cpp" />
     <ClCompile Include="Source\OmniPotion.cpp" />
@@ -188,6 +190,8 @@
     <ClInclude Include="Source\MurderQuest.h" />
     <ClInclude Include="Source\Npc.h" />
     <ClInclude Include="Source\NpcWizard.h" />
+    <ClInclude Include="Source\Orb.h" />
+    <ClInclude Include="Source\OrbFragment.h" />
     <ClInclude Include="Source\Particle.h" />
     <ClInclude Include="Source\ParticlesManager.h" />
     <ClInclude Include="Source\OmniPotion.h" />
