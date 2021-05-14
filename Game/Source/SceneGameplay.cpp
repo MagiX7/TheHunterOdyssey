@@ -54,6 +54,7 @@ SceneGameplay::SceneGameplay()
 
 	entityManager = new EntityManager();
 	particles = new ParticlesManager();
+
 	iPoint position = { 260,290 };
 
 	pugi::xml_document animations;
@@ -95,23 +96,6 @@ SceneGameplay::SceneGameplay()
 	en = new Bat({ 1087, 850 }, anims);
 	en->SetCurrentState(EnemyState::ROAMING);
 	enemyList.push_back(en);
-
-	//Npc* generalNpc = nullptr;
-	///*position = { 500,500 };
-	//generalNpc=(Npc*)entityManager->CreateEntity(EntityType::TABERN, position,anims);*/
-
-	//position = { 200,250 };
-	//generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position, anims, 7);
-
-	//position = { 700,1060 };
-	//generalNpc = (Npc*)entityManager->CreateEntity(EntityType::RAY, position, anims, 3);
-	////generalNpc->NpcMove(false);
-
-	//position = { 700,810 };
-	//generalNpc = (Npc*)entityManager->CreateEntity(EntityType::TABERN, position, anims, 2);
-
-	//position = { 500,350 };
-	//generalNpc = (Npc*)entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 1);
 
 	atlas = app->tex->Load("Assets/Textures/Items/items_atlas.png");
 	inventory = new Inventory(playerList, atlas);
@@ -366,7 +350,7 @@ bool SceneGameplay::Update(float dt)
 	break;
 	}
 
-	if (transition) Fading(dt);
+	if (transition) Transitioning(dt);
 
 	return ret;
 }
@@ -1376,7 +1360,7 @@ void SceneGameplay::CameraFollow(Render* render)
 	if (-render->camera.y <= 0) render->camera.y = 0;
 }
 
-void SceneGameplay::Fading(float dt)
+void SceneGameplay::Transitioning(float dt)
 {
 	if (fadeOut)
 	{
@@ -1413,7 +1397,11 @@ void SceneGameplay::Fading(float dt)
 				for (; pl != plEnd; ++pl)
 				{
 					if ((*pl)->GetHealthPoints() <= 0) ++num;
+
+					(*pl)->GetHealed((*pl)->GetMaxHealthPoints());
+					(*pl)->GetMana((*pl)->GetMaxManaPoints());
 				}
+
 				if (num == playerList.size())
 				{
 					TransitionToScene(SceneType::ENDING, TransitionType::ALTERNATING_BARS, false);

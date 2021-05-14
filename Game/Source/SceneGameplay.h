@@ -74,7 +74,7 @@ private:
 	bool CheckCollision(SDL_Rect rec1, SDL_Rect rec2);
 	void GenerateBattle();
 	void CameraFollow(Render* render);
-	void Fading(float dt);
+	void Transitioning(float dt);
 	void ChangeBlockBounds(int bounds_x, int bounds_y);
 
 	void LoadNpc(SString mapName);

@@ -25,7 +25,7 @@
         <players amount="4">
           <player>
             <isCurrent current="true" />
-            <bounds X="705" Y="817" W="26" H="32" />
+            <bounds X="705" Y="877" W="26" H="32" />
             <playerType type="HUNTER" />
           </player>
           <player>

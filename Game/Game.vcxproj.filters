@@ -181,6 +181,7 @@
     </ClCompile>
     <ClCompile Include="Source\InterruptorBlock.cpp">
       <Filter>Entities\Objects</Filter>
+    </ClCompile>
     <ClCompile Include="Source\TransitionsManager.cpp">
       <Filter>Transitions</Filter>
     </ClCompile>
@@ -420,6 +421,7 @@
     </ClInclude>
     <ClInclude Include="Source\InterruptorBlock.h">
       <Filter>Entities\Objects</Filter>
+    </ClInclude>
     <ClInclude Include="Source\TransitionsManager.h">
       <Filter>Transitions</Filter>
     </ClInclude>
