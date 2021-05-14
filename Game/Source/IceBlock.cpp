@@ -23,6 +23,7 @@ IceBlock::IceBlock(EntityType type, iPoint position, Player* player) : Entity(ty
 	tmpState = EntityState::STOP_DOWN;
 	currPlayer = player;
 	isMoving = false;
+	pushed = false;
 }
 
 IceBlock::~IceBlock()
@@ -119,7 +120,7 @@ bool IceBlock::CheckCollision(Player* player)
 		//PULL BLOCK
 		if (player->bounds.x + player->bounds.w > bounds.x && player->bounds.x < bounds.x + bounds.w && player->bounds.y + player->bounds.h > bounds.y && player->bounds.y < bounds.y + bounds.h)
 		{
-			if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT && !isMoving)
+			if (!pushed && app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT && !isMoving)
 			{
 				if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 				{
@@ -137,8 +138,13 @@ bool IceBlock::CheckCollision(Player* player)
 				{
 					state = EntityState::WALKING_RIGHT;
 				}
+				pushed = true;
 			}
 			return true;
+		}
+		else
+		{
+			pushed = false;
 		}
 	}
 	return false;

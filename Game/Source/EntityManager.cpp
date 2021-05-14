@@ -56,7 +56,7 @@ bool EntityManager::Update(float dt, Player* currentPlayer, bool& triggerDialogu
 	{
 		(*item)->Update(dt);
 		CheckEntityCollision(*item, scene);
-		if ((*item != nullptr) && (*item)->CheckCollision(currentPlayer))
+		if ((*item != nullptr) && ((*item)->type == EntityType::NPC_WIZARD || (*item)->type == EntityType::RAY || (*item)->type == EntityType::TOWN) && (*item)->CheckCollision(currentPlayer))
 		{
 			dialogueId = TriggerDialogue(triggerDialogue, (*item));
 		}
