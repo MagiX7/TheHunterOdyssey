@@ -18,6 +18,8 @@
 #include "Bat.h"
 #include "Skull.h"
 
+#include "FairyTear.h"
+#include "OmniPotion.h"
 #include "UltraPotion.h"
 #include "Potion.h"
 #include "Orb.h"
@@ -114,34 +116,20 @@ SceneGameplay::SceneGameplay()
 	atlas = app->tex->Load("Assets/Textures/Items/items_atlas.png");
 	inventory = new Inventory(playerList, atlas);
 
-	Item *item = new UltraPotion(iPoint(200,250), atlas);
+	Item *item = new UltraPotion(iPoint(128,1248), atlas);
 	items.push_back(item);
 	
-	item = new UltraPotion(iPoint(300,350), atlas);
+	item = new OmniPotion(iPoint(768,1248), atlas);
 	items.push_back(item);
 
-	item = new Potion(iPoint(250, 350), atlas);
+	item = new Potion(iPoint(1280, 80), atlas);
 	items.push_back(item);
 
-	item = new KnightHelmet({ 270, 350, 32, 32 }, iPoint(270, 350),atlas);
+	item = new FairyTear(iPoint(512, 800), atlas);
 	items.push_back(item);
 
-	//Create Enemies
-
-	/*Enemy* skull = nullptr;
-	position = { 300,100 };
-	skull = (Enemy*)entityManager->CreateEntity(EntityType::SKULL, position);
-
-	Enemy* golem = nullptr;
-	position = { 300,200 };
-	golem = (Enemy*)entityManager->CreateEntity(EntityType::GOLEM, position);
-
-	Enemy* bat = nullptr;
-	position = { 300,300 };
-	bat = (Enemy*)entityManager->CreateEntity(EntityType::BAT, position);*/
-
-	/*player = new Player(PlayerType::HUNTER);
-	npc = new Npc(EntityType::NPC);*/
+	item = new KnightHelmet({ 1376, 1056, 32, 32 }, iPoint(1376, 1056),atlas);
+	items.push_back(item);
 
 	pause = new PauseMenu(this);
 
@@ -265,7 +253,6 @@ bool SceneGameplay::Update(float dt)
 								break;
 							}
 						}
-						//if (ultraPotion != nullptr) ultraPotion->Update(dt);
 					}
 					SDL_Rect bounds = { currentPlayer->bounds.x,currentPlayer->bounds.y + currentPlayer->bounds.h - 7,currentPlayer->bounds.w,7 };
 					if (showColliders == false && CollisionMapEntity(bounds, currentPlayer->type) == true)
@@ -340,15 +327,15 @@ bool SceneGameplay::Update(float dt)
 							QuestManager::GetInstance()->CheckQuests(*it);
 							inventory->AddItem(*it);
 							items.erase(it);
-							//items.erase(it);
-							//RELEASE((*it));
+
+							if (inventory->ObjectQuantity(ItemType::ORB) == 1)
+							{
+								entityManager->DeleteEntity(EntityType::STATUE, 1);
+								entityManager->DeleteEntity(EntityType::STATUE, 2);
+							}
 						}
 					}
 				}
-				/*if (CheckCollision(currentPlayer->bounds, helmet->bounds))
-				{
-					inventory->AddArmor(helmet);
-				}*/
 			}
 			else
 			{
@@ -1302,11 +1289,9 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 							door4 = (Door*)entityManager->CreateEntity2(EntityType::DOOR, position, currentPlayer, 4);
 
 							Item* item = new OrbFragment(iPoint(2144, 2496), atlas);
-							item->Load();
 							items.push_back(item);
 
 							item = new OrbFragment(iPoint(2368, 2496), atlas);
-							item->Load();
 							items.push_back(item);
 
 							Statue* statue = nullptr;

@@ -44,6 +44,7 @@ public:
 	//virtual bool UnLoad() override;
 
 	virtual void UseItem(Player* player) {};
+	virtual void UseItem() {};
 
 	inline ObjectType GetItemType() const { return objectType; }
 

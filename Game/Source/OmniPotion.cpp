@@ -26,7 +26,7 @@ bool OmniPotion::Update(float dt)
 
 void OmniPotion::Draw(bool showColliders)
 {
-	app->render->DrawTexture(texture, bounds.x, bounds.y);
+	app->render->DrawTexture(texture, bounds.x, bounds.y, &atlasSection);
 }
 
 bool OmniPotion::UnLoad()

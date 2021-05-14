@@ -850,6 +850,23 @@ void Inventory::UseObject(InventorySlot objects[], Player* player)
 	}
 }
 
+int Inventory::ObjectQuantity(ItemType itemType)
+{
+	int counter = 0;
+	for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
+	{
+		if (slots[i].item != nullptr && slots[i].item->itemType == itemType)
+		{
+			counter++;
+		}
+		else if (armorSlots[i].item != nullptr && armorSlots[i].item->itemType == itemType)
+		{
+			counter++;
+		}
+	}
+	return counter;
+}
+
 void Inventory::HandleStatsInfo()
 {
 }

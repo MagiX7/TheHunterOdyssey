@@ -82,6 +82,8 @@ public:
 
 	void CompleteOrb(int index);
 
+	int ObjectQuantity(ItemType itemType);
+
 private:
 	Player* GetPlayer(PlayerType type);
 
