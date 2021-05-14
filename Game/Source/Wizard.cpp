@@ -74,6 +74,11 @@ Wizard::Wizard(iPoint position, pugi::xml_node anim, ParticlesManager* particles
 	idleUp.PushBack(walkUp.frames[0]);
 
 	currentAnim = &idleDown;
+
+	this->abilityName[0] = "Fire ball";
+	this->abilityName[1] = "Water ball";
+	this->abilityName[2] = "Thunder";
+	this->abilityName[3] = "Gravity";
 }
 
 Wizard::~Wizard()

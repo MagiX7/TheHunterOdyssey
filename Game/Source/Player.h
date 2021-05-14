@@ -79,6 +79,8 @@ public:
 	inline bool GetDefend() const { return isDefending; }
 	inline eastl::string GetName() const { return name; }
 
+	const char* GetAbilityName(int abilityNum) const { return abilityName[abilityNum]; }
+
 	Armor* GetHelmet() const 
 	{
 		if (helmet) return helmet;
@@ -194,4 +196,7 @@ protected:
 	Animation attackAnim;
 	Animation damageTaken;
 
+
+	//Abilities names
+	const char* abilityName[4];
 };

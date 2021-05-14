@@ -73,6 +73,11 @@ Thief::Thief(iPoint position, pugi::xml_node anim, ParticlesManager* particles) 
 	idleUp.PushBack(walkUp.frames[0]);
 
 	currentAnim = &idleDown;
+
+	this->abilityName[0] = "Stab";
+	this->abilityName[1] = "Bomb";
+	this->abilityName[2] = "Sneaky attack";
+	this->abilityName[3] = "Steal";
 }
 
 Thief::~Thief()
@@ -298,20 +303,20 @@ void Thief::Ability(Enemy* enemy, int currentAbility)
 	switch (currentAbility)
 	{
 	case 1:
-		enemy->GetDamage(magicDamage + 1);
-		LOG("Casting STEAL");
+		enemy->GetDamage(meleeDamage + 1);
+		LOG("Casting STAB");
 		break;
 	case 2:
-		enemy->GetDamage(magicDamage);
+		enemy->GetDamage(meleeDamage);
 		LOG("Casting BOMB");
 		break;
 	case 3:
-		enemy->GetDamage(magicDamage + rand() % 200);
-		LOG("Casting USE STEALED");
+		enemy->GetDamage(meleeDamage + rand() % 200);
+		LOG("Casting STEAKY ATTACK");
 		break;
 	case 4:
 		enemy->GetDamage(magicDamage + 200);
-		LOG("Casting LUCKY");
+		LOG("Casting STEAL");
 		break;
 	}
 	stance = PlayerStance::ABILITY_FINISHED;
