@@ -52,29 +52,7 @@ void Door::SetActive()
 bool Door::Update(float dt)
 {
 	if (CheckCollision(currPlayer)) currPlayer->bounds = lastPosition;
-
-	if (!CheckCollision(currPlayer))
-	{
-		lastPosition = currPlayer->bounds;
-
-		switch (state)
-		{
-		case EntityState::WALLKING_LEFT:
-			bounds.x -= SPEED_X * dt;
-			break;
-		case EntityState::WALKING_RIGHT:
-			bounds.x += SPEED_X * dt;
-			break;
-		case EntityState::WALLKING_UP:
-			bounds.y -= SPEED_Y * dt;
-			break;
-		case EntityState::WALLKING_DOWN:
-			bounds.y += SPEED_Y * dt;
-			break;
-		default:
-			break;
-		}
-	}
+	if (!CheckCollision(currPlayer)) lastPosition = currPlayer->bounds;
 
 	return true;
 }

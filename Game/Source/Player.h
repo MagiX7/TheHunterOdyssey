@@ -67,6 +67,8 @@ public:
 
 	virtual void SetIdleRoaming() {}
 
+	virtual bool CanUseAbility(int abilityNum);
+
 	// Getters
 	inline int GetHealthPoints() const { return healthPoints; }
 	inline int GetMaxHealthPoints() const { return maxHealthPoints; }
@@ -80,6 +82,7 @@ public:
 	inline eastl::string GetName() const { return name; }
 
 	const char* GetAbilityName(int abilityNum) const { return abilityName[abilityNum]; }
+	int GetAbilityManaCost(int abilityNum) { return abilityCost[abilityNum]; }
 
 	Armor* GetHelmet() const 
 	{
@@ -197,6 +200,7 @@ protected:
 	Animation damageTaken;
 
 
-	//Abilities names
+	//Abilities data
 	const char* abilityName[4];
+	int abilityCost[4];
 };

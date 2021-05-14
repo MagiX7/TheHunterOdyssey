@@ -82,6 +82,11 @@ Hunter::Hunter(iPoint position, pugi::xml_node anim, ParticlesManager* particles
 	this->abilityName[1] = "Serpent shot";
 	this->abilityName[2] = "Explosive shot";
 	this->abilityName[3] = "Bola strike";
+
+	this->abilityCost[0] = 300;
+	this->abilityCost[1] = 400;
+	this->abilityCost[2] = 500;
+	this->abilityCost[3] = 200;
 }
 
 Hunter::~Hunter()
@@ -319,24 +324,33 @@ void Hunter::Ability(Enemy* enemy, int currentAbility)
 	switch (currentAbility)
 	{
 	case 1:
+		GetMana(-this->abilityCost[0]);
 		enemy->GetDamage(meleeDamage + 200);
-		manaPoints -= 500;
 		LOG("Casting STEADY SHOT");
 		break;
 	case 2:
+		GetMana(-this->abilityCost[1]);
 		enemy->GetDamage(magicDamage + rand() % 500);
 		LOG("Casting SERPENT SHOT");
 		break;
 	case 3:
+		GetMana(-this->abilityCost[2]);
 		enemy->GetDamage(magicDamage + meleeDamage + 50);
 		LOG("Casting EXPLOSIVE SHOT");
 		break;
 	case 4:
+		GetMana(-this->abilityCost[3]);
 		enemy->GetDamage(meleeDamage);
 		LOG("Casting BOLA");
 		break;
 	}
 	stance = PlayerStance::ABILITY_FINISHED;
+}
+
+bool Hunter::CanUseAbility(int abilityNum)
+{
+	if (GetManaPoints() >= this->abilityCost[abilityNum]) return true;
+	return false;
 }
 
 void Hunter::UseObject(Player* player, int currentObject)
@@ -375,6 +389,7 @@ void Hunter::GetMana(int amount)
 {
 	manaPoints += amount;
 	if (manaPoints > maxManaPoints) manaPoints = maxManaPoints;
+	if (manaPoints < 0) manaPoints = 0;
 }
 
 void Hunter::SetDefend(bool option)

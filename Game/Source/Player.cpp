@@ -88,6 +88,16 @@ void Player::GetMana(int amount)
 {
 }
 
+bool Player::CanUseAbility(int abilityNum)
+{
+	return true;
+}
+
+int GetAbilityManaCost(int abilityNum)
+{
+	return -1;
+}
+
 void Player::SetDefend(bool option)
 {
 }

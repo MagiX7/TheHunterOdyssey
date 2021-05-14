@@ -78,6 +78,11 @@ Thief::Thief(iPoint position, pugi::xml_node anim, ParticlesManager* particles) 
 	this->abilityName[1] = "Bomb";
 	this->abilityName[2] = "Sneaky attack";
 	this->abilityName[3] = "Steal";
+
+	this->abilityCost[0] = 200;
+	this->abilityCost[1] = 150;
+	this->abilityCost[2] = 300;
+	this->abilityCost[3] = 350;
 }
 
 Thief::~Thief()
@@ -303,23 +308,33 @@ void Thief::Ability(Enemy* enemy, int currentAbility)
 	switch (currentAbility)
 	{
 	case 1:
+		GetMana(-this->abilityCost[0]);
 		enemy->GetDamage(meleeDamage + 1);
 		LOG("Casting STAB");
 		break;
 	case 2:
+		GetMana(-this->abilityCost[1]);
 		enemy->GetDamage(meleeDamage);
 		LOG("Casting BOMB");
 		break;
 	case 3:
+		GetMana(-this->abilityCost[2]);
 		enemy->GetDamage(meleeDamage + rand() % 200);
 		LOG("Casting STEAKY ATTACK");
 		break;
 	case 4:
+		GetMana(-this->abilityCost[3]);
 		enemy->GetDamage(magicDamage + 200);
 		LOG("Casting STEAL");
 		break;
 	}
 	stance = PlayerStance::ABILITY_FINISHED;
+}
+
+bool Thief::CanUseAbility(int abilityNum)
+{
+	if (GetManaPoints() >= this->abilityCost[abilityNum]) return true;
+	return false;
 }
 
 void Thief::UseObject(Player* player, int currentObject)

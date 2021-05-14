@@ -34,6 +34,8 @@ public:
 
 	void SetIdleRoaming() { currentAnim = &idleDown; }
 
+	bool CanUseAbility(int abilityNum) override;
+
 protected:
 	void HandleInput(float dt) override;
 	void Travel(iPoint destination, float dt) override;
