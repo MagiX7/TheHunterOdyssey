@@ -25,11 +25,11 @@ public:
 
 	virtual ~Quest() {}
 
-	virtual bool Update(Entity* entity) { return true; }
+	virtual bool Update(Entity* entity) { return false; }
 
-	virtual bool Update(Item* item) { return true; }
+	virtual bool Update(Item* item) { return false; }
 	
-	virtual bool Update(SString string) { return true; }
+	virtual bool Update(SString string) { return false; }
 
 	virtual void Draw(Render* render, Font* font, bool showMore) {}
 

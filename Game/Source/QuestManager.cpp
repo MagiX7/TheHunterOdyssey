@@ -309,24 +309,6 @@ bool QuestManager::SaveQuests(pugi::xml_node& n)
 	return true;
 }
 
-//bool QuestManager::CompleteQuest(int id)
-//{
-//	eastl::list<Quest*>::iterator it = activeQuests.begin();
-//	eastl::list<Quest*>::iterator itEnd = activeQuests.end();
-//	for (; it != itEnd; ++it)
-//	{
-//		if ((*it)->id == id)
-//		{
-//			(*it)->isCompleted = true;
-//			finishedQuests.push_back(*it);
-//			activeQuests.erase(it);
-//			break;
-//		}
-//	}
-//
-//	return true;
-//}
-
 void QuestManager::Draw(Render* render, Font* font)
 {
 	SDL_Rect r;
@@ -365,7 +347,8 @@ void QuestManager::Draw(Render* render, Font* font)
 		render->DrawTexture(texture, -render->camera.x + 140, -render->camera.y + 60);
 		if (questTimer < 5.0f)
 		{
-			render->DrawCenterText(font, "New Quest!", rect, 64, 5, { 255, 255, 255 });
+			if (!finishedQuests.empty()) render->DrawCenterText(font, "New Quest!", rect, 64, 5, { 255, 255, 255 });
+			else render->DrawCenterText(font, "This is your first quest!", rect, 64, 5, { 255, 255, 255 });
 		}
 		else
 		{
@@ -414,6 +397,8 @@ bool QuestManager::UnLoad()
 	}
 
 	app->tex->UnLoad(questTexture);
+	app->tex->UnLoad(texture);
+	app->audio->UnLoadFx(completedQuestFx);
 
 	return true;
 }

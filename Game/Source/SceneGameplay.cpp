@@ -231,7 +231,8 @@ bool SceneGameplay::Update(float dt)
 
 			if (dialogueManager->isDialogueActive == false)
 			{
-				QuestManager::GetInstance()->Update(app->input, dt);
+				if (!transition) 
+					QuestManager::GetInstance()->Update(app->input, dt);
 				if (QuestManager::GetInstance()->QuestState() == false)
 				{
 					particles->PreUpdate();
@@ -417,7 +418,7 @@ void SceneGameplay::Draw()
 		}
 		else
 		{
-			QuestManager::GetInstance()->Draw(app->render, font);
+			if (!transition) QuestManager::GetInstance()->Draw(app->render, font);
 		}
 
 		switch (menuState)
@@ -1408,6 +1409,7 @@ void SceneGameplay::Fading(float dt)
 					Enemy* enemy = (*en);
 					if (tmp != nullptr && enemy == tmp)
 					{
+						QuestManager::GetInstance()->CheckQuests(*en);
 						tmp = nullptr;
 						enemyList.erase(en);
 						break;
