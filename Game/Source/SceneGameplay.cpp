@@ -1439,3 +1439,22 @@ void SceneGameplay::Fading(float dt)
 		}
 	}
 }
+
+void SceneGameplay::ChangeBlockBounds(int bounds_x, int bounds_y)
+{
+	if (isDungeon)
+	{
+		eastl::list<Entity*>::iterator entity = entityManager->entities.begin();
+		eastl::list<Entity*>::iterator entityEnd = entityManager->entities.end();
+
+		for (; entity != entityEnd; ++entity)
+		{
+			if (((*entity)->type) == EntityType::ICE_BLOCK)
+			{
+				(*entity)->bounds.x = bounds_x;
+				(*entity)->bounds.y = bounds_y;
+				break;
+			}
+		}
+	}
+}

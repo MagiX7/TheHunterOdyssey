@@ -75,6 +75,7 @@ private:
 	void GenerateBattle();
 	void CameraFollow(Render* render);
 	void Fading(float dt);
+	void ChangeBlockBounds(int bounds_x, int bounds_y);
 
 public:
 	DialogueManager* dialogueManager;
