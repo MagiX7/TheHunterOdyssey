@@ -20,7 +20,7 @@ class Scene
 {
 public:
 
-	Scene() : active(false), transitionRequired(false) {}
+	Scene() : active(false), transitionRequired(false), win(false) {}
 
 	// Destructor
 	virtual ~Scene() {}
@@ -45,11 +45,12 @@ public:
 	virtual bool SaveState(pugi::xml_node&) const { return true; }
 
 
-	void TransitionToScene(SceneType scene, TransitionType type)
+	void TransitionToScene(SceneType scene, TransitionType type, bool w = false)
 	{
 		LOG("Changing Scene");
 		transitionRequired = true;
 		nextScene = scene;
+		win = w;
 		//transitionType = type;
 		TransitionsManager::Get()->SetType(type);
 	}
@@ -65,6 +66,7 @@ public:
 	bool showColliders;
 
 	int channel;
+	bool win;
 
 	TransitionType transitionType;
 };

@@ -109,7 +109,6 @@ bool SceneManager::Update(float dt)
 
 	if (current->transitionRequired)
 	{
-		//transitionStep = TransitionStep::ENTERING;
 		TransitionsManager::Get()->SetStep(TransitionStep::ENTERING);
 		transitionStep = TransitionsManager::Get()->GetStep();
 		switch (current->nextScene)
@@ -117,7 +116,7 @@ bool SceneManager::Update(float dt)
 		case SceneType::LOGO: next = new SceneLogo(); break;
 		case SceneType::TITLE: next = new SceneTitle(); break;
 		case SceneType::GAMEPLAY: next = new SceneGameplay(); break;
-		case SceneType::ENDING: next = new SceneEnding(true); break;
+		case SceneType::ENDING: next = new SceneEnding(current->win); break;
 		default: break;
 		}
 		current->transitionRequired = false;

@@ -76,15 +76,11 @@ private:
 	void CameraFollow(Render* render);
 	void Fading(float dt);
 
-public:
-	DialogueManager* dialogueManager;
-	Player* currentPlayer;
-
-	SDL_Texture* goldTexture;
-	
-	eastl::list<Player*> playerList;
-
 private:
+	Player* currentPlayer;
+	DialogueManager* dialogueManager;
+	SDL_Texture* goldTexture;
+	eastl::list<Player*> playerList;
 
 	// Menus
 	CharacterManager* charManager;

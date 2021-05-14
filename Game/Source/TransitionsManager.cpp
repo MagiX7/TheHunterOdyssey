@@ -58,7 +58,6 @@ bool TransitionsManager::Load()
 	rectLower2 = { 0,(int)h,(int)w,0 };
 	halfWidthCount = 0.0f;
 
-
 	step = TransitionStep::NONE;
 	type = TransitionType::NONE;
 
@@ -186,7 +185,7 @@ void TransitionsManager::Draw()
 		break;
 
 	case TransitionType::FADE_TO_BLACK:
-		app->render->DrawRectangle({ 0, 0, 1280,720 }, 0, 0, 0, true, false);
+		app->render->DrawRectangle({ 0, 0, 1280,720 }, 0, 0, 0, (unsigned char)transitionAlpha * 255.0f);
 		break;
 
 	case TransitionType::HALF_WIDHT_RECTANGLES:
@@ -235,7 +234,11 @@ TransitionStep TransitionsManager::EnteringTransition(float dt)
 	else if (type == TransitionType::FADE_TO_BLACK)
 	{
 		transitionAlpha += dt;
-		if (transitionAlpha > 1.01f) step = TransitionStep::CHANGING;
+		if (transitionAlpha > 1.01f)
+		{
+			step = TransitionStep::CHANGING;
+			transitionAlpha = 1.0f;
+		}
 	}
 	else if (type == TransitionType::HALF_WIDHT_RECTANGLES)
 	{
@@ -282,7 +285,11 @@ TransitionStep TransitionsManager::ExitingTransition(float dt)
 	else if (type == TransitionType::FADE_TO_BLACK)
 	{
 		transitionAlpha -= dt;
-		if (transitionAlpha < -0.01f) step = TransitionStep::NONE;
+		if (transitionAlpha < -0.01f)
+		{
+			step = TransitionStep::NONE;
+			transitionAlpha = 0.0f;
+		}
 	}
 	else if (type == TransitionType::HALF_WIDHT_RECTANGLES)
 	{

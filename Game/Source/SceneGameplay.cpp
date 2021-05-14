@@ -33,7 +33,6 @@
 
 #include "CharacterManager.h"
 #include "PauseMenu.h"
-
 #include "Inventory.h"
 
 #include "Log.h"
@@ -122,23 +121,6 @@ SceneGameplay::SceneGameplay()
 
 	item = new KnightHelmet({ 270, 350, 32, 32 }, iPoint(270, 350),atlas);
 	items.push_back(item);
-
-	//Create Enemies
-
-	/*Enemy* skull = nullptr;
-	position = { 300,100 };
-	skull = (Enemy*)entityManager->CreateEntity(EntityType::SKULL, position);
-
-	Enemy* golem = nullptr;
-	position = { 300,200 };
-	golem = (Enemy*)entityManager->CreateEntity(EntityType::GOLEM, position);
-
-	Enemy* bat = nullptr;
-	position = { 300,300 };
-	bat = (Enemy*)entityManager->CreateEntity(EntityType::BAT, position);*/
-
-	/*player = new Player(PlayerType::HUNTER);
-	npc = new Npc(EntityType::NPC);*/
 
 	pause = new PauseMenu(this);
 
@@ -230,6 +212,7 @@ bool SceneGameplay::Update(float dt)
 			{
 				if (!transition) 
 					QuestManager::GetInstance()->Update(app->input, dt);
+				
 				if (QuestManager::GetInstance()->QuestState() == false)
 				{
 					particles->PreUpdate();
@@ -385,7 +368,7 @@ void SceneGameplay::Draw()
 		particles->PostUpdate();
 		//currentPlayer->Draw(showColliders);
 		
-		app->render->DrawTexture(goldTexture, (app->render->camera.x * -1) + 5, (app->render->camera.y * -1) + 60);
+		app->render->DrawTexture(goldTexture, 5, 60, NULL, false);
 
 		char tmp[32];
 		sprintf_s(tmp, "%i", currentPlayer->gold);
@@ -446,7 +429,7 @@ void SceneGameplay::Draw()
 		//}
 		break;
 	case GameplayState::BATTLE:
-		sceneBattle->Draw(showColliders);
+		if (sceneBattle != nullptr) sceneBattle->Draw(showColliders);
 		break;
 	}
 
@@ -1394,12 +1377,12 @@ void SceneGameplay::Fading(float dt)
 				sceneBattle = new SceneBattle(playerList, tmp, this);
 				sceneBattle->Load();
 				gameState = GameplayState::BATTLE;
+				fadeOut = false;
 			}
 			else
 			{
 				sceneBattle->UnLoad();
 				RELEASE(sceneBattle);
-				gameState = GameplayState::ROAMING;
 				eastl::list<Enemy*>::iterator en = enemyList.begin();
 				eastl::list<Enemy*>::iterator enEnd = enemyList.end();
 				for (; en != enEnd; ++en)
@@ -1415,16 +1398,25 @@ void SceneGameplay::Fading(float dt)
 				}
 				eastl::list<Player*>::iterator pl = playerList.begin();
 				eastl::list<Player*>::iterator plEnd = playerList.end();
+				int num = 0;
 				for (; pl != plEnd; ++pl)
 				{
-					(*pl)->GetHealed(4000);
+					if ((*pl)->GetHealthPoints() <= 0) num++;
 				}
+				if (num == playerList.size())
+				{
+					TransitionToScene(SceneType::ENDING, TransitionType::ALTERNATING_BARS, false);
+				}
+				else
+				{
+					fadeOut = false;
+					gameState = GameplayState::ROAMING;
+				}
+				
 				currentPlayer->bounds.x = tmpPosPlayer.x;
 				currentPlayer->bounds.y = tmpPosPlayer.y;
 				app->audio->PlayMusic("Assets/Audio/Music/village_theme_1.ogg", 0);
 			}
-			fadeOut = false;
-			alpha = 1.0f;
 		}
 	}
 	else
