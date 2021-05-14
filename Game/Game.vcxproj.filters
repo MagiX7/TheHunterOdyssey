@@ -179,6 +179,9 @@
     <ClCompile Include="Source\KnightChest.cpp">
       <Filter>Entities\Armors</Filter>
     </ClCompile>
+    <ClCompile Include="Source\InterruptorBlock.cpp">
+      <Filter>Entities\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -412,6 +415,9 @@
     </ClInclude>
     <ClInclude Include="Source\KnightChest.h">
       <Filter>Entities\Armors</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\InterruptorBlock.h">
+      <Filter>Entities\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

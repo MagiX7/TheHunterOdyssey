@@ -115,6 +115,7 @@
     <ClCompile Include="Source\GuiSlider.cpp" />
     <ClCompile Include="Source\Hunter.cpp" />
     <ClCompile Include="Source\IceBlock.cpp" />
+    <ClCompile Include="Source\InterruptorBlock.cpp" />
     <ClCompile Include="Source\Inventory.cpp" />
     <ClCompile Include="Source\KnightChest.cpp" />
     <ClCompile Include="Source\KnightHelmet.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="Source\GuiSlider.h" />
     <ClInclude Include="Source\Hunter.h" />
     <ClInclude Include="Source\IceBlock.h" />
+    <ClInclude Include="Source\InterruptorBlock.h" />
     <ClInclude Include="Source\Inventory.h" />
     <ClInclude Include="Source\Item.h" />
     <ClInclude Include="Source\KnightChest.h" />
