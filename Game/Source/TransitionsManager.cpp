@@ -64,108 +64,6 @@ bool TransitionsManager::Load()
 	return true;
 }
 
-//bool TransitionsManager::Update(float dt)
-//{
-//	/*uint w, h;
-//	app->win->GetWindowSize(w, h);*/
-//
-//	switch (step)
-//	{
-//	case TransitionStep::ENTERING:
-//		
-//		/*if (type == TransitionType::WIPE)
-//		{
-//			rectWipe.w += 1000 * dt;
-//
-//			if (rectWipe.w >= w) step = TransitionStep::CHANGING;
-//		}
-//		else if (type == TransitionType::ALTERNATING_BARS)
-//		{
-//			for (int i = 0; i < MAX_BARS_SIZE; ++i)
-//			{
-//				if (i % 2 == 0) bars[i].w += 1000 * dt;
-//				else bars[i].w -= 1000 * dt;
-//			}
-//
-//			if (bars[MAX_BARS_SIZE - 1].w < -(int)w) step = TransitionStep::CHANGING;
-//		}
-//		else if (type == TransitionType::HALF_HEIGHT_RECTANGLES)
-//		{
-//			if (rectUpper.w <= (int)w + 100)
-//				rectUpper.w += 1000 * dt;
-//			else
-//			{
-//				rectLower.w -= 1000 * dt;
-//				if (rectLower.w <= -(int)w) step = TransitionStep::CHANGING;
-//			}
-//		}
-//		else if (type == TransitionType::FADE_TO_BLACK)
-//		{
-//			transitionAlpha += dt;
-//			if (transitionAlpha > 1.01f) step = TransitionStep::CHANGING;
-//		}
-//		else if (type == TransitionType::HALF_WIDHT_RECTANGLES)
-//		{
-//			rectUpper2.h += 500 * dt;
-//			rectLower2.h -= 500 * dt;
-//			if (rectLower2.h <= -(int)h / 2) step = TransitionStep::CHANGING;
-//		}*/
-//		break;
-//
-//
-//	case TransitionStep::EXITING:
-//		/*if (type == TransitionType::WIPE)
-//		{
-//			rectWipe.w -= 1000 * dt;
-//
-//			if (rectWipe.w < 0) step = TransitionStep::NONE;
-//		}
-//		else if (type == TransitionType::ALTERNATING_BARS)
-//		{
-//			for (int i = 0; i < MAX_BARS_SIZE; ++i)
-//			{
-//				if (i % 2 == 0) bars[i].w -= 1000 * dt;
-//				else bars[i].w += 1000 * dt;
-//			}
-//
-//			if (bars[MAX_BARS_SIZE - 1].w > 0) step = TransitionStep::NONE;
-//		}
-//		else if (type == TransitionType::HALF_HEIGHT_RECTANGLES)
-//		{
-//			if (rectLower.w <= 0)
-//				rectLower.w += 1000 * dt;
-//			else
-//			{
-//				rectUpper.w -= 1000 * dt;
-//				if (rectUpper.w <= 0) step = TransitionStep::NONE;
-//			}
-//		}
-//		else if (type == TransitionType::FADE_TO_BLACK)
-//		{
-//			transitionAlpha -= dt;
-//			if (transitionAlpha < -0.01f) step = TransitionStep::NONE;
-//		}
-//		else if (type == TransitionType::HALF_WIDHT_RECTANGLES)
-//		{
-//			halfWidthCount += dt;
-//			if (halfWidthCount >= 0.5f)
-//			{
-//				rectUpper2.h -= 500 * dt;
-//				rectLower2.h += 500 * dt;
-//				if (rectLower2.h >= 0) step = TransitionStep::NONE;
-//			}
-//		}*/
-//		break;
-//
-//	}
-//
-//
-//
-//
-//
-//	return true;
-//}
-
 void TransitionsManager::Draw()
 {
 	switch (type)
@@ -185,7 +83,7 @@ void TransitionsManager::Draw()
 		break;
 
 	case TransitionType::FADE_TO_BLACK:
-		app->render->DrawRectangle({ 0, 0, 1280,720 }, 0, 0, 0, (unsigned char)transitionAlpha * 255.0f);
+		app->render->DrawRectangle({ 0, 0, 1280,720 }, 0, 0, 0, transitionAlpha * 255.0f, true, false);
 		break;
 
 	case TransitionType::HALF_WIDHT_RECTANGLES:
