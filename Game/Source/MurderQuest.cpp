@@ -9,7 +9,6 @@ MurderQuest::MurderQuest(pugi::xml_node n) : Quest(QuestType::MURDER_QUEST)
 	this->name = n.attribute("name").as_string();
 	this->description = n.attribute("description").as_string();
 	this->nextQuestId = n.attribute("nextQuestId").as_int();
-	this->isCompleted = n.attribute("isCompleted").as_bool();
 	this->type = (EntityType)n.attribute("enemy").as_int();
 	this->total = n.attribute("total").as_int();
 	this->actual = n.attribute("actual").as_int();
@@ -24,10 +23,10 @@ bool MurderQuest::Update(Entity* entity)
 {
 	if ((entity != nullptr) && (type == entity->type))
 	{
-		isCompleted = true;
+		return true;
 	}
 
-	return isCompleted;
+	return false;
 }
 
 void MurderQuest::Draw(Render* render, Font* font, bool showMore)
@@ -41,7 +40,6 @@ bool MurderQuest::SaveState(pugi::xml_node& node)
 	node.append_attribute("id").set_value(id);
 	node.append_attribute("name").set_value(name.c_str());
 	node.append_attribute("nextQuestId").set_value(nextQuestId);
-	node.append_attribute("isCompleted").set_value(isCompleted);
 	node.append_attribute("enemy").set_value((int)type);
 	node.append_attribute("actual").set_value(actual);
 	node.append_attribute("total").set_value(total);

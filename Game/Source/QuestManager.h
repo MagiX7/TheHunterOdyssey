@@ -11,10 +11,7 @@ enum class EntityType;
 class QuestManager
 {
 public:
-	QuestManager(const QuestManager&) = delete;
-	void operator=(const QuestManager&) = delete;
-
-	static QuestManager* GetInstance();
+	QuestManager();
 
 	virtual ~QuestManager();
 
@@ -43,9 +40,6 @@ public:
 	void GetReward(int reward);
 
 private:
-	QuestManager();
-
-	static QuestManager* instance;
 
 	eastl::list<Quest*> loadedQuests;
 	eastl::list<Quest*> activeQuests;

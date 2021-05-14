@@ -3,14 +3,15 @@
 #include "Render.h"
 #include "Textures.h"
 
-#include "DialogueManager.h"
 #include "QuestManager.h"
+#include "DialogueManager.h"
 #include "Easings.h"
 
 #include "Log.h"
 
-DialogueManager::DialogueManager()
+DialogueManager::DialogueManager(QuestManager* quests)
 {
+	questManager = quests;
 }
 
 DialogueManager::~DialogueManager()
@@ -137,7 +138,7 @@ bool DialogueManager::Update(float dt)
 			{
 				NpcNode* aux = GetNodeById(current->currentNode->currentOption->nextNodeId);
 				/*current->currentNode=current->currentNode.*/
-				if (current->currentNode->currentOption->missionId != -1) QuestManager::GetInstance()->ActivateQuest(current->currentNode->currentOption->missionId);
+				if (current->currentNode->currentOption->missionId != -1) questManager->ActivateQuest(current->currentNode->currentOption->missionId);
 				
 				RELEASE(current->currentNode);
 				current->currentNode = aux;

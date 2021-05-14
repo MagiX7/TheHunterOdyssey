@@ -10,7 +10,7 @@
 class EntityManager
 {
 public:
-	EntityManager();
+	EntityManager(QuestManager* quests);
 
 	virtual ~EntityManager();
 
@@ -49,6 +49,7 @@ public:
 public:
 	//List<Entity*> entities;
 	eastl::list<Entity*> entities;
+	QuestManager* questManager;
 };
 
 #endif //__ENTITYMANAGER_H__

@@ -19,6 +19,7 @@ class PauseMenu;
 class Render;
 class Item;
 class Inventory;
+class QuestManager;
 
 class Font;
 
@@ -97,6 +98,8 @@ private:
 
 	ParticlesManager* particles;
 
+	QuestManager* questManager;
+
 	// Scenes
 	SceneBattle* sceneBattle;
 	float temp;
@@ -131,6 +134,9 @@ private:
 	Enemy* tmp;
 
 	SDL_Rect iceBlockRect;
+
+	float firstQuest;
+	bool firstQuestAdded;
 };
 
 #endif //__SCENEGAMEPLAY_H__

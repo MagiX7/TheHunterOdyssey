@@ -7,7 +7,6 @@ ItemQuest::ItemQuest(pugi::xml_node n) : Quest(QuestType::ITEM_QUEST)
 	this->name = n.attribute("name").as_string();
 	this->description = n.attribute("description").as_string();
 	this->nextQuestId = n.attribute("nextQuestId").as_int();
-	this->isCompleted = n.attribute("isCompleted").as_bool();
 	this->type = (ItemType)n.attribute("item").as_int();
 	this->reward = n.attribute("reward").as_int();
 }
@@ -20,10 +19,10 @@ bool ItemQuest::Update(Item* item)
 {
 	if ((item != nullptr) && (type == item->itemType))
 	{
-		isCompleted = true;
+		return true;
 	}
 
-	return isCompleted;
+	return false;
 }
 
 void ItemQuest::Draw(Render* render, Font* font, bool showMore)
@@ -37,7 +36,6 @@ bool ItemQuest::SaveState(pugi::xml_node& node)
 	node.append_attribute("id").set_value(id);
 	node.append_attribute("name").set_value(name.c_str());
 	node.append_attribute("nextQuestId").set_value(nextQuestId);
-	node.append_attribute("isCompleted").set_value(isCompleted);
 	node.append_attribute("item").set_value((int)type);
 	node.append_attribute("reward").set_value(reward);
 

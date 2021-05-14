@@ -13,15 +13,6 @@
 #include "VisitQuest.h"
 #include "TalkQuest.h"
 
-QuestManager* QuestManager::instance = nullptr;
-
-QuestManager* QuestManager::GetInstance()
-{
-	if (instance == nullptr) instance = new QuestManager();
-	
-	return instance;
-}
-
 QuestManager::QuestManager()
 {
 	pugi::xml_document questFile;

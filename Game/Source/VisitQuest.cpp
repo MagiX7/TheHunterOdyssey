@@ -9,7 +9,6 @@ VisitQuest::VisitQuest(pugi::xml_node n) : Quest(QuestType::VISIT_QUEST)
 	this->name = n.attribute("name").as_string();
 	this->description = n.attribute("description").as_string();
 	this->nextQuestId = n.attribute("nextQuestId").as_int();
-	this->isCompleted = n.attribute("isCompleted").as_bool();
 	this->mapName = n.attribute("mapName").as_string();
 	this->reward = n.attribute("reward").as_int();
 }
@@ -22,10 +21,10 @@ bool VisitQuest::Update(SString string)
 {
 	if (mapName == string)
 	{
-		isCompleted = true;
+		return true;
 	}
 
-	return isCompleted;
+	return false;
 }
 
 void VisitQuest::Draw(Render* render, Font* font, bool showMore)
@@ -39,7 +38,6 @@ bool VisitQuest::SaveState(pugi::xml_node& node)
 	node.append_attribute("id").set_value(id);
 	node.append_attribute("name").set_value(name.c_str());
 	node.append_attribute("nextQuestId").set_value(nextQuestId);
-	node.append_attribute("isCompleted").set_value(isCompleted);
 	node.append_attribute("mapName").set_value(mapName.GetString());
 	node.append_attribute("reward").set_value(reward);
 
