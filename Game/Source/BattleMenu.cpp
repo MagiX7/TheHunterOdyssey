@@ -83,29 +83,29 @@ bool BattleMenu::Load(Font* font)
 	btnObject->texture = guiTex;
 	btnObject->sectionFocused = { 0,260,204,43 };
 
-	btnAbilitySlot1 = new GuiButton(5, { 461, 480, 204, 43 }, "Ability1", this, font);
+	btnAbilitySlot1 = new GuiButton(5, { 441, 480, 204, 43 }, "Ability1", this, font);
 	btnAbilitySlot1->texture = guiTex;
 	btnAbilitySlot1->sectionFocused = { 0,260,204,43 };
-	btnAbilitySlot2 = new GuiButton(6, { 461, 530, 204, 43 }, "Ability2", this, font);
+	btnAbilitySlot2 = new GuiButton(6, { 441, 530, 204, 43 }, "Ability2", this, font);
 	btnAbilitySlot2->texture = guiTex;
 	btnAbilitySlot2->sectionFocused = { 0,260,204,43 };
-	btnAbilitySlot3 = new GuiButton(7, { 461, 580, 204, 43 }, "Ability3", this, font);
+	btnAbilitySlot3 = new GuiButton(7, { 441, 580, 204, 43 }, "Ability3", this, font);
 	btnAbilitySlot3->texture = guiTex;
 	btnAbilitySlot3->sectionFocused = { 0,260,204,43 };
-	btnAbilitySlot4 = new GuiButton(8, { 461, 630, 204, 43 }, "Ability4", this, font);
+	btnAbilitySlot4 = new GuiButton(8, { 441, 630, 204, 43 }, "Ability4", this, font);
 	btnAbilitySlot4->texture = guiTex;
 	btnAbilitySlot4->sectionFocused = { 0,260,204,43 };
 
-	btnObjectSlot1 = new GuiButton(9, { 461, 480, 204, 43 }, "Potion", this, font);
+	btnObjectSlot1 = new GuiButton(9, { 441, 480, 204, 43 }, "Potion", this, font);
 	btnObjectSlot1->texture = guiTex;
 	btnObjectSlot1->sectionFocused = { 0,260,204,43 };
-	btnObjectSlot2 = new GuiButton(10, { 461, 530, 204, 43 }, "Ultra Potion", this, font);
+	btnObjectSlot2 = new GuiButton(10, { 441, 530, 204, 43 }, "Ultra Potion", this, font);
 	btnObjectSlot2->texture = guiTex;
 	btnObjectSlot2->sectionFocused = { 0,260,204,43 };
-	btnObjectSlot3 = new GuiButton(11, { 461, 580, 204, 43 }, "Eter", this, font);
+	btnObjectSlot3 = new GuiButton(11, { 441, 580, 204, 43 }, "Eter", this, font);
 	btnObjectSlot3->texture = guiTex;
 	btnObjectSlot3->sectionFocused = { 0,260,204,43 };
-	btnObjectSlot4 = new GuiButton(12, { 461, 630, 204, 43 }, "Ultra Eter", this, font);
+	btnObjectSlot4 = new GuiButton(12, { 441, 630, 204, 43 }, "Ultra Eter", this, font);
 	btnObjectSlot4->texture = guiTex;
 	btnObjectSlot4->sectionFocused = { 0,260,204,43 };
 
@@ -233,7 +233,7 @@ bool BattleMenu::Update(float dt)
 	if (easingArrow->easingsActivated)
 	{
 		position_x = easingArrow->circularEaseInOut(easingArrow->currentIteration, easingArrow->initialPos, easingArrow->deltaPos, easingArrow->totalIterations);
-		position_x2 = easingArrow->circularEaseInOut(easingArrow->currentIteration, 461, 10, easingArrow->totalIterations);
+		position_x2 = easingArrow->circularEaseInOut(easingArrow->currentIteration, 441, 10, easingArrow->totalIterations);
 		alpha = easingArrow->circularEaseInOut(easingArrow->currentIteration, 0, 255, easingArrow->totalIterations);
 
 		if (easingArrow->currentIteration < easingArrow->totalIterations)
@@ -251,7 +251,7 @@ bool BattleMenu::Update(float dt)
 	if (easingArrowBack->easingsActivated)
 	{
 		position_x = easingArrowBack->circularEaseInOut(easingArrowBack->currentIteration, easingArrowBack->initialPos, easingArrowBack->deltaPos, easingArrowBack->totalIterations);
-		position_x2 = easingArrowBack->circularEaseInOut(easingArrowBack->currentIteration, 471, -10, easingArrowBack->totalIterations);
+		position_x2 = easingArrowBack->circularEaseInOut(easingArrowBack->currentIteration, 451, -10, easingArrowBack->totalIterations);
 		alpha = easingArrowBack->circularEaseInOut(easingArrowBack->currentIteration, 255, -255, easingArrowBack->totalIterations);
 
 		if (easingArrowBack->currentIteration < easingArrowBack->totalIterations)
@@ -405,46 +405,54 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 	case BattleState::ABILITY_SELECT:
 		if (btnAbilitySlot1->state == GuiControlState::FOCUSED)
 		{
+			btnAbilitySlot1->text = currPlayer->GetAbilityName(0);
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
 			btnAbilitySlot1->bounds.x = position_x2;
 			btnAbilitySlot1->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 		}
 		else
 		{
-			btnAbilitySlot1->bounds.x = 461;
+			btnAbilitySlot1->text = currPlayer->GetAbilityName(0);
+			btnAbilitySlot1->bounds.x = 441;
 			btnAbilitySlot1->Draw(app->render, showColliders, 25, { 255,255,255,225 });
 		}
 		if (btnAbilitySlot2->state == GuiControlState::FOCUSED)
 		{
+			btnAbilitySlot2->text = currPlayer->GetAbilityName(1);
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
 			btnAbilitySlot2->bounds.x = position_x2;
 			btnAbilitySlot2->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 		}
 		else
 		{
-			btnAbilitySlot2->bounds.x = 461;
+			btnAbilitySlot2->text = currPlayer->GetAbilityName(1);
+			btnAbilitySlot2->bounds.x = 441;
 			btnAbilitySlot2->Draw(app->render, showColliders, 25, { 255,255,255,225 });
 		}
 		if (btnAbilitySlot3->state == GuiControlState::FOCUSED)
 		{
+			btnAbilitySlot3->text = currPlayer->GetAbilityName(2);
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
 			btnAbilitySlot3->bounds.x = position_x2;
 			btnAbilitySlot3->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 		}
 		else
 		{
-			btnAbilitySlot3->bounds.x = 461;
+			btnAbilitySlot3->text = currPlayer->GetAbilityName(2);
+			btnAbilitySlot3->bounds.x = 441;
 			btnAbilitySlot3->Draw(app->render, showColliders, 25, { 255,255,255,225 });
 		}
 		if (btnAbilitySlot4->state == GuiControlState::FOCUSED)
 		{
+			btnAbilitySlot4->text = currPlayer->GetAbilityName(3);
 			if (easingArrowBack->easingsActivated == false) easingArrow->easingsActivated = true;
 			btnAbilitySlot4->bounds.x = position_x2;
 			btnAbilitySlot4->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 		}
 		else
 		{
-			btnAbilitySlot4->bounds.x = 461;
+			btnAbilitySlot4->text = currPlayer->GetAbilityName(3);
+			btnAbilitySlot4->bounds.x = 441;
 			btnAbilitySlot4->Draw(app->render, showColliders, 25, { 255,255,255,225 });
 		}
 		app->render->DrawTexture(guiTex, playerPos, currPlayer->bounds.y, &gauntletPlayers);

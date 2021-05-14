@@ -77,6 +77,11 @@ Hunter::Hunter(iPoint position, pugi::xml_node anim, ParticlesManager* particles
 	this->idleUp.PushBack(walkUp.frames[0]);
 	
 	currentAnim = &idleDown;
+
+	this->abilityName[0] = "Steady shot";
+	this->abilityName[1] = "Serpent shot";
+	this->abilityName[2] = "Explosive shot";
+	this->abilityName[3] = "Bola strike";
 }
 
 Hunter::~Hunter()
@@ -327,7 +332,7 @@ void Hunter::Ability(Enemy* enemy, int currentAbility)
 		LOG("Casting EXPLOSIVE SHOT");
 		break;
 	case 4:
-		enemy->GetDamage(magicDamage);
+		enemy->GetDamage(meleeDamage);
 		LOG("Casting BOLA");
 		break;
 	}

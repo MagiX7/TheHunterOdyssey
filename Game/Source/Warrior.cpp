@@ -73,6 +73,11 @@ Warrior::Warrior(iPoint position, pugi::xml_node anim, ParticlesManager* particl
 	idleUp.PushBack(walkUp.frames[0]);
 
 	currentAnim = &idleDown;
+
+	this->abilityName[0] = "Execute";
+	this->abilityName[1] = "Rend";
+	this->abilityName[2] = "Cleave";
+	this->abilityName[3] = "War cry";
 }
 
 Warrior::~Warrior()
@@ -310,7 +315,7 @@ void Warrior::Ability(Enemy* enemy, int currentAbility)
 		{
 			enemy->GetDamage(enemy->GetHealth() * 0.15);
 		}
-		LOG("Rend");
+		LOG("Casting REND");
 		break;
 	case 3:
 		enemy->GetDamage(meleeDamage + rand() % 200);
