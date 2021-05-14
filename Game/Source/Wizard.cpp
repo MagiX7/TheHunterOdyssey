@@ -11,8 +11,8 @@ Wizard::Wizard(iPoint position, pugi::xml_node anim, ParticlesManager* particles
 {
 	//bounds = { 0,0, 16,32 };
 	stance = PlayerStance::ROAMING;
-	healthPoints = 1000;
-	maxHealthPoints = 2000;
+	healthPoints = 2000;
+	maxHealthPoints = healthPoints;
 	armorPoints = 5;
 	maxArmorPoints = armorPoints;
 	manaPoints = 5000;

@@ -79,15 +79,11 @@ private:
 
 	void LoadNpc(SString mapName);
 
-public:
-	DialogueManager* dialogueManager;
-	Player* currentPlayer;
-
-	SDL_Texture* goldTexture;
-	
-	eastl::list<Player*> playerList;
-
 private:
+	Player* currentPlayer;
+	DialogueManager* dialogueManager;
+	SDL_Texture* goldTexture;
+	eastl::list<Player*> playerList;
 
 	// Menus
 	CharacterManager* charManager;

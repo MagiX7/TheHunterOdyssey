@@ -153,6 +153,7 @@
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\Thief.cpp" />
     <ClCompile Include="Source\Town.cpp" />
+    <ClCompile Include="Source\TransitionsManager.cpp" />
     <ClCompile Include="Source\UltraPotion.cpp" />
     <ClCompile Include="Source\VisitQuest.cpp" />
     <ClCompile Include="Source\Warrior.cpp" />
@@ -228,6 +229,7 @@
     <ClInclude Include="Source\Thief.h" />
     <ClInclude Include="Source\Timer.h" />
     <ClInclude Include="Source\Town.h" />
+    <ClInclude Include="Source\TransitionsManager.h" />
     <ClInclude Include="Source\UltraPotion.h" />
     <ClInclude Include="Source\VisitQuest.h" />
     <ClInclude Include="Source\Warrior.h" />
