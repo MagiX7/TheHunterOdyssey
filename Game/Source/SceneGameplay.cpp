@@ -24,6 +24,7 @@
 #include "Potion.h"
 #include "Orb.h"
 #include "OrbFragment.h"
+#include "InterruptorBlock.h"
 
 #include "KnightHelmet.h"
 #include "KnightChest.h"
@@ -1247,6 +1248,9 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 							Statue* statue4 = nullptr;
 							position = { 1664, 730 };
 							statue4 = (Statue*)entityManager->CreateEntity2(EntityType::STATUE, position, currentPlayer, 4);
+
+							Item* interruptorBlock = new InterruptorBlock(iPoint(1024, 416), atlas);
+							items.push_back(interruptorBlock);
 
 							loadObjects = false;
 						}

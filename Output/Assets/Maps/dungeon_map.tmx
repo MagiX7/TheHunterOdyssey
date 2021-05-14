@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="90" height="90" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="1">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="90" height="90" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="1">
  <tileset firstgid="1" name="hitboxes" tilewidth="32" tileheight="32" tilecount="20" columns="20">
   <image source="hitboxes.png" width="640" height="32"/>
  </tileset>
@@ -2365,7 +2365,7 @@
    <tile gid="458"/>
    <tile gid="458"/>
    <tile gid="458"/>
-   <tile gid="458"/>
+   <tile gid="56"/>
    <tile gid="458"/>
    <tile gid="458"/>
    <tile gid="458"/>
@@ -56734,7 +56734,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="7" name="Hitboxes" width="90" height="90" visible="0">
+ <layer id="7" name="Hitboxes" width="90" height="90">
   <properties>
    <property name="draw" type="bool" value="false"/>
   </properties>
@@ -57941,7 +57941,7 @@
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="1"/>
-   <tile gid="1"/>
+   <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="1"/>
@@ -58468,7 +58468,7 @@
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>
-   <tile gid="2"/>
+   <tile gid="17"/>
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>
@@ -59368,7 +59368,7 @@
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>
-   <tile gid="2"/>
+   <tile gid="17"/>
    <tile gid="2"/>
    <tile gid="2"/>
    <tile gid="2"/>
