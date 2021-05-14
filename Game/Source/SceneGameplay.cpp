@@ -149,6 +149,7 @@ SceneGameplay::SceneGameplay()
 	fadeOut = false;
 	alpha = 0.0f;
 	isDungeon = false;
+	loadObjects = true;
 }
 
 bool SceneGameplay::Load()
@@ -1274,12 +1275,26 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						map->CleanUp();
 						map->Load("dungeon_map.tmx", app->tex);
 						isDungeon = true;
-						IceBlock* iceBlock = nullptr;
-						position = { 2112,320 };
-						iceBlock = (IceBlock*)entityManager->CreateEntity2(EntityType::ICE_BLOCK, position, currentPlayer);
-						Door* door = nullptr;
-						position = { 2240,992 };
-						door = (Door*)entityManager->CreateEntity2(EntityType::DOOR, position, currentPlayer);
+						if (loadObjects)
+						{
+							IceBlock* iceBlock = nullptr;
+							position = { 2112,320 };
+							iceBlock = (IceBlock*)entityManager->CreateEntity2(EntityType::ICE_BLOCK, position, currentPlayer, 1);
+							Door* door = nullptr;
+							position = { 2240,992 };
+							door = (Door*)entityManager->CreateEntity2(EntityType::DOOR, position, currentPlayer, 1);
+							Door* door2 = nullptr;
+							position = { 576,288 };
+							door2 = (Door*)entityManager->CreateEntity2(EntityType::DOOR, position, currentPlayer, 1);
+							Door* door3 = nullptr;
+							position = { 1408,2496 };
+							door3 = (Door*)entityManager->CreateEntity2(EntityType::DOOR, position, currentPlayer, 1);
+							Door* door4 = nullptr;
+							position = { 1408,608 };
+							door4 = (Door*)entityManager->CreateEntity2(EntityType::DOOR, position, currentPlayer, 2);
+
+							loadObjects = false;
+						}
 						exit = true;
 						break;
 					}

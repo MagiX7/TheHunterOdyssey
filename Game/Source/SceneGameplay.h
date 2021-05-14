@@ -119,7 +119,7 @@ private:
 	float alpha;
 	bool transition;
 	bool fadeOut;
-
+	bool loadObjects;
 	//Fx
 	int doorOpenedFx;
 	int doorClosedFx;

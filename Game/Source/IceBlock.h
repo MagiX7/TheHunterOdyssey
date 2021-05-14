@@ -33,6 +33,5 @@ public:
 	Animation idleAnim;
 	Player* currPlayer;
 	bool isMoving;
-
 	SDL_Rect lastPosition;
 };
