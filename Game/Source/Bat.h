@@ -7,7 +7,7 @@ class Font;
 class Bat : public Enemy
 {
 public:
-	Bat(iPoint pos, pugi::xml_node anim);
+	Bat(iPoint pos, pugi::xml_node anim, eastl::string map = "");
 	virtual ~Bat();
 
 	bool Load() override;

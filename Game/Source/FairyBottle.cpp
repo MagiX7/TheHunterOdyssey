@@ -4,10 +4,11 @@
 
 #include "FairyBottle.h"
 
-FairyBottle::FairyBottle(iPoint pos, SDL_Texture* atlas) : Item(ObjectType::ITEM, pos, atlas)
+FairyBottle::FairyBottle(iPoint pos, SDL_Texture* atlas, eastl::string map) : Item(ObjectType::ITEM, pos, atlas)
 {
 	atlasSection = { 353, 289, 32, 32 };
 	itemType = ItemType::FAIRY_BOTTLE;
+	mapName = map;
 }
 
 FairyBottle::~FairyBottle()

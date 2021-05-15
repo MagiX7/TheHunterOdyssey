@@ -5,7 +5,7 @@
 class UltraPotion : public Item
 {
 public:
-	UltraPotion(iPoint pos, SDL_Texture* atlas);
+	UltraPotion(iPoint pos, SDL_Texture* atlas, eastl::string map);
 	virtual ~UltraPotion();
 
 	bool Load() override;

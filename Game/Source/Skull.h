@@ -7,7 +7,7 @@ class Font;
 class Skull : public Enemy
 {
 public:
-	Skull(iPoint pos, pugi::xml_node anim);
+	Skull(iPoint pos, pugi::xml_node anim, eastl::string map = "");
 	virtual ~Skull();
 
 	bool Load() override;

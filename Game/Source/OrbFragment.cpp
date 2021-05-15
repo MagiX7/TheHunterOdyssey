@@ -3,10 +3,11 @@
 #include "Render.h"
 #include "OrbFragment.h"
 
-OrbFragment::OrbFragment(iPoint pos, SDL_Texture* atlas) : Item(ObjectType::ITEM, pos, atlas)
+OrbFragment::OrbFragment(iPoint pos, SDL_Texture* atlas, eastl::string map) : Item(ObjectType::ITEM, pos, atlas)
 {
 	atlasSection = { 439, 570, 20, 28 };
 	itemType = ItemType::ORB_FRAGMENT;
+	mapName = map;
 }
 
 OrbFragment::~OrbFragment()

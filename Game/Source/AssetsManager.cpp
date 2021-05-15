@@ -3,6 +3,7 @@
 
 AssetsManager::AssetsManager() :Module() 
 {
+	name.Create("AssetsManager");
 	//TODO 1: initialize the library (1 line)
 	PHYSFS_init(nullptr);
 }

@@ -19,9 +19,9 @@ MurderQuest::~MurderQuest()
 {
 }
 
-bool MurderQuest::Update(Entity* entity)
+bool MurderQuest::Update(Enemy* enemy)
 {
-	if ((entity != nullptr) && (type == entity->type))
+	if ((enemy != nullptr) && (type == enemy->type))
 	{
 		return true;
 	}

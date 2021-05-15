@@ -8,7 +8,7 @@
 #include "Player.h"
 
 
-Golem::Golem(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::GOLEM)
+Golem::Golem(iPoint pos, pugi::xml_node anim, eastl::string map) : Enemy(EntityType::GOLEM)
 {
 	bounds = { pos.x, pos.y, 70, 69 };
 	texture = app->tex->Load("Textures/Enemies/golem.png");
@@ -16,6 +16,8 @@ Golem::Golem(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::GOLEM)
 	dieFx = app->audio->LoadFx("Audio/Fx/Battle/golem_die.wav");
 	hurtFx = app->audio->LoadFx("Audio/Fx/Battle/golem_hurt.wav");
 	name = "Golem";
+	mapName = map;
+	eType = EnemyType::GOLEM;
 	
 	battlePos = pos;
 	health = 1000;

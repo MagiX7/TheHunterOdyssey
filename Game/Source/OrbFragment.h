@@ -5,7 +5,7 @@
 class OrbFragment : public Item
 {
 public:
-	OrbFragment(iPoint pos, SDL_Texture* atlas);
+	OrbFragment(iPoint pos, SDL_Texture* atlas, eastl::string map);
 	virtual ~OrbFragment();
 
 	bool Load() override;

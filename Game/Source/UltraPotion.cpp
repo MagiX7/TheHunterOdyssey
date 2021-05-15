@@ -6,7 +6,7 @@
 
 #include "UltraPotion.h"
 
-UltraPotion::UltraPotion(iPoint pos, SDL_Texture* atlas) : Item(ObjectType::ITEM, pos, atlas)
+UltraPotion::UltraPotion(iPoint pos, SDL_Texture* atlas, eastl::string map) : Item(ObjectType::ITEM, pos, atlas)
 {
 	/*bounds.x = pos.x - 5;
 	bounds.y = pos.y - 5;
@@ -14,6 +14,7 @@ UltraPotion::UltraPotion(iPoint pos, SDL_Texture* atlas) : Item(ObjectType::ITEM
 	bounds.h = 40;*/
 	atlasSection = { 194, 289, 32, 32 };
 	itemType = ItemType::ULTRA_POTION;
+	mapName = map;
 }
 
 UltraPotion::~UltraPotion()

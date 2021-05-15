@@ -63,6 +63,7 @@ public:
 	SDL_Rect atlasSection;
 
 	bool isDragging; // For inventory
+	eastl::string mapName;
 
 	bool isDropped; // For dropping items
 };

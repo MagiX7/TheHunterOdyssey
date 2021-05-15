@@ -4,10 +4,11 @@
 
 #include "FairyWing.h"
 
-FairyWing::FairyWing(iPoint pos, SDL_Texture* atlas) : Item(ObjectType::ITEM, pos, atlas)
+FairyWing::FairyWing(iPoint pos, SDL_Texture* atlas, eastl::string map) : Item(ObjectType::ITEM, pos, atlas)
 {
 	atlasSection = { 225, 289, 32, 32 };
 	itemType = ItemType::FAIRY_WING;
+	mapName = map;
 }
 
 FairyWing::~FairyWing()

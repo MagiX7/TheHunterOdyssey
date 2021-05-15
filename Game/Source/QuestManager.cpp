@@ -107,7 +107,25 @@ bool QuestManager::CheckQuests(Entity* entity)
 
 	for (; it != itEnd; ++it)
 	{
-		if ((*it)->Update(entity) == true)
+		if (entity != nullptr && (*it)->Update(entity) == true)
+		{
+			activeQuests.erase(it);
+			playFx = false;
+			questFinished = *it;
+		}
+	}
+
+	return true;
+}
+
+bool QuestManager::CheckQuests(Enemy* enemy)
+{
+	eastl::list<Quest*>::iterator it = activeQuests.begin();
+	eastl::list<Quest*>::iterator itEnd = activeQuests.end();
+
+	for (; it != itEnd; ++it)
+	{
+		if (enemy != nullptr && (*it)->Update(enemy) == true)
 		{
 			activeQuests.erase(it);
 			playFx = false;

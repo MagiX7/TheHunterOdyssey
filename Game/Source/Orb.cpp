@@ -3,10 +3,11 @@
 #include "Render.h"
 #include "Orb.h"
 
-Orb::Orb(iPoint pos, SDL_Texture* atlas) : Item(ObjectType::ITEM, pos, atlas)
+Orb::Orb(iPoint pos, SDL_Texture* atlas, eastl::string map) : Item(ObjectType::ITEM, pos, atlas)
 {
 	atlasSection = { 383, 570, 28, 28 };
 	itemType = ItemType::ORB;
+	mapName = map;
 }
 
 Orb::Orb(SDL_Texture* atlas) : Item(ObjectType::ITEM, iPoint(0,0), atlas)

@@ -4,10 +4,11 @@
 
 #include "OmniPotion.h"
 
-OmniPotion::OmniPotion(iPoint pos, SDL_Texture* atlas) : Item(ObjectType::ITEM, pos, atlas)
+OmniPotion::OmniPotion(iPoint pos, SDL_Texture* atlas, eastl::string map) : Item(ObjectType::ITEM, pos, atlas)
 {
 	atlasSection = { 325, 290, 24, 28 };
 	itemType = ItemType::OMNI_POTION;
+	mapName = map;
 }
 
 OmniPotion::~OmniPotion()

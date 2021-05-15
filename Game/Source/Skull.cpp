@@ -7,7 +7,7 @@
 #include "Skull.h"
 #include "Player.h"
 
-Skull::Skull(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::SKULL)
+Skull::Skull(iPoint pos, pugi::xml_node anim, eastl::string map) : Enemy(EntityType::SKULL)
 {
 	bounds = { pos.x, pos.y, 74, 74 };
 	texture = app->tex->Load("Textures/Enemies/floating_skull.png");
@@ -15,6 +15,8 @@ Skull::Skull(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::SKULL)
 	dieFx = app->audio->LoadFx("Audio/Fx/Battle/skull_die.wav");
 	hurtFx = app->audio->LoadFx("Audio/Fx/Battle/skull_hurt.wav");
 	name = "Skull";
+	mapName = map;
+	eType = EnemyType::SKULL;
 
 	battlePos = pos;
 	health = 750;

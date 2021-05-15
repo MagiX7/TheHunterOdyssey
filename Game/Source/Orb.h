@@ -5,7 +5,7 @@
 class Orb : public Item
 {
 public:
-	Orb(iPoint pos, SDL_Texture* atlas);
+	Orb(iPoint pos, SDL_Texture* atlas, eastl::string map);
 	Orb(SDL_Texture* atlas);
 	virtual ~Orb();
 

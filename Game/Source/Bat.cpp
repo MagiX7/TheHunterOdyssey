@@ -8,7 +8,7 @@
 #include "Player.h"
 
 
-Bat::Bat(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::BAT)
+Bat::Bat(iPoint pos, pugi::xml_node anim, eastl::string map) : Enemy(EntityType::BAT)
 {
 	bounds = { pos.x, pos.y, 37, 33 };
 	texture = app->tex->Load("Textures/Enemies/bat.png");
@@ -16,6 +16,8 @@ Bat::Bat(iPoint pos, pugi::xml_node anim) : Enemy(EntityType::BAT)
 	dieFx = app->audio->LoadFx("Audio/Fx/Battle/bat_die.wav");
 	hurtFx = app->audio->LoadFx("Audio/Fx/Battle/bat_hurt.wav");
 	name = "Bat";
+	mapName = map;
+	eType = EnemyType::BAT;
 
 	battlePos = pos;
 	health = 600;

@@ -86,40 +86,38 @@ SceneGameplay::SceneGameplay()
 	tmpPosPlayer = { 0,0 };
 
 	Enemy* en;
-	en = new Golem({ 865, 365 }, anims);
+	en = new Skull({ 608, 352 }, anims, "graveyard.tmx");
 	en->SetCurrentState(EnemyState::ROAMING);
 	enemyList.push_back(en);
 
-	en = new Skull({ 260, 868 }, anims);
+	en = new Bat({ 1408, 2720 }, anims, "dungeon_map.tmx");
 	en->SetCurrentState(EnemyState::ROAMING);
 	enemyList.push_back(en);
 
-	en = new Bat({ 1087, 850 }, anims);
+	en = new Golem({ 1408, 224 }, anims, "dungeon_map.tmx");
 	en->SetCurrentState(EnemyState::ROAMING);
 	enemyList.push_back(en);
 
 	atlas = app->tex->Load("Textures/Items/items_atlas.png");
 
-	SDL_Texture* atlas = app->tex->Load("Assets/Textures/Items/items_atlas.png");
-
 	inventory = new Inventory(playerList, atlas);
 
-	Item *item = new UltraPotion(iPoint(128,1248), atlas);
+	Item *item = new UltraPotion(iPoint(128,1248), atlas, "town_map.tmx");
 	items.push_back(item);
 	
-	item = new OmniPotion(iPoint(768,1248), atlas);
+	item = new OmniPotion(iPoint(768,1248), atlas, "town_map.tmx");
 	items.push_back(item);
 
-	item = new Potion(iPoint(1280, 80), atlas);
+	item = new Potion(iPoint(1280, 80), atlas, "town_map.tmx");
 	items.push_back(item);
 
-	item = new FairyTear(iPoint(512, 800), atlas);
+	item = new FairyTear(iPoint(512, 800), atlas, "town_map.tmx");
 	items.push_back(item);
 
-	item = new KnightHelmet({ 1376, 1056, 32, 32 }, iPoint(1376, 1056),atlas);
+	item = new KnightHelmet({ 1376, 1056, 32, 32 }, iPoint(1376, 1056), atlas, "town_map.tmx");
 	items.push_back(item);
 
-	item = new KnightChest({1408, 1056, 32, 32}, iPoint(1408, 1056), atlas);
+	item = new KnightChest({1408, 1056, 32, 32}, iPoint(1408, 1056), atlas, "town_map.tmx");
 	items.push_back(item);
 
 	pause = new PauseMenu(this);
@@ -240,13 +238,13 @@ bool SceneGameplay::Update(float dt)
 
 					particles->Update(dt);
 
-					if (isTown)
+					eastl::list<Enemy*>::iterator enemies = enemyList.begin();
+					eastl::list<Enemy*>::iterator enemyEnd = enemyList.end();
+					for (; enemies != enemyEnd; ++enemies)
 					{
-						eastl::list<Enemy*>::iterator enemies = enemyList.begin();
-						eastl::list<Enemy*>::iterator enemyEnd = enemyList.end();
-						for (; enemies != enemyEnd; ++enemies)
+						Enemy* enemy = (*enemies);
+						if (map->name == enemy->mapName.c_str())
 						{
-							Enemy* enemy = (*enemies);
 							enemy->Update(dt);
 							if (!showColliders && CheckCollision(enemy->bounds, currentPlayer->bounds))
 							{
@@ -323,18 +321,21 @@ bool SceneGameplay::Update(float dt)
 					eastl::list<Item*>::iterator it = items.begin();
 					for (; it != items.end(); ++it)
 					{
-						(*it)->Update(dt);
-						if (CheckCollision(currentPlayer->bounds, (*it)->bounds) && (*it)->isDropped == false)
+						if (map->name == (*it)->mapName.c_str())
 						{
-							questManager->CheckQuests(*it);
-							inventory->AddItem(*it);
-							items.erase(it);
-
-							if (inventory->ObjectQuantity(ItemType::ORB) == 1)
+							(*it)->Update(dt);
+							if (CheckCollision(currentPlayer->bounds, (*it)->bounds) && (*it)->isDropped == false)
 							{
-								entityManager->DeleteEntity(EntityType::STATUE, 1);
-								entityManager->DeleteEntity(EntityType::STATUE, 2);
-								entityManager->DeleteEntity(EntityType::DOOR, 3);
+								questManager->CheckQuests(*it);
+								inventory->AddItem(*it);
+								items.erase(it);
+
+								if (inventory->ObjectQuantity(ItemType::ORB) == 1)
+								{
+									entityManager->DeleteEntity(EntityType::STATUE, 1);
+									entityManager->DeleteEntity(EntityType::STATUE, 2);
+									entityManager->DeleteEntity(EntityType::DOOR, 3);
+								}
 							}
 						}
 					}
@@ -375,8 +376,6 @@ bool SceneGameplay::Update(float dt)
 
 void SceneGameplay::Draw()
 {
-	eastl::list<Enemy*>::iterator enemies = enemyList.begin();
-	eastl::list<Enemy*>::iterator enemyEnd = enemyList.end();
 	switch (gameState)
 	{
 	case GameplayState::ROAMING:
@@ -396,15 +395,23 @@ void SceneGameplay::Draw()
 			eastl::list<Item*>::iterator it = items.begin();
 			for (; it != items.end(); ++it)
 			{
-				(*it)->Draw(showColliders);
+				if (map->name == (*it)->mapName.c_str())
+				{
+					(*it)->Draw(showColliders);
+				}
 			}
 		}	
 
-		if (isTown)
 		{
+			eastl::list<Enemy*>::iterator enemies = enemyList.begin();
+			eastl::list<Enemy*>::iterator enemyEnd = enemyList.end();
 			for (; enemies != enemyEnd; ++enemies)
 			{
-				(*enemies)->Draw(showColliders);
+				Enemy* enemy = (*enemies);
+				if (map->name == enemy->mapName.c_str())
+				{
+					enemy->Draw(showColliders);
+				}
 			}
 		}
 
@@ -584,7 +591,7 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 	int enemyAmount = toLoadEntities.child("Enemies").attribute("amount").as_int();
 	pugi::xml_node NodeEnemy = toLoadEntities.child("Enemies");
 	pugi::xml_node NodeEnemyAuxiliar = NodeEnemy.child("Enemy");
-	for (int a = 0; a < enemyAmount; a++)
+	for (int a = 0; a < enemyAmount; ++a)
 	{
 		SString string;
 		string = NodeEnemyAuxiliar.child("EnemyType").attribute("type").as_string();
@@ -592,11 +599,11 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 		EntityType plType;
 		Enemy* enemy = nullptr;
 		if (string == "BAT")
-			enemy = new Bat({ NodeEnemyAuxiliar.child("bounds").attribute("X").as_int(), NodeEnemyAuxiliar.child("bounds").attribute("Y").as_int() }, anims);
+			enemy = new Bat({ NodeEnemyAuxiliar.child("bounds").attribute("X").as_int(), NodeEnemyAuxiliar.child("bounds").attribute("Y").as_int() }, anims, NodeEnemyAuxiliar.child("map_name").attribute("value").as_string());
 		else if (string == "GOLEM")
-			enemy = new Golem({ NodeEnemyAuxiliar.child("bounds").attribute("X").as_int(), NodeEnemyAuxiliar.child("bounds").attribute("Y").as_int() }, anims);
+			enemy = new Golem({ NodeEnemyAuxiliar.child("bounds").attribute("X").as_int(), NodeEnemyAuxiliar.child("bounds").attribute("Y").as_int() }, anims, NodeEnemyAuxiliar.child("map_name").attribute("value").as_string());
 		else if (string == "SKULL")
-			enemy = new Skull({ NodeEnemyAuxiliar.child("bounds").attribute("X").as_int(), NodeEnemyAuxiliar.child("bounds").attribute("Y").as_int() }, anims);
+			enemy = new Skull({ NodeEnemyAuxiliar.child("bounds").attribute("X").as_int(), NodeEnemyAuxiliar.child("bounds").attribute("Y").as_int() }, anims, NodeEnemyAuxiliar.child("map_name").attribute("value").as_string());
 		enemy->SetCurrentState(EnemyState::ROAMING);
 		enemyList.push_back(enemy);
 		NodeEnemyAuxiliar = NodeEnemyAuxiliar.next_sibling();
@@ -1265,10 +1272,10 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 							position = { 1408,608 };
 							door4 = (Door*)entityManager->CreateEntity2(EntityType::DOOR, position, currentPlayer, 4);
 
-							Item* item = new OrbFragment(iPoint(2144, 2496), atlas);
+							Item* item = new OrbFragment(iPoint(2144, 2496), atlas, "dungeon_map.tmx");
 							items.push_back(item);
 
-							item = new OrbFragment(iPoint(2368, 2496), atlas);
+							item = new OrbFragment(iPoint(2368, 2496), atlas, "dungeon_map.tmx");
 							items.push_back(item);
 
 							Statue* statue = nullptr;
@@ -1464,12 +1471,14 @@ void SceneGameplay::Transitioning(float dt)
 				RELEASE(sceneBattle);
 				eastl::list<Enemy*>::iterator en = enemyList.begin();
 				eastl::list<Enemy*>::iterator enEnd = enemyList.end();
+				bool win = false;
 				for (; en != enEnd; ++en)
 				{
 					Enemy* enemy = (*en);
 					if (tmp != nullptr && enemy == tmp)
 					{
 						questManager->CheckQuests(*en);
+						if (tmp->GetEnemyType() == EnemyType::GOLEM) win = true;
 						tmp = nullptr;
 						enemyList.erase(en);
 						break;
@@ -1486,7 +1495,11 @@ void SceneGameplay::Transitioning(float dt)
 					(*pl)->GetMana((*pl)->GetMaxManaPoints());
 				}
 
-				if (num == playerList.size())
+				if (win)
+				{
+					TransitionToScene(SceneType::ENDING, TransitionType::ALTERNATING_BARS, true);
+				}
+				else if (num == playerList.size())
 				{
 					TransitionToScene(SceneType::ENDING, TransitionType::ALTERNATING_BARS, false);
 				}

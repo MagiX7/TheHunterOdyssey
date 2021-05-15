@@ -18,6 +18,7 @@ public:
 	bool Update(Input* input, float dt);
 
 	bool CheckQuests(Entity* entity);
+	bool CheckQuests(Enemy* enemy);
 	bool CheckQuests(Item* item);
 	bool CheckQuests(SString string);
 
