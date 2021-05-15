@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: Create Release
-    runs-on: windows-lastest
+    runs-on: ['self-hosted']
     steps:
       - name: Create Release
         id: create_release
