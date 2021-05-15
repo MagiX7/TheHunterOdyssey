@@ -10,22 +10,22 @@
       <entities>
         <NPCs amount="4">
           <NPC>
-            <bounds X="6" Y="314" W="30" H="32" />
+            <bounds X="290" Y="564" W="30" H="32" />
             <NpcType type="TOWN" />
             <Dialoge idDialoge="0" />
           </NPC>
           <NPC>
-            <bounds X="626" Y="1056" W="30" H="32" />
+            <bounds X="609" Y="1150" W="30" H="32" />
             <NpcType type="RAY" />
             <Dialoge idDialoge="3" />
           </NPC>
           <NPC>
-            <bounds X="579" Y="512" W="30" H="32" />
+            <bounds X="986" Y="810" W="30" H="32" />
             <NpcType type="TABERN" />
             <Dialoge idDialoge="2" />
           </NPC>
           <NPC>
-            <bounds X="453" Y="236" W="30" H="32" />
+            <bounds X="702" Y="242" W="30" H="32" />
             <NpcType type="NPC_WIZARD" />
             <Dialoge idDialoge="1" />
           </NPC>
@@ -53,22 +53,26 @@
         <players amount="4">
           <player>
             <isCurrent current="true" />
-            <bounds X="1409" Y="1100" W="26" H="32" />
+            <bounds X="1365" Y="1081" W="26" H="32" />
+            <Equipment helmet="1" chest="2" />
             <playerType type="HUNTER" />
           </player>
           <player>
             <isCurrent current="false" />
             <bounds X="18" Y="90" W="26" H="32" />
+            <Equipment />
             <playerType type="WIZARD" />
           </player>
           <player>
             <isCurrent current="false" />
             <bounds X="12" Y="45" W="26" H="32" />
+            <Equipment />
             <playerType type="THIEF" />
           </player>
           <player>
             <isCurrent current="false" />
             <bounds X="13" Y="56" W="26" H="32" />
+            <Equipment />
             <playerType type="WARRIOR" />
           </player>
           <player />
@@ -137,14 +141,7 @@
         </items>
         <armor>
           <slot />
-          <slot amount="1" filled="true" id="1" state="1">
-            <item>
-              <position x="513" y="369" w="40" h="40" />
-              <object_type value="2" />
-              <armor_type value="2" />
-              <map_name value="" />
-            </item>
-          </slot>
+          <slot />
           <slot />
           <slot />
           <slot />

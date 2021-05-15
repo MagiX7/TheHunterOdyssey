@@ -594,6 +594,27 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 		if (iscurrent == true) currentPlayer = player;
 		playerList.push_back(player);
 		player->Load();
+		/*if (NodePlayerAuxiliar.child("Equipment").attribute("helmet").as_int() == (int)ArmorType::HELMET)
+		{
+
+		}*/
+		
+		for (pugi::xml_attribute n = NodePlayerAuxiliar.child("Equipment").attribute("helmet"); n; n = n.next_attribute())
+		{
+			Armor* armor = nullptr;
+			switch ((ArmorType)n.as_int())
+			{
+			case ArmorType::HELMET:
+				armor = new KnightHelmet({ 1376, 1056, 32, 32 }, iPoint(1376, 1056), atlas, "town_map.tmx");
+				armor->Load();
+				break;
+			case ArmorType::CHEST:
+				armor = new KnightChest({ 1408, 1056, 32, 32 }, iPoint(1408, 1056), atlas, "town_map.tmx");
+				armor->Load();
+				break;
+			}
+			if(armor != nullptr) player->SetEquipment(armor);
+		}
 		NodePlayerAuxiliar = NodePlayerAuxiliar.next_sibling();
 	}
 

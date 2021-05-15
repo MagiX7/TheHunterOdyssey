@@ -60,6 +60,11 @@ bool Player::SaveState(pugi::xml_node& node)
 	auxiliar1.append_attribute("Y").set_value(bounds.y);
 	auxiliar1.append_attribute("W").set_value(bounds.w);
 	auxiliar1.append_attribute("H").set_value(bounds.h);
+
+	pugi::xml_node equipment = node.append_child("Equipment");
+	if (helmet != nullptr) equipment.append_attribute("helmet").set_value((int)helmet->armorType);
+	if (chest != nullptr) equipment.append_attribute("chest").set_value((int)chest->armorType);
+	if (boots != nullptr) equipment.append_attribute("boots").set_value((int)boots->armorType);
 	return true;
 }
 
