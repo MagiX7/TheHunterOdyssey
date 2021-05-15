@@ -15,7 +15,9 @@ The Hunter Odyssey is our RPG turn-based video game based on the roots of the ge
  - Responsive GUI.
  - Gamepad and keyboard support.
  - Unique music for each screen.
- - Quests
+ - Four types of quests.
+ - Unique puzzles.
+ - Inventory shared between all the characters.
  
 ## Controls
 
