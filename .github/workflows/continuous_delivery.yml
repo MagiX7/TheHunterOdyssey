@@ -5,20 +5,24 @@ on:
   push:
   pull_request:
     branches: [ master ]
+    tags:
+      - 'v0.8'
 
 jobs:
   build:
     name: Create Release
-    runs-on: ['self-hosted']
+    runs-on: windows-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: Create Release
         id: create_release
-        uses: zendesk/action-create-release@v1
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: Full_Studios-The_Hunter_Odyssey_v0.8 ${{ github.ref }}
+          release_name: The Hunter Odyssey Alpha ${{ github.ref }}
           body: |
             This is the first release for our game The Hunter Odyssey, where you are a bounty hunter who has heard rumors about the prince from the most important region of the country, who is supposedly kidnapped by a majestuous monster. So, you decide to visit that famous place, with the objective of discovering all the secrets around this case.
 
@@ -35,5 +39,6 @@ jobs:
             - Responsive GUI.
             - Gamepad and keyboard support.
             - Unique music for each screen.
-
+            
           draft: false
+          prerelease: false
