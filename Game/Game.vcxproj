@@ -45,6 +45,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)Build\$(Configuration)</OutDir>
+    <TargetName>the_hunter_odyssey</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)Build\$(Configuration)</OutDir>
@@ -68,7 +69,7 @@
       <AdditionalLibraryDirectories>$(ProjectDir)Source\External\Optick\lib\debug;$(ProjectDir)Source\External\SDL\libx86;$(ProjectDir)Source\External\SDL_image\libx86;$(ProjectDir)Source\External\SDL_mixer\libx86;$(ProjectDir)Source\External\EASTL-3.17.06\lib\Debug;$(ProjectDir)Source\External\PhysFS\libx86</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>copy /Y "$(SolutionDir)Build\$(Configuration)\$(ProjectName).exe" "$(SolutionDir)Output\$(ProjectName).exe"</Command>
+      <Command>copy /Y "$(SolutionDir)Build\$(Configuration)\the_hunter_odyssey.exe" "$(SolutionDir)Output\the_hunter_odyssey.exe"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

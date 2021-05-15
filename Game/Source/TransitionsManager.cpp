@@ -108,7 +108,7 @@ TransitionStep TransitionsManager::EnteringTransition(float dt)
 	{
 		rectWipe.w += 1000 * dt;
 
-		if (rectWipe.w >= w) step = TransitionStep::CHANGING;
+		if (rectWipe.w >= w + 100) step = TransitionStep::CHANGING;
 	}
 	else if (type == TransitionType::ALTERNATING_BARS)
 	{

@@ -21,7 +21,7 @@ Warrior::Warrior(iPoint position, pugi::xml_node anim, ParticlesManager* particl
 	isDefending = false;
 	attack = false;
 	name = "Warrior";
-	Particles = particles;
+	particles = particles;
 	isDead = false;
 	pugi::xml_node player = anim.child("warrior").child("overworld");
 
@@ -91,6 +91,11 @@ Warrior::~Warrior()
 
 bool Warrior::Load()
 {
+	particles->DeleteGenerator(generator);
+	generator = particles->CreateGenerator({ bounds.x,bounds.y }, ParticleType::DUST);
+	generator->SetParameters({ 4,4 });
+	generator->SetGoal({ bounds.x,bounds.y - 50 });
+
 	texture = app->tex->Load("Textures/Players/warrior2.png");
 	battlerTexture = app->tex->Load("Textures/Players/battler_warrior.png");
 
@@ -124,6 +129,7 @@ bool Warrior::Update(float dt)
 			idleBattle.Reset();
 			currentAnim = &idleBattle;
 		}
+
 		if (currentAnim == &damageTaken && damageTaken.HasFinished())
 		{
 			app->audio->PlayFx(channel, hurtFx);
@@ -131,6 +137,7 @@ bool Warrior::Update(float dt)
 			currentAnim = &idleBattle;
 		}
 		break;
+
 	case PlayerStance::ATTACKING:
 		if (attack == false && currentAnim == &idleBattle)
 		{
@@ -181,6 +188,7 @@ void Warrior::Draw(bool showColliders)
 
 bool Warrior::UnLoad()
 {
+	particles->DeleteGenerator(generator);
 	app->tex->UnLoad(texture);
 	app->tex->UnLoad(battlerTexture);
 	app->audio->UnLoadFx(footStepFx);
@@ -199,40 +207,57 @@ void Warrior::HandleInput(float dt)
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_REPEAT || app->input->pad->l_y < -0.5)
 		{
 			app->audio->PlayFx(channel, footStepFx);
+			generator->Restart();
+			generator->SetParameters({ 13,1 });
+			generator->SetPosition({ bounds.x + (bounds.w / 2),bounds.y + (bounds.h - 5) });
+			generator->SetGoal({ bounds.x + (bounds.w / 2),bounds.y + 150 + (bounds.h - 5) });
 			bounds.y -= SPEED_Y * dt;
+
 			if (currentAnim != &walkUp)
 			{
-				walkUp.Reset();
+				//walkUp.Reset();
 				currentAnim = &walkUp;
 			}
 		}
 		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_REPEAT || app->input->pad->l_y > 0.5)
 		{
 			app->audio->PlayFx(channel, footStepFx);
+			generator->Restart();
+			generator->SetParameters({ 13,1 });
+			generator->SetPosition({ bounds.x + (bounds.w / 2),bounds.y + (bounds.h - 5) });
+			generator->SetGoal({ bounds.x + (bounds.w / 2),bounds.y - 150 + (bounds.h - 5) });
 			bounds.y += SPEED_Y * dt;
 			if (currentAnim != &walkDown)
 			{
-				walkDown.Reset();
+				//walkDown.Reset();
 				currentAnim = &walkDown;
 			}
 		}
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_REPEAT || app->input->pad->l_x < -0.5)
 		{
 			app->audio->PlayFx(channel, footStepFx);
+			generator->Restart();
+			generator->SetParameters({ 1,4 });
+			generator->SetPosition({ bounds.x + (bounds.w / 2),bounds.y + (bounds.h - 5) });
+			generator->SetGoal({ bounds.x + (bounds.w / 2) + 150,bounds.y + (bounds.h - 5) });
 			bounds.x -= SPEED_X * dt;
 			if (currentAnim != &walkLeft)
 			{
-				walkLeft.Reset();
+				//walkLeft.Reset();
 				currentAnim = &walkLeft;
 			}
 		}
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_REPEAT || app->input->pad->l_x > 0.5)
 		{
 			app->audio->PlayFx(channel, footStepFx);
+			generator->SetParameters({ 1,4 });
+			generator->Restart();
+			generator->SetPosition({ bounds.x + (bounds.w / 2),bounds.y + (bounds.h - 5) });
+			generator->SetGoal({ bounds.x + (bounds.w / 2) - 150,bounds.y + (bounds.h - 5) });
 			bounds.x += SPEED_X * dt;
 			if (currentAnim != &walkRight)
 			{
-				walkRight.Reset();
+				//walkRight.Reset();
 				currentAnim = &walkRight;
 			}
 		}
@@ -250,6 +275,8 @@ void Warrior::HandleInput(float dt)
 			else if (currentAnim == &walkLeft) currentAnim = &idleLeft;
 			else if (currentAnim == &walkRight) currentAnim = &idleRight;
 			else if (currentAnim == &walkUp) currentAnim = &idleUp;
+
+			generator->Stop();
 		}
 		break;
 	}

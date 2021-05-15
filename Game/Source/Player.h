@@ -148,6 +148,7 @@ public:
 		else if (armor->armorType == ArmorType::BOOTS) boots = nullptr;
 	}
 
+
 protected:
 	virtual void HandleInput(float dt);
 	virtual void Travel(iPoint destination, float dt) {}
@@ -158,9 +159,10 @@ public:
 	iPoint battlePos;
 	Generator* generator;
 	int gold;
+
 protected:
 	SDL_Texture* battlerTexture;
-	ParticlesManager* Particles;
+	ParticlesManager* particles;
 	eastl::string name;
 
 	Armor* helmet;
