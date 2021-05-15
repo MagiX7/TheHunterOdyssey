@@ -2,6 +2,6 @@
   <quest type="3" id="0" name="Talk with NPCs" description="Try to talk with the differents NPCs in the town to get information about the monster." nextQuestId="1" npcId="0" reward="700"></quest>
   <quest type="2" id="1" name="Visit the pub" description="If you cross the river, you will find a big building where you can drink a beer, but don't drink too much or you will not be able to fight the monster." nextQuestId="2" mapName="pub.tmx" reward="500"></quest>
   <quest type="3" id="2" name="Talk with the waiter" description="The waiter maybe gives you some information very valuable." nextQuestId="3" npcId="4" reward="700"></quest>
-  <quest type="0" id="3" name="Get a potion" description="The waiter at the pub told you that at the beach you can find a potion. Go for it until is too late." nextQuestId="4" item="0" reward="300"></quest>
+  <quest type="0" id="3" name="Get a potion" description="The waiter at the pub told you that at the beach you can find a potion. Go for it until is too late." nextQuestId="4" item="1" reward="300"></quest>
   <quest type="1" id="4" name="Kill the skull" description="There's an enemy at the graveyard. Now that you have a potion, go to the graveyard and kill it." nextQuestId="5" enemy="7" reward="300"></quest>
 </quests>

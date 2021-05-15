@@ -10,6 +10,7 @@ public:
 		bounds = b;
 		armorType = ArmorType::CHEST;
 		mapName = map;
+		itemType = ItemType::NONE;
 	}
 	virtual ~KnightChest() {}
 

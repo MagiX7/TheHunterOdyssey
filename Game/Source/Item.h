@@ -12,6 +12,7 @@ enum class ObjectType
 
 enum class ItemType
 {
+	NONE,
 	POTION,
 	ULTRA_POTION,
 	ETER,

@@ -10,6 +10,7 @@ public:
 		bounds = b;
 		armorType = ArmorType::HELMET;
 		mapName = map;
+		itemType = ItemType::NONE;
 	}
 	virtual ~KnightHelmet() {}
 	
