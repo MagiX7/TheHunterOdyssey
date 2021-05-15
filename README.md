@@ -22,6 +22,7 @@ The Hunter Odyssey is our RPG turn-based video game based on the roots of the ge
 ## Controls
 
 ### Keyboard
+
  - "W","A","S","D" to move the player.
  - "I" to open character swap menu.
  - "ESC" to open pause menu.
@@ -34,6 +35,7 @@ The Hunter Odyssey is our RPG turn-based video game based on the roots of the ge
    · "M" to trigger battle scene.
 
 ### Gamepad (XBOX keys)
+
  - Gameplay:
  
    · Left joystick or directional pad to move the player.
