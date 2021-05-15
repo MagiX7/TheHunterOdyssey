@@ -473,6 +473,26 @@ bool SceneGameplay::UnLoad()
 	}
 	playerList.clear();
 
+	eastl::list<Item*>::iterator item = items.begin();
+	eastl::list<Item*>::iterator itemEnd = items.begin();
+	for (; item != itemEnd; ++item)
+	{
+		(*item)->UnLoad();
+		RELEASE((*item));
+		items.erase(item);
+	}
+	items.clear();
+
+	eastl::list<Enemy*>::iterator en = enemyList.begin();
+	eastl::list<Enemy*>::iterator enemyEnd = enemyList.begin();
+	for (; en != enemyEnd; ++en)
+	{
+		(*en)->UnLoad();
+		RELEASE((*en));
+		enemyList.erase(en);
+	}
+	enemyList.clear();
+
 	charManager->UnLoad();
 	RELEASE(charManager);
 
@@ -489,9 +509,8 @@ bool SceneGameplay::UnLoad()
 	RELEASE(font);
 	
 	particles->CleanUp();
+	RELEASE(particles);
 
-	/*app->audio->UnLoadFx(doorClosedFx);
-	app->audio->UnLoadFx(doorOpenedFx);*/
 	app->audio->UnLoadFxs();
 	app->tex->UnLoad(goldTexture);
 
@@ -577,6 +596,8 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 		player->Load();
 		NodePlayerAuxiliar = NodePlayerAuxiliar.next_sibling();
 	}
+
+	inventory->SetPlayersList(playerList);
 	
 	eastl::list<Enemy*>::iterator enemies = enemyList.begin();
 	eastl::list<Enemy*>::iterator enemyEnd = enemyList.end();
@@ -609,6 +630,18 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 		NodeEnemyAuxiliar = NodeEnemyAuxiliar.next_sibling();
 	}
 
+	eastl::list<Item*>::iterator it = items.begin();
+	eastl::list<Item*>::iterator itemEnd = items.end();
+	for (; it != itemEnd; ++it)
+	{
+		(*it)->UnLoad();
+		RELEASE(*it);
+		items.erase(it);
+	}
+	items.clear();
+
+	LoadItems(toLoadEntities.child("items"));
+
 	questManager->LoadQuests(load);
 
 	return true;
@@ -616,8 +649,6 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 
 bool SceneGameplay::SaveState(pugi::xml_node& save) const
 {
-	//if (isTown == false) return true;
-
 	save.append_attribute("map_name").set_value(map->name.GetString());
 	
 	pugi::xml_node toSaveEntites = save.append_child("entities");
@@ -657,6 +688,14 @@ bool SceneGameplay::SaveState(pugi::xml_node& save) const
 		}
 		pl->SaveState(nodePlayersAuxiliar);
 		nodePlayersAuxiliar = nodePlayers.append_child("player");
+	}
+
+	eastl::list<Item*>::iterator it = items.begin().mpNode;
+	eastl::list<Item*>::iterator itEnd = items.end().mpNode;
+	pugi::xml_node items = toSaveEntites.append_child("items");
+	for (; it != itEnd; ++it)
+	{
+		(*it)->SaveState(items.append_child("item"));
 	}
 
 	questManager->SaveQuests(save);
@@ -1554,7 +1593,7 @@ void SceneGameplay::LoadNpc(SString mapName)
 	if (mapName == "town_map.tmx")
 	{
 		iPoint position = { 200,250 };
-		entityManager->CreateEntity(EntityType::TOWN, position, anims, 7);
+		entityManager->CreateEntity(EntityType::TOWN, position, anims, 0);
 
 		position = { 700,1060 };
 		entityManager->CreateEntity(EntityType::RAY, position, anims, 3);
@@ -1589,5 +1628,64 @@ void SceneGameplay::LoadNpc(SString mapName)
 
 		position = { 600,450 };
 		entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 6);
+	}
+}
+
+void SceneGameplay::LoadItems(pugi::xml_node& n)
+{
+	pugi::xml_node node = n.child("item");
+
+	for (; node; node = node.next_sibling("item"))
+	{
+		Item* item = nullptr;
+		iPoint pos;
+		if ((ObjectType)node.child("object_type").attribute("value").as_int() == ObjectType::ITEM)
+		{
+			switch ((ItemType)node.child("item_type").attribute("value").as_int())
+			{
+			case ItemType::POTION:
+				pos = iPoint(node.child("position").attribute("x").as_int(), node.child("position").attribute("y").as_int());
+				item = new Potion(pos, atlas, node.child("map_name").attribute("value").as_string());
+				break;
+
+			case ItemType::ULTRA_POTION:
+				pos = iPoint(node.child("position").attribute("x").as_int(), node.child("position").attribute("y").as_int());
+				item = new UltraPotion(pos, atlas, node.child("map_name").attribute("value").as_string());
+				break;
+
+			case ItemType::OMNI_POTION:
+				pos = iPoint(node.child("position").attribute("x").as_int(), node.child("position").attribute("y").as_int());
+				item = new OmniPotion(pos, atlas, node.child("map_name").attribute("value").as_string());
+				break;
+
+			case ItemType::FAIRY_TEAR:
+				pos = iPoint(node.child("position").attribute("x").as_int(), node.child("position").attribute("y").as_int());
+				item = new FairyTear(pos, atlas, node.child("map_name").attribute("value").as_string());
+				break;
+			}
+		}
+		else if ((ObjectType)node.child("object_type").attribute("value").as_int() == ObjectType::ARMOR)
+		{
+			switch ((ArmorType)node.child("armor_type").attribute("value").as_int())
+			{
+			case ArmorType::HELMET:
+				pos = iPoint(node.child("position").attribute("x").as_int(), node.child("position").attribute("y").as_int());
+				item = new KnightHelmet({pos.x, pos.y, node.child("position").attribute("w").as_int(), node.child("position").attribute("h").as_int() }, pos, atlas, node.child("map_name").attribute("value").as_string());
+				break;
+
+			case ArmorType::CHEST:
+				pos = iPoint(node.child("position").attribute("x").as_int(), node.child("position").attribute("y").as_int());
+				item = new KnightChest({ pos.x, pos.y, node.child("position").attribute("w").as_int(), node.child("position").attribute("h").as_int() }, pos, atlas, node.child("map_name").attribute("value").as_string());
+				break;
+
+			case ArmorType::BOOTS:
+				break;
+			}
+		}
+		if (item != nullptr)
+		{
+			item->Load();
+			items.push_back(item);
+		}
 	}
 }

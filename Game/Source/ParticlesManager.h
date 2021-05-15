@@ -21,7 +21,7 @@ public:
 	bool Update(float dt);
 	bool PostUpdate();
 private:
-	List<Generator*> geneartorList;
+	List<Generator*> generatorList;
 };
 
 

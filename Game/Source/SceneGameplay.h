@@ -79,6 +79,7 @@ private:
 	void ChangeBlockBounds(int bounds_x, int bounds_y);
 
 	void LoadNpc(SString mapName);
+	void LoadItems(pugi::xml_node& n);
 
 private:
 	Player* currentPlayer;

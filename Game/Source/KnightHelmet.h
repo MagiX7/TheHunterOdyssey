@@ -16,6 +16,8 @@ public:
 	bool Load() override;
 	void Draw(bool showColliders) override;
 
+	bool SaveState(pugi::xml_node& node) override;
+
 public:
 	int armorPoints;
 	int durability;

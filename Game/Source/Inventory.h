@@ -88,6 +88,12 @@ public:
 
 	void UseObject(ItemType itemType);
 
+	inline void SetPlayersList(eastl::list<Player*> pl) 
+	{
+		players.clear();
+		players = pl; 
+	}
+
 private:
 	Player* GetPlayer(PlayerType type);
 

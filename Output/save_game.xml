@@ -2,7 +2,7 @@
 <save_status>
   <window />
   <input />
-  <:anonymous />
+  <AssetsManager />
   <textures />
   <audio />
   <scenemanager>
@@ -10,44 +10,50 @@
       <entities>
         <NPCs amount="4">
           <NPC>
-            <bounds X="287" Y="250" W="30" H="32" />
+            <bounds X="97" Y="250" W="30" H="32" />
             <NpcType type="TOWN" />
             <Dialoge idDialoge="7" />
           </NPC>
           <NPC>
-            <bounds X="748" Y="1184" W="30" H="32" />
+            <bounds X="651" Y="1184" W="30" H="32" />
             <NpcType type="RAY" />
             <Dialoge idDialoge="3" />
           </NPC>
           <NPC>
-            <bounds X="851" Y="832" W="30" H="32" />
+            <bounds X="930" Y="769" W="30" H="32" />
             <NpcType type="TABERN" />
             <Dialoge idDialoge="2" />
           </NPC>
           <NPC>
-            <bounds X="587" Y="350" W="30" H="32" />
+            <bounds X="751" Y="260" W="30" H="32" />
             <NpcType type="NPC_WIZARD" />
             <Dialoge idDialoge="1" />
           </NPC>
         </NPCs>
         <Enemies amount="3">
           <Enemy>
-            <bounds X="865" Y="365" W="70" H="69" />
-            <EnemyType type="GOLEM" />
-          </Enemy>
-          <Enemy>
-            <bounds X="260" Y="868" W="74" H="74" />
+            <bounds X="608" Y="352" W="74" H="74" />
+            <map_name value="graveyard.tmx" />
+            <enemy_type type="1" />
             <EnemyType type="SKULL" />
           </Enemy>
           <Enemy>
-            <bounds X="1087" Y="850" W="37" H="33" />
+            <bounds X="1408" Y="2720" W="37" H="33" />
+            <map_name value="dungeon_map.tmx" />
+            <enemy_type type="0" />
             <EnemyType type="BAT" />
+          </Enemy>
+          <Enemy>
+            <bounds X="1408" Y="224" W="70" H="69" />
+            <map_name value="dungeon_map.tmx" />
+            <enemy_type type="2" />
+            <EnemyType type="GOLEM" />
           </Enemy>
         </Enemies>
         <players amount="4">
           <player>
             <isCurrent current="true" />
-            <bounds X="683" Y="290" W="26" H="32" />
+            <bounds X="491" Y="800" W="26" H="32" />
             <playerType type="HUNTER" />
           </player>
           <player>
@@ -67,14 +73,34 @@
           </player>
           <player />
         </players>
+        <items>
+          <item>
+            <position x="128" y="1248" />
+            <object_type value="1" />
+            <item_type value="1" />
+            <map_name value="town_map.tmx" />
+          </item>
+          <item>
+            <position x="768" y="1248" />
+            <object_type value="1" />
+            <item_type value="4" />
+            <map_name value="town_map.tmx" />
+          </item>
+          <item>
+            <position x="1280" y="80" />
+            <object_type value="1" />
+            <item_type value="0" />
+            <map_name value="town_map.tmx" />
+          </item>
+        </items>
       </entities>
       <questmanager>
         <loaded_quests>
-          <quests type="0" id="0" name="Get a potion" nextQuestId="1" isCompleted="false" item="0" reward="700" />
-          <quests type="3" id="1" name="Talk with Ray" nextQuestId="2" isCompleted="false" npcId="3" reward="700" />
-          <quests type="1" id="2" name="Kill the skull" nextQuestId="3" isCompleted="false" enemy="7" actual="0" total="1" reward="300" />
-          <quests type="2" id="3" name="Visit the pub" nextQuestId="4" isCompleted="false" mapName="pub.tmx" reward="500" />
-          <quests type="2" id="4" name="Visit the shop" nextQuestId="-1" isCompleted="false" mapName="shop.tmx" reward="600" />
+          <quests type="3" id="0" name="Talk with NPCs" nextQuestId="1" npcId="0" reward="700" />
+          <quests type="2" id="1" name="Visit the pub" nextQuestId="2" mapName="pub.tmx" reward="500" />
+          <quests type="3" id="2" name="Talk with the waiter" nextQuestId="3" npcId="4" reward="700" />
+          <quests type="0" id="3" name="Get a potion" nextQuestId="4" item="0" reward="300" />
+          <quests type="1" id="4" name="Kill the skull" nextQuestId="5" enemy="7" actual="0" total="0" reward="300" />
         </loaded_quests>
         <active_quests />
         <finished_quests />

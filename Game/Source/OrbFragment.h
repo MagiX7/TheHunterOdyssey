@@ -12,4 +12,6 @@ public:
 	bool Update(float dt) override;
 	void Draw(bool showColliders);
 	bool UnLoad() override;
+
+	bool SaveState(pugi::xml_node& n) override;
 };
