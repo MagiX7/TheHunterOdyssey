@@ -21,7 +21,7 @@ Warrior::Warrior(iPoint position, pugi::xml_node anim, ParticlesManager* particl
 	isDefending = false;
 	attack = false;
 	name = "Warrior";
-	particles = particles;
+	this->particles = particles;
 	isDead = false;
 	pugi::xml_node player = anim.child("warrior").child("overworld");
 

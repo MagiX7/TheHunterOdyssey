@@ -21,7 +21,7 @@ Thief::Thief(iPoint position, pugi::xml_node anim, ParticlesManager* particles) 
 	isDefending = false;
 	attack = false;
 	name = "Thief";
-	particles = particles;
+	this->particles = particles;
 	isDead = false;
 	pugi::xml_node player = anim.child("thief").child("overworld");
 

@@ -25,7 +25,7 @@ Hunter::Hunter(iPoint position, pugi::xml_node anim, ParticlesManager* particles
 
 	attack = false;
 	name = "Hunter";
-	particles = particles;
+	this->particles = particles;
 	isDead = false;
 	pugi::xml_node player = anim.child("hunter").child("overworld");
 

@@ -22,7 +22,7 @@ Wizard::Wizard(iPoint position, pugi::xml_node anim, ParticlesManager* particles
 	isDefending = false;
 	attack = false;
 	name = "Wizard";
-	particles = particles;
+	this->particles = particles;
 	isDead = false;
 	pugi::xml_node player = anim.child("wizard").child("overworld");
 
