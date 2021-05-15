@@ -317,6 +317,7 @@ bool SceneGameplay::Update(float dt)
 							{
 								entityManager->DeleteEntity(EntityType::STATUE, 1);
 								entityManager->DeleteEntity(EntityType::STATUE, 2);
+								entityManager->DeleteEntity(EntityType::DOOR, 3);
 							}
 						}
 					}
@@ -1235,6 +1236,10 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 							items.push_back(interruptorBlock);
 							interruptorBlock->isDropped = true;
 						}
+					}
+					if ((layer->Get(i, j) == 21) && CheckCollision(map->GetTilemapRec(i, j), rect) && interruptorBlock->isDropped)
+					{
+						entityManager->DeleteEntity(EntityType::DOOR, 2);
 					}
 					if ((layer->Get(i, j) == 17) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
