@@ -95,6 +95,7 @@ bool Thief::Load()
 	generator = particles->CreateGenerator({ bounds.x,bounds.y }, ParticleType::DUST);
 	generator->SetParameters({ 4,4 });
 	generator->SetGoal({ bounds.x,bounds.y - 50 });
+	generator->Stop();
 
 	texture = app->tex->Load("Textures/Players/thief_overworld.png");
 	battlerTexture = app->tex->Load("Textures/Players/battler_thief.png");

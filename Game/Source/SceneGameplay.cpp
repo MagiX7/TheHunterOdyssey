@@ -520,6 +520,7 @@ bool SceneGameplay::UnLoad()
 void SceneGameplay::CharacterSwap(PlayerType player)
 {
 	SDL_Rect tmpBounds = currentPlayer->bounds;
+	currentPlayer->generator->Stop();
 	if (player != currentPlayer->playerType)
 	{
 		eastl::list<Player*>::iterator it = playerList.begin();

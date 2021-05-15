@@ -7,7 +7,7 @@
 #include "Wizard.h"
 #include "Enemy.h"
 
-Wizard::Wizard(iPoint position, pugi::xml_node anim, ParticlesManager* particles) : Player(PlayerType::WIZARD, EntityType::HUNTER, position)
+Wizard::Wizard(iPoint position, pugi::xml_node anim, ParticlesManager* particles) : Player(PlayerType::WIZARD, EntityType::WIZARD, position)
 {
 	//bounds = { 0,0, 16,32 };
 	stance = PlayerStance::ROAMING;
@@ -96,6 +96,7 @@ bool Wizard::Load()
 	generator = particles->CreateGenerator({ bounds.x,bounds.y }, ParticleType::DUST);
 	generator->SetParameters({ 4,4 });
 	generator->SetGoal({ bounds.x,bounds.y - 50 });
+	generator->Stop();
 
 	texture = app->tex->Load("Textures/Players/wizard2.png");
 	battlerTexture = app->tex->Load("Textures/Players/battler_wizard.png");
