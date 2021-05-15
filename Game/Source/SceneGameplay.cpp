@@ -598,6 +598,7 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 	}
 
 	inventory->SetPlayersList(playerList);
+	inventory->LoadState(load);
 	
 	eastl::list<Enemy*>::iterator enemies = enemyList.begin();
 	eastl::list<Enemy*>::iterator enemyEnd = enemyList.end();
@@ -697,6 +698,8 @@ bool SceneGameplay::SaveState(pugi::xml_node& save) const
 	{
 		(*it)->SaveState(items.append_child("item"));
 	}
+
+	inventory->SaveState(save);
 
 	questManager->SaveQuests(save);
 

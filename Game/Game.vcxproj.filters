@@ -156,11 +156,6 @@
     <ClCompile Include="Source\KnightHelmet.cpp">
       <Filter>Entities\Armors</Filter>
     </ClCompile>
-    <ClCompile Include="Source\QuestManager.cpp" />
-    <ClCompile Include="Source\GetItemQuest.cpp" />
-    <ClCompile Include="Source\MurderQuest.cpp" />
-    <ClCompile Include="Source\VisitQuest.cpp" />
-    <ClCompile Include="Source\TalkQuest.cpp" />
     <ClCompile Include="Source\IceBlock.cpp">
       <Filter>Entities\Objects</Filter>
     </ClCompile>
@@ -187,6 +182,21 @@
     </ClCompile>
     <ClCompile Include="Source\AssetsManager.cpp">
       <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MurderQuest.cpp">
+      <Filter>Quests</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\QuestManager.cpp">
+      <Filter>Quests</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TalkQuest.cpp">
+      <Filter>Quests</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\VisitQuest.cpp">
+      <Filter>Quests</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GetItemQuest.cpp">
+      <Filter>Quests</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -398,12 +408,6 @@
     <ClInclude Include="Source\Armor.h">
       <Filter>Entities\Armors</Filter>
     </ClInclude>
-    <ClInclude Include="Source\QuestManager.h" />
-    <ClInclude Include="Source\Quest.h" />
-    <ClInclude Include="Source\GetItemQuest.h" />
-    <ClInclude Include="Source\MurderQuest.h" />
-    <ClInclude Include="Source\VisitQuest.h" />
-    <ClInclude Include="Source\TalkQuest.h" />
     <ClInclude Include="Source\IceBlock.h">
       <Filter>Entities\Objects</Filter>
     </ClInclude>
@@ -430,6 +434,24 @@
     </ClInclude>
     <ClInclude Include="Source\AssetsManager.h">
       <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MurderQuest.h">
+      <Filter>Quests</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Quest.h">
+      <Filter>Quests</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\QuestManager.h">
+      <Filter>Quests</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TalkQuest.h">
+      <Filter>Quests</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\VisitQuest.h">
+      <Filter>Quests</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GetItemQuest.h">
+      <Filter>Quests</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -483,6 +505,9 @@
     </Filter>
     <Filter Include="Transitions">
       <UniqueIdentifier>{1835ff14-efb7-4fab-9753-a0539d7bce6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quests">
+      <UniqueIdentifier>{d65c44b8-49d3-4da5-81a4-daa1654b653f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

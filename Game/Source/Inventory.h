@@ -68,6 +68,9 @@ public:
 	bool OnGuiMouseClickEvent(GuiControl* control) override;
 	void UpdatingButtons(Input* input) override;
 
+	void LoadState(pugi::xml_node& node);
+	void SaveState(pugi::xml_node& node);
+
 	void AddItem(Item *it);
 
 	bool IsMouseInside(SDL_Rect r);
@@ -92,6 +95,7 @@ public:
 	{
 		players.clear();
 		players = pl; 
+		currentPlayer = (*players.begin());
 	}
 
 private:
@@ -154,7 +158,6 @@ private:
 	GuiButton* btnPrev;
 	GuiButton* btnNextStats;
 	GuiButton* btnPrevStats;
-
 
 	SDL_Rect tmpBounds;
 	SDL_Rect tmpUsingBounds;

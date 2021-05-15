@@ -10,9 +10,12 @@
 #include "Item.h"
 #include "UltraPotion.h"
 #include "Potion.h"
+#include "OmniPotion.h"
+#include "FairyTear.h"
 #include "Orb.h"
 #include "OrbFragment.h"
 #include "KnightHelmet.h"
+#include "KnightChest.h"
 
 Inventory::Inventory(eastl::list<Player*> pls, SDL_Texture* atlas)
 {
@@ -475,6 +478,128 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 
 void Inventory::UpdatingButtons(Input* input)
 {
+}
+
+void Inventory::LoadState(pugi::xml_node& node)
+{
+	pugi::xml_node n = node.child("inventory").child("items");
+	int i;
+	for (i = 0, n = n.child("slot"); n && i < MAX_INVENTORY_SLOTS; n = n.next_sibling("slot"), ++i)
+	{
+		Item* item = nullptr;
+		pugi::xml_node it = n.child("item");
+		if ((ObjectType)it.child("object_type").attribute("value").as_int() == ObjectType::ITEM)
+		{
+			switch ((ItemType)it.child("item_type").attribute("value").as_int())
+			{
+			case ItemType::POTION:
+				item = new Potion(iPoint(it.child("position").attribute("x").as_int(), it.child("position").attribute("y").as_int()), atlasTexture, it.attribute("map_name").as_string());
+				break;
+			case ItemType::ULTRA_POTION:
+				item = new UltraPotion(iPoint(it.child("position").attribute("x").as_int(), it.child("position").attribute("y").as_int()), atlasTexture, it.attribute("map_name").as_string());
+				break;
+			case ItemType::OMNI_POTION:
+				item = new OmniPotion(iPoint(it.child("position").attribute("x").as_int(), it.child("position").attribute("y").as_int()), atlasTexture, it.attribute("map_name").as_string());
+				break;
+			case ItemType::FAIRY_TEAR:
+				item = new FairyTear(iPoint(it.child("position").attribute("x").as_int(), it.child("position").attribute("y").as_int()), atlasTexture, it.attribute("map_name").as_string());
+				break;
+			}
+		}
+
+		if (slots[i].item != nullptr)
+		{
+			slots[i].item->UnLoad();
+			RELEASE(slots[i].item);
+			slots[i].itemsAmount = 0;
+			slots[i].filled = false;
+			slots[i].state = SlotState::NONE;
+		}
+		if (item != nullptr)
+		{
+			item->Load();
+			slots[i].item = item;
+			slots[i].id = i;
+			slots[i].itemsAmount = n.attribute("amount").as_int();
+			slots[i].filled = n.attribute("filled").as_bool();
+			slots[i].state = (SlotState)n.attribute("state").as_int();
+		}
+	}
+
+	n = node.child("inventory").child("armor");
+	i = 0;
+	for (n = n.child("slot"); n && i < MAX_INVENTORY_SLOTS; n = n.next_sibling("slot"), ++i)
+	{
+		Item* item = nullptr;
+		SDL_Rect r;
+		pugi::xml_node it = n.child("item");
+		if ((ObjectType)it.child("object_type").attribute("value").as_int() == ObjectType::ARMOR)
+		{
+			switch ((ArmorType)it.child("armor_type").attribute("value").as_int())
+			{
+			case ArmorType::HELMET:
+				r = { it.child("position").attribute("x").as_int(), it.child("position").attribute("y").as_int(), it.child("position").attribute("w").as_int(), it.child("position").attribute("h").as_int() };
+				item = new KnightHelmet(r, iPoint(r.x, r.y), atlasTexture, it.attribute("map_name").as_string());
+				break;
+			case ArmorType::CHEST:
+				r = { it.child("position").attribute("x").as_int(), it.child("position").attribute("y").as_int(), it.child("position").attribute("w").as_int(), it.child("position").attribute("h").as_int() };
+				item = new KnightChest(r, iPoint(r.x, r.y), atlasTexture, it.attribute("map_name").as_string());
+				break;
+			}
+		}
+
+		if (armorSlots[i].item != nullptr)
+		{
+			armorSlots[i].item->UnLoad();
+			RELEASE(slots[i].item);
+			armorSlots[i].itemsAmount = 0;
+			armorSlots[i].filled = false;
+			armorSlots[i].state = SlotState::NONE;
+		}
+		if (item != nullptr)
+		{
+			item->Load();
+			armorSlots[i].item = item;
+			armorSlots[i].id = i;
+			armorSlots[i].itemsAmount = n.attribute("amount").as_int();
+			armorSlots[i].filled = n.attribute("filled").as_bool();
+			armorSlots[i].state = (SlotState)n.attribute("state").as_int();
+		}
+	}
+}
+
+void Inventory::SaveState(pugi::xml_node& node)
+{
+	pugi::xml_node n = node.append_child("inventory");
+	pugi::xml_node it = n.append_child("items");
+	for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
+	{
+		pugi::xml_node item = it.append_child("slot");
+		if (slots[i].filled)
+		{
+			item.append_attribute("amount").set_value(armorSlots[i].itemsAmount);
+			item.append_attribute("filled").set_value(armorSlots[i].filled);
+			item.append_attribute("id").set_value(armorSlots[i].id);
+			item.append_attribute("state").set_value((int)armorSlots[i].state);
+			pugi::xml_node it = item.append_child("item");
+			armorSlots[i].item->SaveState(it);
+		}
+	}
+
+	it = n.append_child("armor");
+	for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
+	{
+		pugi::xml_node item = it.append_child("slot");
+		if (armorSlots[i].filled)
+		{
+			item.append_attribute("amount").set_value(armorSlots[i].itemsAmount);
+			item.append_attribute("filled").set_value(armorSlots[i].filled);
+			item.append_attribute("id").set_value(armorSlots[i].id);
+			item.append_attribute("state").set_value((int)armorSlots[i].state);
+			pugi::xml_node it = item.append_child("item");
+			armorSlots[i].item->SaveState(it);
+		}
+	}
 }
 
 void Inventory::AddItem(Item *it)
