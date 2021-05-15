@@ -32,6 +32,8 @@
 !Game/Source/External/EASTL-3.17.06/lib/Release/EASTL.lib
 !Game/Source/External/Optick/lib/debug/OptickCore.lib
 !Game/Source/External/Optick/lib/release/OptickCore.lib
+!Game/Source/External/PhysFS/libx86/debug/physfs.lib
+!Game/Source/External/PhysFS/libx86/release/physfs.lib
 
 # Executables
 *.exe
