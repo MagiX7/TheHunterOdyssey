@@ -1,7 +1,7 @@
 <quests>
-  <quest type="0" id="0" name="Get a potion" nextQuestId="1" isCompleted="false" item="0" reward="700"></quest>
-  <quest type="3" id="1" name="Talk with Ray" description="You can find Ray below the pub, near the beach. If you try to talk with him too late, you may not find him. He will be programming Raylib." nextQuestId="2" isCompleted="false" npcId="3" reward="700"></quest>
-  <quest type="1" id="2" name="Kill the skull" nextQuestId="3" isCompleted="false" enemy="7" actual="0" total="1" reward="300"></quest>
-  <quest type="2" id="3" name="Visit the pub" nextQuestId="4" isCompleted="false" mapName="pub.tmx" reward="500"></quest>
-  <quest type="2" id="4" name="Visit the shop" nextQuestId="-1" isCompleted="false" mapName="shop.tmx" reward="600"></quest>
+  <quest type="3" id="0" name="Talk with NPCs" description="Try to talk with the differents NPCs in the town to get information about the monster." nextQuestId="1" npcId="0" reward="700"></quest>
+  <quest type="2" id="1" name="Visit the pub" description="If you cross the river, you will find a big building where you can drink a beer, but don't drink too much or you will not be able to fight the monster." nextQuestId="2" mapName="pub.tmx" reward="500"></quest>
+  <quest type="3" id="2" name="Talk with the waiter" description="The waiter maybe gives you some information very valuable." nextQuestId="3" npcId="4" reward="700"></quest>
+  <quest type="0" id="3" name="Get a potion" description="The waiter at the pub told you that at the beach you can find a potion. Go for it until is too late." nextQuestId="4" item="0" reward="300"></quest>
+  <quest type="1" id="4" name="Kill the skull" description="There's an enemy at the graveyard. Now that you have a potion, go to the graveyard and kill it." nextQuestId="5" enemy="7" reward="300"></quest>
 </quests>

@@ -22,8 +22,9 @@
 
 #include "Log.h"
 
-EntityManager::EntityManager()
+EntityManager::EntityManager(QuestManager* quests)
 {
+	questManager = quests;
 }
 
 EntityManager::~EntityManager()
@@ -109,7 +110,7 @@ int EntityManager::TriggerDialogue(bool& triggerDialogue, Entity* item)
 	triggerDialogue = true;
 	item->SetDrawPtext(false);
 	item->SetTalkStart(true);
-	QuestManager::GetInstance()->CheckQuests(item);
+	questManager->CheckQuests(item);
 	return item->GetDialogeId();
 }
 

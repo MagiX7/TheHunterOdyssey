@@ -12,7 +12,7 @@
 		</node>
 		<node id="2">
 			<npc_text text ="Then I would suggest you to get some people that helps you."/>
-			<option id="0" nextNodeId ="-1" text="Alright, thank you for the advice!" missionId="-1"/>
+			<option id="0" nextNodeId ="-1" text="Alright, thank you for the advice!" missionId="0"/>
 		</node>
 		<node id="3">
 			<npc_text text="Lots, uncountables."/>
@@ -29,9 +29,7 @@
 		</node>
 	</npc>
 	
-
 	<!-- Next NPC -->
-	
 	
 	<npc id ="1">
 		<node id ="0">
@@ -42,10 +40,8 @@
 			<npc_text text ="Press enter to back"/>
 		</node>
 	</npc>
-
 	
 	<!-- Next NPC -->
-	
 	
 	<npc id ="2">
 		<node id ="0">
@@ -212,49 +208,25 @@
 	
 	<npc id ="6">
 		<node id="0">
-			<npc_text text="here are a lot of books. I don't know if I will have time to read all of them"/>
-			<option id="0" nextNodeId="1" text="yes, there are many books" missionId="-1"/>
+			<npc_text text="Here are a lot of books. I don't know if I will have time to read all of them"/>
+			<option id="0" nextNodeId="1" text="Yes, there are many books" missionId="-1"/>
 			<option id="1" nextNodeId="2" text="What is your favorite genre?" missionId="-1"/>
 		</node>
 		<node id="1">
 			<npc_text text="I'm going to read goodbye"/>
-			<option id="0" nextNodeId="-1" text="bye" missionId="-1"/>
+			<option id="0" nextNodeId="-1" text="Bye" missionId="-1"/>
 		</node>
 		<node id="2">
-			<npc_text text="without a doubt the one of adventure and action, so I take the opportunity to prepare myself to fight against the beast"/>
-			<option id="0" nextNodeId="-1" text="good luck and learn a lot" missionId="-1"/>
+			<npc_text text="Without a doubt the one of adventure and action, so I take the opportunity to prepare myself to fight against the beast"/>
+			<option id="0" nextNodeId="-1" text="Good luck and learn a lot" missionId="-1"/>
 			<option id="1" nextNodeId="3" text="I don't think it's a good idea to face the beast" missionId="-1"/>
 		</node>
 		<node id="3">
 			<npc_text text="I will be the hero of the town, everyone will love me"/>
-			<option id="0" nextNodeId="-1" text="good luck" missionId="-1"/>
+			<option id="0" nextNodeId="-1" text="Good luck" missionId="-1"/>
 		</node>
 		<node id ="-1"> <!-- Keep this here to avoid crashes -->
 			<npc_text text ="Press enter to back"/>
 		</node>
 	</npc>
-
-  <npc id ="7">
-    <node id="0">
-      <npc_text text="Do you want the mission?"/>
-      <option id="0" nextNodeId="-1" text="Yes." missionId="0"/>
-      <option id="1" nextNodeId="-1" text="No." missionId="-1"/>
-    </node>
-    <node id ="-1">
-      <!-- Keep this here to avoid crashes -->
-      <npc_text text ="Press enter to back"/>
-    </node>
-  </npc>
-
-  <npc id ="8">
-    <node id="0">
-      <npc_text text="Do you want to complete the mission?"/>
-      <option id="0" nextNodeId="-1" text="Yes." missionId="1"/>
-      <option id="1" nextNodeId="-1" text="No." missionId="-1"/>
-    </node>
-    <node id ="-1">
-      <!-- Keep this here to avoid crashes -->
-      <npc_text text ="Press enter to back"/>
-    </node>
-  </npc>
 </dialogues>

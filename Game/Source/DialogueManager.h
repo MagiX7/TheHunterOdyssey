@@ -6,11 +6,12 @@
 #include "PugiXml/src/pugixml.hpp"
 
 class Easing;
+class QuestManager;
 
 class DialogueManager
 {
 public:
-	DialogueManager();
+	DialogueManager(QuestManager* quest);
 	virtual ~DialogueManager();
 	
 	bool Start();
@@ -30,6 +31,7 @@ public:
 
 private:
 	SDL_Texture* texture;
+	QuestManager* questManager;
 
 	// Pugi stuff to load dialogues
 	pugi::xml_document file;
