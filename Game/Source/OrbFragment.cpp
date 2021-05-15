@@ -5,7 +5,7 @@
 
 OrbFragment::OrbFragment(iPoint pos, SDL_Texture* atlas, eastl::string map) : Item(ObjectType::ITEM, pos, atlas)
 {
-	atlasSection = { 439, 570, 20, 28 };
+	atlasSection = { 433, 568, 32, 32 };
 	itemType = ItemType::ORB_FRAGMENT;
 	mapName = map;
 }

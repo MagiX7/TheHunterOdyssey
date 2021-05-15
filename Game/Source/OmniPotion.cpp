@@ -6,7 +6,7 @@
 
 OmniPotion::OmniPotion(iPoint pos, SDL_Texture* atlas, eastl::string map) : Item(ObjectType::ITEM, pos, atlas)
 {
-	atlasSection = { 325, 290, 24, 28 };
+	atlasSection = { 321, 289, 32, 32 };
 	itemType = ItemType::OMNI_POTION;
 	mapName = map;
 }

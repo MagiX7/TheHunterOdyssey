@@ -5,14 +5,14 @@
 
 Orb::Orb(iPoint pos, SDL_Texture* atlas, eastl::string map) : Item(ObjectType::ITEM, pos, atlas)
 {
-	atlasSection = { 383, 570, 28, 28 };
+	atlasSection = { 381, 568, 32, 32 };
 	itemType = ItemType::ORB;
 	mapName = map;
 }
 
 Orb::Orb(SDL_Texture* atlas) : Item(ObjectType::ITEM, iPoint(0,0), atlas)
 {
-	atlasSection = { 383, 570, 28, 28 };
+	atlasSection = { 381, 568, 32, 32 };
 	itemType = ItemType::ORB;
 }
 

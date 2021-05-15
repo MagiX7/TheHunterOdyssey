@@ -166,9 +166,9 @@ bool SceneGameplay::Load()
 	app->audio->PlayMusic("Audio/Music/village_theme_1.ogg", 0);
 
 	//Load Fx
-	doorOpenedFx = app->audio->LoadFx("Audio/Fx/Gameplay/door_open.ogg");
-	doorClosedFx = app->audio->LoadFx("Audio/Fx/Gameplay/door_close.ogg");
-	puzzleCompletedFx = app->audio->LoadFx("Audio/Fx/Gameplay/puzzle_completed.ogg");
+	doorOpenedFx = app->audio->LoadFx("Audio/Fx/Gameplay/door_open.wav");
+	doorClosedFx = app->audio->LoadFx("Audio/Fx/Gameplay/door_close.wav");
+	puzzleCompletedFx = app->audio->LoadFx("Audio/Fx/Gameplay/puzzle_completed.wav");
 
 	map = new Map();
 	isTown = true;

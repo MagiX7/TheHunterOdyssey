@@ -5,7 +5,7 @@
 
 bool KnightChest::Load()
 {
-	atlasSection = { 164, 228, 26, 27 };
+	atlasSection = { 160, 225, 32, 32 };
 
 	return true;
 }

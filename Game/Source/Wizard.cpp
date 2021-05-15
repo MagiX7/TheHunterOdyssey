@@ -100,10 +100,10 @@ bool Wizard::Load()
 	texture = app->tex->Load("Textures/Players/wizard2.png");
 	battlerTexture = app->tex->Load("Textures/Players/battler_wizard.png");
 
-	footStepFx = app->audio->LoadFx("Audio/Fx/Gameplay/footstep_wizard.ogg");
+	footStepFx = app->audio->LoadFx("Audio/Fx/Gameplay/footstep_wizard.wav");
 	dieFx = app->audio->LoadFx("Audio/Fx/Battle/wizard_die.wav");
 	attackFx = app->audio->LoadFx("Audio/Fx/Battle/wizard_attack.wav");
-	hurtFx = app->audio->LoadFx("Audio/Fx/Battle/wizard_hurt.ogg");
+	hurtFx = app->audio->LoadFx("Audio/Fx/Battle/wizard_hurt.wav");
 
 	return true;
 }

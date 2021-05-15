@@ -99,10 +99,10 @@ bool Warrior::Load()
 	texture = app->tex->Load("Textures/Players/warrior2.png");
 	battlerTexture = app->tex->Load("Textures/Players/battler_warrior.png");
 
-	footStepFx = app->audio->LoadFx("Audio/Fx/Gameplay/footstep_warrior.ogg");
+	footStepFx = app->audio->LoadFx("Audio/Fx/Gameplay/footstep_warrior.wav");
 	dieFx = app->audio->LoadFx("Audio/Fx/Battle/warrior_die.wav");
 	attackFx = app->audio->LoadFx("Audio/Fx/Battle/warrior_attack.wav");
-	hurtFx = app->audio->LoadFx("Audio/Fx/Battle/warrior_hurt.ogg");
+	hurtFx = app->audio->LoadFx("Audio/Fx/Battle/warrior_hurt.wav");
 
 	return true;
 }

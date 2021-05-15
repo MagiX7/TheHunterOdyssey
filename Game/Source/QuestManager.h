@@ -58,7 +58,6 @@ private:
 
 	int channel;
 
-	SDL_Texture* questTexture;
-	SDL_Texture* texture;
+	SDL_Texture* guiTex;
 	Player* currentPlayer;
 };

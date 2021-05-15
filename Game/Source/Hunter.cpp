@@ -102,10 +102,10 @@ bool Hunter::Load()
 	battlerTexture = app->tex->Load("Textures/Players/battler_hunter.png");
 	generator->SetGoal({ bounds.x,bounds.y - 50 });
 
-	footStepFx = app->audio->LoadFx("Audio/Fx/Gameplay/footstep_hunter.ogg");
+	footStepFx = app->audio->LoadFx("Audio/Fx/Gameplay/footstep_hunter.wav");
 	dieFx = app->audio->LoadFx("Audio/Fx/Battle/hunter_die.wav");
 	attackFx = app->audio->LoadFx("Audio/Fx/Battle/hunter_attack.wav");
-	hurtFx = app->audio->LoadFx("Audio/Fx/Battle/hunter_hurt.ogg");
+	hurtFx = app->audio->LoadFx("Audio/Fx/Battle/hunter_hurt.wav");
 
 	return true;
 }

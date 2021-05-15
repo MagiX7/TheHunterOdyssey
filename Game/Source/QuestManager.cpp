@@ -41,8 +41,7 @@ QuestManager::QuestManager()
 	}
 
 	completedQuestFx = app->audio->LoadFx("Audio/Fx/quest_completed.wav");
-	questTexture = app->tex->Load("Textures/UI/quest_texture.png");
-	texture = app->tex->Load("Textures/UI/quests.png");
+	guiTex = app->tex->Load("Textures/UI/gui_quests.png");
 	questFinished = nullptr;
 	questActive = nullptr;
 	playFx = false;
@@ -320,10 +319,8 @@ bool QuestManager::SaveQuests(pugi::xml_node& n)
 
 void QuestManager::Draw(Render* render, Font* font)
 {
-	SDL_Rect r;
-	if (showMore) r = {0, 0, 200, 150};
-	else r = { 0, 0, 200, 50 };
-	render->DrawTexture(questTexture, -render->camera.x, -render->camera.y, &r);
+	SDL_Rect r = { 0, 600, 200, 50 };
+	render->DrawTexture(guiTex, 0, 0, &r, false);
 	
 	if (activeQuests.empty()) 
 		render->DrawText(font, "No active quests", 15, 15, 24, 2, { 255, 255, 255 });
@@ -337,23 +334,26 @@ void QuestManager::Draw(Render* render, Font* font)
 		}
 	}
 
+	SDL_Rect section = { 0,0,1000,600 };
 	SDL_Rect rect = { 232, 152, 816, 435 };
+
 	if (questFinished != nullptr)
 	{
-		render->DrawTexture(texture, -render->camera.x + 140, -render->camera.y + 60);
+		render->DrawTexture(guiTex, 140, 60, &section, false);
 		if (questTimer < 5.0f)
 		{
 			render->DrawCenterText(font, "Quest Completed!", rect, 64, 5, { 255, 255, 255 });
 		}
 		else
 		{
+			render->DrawCenterText(font, "Quest Completed!", rect, 64, 5, { 255, 255, 255 });
 			render->DrawText(font, "Press ENTER to continue", 765, 560, 24, 3, { 255, 255, 255 });
 		}
 	}
 
 	if (questActive != nullptr)
 	{
-		render->DrawTexture(texture, -render->camera.x + 140, -render->camera.y + 60);
+		render->DrawTexture(guiTex, 140, 60, &section, false);
 		if (questTimer < 5.0f)
 		{
 			if (!finishedQuests.empty()) render->DrawCenterText(font, "New Quest!", rect, 64, 5, { 255, 255, 255 });
@@ -405,8 +405,7 @@ bool QuestManager::UnLoad()
 		}
 	}
 
-	app->tex->UnLoad(questTexture);
-	app->tex->UnLoad(texture);
+	app->tex->UnLoad(guiTex);
 	app->audio->UnLoadFx(completedQuestFx);
 
 	return true;
