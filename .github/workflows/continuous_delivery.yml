@@ -1,44 +1,27 @@
-
-name: Continuous Delivery
+name: Release Alpha
 
 on:
-  push:
-  pull_request:
-    branches: [ master ]
-    tags:
-      - 'v0.8'
+  workflow_dispatch:
 
 jobs:
   build:
-    name: Create Release
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: The Hunter Odyssey Alpha ${{ github.ref }}
-          body: |
-            This is the first release for our game The Hunter Odyssey, where you are a bounty hunter who has heard rumors about the prince from the most important region of the country, who is supposedly kidnapped by a majestuous monster. So, you decide to visit that famous place, with the objective of discovering all the secrets around this case.
-
-            This release implements the following:
-
-            ## Key Features
-
-            - Branching dialogues.
-            - Character swapping in-game.
-            - Turn Based Combat.
-            - Navigable locations like houses, taberns or a pub.
-            - NPCs AI.
-            - Easings for GUI.
-            - Responsive GUI.
-            - Gamepad and keyboard support.
-            - Unique music for each screen.
-            
-          draft: false
-          prerelease: false
+     - uses: actions/checkout@v2
+     - name: Zip Generator
+       uses: thedoctor0/zip-release@master
+       with:
+        filename: 'Full_Studios-The_Hunter_Odyssey_v0.8.zip'
+        path: './Output ./LICENSE ./README.md ./Build/Release/the_hunter_od.exe'
+        exclusions: '*.gitignore* *Development.sln* ./CONVENTIONS.md ./.github ./docs ./Game ./Build'
+     
+     - name: Create Release
+       uses: ncipollo/release-action@v1
+       with:
+        tag: v0.8
+        name: The Hunter Odyssey Alpha
+        bodyFile: |
+        
+        artifacts: "Full_Studios-The_Hunter_Odyssey_v0.8.zip"
+        token: ${{ secrets.GITHUB_TOKEN }}
