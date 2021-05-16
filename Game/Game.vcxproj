@@ -50,6 +50,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)Build\$(Configuration)</OutDir>
     <IntDir>$(SolutionDir)Build\$(Configuration)\Obj\</IntDir>
+    <TargetName>the_hunter_odyssey</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -69,7 +70,8 @@
       <AdditionalLibraryDirectories>$(ProjectDir)Source\External\Optick\lib\debug;$(ProjectDir)Source\External\SDL\libx86;$(ProjectDir)Source\External\SDL_image\libx86;$(ProjectDir)Source\External\SDL_mixer\libx86;$(ProjectDir)Source\External\EASTL-3.17.06\lib\Debug;$(ProjectDir)Source\External\PhysFS\libx86</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>copy /Y "$(SolutionDir)Build\$(Configuration)\the_hunter_odyssey.exe" "$(SolutionDir)Output\the_hunter_odyssey.exe"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -92,7 +94,7 @@
       <AdditionalLibraryDirectories>$(ProjectDir)Source\External\Optick\lib\release;$(ProjectDir)Source\External\SDL\libx86;$(ProjectDir)Source\External\SDL_image\libx86;$(ProjectDir)Source\External\SDL_mixer\libx86;$(ProjectDir)Source\External\EASTL-3.17.06\lib\Release;$(ProjectDir)Source\External\PhysFS\libx86</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>copy /Y "$(SolutionDir)Build\$(Configuration)\$(ProjectName).exe" "$(SolutionDir)Output\$(ProjectName).exe"</Command>
+      <Command>copy /Y "$(SolutionDir)Build\$(Configuration)\the_hunter_odyssey.exe" "$(SolutionDir)Output\the_hunter_odyssey.exe"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

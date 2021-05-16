@@ -16,6 +16,9 @@ Player::Player(PlayerType t, EntityType type, iPoint position) : Entity(type), p
 	bounds.h = 32;
 	currentAbilitySelected = 0;
 	gold = 500;
+	helmet = nullptr;
+	chest = nullptr;
+	boots = nullptr;
 }
 
 Player::~Player()

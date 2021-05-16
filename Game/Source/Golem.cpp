@@ -25,6 +25,7 @@ Golem::Golem(iPoint pos, pugi::xml_node anim, eastl::string map) : Enemy(EntityT
 	damage = 1000;
 	defense = 20;
 	speed = 10;
+	channel = app->audio->SetChannel();
 
 	pugi::xml_node golem = anim.child("golem");
 

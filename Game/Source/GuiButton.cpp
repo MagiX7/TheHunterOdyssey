@@ -13,6 +13,7 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text, Menu* listene
 	this->section = { 0,0,0,0 };
 	this->sectionFocused = { 0,0,0,0 };
 	this->alineation = 0;
+	this->channel = app->audio->SetChannel();
 
 	//Load Fx
 	clickFx = app->audio->LoadFx("Audio/Fx/button_click.wav");
@@ -22,8 +23,8 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text, Menu* listene
 
 GuiButton::~GuiButton()
 {
-	app->audio->UnLoadFx(clickFx);
-	app->audio->UnLoadFx(focusedFx);
+	//app->audio->UnLoadFx(clickFx);
+	//app->audio->UnLoadFx(focusedFx);
 
 	text.Clear();
 }
@@ -109,7 +110,8 @@ bool GuiButton::Draw(Render* render, bool showColliders, int size, SDL_Color col
 	switch (state)
 	{
 	case GuiControlState::DISABLED:
-		render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
+		if(texture != nullptr)
+			render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
 
 		// Left alineation
 		if (alineation == 0) render->DrawText(font, text.GetString(), bounds.x + 37, bounds.y + (bounds.h - size) / 2, size, 5, color);
@@ -119,16 +121,19 @@ bool GuiButton::Draw(Render* render, bool showColliders, int size, SDL_Color col
 		if (showColliders) render->DrawRectangle(bounds, 150, 150, 150, 150, true, false);
 		else render->DrawRectangle(bounds, 150, 150, 150, 150, true, false);
 		break;
+
 	case GuiControlState::NORMAL:
-		render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
+		if (texture != nullptr)
+			render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
 
 		if (alineation == 0) render->DrawText(font, text.GetString(), bounds.x + 37, bounds.y + (bounds.h - size) / 2, size, 5, color);
 		else if (alineation == 1) render->DrawCenterText(font, text.GetString(), bounds, size, 5, color);
 
 		if (showColliders) render->DrawRectangle(bounds, 255, 0, 0, 150, true, false);
 		break;
+
 	case GuiControlState::FOCUSED:
-		if (this->sectionFocused.w == 0) render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
+		if (this->sectionFocused.w == 0 && texture != nullptr) render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
 
 		// Left alineation
 		if (alineation == 0) render->DrawText(font, text.GetString(), bounds.x + 37, bounds.y + (bounds.h - size) / 2, size, 5, color);
@@ -140,9 +145,10 @@ bool GuiButton::Draw(Render* render, bool showColliders, int size, SDL_Color col
 		else if (this->sectionFocused.w != 0) render->DrawTexture(texture, bounds.x, bounds.y, &sectionFocused, false);
 		else render->DrawRectangle(bounds, 255, 255, 0, 150, true, false);
 		break;
+
 	case GuiControlState::PRESSED:
-		if (this->sectionFocused.w != 0) render->DrawTexture(texture, bounds.x, bounds.y, &sectionFocused, false);
-		else render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
+		if (this->sectionFocused.w != 0 && (texture != nullptr)) render->DrawTexture(texture, bounds.x, bounds.y, &sectionFocused, false);
+		else if(texture != nullptr) render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
 
 		if (alineation == 0) render->DrawText(font, text.GetString(), bounds.x + 37, bounds.y + (bounds.h - size) / 2, size, 5, color);
 		else if (alineation == 1) render->DrawCenterText(font, text.GetString(), bounds, size, 5, color);
@@ -150,16 +156,19 @@ bool GuiButton::Draw(Render* render, bool showColliders, int size, SDL_Color col
 		if (showColliders) render->DrawRectangle(bounds, 0, 255, 255, 150, true, false);
 		else render->DrawRectangle(bounds, 0, 255, 255, 150, true, false);
 		break;
+
 	case GuiControlState::SELECTED:
-		render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
+		if (texture != nullptr)
+			render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
 
 		if (alineation == 0) render->DrawText(font, text.GetString(), bounds.x + 37, bounds.y + (bounds.h - size) / 2, size, 5, color);
 		else if (alineation == 1) render->DrawCenterText(font, text.GetString(), bounds, size, 5, color);
 
 		if (showColliders) render->DrawRectangle(bounds, 0, 255, 0, 150, true, false);
-		else if (this->sectionFocused.w != 0) render->DrawTexture(texture, bounds.x, bounds.y, &sectionFocused, false);
+		else if (this->sectionFocused.w != 0 && (texture != nullptr)) render->DrawTexture(texture, bounds.x, bounds.y, &sectionFocused, false);
 		else render->DrawRectangle(bounds, 0, 255, 0, 150, true, false);
 		break;
+
 	default:
 		break;
 	}

@@ -25,6 +25,7 @@ Bat::Bat(iPoint pos, pugi::xml_node anim, eastl::string map) : Enemy(EntityType:
 	damage = 20;
 	defense = 20;
 	speed = 10;
+	channel = app->audio->SetChannel();
 
 	attack = false;
 

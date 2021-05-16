@@ -74,9 +74,13 @@ bool Inventory::Load(Font* font)
 	btnPrev->sectionFocused = { 890, 345, 46, 124 };
 
 	btnUse = new GuiButton(4, { 0,0,128,32 }, "USE", this, font);
+	btnUse->texture = nullptr;
+
 	btnDelete = new GuiButton(5, { 0,0,128,32 }, "DEL", this, font);
+	btnDelete->texture = nullptr;
 
 	btnUnEquip = new GuiButton(12, { 0,0,128, 32 }, "UNEQUIP", this, font);
+	btnUnEquip->texture = nullptr;
 	btnUnEquip->alineation = 1;
 
 	//btnNextStats = new GuiButton(13, {}, "", this, font);
@@ -94,12 +98,17 @@ bool Inventory::Load(Font* font)
 	{
 		slots[i].bounds = { 466 + offsetX,369 + offsetY,40,40 };
 		slots[i].id = i;
+		slots[i].filled = false;
 		slots[i].state = SlotState::NONE;
-		//slots[i].item = nullptr;
+		slots[i].item = nullptr;
+		slots[i].itemsAmount = 0;
 
 		armorSlots[i].bounds = { 466 + offsetX,369 + offsetY,40,40 };
 		armorSlots[i].id = i;
+		armorSlots[i].filled = false;
 		armorSlots[i].state = SlotState::NONE;
+		armorSlots[i].item = nullptr;
+		armorSlots[i].itemsAmount = 0;
 
 		offsetX += slots[i].bounds.w + 7;
 		if (i == 7 || i == 15 || i == 23)
@@ -113,9 +122,11 @@ bool Inventory::Load(Font* font)
 	for (int i = 0; i < MAX_EQUIPMENT_SLOTS; ++i)
 	{
 		equipment[i].bounds = {755, 136 + (i * 55) , 40, 40};
-		equipment[i].filled = false;
 		equipment[i].id = i;
+		equipment[i].filled = false;
 		equipment[i].state = SlotState::NONE;
+		equipment[i].item = nullptr;
+		equipment[i].itemsAmount = 0;
 	}
 
 	armorSlots->filled = false;
@@ -216,14 +227,14 @@ void Inventory::Draw(Font* font, bool showColliders)
 	if (state != InventoryState::STATS)
 	{
 		// Shape where the stats should go
-		SDL_Rect r;
+		SDL_Rect r = { 163, 715, 40, 40 };
 
 		// Equipment equiped drawing
 		for (int i = 0; i < MAX_EQUIPMENT_SLOTS; ++i)
 		{
-			r = { 163, 715, 40, 40 };
 			app->render->DrawTexture(atlasTexture, equipment[i].bounds.x, equipment[i].bounds.y, &r, false);
-			if (equipment[i].item != nullptr) app->render->DrawTexture(atlasTexture, equipment[i].bounds.x + 4, equipment[i].bounds.y + 4, &equipment[i].item->atlasSection, false);
+			if (equipment[i].item != nullptr && &equipment[i].item->atlasSection != NULL)
+				app->render->DrawTexture(atlasTexture, equipment[i].bounds.x + 4, equipment[i].bounds.y + 4, &equipment[i].item->atlasSection, false);
 		}
 
 		r = { 890, 130, 196, 50 };
@@ -609,6 +620,7 @@ void Inventory::AddItem(Item *it)
 	case ObjectType::ARMOR:
 		for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
 		{
+			// Already an armor into the slot
 			if (armorSlots[i].item != nullptr && armorSlots[i].item == it && armorSlots[i].itemsAmount <= ITEM_STACK)
 			{
 				RELEASE(it);
@@ -629,6 +641,7 @@ void Inventory::AddItem(Item *it)
 			}
 		}
 		break;
+
 	case ObjectType::ITEM:
 		for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
 		{

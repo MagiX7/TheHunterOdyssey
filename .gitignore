@@ -37,6 +37,7 @@
 
 # Executables
 *.exe
+!Output/the_hunter_odyssey.exe
 *.out
 *.app
 

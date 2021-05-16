@@ -67,8 +67,6 @@ public:
 
 	int channel;
 	bool win;
-
-	TransitionType transitionType;
 };
 
 #endif // __SCENE_H__

@@ -44,6 +44,7 @@ QuestManager::QuestManager()
 	guiTex = app->tex->Load("Textures/UI/gui_quests.png");
 	questFinished = nullptr;
 	questActive = nullptr;
+	currentPlayer = nullptr;
 	playFx = false;
 	showMore = false;
 	nextQuest = false;

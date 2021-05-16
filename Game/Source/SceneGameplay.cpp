@@ -381,7 +381,7 @@ void SceneGameplay::Draw()
 	case GameplayState::ROAMING:
 		map->Draw(showColliders,entityManager,currentPlayer);
 		//entityManager->Draw(showColliders);
-		particles->PostUpdate();
+		//particles->PostUpdate();
 		//currentPlayer->Draw(showColliders);
 		
 		app->render->DrawTexture(goldTexture, 5, 60, NULL, false);
@@ -423,10 +423,16 @@ void SceneGameplay::Draw()
 		else
 		{
 			if (!transition) questManager->Draw(app->render, font);
+
+			//if(!questManager->QuestState()) particles->PostUpdate();
 		}
 
 		switch (menuState)
 		{
+		case GameplayMenuState::NONE:
+			if (!questManager->QuestState() && !dialogueManager->isDialogueActive) particles->PostUpdate();
+			break;
+
 		case GameplayMenuState::CHARACTER_SWAP:
 			app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 150, true, false);
 			charManager->Draw(font, showColliders);

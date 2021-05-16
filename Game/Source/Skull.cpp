@@ -24,6 +24,7 @@ Skull::Skull(iPoint pos, pugi::xml_node anim, eastl::string map) : Enemy(EntityT
 	damage = 20;
 	defense = 20;
 	speed = 10.0f;
+	channel = app->audio->SetChannel();
 
 	attack = false;
 

@@ -169,16 +169,23 @@ bool BattleMenu::Update(float dt)
 		else
 		{
 			if (currPlayer->CanUseAbility(1) == false) btnAbilitySlot1->state = GuiControlState::DISABLED;
-			else if (currPlayer->CanUseAbility(1)) btnAbilitySlot1->state = GuiControlState::NORMAL;
+			else btnAbilitySlot1->state = GuiControlState::NORMAL;
+
 			btnAbilitySlot1->Update(app->input, dt, id);
+			
 			if (currPlayer->CanUseAbility(2) == false) btnAbilitySlot2->state = GuiControlState::DISABLED;
-			else if (currPlayer->CanUseAbility(2)) btnAbilitySlot2->state = GuiControlState::NORMAL;
+			else btnAbilitySlot2->state = GuiControlState::NORMAL;
+			
 			btnAbilitySlot2->Update(app->input, dt, id);
+			
 			if (currPlayer->CanUseAbility(3) == false) btnAbilitySlot3->state = GuiControlState::DISABLED;
-			else if (currPlayer->CanUseAbility(3)) btnAbilitySlot3->state = GuiControlState::NORMAL;
+			else btnAbilitySlot3->state = GuiControlState::NORMAL;
+			
 			btnAbilitySlot3->Update(app->input, dt, id);
+			
 			if (currPlayer->CanUseAbility(4) == false) btnAbilitySlot4->state = GuiControlState::DISABLED;
-			else if (currPlayer->CanUseAbility(4)) btnAbilitySlot4->state = GuiControlState::NORMAL;
+			else btnAbilitySlot4->state = GuiControlState::NORMAL;
+			
 			btnAbilitySlot4->Update(app->input, dt, id);
 		}
 		//ret = HandleAbilities(app->input);
@@ -211,15 +218,19 @@ bool BattleMenu::Update(float dt)
 			objectsQuantity[1] = inventory->ObjectQuantity(ItemType::ULTRA_POTION);
 			objectsQuantity[2] = inventory->ObjectQuantity(ItemType::ETER);
 			objectsQuantity[3] = inventory->ObjectQuantity(ItemType::ULTRA_ETER);
+
 			if (objectsQuantity[0] <= 0) btnObjectSlot1->state = GuiControlState::DISABLED;
 			else if (objectsQuantity[0] > 0) btnObjectSlot1->state = GuiControlState::NORMAL;
 			btnObjectSlot1->Update(app->input, dt, id);
+			
 			if (objectsQuantity[1] <= 0) btnObjectSlot2->state = GuiControlState::DISABLED;
 			else if (objectsQuantity[1] > 0) btnObjectSlot2->state = GuiControlState::NORMAL;
 			btnObjectSlot2->Update(app->input, dt, id);
+			
 			if (objectsQuantity[2] <= 0) btnObjectSlot3->state = GuiControlState::DISABLED;
 			else if (objectsQuantity[2] > 0) btnObjectSlot3->state = GuiControlState::NORMAL;
 			btnObjectSlot3->Update(app->input, dt, id);
+			
 			if (objectsQuantity[3] <= 0) btnObjectSlot4->state = GuiControlState::DISABLED;
 			else if (objectsQuantity[3] > 0) btnObjectSlot4->state = GuiControlState::NORMAL;
 			btnObjectSlot4->Update(app->input, dt, id);

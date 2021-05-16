@@ -51,6 +51,8 @@ bool SceneManager::Start()
 
 	next = nullptr;
 
+	transitionStep = TransitionStep::NONE;
+
 	return ret;
 }
 
