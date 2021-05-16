@@ -22,33 +22,7 @@ jobs:
         tag: v0.8
         name: The Hunter Odyssey Alpha
         bodyFile: |
-         This is the second release for our game The Hunter Odyssey, where you are a bounty hunter who has heard rumors about the prince from the most important region of the country, who is supposedly kidnapped by a majestuous monster. So, you decide to visit that famous place, with the objective of discovering all the secrets around this case.
-
-         This release implements the following:
-         
-         ## New Key Features
-
-         - Inventory
-         - Particle System
-         - 3 Puzzles
-         - Quest System
-         - Sprite Sorting
-         - Battle UI Redesign
-         - Camera Culling
-         - Define Player Abilities
-         - Automated Build
-         - Zip Management
-         - Items and Armors
-         - Dungeon Map
-         - Soundtrack for each Scene
-         - Vsync Enabled
-         - Fully Functionally Options Menu
-         - Overall Improved Experience
-         
-          ----
-          Keep an eye on our [repository](https://github.com/MagiX7/Project-II) because new things are coming :3
-          
-          Stay tuned!
+         "./docs/alpha_body.md"
          
         artifacts: "Full_Studios-The_Hunter_Odyssey_v0.8.zip"
         token: ${{ secrets.GITHUB_TOKEN }}
