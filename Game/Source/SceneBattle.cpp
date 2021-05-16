@@ -19,9 +19,12 @@ SceneBattle::SceneBattle(eastl::list<Player*> list, Enemy* enemy, SceneGameplay*
 {
 	battleMenu = new BattleMenu(this, inventory);
 	map = new Map();
-	enemy->SetCurrentState(EnemyState::NORMAL);
-	enemy->SetPos(iPoint(650, 190));
-	enemyList.push_back(enemy);
+	if (enemy != nullptr)
+	{
+		enemy->SetCurrentState(EnemyState::NORMAL);
+		enemy->SetPos(iPoint(650, 140));
+		enemyList.push_back(enemy);
+	}
 }
 
 SceneBattle::~SceneBattle()
@@ -44,7 +47,7 @@ bool SceneBattle::Load()
 		(*it)->stance = PlayerStance::BATTLE;
 		(*it)->SetIdleBattle();
 		(*it)->bounds.x = 400;
-		(*it)->bounds.y = 205 + (i * 50);
+		(*it)->bounds.y = 150 + (i * 50);
 		(*it)->battlePos = iPoint((*it)->bounds.x, (*it)->bounds.y);
 	}
 
@@ -67,13 +70,13 @@ bool SceneBattle::Load()
 		switch(num)
 		{
 		case 1:
-			enemy = new Golem(iPoint(650, 280 + (i * 90)), anims);
+			enemy = new Golem(iPoint(650, 230 + (i * 90)), anims);
 			break;
 		case 2:
-			enemy = new Skull(iPoint(650, 280 + (i * 90)), anims);
+			enemy = new Skull(iPoint(650, 230 + (i * 90)), anims);
 			break;
 		case 3:
-			enemy = new Bat(iPoint(650, 280 + (i * 90)), anims);
+			enemy = new Bat(iPoint(650, 230 + (i * 90)), anims);
 			break;
 		}
 		if (enemy != nullptr) enemyList.push_back(enemy);

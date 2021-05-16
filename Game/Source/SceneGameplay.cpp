@@ -218,7 +218,7 @@ bool SceneGameplay::Update(float dt)
 
 			if (!firstQuestAdded)
 			{
-				firstQuest += dt;
+				firstQuest += 2.0f * dt;
 				if (firstQuest >= 3.0f)
 				{
 					firstQuest = 0.0f;
@@ -749,11 +749,11 @@ void SceneGameplay::ChangeState(GameplayMenuState type)
 
 void SceneGameplay::HandleInput(float dt)
 {
-	if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
-	{
-		// Instantiate and load scene battle
-		GenerateBattle();
-	}
+	//if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
+	//{
+	//	// Instantiate and load scene battle
+	//	GenerateBattle();
+	//}
 
 	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN) menuState = GameplayMenuState::CHARACTER_SWAP;
 	
@@ -1556,7 +1556,8 @@ void SceneGameplay::Transitioning(float dt)
 					if (tmp != nullptr && enemy == tmp)
 					{
 						questManager->CheckQuests(*en);
-						if (tmp->GetEnemyType() == EnemyType::GOLEM) win = true;
+						if (tmp->GetEnemyType() == EnemyType::GOLEM) 
+							win = true;
 						tmp = nullptr;
 						enemyList.erase(en);
 						break;

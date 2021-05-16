@@ -26,7 +26,7 @@ public:
 
 	bool QuestState();
 
-	//bool CompleteQuest(int id);
+	void DeleteAllQuests();
 
 	bool LoadQuests(pugi::xml_node& n);
 

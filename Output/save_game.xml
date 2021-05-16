@@ -6,26 +6,26 @@
   <textures />
   <audio />
   <scenemanager>
-    <scenegameplay map_name="town_map.tmx">
+    <scenegameplay map_name="town_map.tmx" first_quest="false">
       <entities>
         <NPCs amount="4">
           <NPC>
-            <bounds X="290" Y="564" W="30" H="32" />
+            <bounds X="264" Y="250" W="30" H="32" />
             <NpcType type="TOWN" />
             <Dialoge idDialoge="0" />
           </NPC>
           <NPC>
-            <bounds X="609" Y="1150" W="30" H="32" />
+            <bounds X="659" Y="1057" W="30" H="32" />
             <NpcType type="RAY" />
             <Dialoge idDialoge="3" />
           </NPC>
           <NPC>
-            <bounds X="986" Y="810" W="30" H="32" />
+            <bounds X="764" Y="810" W="30" H="32" />
             <NpcType type="TABERN" />
             <Dialoge idDialoge="2" />
           </NPC>
           <NPC>
-            <bounds X="702" Y="242" W="30" H="32" />
+            <bounds X="564" Y="350" W="30" H="32" />
             <NpcType type="NPC_WIZARD" />
             <Dialoge idDialoge="1" />
           </NPC>
@@ -38,7 +38,7 @@
             <EnemyType type="SKULL" />
           </Enemy>
           <Enemy>
-            <bounds X="1408" Y="2720" W="37" H="33" />
+            <bounds X="1408" Y="2680" W="37" H="33" />
             <map_name value="dungeon_map.tmx" />
             <enemy_type type="0" />
             <EnemyType type="BAT" />
@@ -53,8 +53,8 @@
         <players amount="4">
           <player>
             <isCurrent current="true" />
-            <bounds X="1365" Y="1081" W="26" H="32" />
-            <Equipment helmet="1" chest="2" />
+            <bounds X="260" Y="290" W="26" H="32" />
+            <Equipment />
             <playerType type="HUNTER" />
           </player>
           <player>
@@ -81,25 +81,37 @@
           <item>
             <position x="128" y="1248" />
             <object_type value="1" />
-            <item_type value="1" />
+            <item_type value="2" />
             <map_name value="town_map.tmx" />
           </item>
           <item>
             <position x="768" y="1248" />
             <object_type value="1" />
-            <item_type value="4" />
+            <item_type value="5" />
             <map_name value="town_map.tmx" />
           </item>
           <item>
             <position x="1280" y="80" />
             <object_type value="1" />
-            <item_type value="0" />
+            <item_type value="1" />
             <map_name value="town_map.tmx" />
           </item>
           <item>
             <position x="512" y="800" />
             <object_type value="1" />
-            <item_type value="5" />
+            <item_type value="6" />
+            <map_name value="town_map.tmx" />
+          </item>
+          <item>
+            <position x="1376" y="1056" w="32" h="32" />
+            <object_type value="2" />
+            <armor_type value="1" />
+            <map_name value="town_map.tmx" />
+          </item>
+          <item>
+            <position x="1408" y="1056" w="32" h="32" />
+            <object_type value="2" />
+            <armor_type value="2" />
             <map_name value="town_map.tmx" />
           </item>
         </items>
@@ -176,14 +188,13 @@
       </inventory>
       <questmanager>
         <loaded_quests>
-          <quests type="2" id="1" name="Visit the pub" description="Visit the pub" nextQuestId="2" mapName="pub.tmx" reward="500" />
-          <quests type="3" id="2" name="Talk with the waiter" description="Talk with the waiter" nextQuestId="3" npcId="4" reward="700" />
-          <quests type="0" id="3" name="Get a potion" description="Get a potion" nextQuestId="4" item="0" reward="300" />
-          <quests type="1" id="4" name="Kill the skull" description="Kill the skull" nextQuestId="5" enemy="7" actual="0" total="0" reward="300" />
+          <quests type="3" id="0" name="Talk with NPCs" description="Try to talk with the differents NPCs in the town to get information about the monster." nextQuestId="1" npcId="0" reward="700" />
+          <quests type="2" id="1" name="Visit the pub" description="If you cross the river, you will find a big building where you can drink a beer, but don't drink too much or you will not be able to fight the monster." nextQuestId="2" mapName="pub.tmx" reward="500" />
+          <quests type="3" id="2" name="Talk with the waiter" description="The waiter maybe gives you some information very valuable." nextQuestId="3" npcId="4" reward="700" />
+          <quests type="0" id="3" name="Get a potion" description="The waiter at the pub told you that at the beach you can find a potion. Go for it until is too late." nextQuestId="4" item="1" reward="300" />
+          <quests type="1" id="4" name="Kill the skull" description="There's an enemy at the graveyard. Now that you have a potion, go to the graveyard and kill it." nextQuestId="5" enemy="7" actual="0" total="0" reward="300" />
         </loaded_quests>
-        <active_quests>
-          <quests type="3" id="0" name="Talk with NPCs" description="Talk with NPCs" nextQuestId="1" npcId="0" reward="700" />
-        </active_quests>
+        <active_quests />
         <finished_quests />
       </questmanager>
     </scenegameplay>

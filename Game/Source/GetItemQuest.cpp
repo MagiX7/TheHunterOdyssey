@@ -35,7 +35,7 @@ bool ItemQuest::SaveState(pugi::xml_node& node)
 	node.append_attribute("type").set_value((int)qType);
 	node.append_attribute("id").set_value(id);
 	node.append_attribute("name").set_value(name.c_str());
-	node.append_attribute("description").set_value(name.c_str());
+	node.append_attribute("description").set_value(description.c_str());
 	node.append_attribute("nextQuestId").set_value(nextQuestId);
 	node.append_attribute("item").set_value((int)type);
 	node.append_attribute("reward").set_value(reward);

@@ -66,7 +66,7 @@ bool QuestManager::Update(Input* input, float dt)
 		if (!playFx) app->audio->PlayFx(channel, completedQuestFx);
 		playFx = true;
 		questTimer += 2.0f * dt;
-		if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		if (questTimer >= 3.0f && input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 		{
 			GetReward(questFinished->reward);
 			finishedQuests.push_back(questFinished);
@@ -78,20 +78,18 @@ bool QuestManager::Update(Input* input, float dt)
 	if (questActive != nullptr)
 	{
 		questTimer += 2.0f * dt;
-		if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		if (questTimer >= 3.0f && input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 		{
 			activeQuests.push_back(questActive);
 			questActive = nullptr;
 			questTimer = 0.0f;
 		}
 	}
-
-	if (!activeQuests.empty() && input->GetKey(SDL_SCANCODE_TAB) == KEY_DOWN) showMore = !showMore;
 	
 	if (nextQuest)
 	{
 		timer += 2.0f * dt;
-		if (timer >= 5.01f)
+		if (timer >= 3.01f)
 		{
 			ActivateQuest((*finishedQuests.end().prev())->nextQuestId);
 			nextQuest = false;
@@ -200,12 +198,52 @@ bool QuestManager::QuestState()
 	return true;
 }
 
+void QuestManager::DeleteAllQuests()
+{
+	if (!loadedQuests.empty())
+	{
+		eastl::list<Quest*>::iterator it = loadedQuests.begin();
+		eastl::list<Quest*>::iterator itEnd = loadedQuests.end();
+		for (; it != itEnd; ++it)
+		{
+			RELEASE(*it);
+			loadedQuests.erase(it);
+		}
+	}
+	loadedQuests.clear();
+
+	if (!activeQuests.empty())
+	{
+		eastl::list<Quest*>::iterator it = activeQuests.begin();
+		eastl::list<Quest*>::iterator itEnd = activeQuests.end();
+		for (; it != itEnd; ++it)
+		{
+			RELEASE(*it);
+			activeQuests.erase(it);
+		}
+	}
+	activeQuests.clear();
+
+	if (!finishedQuests.empty())
+	{
+		eastl::list<Quest*>::iterator it = finishedQuests.begin();
+		eastl::list<Quest*>::iterator itEnd = finishedQuests.end();
+		for (; it != itEnd; ++it)
+		{
+			RELEASE(*it);
+			finishedQuests.erase(it);
+		}
+	}
+	finishedQuests.clear();
+}
+
 bool QuestManager::LoadQuests(pugi::xml_node& n)
 {
 	pugi::xml_node generalNode = n.child("questmanager");
 	pugi::xml_node node = generalNode.child("loaded_quests").child("quests");
 
-	loadedQuests.clear();
+	DeleteAllQuests();
+	
 	for (; node; node = node.next_sibling("quests"))
 	{
 		Quest* quest;
@@ -229,7 +267,6 @@ bool QuestManager::LoadQuests(pugi::xml_node& n)
 
 	node = generalNode.child("active_quests").child("quests");
 
-	activeQuests.clear();
 	for (; node; node = node.next_sibling("quests"))
 	{
 		Quest* quest;
@@ -253,7 +290,6 @@ bool QuestManager::LoadQuests(pugi::xml_node& n)
 
 	node = generalNode.child("finished_quests").child("quests");
 
-	finishedQuests.clear();
 	for (; node; node = node.next_sibling("quests"))
 	{
 		Quest* quest;
@@ -343,7 +379,7 @@ void QuestManager::Draw(Render* render, Font* font)
 	if (questFinished != nullptr)
 	{
 		render->DrawTexture(guiTex, 140, 60, &section, false);
-		if (questTimer < 5.0f)
+		if (questTimer < 3.0f)
 		{
 			render->DrawCenterText(font, "Quest Completed!", rect, 64, 5, { 255, 255, 255 });
 		}
@@ -357,7 +393,7 @@ void QuestManager::Draw(Render* render, Font* font)
 	if (questActive != nullptr)
 	{
 		render->DrawTexture(guiTex, 140, 60, &section, false);
-		if (questTimer < 5.0f)
+		if (questTimer < 3.0f)
 		{
 			if (!finishedQuests.empty()) render->DrawCenterText(font, "New Quest!", rect, 64, 5, { 255, 255, 255 });
 			else render->DrawCenterText(font, "This is your first quest!", rect, 64, 5, { 255, 255, 255 });
@@ -375,38 +411,7 @@ void QuestManager::Draw(Render* render, Font* font)
 
 bool QuestManager::UnLoad()
 {
-	if (!loadedQuests.empty())
-	{
-		eastl::list<Quest*>::iterator it = loadedQuests.begin();
-		eastl::list<Quest*>::iterator itEnd = loadedQuests.end();
-		for (; it != itEnd; ++it)
-		{
-			RELEASE(*it);
-			loadedQuests.erase(it);
-		}
-	}
-
-	if (!activeQuests.empty())
-	{
-		eastl::list<Quest*>::iterator it = activeQuests.begin();
-		eastl::list<Quest*>::iterator itEnd = activeQuests.end();
-		for (; it != itEnd; ++it)
-		{
-			RELEASE(*it);
-			activeQuests.erase(it);
-		}
-	}
-
-	if (!finishedQuests.empty())
-	{
-		eastl::list<Quest*>::iterator it = finishedQuests.begin();
-		eastl::list<Quest*>::iterator itEnd = finishedQuests.end();
-		for (; it != itEnd; ++it)
-		{
-			RELEASE(*it);
-			finishedQuests.erase(it);
-		}
-	}
+	DeleteAllQuests();
 
 	app->tex->UnLoad(guiTex);
 	//app->audio->UnLoadFx(completedQuestFx);
