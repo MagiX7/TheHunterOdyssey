@@ -2,7 +2,7 @@
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
-
+#include"AssetsManager.h"
 #include "QuestManager.h"
 #include "DialogueManager.h"
 #include "Easings.h"
@@ -20,7 +20,10 @@ DialogueManager::~DialogueManager()
 
 bool DialogueManager::Start()
 {
-	pugi::xml_parse_result result = file.load_file("dialogues.xml");
+	int size = app->assetsManager->MakeLoad("Xml/dialogues.xml");
+	pugi::xml_parse_result result = file.load_buffer(app->assetsManager->GetLastBuffer(), size);
+	app->assetsManager->DeleteBuffer();
+	//pugi::xml_parse_result result = file.load_file("");
 
 	if (result == NULL)
 	{

@@ -1,7 +1,7 @@
 #include "App.h"
 #include "Render.h"
 #include "Textures.h"
-
+#include"AssetsManager.h"
 #include "SceneBattle.h"
 #include "SceneGameplay.h"
 #include "Map.h"
@@ -50,7 +50,10 @@ bool SceneBattle::Load()
 
 	pugi::xml_document animations;
 	pugi::xml_node anims;
-	pugi::xml_parse_result result = animations.load_file("animations.xml");
+	int size = app->assetsManager->MakeLoad("Xml/animations.xml");
+	pugi::xml_parse_result result = animations.load_buffer(app->assetsManager->GetLastBuffer(), size);
+	app->assetsManager->DeleteBuffer();
+	//pugi::xml_parse_result result = animations.load_file("animations.xml");
 
 	if (result == NULL)
 		LOG("Could not load xml file: %s. pugi error: %s", "animations.xml", result.description());

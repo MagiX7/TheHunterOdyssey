@@ -7,7 +7,7 @@
 #include "Audio.h"
 
 #include "QuestManager.h"
-
+#include"AssetsManager.h"
 #include "GetItemQuest.h"
 #include "MurderQuest.h"
 #include "VisitQuest.h"
@@ -16,7 +16,9 @@
 QuestManager::QuestManager()
 {
 	pugi::xml_document questFile;
-	questFile.load_file("quests.xml");
+	int size = app->assetsManager->MakeLoad("Xml/quests.xml");
+	pugi::xml_parse_result result = questFile.load_buffer(app->assetsManager->GetLastBuffer(), size);
+	app->assetsManager->DeleteBuffer();
 	pugi::xml_node node = questFile.child("quests").child("quest");
 	for (; node; node = node.next_sibling("quest"))
 	{

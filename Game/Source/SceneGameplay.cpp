@@ -7,7 +7,7 @@
 
 #include "SceneGameplay.h"
 #include "SceneBattle.h"
-
+#include"AssetsManager.h"
 #include "EntityManager.h"
 #include "Hunter.h"
 #include "Wizard.h"
@@ -60,7 +60,10 @@ SceneGameplay::SceneGameplay()
 
 	pugi::xml_document animations;
 	pugi::xml_node anims;
-	pugi::xml_parse_result result = animations.load_file("animations.xml");
+	int size = app->assetsManager->MakeLoad("Xml/animations.xml");
+	pugi::xml_parse_result result = animations.load_buffer(app->assetsManager->GetLastBuffer(), size);
+	app->assetsManager->DeleteBuffer();
+	//pugi::xml_parse_result result = animations.load_file("animations.xml");
 
 	if (result == NULL) 
 		LOG("Could not load xml file: %s. pugi error: %s", "animations.xml", result.description());
@@ -558,7 +561,10 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 	pugi::xml_node toLoadEntities = load.child("entities");
 	pugi::xml_document animations;
 	pugi::xml_node anims;
-	pugi::xml_parse_result result = animations.load_file("animations.xml");
+	int size = app->assetsManager->MakeLoad("Xml/animations.xml");
+	pugi::xml_parse_result result = animations.load_buffer(app->assetsManager->GetLastBuffer(), size);
+	app->assetsManager->DeleteBuffer();
+	//pugi::xml_parse_result result = animations.load_file("animations.xml");
 	anims = animations.child("animations");
 
 	entityManager->LoadState(&toLoadEntities, &anims);
@@ -1617,7 +1623,10 @@ void SceneGameplay::LoadNpc(SString mapName)
 {
 	pugi::xml_document animations;
 	pugi::xml_node anims;
-	pugi::xml_parse_result result = animations.load_file("animations.xml");
+	int size = app->assetsManager->MakeLoad("Xml/animations.xml");
+	pugi::xml_parse_result result = animations.load_buffer(app->assetsManager->GetLastBuffer(), size);
+	app->assetsManager->DeleteBuffer();
+	//pugi::xml_parse_result result = animations.load_file("animations.xml");
 	if (result == NULL)
 		LOG("Could not load xml file: %s. pugi error: %s", CONFIG_FILENAME, result.description());
 	else
