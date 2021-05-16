@@ -13,7 +13,7 @@ jobs:
        uses: thedoctor0/zip-release@master
        with:
         filename: 'Full_Studios-The_Hunter_Odyssey_v0.8.zip'
-        path: './Output ./LICENSE ./README.md ./Build/Release/the_hunter_od.exe'
+        path: './Output ./LICENSE ./README.md'
         exclusions: '*.gitignore* *Development.sln* ./CONVENTIONS.md ./.github ./docs ./Game ./Build'
      
      - name: Create Release
@@ -22,6 +22,6 @@ jobs:
         tag: v0.8
         name: The Hunter Odyssey Alpha
         bodyFile: |
-        
+         Bodyfile test
         artifacts: "Full_Studios-The_Hunter_Odyssey_v0.8.zip"
         token: ${{ secrets.GITHUB_TOKEN }}
