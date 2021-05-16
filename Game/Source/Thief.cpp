@@ -208,7 +208,7 @@ void Thief::HandleInput(float dt)
 	case PlayerStance::ROAMING:
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_REPEAT || app->input->pad->l_y < -0.5)
 		{
-			app->audio->PlayFx(channel, footStepFx);
+			if (app->frameCount % 15 == 0) app->audio->PlayFx(channel, footStepFx);
 			generator->Restart();
 			generator->SetParameters({ 13,1 });
 			generator->SetPosition({ bounds.x + (bounds.w / 2),bounds.y + (bounds.h - 5) });
@@ -223,7 +223,7 @@ void Thief::HandleInput(float dt)
 		}
 		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_REPEAT || app->input->pad->l_y > 0.5)
 		{
-			app->audio->PlayFx(channel, footStepFx);
+			if (app->frameCount % 15 == 0) app->audio->PlayFx(channel, footStepFx);
 			generator->Restart();
 			generator->SetParameters({ 13,1 });
 			generator->SetPosition({ bounds.x + (bounds.w / 2),bounds.y + (bounds.h - 5) });
@@ -237,7 +237,7 @@ void Thief::HandleInput(float dt)
 		}
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_REPEAT || app->input->pad->l_x < -0.5)
 		{
-			app->audio->PlayFx(channel, footStepFx);
+			if (app->frameCount % 15 == 0) app->audio->PlayFx(channel, footStepFx);
 			generator->Restart();
 			generator->SetParameters({ 1,4 });
 			generator->SetPosition({ bounds.x + (bounds.w / 2),bounds.y + (bounds.h - 5) });
@@ -251,7 +251,7 @@ void Thief::HandleInput(float dt)
 		}
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_REPEAT || app->input->pad->l_x > 0.5)
 		{
-			app->audio->PlayFx(channel, footStepFx);
+			if (app->frameCount % 15 == 0) app->audio->PlayFx(channel, footStepFx);
 			generator->SetParameters({ 1,4 });
 			generator->Restart();
 			generator->SetPosition({ bounds.x + (bounds.w / 2),bounds.y + (bounds.h - 5) });
