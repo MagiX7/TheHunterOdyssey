@@ -18,6 +18,22 @@ The Hunter Odyssey is our RPG turn-based video game based on the roots of the ge
  - Four types of quests.
  - Unique puzzles.
  - Inventory shared between all the characters.
+ - Inventory.
+ - Particle System.
+ - 3 Puzzles.
+ - Quest System.
+ - Sprite Sorting.
+ - Battle UI Redesign.
+ - Camera Culling.
+ - Define Player Abilities.
+ - Automated Build.
+ - Zip Assets Management.
+ - Items and Armors.
+ - Dungeon Map.
+ - Soundtrack for each Scene.
+ - Vsync Enabled.
+ - Fully Functionally Options Menu.
+ - Overall Improved Experience.
  
 ## Controls
 
@@ -25,7 +41,9 @@ The Hunter Odyssey is our RPG turn-based video game based on the roots of the ge
 
  - "W","A","S","D" to move the player.
  - "I" to open character swap menu.
+ - "E" to open and close Inventory.
  - "ESC" to open pause menu.
+ - "ENTER" to accept a quest.
  - In menus, "UP" and "DOWN" arrows to interact with the different buttons.
 
  - Debug keys:
@@ -43,8 +61,12 @@ The Hunter Odyssey is our RPG turn-based video game based on the roots of the ge
    · "Y" to open the character swap menu.
    
    · "A" to start a dialogue.
+
+   · "B" to accept a quest.
    
    · "START" button to open the pause menu.
+
+   · "BUTTON BACK" to open and close the menu.
 
  - In Menu - inventory - combat:
  
@@ -107,8 +129,17 @@ Logo screen FX (introduction bell sound): https://mixkit.co/free-sound-effects/i
 
 Title screen FX: https://opengameart.org/content/ui-sound-effects-pack
 
+Quest completed FX: https://creativecommons.org/licenses/by/3.0/
+
+Ending screen Music: https://creativecommons.org/licenses/by-sa/3.0/
+
+Enemies FX: http://www.gnu.org/licenses/gpl-3.0.html
+
+Puzzle completed FX: https://creativecommons.org/publicdomain/zero/1.0/
+
+Characters footsteps and doors FX: https://creativecommons.org/publicdomain/zero/1.0/
 
 ----
-Check the github repository [here](https://github.com/MagiX7/Project-II).
+Check our github repository [here](https://github.com/MagiX7/Project-II).
 
-Stay tuned!
+New features are coming soon, stay tuned!
