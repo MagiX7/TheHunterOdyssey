@@ -558,7 +558,12 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 	// If the player is not in the map he saved at, set the current map to that one
 	SString mapName = load.attribute("map_name").as_string();
 	firstQuestAdded = load.attribute("first_quest").as_bool();
-	if (mapName != map->name)
+	if (map == nullptr)
+	{
+		map = new Map();
+		map->Load(mapName.GetString(), app->tex);
+	}
+	else if (mapName != map->name)
 	{
 		map->CleanUp();
 		map->Load(mapName.GetString(), app->tex);

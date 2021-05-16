@@ -18,7 +18,7 @@ public:
 	bool SaveState(pugi::xml_node& node) override;
 
 public:
-	EntityType type;
+	EnemyType type;
 
 	int total;
 	int actual;

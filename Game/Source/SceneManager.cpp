@@ -86,6 +86,7 @@ bool SceneManager::Update(float dt)
 				//TransitionType tmpEnteringType = current->transitionType;
 				current->UnLoad();
 				next->Load();
+				if (current->win == true) app->LoadGameRequest();
 				RELEASE(current);
 				current = next;
 				next = nullptr;

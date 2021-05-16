@@ -9,7 +9,7 @@ MurderQuest::MurderQuest(pugi::xml_node n) : Quest(QuestType::MURDER_QUEST)
 	this->name = n.attribute("name").as_string();
 	this->description = n.attribute("description").as_string();
 	this->nextQuestId = n.attribute("nextQuestId").as_int();
-	this->type = (EntityType)n.attribute("enemy").as_int();
+	this->type = (EnemyType)n.attribute("enemy").as_int();
 	this->total = n.attribute("total").as_int();
 	this->actual = n.attribute("actual").as_int();
 	this->reward = n.attribute("reward").as_int();
@@ -21,7 +21,7 @@ MurderQuest::~MurderQuest()
 
 bool MurderQuest::Update(Enemy* enemy)
 {
-	if ((enemy != nullptr) && (type == enemy->type))
+	if ((enemy != nullptr) && (type == enemy->GetEnemyType()))
 	{
 		return true;
 	}

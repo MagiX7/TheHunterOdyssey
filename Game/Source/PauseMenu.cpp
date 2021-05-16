@@ -66,9 +66,10 @@ bool PauseMenu::Load(Font* font)
 	checkFullscreen->section = { 440,192,32,32 };
 	checkFullscreen->texture = guiTex;
 
-	checkVSync = new GuiCheckBox(11, { 977,460,170,35 }, "VSync", this, false);
+	checkVSync = new GuiCheckBox(11, { 977,460,170,35 }, "VSync", this, true);
 	checkVSync->section = { 440,192,32,32 };
 	checkVSync->texture = guiTex;
+	checkVSync->state = GuiControlState::DISABLED;
 
 	btnExitYes = new GuiButton(12, { 505, 256, 270, 64 }, "Yes", this, font);
 	btnExitYes->section = { 430,0,270,64 };
@@ -395,11 +396,13 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 		}
 		break;
 	}
+	break;
 	case GuiControlType::SLIDER:
 	{
 		if (control->id == 8) app->audio->SetMusicVolume(slideMusicVolume->GetValue()); // Music Volume
 		else if (control->id == 9) app->audio->SetFxVolume(slideFXVolume->GetValue()); // FX Volume
 	}
+	break;
 	case GuiControlType::CHECKBOX:
 	{
 		if (control->id == 10) // Fullscreen
@@ -410,6 +413,7 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 		{
 		}
 	}
+	break;
 	}
 	
 	return true;
