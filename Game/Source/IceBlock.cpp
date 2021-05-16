@@ -120,21 +120,21 @@ bool IceBlock::CheckCollision(Player* player)
 		//PULL BLOCK
 		if (player->bounds.x + player->bounds.w > bounds.x && player->bounds.x < bounds.x + bounds.w && player->bounds.y + player->bounds.h > bounds.y && player->bounds.y < bounds.y + bounds.h)
 		{
-			if (!pushed && app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT && !isMoving)
+			if (!pushed && (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN) && !isMoving)
 			{
-				if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+				if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_REPEAT || app->input->pad->l_y < -0.5)
 				{
 					state = EntityState::WALLKING_UP;
 				}
-				else if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+				else if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_REPEAT || app->input->pad->l_y > 0.5)
 				{
 					state = EntityState::WALLKING_DOWN;
 				}
-				else if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+				else if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_REPEAT || app->input->pad->l_x < -0.5)
 				{
 					state = EntityState::WALLKING_LEFT;
 				}
-				else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+				else if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_REPEAT || app->input->pad->l_x > 0.5)
 				{
 					state = EntityState::WALKING_RIGHT;
 				}

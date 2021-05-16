@@ -759,7 +759,7 @@ void SceneGameplay::HandleInput(float dt)
 	
 	if (menuState != GameplayMenuState::INVENTORY && app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_START) == KEY_DOWN) menuState = GameplayMenuState::PAUSE;
 
-	if (app->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+	if (app->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN)
 	{
 		if (menuState == GameplayMenuState::INVENTORY)
 		{
@@ -1379,7 +1379,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if ((layer->Get(i, j) == 18) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
+						if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_UP)
 						{
 							// TODO IMPLEMENT PUZZLE BOX INTERRUPTOR
 							interruptorBlock->bounds.x = currentPlayer->bounds.x;

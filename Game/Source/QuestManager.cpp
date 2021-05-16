@@ -66,7 +66,7 @@ bool QuestManager::Update(Input* input, float dt)
 		if (!playFx) app->audio->PlayFx(channel, completedQuestFx);
 		playFx = true;
 		questTimer += 2.0f * dt;
-		if (questTimer >= 3.0f && input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		if (questTimer >= 3.0f && (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN))
 		{
 			GetReward(questFinished->reward);
 			finishedQuests.push_back(questFinished);
@@ -78,7 +78,7 @@ bool QuestManager::Update(Input* input, float dt)
 	if (questActive != nullptr)
 	{
 		questTimer += 2.0f * dt;
-		if (questTimer >= 3.0f && input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		if (questTimer >= 3.0f && (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN))
 		{
 			activeQuests.push_back(questActive);
 			questActive = nullptr;
