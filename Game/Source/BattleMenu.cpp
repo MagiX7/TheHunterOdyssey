@@ -168,22 +168,22 @@ bool BattleMenu::Update(float dt)
 		}
 		else
 		{
-			if (currPlayer->CanUseAbility(1) == false) btnAbilitySlot1->state = GuiControlState::DISABLED;
+			if (currPlayer->CanUseAbility(0) == false) btnAbilitySlot1->state = GuiControlState::DISABLED;
 			else if (btnAbilitySlot1->state != GuiControlState::FOCUSED) btnAbilitySlot1->state = GuiControlState::NORMAL;
 
 			btnAbilitySlot1->Update(app->input, dt, id);
 			
-			if (currPlayer->CanUseAbility(2) == false) btnAbilitySlot2->state = GuiControlState::DISABLED;
+			if (currPlayer->CanUseAbility(1) == false) btnAbilitySlot2->state = GuiControlState::DISABLED;
 			else if (btnAbilitySlot2->state != GuiControlState::FOCUSED) btnAbilitySlot2->state = GuiControlState::NORMAL;
 			
 			btnAbilitySlot2->Update(app->input, dt, id);
 			
-			if (currPlayer->CanUseAbility(3) == false) btnAbilitySlot3->state = GuiControlState::DISABLED;
+			if (currPlayer->CanUseAbility(2) == false) btnAbilitySlot3->state = GuiControlState::DISABLED;
 			else if (btnAbilitySlot3->state != GuiControlState::FOCUSED) btnAbilitySlot3->state = GuiControlState::NORMAL;
 			
 			btnAbilitySlot3->Update(app->input, dt, id);
 			
-			if (currPlayer->CanUseAbility(4) == false) btnAbilitySlot4->state = GuiControlState::DISABLED;
+			if (currPlayer->CanUseAbility(3) == false) btnAbilitySlot4->state = GuiControlState::DISABLED;
 			else if (btnAbilitySlot4->state != GuiControlState::FOCUSED) btnAbilitySlot4->state = GuiControlState::NORMAL;
 			
 			btnAbilitySlot4->Update(app->input, dt, id);

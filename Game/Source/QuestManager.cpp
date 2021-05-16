@@ -66,7 +66,7 @@ bool QuestManager::Update(Input* input, float dt)
 		if (!playFx) app->audio->PlayFx(channel, completedQuestFx);
 		playFx = true;
 		questTimer += 2.0f * dt;
-		if (questTimer >= 3.0f && (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN))
+		if (questTimer >= 3.0f && (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_UP))
 		{
 			GetReward(questFinished->reward);
 			finishedQuests.push_back(questFinished);
@@ -78,7 +78,7 @@ bool QuestManager::Update(Input* input, float dt)
 	if (questActive != nullptr)
 	{
 		questTimer += 2.0f * dt;
-		if (questTimer >= 3.0f && (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN))
+		if (questTimer >= 3.0f && (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_UP))
 		{
 			activeQuests.push_back(questActive);
 			questActive = nullptr;
@@ -378,6 +378,7 @@ void QuestManager::Draw(Render* render, Font* font)
 
 	if (questFinished != nullptr)
 	{
+		render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 120, true, false);
 		render->DrawTexture(guiTex, 140, 60, &section, false);
 		if (questTimer < 3.0f)
 		{
@@ -392,6 +393,7 @@ void QuestManager::Draw(Render* render, Font* font)
 
 	if (questActive != nullptr)
 	{
+		render->DrawRectangle({ 0,0,1280,720 }, 0, 0, 0, 120, true, false);
 		render->DrawTexture(guiTex, 140, 60, &section, false);
 		if (questTimer < 3.0f)
 		{
