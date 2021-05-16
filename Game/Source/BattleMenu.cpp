@@ -735,6 +735,25 @@ void BattleMenu::DrawStats(Font* font)
 		app->render->DrawTexture(guiTex, 750, 506 + (i * 55), &statsBar);
 	}
 	
+	eastl::list<Enemy*>::iterator enemy = sceneBattle->enemyList.begin();
+
+	for (int i = 0; enemy != sceneBattle->enemyList.end(); ++enemy, ++i)
+	{
+		SDL_Rect statsBar = { 749, 357, 80 , 9 };
+		app->render->DrawTexture(guiTex, (*enemy)->bounds.x, (*enemy)->bounds.y - 10, &statsBar);
+
+		int currHealth = (*enemy)->GetHealth();
+		int maxHealth = (*enemy)->GetMaxHealthPoints();
+		if (currHealth < (maxHealth / 4))
+			statsBar = { 751, 335, ((76 * currHealth) / maxHealth), 5 };
+		else if (currHealth < (maxHealth / 2))
+			statsBar = { 751, 324, ((76 * currHealth) / maxHealth), 5 };
+		else
+			statsBar = { 751, 346, ((76 * currHealth) / maxHealth), 5 };
+
+		app->render->DrawTexture(guiTex, (*enemy)->bounds.x + 2 , (*enemy)->bounds.y - 8, &statsBar);
+	}
+
 	if (type != BattleState::ENEMY_TURN)
 	{
 		SDL_Rect rectangle = { 124, 406, 191, 55 };

@@ -72,12 +72,16 @@ public:
 
 	inline EnemyType GetEnemyType() const { return eType; }
 
+	inline int GetMaxHealthPoints() const { return maxHealth; }
+
+
 public:
 	eastl::string mapName;
 
 protected:
 	// Basic stats for enemies
 	int health;
+	int maxHealth;
 	int mana;
 	int damage;
 	int defense;

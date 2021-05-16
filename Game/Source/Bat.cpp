@@ -21,6 +21,7 @@ Bat::Bat(iPoint pos, pugi::xml_node anim, eastl::string map) : Enemy(EntityType:
 
 	battlePos = pos;
 	health = 600;
+	maxHealth = health;
 	mana = 80;
 	damage = 20;
 	defense = 20;
@@ -137,28 +138,6 @@ void Bat::Draw(bool showColliders)
 		app->render->DrawRectangle(bounds, 0, 0, 255, 255);
 		
 	app->render->DrawTexture(texture, bounds.x, bounds.y, &currentAnim->GetCurrentFrame());
-
-	if (currentState != EnemyState::ROAMING)
-	{
-		SDL_Color color = { 0,0,0,255 };
-		app->render->DrawText(font, "BAT", bounds.x + 17, bounds.y - 13, 15, 5, color);
-		color = { 255, 255, 255, 255 };
-		app->render->DrawText(font, "BAT", bounds.x + 15, bounds.y - 15, 15, 5, color);
-
-		char tmp[32] = { 0 };
-
-		sprintf_s(tmp, 32, "Health: %i", health);
-		color = { 0,0,0,255 };
-		app->render->DrawText(font, tmp, bounds.x + bounds.w + 22, bounds.y + 2, 15, 5, color);
-		color = { 255, 255, 255, 255 };
-		app->render->DrawText(font, tmp, bounds.x + bounds.w + 20, bounds.y, 15, 5, color);
-
-		sprintf_s(tmp, 32, "Mana: %i", mana);
-		color = { 0,0,0,255 };
-		app->render->DrawText(font, tmp, bounds.x + bounds.w + 22, bounds.y + 22, 15, 5, color);
-		color = { 255, 255, 255, 255 };
-		app->render->DrawText(font, tmp, bounds.x + bounds.w + 20, bounds.y + 20, 15, 5, color);
-	}
 }
 
 bool Bat::UnLoad()
