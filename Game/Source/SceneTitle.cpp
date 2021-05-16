@@ -33,6 +33,10 @@ SceneTitle::SceneTitle()
 	text_x = 420;
 	text_y = 540;
 
+	the_x = -200;
+	hunter_x = 1480;
+	odyssey_y = 920;
+
 	section = { 0, 0, 161, 116 };
 	section2 = {174, 0, 349, 123};
 	section3 = {87, 123, 348, 100};
