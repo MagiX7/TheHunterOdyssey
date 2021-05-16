@@ -21,7 +21,7 @@ jobs:
        with:
         tag: v0.8
         name: The Hunter Odyssey Alpha
-        bodyFile: |
+        bodyFile:
          "./docs/alpha_body.md"
          
         artifacts: "Full_Studios-The_Hunter_Odyssey_v0.8.zip"
