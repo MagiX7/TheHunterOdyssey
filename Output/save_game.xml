@@ -6,30 +6,9 @@
   <textures />
   <audio />
   <scenemanager>
-    <scenegameplay map_name="town_map.tmx" first_quest="false">
+    <scenegameplay map_name="graveyard_path.tmx" first_quest="true">
       <entities>
-        <NPCs amount="4">
-          <NPC>
-            <bounds X="264" Y="250" W="30" H="32" />
-            <NpcType type="TOWN" />
-            <Dialoge idDialoge="0" />
-          </NPC>
-          <NPC>
-            <bounds X="659" Y="1057" W="30" H="32" />
-            <NpcType type="RAY" />
-            <Dialoge idDialoge="3" />
-          </NPC>
-          <NPC>
-            <bounds X="764" Y="810" W="30" H="32" />
-            <NpcType type="TABERN" />
-            <Dialoge idDialoge="2" />
-          </NPC>
-          <NPC>
-            <bounds X="564" Y="350" W="30" H="32" />
-            <NpcType type="NPC_WIZARD" />
-            <Dialoge idDialoge="1" />
-          </NPC>
-        </NPCs>
+        <NPCs amount="0" />
         <Enemies amount="3">
           <Enemy>
             <bounds X="608" Y="352" W="74" H="74" />
@@ -53,7 +32,7 @@
         <players amount="4">
           <player>
             <isCurrent current="true" />
-            <bounds X="260" Y="290" W="26" H="32" />
+            <bounds X="492" Y="425" W="26" H="32" />
             <Equipment />
             <playerType type="HUNTER" />
           </player>
@@ -188,13 +167,14 @@
       </inventory>
       <questmanager>
         <loaded_quests>
-          <quests type="3" id="0" name="Talk with NPCs" description="Try to talk with the differents NPCs in the town to get information about the monster." nextQuestId="1" npcId="0" reward="700" />
           <quests type="2" id="1" name="Visit the pub" description="If you cross the river, you will find a big building where you can drink a beer, but don't drink too much or you will not be able to fight the monster." nextQuestId="2" mapName="pub.tmx" reward="500" />
           <quests type="3" id="2" name="Talk with the waiter" description="The waiter maybe gives you some information very valuable." nextQuestId="3" npcId="4" reward="700" />
           <quests type="0" id="3" name="Get a potion" description="The waiter at the pub told you that at the beach you can find a potion. Go for it until is too late." nextQuestId="4" item="1" reward="300" />
           <quests type="1" id="4" name="Kill the skull" description="There's an enemy at the graveyard. Now that you have a potion, go to the graveyard and kill it." nextQuestId="5" enemy="7" actual="0" total="0" reward="300" />
         </loaded_quests>
-        <active_quests />
+        <active_quests>
+          <quests type="3" id="0" name="Talk with the villagers" description="Try to talk with the differents villagers to get information about the monster." nextQuestId="1" npcId="0" reward="700" />
+        </active_quests>
         <finished_quests />
       </questmanager>
     </scenegameplay>

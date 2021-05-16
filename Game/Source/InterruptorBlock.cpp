@@ -3,11 +3,12 @@
 #include "Render.h"
 #include "InterruptorBlock.h"
 
-InterruptorBlock::InterruptorBlock(iPoint pos, SDL_Texture* atlas) : Item(ObjectType::ITEM, pos, atlas)
+InterruptorBlock::InterruptorBlock(iPoint pos, SDL_Texture* atlas, eastl::string map) : Item(ObjectType::ITEM, pos, atlas)
 {
 	atlasSection = { 435, 615, 28, 26 };
 	itemType = ItemType::INTERRUPTOR_BLOCK;
 	isDropped = false;
+	mapName = map;
 }
 
 InterruptorBlock::~InterruptorBlock()

@@ -1279,6 +1279,22 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						exit = true;
 						break;
 					}
+					else if ((layer->Get(i, j) == 1553) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					{
+						isTown = true;
+						entityManager->DeleteAllNpcActive();
+						//entityManager->SetAllNpcActive();
+						iPoint position = { 320, 384 };
+						currentPlayer->bounds.x = position.x;
+						currentPlayer->bounds.y = position.y;
+						map->CleanUp();
+						map->Load("graveyard_path.tmx", app->tex);
+
+						questManager->CheckQuests(map->name);
+						isDungeon = false;
+						exit = true;
+						break;
+					}
 					if ((layer->Get(i, j) == 3089) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = true;
@@ -1369,7 +1385,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 							position = { 1664, 730 };
 							statue4 = (Statue*)entityManager->CreateEntity2(EntityType::STATUE, position, currentPlayer, 4);
 
-							interruptorBlock = new InterruptorBlock(iPoint(1024, 416), atlas);
+							interruptorBlock = new InterruptorBlock(iPoint(1024, 416), atlas, "dungeon_map.tmx");
 							items.push_back(interruptorBlock);
 
 							loadObjects = false;

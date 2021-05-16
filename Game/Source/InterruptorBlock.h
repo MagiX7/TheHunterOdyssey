@@ -5,7 +5,7 @@
 class InterruptorBlock : public Item
 {
 public:
-	InterruptorBlock(iPoint pos, SDL_Texture* atlas);
+	InterruptorBlock(iPoint pos, SDL_Texture* atlas, eastl::string map);
 	virtual ~InterruptorBlock();
 
 	bool Load() override;
