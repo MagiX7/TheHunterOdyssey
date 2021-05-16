@@ -585,21 +585,24 @@ void Inventory::SaveState(pugi::xml_node& node)
 	pugi::xml_node it = n.append_child("items");
 	for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
 	{
+		// Items
 		pugi::xml_node item = it.append_child("slot");
 		if (slots[i].filled)
 		{
-			item.append_attribute("amount").set_value(armorSlots[i].itemsAmount);
-			item.append_attribute("filled").set_value(armorSlots[i].filled);
-			item.append_attribute("id").set_value(armorSlots[i].id);
-			item.append_attribute("state").set_value((int)armorSlots[i].state);
+			item.append_attribute("amount").set_value(slots[i].itemsAmount);
+			item.append_attribute("filled").set_value(slots[i].filled);
+			item.append_attribute("id").set_value(slots[i].id);
+			item.append_attribute("state").set_value((int)slots[i].state);
 			pugi::xml_node it = item.append_child("item");
-			armorSlots[i].item->SaveState(it);
+			if(slots[i].item != nullptr)
+				slots[i].item->SaveState(it);
 		}
 	}
 
 	it = n.append_child("armor");
 	for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
 	{
+		// Armor
 		pugi::xml_node item = it.append_child("slot");
 		if (armorSlots[i].filled)
 		{
