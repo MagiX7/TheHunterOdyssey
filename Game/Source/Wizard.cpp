@@ -22,6 +22,9 @@ Wizard::Wizard(iPoint position, pugi::xml_node anim, ParticlesManager* particles
 	isDefending = false;
 	attack = false;
 	name = "Wizard";
+
+	channel = app->audio->SetChannel();
+
 	this->particles = particles;
 	isDead = false;
 	pugi::xml_node player = anim.child("wizard").child("overworld");
@@ -194,10 +197,10 @@ bool Wizard::UnLoad()
 	particles->DeleteGenerator(generator);
 	app->tex->UnLoad(texture);
 	app->tex->UnLoad(battlerTexture);
-	app->audio->UnLoadFx(footStepFx);
-	app->audio->UnLoadFx(attackFx);
-	app->audio->UnLoadFx(hurtFx);
-	app->audio->UnLoadFx(dieFx);
+	//app->audio->UnLoadFx(footStepFx);
+	//app->audio->UnLoadFx(attackFx);
+	//app->audio->UnLoadFx(hurtFx);
+	//app->audio->UnLoadFx(dieFx);
 
 	return true;
 }

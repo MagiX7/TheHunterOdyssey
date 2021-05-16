@@ -11,6 +11,7 @@ GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text, Menu* listene
 	this->minValue = min;
 	this->maxValue = max;
 	this->value = value * 2;
+	this->channel = app->audio->SetChannel();
 
 	//Load Fx
 	clickFx = app->audio->LoadFx("Audio/Fx/button_click.wav");
@@ -20,8 +21,8 @@ GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text, Menu* listene
 
 GuiSlider::~GuiSlider()
 {
-	app->audio->UnLoadFx(clickFx);
-	app->audio->UnLoadFx(focusedFx);
+	//app->audio->UnLoadFx(clickFx);
+	//app->audio->UnLoadFx(focusedFx);
 }
 
 bool GuiSlider::Update(Input* input, float dt)

@@ -139,17 +139,17 @@
 			<option id="1" nextNodeId="5" text="I need to kill the Monster first." missionId="-1"/>
 		</node>
 		<node id="4">
-			<npc_text text="Well, you could invest in this great pub, you will make a profit for sure."/>
-			<option id="0" nextNodeId="-1" text="No thanks, I have other things in mind." missionId="-1"/>
-			<option id="1" nextNodeId="6" text="Well, we could talk about it in the future." missionId="-1"/>
+			<npc_text text="People says that there is a potion near the shop, and other objects scattered in the town. It could help you a lot."/>
+			<option id="0" nextNodeId="-1" text="I already knew that." missionId="-1"/>
+			<option id="1" nextNodeId="6" text="Oh, thank you for the advice." missionId="-1"/>
 		</node>
 		<node id="5">
 			<npc_text text="It's true, it is a very difficult task. Many have lost their lives."/>
 			<option id="0" nextNodeId="-1" text="Well... thanks, see you later." missionId="-1"/>
 		</node>
 		<node id="6">
-			<npc_text text="Perfect, we're in contact."/>
-			<option id="0" nextNodeId="-1" text="Ok, bye." missionId="-1"/>
+			<npc_text text="You're welcome, bye."/>
+			<option id="0" nextNodeId="-1" text="Bye." missionId="-1"/>
 		</node>
 		<node id ="-1"> <!-- Keep this here to avoid crashes -->
 			<npc_text text ="Press enter to back"/>

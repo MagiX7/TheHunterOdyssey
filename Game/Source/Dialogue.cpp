@@ -92,10 +92,10 @@ void Dialogue::Draw(int& count, Font* font)
 
 bool Dialogue::CleanUp()
 {
-	app->audio->UnLoadFx(talkingFx1);
-	app->audio->UnLoadFx(talkingFx2);
-	app->audio->UnLoadFx(talkingFx3);
-	app->audio->UnLoadFx(talkingFx4);
+	//app->audio->UnLoadFx(talkingFx1);
+	//app->audio->UnLoadFx(talkingFx2);
+	//app->audio->UnLoadFx(talkingFx3);
+	//app->audio->UnLoadFx(talkingFx4);
 
 	textToPrint.clear();
 	eastl::list<NpcNode*>::iterator it = nodes.begin();

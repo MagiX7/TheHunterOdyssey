@@ -90,7 +90,7 @@ SceneGameplay::SceneGameplay()
 	en->SetCurrentState(EnemyState::ROAMING);
 	enemyList.push_back(en);
 
-	en = new Bat({ 1408, 2720 }, anims, "dungeon_map.tmx");
+	en = new Bat({ 1408, 2680 }, anims, "dungeon_map.tmx");
 	en->SetCurrentState(EnemyState::ROAMING);
 	enemyList.push_back(en);
 
@@ -216,7 +216,7 @@ bool SceneGameplay::Update(float dt)
 			if (!firstQuestAdded)
 			{
 				firstQuest += dt;
-				if (firstQuest >= 5.0f)
+				if (firstQuest >= 3.0f)
 				{
 					firstQuest = 0.0f;
 					firstQuestAdded = true;
@@ -548,6 +548,7 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 {
 	// If the player is not in the map he saved at, set the current map to that one
 	SString mapName = load.attribute("map_name").as_string();
+	firstQuestAdded = load.attribute("first_quest").as_bool();
 	if (mapName != map->name)
 	{
 		map->CleanUp();
@@ -679,6 +680,7 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 bool SceneGameplay::SaveState(pugi::xml_node& save) const
 {
 	save.append_attribute("map_name").set_value(map->name.GetString());
+	save.append_attribute("first_quest").set_value(firstQuestAdded);
 	
 	pugi::xml_node toSaveEntites = save.append_child("entities");
 	entityManager->SaveState(&toSaveEntites);

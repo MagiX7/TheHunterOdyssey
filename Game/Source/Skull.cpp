@@ -156,9 +156,9 @@ void Skull::Draw(bool showColliders)
 bool Skull::UnLoad()
 {
 	app->tex->UnLoad(texture);
-	app->audio->UnLoadFx(attackFx);
-	app->audio->UnLoadFx(hurtFx);
-	app->audio->UnLoadFx(dieFx);
+	//app->audio->UnLoadFx(attackFx);
+	//app->audio->UnLoadFx(hurtFx);
+	//app->audio->UnLoadFx(dieFx);
 
 	font->UnLoad(app->tex);
 	RELEASE(font);

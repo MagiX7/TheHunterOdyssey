@@ -407,7 +407,7 @@ bool QuestManager::UnLoad()
 	}
 
 	app->tex->UnLoad(guiTex);
-	app->audio->UnLoadFx(completedQuestFx);
+	//app->audio->UnLoadFx(completedQuestFx);
 
 	return true;
 }

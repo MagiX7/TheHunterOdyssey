@@ -10,6 +10,7 @@ GuiCheckBox::GuiCheckBox(uint32 id, SDL_Rect bounds, const char* text, Menu* lis
 	this->observer = listener;
 
 	this->checked = checked;
+	this->channel = app->audio->SetChannel();
 	
 	//Load Fx
 	clickFx = app->audio->LoadFx("Audio/Fx/button_click.wav");
@@ -19,8 +20,8 @@ GuiCheckBox::GuiCheckBox(uint32 id, SDL_Rect bounds, const char* text, Menu* lis
 
 GuiCheckBox::~GuiCheckBox()
 {
-	app->audio->UnLoadFx(clickFx);
-	app->audio->UnLoadFx(focusedFx);
+	//app->audio->UnLoadFx(clickFx);
+	//app->audio->UnLoadFx(focusedFx);
 }
 
 bool GuiCheckBox::Update(Input* input, float dt)
