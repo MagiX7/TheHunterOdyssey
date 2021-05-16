@@ -86,9 +86,9 @@ bool SceneTitle::Update(float dt)
 		//TITLE
 		if (titleEasingActivated)
 		{
-			the_x = easing->elasticEaseOut(currIt, 0, 378, totalIt);
-			hunter_x = easing->elasticEaseOut(currIt, 1280, -728, totalIt);
-			odyssey_y = easing->elasticEaseOut(currIt, 720, -367, totalIt);
+			the_x = easing->elasticEaseOut(currIt, -200, 578, totalIt);
+			hunter_x = easing->elasticEaseOut(currIt, 1480, -928, totalIt);
+			odyssey_y = easing->elasticEaseOut(currIt, 920, -567, totalIt);
 			
 			if (currIt < totalIt)
 			{

@@ -135,6 +135,11 @@ SceneGameplay::SceneGameplay()
 	loadObjects = true;
 	deleteDoor = true;
 
+	canSound1 = true;
+	canSound2 = true;
+	canSound3 = true;
+	canSound4 = true;
+
 	firstQuest = 0.0f;
 	firstQuestAdded = false;
 }
@@ -335,6 +340,7 @@ bool SceneGameplay::Update(float dt)
 
 								if (inventory->ObjectQuantity(ItemType::ORB) == 1)
 								{
+									app->audio->PlayFx(channel, puzzleCompletedFx);
 									entityManager->DeleteEntity(EntityType::STATUE, 1);
 									entityManager->DeleteEntity(EntityType::STATUE, 2);
 									entityManager->DeleteEntity(EntityType::DOOR, 3);
@@ -1404,25 +1410,33 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 							interruptorBlock->isDropped = true;
 						}
 					}
-					if ((layer->Get(i, j) == 21) && CheckCollision(map->GetTilemapRec(i, j), rect) && interruptorBlock->isDropped)
+					if (canSound1 && (layer->Get(i, j) == 21) && CheckCollision(map->GetTilemapRec(i, j), rect) && interruptorBlock->isDropped)
 					{
 						entityManager->DeleteEntity(EntityType::DOOR, 2);
+						app->audio->PlayFx(channel, puzzleCompletedFx);
+						canSound1 = false;
 					}
-					if ((layer->Get(i, j) == 17) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					if (canSound2 && (layer->Get(i, j) == 17) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						entityManager->DeleteEntity(EntityType::STATUE, 4);
+						app->audio->PlayFx(channel, puzzleCompletedFx);
+						canSound2 = false;
 						exit = true;
 						break;
 					}
-					if ((layer->Get(i, j) == 15) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					if (canSound3 && (layer->Get(i, j) == 15) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						entityManager->DeleteEntity(EntityType::DOOR, 4);
+						app->audio->PlayFx(channel, puzzleCompletedFx);
+						canSound3 = false;
 						exit = true;
 						break;
 					}
-					if ((layer->Get(i, j) == 16) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					if (canSound4 && (layer->Get(i, j) == 16) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						entityManager->DeleteEntity(EntityType::STATUE, 3);
+						app->audio->PlayFx(channel, puzzleCompletedFx);
+						canSound4 = false;
 						exit = true;
 						break;
 					}

@@ -128,7 +128,12 @@ private:
 	//Fx
 	int doorOpenedFx;
 	int doorClosedFx;
+
 	int puzzleCompletedFx;
+	bool canSound1;
+	bool canSound2;
+	bool canSound3;
+	bool canSound4;
 	
 	eastl::list<Enemy*> enemyList;
 	Enemy* tmp;

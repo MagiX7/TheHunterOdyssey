@@ -87,6 +87,9 @@ bool SceneEnding::Update(float dt)
 		}
 	}
 
+	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
+		TransitionToScene(SceneType::TITLE, TransitionType::HALF_WIDHT_RECTANGLES);
+
 	return ret;
 }
 
