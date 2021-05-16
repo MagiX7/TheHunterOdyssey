@@ -80,11 +80,14 @@ bool GuiCheckBox::Draw(Render* render, bool showColliders)
 	case GuiControlState::DISABLED:
 	{
 		render->DrawTexture(texture, bounds.x + bounds.w - 32, bounds.y, &section, false);
+		SDL_Rect r = bounds;
+		r.y -= 2;
+		r.w += 2;
+		r.h += 4;
+		render->DrawRectangle(r, 50, 50, 50, 120, true, false);
+		if (checked) render->DrawTexture(texture, bounds.x + bounds.w - 24, bounds.y + 10, &checkSection, false);
 		if (showColliders)
-		{
-			//if (checked) render->DrawTexture(texture, bounds.x + 8, bounds.y + 10, &checkSection);
-			if (checked) render->DrawTexture(texture, bounds.x + bounds.w - 24, bounds.y + 10, &checkSection, false);
-			
+		{	
 			render->DrawRectangle(bounds, 150, 150, 150, 150, true, false);
 		}
 	} 

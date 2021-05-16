@@ -14,11 +14,14 @@ Audio::Audio() : Module()
 	music = NULL;
 	name.Create("audio");
 
-	fadeOut = false;
-	transition = false;
+	musicVolume = 0;
+	fxVolume = 0;
 	nextMusic = "";
 	auxMusic = 0;
+	transition = false;
+	fadeOut = false;
 	maxChannels = 10;
+	numChannels = 0;
 }
 
 // Destructor
@@ -176,9 +179,7 @@ bool Audio::PlayFx(int channel, unsigned int id, int repeat, int volume)
 	{
 		if (Mix_Playing(channel) == 0)
 		{
-			if (volume != -1) Mix_Volume(channel, volume);
-			if (Mix_Volume(channel, -1) > fxVolume)
-				Mix_Volume(channel, fxVolume);
+			Mix_VolumeChunk(fx.at(id - 1), fxVolume);
 			Mix_PlayChannel(-1, fx.at(id - 1), repeat);
 		}
 	}

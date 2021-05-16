@@ -7,12 +7,12 @@
     </app>
 
 	<audio>
-		<musicVolume value = "10"/>
-		<fxVolume value = "10"/>
+		<musicVolume value = "20"/>
+		<fxVolume value = "20"/>
 	</audio>
 	
     <renderer>
-        <vsync value="false"/>
+        <vsync value="true"/>
     </renderer>
 
     <window>

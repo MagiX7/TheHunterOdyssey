@@ -95,30 +95,44 @@ bool GuiSlider::Draw(Render* render, bool showColliders)
 	case GuiControlState::DISABLED: 
 		render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
 		render->DrawTexture(texture, bounds.x + 59, bounds.y + 6, &slider, false);
-		if (showColliders) render->DrawRectangle(bounds, 100, 100, 100, 255, true, false);
+		if (showColliders) render->DrawRectangle(bounds, 100, 100, 100, 150, true, false);
 		break;
+
 	case GuiControlState::NORMAL: 
 		render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
 		render->DrawTexture(texture, bounds.x + 59, bounds.y + 6, &slider, false);
-		if (showColliders) render->DrawRectangle(bounds, 0, 255, 0, 255, true, false);
+		if (showColliders) render->DrawRectangle(bounds, 0, 255, 0, 150, true, false);
 		break;
+
 	case GuiControlState::FOCUSED: 
 		render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
 		render->DrawTexture(texture, bounds.x + 59, bounds.y + 6, &slider, false);
-		if (showColliders) render->DrawRectangle(bounds, 255, 255, 0, 255, true, false);
+		{
+			SDL_Rect r = { bounds.x, bounds.y, 46,46 };
+			if ((mouseX > bounds.x) && (mouseX < bounds.x + 46)) render->DrawRectangle(r, 255, 255, 0, 120, true, false);
+			r.x = bounds.x + bounds.w - 46;
+			if ((mouseX < bounds.x + bounds.w) && (mouseX > bounds.x + bounds.w - 46)) render->DrawRectangle(r, 255, 255, 0, 120, true, false);
+
+			if (showColliders) render->DrawRectangle(bounds, 255, 255, 0, 150, true, false);
+		}
 		break;
+
 	case GuiControlState::PRESSED: 
 		render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
 		render->DrawTexture(texture, bounds.x + 59, bounds.y + 6, &slider, false);
+		
 		if ((mouseX > bounds.x) && (mouseX < bounds.x + 46)) render->DrawTexture(texture, bounds.x, bounds.y, &sectionFocused, false);
 		else if ((mouseX < bounds.x + bounds.w) && (mouseX > bounds.x + bounds.w - 46)) render->DrawTexture(texture, bounds.x + bounds.w - 46, bounds.y, &sectionFocused, false);
-		if (showColliders) render->DrawRectangle(bounds, 0, 255, 255, 255, true, false);
+		
+		if (showColliders) render->DrawRectangle(bounds, 0, 255, 255, 150, true, false);
 		break;
+
 	case GuiControlState::SELECTED: 
 		render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
 		render->DrawTexture(texture, bounds.x + 59, bounds.y + 6, &slider, false);
-		if (showColliders) render->DrawRectangle(bounds, 0, 255, 0, 255, true, false);
+		if (showColliders) render->DrawRectangle(bounds, 0, 255, 0, 150, true, false);
 		break;
+
 	default:
 		break;
 	}
