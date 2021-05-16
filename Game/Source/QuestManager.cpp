@@ -358,7 +358,7 @@ bool QuestManager::SaveQuests(pugi::xml_node& n)
 
 void QuestManager::Draw(Render* render, Font* font)
 {
-	SDL_Rect r = { 0, 600, 200, 50 };
+	SDL_Rect r = { 0, 600, 275, 50 };
 	render->DrawTexture(guiTex, 0, 0, &r, false);
 	
 	if (activeQuests.empty()) 

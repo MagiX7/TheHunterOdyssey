@@ -22,7 +22,7 @@ Skull::Skull(iPoint pos, pugi::xml_node anim, eastl::string map) : Enemy(EntityT
 	health = 750;
 	maxHealth = health;
 	mana = 100;
-	damage = 20;
+	damage = 200;
 	defense = 20;
 	speed = 10.0f;
 	channel = app->audio->SetChannel();

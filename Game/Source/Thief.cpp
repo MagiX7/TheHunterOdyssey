@@ -16,8 +16,8 @@ Thief::Thief(iPoint position, pugi::xml_node anim, ParticlesManager* particles) 
 	maxArmorPoints = armorPoints;
 	manaPoints = 500;
 	maxManaPoints = manaPoints;
-	meleeDamage = 50;
-	magicDamage = 15;
+	meleeDamage = 100;
+	magicDamage = 60;
 	isDefending = false;
 	attack = false;
 	name = "Thief";
@@ -338,12 +338,12 @@ void Thief::Ability(Enemy* enemy, int currentAbility)
 	{
 	case 1:
 		GetMana(-this->abilityCost[0]);
-		enemy->GetDamage(meleeDamage + 1);
+		enemy->GetDamage(meleeDamage + 50);
 		LOG("Casting STAB");
 		break;
 	case 2:
 		GetMana(-this->abilityCost[1]);
-		enemy->GetDamage(meleeDamage);
+		enemy->GetDamage(meleeDamage + (rand() % 200));
 		LOG("Casting BOMB");
 		break;
 	case 3:
@@ -353,7 +353,7 @@ void Thief::Ability(Enemy* enemy, int currentAbility)
 		break;
 	case 4:
 		GetMana(-this->abilityCost[3]);
-		enemy->GetDamage(magicDamage + 200);
+		enemy->GetDamage(magicDamage + 100);
 		LOG("Casting STEAL");
 		break;
 	}

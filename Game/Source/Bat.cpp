@@ -23,7 +23,7 @@ Bat::Bat(iPoint pos, pugi::xml_node anim, eastl::string map) : Enemy(EntityType:
 	health = 600;
 	maxHealth = health;
 	mana = 80;
-	damage = 20;
+	damage = 400;
 	defense = 20;
 	speed = 10;
 	channel = app->audio->SetChannel();

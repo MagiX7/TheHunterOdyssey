@@ -17,8 +17,8 @@ Hunter::Hunter(iPoint position, pugi::xml_node anim, ParticlesManager* particles
 	maxManaPoints = manaPoints;
 	armorPoints = 15;
 	maxArmorPoints = armorPoints;
-	meleeDamage = 75;
-	magicDamage = 10;
+	meleeDamage = 150;
+	magicDamage = 20;
 	isDefending = false;
 
 	channel = app->audio->SetChannel();
@@ -328,12 +328,12 @@ void Hunter::Ability(Enemy* enemy, int currentAbility)
 	{
 	case 1:
 		GetMana(-this->abilityCost[0]);
-		enemy->GetDamage(meleeDamage + 200);
+		enemy->GetDamage(meleeDamage + 100);
 		LOG("Casting STEADY SHOT");
 		break;
 	case 2:
 		GetMana(-this->abilityCost[1]);
-		enemy->GetDamage(magicDamage + rand() % 500);
+		enemy->GetDamage(magicDamage + rand() % 300);
 		LOG("Casting SERPENT SHOT");
 		break;
 	case 3:
@@ -343,7 +343,7 @@ void Hunter::Ability(Enemy* enemy, int currentAbility)
 		break;
 	case 4:
 		GetMana(-this->abilityCost[3]);
-		enemy->GetDamage(meleeDamage);
+		enemy->GetDamage(meleeDamage + (rand() % 150));
 		LOG("Casting BOLA");
 		break;
 	}

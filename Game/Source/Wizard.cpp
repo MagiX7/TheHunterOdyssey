@@ -18,7 +18,7 @@ Wizard::Wizard(iPoint position, pugi::xml_node anim, ParticlesManager* particles
 	manaPoints = 5000;
 	maxManaPoints = manaPoints;
 	meleeDamage = 10;
-	magicDamage = 50;
+	magicDamage = 200;
 	isDefending = false;
 	attack = false;
 	name = "Wizard";
@@ -358,7 +358,7 @@ void Wizard::Ability(Enemy* enemy, int currentAbility)
 		break;
 	case 4:
 		GetMana(-this->abilityCost[3]);
-		enemy->GetDamage(magicDamage * 10);
+		enemy->GetDamage(magicDamage * 2);
 		LOG("Casting GRAVITY");
 		break;
 	}

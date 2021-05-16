@@ -16,7 +16,7 @@ Warrior::Warrior(iPoint position, pugi::xml_node anim, ParticlesManager* particl
 	maxArmorPoints = armorPoints;
 	manaPoints = 500;
 	maxManaPoints = manaPoints;
-	meleeDamage = 100;
+	meleeDamage = 250;
 	magicDamage = 0;
 	isDefending = false;
 	attack = false;
@@ -362,7 +362,7 @@ void Warrior::Ability(Enemy* enemy, int currentAbility)
 		break;
 	case 4:
 		GetMana(-this->abilityCost[3]);
-		enemy->GetDamage(rand());
+		enemy->GetDamage((rand() % 300));
 		LOG("Casting WAR CRY");
 		break;
 	}
