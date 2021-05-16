@@ -33,6 +33,10 @@ SceneTitle::SceneTitle()
 	text_x = 420;
 	text_y = 540;
 
+	the_x = -200;
+	hunter_x = 1480;
+	odyssey_y = 920;
+
 	section = { 0, 0, 161, 116 };
 	section2 = {174, 0, 349, 123};
 	section3 = {87, 123, 348, 100};
@@ -86,9 +90,9 @@ bool SceneTitle::Update(float dt)
 		//TITLE
 		if (titleEasingActivated)
 		{
-			the_x = easing->elasticEaseOut(currIt, -200, 578, totalIt);
-			hunter_x = easing->elasticEaseOut(currIt, 1480, -928, totalIt);
-			odyssey_y = easing->elasticEaseOut(currIt, 920, -567, totalIt);
+			the_x = easing->elasticEaseOut(currIt, 0, 378, totalIt);
+			hunter_x = easing->elasticEaseOut(currIt, 1280, -728, totalIt);
+			odyssey_y = easing->elasticEaseOut(currIt, 720, -367, totalIt);
 			
 			if (currIt < totalIt)
 			{

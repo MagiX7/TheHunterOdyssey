@@ -28,6 +28,8 @@ SceneLogo::SceneLogo()
 	logoPositionX = -650.0f;
 	logoPositionX = 1280.0f;
 
+	channel = app->audio->SetChannel();
+
 	showColliders = false;
 }
 
