@@ -101,7 +101,6 @@ bool MainMenu::Load(Font* font)
 	buttons.push_back(btnOptions);
 	buttons.push_back(btnCredits);
 	buttons.push_back(btnExit);
-	//currentButton = (*buttons.begin());
 	currentButton = nullptr;
 	lastButton = nullptr;
 
@@ -110,9 +109,10 @@ bool MainMenu::Load(Font* font)
 	checkFullscreen->section = { 528,5,32,32 };
 	checkFullscreen->texture = guiTex;
 
-	checkVSync = new GuiCheckBox(11, { 94,378,120,32 }, "VSync", this, false);
+	checkVSync = new GuiCheckBox(11, { 94,378,120,32 }, "VSync", this, true);
 	checkVSync->section = { 528,5,32,32 };
 	checkVSync->texture = guiTex;
+	checkVSync->state = GuiControlState::DISABLED;
 
 	// Sliders	
 	slideMusicVolume = new GuiSlider(12, { 103,162,339,46 }, "Music Volume", this, 0, 128, app->audio->GetMusicVolume());
@@ -160,31 +160,9 @@ bool MainMenu::Update(float dt)
 		btnOptions->Update(app->input, dt, id);
 		btnCredits->Update(app->input, dt, id);
 		btnExit->Update(app->input, dt, id);
-
-	/*	if (easingUp->easingsActivated)
-		{
-			titlePosition = easingUp->sineEaseOut(easingUp->currentIteration, easingUp->initialPos, easingUp->deltaPos, easingUp->totalIterations);
-			if (easingUp->currentIteration < easingUp->totalIterations) easingUp->currentIteration++;
-			else
-			{
-				easingUp->currentIteration = 0;
-				easingUp->easingsActivated = false;
-				easingDown->easingsActivated = true;
-			}
-		}
-		if (easingDown->easingsActivated)
-		{
-			titlePosition = easingDown->sineEaseOut(easingDown->currentIteration, easingDown->initialPos, easingDown->deltaPos, easingDown->totalIterations);
-			if (easingDown->currentIteration < easingDown->totalIterations) easingDown->currentIteration++;
-			else
-			{
-				easingDown->currentIteration = 0;
-				easingDown->easingsActivated = false;
-				easingUp->easingsActivated = true;
-			}
-		}*/
 	}
 	break;
+
 	case MenuState::OPTIONS:
 	{
 		if (playMusicOptions == true)
@@ -192,19 +170,21 @@ bool MainMenu::Update(float dt)
 			app->audio->PlayMusic("Audio/Music/options_theme.ogg");
 			playMusicOptions = false;
 		}
-		btnOptionsBack->Update(app->input, dt, id);
 
+		btnOptionsBack->Update(app->input, dt, id);
 		checkFullscreen->Update(app->input, dt);
 		checkVSync->Update(app->input, dt);
 		slideMusicVolume->Update(app->input, dt);
 		slideFXVolume->Update(app->input, dt);
 	}
 	break;
+
 	case MenuState::CREDITS:
 	{
 		btnCreditsBack->Update(app->input, dt, id);
 	}
 	break;
+
 	case MenuState::EXIT:
 	{
 		ret = btnExitYes->Update(app->input, dt, id);
@@ -315,7 +295,7 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 	{
 	case GuiControlType::BUTTON:
 	{
-		if (control->id == 1) scene->TransitionToScene(SceneType::GAMEPLAY, TransitionType::ALTERNATING_BARS); // New Game
+		if (control->id == 1) scene->TransitionToScene(SceneType::GAMEPLAY, TransitionType::ALTERNATING_BARS);// New Game
 		else if (control->id == 2) // Continue
 		{
 			scene->TransitionToScene(SceneType::GAMEPLAY, TransitionType::WIPE);
@@ -386,6 +366,7 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 
 			currentButton = lastButton;
 		}
+		break;
 	}
 	case GuiControlType::CHECKBOX:
 	{
@@ -394,11 +375,14 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 			app->win->SetFullscreen();
 		}
 		else if (control->id == 11); // Vsync
+		break;
 	}
 	case GuiControlType::SLIDER:
 	{
 		if (control->id == 12) app->audio->SetMusicVolume(slideMusicVolume->GetValue());
-		else if (control->id == 13) app->audio->SetFxVolume(slideFXVolume->GetValue());
+		else if (control->id == 13)
+			app->audio->SetFxVolume(slideFXVolume->GetValue());
+		break;
 	}
 	default: break;
 	}
