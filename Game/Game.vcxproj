@@ -105,6 +105,7 @@
     <ClCompile Include="Source\DialogueManager.cpp" />
     <ClCompile Include="Source\Door.cpp" />
     <ClCompile Include="Source\Easings.cpp" />
+    <ClCompile Include="Source\EndingMenu.cpp" />
     <ClCompile Include="Source\EntityManager.cpp" />
     <ClCompile Include="Source\FairyBottle.cpp" />
     <ClCompile Include="Source\FairyTear.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="Source\DialogueManager.h" />
     <ClInclude Include="Source\Door.h" />
     <ClInclude Include="Source\Easings.h" />
+    <ClInclude Include="Source\EndingMenu.h" />
     <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\EntityManager.h" />

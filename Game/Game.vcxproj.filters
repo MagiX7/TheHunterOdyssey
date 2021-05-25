@@ -198,6 +198,9 @@
     <ClCompile Include="Source\GetItemQuest.cpp">
       <Filter>Quests</Filter>
     </ClCompile>
+    <ClCompile Include="Source\EndingMenu.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -452,6 +455,9 @@
     </ClInclude>
     <ClInclude Include="Source\GetItemQuest.h">
       <Filter>Quests</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EndingMenu.h">
+      <Filter>Menus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

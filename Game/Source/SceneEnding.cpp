@@ -8,6 +8,7 @@
 #include "Easings.h"
 
 #include "SceneEnding.h"
+#include "EndingMenu.h"
 
 #include "Log.h"
 
@@ -38,6 +39,11 @@ SceneEnding::SceneEnding(bool win)
 	easingPosition = 300;
 
 	showColliders = false;
+
+	// Font
+	font = new Font(app, "Font/font3.xml", app->tex);
+
+	menu = new EndingMenu(font, this);
 }
 
 bool SceneEnding::Load()
@@ -47,8 +53,6 @@ bool SceneEnding::Load()
 
 	if (hasWin) bg = app->tex->Load("Textures/Scenes/battle_bg3.png");
 	else bg = app->tex->Load("Textures/Scenes/battle_bg2.png");
-
-	font = new Font(app, "Font/font3.xml", app->tex);
 
 	return ret;
 }
@@ -90,6 +94,8 @@ bool SceneEnding::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
 		TransitionToScene(SceneType::TITLE, TransitionType::HALF_WIDHT_RECTANGLES);
 
+	menu->Update(dt);
+
 	return ret;
 }
 
@@ -101,6 +107,8 @@ void SceneEnding::Draw()
 
 	if (hasWin) app->render->DrawText(font, "YOU WIN", 350, easingPosition, 150, 10, color);
 	else app->render->DrawText(font, "YOU LOSE", 350, easingPosition, 150, 10, color);
+
+	menu->Draw(font, showColliders);
 }
 
 bool SceneEnding::UnLoad()

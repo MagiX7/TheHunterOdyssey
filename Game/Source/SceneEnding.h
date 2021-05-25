@@ -5,6 +5,7 @@
 
 class Font;
 class Easing;
+class EndingMenu;
 
 class SceneEnding : public Scene
 {
@@ -22,6 +23,8 @@ public:
 	bool UnLoad() override;
 
 private:
+	//SDL_Texture* guiTexture;
+
 	SDL_Texture* bg;
 	bool hasWin;
 	Font* font;
@@ -29,6 +32,9 @@ private:
 	Easing* easingUp;
 	Easing* easingDown;
 	float easingPosition;
+
+	// Menu
+	EndingMenu* menu;
 };
 
 #endif //__SCENEENDING_H__

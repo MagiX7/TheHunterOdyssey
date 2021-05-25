@@ -124,6 +124,8 @@ bool GuiSlider::Draw(Render* render, bool showColliders)
 		if ((mouseX > bounds.x) && (mouseX < bounds.x + 46)) render->DrawTexture(texture, bounds.x, bounds.y, &sectionFocused, false);
 		else if ((mouseX < bounds.x + bounds.w) && (mouseX > bounds.x + bounds.w - 46)) render->DrawTexture(texture, bounds.x + bounds.w - 46, bounds.y, &sectionFocused, false);
 		
+		render->DrawRectangle(bounds, 0, 255, 255, 150, true, false);
+
 		if (showColliders) render->DrawRectangle(bounds, 0, 255, 255, 150, true, false);
 		break;
 

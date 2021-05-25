@@ -118,6 +118,7 @@ bool GuiCheckBox::Draw(Render* render, bool showColliders)
 
 		render->DrawTexture(texture, bounds.x + bounds.w - 32, bounds.y, &section, false);
 		render->DrawTexture(texture, bounds.x + bounds.w - 24, bounds.y + 10, &checkSection, false);
+		render->DrawRectangle(bounds, 0, 255, 255, 150, true, false);
 		if (showColliders)
 		{
 			//if (checked) render->DrawTexture(texture, bounds.x + 8, bounds.y + 10, &checkSection);
