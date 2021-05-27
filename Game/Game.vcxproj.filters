@@ -127,7 +127,7 @@
       <Filter>Entities\Items</Filter>
     </ClCompile>
     <ClCompile Include="Source\Inventory.cpp">
-      <Filter>Inventory</Filter>
+      <Filter>Menus\Inventory</Filter>
     </ClCompile>
     <ClCompile Include="Source\UltraPotion.cpp">
       <Filter>Entities\Items</Filter>
@@ -389,11 +389,22 @@
     <Filter Include="Entities\Items">
       <UniqueIdentifier>{bcc44611-e7bf-4537-9a15-4687ff9061a6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Inventory">
-      <UniqueIdentifier>{c571fe04-dddb-48a0-99ca-80c8331a129f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Entities\Armors">
       <UniqueIdentifier>{b0b80c5e-6482-402d-800f-82599ebd3b1a}</UniqueIdentifier>
     </Filter>
+
+    <Filter Include="Entities\Objects">
+      <UniqueIdentifier>{b94f3bf7-1cd2-4d67-b270-d2b0b5540f52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Transitions">
+      <UniqueIdentifier>{1835ff14-efb7-4fab-9753-a0539d7bce6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quests">
+      <UniqueIdentifier>{d65c44b8-49d3-4da5-81a4-daa1654b653f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Menus\Inventory">
+      <UniqueIdentifier>{c571fe04-dddb-48a0-99ca-80c8331a129f}</UniqueIdentifier>
+    </Filter>
+
   </ItemGroup>
 </Project>

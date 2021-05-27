@@ -12,7 +12,7 @@
 #include "Potion.h"
 #include "KnightHelmet.h"
 
-Inventory::Inventory(eastl::list<Player*> pls, SDL_Texture* atlas)
+Inventory::Inventory(eastl::list<Player*> pls, SDL_Texture* atlas) : Menu()
 {
 	players = pls;
 	atlasTexture = atlas;
@@ -59,9 +59,9 @@ bool Inventory::Load(Font* font)
 	btnUnEquip = new GuiButton(12, { 0,0,128, 32 }, "UNEQUIP", this, font);
 	btnUnEquip->alineation = 1;
 
-	buttons.push_back(btnEquipment);
-	buttons.push_back(btnItems);
-	buttons.push_back(btnInfo);
+	controls.push_back(btnEquipment);
+	controls.push_back(btnItems);
+	currentButton = btnEquipment;
 
 	// Initialize items;
 	int offsetX = 0;
@@ -116,13 +116,20 @@ bool Inventory::Load(Font* font)
 
 bool Inventory::Update(float dt)
 {
-	btnEquipment->Update(app->input, dt, -1);
-	btnItems->Update(app->input, dt, -1);
-	btnInfo->Update(app->input, dt, -1);
+	UpdatingButtons(app->input);
+
+	int id = -1;
+	if (currentButton != nullptr)
+	{
+		id = currentButton->id;
+	}
+
+	btnEquipment->Update(app->input, dt, id);
+	btnItems->Update(app->input, dt, id);
 
 	// Next and Prev character buttons update
-	btnNext->Update(app->input, dt, -1);
-	btnPrev->Update(app->input, dt, -1);
+	btnNext->Update(app->input, dt, id);
+	btnPrev->Update(app->input, dt, id);
 
 	switch (state)
 	{
@@ -132,17 +139,23 @@ bool Inventory::Update(float dt)
 
 	case InventoryState::EQUIPMENT:
 		HandleObjects(armorSlots);
-		if (currentSlotId > -1) HandleSlot(armorSlots, dt);
+
+		currentSlotId = 0;
+		if (currentSlotId > -1)
+			HandleSlot(armorSlots, dt);
 
 		break;
 
 	case InventoryState::ITEMS:
 		HandleObjects(slots);
-		if (currentSlotId > -1) HandleSlot(slots, dt);
+		
+		currentSlotId = 0;
+		if (currentSlotId > -1)
+			HandleSlot(slots, dt);
 
 		break;
 
-	case InventoryState::WEAPONS:
+	case InventoryState::STATS:
 		// TODO
 		break;
 
@@ -275,7 +288,7 @@ bool Inventory::UnLoad()
 	app->tex->UnLoad(atlasTexture);
 	//RELEASE(atlasTexture);
 
-	buttons.clear();
+	controls.clear();
 	players.clear();
 
 	return true;
@@ -287,10 +300,21 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 	{
 	case GuiControlType::BUTTON:
 
-		if (control->id == 1) state = InventoryState::EQUIPMENT;
-		else if (control->id == 2)
+		if (control->id == 1) // Equipment
+			state = InventoryState::EQUIPMENT;
+		else if (control->id == 2) // Items
+		{
 			state = InventoryState::ITEMS;
-		else if (control->id == 3) state = InventoryState::WEAPONS;
+			controls.clear();
+			controls.push_back(btnPrev);
+			controls.push_back(btnNext);
+
+			lastButton = currentButton;
+			currentButton = (*controls.begin());
+
+		}
+		else if (control->id == 3) // Stats
+			state = InventoryState::STATS;
 		else if (control->id == 4) // Use
 		{
 			if (state == InventoryState::ITEMS) slots[currentSlotId].state = SlotState::USE;
@@ -418,6 +442,59 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 
 void Inventory::UpdatingButtons(Input* input)
 {
+	int prevX = xMouse;
+	int prevY = yMouse;
+	input->GetMousePosition(xMouse, yMouse);
+	if (prevX != xMouse || prevY != yMouse)
+	{
+		lastUserInput = 1;
+		SDL_ShowCursor(SDL_ENABLE);
+	}
+	else
+	{
+		lastUserInput = 0;
+	}
+
+	if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
+	{
+		if (currentButton == nullptr)
+		{
+			currentButton = (*controls.begin());
+			SDL_ShowCursor(SDL_DISABLE);
+		}
+		else
+		{
+			eastl::list<GuiControl*>::iterator it = controls.begin();
+			for (int i = 0; i < controls.size(); ++i, ++it)
+			{
+				if ((*it)->id == currentButton->id + 1)
+				{
+					currentButton = (*it);
+					break;
+				}
+			}
+		}
+	}
+	else if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
+	{
+		if (currentButton == nullptr)
+		{
+			currentButton = (*controls.begin());
+			SDL_ShowCursor(SDL_DISABLE);
+		}
+		else
+		{
+			eastl::list<GuiControl*>::iterator it = controls.begin();
+			for (int i = 0; i < controls.size(); ++i, ++it)
+			{
+				if ((*it)->id == currentButton->id - 1)
+				{
+					currentButton = (*it);
+					break;
+				}
+			}
+		}
+	}
 }
 
 void Inventory::AddItem(Item *it)
@@ -676,7 +753,8 @@ void Inventory::DrawObjects(InventorySlot objects[], Font *font, bool showCollid
 				if (showColliders) app->render->DrawRectangle(objects[i].item->bounds, 0, 0, 255, 120, true, false);
 			}
 
-			if (IsMouseInside(objects[i].bounds) && !isTextDisplayed)
+			//if (IsMouseInside(objects[i].bounds) && !isTextDisplayed)
+			if(objects[currentSlotId].state == SlotState::FOCUSED)
 			{
 				app->render->DrawRectangle(objects[i].bounds, 200, 200, 200, 50, true, false);
 			}
@@ -726,6 +804,29 @@ void Inventory::DrawObjects(InventorySlot objects[], Font *font, bool showCollid
 
 void Inventory::HandleSlot(InventorySlot objects[], float dt)
 {
+	if (state == InventoryState::ITEMS || state == InventoryState::EQUIPMENT)
+	{
+		//currentSlotId = objects[0].id;
+		//objects[currentSlotId].state = SlotState::FOCUSED;
+
+		if (app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP && currentSlotId - 1 >= 0)
+		{
+			objects[currentSlotId].state = SlotState::NONE;
+			--currentSlotId;
+			objects[currentSlotId].state = SlotState::FOCUSED;
+		}
+		else if (app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP && currentSlotId + 1 <= 32)
+		{
+			objects[currentSlotId].state = SlotState::NONE;
+			++currentSlotId;
+			objects[currentSlotId].state = SlotState::FOCUSED;
+		}
+		else if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP)
+		{
+			objects[currentSlotId].state = SlotState::SELECTED;
+		}
+	}
+
 	switch (objects[currentSlotId].state)
 	{
 	case SlotState::UNSELECTED:

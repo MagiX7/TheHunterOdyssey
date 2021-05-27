@@ -138,8 +138,12 @@ bool GuiButton::Draw(Render* render, bool showColliders, int size, SDL_Color col
 		
 		if (showColliders) render->DrawRectangle(r, 255, 255, 0, 150);
 		// Draw a texture when there's texture, if not, default
-		else if (this->sectionFocused.w != 0) render->DrawTexture(texture, bounds.x, bounds.y, &sectionFocused);
-		else render->DrawRectangle(r, 255, 255, 0, 150);
+		else if (this->sectionFocused.w != 0)
+		{
+			render->DrawTexture(texture, bounds.x, bounds.y, &sectionFocused, false);
+			render->DrawRectangle(bounds, 255, 255, 0, 150, true, false);
+		}
+		else render->DrawRectangle(bounds, 255, 255, 0, 150, true, false);
 		break;
 	case GuiControlState::PRESSED:
 		render->DrawTexture(texture, -render->camera.x + bounds.x, -render->camera.y + bounds.y, &section);

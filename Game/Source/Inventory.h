@@ -18,6 +18,7 @@ enum class SlotState
 {
 	NONE = 0,
 	UNSELECTED,
+	FOCUSED,
 	SELECTED,
 	USE,
 	DELETE
@@ -28,17 +29,21 @@ enum class InventoryState
 	NONE = 0,
 	EQUIPMENT,
 	ITEMS,
-	WEAPONS,
+	STATS
 };
 
 struct InventorySlot
 {
+public:
+	/*InventorySlot() {};
+	virtual ~InventorySlot() {};*/
 	SDL_Rect bounds;
 	Item* item;
 	int itemsAmount;
 	bool filled;
 	int id;
 	SlotState state;
+	//GuiButton* button;
 
 	bool operator==(InventorySlot& i) const
 	{

@@ -94,12 +94,12 @@ bool MainMenu::Load(Font* font)
 	
 	if (result == NULL) btnContinue->state = GuiControlState::DISABLED;
 
-	buttons.push_back(btnNewGame);
-	buttons.push_back(btnContinue);
-	buttons.push_back(btnOptions);
-	buttons.push_back(btnCredits);
-	buttons.push_back(btnExit);
-	//currentButton = (*buttons.begin());
+	controls.push_back(btnNewGame);
+	controls.push_back(btnContinue);
+	controls.push_back(btnOptions);
+	controls.push_back(btnCredits);
+	controls.push_back(btnExit);
+
 	currentButton = nullptr;
 	lastButton = nullptr;
 
@@ -287,7 +287,7 @@ bool MainMenu::UnLoad()
 	RELEASE(easingDown);
 	RELEASE(easingUp);
 
-	buttons.clear();
+	controls.clear();
 
 	return true;
 }
@@ -307,65 +307,65 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 		else if (control->id == 3) // Options
 		{
 			state = MenuState::OPTIONS;
-			buttons.clear();
-			buttons.push_back(btnOptionsBack);
+			controls.clear();
+			controls.push_back(btnOptionsBack);
 			
 			lastButton = currentButton;
-			currentButton = (*buttons.begin());
+			currentButton = (*controls.begin());
 		}
 		else if (control->id == 4) // Credits
 		{
 			state = MenuState::CREDITS;
-			buttons.clear();
-			buttons.push_back(btnCreditsBack);
+			controls.clear();
+			controls.push_back(btnCreditsBack);
 
 			lastButton = currentButton;
-			currentButton = (*buttons.begin());
+			currentButton = (*controls.begin());
 		}
 		else if (control->id == 5) // Exit button pressed
 		{
 			state = MenuState::EXIT;
-			buttons.clear();
-			buttons.push_back(btnExitYes);
-			buttons.push_back(btnExitNo);
+			controls.clear();
+			controls.push_back(btnExitYes);
+			controls.push_back(btnExitNo);
 
 			lastButton = currentButton;
-			currentButton = (*buttons.end().prev());
+			currentButton = (*controls.end().prev());
 		}
 		else if (control->id == 6) return false; // Yes exit
 		else if (control->id == 7) // Go back to the menu
 		{
 			state = MenuState::NORMAL;
-			buttons.clear();
-			buttons.push_back(btnNewGame);
-			buttons.push_back(btnContinue);
-			buttons.push_back(btnOptions);
-			buttons.push_back(btnCredits);
-			buttons.push_back(btnExit);
+			controls.clear();
+			controls.push_back(btnNewGame);
+			controls.push_back(btnContinue);
+			controls.push_back(btnOptions);
+			controls.push_back(btnCredits);
+			controls.push_back(btnExit);
 
 			currentButton = lastButton;
 		}
 		else if (control->id == 8) // Go back to the menu
 		{
 			state = MenuState::NORMAL;
-			buttons.clear();
-			buttons.push_back(btnNewGame);
-			buttons.push_back(btnContinue);
-			buttons.push_back(btnOptions);
-			buttons.push_back(btnCredits);
-			buttons.push_back(btnExit);
+			controls.clear();
+			controls.push_back(btnNewGame);
+			controls.push_back(btnContinue);
+			controls.push_back(btnOptions);
+			controls.push_back(btnCredits);
+			controls.push_back(btnExit);
 			
 			currentButton = lastButton;
 		}
 		else if (control->id == 9) // Go back to the menu
 		{
 			state = MenuState::NORMAL;
-			buttons.clear();
-			buttons.push_back(btnNewGame);
-			buttons.push_back(btnContinue);
-			buttons.push_back(btnOptions);
-			buttons.push_back(btnCredits);
-			buttons.push_back(btnExit);
+			controls.clear();
+			controls.push_back(btnNewGame);
+			controls.push_back(btnContinue);
+			controls.push_back(btnOptions);
+			controls.push_back(btnCredits);
+			controls.push_back(btnExit);
 
 			currentButton = lastButton;
 		}
@@ -408,13 +408,13 @@ void MainMenu::UpdatingButtons(Input* input)
 	{
 		if (currentButton == nullptr)
 		{
-			currentButton = (*buttons.begin());
+			currentButton = (*controls.begin());
 			SDL_ShowCursor(SDL_DISABLE);
 		}
 		else
 		{
-			eastl::list<GuiButton*>::iterator it = buttons.begin();
-			for (int i = 0; i < buttons.size(); ++i, ++it)
+			eastl::list<GuiControl*>::iterator it = controls.begin();
+			for (int i = 0; i < controls.size(); ++i, ++it)
 			{
 				if ((*it)->id == currentButton->id + 1)
 				{
@@ -428,13 +428,13 @@ void MainMenu::UpdatingButtons(Input* input)
 	{
 		if (currentButton == nullptr)
 		{
-			currentButton = (*buttons.begin());
+			currentButton = (*controls.begin());
 			SDL_ShowCursor(SDL_DISABLE);
 		}
 		else
 		{
-			eastl::list<GuiButton*>::iterator it = buttons.begin();
-			for (int i = 0; i < buttons.size(); ++i, ++it)
+			eastl::list<GuiControl*>::iterator it = controls.begin();
+			for (int i = 0; i < controls.size(); ++i, ++it)
 			{
 				if ((*it)->id == currentButton->id - 1)
 				{

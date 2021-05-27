@@ -99,11 +99,12 @@ bool PauseMenu::Load(Font* font)
 	btnReturnTitleNo->texture = guiTex;
 	btnReturnTitleNo->alineation = 1;
 
-	buttons.push_back(btnResume);
-	buttons.push_back(btnLoadSave);
-	buttons.push_back(btnOptions);
-	buttons.push_back(btnReturnTitle);
-	buttons.push_back(btnExit);
+	controls.push_back(btnResume);
+	controls.push_back(btnSave);
+	controls.push_back(btnLoad);
+	controls.push_back(btnOptions);
+	controls.push_back(btnReturnTitle);
+	controls.push_back(btnExit);
 	//currentButton = (*buttons.begin());
 	currentButton = nullptr;
 	lastButton = nullptr;
@@ -292,7 +293,7 @@ bool PauseMenu::UnLoad()
 	RELEASE(checkFullscreen);
 	RELEASE(checkVSync);
 
-	buttons.clear();
+	controls.clear();
 
 	return true;
 }
@@ -306,12 +307,15 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 		if (control->id == 1) // Resume
 		{
 			// Reset all the buttons like if it was the first time user presses pause menu button
-			buttons.clear();
-			buttons.push_back(btnResume);
-			buttons.push_back(btnLoadSave);
-			buttons.push_back(btnOptions);
-			buttons.push_back(btnReturnTitle);
-			buttons.push_back(btnExit);
+
+			controls.clear();
+			controls.push_back(btnResume);
+			controls.push_back(btnSave);
+			controls.push_back(btnLoad);
+			controls.push_back(btnOptions);
+			controls.push_back(btnReturnTitle);
+			controls.push_back(btnExit);
+
 			currentButton = nullptr;
 			lastButton = nullptr;
 
@@ -328,13 +332,13 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 			if (result == NULL) btnLoad->state = GuiControlState::DISABLED;
 			else btnLoad->state = GuiControlState::NORMAL;
 
-			buttons.clear();
+			controls.clear();
 			if (scene->isTown)
 			{
-				buttons.push_back(btnSave);
-				buttons.push_back(btnLoad);
+				controls.push_back(btnSave);
+				controls.push_back(btnLoad);
 			}
-			buttons.push_back(btnBack);
+			controls.push_back(btnBack);
 			currentButton = nullptr;
 			lastButton = nullptr;
 
@@ -343,30 +347,30 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 		{
 			state = PauseState::OPTIONS;
 
-			buttons.clear();
-			buttons.push_back(btnOptionsBack);
+			controls.clear();
+			controls.push_back(btnOptionsBack);
 			lastButton = currentButton;
-			currentButton = (*buttons.begin());
+			currentButton = (*controls.begin());
 		}
 		else if (control->id == 4) // Return to title
 		{
 			state = PauseState::RETURN_TITLE;
 
-			buttons.clear();
-			buttons.push_back(btnReturnTitleYes);
-			buttons.push_back(btnReturnTitleNo);
+			controls.clear();
+			controls.push_back(btnReturnTitleYes);
+			controls.push_back(btnReturnTitleNo);
 			lastButton = currentButton;
-			currentButton = (*buttons.end().prev());
+			currentButton = (*controls.end().prev());
 		}
 		else if (control->id == 5) // Exit
 		{
 			state = PauseState::EXIT;
 
-			buttons.clear();
-			buttons.push_back(btnExitYes);
-			buttons.push_back(btnExitNo);
+			controls.clear();
+			controls.push_back(btnExitYes);
+			controls.push_back(btnExitNo);
 			lastButton = currentButton;
-			currentButton = (*buttons.end().prev());
+			currentButton = (*controls.end().prev());
 		}
 		else if (control->id == 6) app->SaveGameRequest();// Save Game
 		else if (control->id == 7) app->LoadGameRequest(); // Load Game
@@ -374,12 +378,13 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 		{
 			state = PauseState::DEFAULT;
 
-			buttons.clear();
-			buttons.push_back(btnResume);
-			buttons.push_back(btnLoadSave);
-			buttons.push_back(btnOptions);
-			buttons.push_back(btnReturnTitle);
-			buttons.push_back(btnExit);
+			controls.clear();
+			controls.push_back(btnResume);
+			controls.push_back(btnSave);
+			controls.push_back(btnLoad);
+			controls.push_back(btnOptions);
+			controls.push_back(btnReturnTitle);
+			controls.push_back(btnExit);
 
 			currentButton = lastButton;
 		}
@@ -387,12 +392,13 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 		{
 			state = PauseState::DEFAULT;
 
-			buttons.clear();
-			buttons.push_back(btnResume);
-			buttons.push_back(btnLoadSave);
-			buttons.push_back(btnOptions);
-			buttons.push_back(btnReturnTitle);
-			buttons.push_back(btnExit);
+			controls.clear();
+			controls.push_back(btnResume);
+			controls.push_back(btnSave);
+			controls.push_back(btnLoad);
+			controls.push_back(btnOptions);
+			controls.push_back(btnReturnTitle);
+			controls.push_back(btnExit);
 
 			currentButton = lastButton;
 		}
@@ -401,12 +407,13 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 		{
 			state = PauseState::DEFAULT;
 
-			buttons.clear();
-			buttons.push_back(btnResume);
-			buttons.push_back(btnLoadSave);
-			buttons.push_back(btnOptions);
-			buttons.push_back(btnReturnTitle);
-			buttons.push_back(btnExit);
+			controls.clear();
+			controls.push_back(btnResume);
+			controls.push_back(btnSave);
+			controls.push_back(btnLoad);
+			controls.push_back(btnOptions);
+			controls.push_back(btnReturnTitle);
+			controls.push_back(btnExit);
 
 			currentButton = lastButton;
 		}
@@ -415,12 +422,13 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 		{
 			state = PauseState::DEFAULT;
 
-			buttons.clear();
-			buttons.push_back(btnResume);
-			buttons.push_back(btnLoadSave);
-			buttons.push_back(btnOptions);
-			buttons.push_back(btnReturnTitle);
-			buttons.push_back(btnExit);
+			controls.clear();
+			controls.push_back(btnResume);
+			controls.push_back(btnSave);
+			controls.push_back(btnLoad);
+			controls.push_back(btnOptions);
+			controls.push_back(btnReturnTitle);
+			controls.push_back(btnExit);
 
 			currentButton = lastButton;
 		}
@@ -462,13 +470,13 @@ void PauseMenu::UpdatingButtons(Input* input)
 	{
 		if (currentButton == nullptr)
 		{
-			currentButton = (*buttons.begin());
+			currentButton = (*controls.begin());
 			SDL_ShowCursor(SDL_DISABLE);
 		}
 		else
 		{
-			eastl::list<GuiButton*>::iterator it = buttons.begin();
-			for (int i = 0; i < buttons.size(); ++i, ++it)
+			eastl::list<GuiControl*>::iterator it = controls.begin();
+			for (int i = 0; i < controls.size(); ++i, ++it)
 			{
 				if ((*it)->id == currentButton->id + 1)
 				{
@@ -482,13 +490,13 @@ void PauseMenu::UpdatingButtons(Input* input)
 	{
 		if (currentButton == nullptr)
 		{
-			currentButton = (*buttons.begin());
+			currentButton = (*controls.begin());
 			SDL_ShowCursor(SDL_DISABLE);
 		}
 		else
 		{
-			eastl::list<GuiButton*>::iterator it = buttons.begin();
-			for (int i = 0; i < buttons.size(); ++i, ++it)
+			eastl::list<GuiControl*>::iterator it = controls.begin();
+			for (int i = 0; i < controls.size(); ++i, ++it)
 			{
 				if ((*it)->id == currentButton->id - 1)
 				{
