@@ -66,7 +66,7 @@ bool GuiButton::Update(Input* input, float dt, int id)
 		}
 		else if (this->id == id)
 		{
-			if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN
+			if (input->GetKey(SDL_SCANCODE_UP) == KEY_UP || input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP
 				|| input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_REPEAT || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_REPEAT)
 			{
 				state = GuiControlState::FOCUSED;

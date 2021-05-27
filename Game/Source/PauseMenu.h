@@ -43,10 +43,8 @@ private:
 	SDL_Texture* guiTex;
 
 	GuiButton* btnResume;
-	GuiButton* btnLoadSave;
 	GuiButton* btnSave;
 	GuiButton* btnLoad;
-	GuiButton* btnBack;
 	GuiButton* btnOptions;
 	GuiButton* btnReturnTitle;
 	GuiButton* btnReturnTitleYes;

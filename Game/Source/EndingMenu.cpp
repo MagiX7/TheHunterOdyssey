@@ -13,6 +13,7 @@ EndingMenu::EndingMenu(Font* font, Scene* scen)
 
 	buttons.push_back(btnNewGame);
 	buttons.push_back(btnMainMenu);
+	currentControl = btnNewGame;
 }
 
 EndingMenu::~EndingMenu()
@@ -26,8 +27,16 @@ bool EndingMenu::Load(Font* font)
 
 bool EndingMenu::Update(float dt)
 {
-	btnNewGame->Update(app->input, dt, -1);
-	btnMainMenu->Update(app->input, dt, -1);
+	UpdatingButtons(app->input);
+
+	int id = -1;
+	if (lastUserInput == 0 && currentControl != nullptr)
+	{
+		id = currentControl->id;
+	}
+
+	btnNewGame->Update(app->input, dt, id);
+	btnMainMenu->Update(app->input, dt, id);
 
 	return true;
 }
@@ -70,4 +79,57 @@ bool EndingMenu::OnGuiMouseClickEvent(GuiControl* control)
 
 void EndingMenu::UpdatingButtons(Input* input)
 {
+	int prevX = xMouse;
+	int prevY = yMouse;
+	input->GetMousePosition(xMouse, yMouse);
+	if (prevX != xMouse || prevY != yMouse)
+	{
+		lastUserInput = 1;
+		SDL_ShowCursor(SDL_ENABLE);
+	}
+	else
+	{
+		lastUserInput = 0;
+	}
+
+	if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
+	{
+		if (currentControl == nullptr)
+		{
+			currentControl = (*buttons.begin());
+			SDL_ShowCursor(SDL_DISABLE);
+		}
+		else
+		{
+			eastl::list<GuiButton*>::iterator it = buttons.begin();
+			for (int i = 0; i < buttons.size(); ++i, ++it)
+			{
+				if ((*it)->id == currentControl->id + 1)
+				{
+					currentControl = (*it);
+					break;
+				}
+			}
+		}
+	}
+	else if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
+	{
+		if (currentControl == nullptr)
+		{
+			currentControl = (*buttons.begin());
+			SDL_ShowCursor(SDL_DISABLE);
+		}
+		else
+		{
+			eastl::list<GuiButton*>::iterator it = buttons.begin();
+			for (int i = 0; i < buttons.size(); ++i, ++it)
+			{
+				if ((*it)->id == currentControl->id - 1)
+				{
+					currentControl = (*it);
+					break;
+				}
+			}
+		}
+	}
 }

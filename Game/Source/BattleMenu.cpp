@@ -114,8 +114,8 @@ bool BattleMenu::Load(Font* font)
 
 	DefaultStateButtons();
 
-	currentButton = nullptr;
-	lastButton = nullptr;
+	currentControl = nullptr;
+	lastControl = nullptr;
 
 	currEnemy = (*sceneBattle->enemyList.begin());
 	currPlayer = (*sceneBattle->playerList.begin());
@@ -132,9 +132,9 @@ bool BattleMenu::Update(float dt)
 	UpdatingButtons(app->input);
 
 	int id = -1;
-	if (lastUserInput == 0 && currentButton != nullptr)
+	if (lastUserInput == 0 && currentControl != nullptr)
 	{
-		id = currentButton->id;
+		id = currentControl->id;
 	}
 
 	switch (type)
@@ -855,9 +855,9 @@ bool BattleMenu::HandleAbilities(Input* input, int currentAbility)
 
 	if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
 	{
-		if (currentButton == nullptr)
+		if (currentControl == nullptr)
 		{
-			currentButton = (*buttons.begin());
+			currentControl = (*controls.begin());
 			SDL_ShowCursor(SDL_DISABLE);
 		}
 		else
@@ -880,9 +880,9 @@ bool BattleMenu::HandleAbilities(Input* input, int currentAbility)
 	}
 	else if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
 	{
-		if (currentButton == nullptr)
+		if (currentControl == nullptr)
 		{
-			currentButton = (*buttons.begin());
+			currentControl = (*controls.begin());
 			SDL_ShowCursor(SDL_DISABLE);
 		}
 		else
@@ -1161,38 +1161,38 @@ void BattleMenu::EnemyTurn()
 
 void BattleMenu::DefaultStateButtons()
 {
-	buttons.clear();
-	buttons.push_back(btnAttack);
-	buttons.push_back(btnAbility);
-	buttons.push_back(btnDefense);
-	buttons.push_back(btnObject);
+	controls.clear();
+	controls.push_back(btnAttack);
+	controls.push_back(btnAbility);
+	controls.push_back(btnDefense);
+	controls.push_back(btnObject);
 
-	lastButton = currentButton;
-	currentButton = (*buttons.begin());
+	lastControl = currentControl;
+	currentControl = (*controls.begin());
 }
 
 void BattleMenu::AbilityStateButtons()
 {
-	buttons.clear();
-	buttons.push_back(btnAbilitySlot1);
-	buttons.push_back(btnAbilitySlot2);
-	buttons.push_back(btnAbilitySlot3);
-	buttons.push_back(btnAbilitySlot4);
+	controls.clear();
+	controls.push_back(btnAbilitySlot1);
+	controls.push_back(btnAbilitySlot2);
+	controls.push_back(btnAbilitySlot3);
+	controls.push_back(btnAbilitySlot4);
 
-	lastButton = currentButton;
-	currentButton = (*buttons.begin());
+	lastControl = currentControl;
+	currentControl = (*controls.begin());
 }
 
 void BattleMenu::ObjectStateButtons()
 {
-	buttons.clear();
-	buttons.push_back(btnObjectSlot1);
-	buttons.push_back(btnObjectSlot2);
-	buttons.push_back(btnObjectSlot3);
-	buttons.push_back(btnObjectSlot4);
+	controls.clear();
+	controls.push_back(btnObjectSlot1);
+	controls.push_back(btnObjectSlot2);
+	controls.push_back(btnObjectSlot3);
+	controls.push_back(btnObjectSlot4);
 
-	lastButton = currentButton;
-	currentButton = (*buttons.begin());
+	lastControl = currentControl;
+	currentControl = (*controls.begin());
 }
 
 void BattleMenu::UpdatingButtons(Input* input)
@@ -1212,19 +1212,19 @@ void BattleMenu::UpdatingButtons(Input* input)
 
 	if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
 	{
-		if (currentButton == nullptr)
+		if (currentControl == nullptr)
 		{
-			currentButton = (*buttons.begin());
+			currentControl = (*controls.begin());
 			SDL_ShowCursor(SDL_DISABLE);
 		}
 		else
 		{
-			eastl::list<GuiButton*>::iterator it = buttons.begin();
-			for (int i = 0; i < buttons.size(); ++i, ++it)
+			eastl::list<GuiControl*>::iterator it = controls.begin();
+			for (int i = 0; i < controls.size(); ++i, ++it)
 			{
-				if ((*it)->id == currentButton->id + 1)
+				if ((*it)->id == currentControl->id + 1)
 				{
-					currentButton = (*it);
+					currentControl = (*it);
 					break;
 				}
 			}
@@ -1232,19 +1232,19 @@ void BattleMenu::UpdatingButtons(Input* input)
 	}
 	else if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
 	{
-		if (currentButton == nullptr)
+		if (currentControl == nullptr)
 		{
-			currentButton = (*buttons.begin());
+			currentControl = (*controls.begin());
 			SDL_ShowCursor(SDL_DISABLE);
 		}
 		else
 		{
-			eastl::list<GuiButton*>::iterator it = buttons.begin();
-			for (int i = 0; i < buttons.size(); ++i, ++it)
+			eastl::list<GuiControl*>::iterator it = controls.begin();
+			for (int i = 0; i < controls.size(); ++i, ++it)
 			{
-				if ((*it)->id == currentButton->id - 1)
+				if ((*it)->id == currentControl->id - 1)
 				{
-					currentButton = (*it);
+					currentControl = (*it);
 					break;
 				}
 			}

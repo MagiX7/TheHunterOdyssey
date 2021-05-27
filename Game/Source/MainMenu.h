@@ -57,6 +57,7 @@ private:
 	GuiButton* btnExitNo;
 	GuiButton* btnOptionsBack;
 	GuiButton* btnCreditsBack;
+	GuiButton* btnCreditsRoles;
 	GuiCheckBox* checkFullscreen;
 	GuiCheckBox* checkVSync;
 	GuiSlider* slideMusicVolume;

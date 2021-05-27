@@ -19,6 +19,7 @@ bool PauseMenu::Load(Font* font)
 {
 	guiTex = app->tex->Load("Textures/UI/gui_pause_menu.png");
 
+	// Main menu ========================
 	btnResume = new GuiButton(1, { 505, 223, 270, 64 }, "Resume Game", this, font);
 	btnResume->section = { 430,0,270,64 };
 	btnResume->texture = guiTex;
@@ -48,58 +49,66 @@ bool PauseMenu::Load(Font* font)
 	btnExit->section = { 430,0,270,64 };
 	btnExit->texture = guiTex;
 	btnExit->alineation = 1;
+	// Main menu ========================
 
-	btnOptionsBack = new GuiButton(7, { 930, 561, 270, 64 }, "Back", this, font);
-	btnOptionsBack->section = { 430,0,270,64 };
-	btnOptionsBack->texture = guiTex;
-	btnOptionsBack->alineation = 1;
-
-	slideMusicVolume = new GuiSlider(8, { 897,198,339,46 }, "Music volume", this, 0, 128, app->audio->GetMusicVolume());
+	// Options menu ========================
+	slideMusicVolume = new GuiSlider(7, { 897,198,339,46 }, "Music volume", this, 0, 128, app->audio->GetMusicVolume());
 	slideMusicVolume->section = { 440,83,339,46 };
 	slideMusicVolume->texture = guiTex;
 
-	slideFXVolume = new GuiSlider(9, { 897,313,339,46 }, "FX volume", this, 0, 128, app->audio->GetFxVolume());
+	slideFXVolume = new GuiSlider(8, { 897,313,339,46 }, "FX volume", this, 0, 128, app->audio->GetFxVolume());
 	slideFXVolume->section = { 440,83,339,46 };
 	slideFXVolume->texture = guiTex;
 
-	checkFullscreen = new GuiCheckBox(10, { 935,385,250,35 }, "Fullscreen", this, app->win->fullscreenWindow);
+	checkFullscreen = new GuiCheckBox(9, { 935,385,250,35 }, "Fullscreen", this, app->win->fullscreenWindow);
 	checkFullscreen->section = { 440,192,32,32 };
 	checkFullscreen->texture = guiTex;
 
-	checkVSync = new GuiCheckBox(11, { 977,460,170,35 }, "VSync", this, true);
-	checkVSync->section = { 440,192,32,32 };
-	checkVSync->texture = guiTex;
-	checkVSync->state = GuiControlState::DISABLED;
+	btnOptionsBack = new GuiButton(10, { 930, 561, 270, 64 }, "Back", this, font);
+	btnOptionsBack->section = { 430,0,270,64 };
+	btnOptionsBack->texture = guiTex;
+	btnOptionsBack->alineation = 1;
+	// Options menu ========================
 
-	btnExitYes = new GuiButton(12, { 505, 256, 270, 64 }, "Yes", this, font);
-	btnExitYes->section = { 430,0,270,64 };
-	btnExitYes->texture = guiTex;
-	btnExitYes->alineation = 1;
-
-	btnExitNo = new GuiButton(13, { 505, 341, 270, 64 }, "No", this, font);
-	btnExitNo->section = { 430,0,270,64 };
-	btnExitNo->texture = guiTex;
-	btnExitNo->alineation = 1;
-
-	btnReturnTitleYes = new GuiButton(14, { 505, 256, 270, 64 }, "Yes", this, font);
+	// Return to title menu ========================
+	btnReturnTitleYes = new GuiButton(11, { 505, 256, 270, 64 }, "Yes", this, font);
 	btnReturnTitleYes->section = { 430,0,270,64 };
 	btnReturnTitleYes->texture = guiTex;
 	btnReturnTitleYes->alineation = 1;
 
-	btnReturnTitleNo = new GuiButton(15, { 505, 341, 270, 64 }, "No", this, font);
+	btnReturnTitleNo = new GuiButton(12, { 505, 341, 270, 64 }, "No", this, font);
 	btnReturnTitleNo->section = { 430,0,270,64 };
 	btnReturnTitleNo->texture = guiTex;
 	btnReturnTitleNo->alineation = 1;
+	// Return to title menu ========================
 
-	buttons.push_back(btnResume);
-	buttons.push_back(btnSave);
-	buttons.push_back(btnLoad);
-	buttons.push_back(btnOptions);
-	buttons.push_back(btnReturnTitle);
-	buttons.push_back(btnExit);
+	// Exit menu ========================
+	btnExitYes = new GuiButton(13, { 505, 256, 270, 64 }, "Yes", this, font);
+	btnExitYes->section = { 430,0,270,64 };
+	btnExitYes->texture = guiTex;
+	btnExitYes->alineation = 1;
+
+	btnExitNo = new GuiButton(14, { 505, 341, 270, 64 }, "No", this, font);
+	btnExitNo->section = { 430,0,270,64 };
+	btnExitNo->texture = guiTex;
+	btnExitNo->alineation = 1;
+	// Exit menu ========================
+
+
+	controls.push_back(btnResume);
+	controls.push_back(btnSave);
+	controls.push_back(btnLoad);
+	controls.push_back(btnOptions);
+	controls.push_back(btnReturnTitle);
+	controls.push_back(btnExit);
 	//currentButton = (*buttons.begin());
-	currentButton = nullptr;
-	lastButton = nullptr;
+	currentControl = nullptr;
+	lastControl = nullptr;
+
+	checkVSync = new GuiCheckBox(15, { 977,460,170,35 }, "VSync", this, true);
+	checkVSync->section = { 440,192,32,32 };
+	checkVSync->texture = guiTex;
+	checkVSync->state = GuiControlState::DISABLED;
 
 	state = PauseState::DEFAULT;
 
@@ -113,9 +122,9 @@ bool PauseMenu::Update(float dt)
 	UpdatingButtons(app->input);
 
 	int id = -1;
-	if (lastUserInput == 0 && currentButton != nullptr)
+	if (lastUserInput == 0 && currentControl != nullptr)
 	{
-		id = currentButton->id;
+		id = currentControl->id;
 	}
 
 	switch (state)
@@ -144,11 +153,11 @@ bool PauseMenu::Update(float dt)
 			playMusicOptions = false;
 		}
 
+		slideMusicVolume->Update(app->input, dt, id);
+		slideFXVolume->Update(app->input, dt, id);
+		checkFullscreen->Update(app->input, dt, id);
+		//checkVSync->Update(app->input, dt, id);
 		btnOptionsBack->Update(app->input, dt, id);
-		slideMusicVolume->Update(app->input, dt);
-		slideFXVolume->Update(app->input, dt);
-		checkFullscreen->Update(app->input, dt);
-		checkVSync->Update(app->input, dt);
 
 		break;
 	case PauseState::RETURN_TITLE:
@@ -269,7 +278,7 @@ bool PauseMenu::UnLoad()
 	RELEASE(checkFullscreen);
 	RELEASE(checkVSync);
 
-	buttons.clear();
+	controls.clear();
 
 	return true;
 }
@@ -283,15 +292,15 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 		if (control->id == 1) // Resume
 		{
 			// Reset all the buttons like if it was the first time user presses pause menu button
-			buttons.clear();
-			buttons.push_back(btnResume);
-			buttons.push_back(btnSave);
-			buttons.push_back(btnLoad);
-			buttons.push_back(btnOptions);
-			buttons.push_back(btnReturnTitle);
-			buttons.push_back(btnExit);
-			currentButton = nullptr;
-			lastButton = nullptr;
+			controls.clear();
+			controls.push_back(btnResume);
+			controls.push_back(btnSave);
+			controls.push_back(btnLoad);
+			controls.push_back(btnOptions);
+			controls.push_back(btnReturnTitle);
+			controls.push_back(btnExit);
+			currentControl = nullptr;
+			lastControl = nullptr;
 
 			state = PauseState::DEFAULT;
 			scene->ChangeState(GameplayMenuState::NONE);
@@ -308,110 +317,98 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 		{
 			state = PauseState::OPTIONS;
 
-			buttons.clear();
-			buttons.push_back(btnOptionsBack);
-			lastButton = currentButton;
-			currentButton = (*buttons.begin());
+			controls.clear();
+			controls.push_back(btnOptionsBack);
+			controls.push_back(slideMusicVolume);
+			controls.push_back(slideFXVolume);
+			controls.push_back(checkFullscreen);
+			lastControl = currentControl;
+			currentControl = (*controls.begin());
 		}
 		else if (control->id == 5) // Return to title
 		{
 			state = PauseState::RETURN_TITLE;
 
-			buttons.clear();
-			buttons.push_back(btnReturnTitleYes);
-			buttons.push_back(btnReturnTitleNo);
-			lastButton = currentButton;
-			currentButton = (*buttons.end().prev());
+			controls.clear();
+			controls.push_back(btnReturnTitleYes);
+			controls.push_back(btnReturnTitleNo);
+			lastControl = currentControl;
+			currentControl = (*controls.end().prev());
 		}
 		else if (control->id == 6) // Exit
 		{
 			state = PauseState::EXIT;
 
-			buttons.clear();
-			buttons.push_back(btnExitYes);
-			buttons.push_back(btnExitNo);
-			lastButton = currentButton;
-			currentButton = (*buttons.end().prev());
+			controls.clear();
+			controls.push_back(btnExitYes);
+			controls.push_back(btnExitNo);
+			lastControl = currentControl;
+			currentControl = (*controls.end().prev());
 		}
-		else if (control->id == 7) // Back from options
+		else if (control->id == 10 || control->id == 12 || control->id == 14) // Back from options
 		{
 			state = PauseState::DEFAULT;
 
-			buttons.clear();
-			buttons.push_back(btnResume);
-			buttons.push_back(btnSave);
-			buttons.push_back(btnLoad);
-			buttons.push_back(btnOptions);
-			buttons.push_back(btnReturnTitle);
-			buttons.push_back(btnExit);
+			controls.clear();
+			controls.push_back(btnResume);
+			controls.push_back(btnSave);
+			controls.push_back(btnLoad);
+			controls.push_back(btnOptions);
+			controls.push_back(btnReturnTitle);
+			controls.push_back(btnExit);
 
-			currentButton = lastButton;
+			currentControl = lastControl;
 		}
-		else if (control->id == 12) // Exit yes
-			return false;
-		else if (control->id == 13) // Exit no
-		{
-			state = PauseState::DEFAULT;
-
-			buttons.clear();
-			buttons.push_back(btnResume);
-			buttons.push_back(btnSave);
-			buttons.push_back(btnLoad);
-			buttons.push_back(btnOptions);
-			buttons.push_back(btnReturnTitle);
-			buttons.push_back(btnExit);
-
-			currentButton = lastButton;
-		}
-		else if (control->id == 14) // Return to title yes
+		else if (control->id == 11) // Return to title yes
 			scene->TransitionToScene(SceneType::TITLE, TransitionType::WIPE);
-		else if (control->id == 15) // Return to title no
-		{
-			state = PauseState::DEFAULT;
 
-			buttons.clear();
-			buttons.push_back(btnResume);
-			buttons.push_back(btnSave);
-			buttons.push_back(btnLoad);
-			buttons.push_back(btnOptions);
-			buttons.push_back(btnReturnTitle);
-			buttons.push_back(btnExit);
+		else if (control->id == 13) // Exit yes
+			return false;
+		
+		//else if (control->id == 15) // Return to title no
+		//{
+		//	state = PauseState::DEFAULT;
 
-			currentButton = lastButton;
-		}
-		else if (control->id == 16) scene->TransitionToScene(SceneType::TITLE, TransitionType::FADE_TO_BLACK);
-		else if (control->id == 17)
-		{
-			state = PauseState::DEFAULT;
+		//	controls.clear();
+		//	controls.push_back(btnResume);
+		//	controls.push_back(btnSave);
+		//	controls.push_back(btnLoad);
+		//	controls.push_back(btnOptions);
+		//	controls.push_back(btnReturnTitle);
+		//	controls.push_back(btnExit);
 
-			buttons.clear();
-			buttons.push_back(btnResume);
-			buttons.push_back(btnSave);
-			buttons.push_back(btnLoad);
-			buttons.push_back(btnOptions);
-			buttons.push_back(btnReturnTitle);
-			buttons.push_back(btnExit);
+		//	currentControl = lastControl;
+		//}
+		//else if (control->id == 16) scene->TransitionToScene(SceneType::TITLE, TransitionType::FADE_TO_BLACK);
+		//else if (control->id == 17)
+		//{
+		//	state = PauseState::DEFAULT;
 
-			currentButton = lastButton;
-		}
+		//	controls.clear();
+		//	controls.push_back(btnResume);
+		//	controls.push_back(btnSave);
+		//	controls.push_back(btnLoad);
+		//	controls.push_back(btnOptions);
+		//	controls.push_back(btnReturnTitle);
+		//	controls.push_back(btnExit);
+
+		//	currentControl = lastControl;
+		//}
 		break;
 	}
 	break;
 	case GuiControlType::SLIDER:
 	{
-		if (control->id == 8) app->audio->SetMusicVolume(slideMusicVolume->GetValue()); // Music Volume
-		else if (control->id == 9) app->audio->SetFxVolume(slideFXVolume->GetValue()); // FX Volume
+		if (control->id == 7) app->audio->SetMusicVolume(slideMusicVolume->GetValue()); // Music Volume
+		else if (control->id == 8) app->audio->SetFxVolume(slideFXVolume->GetValue()); // FX Volume
 	}
 	break;
 	case GuiControlType::CHECKBOX:
 	{
-		if (control->id == 10) // Fullscreen
-		{
+		if (control->id == 9) // Fullscreen
 			app->win->SetFullscreen();
-		}
-		else if (control->id == 11) // VSync
-		{
-		}
+
+		else if (control->id == 15); // VSync
 	}
 	break;
 	}
@@ -434,41 +431,41 @@ void PauseMenu::UpdatingButtons(Input* input)
 		lastUserInput = 0;
 	}
 
-	if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
+	if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_UP)
 	{
-		if (currentButton == nullptr)
+		if (currentControl == nullptr)
 		{
-			currentButton = (*buttons.begin());
+			currentControl = (*controls.begin());
 			SDL_ShowCursor(SDL_DISABLE);
 		}
 		else
 		{
-			eastl::list<GuiButton*>::iterator it = buttons.begin();
-			for (int i = 0; i < buttons.size(); ++i, ++it)
+			eastl::list<GuiControl*>::iterator it = controls.begin();
+			for (int i = 0; i < controls.size(); ++i, ++it)
 			{
-				if ((*it)->id == currentButton->id + 1)
+				if ((*it)->id == currentControl->id + 1)
 				{
-					currentButton = (*it);
+					currentControl = (*it);
 					break;
 				}
 			}
 		}
 	}
-	else if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
+	else if (input->GetKey(SDL_SCANCODE_UP) == KEY_UP || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_UP)
 	{
-		if (currentButton == nullptr)
+		if (currentControl == nullptr)
 		{
-			currentButton = (*buttons.begin());
+			currentControl = (*controls.begin());
 			SDL_ShowCursor(SDL_DISABLE);
 		}
 		else
 		{
-			eastl::list<GuiButton*>::iterator it = buttons.begin();
-			for (int i = 0; i < buttons.size(); ++i, ++it)
+			eastl::list<GuiControl*>::iterator it = controls.begin();
+			for (int i = 0; i < controls.size(); ++i, ++it)
 			{
-				if ((*it)->id == currentButton->id - 1)
+				if ((*it)->id == currentControl->id - 1)
 				{
-					currentButton = (*it);
+					currentControl = (*it);
 					break;
 				}
 			}

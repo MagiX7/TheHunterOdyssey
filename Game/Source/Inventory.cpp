@@ -86,8 +86,8 @@ bool Inventory::Load(Font* font)
 	//btnNextStats = new GuiButton(13, {}, "", this, font);
 	//btnPrevStats = new GuiButton(14, {}, "", this, font);
 
-	buttons.push_back(btnEquipment);
-	buttons.push_back(btnItems);
+	controls.push_back(btnEquipment);
+	controls.push_back(btnItems);
 	//buttons.push_back(btnInfo);
 
 	// Initialize items;
@@ -345,7 +345,7 @@ bool Inventory::UnLoad()
 	//RELEASE(atlasTexture);
 	app->tex->UnLoad(guiTex);
 
-	buttons.clear();
+	controls.clear();
 	players.clear();
 
 	return true;

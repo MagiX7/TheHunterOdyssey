@@ -27,9 +27,9 @@ public:
 
 public:
 	// For input handling
-	eastl::list<GuiButton*> buttons;
-	GuiButton* currentButton;
-	GuiButton* lastButton;
+	eastl::list<GuiControl*> controls;
+	GuiControl* currentControl;
+	GuiControl* lastControl;
 
 	// Stuff for keyobard and mouse handling at the same time
 	int lastUserInput; // 1 == keyboard; 0 == mouse
