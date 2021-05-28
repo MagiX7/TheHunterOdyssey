@@ -29,6 +29,7 @@ public:
 	//void HandleInput();
 
 	void UpdatingButtons(Input* input) override;
+
 private:
 	SceneGameplay* scene;
 

@@ -64,7 +64,7 @@ bool GuiManager::Update(float dt)
 	eastl::list<GuiControl*>::iterator control = controls.begin().mpNode;
 
 	for (control = controls.begin(); control != controls.end(); ++control)
-		(*control)->Update(app->input, dt);
+		(*control)->Update(app->input, dt, -1);
 
 	return true;
 }

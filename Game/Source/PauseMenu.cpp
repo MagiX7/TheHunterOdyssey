@@ -127,6 +127,15 @@ bool PauseMenu::Update(float dt)
 		id = currentControl->id;
 	}
 
+	/*eastl::list<GuiControl*>::iterator it = controls.begin();
+	eastl::list<GuiControl*>::iterator itEnd = controls.end().prev();
+
+	for (; it != itEnd; ++it)
+	{
+		(*it)->Update(app->input, dt, id);
+	}*/
+
+
 	switch (state)
 	{
 	case PauseState::DEFAULT:
@@ -431,7 +440,7 @@ void PauseMenu::UpdatingButtons(Input* input)
 		lastUserInput = 0;
 	}
 
-	if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_UP)
+	if (input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_DOWN)
 	{
 		if (currentControl == nullptr)
 		{
@@ -451,7 +460,7 @@ void PauseMenu::UpdatingButtons(Input* input)
 			}
 		}
 	}
-	else if (input->GetKey(SDL_SCANCODE_UP) == KEY_UP || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_UP)
+	else if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_DOWN)
 	{
 		if (currentControl == nullptr)
 		{

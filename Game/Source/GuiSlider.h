@@ -13,7 +13,7 @@ public:
 	GuiSlider(uint32 id, SDL_Rect bounds, const char *text, Menu* listener, int min, int max, int value);
 	virtual ~GuiSlider();
 
-	bool Update(Input* input, float dt, int id);
+	bool Update(Input* input, float dt, int id) override;
 	bool Draw(Render* render, bool showColliders);
 
 	int GetValue() const;
@@ -32,6 +32,8 @@ private:
 
 	int minValue;
 	int maxValue;
+
+	int lastKey; // 0 == left; 1 == right
 
 	//Fx
 	uint clickFx;

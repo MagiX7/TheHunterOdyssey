@@ -10,6 +10,8 @@
 
 #include "SDL/include/SDL.h"
 
+class Menu;
+
 enum class GuiControlType
 {
 	BUTTON,
@@ -51,7 +53,7 @@ public:
 
 	virtual ~GuiControl() {}
 
-	virtual bool Update(Input* input, float dt)
+	virtual bool Update(Input* input, float dt, int id)
 	{
 		return true;
 	}

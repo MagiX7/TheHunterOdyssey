@@ -13,7 +13,7 @@ public:
 	GuiButton(uint32 id, SDL_Rect bounds, const char *text, Menu* listener, Font* font);
 	virtual ~GuiButton();
 
-	bool Update(Input* input, float dt, int id);
+	bool Update(Input* input, float dt, int id) override;
 	bool Draw(Render* render, bool showColliders, int size = 64, SDL_Color color = {255, 255, 255, 255});
 
 	int alineation;

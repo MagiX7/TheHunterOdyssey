@@ -12,6 +12,7 @@ GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text, Menu* listene
 	this->maxValue = max;
 	this->value = value * 2;
 	this->channel = app->audio->SetChannel();
+	this->lastKey = -1;
 
 	//Load Fx
 	clickFx = app->audio->LoadFx("Audio/Fx/button_click.wav");
@@ -40,7 +41,7 @@ bool GuiSlider::Update(Input* input, float dt, int id)
 
 			if (isPlayable == true)
 			{
-				app->audio->PlayFx(channel, focusedFx);
+				//app->audio->PlayFx(channel, focusedFx);
 				isPlayable = false;
 			}
 
@@ -67,7 +68,7 @@ bool GuiSlider::Update(Input* input, float dt, int id)
 					CalculeValue(input);
 					NotifyObserver();
 				}
-				else if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)	app->audio->PlayFx(channel, clickFx);
+				//else if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_DOWN)	app->audio->PlayFx(channel, clickFx);
 			}
 		}
 		else if (this->id == id)
@@ -78,25 +79,36 @@ bool GuiSlider::Update(Input* input, float dt, int id)
 				state = GuiControlState::FOCUSED;
 			}
 
-			if (isPlayable == true && SDL_ShowCursor(-1) == SDL_DISABLE)
-			{
-				app->audio->PlayFx(channel, focusedFx);
-				isPlayable = false;
-			}
-
-			if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->GetKey(SDL_SCANCODE_RETURN) == KEY_REPEAT
-				|| input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_REPEAT)
+			if(input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_REPEAT)
 			{
 				state = GuiControlState::PRESSED;
-				if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
-				{
-					app->audio->PlayFx(channel, clickFx);
-				}
+				lastKey = 0;
+				SubstractValue();
+				NotifyObserver();
 			}
-
-			if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_UP)
+			else if (input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_REPEAT)
 			{
-				state = GuiControlState::NORMAL;
+				state = GuiControlState::PRESSED;
+				lastKey = 1;
+				AddValue();
+				NotifyObserver();
+			}
+			else if (input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN) app->audio->PlayFx(channel, clickFx);
+
+
+			//if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->GetKey(SDL_SCANCODE_RETURN) == KEY_REPEAT
+			//	|| input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_REPEAT)
+			//{
+			//	state = GuiControlState::PRESSED;
+			//	/*if (input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)
+			//	{
+			//		app->audio->PlayFx(channel, clickFx);
+			//	}*/
+			//}
+
+			if (input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP || input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
+			{
+				state = GuiControlState::FOCUSED;
 				if (NotifyObserver() == false) return false;
 			}
 		}
@@ -140,8 +152,11 @@ bool GuiSlider::Draw(Render* render, bool showColliders)
 		{
 			SDL_Rect r = { bounds.x, bounds.y, 46,46 };
 			if ((mouseX > bounds.x) && (mouseX < bounds.x + 46)) render->DrawRectangle(r, 255, 255, 0, 120, true, false);
+			else if(lastKey == 0) render->DrawRectangle(r, 255, 255, 0, 120, true, false);
+			
 			r.x = bounds.x + bounds.w - 46;
 			if ((mouseX < bounds.x + bounds.w) && (mouseX > bounds.x + bounds.w - 46)) render->DrawRectangle(r, 255, 255, 0, 120, true, false);
+			else if(lastKey == 1) render->DrawRectangle(r, 255, 255, 0, 120, true, false);
 
 			if (showColliders) render->DrawRectangle(bounds, 255, 255, 0, 150, true, false);
 		}
@@ -154,7 +169,15 @@ bool GuiSlider::Draw(Render* render, bool showColliders)
 		if ((mouseX > bounds.x) && (mouseX < bounds.x + 46)) render->DrawTexture(texture, bounds.x, bounds.y, &sectionFocused, false);
 		else if ((mouseX < bounds.x + bounds.w) && (mouseX > bounds.x + bounds.w - 46)) render->DrawTexture(texture, bounds.x + bounds.w - 46, bounds.y, &sectionFocused, false);
 		
-		render->DrawRectangle(bounds, 0, 255, 255, 150, true, false);
+		//render->DrawRectangle(bounds, 0, 255, 255, 150, true, false);
+		{
+			SDL_Rect r = { bounds.x, bounds.y, 46,46 };
+			if (lastKey == 0) render->DrawRectangle(r, 0, 255, 255, 120, true, false);
+
+			r.x = bounds.x + bounds.w - 46;
+			if (lastKey == 1) render->DrawRectangle(r, 0, 255, 255, 120, true, false);
+		}
+
 
 		if (showColliders) render->DrawRectangle(bounds, 0, 255, 255, 150, true, false);
 		break;

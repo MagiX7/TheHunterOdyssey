@@ -13,7 +13,7 @@ public:
 	GuiCheckBox(uint32 id, SDL_Rect bounds, const char *text, Menu* listener, bool checked);
 	virtual ~GuiCheckBox();
 
-	bool Update(Input* input, float dt, int id);
+	bool Update(Input* input, float dt, int id) override;
 	bool Draw(Render* render, bool showColliders) override;
 
 private:
