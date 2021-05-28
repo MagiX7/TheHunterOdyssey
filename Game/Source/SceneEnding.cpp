@@ -18,8 +18,8 @@ SceneEnding::SceneEnding(bool win)
 	font = nullptr;
 	hasWin = win;
 
-	if (hasWin) app->audio->PlayMusic("Audio/Music/win_theme.ogg");
-	else app->audio->PlayMusic("Audio/Music/gameover_theme.ogg");
+	if (hasWin) app->audio->PlayMusic("Audio/Music/win_theme.ogg", true);
+	else app->audio->PlayMusic("Audio/Music/gameover_theme.ogg", true);
 
 	easingUp = new Easing();
 	easingDown = new Easing();

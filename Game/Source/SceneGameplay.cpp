@@ -171,7 +171,7 @@ bool SceneGameplay::Load()
 	// Start music
 	channel = app->audio->SetChannel();
 
-	app->audio->PlayMusic("Audio/Music/village_theme_1.ogg", 0);
+	app->audio->PlayMusic("Audio/Music/village_theme_1.ogg", true);
 
 	//Load Fx
 	doorOpenedFx = app->audio->LoadFx("Audio/Fx/Gameplay/door_open.wav");
@@ -1625,7 +1625,7 @@ void SceneGameplay::Transitioning(float dt)
 				
 				currentPlayer->bounds.x = tmpPosPlayer.x;
 				currentPlayer->bounds.y = tmpPosPlayer.y;
-				app->audio->PlayMusic("Audio/Music/village_theme_1.ogg", 0);
+				app->audio->PlayMusic("Audio/Music/village_theme_1.ogg", true);
 			}
 		}
 	}

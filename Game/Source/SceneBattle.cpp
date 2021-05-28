@@ -39,7 +39,7 @@ bool SceneBattle::Load()
 	map->Load("battle_map.tmx", app->tex);
 
 	// Start music
-	app->audio->PlayMusic("Audio/Music/fight_theme_2.ogg", 0);
+	app->audio->PlayMusic("Audio/Music/fight_theme_2.ogg", true);
 	
 	eastl::list<Player*>::iterator it = playerList.begin();
 	for (int i = 0; it != playerList.end(); ++it, ++i)

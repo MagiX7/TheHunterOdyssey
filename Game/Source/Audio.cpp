@@ -71,12 +71,14 @@ bool Audio::Awake(pugi::xml_node& config)
 
 bool Audio::Update(float dt)
 {
+	LOG("MUSIC VOLUME E %f", musicVolume);
+	LOG("AUX VOLUME E %f", auxMusic);
 	if (transition)
 	{
 		if (fadeOut)
 		{
 			musicVolume -= (auxMusic * 1.5) * dt;
-			if (musicVolume < -0.1f)
+			if (musicVolume <= 0.0f)
 			{
 				musicVolume = 0;
 				Mix_FreeMusic(music);
@@ -128,18 +130,27 @@ bool Audio::CleanUp()
 }
 
 // Play a music file
-bool Audio::PlayMusic(const char* path, float fadeTime)
+bool Audio::PlayMusic(const char* path, bool needsTransition, float fadeTime)
 {
 	bool ret = true;
 	
 	if(!active)
 		return false;
 	
-	auxMusic = musicVolume;
-	transition = true;
+	if (needsTransition)
+	{
+		auxMusic = musicVolume;
+		transition = true;
 
-	fadeOut = true;
-	nextMusic = path;
+		fadeOut = true;
+		nextMusic = path;
+	}
+	else
+	{
+		Mix_FreeMusic(music);
+		music = Mix_LoadMUS_RW(app->assetsManager->Load(path), 1);
+		Mix_PlayMusic(music, -1);
+	}
 
 	return ret;
 }
