@@ -242,7 +242,7 @@ bool SceneGameplay::Update(float dt)
 					map->Update(dt);
 					HandleInput(dt);
 					SDL_Rect tmpBounds = currentPlayer->bounds;
-					currentPlayer->Update(dt);
+					if (currentPlayer->canMove) currentPlayer->Update(dt);
 
 					particles->Update(dt);
 
@@ -254,7 +254,7 @@ bool SceneGameplay::Update(float dt)
 						if (map->name == enemy->mapName.c_str())
 						{
 							enemy->Update(dt);
-							if (!showColliders && CheckCollision(enemy->bounds, currentPlayer->bounds))
+							if (currentPlayer->canMove && !showColliders && CheckCollision(enemy->bounds, currentPlayer->bounds))
 							{
 								GenerateBattle();
 								tmp = enemy;
@@ -314,9 +314,106 @@ bool SceneGameplay::Update(float dt)
 								iceBlockRect = bounds;
 							}
 						}
+
+						if (!currentPlayer->canMove)
+						{
+							int target_x = 0;
+							int target_y = 0;
+							switch (whereMove)
+							{
+							case 1:
+								target_x = 0;
+								target_y = -1;
+								SetCameraMovement(target_x, target_y);
+								if (app->render->camera.x >= target_x && app->render->camera.y >= target_y)
+								{
+									app->render->camera.x = target_x;
+									app->render->camera.y = target_y;
+									entityManager->DeleteEntity(EntityType::DOOR, 2);
+									app->audio->PlayFx(channel, puzzleCompletedFx);
+									currentPlayer->bounds.x += 10;
+									currentPlayer->canMove = true;
+								}
+								break;
+							case 2:
+								target_x = -1010;
+								target_y = -459;
+								SetCameraMovement(target_x, target_y);
+								if (app->render->camera.x <= target_x && app->render->camera.y >= target_y)
+								{
+									app->render->camera.x = target_x;
+									app->render->camera.y = target_y;
+									entityManager->DeleteEntity(EntityType::STATUE, 4);
+									app->audio->PlayFx(channel, puzzleCompletedFx);
+									currentPlayer->bounds.x += 10;
+									currentPlayer->canMove = true;
+								}
+								break;
+							case 3:
+								target_x = -802;
+								target_y = -323;
+								SetCameraMovement(target_x, target_y);
+								if (app->render->camera.x <= target_x && app->render->camera.y >= target_y)
+								{
+									app->render->camera.x = target_x;
+									app->render->camera.y = target_y;
+									entityManager->DeleteEntity(EntityType::DOOR, 4);
+									app->audio->PlayFx(channel, puzzleCompletedFx);
+									currentPlayer->bounds.x += 10;
+									currentPlayer->canMove = true;
+								}
+								break;
+							case 4:
+								target_x = -587;
+								target_y = -453;
+								SetCameraMovement(target_x, target_y);
+								if (app->render->camera.x = target_x && app->render->camera.y >= target_y)
+								{
+									app->render->camera.x = target_x;
+									app->render->camera.y = target_y;
+									entityManager->DeleteEntity(EntityType::STATUE, 3);
+									app->audio->PlayFx(channel, puzzleCompletedFx);
+									currentPlayer->bounds.x += 10;
+									currentPlayer->canMove = true;
+								}
+								break;
+							case 5:
+								target_x = -794;
+								target_y = -2160;
+								SetCameraMovement(target_x, target_y);
+								if (app->render->camera.x <= target_x && app->render->camera.y <= target_y)
+								{
+									app->render->camera.x = target_x;
+									app->render->camera.y = target_y;
+									entityManager->DeleteEntity(EntityType::DOOR);
+									entityManager->DeleteEntity(EntityType::ICE_BLOCK);
+									entityManager->DeleteEntity(EntityType::STATUE);
+									app->audio->PlayFx(channel, puzzleCompletedFx);
+									currentPlayer->bounds.x += 10;
+									currentPlayer->canMove = true;
+								}
+								break;
+							case 6:
+								target_x = -1600;
+								target_y = -616;
+								SetCameraMovement(target_x, target_y);
+								if (app->render->camera.x >= target_x && app->render->camera.y >= target_y + 5)
+								{
+									app->render->camera.x = target_x;
+									app->render->camera.y = target_y;
+									entityManager->DeleteEntity(EntityType::DOOR, 1);
+									app->audio->PlayFx(channel, puzzleCompletedFx);
+									currentPlayer->bounds.x += 10;
+									currentPlayer->canMove = true;
+								}
+								break;
+							default:
+								break;
+							}
+						}
 					}
 
-					CameraFollow(app->render);
+					if (currentPlayer->canMove) CameraFollow(app->render);
 
 					int tmpId = -1;
 					entityManager->Update(dt, currentPlayer, dialogueManager->isDialogueActive, tmpId, this);
@@ -1417,30 +1514,30 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if (canSound1 && (layer->Get(i, j) == 21) && CheckCollision(map->GetTilemapRec(i, j), rect) && interruptorBlock->isDropped)
 					{
-						entityManager->DeleteEntity(EntityType::DOOR, 2);
-						app->audio->PlayFx(channel, puzzleCompletedFx);
+						whereMove = 1;
+						currentPlayer->canMove = false;
 						canSound1 = false;
 					}
 					if (canSound2 && (layer->Get(i, j) == 17) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						entityManager->DeleteEntity(EntityType::STATUE, 4);
-						app->audio->PlayFx(channel, puzzleCompletedFx);
+						whereMove = 2;
+						currentPlayer->canMove = false;
 						canSound2 = false;
 						exit = true;
 						break;
 					}
 					if (canSound3 && (layer->Get(i, j) == 15) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						entityManager->DeleteEntity(EntityType::DOOR, 4);
-						app->audio->PlayFx(channel, puzzleCompletedFx);
+						whereMove = 3;
+						currentPlayer->canMove = false;
 						canSound3 = false;
 						exit = true;
 						break;
 					}
 					if (canSound4 && (layer->Get(i, j) == 16) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						entityManager->DeleteEntity(EntityType::STATUE, 3);
-						app->audio->PlayFx(channel, puzzleCompletedFx);
+						whereMove = 4;
+						currentPlayer->canMove = false;
 						canSound4 = false;
 						exit = true;
 						break;
@@ -1464,8 +1561,8 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						isTown = false;
 						entityManager->SetAllNpcInactive();
 						//map->CleanUp();
-						entityManager->DeleteEntity(EntityType::DOOR, 1);
-						app->audio->PlayFx(channel, puzzleCompletedFx);
+						whereMove = 6;
+						currentPlayer->canMove = false;
 						deleteDoor = false;
 						//map->Load("dungeon_map.tmx", app->tex);
 						isDungeon = true;
@@ -1508,9 +1605,8 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						map->Load("graveyard.tmx", app->tex);
 						questManager->CheckQuests(map->name);
 						isDungeon = false;
-						entityManager->DeleteEntity(EntityType::DOOR);
-						entityManager->DeleteEntity(EntityType::ICE_BLOCK);
-						entityManager->DeleteEntity(EntityType::STATUE);
+						currentPlayer->canMove = false;
+						whereMove = 5;
 						loadObjects = true;
 						exit = true;
 						break;
@@ -1766,4 +1862,16 @@ void SceneGameplay::LoadItems(pugi::xml_node& n)
 			items.push_back(item);
 		}
 	}
+}
+
+void SceneGameplay::SetCameraMovement(int target_x, int target_y)
+{
+	if (app->render->camera.x < target_x)
+		app->render->camera.x += 10;
+	if (app->render->camera.x > target_x)
+		app->render->camera.x -= 10;
+	if (app->render->camera.y > target_y)
+		app->render->camera.y -= 10;
+	if (app->render->camera.y < target_y)
+		app->render->camera.y += 10;
 }

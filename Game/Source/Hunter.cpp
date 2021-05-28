@@ -20,6 +20,7 @@ Hunter::Hunter(iPoint position, pugi::xml_node anim, ParticlesManager* particles
 	meleeDamage = 150;
 	magicDamage = 20;
 	isDefending = false;
+	canMove = true;
 
 	channel = app->audio->SetChannel();
 

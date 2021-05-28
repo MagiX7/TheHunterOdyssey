@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<save_status>
+  <window />
+  <input />
+  <AssetsManager />
+  <textures />
+  <audio />
+  <scenemanager>
+    <scenegameplay map_name="dungeon_map.tmx" first_quest="true">
+      <entities>
+        <NPCs amount="0" />
+        <Enemies amount="3">
+          <Enemy>
+            <bounds X="608" Y="352" W="74" H="74" />
+            <map_name value="graveyard.tmx" />
+            <enemy_type type="1" />
+            <EnemyType type="SKULL" />
+          </Enemy>
+          <Enemy>
+            <bounds X="1408" Y="2680" W="37" H="33" />
+            <map_name value="dungeon_map.tmx" />
+            <enemy_type type="0" />
+            <EnemyType type="BAT" />
+          </Enemy>
+          <Enemy>
+            <bounds X="1408" Y="224" W="70" H="69" />
+            <map_name value="dungeon_map.tmx" />
+            <enemy_type type="2" />
+            <EnemyType type="GOLEM" />
+          </Enemy>
+        </Enemies>
+        <players amount="4">
+          <player>
+            <isCurrent current="true" />
+            <bounds X="1538" Y="789" W="26" H="32" />
+            <Equipment />
+            <playerType type="HUNTER" />
+          </player>
+          <player>
+            <isCurrent current="false" />
+            <bounds X="18" Y="90" W="26" H="32" />
+            <Equipment />
+            <playerType type="WIZARD" />
+          </player>
+          <player>
+            <isCurrent current="false" />
+            <bounds X="12" Y="45" W="26" H="32" />
+            <Equipment />
+            <playerType type="THIEF" />
+          </player>
+          <player>
+            <isCurrent current="false" />
+            <bounds X="13" Y="56" W="26" H="32" />
+            <Equipment />
+            <playerType type="WARRIOR" />
+          </player>
+          <player />
+        </players>
+        <items>
+          <item>
+            <position x="128" y="1248" />
+            <object_type value="1" />
+            <item_type value="2" />
+            <map_name value="town_map.tmx" />
+          </item>
+          <item>
+            <position x="768" y="1248" />
+            <object_type value="1" />
+            <item_type value="5" />
+            <map_name value="town_map.tmx" />
+          </item>
+          <item>
+            <position x="1280" y="80" />
+            <object_type value="1" />
+            <item_type value="1" />
+            <map_name value="town_map.tmx" />
+          </item>
+          <item>
+            <position x="512" y="800" />
+            <object_type value="1" />
+            <item_type value="6" />
+            <map_name value="town_map.tmx" />
+          </item>
+          <item>
+            <position x="1376" y="1056" w="32" h="32" />
+            <object_type value="2" />
+            <armor_type value="1" />
+            <map_name value="town_map.tmx" />
+          </item>
+          <item>
+            <position x="1408" y="1056" w="32" h="32" />
+            <object_type value="2" />
+            <armor_type value="2" />
+            <map_name value="town_map.tmx" />
+          </item>
+          <item>
+            <position x="2144" y="2496" />
+            <object_type value="1" />
+            <item_type value="10" />
+            <map_name value="dungeon_map.tmx" />
+          </item>
+          <item>
+            <position x="2368" y="2496" />
+            <object_type value="1" />
+            <item_type value="10" />
+            <map_name value="dungeon_map.tmx" />
+          </item>
+          <item />
+        </items>
+      </entities>
+      <inventory>
+        <items>
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+        </items>
+        <armor>
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+          <slot />
+        </armor>
+      </inventory>
+      <questmanager>
+        <loaded_quests>
+          <quests type="2" id="1" name="Visit the pub" description="If you cross the river, you will find a big building where you can drink a beer, but don't drink too much or you will not be able to fight the monster." nextQuestId="2" mapName="pub.tmx" reward="500" />
+          <quests type="3" id="2" name="Talk with the waiter" description="The waiter maybe gives you some information very valuable." nextQuestId="3" npcId="4" reward="700" />
+          <quests type="0" id="3" name="Get a potion" description="The waiter at the pub told you that near the shop you can find a potion. Go for it until is too late." nextQuestId="4" item="1" reward="300" />
+        </loaded_quests>
+        <active_quests>
+          <quests type="3" id="0" name="Talk with the villagers" description="Try to talk with the differents villagers to get information about the monster." nextQuestId="1" npcId="0" reward="700" />
+        </active_quests>
+        <finished_quests />
+      </questmanager>
+    </scenegameplay>
+  </scenemanager>
+  <renderer />
+</save_status>

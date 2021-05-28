@@ -159,7 +159,7 @@ public:
 	iPoint battlePos;
 	Generator* generator;
 	int gold;
-
+	bool canMove;
 protected:
 	SDL_Texture* battlerTexture;
 	ParticlesManager* particles;

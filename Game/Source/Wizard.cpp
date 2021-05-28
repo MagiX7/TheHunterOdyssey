@@ -22,6 +22,7 @@ Wizard::Wizard(iPoint position, pugi::xml_node anim, ParticlesManager* particles
 	isDefending = false;
 	attack = false;
 	name = "Wizard";
+	canMove = true;
 
 	channel = app->audio->SetChannel();
 
@@ -210,7 +211,7 @@ void Wizard::HandleInput(float dt)
 	switch (stance)
 	{
 	case PlayerStance::ROAMING:
-		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_REPEAT || app->input->pad->l_y < -0.5)
+		if (canMove && app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_REPEAT || app->input->pad->l_y < -0.5)
 		{
 			if (app->frameCount % 15 == 0) app->audio->PlayFx(channel, footStepFx);
 			generator->Restart();
@@ -225,7 +226,7 @@ void Wizard::HandleInput(float dt)
 				currentAnim = &walkUp;
 			}
 		}
-		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_REPEAT || app->input->pad->l_y > 0.5)
+		if (canMove && app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_REPEAT || app->input->pad->l_y > 0.5)
 		{
 			if (app->frameCount % 15 == 0) app->audio->PlayFx(channel, footStepFx);
 			generator->Restart();
@@ -239,7 +240,7 @@ void Wizard::HandleInput(float dt)
 				currentAnim = &walkDown;
 			}
 		}
-		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_REPEAT || app->input->pad->l_x < -0.5)
+		if (canMove && app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_REPEAT || app->input->pad->l_x < -0.5)
 		{
 			if (app->frameCount % 15 == 0) app->audio->PlayFx(channel, footStepFx);
 			generator->Restart();
@@ -253,7 +254,7 @@ void Wizard::HandleInput(float dt)
 				currentAnim = &walkLeft;
 			}
 		}
-		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_REPEAT || app->input->pad->l_x > 0.5)
+		if (canMove && app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_REPEAT || app->input->pad->l_x > 0.5)
 		{
 			if (app->frameCount % 15 == 0) app->audio->PlayFx(channel, footStepFx);
 			generator->SetParameters({ 1,4 });
