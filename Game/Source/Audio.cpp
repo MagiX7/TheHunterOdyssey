@@ -82,10 +82,14 @@ bool Audio::Update(float dt)
 			{
 				musicVolume = 0;
 				Mix_FreeMusic(music);
-				music = Mix_LoadMUS_RW(app->assetsManager->Load(nextMusic), 1);
+				app->assetsManager->DeleteBufferMus();
+				music = Mix_LoadMUS_RW(app->assetsManager->LoadMusic(nextMusic), 1);
 				Mix_PlayMusic(music, - 1);
 				nextMusic = "";
 				fadeOut = false;
+				
+				
+				//app->assetsManager->DeleteBuffer();
 			}
 			Mix_VolumeMusic(musicVolume);
 		}

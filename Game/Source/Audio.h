@@ -39,7 +39,6 @@ public:
 	bool UnLoadFx(int index);
 
 	void SetDistanceFx(int channel, int angle, uint distance, uint maxDistance);
-
 	void Reset();
 
 	void SetMusicVolume(int index);

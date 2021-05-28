@@ -8,9 +8,13 @@ public:
 	~AssetsManager();
 	bool Start()override;
 	SDL_RWops* Load(const char* fileName);
+	SDL_RWops* LoadMusic(const char* fileName);
 	int MakeLoad( const char* fileName);
+	int MakeLoadMus(const char* fileName);
 	bool DeleteBuffer();
+	bool DeleteBufferMus();
 	char* GetLastBuffer();
 	char* buffer = nullptr;
+	char* buffer1 = nullptr;
 };
 #endif // !_ASSETSMANAGER_H_
