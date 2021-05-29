@@ -87,9 +87,6 @@ bool Audio::Update(float dt)
 				Mix_PlayMusic(music, - 1);
 				nextMusic = "";
 				fadeOut = false;
-				
-				
-				//app->assetsManager->DeleteBuffer();
 			}
 			Mix_VolumeMusic(musicVolume);
 		}
@@ -152,7 +149,8 @@ bool Audio::PlayMusic(const char* path, bool needsTransition, float fadeTime)
 	else
 	{
 		Mix_FreeMusic(music);
-		music = Mix_LoadMUS_RW(app->assetsManager->Load(path), 1);
+		app->assetsManager->DeleteBufferMus();
+		music = Mix_LoadMUS_RW(app->assetsManager->LoadMusic(path), 1);
 		Mix_PlayMusic(music, -1);
 	}
 

@@ -11,7 +11,7 @@
 #define SPEED_X 200.0f
 #define SPEED_Y 200.0f
 
-class SDL_Texture;
+struct SDL_Texture;
 class Enemy;
 
 enum class PlayerType

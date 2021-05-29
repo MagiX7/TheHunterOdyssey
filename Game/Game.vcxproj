@@ -142,6 +142,7 @@
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\Potion.cpp" />
     <ClCompile Include="Source\QuestManager.cpp" />
+    <ClCompile Include="Source\QuestMenu.cpp" />
     <ClCompile Include="Source\Ray.cpp" />
     <ClCompile Include="Source\Render.cpp" />
     <ClCompile Include="Source\SceneBattle.cpp" />
@@ -213,6 +214,7 @@
     <ClInclude Include="Source\Potion.h" />
     <ClInclude Include="Source\Quest.h" />
     <ClInclude Include="Source\QuestManager.h" />
+    <ClInclude Include="Source\QuestMenu.h" />
     <ClInclude Include="Source\Queue.h" />
     <ClInclude Include="Source\Ray.h" />
     <ClInclude Include="Source\Scene.h" />

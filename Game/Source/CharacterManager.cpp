@@ -93,6 +93,9 @@ bool CharacterManager::Update(float dt)
 
 void CharacterManager::Draw(Font* font, bool showColliders)
 {
+	// Black rectangle for the background
+	app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 150, true, false);
+
 	SDL_Rect section = { 0,0,430,650 };
 	app->render->DrawTexture(guiTex, 425, 48, &section, false);
 

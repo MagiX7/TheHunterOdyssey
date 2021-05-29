@@ -20,7 +20,7 @@ class Scene
 {
 public:
 
-	Scene() : active(false), transitionRequired(false), win(false) {}
+	Scene() : active(false), transitionRequired(false), win(false), showColliders(false) {}
 
 	// Destructor
 	virtual ~Scene() {}

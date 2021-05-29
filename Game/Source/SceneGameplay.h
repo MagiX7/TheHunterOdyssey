@@ -20,13 +20,12 @@ class Render;
 class Item;
 class Inventory;
 class QuestManager;
+class QuestMenu;
 
 class Font;
 
 enum class PlayerType;
 enum class EntityType;
-class ParticlesManager;
-class Generator;
 
 enum class GameplayMenuState
 {
@@ -34,6 +33,7 @@ enum class GameplayMenuState
 	CHARACTER_SWAP,
 	INVENTORY,
 	PAUSE,
+	QUESTS
 };
 
 enum class GameplayState
@@ -70,7 +70,7 @@ public:
 	bool CollisionMapEntity(SDL_Rect rect, EntityType type);
 
 private:
-	void HandleInput(float dt);
+	void HandleInput(Input* input, float dt);
 	
 	bool CheckCollision(SDL_Rect rec1, SDL_Rect rec2);
 	void GenerateBattle();
@@ -111,6 +111,9 @@ private:
 
 	// Inventory
 	Inventory* inventory;
+
+	// Quest Menu
+	QuestMenu* quests;
 
 	// Interruptor block
 	Item* interruptorBlock;

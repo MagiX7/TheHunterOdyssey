@@ -5,7 +5,7 @@
 
 class MainMenu;
 class Easing;
-class SDL_Rect;
+struct SDL_Rect;
 
 enum class TitleState
 {

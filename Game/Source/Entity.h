@@ -8,7 +8,7 @@
 #include "Animation.h"
 
 class Player;
-class SDL_Texture;
+struct SDL_Texture;
 
 enum class EntityState
 {

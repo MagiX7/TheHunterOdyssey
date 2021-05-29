@@ -5,6 +5,7 @@
 class GuiControl;
 class GuiButton;
 class Font;
+class Input;
 
 class Menu
 {

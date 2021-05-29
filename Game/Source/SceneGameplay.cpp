@@ -7,7 +7,7 @@
 
 #include "SceneGameplay.h"
 #include "SceneBattle.h"
-#include"AssetsManager.h"
+#include "AssetsManager.h"
 #include "EntityManager.h"
 #include "Hunter.h"
 #include "Wizard.h"
@@ -41,6 +41,7 @@
 #include "CharacterManager.h"
 #include "PauseMenu.h"
 #include "Inventory.h"
+#include "QuestMenu.h"
 
 #include "Log.h"
 
@@ -51,6 +52,10 @@
 SceneGameplay::SceneGameplay()
 {
 	name.Create("scenegameplay");
+
+	// Startup
+	menuState = GameplayMenuState::NONE;
+	gameState = GameplayState::ROAMING;
 
 	questManager = new QuestManager();
 	entityManager = new EntityManager(questManager);
@@ -126,6 +131,7 @@ SceneGameplay::SceneGameplay()
 	pause = new PauseMenu(this);
 
 	font = new Font(app, "Font/font3.xml", app->tex);
+	quests = new QuestMenu(this, questManager, font);
 
 	showColliders = false;
 	transition = false;
@@ -142,6 +148,8 @@ SceneGameplay::SceneGameplay()
 
 	firstQuest = 0.0f;
 	firstQuestAdded = false;
+	tmp = nullptr;
+	sceneBattle = nullptr;
 }
 
 bool SceneGameplay::Load()
@@ -159,10 +167,6 @@ bool SceneGameplay::Load()
 	eastl::list<Player*>::iterator itEnd = playerList.end();
 	for (; it != itEnd; ++it)
 		(*it)->Load();
-
-	// Startup
-	menuState = GameplayMenuState::NONE;
-	gameState = GameplayState::ROAMING;
 
 	// Instantiate character swap manager
 	charManager = new CharacterManager(this, currentPlayer->playerType, font);
@@ -201,8 +205,6 @@ bool SceneGameplay::Load()
 
 	SDL_ShowCursor(SDL_ENABLE);
 	//particles->StartSimulation(currentPlayer->generator);
-	
-	sceneBattle = nullptr;
 
 	return ret;
 }
@@ -240,7 +242,7 @@ bool SceneGameplay::Update(float dt)
 				{
 					particles->PreUpdate();
 					map->Update(dt);
-					HandleInput(dt);
+					HandleInput(app->input, dt);
 					SDL_Rect tmpBounds = currentPlayer->bounds;
 					if (currentPlayer->canMove) currentPlayer->Update(dt);
 
@@ -263,6 +265,7 @@ bool SceneGameplay::Update(float dt)
 						}
 					}
 					SDL_Rect bounds = { currentPlayer->bounds.x,currentPlayer->bounds.y + currentPlayer->bounds.h - 7,currentPlayer->bounds.w,7 };
+					
 					if (showColliders == false && CollisionMapEntity(bounds, currentPlayer->type) == true)
 						currentPlayer->bounds = tmpBounds;
 
@@ -458,11 +461,15 @@ bool SceneGameplay::Update(float dt)
 
 		case GameplayMenuState::INVENTORY:
 			inventory->Update(dt);
-			HandleInput(dt);
+			HandleInput(app->input, dt);
 			break;
 
 		case GameplayMenuState::PAUSE:
 			ret = pause->Update(dt);
+			break;
+
+		case GameplayMenuState::QUESTS:
+			quests->Update(dt);
 			break;
 		}
 		break;
@@ -540,7 +547,6 @@ void SceneGameplay::Draw()
 			break;
 
 		case GameplayMenuState::CHARACTER_SWAP:
-			app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 150, true, false);
 			charManager->Draw(font, showColliders);
 			break;
 
@@ -550,6 +556,9 @@ void SceneGameplay::Draw()
 
 		case GameplayMenuState::INVENTORY:
 			inventory->Draw(font, showColliders);
+			break;
+		case GameplayMenuState::QUESTS:
+			quests->Draw(font, showColliders);
 			break;
 		}
 		break;
@@ -855,7 +864,7 @@ void SceneGameplay::ChangeState(GameplayMenuState type)
 	menuState = type;
 }
 
-void SceneGameplay::HandleInput(float dt)
+void SceneGameplay::HandleInput(Input* input, float dt)
 {
 	//if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
 	//{
@@ -863,21 +872,27 @@ void SceneGameplay::HandleInput(float dt)
 	//	GenerateBattle();
 	//}
 
-	if (app->input->GetKey(SDL_SCANCODE_I) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN) menuState = GameplayMenuState::CHARACTER_SWAP;
+	if (input->GetKey(SDL_SCANCODE_I) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN) ChangeState(GameplayMenuState::CHARACTER_SWAP);
 	
-	if (menuState != GameplayMenuState::INVENTORY && app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_START) == KEY_DOWN) menuState = GameplayMenuState::PAUSE;
+	if (menuState != GameplayMenuState::INVENTORY && input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_START) == KEY_DOWN) ChangeState(GameplayMenuState::PAUSE);
 
-	if (app->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN)
+	if (input->GetKey(SDL_SCANCODE_E) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN)
 	{
 		if (menuState == GameplayMenuState::INVENTORY)
 		{
 			menuState = GameplayMenuState::NONE;
+			inventory->ResetStates();
 		}
 		else
 		{
 			menuState = GameplayMenuState::INVENTORY;
 			inventory->GetEquipment(currentPlayer);
 		}
+	}
+
+	if (input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+	{
+		menuState = GameplayMenuState::QUESTS;
 	}
 }
 

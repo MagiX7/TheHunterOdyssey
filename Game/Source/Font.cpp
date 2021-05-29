@@ -1,6 +1,6 @@
 #include "Font.h"
 #include "Textures.h"
-#include"AssetsManager.h"
+#include "AssetsManager.h"
 #include "Log.h"
 
 #include "PugiXml/src/pugixml.hpp"

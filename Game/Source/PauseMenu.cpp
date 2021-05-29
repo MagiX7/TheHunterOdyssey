@@ -403,7 +403,6 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 
 		//	currentControl = lastControl;
 		//}
-		break;
 	}
 	break;
 	case GuiControlType::SLIDER:
