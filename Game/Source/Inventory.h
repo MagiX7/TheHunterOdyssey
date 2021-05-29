@@ -22,6 +22,7 @@ enum class SlotState
 	NONE = 0,
 	UNSELECTED,
 	SELECTED,
+	FOCUSED,
 	USE,
 	DELETE
 };
@@ -98,6 +99,8 @@ public:
 		currentPlayer = (*players.begin());
 	}
 
+	void ResetStates();
+
 private:
 	Player* GetPlayer(PlayerType type);
 
@@ -118,7 +121,6 @@ public:
 
 	GuiButton* btnEquipment; // Armors
 	GuiButton* btnItems;     // Potions etc
-	/*GuiButton* btnInfo;*/   // Weapons
 
 private:
 	SDL_Texture* atlasTexture;
@@ -144,10 +146,10 @@ private:
 	Orb* orb;
 
 	// Display Text buttons to select with player uses the item
-	GuiButton* btnHunter;
+	/*GuiButton* btnHunter;
 	GuiButton* btnWizard;
 	GuiButton* btnThief;
-	GuiButton* btnWarrior;
+	GuiButton* btnWarrior;*/
 
 	GuiButton* btnUse;       // Use item
 	GuiButton* btnDelete;	 // Delete an item.

@@ -306,9 +306,7 @@ bool MainMenu::OnGuiMouseClickEvent(GuiControl* control)
 		if (control->id == 1) // New Game
 			scene->TransitionToScene(SceneType::GAMEPLAY, TransitionType::ALTERNATING_BARS);// New Game
 		else if (control->id == 2) // Continue
-		{
 			scene->TransitionToScene(SceneType::GAMEPLAY, TransitionType::WIPE, true);
-		}
 		else if (control->id == 3) // Options
 		{
 			state = MenuState::OPTIONS;

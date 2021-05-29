@@ -18,7 +18,7 @@ public:
 
 	int alineation;
 
-private:
+public:
 
 	// Gui Button specific properties
 	// Maybe some animation properties for state change?

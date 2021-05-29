@@ -73,11 +73,11 @@ bool GuiSlider::Update(Input* input, float dt, int id)
 		}
 		else if (this->id == id)
 		{
-			if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN
-				|| input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_REPEAT || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_REPEAT)
-			{
+			//if (input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN
+			//	|| input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_REPEAT || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_REPEAT)
+			//{
 				state = GuiControlState::FOCUSED;
-			}
+			//}
 
 			if(input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_REPEAT)
 			{
@@ -146,13 +146,14 @@ bool GuiSlider::Draw(Render* render, bool showColliders)
 		if (showColliders) render->DrawRectangle(bounds, 0, 255, 0, 150, true, false);
 		break;
 
-	case GuiControlState::FOCUSED: 
+	case GuiControlState::FOCUSED:
+		render->DrawRectangle(bounds, 180, 120, 120, 180, true, false);
 		render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
 		render->DrawTexture(texture, bounds.x + 59, bounds.y + 6, &slider, false);
 		{
 			SDL_Rect r = { bounds.x, bounds.y, 46,46 };
 			if ((mouseX > bounds.x) && (mouseX < bounds.x + 46)) render->DrawRectangle(r, 255, 255, 0, 120, true, false);
-			else if(lastKey == 0) render->DrawRectangle(r, 255, 255, 0, 120, true, false);
+			else if(lastKey == 0 || lastKey == -1) render->DrawRectangle(r, 255, 255, 0, 120, true, false);
 			
 			r.x = bounds.x + bounds.w - 46;
 			if ((mouseX < bounds.x + bounds.w) && (mouseX > bounds.x + bounds.w - 46)) render->DrawRectangle(r, 255, 255, 0, 120, true, false);
@@ -162,7 +163,8 @@ bool GuiSlider::Draw(Render* render, bool showColliders)
 		}
 		break;
 
-	case GuiControlState::PRESSED: 
+	case GuiControlState::PRESSED:
+		render->DrawRectangle(bounds, 225, 110, 110, 180, true, false);
 		render->DrawTexture(texture, bounds.x, bounds.y, &section, false);
 		render->DrawTexture(texture, bounds.x + 59, bounds.y + 6, &slider, false);
 		
@@ -191,6 +193,7 @@ bool GuiSlider::Draw(Render* render, bool showColliders)
 	default:
 		break;
 	}
+
 
 	return false;
 }
