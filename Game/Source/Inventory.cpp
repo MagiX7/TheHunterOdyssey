@@ -276,7 +276,7 @@ void Inventory::Draw(Font* font, bool showColliders)
 	case InventoryState::STATS:
 		break;
 	}
-
+	
 	if (state != InventoryState::STATS)
 	{
 		// Shape where the stats should go
@@ -288,6 +288,11 @@ void Inventory::Draw(Font* font, bool showColliders)
 			app->render->DrawTexture(atlasTexture, equipment[i].bounds.x, equipment[i].bounds.y, &r, false);
 			if (equipment[i].item != nullptr && &equipment[i].item->atlasSection != NULL)
 				app->render->DrawTexture(atlasTexture, equipment[i].bounds.x + 4, equipment[i].bounds.y + 4, &equipment[i].item->atlasSection, false);
+		
+			if (equipment[currentArmorSlotId].state == SlotState::FOCUSED)
+			{
+				app->render->DrawRectangle(equipment[currentArmorSlotId].bounds, 200, 200, 200, 50, true, false);
+			}
 		}
 
 		r = { 890, 130, 196, 50 };
@@ -1082,15 +1087,24 @@ void Inventory::HandleSlot(InventorySlot objects[], float dt)
 			++currentSlotId;
 			objects[currentSlotId].state = SlotState::FOCUSED;
 		}
-		else if (app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_UP && currentSlotId + 8 <= MAX_INVENTORY_SLOTS - 1)
+		else if (app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_UP)
 		{
-			objects[currentSlotId].state = SlotState::NONE;
-			currentSlotId += 8;
-			objects[currentSlotId].state = SlotState::FOCUSED;
+			if (currentSlotId >= 0 && currentSlotId <= 7 && currentArmorSlotId + 1 >= 0)
+			{
+				equipment[currentArmorSlotId].state = SlotState::NONE;
+				++currentArmorSlotId;
+				equipment[currentArmorSlotId].state = SlotState::FOCUSED;
+			}
+			else if (currentSlotId + 8 <= MAX_INVENTORY_SLOTS - 1)
+			{
+				objects[currentSlotId].state = SlotState::NONE;
+				currentSlotId += 8;
+				objects[currentSlotId].state = SlotState::FOCUSED;
+			}
 		}
 		else if (app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_UP)
 		{
-			if (currentSlotId >= 0 && currentSlotId <= 7)
+			if (currentSlotId >= 0 && currentSlotId <= 7 && currentArmorSlotId - 1 >= 0)
 			{
 				equipment[currentArmorSlotId].state = SlotState::NONE;
 				--currentArmorSlotId;
