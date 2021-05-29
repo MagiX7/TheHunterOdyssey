@@ -152,7 +152,8 @@ private:
 	GuiButton* btnWarrior;*/
 
 	GuiButton* btnUse;       // Use item
-	GuiButton* btnDelete;	 // Delete an item.
+	GuiButton* btnDelete;	 // Delete an item
+	//GuiButton* btnEquip;	// Equips an armor
 	GuiButton* btnUnEquip;	// Unequip an armor
 
 	// Use this buttons for going through characters

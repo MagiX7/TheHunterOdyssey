@@ -113,7 +113,7 @@ public:
 
 		if (armor->armorType == ArmorType::HELMET)
 		{
-			if(helmet == nullptr) helmet = armor;
+			if (helmet == nullptr) helmet = armor;
 			else
 			{
 				ret = helmet;
