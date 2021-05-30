@@ -49,26 +49,28 @@ void QuestMenu::Draw(Font* font, bool showColliders)
 	btnFinished->Draw(app->render, showColliders, 34, { 255, 255, 255, 255 });
 	btnBack->Draw(app->render, showColliders, 34, { 255, 255, 255, 255 });
 	
-	eastl::list<Quest*>::iterator it = nullptr;
-	eastl::list<Quest*>::iterator itEnd = nullptr;
 	switch (state)
 	{
 	case QuestState::ACTIVE:
-		it = questManager->GetActiveList().begin();
-		itEnd = questManager->GetActiveList().end();
-		//for (; (*it) != nullptr && it != itEnd; ++it)
-		//{
-		//	(*it)->Draw(app->render, font, false);
-		//}
-		break;
+	{
+		eastl::list<Quest*>::iterator it = questManager->GetActiveList().begin();
+		eastl::list<Quest*>::iterator itEnd = questManager->GetActiveList().end();
+		for (int i = 0; it != itEnd; ++it, i += 50)
+		{
+			app->render->DrawText(font, (*it)->name.c_str(), 200, 150, 40, 3, { 255, 255, 255, 255 });
+		}
+	}
+	break;
 	case QuestState::FINISHED:
-		it = questManager->GetFinishedList().begin();
-		itEnd = questManager->GetFinishedList().end();
-		//for (; (*it) != nullptr && it != itEnd; ++it)
-		//{
-		//	(*it)->Draw(app->render, font, false);
-		//}
-		break;
+	{
+		eastl::list<Quest*>::iterator it = questManager->GetFinishedList().begin();
+		eastl::list<Quest*>::iterator itEnd = questManager->GetFinishedList().end();
+		for (int i = 0; it != itEnd; ++it, i += 50)
+		{
+			app->render->DrawText(font, (*it)->name.c_str(), 200, 150 + i, 40, 3, { 255, 255, 255, 255 });
+		}
+	}
+	break;
 	}
 }
 

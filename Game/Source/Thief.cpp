@@ -194,10 +194,16 @@ bool Thief::UnLoad()
 	particles->DeleteGenerator(generator);
 	app->tex->UnLoad(texture);
 	app->tex->UnLoad(battlerTexture);
-	//app->audio->UnLoadFx(footStepFx);
-	//app->audio->UnLoadFx(attackFx);
-	//app->audio->UnLoadFx(hurtFx);
-	//app->audio->UnLoadFx(dieFx);
+
+	return true;
+}
+
+bool Thief::LoadState(pugi::xml_node& node)
+{
+	bounds.x = node.child("bounds").attribute("X").as_int();
+	bounds.y = node.child("bounds").attribute("Y").as_int();
+	bounds.w = node.child("bounds").attribute("W").as_int();
+	bounds.h = node.child("bounds").attribute("H").as_int();
 
 	return true;
 }

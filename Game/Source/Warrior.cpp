@@ -204,6 +204,16 @@ bool Warrior::UnLoad()
 	return true;
 }
 
+bool Warrior::LoadState(pugi::xml_node& node)
+{
+	bounds.x = node.child("bounds").attribute("X").as_int();
+	bounds.y = node.child("bounds").attribute("Y").as_int();
+	bounds.w = node.child("bounds").attribute("W").as_int();
+	bounds.h = node.child("bounds").attribute("H").as_int();
+
+	return true;
+}
+
 void Warrior::HandleInput(float dt)
 {
 	switch (stance)

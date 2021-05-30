@@ -205,6 +205,24 @@ bool Hunter::UnLoad()
 	return true;
 }
 
+bool Hunter::LoadState(pugi::xml_node& node)
+{
+	bounds.x = node.child("bounds").attribute("X").as_int();
+	bounds.y = node.child("bounds").attribute("Y").as_int();
+	bounds.w = node.child("bounds").attribute("W").as_int();
+	bounds.h = node.child("bounds").attribute("H").as_int();
+
+	return true;
+}
+
+bool Hunter::SaveState(pugi::xml_node& node)
+{
+	Player::SaveState(node);
+	pugi::xml_node auxiliar1;
+
+	return true;
+}
+
 void Hunter::HandleInput(float dt)
 {
 	switch (stance)
@@ -288,15 +306,6 @@ void Hunter::HandleInput(float dt)
 	}
 }
 
-bool Hunter::SaveState(pugi::xml_node& node)
-{
-	Player::SaveState(node);
-	pugi::xml_node auxiliar1;
-	auxiliar1 = node.append_child("playerType");
-
-	auxiliar1.append_attribute("type").set_value("HUNTER");
-	return true;
-}
 
 void Hunter::Attack(Enemy* enemy)
 {

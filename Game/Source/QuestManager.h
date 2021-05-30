@@ -40,9 +40,9 @@ public:
 
 	void GetReward(int reward);
 
-	inline eastl::list<Quest*> GetFinishedList() { return finishedQuests; }
+	inline eastl::list<Quest*>& GetFinishedList() { return finishedQuests; }
 	
-	inline eastl::list<Quest*> GetActiveList() { return activeQuests; }
+	inline eastl::list<Quest*>& GetActiveList() { return activeQuests; }
 
 private:
 

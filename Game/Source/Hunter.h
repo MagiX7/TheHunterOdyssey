@@ -16,6 +16,8 @@ public:
 
 	bool UnLoad() override;
 
+	bool LoadState(pugi::xml_node& node) override;
+
 	bool SaveState(pugi::xml_node& node) override;
 
 	void Attack(Enemy* enemy) override;

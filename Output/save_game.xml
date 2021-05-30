@@ -6,9 +6,30 @@
   <textures />
   <audio />
   <scenemanager>
-    <scenegameplay map_name="dungeon_map.tmx" first_quest="true">
+    <scenegameplay map_name="town_map.tmx" first_quest="true">
       <entities>
-        <NPCs amount="0" />
+        <NPCs amount="4">
+          <NPC>
+            <bounds X="290" Y="287" W="30" H="32" />
+            <NpcType type="TOWN" />
+            <Dialoge idDialoge="0" />
+          </NPC>
+          <NPC>
+            <bounds X="576" Y="1094" W="30" H="32" />
+            <NpcType type="RAY" />
+            <Dialoge idDialoge="3" />
+          </NPC>
+          <NPC>
+            <bounds X="784" Y="810" W="30" H="32" />
+            <NpcType type="TABERN" />
+            <Dialoge idDialoge="2" />
+          </NPC>
+          <NPC>
+            <bounds X="465" Y="350" W="30" H="32" />
+            <NpcType type="NPC_WIZARD" />
+            <Dialoge idDialoge="1" />
+          </NPC>
+        </NPCs>
         <Enemies amount="3">
           <Enemy>
             <bounds X="608" Y="352" W="74" H="74" />
@@ -32,9 +53,8 @@
         <players amount="4">
           <player>
             <isCurrent current="true" />
-            <bounds X="1538" Y="789" W="26" H="32" />
+            <bounds X="260" Y="290" W="26" H="32" />
             <Equipment />
-            <playerType type="HUNTER" />
           </player>
           <player>
             <isCurrent current="false" />
@@ -93,19 +113,6 @@
             <armor_type value="2" />
             <map_name value="town_map.tmx" />
           </item>
-          <item>
-            <position x="2144" y="2496" />
-            <object_type value="1" />
-            <item_type value="10" />
-            <map_name value="dungeon_map.tmx" />
-          </item>
-          <item>
-            <position x="2368" y="2496" />
-            <object_type value="1" />
-            <item_type value="10" />
-            <map_name value="dungeon_map.tmx" />
-          </item>
-          <item />
         </items>
       </entities>
       <inventory>

@@ -68,7 +68,6 @@ SceneGameplay::SceneGameplay()
 	int size = app->assetsManager->MakeLoad("Xml/animations.xml");
 	pugi::xml_parse_result result = animations.load_buffer(app->assetsManager->GetLastBuffer(), size);
 	app->assetsManager->DeleteBuffer();
-	//pugi::xml_parse_result result = animations.load_file("animations.xml");
 
 	if (result == NULL) 
 		LOG("Could not load xml file: %s. pugi error: %s", "animations.xml", result.description());
@@ -156,8 +155,6 @@ bool SceneGameplay::Load()
 {
 	LOG("Loading Scene Gameplay");
 	bool ret = true;
-	//particles->CleanUp();
-	font = new Font(app, "Font/font3.xml", app->tex);
 
 	goldTexture = app->tex->Load("Textures/UI/gold.png");
 
@@ -199,12 +196,9 @@ bool SceneGameplay::Load()
 
 	eastl::list<Item*>::iterator item = items.begin();
 	for (; item != items.end(); ++item)
-	{
 		(*item)->Load();
-	}
 
 	SDL_ShowCursor(SDL_ENABLE);
-	//particles->StartSimulation(currentPlayer->generator);
 
 	return ret;
 }
@@ -585,7 +579,7 @@ bool SceneGameplay::UnLoad()
 	RELEASE(map);
 	
 	eastl::list<Player*>::iterator it = playerList.begin();
-	eastl::list<Player*>::iterator itEnd = playerList.begin();
+	eastl::list<Player*>::iterator itEnd = playerList.end();
 	for (; it != itEnd; ++it)
 	{
 		(*it)->UnLoad();
@@ -595,7 +589,7 @@ bool SceneGameplay::UnLoad()
 	playerList.clear();
 
 	eastl::list<Item*>::iterator item = items.begin();
-	eastl::list<Item*>::iterator itemEnd = items.begin();
+	eastl::list<Item*>::iterator itemEnd = items.end();
 	for (; item != itemEnd; ++item)
 	{
 		(*item)->UnLoad();
@@ -605,7 +599,7 @@ bool SceneGameplay::UnLoad()
 	items.clear();
 
 	eastl::list<Enemy*>::iterator en = enemyList.begin();
-	eastl::list<Enemy*>::iterator enemyEnd = enemyList.begin();
+	eastl::list<Enemy*>::iterator enemyEnd = enemyList.end();
 	for (; en != enemyEnd; ++en)
 	{
 		(*en)->UnLoad();
@@ -686,51 +680,28 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 
 	entityManager->LoadState(&toLoadEntities, &anims);
 
+	
+	//for (item; item != itEnd; ++item)
+	//{
+	//	(*item)->UnLoad();
+	//	RELEASE((*item));
+	//	playerList.erase(item);
+	//}
+
+	pugi::xml_node nodePlayer = toLoadEntities.child("players").child("player");
+	bool isCurrent = false;
+
 	eastl::list<Player*>::iterator item = playerList.begin();
 	eastl::list<Player*>::iterator itEnd = playerList.end();
-	for (item; item != itEnd; ++item)
+	for (; item != itEnd; ++item, nodePlayer = nodePlayer.next_sibling())
 	{
-		(*item)->UnLoad();
-		RELEASE((*item));
-		playerList.erase(item);
-	}
-
-	int playerAmount = toLoadEntities.child("players").attribute("amount").as_int();
-	pugi::xml_node NodePlayer = toLoadEntities.child("players");
-	pugi::xml_node NodePlayerAuxiliar = NodePlayer.child("player");
-	bool iscurrent = false;
-	for (int i = 0; i < playerAmount; ++i) 
-	{
-		iscurrent = false;
-
-		SString string;
-		SString string1;
-		string = NodePlayerAuxiliar.child("playerType").attribute("type").as_string();
-		string1 = NodePlayerAuxiliar.child("isCurrent").attribute("current").as_string();
-		if (string1 == "true") iscurrent = true;
-
-		EntityType plType;
-		Player* player = nullptr;
-		if (string == "HUNTER") 
-			player = new Hunter({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims,particles);
-		else if (string == "WIZARD") 
-			player = new Wizard({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims, particles);
-		else if (string == "WARRIOR") 
-			player = new Warrior({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims, particles);
-		else if (string == "THIEF") 
-			player = new Thief({ NodePlayerAuxiliar.child("bounds").attribute("X").as_int(), NodePlayerAuxiliar.child("bounds").attribute("Y").as_int() }, anims, particles);
-		else 
-			plType = EntityType::UNKNOWN;
+		Player* pl = (*item);
+		isCurrent = nodePlayer.child("isCurrent").attribute("current").as_bool();
+		pl->LoadState(nodePlayer);
 		
-		if (iscurrent == true) currentPlayer = player;
-		playerList.push_back(player);
-		player->Load();
-		/*if (NodePlayerAuxiliar.child("Equipment").attribute("helmet").as_int() == (int)ArmorType::HELMET)
-		{
-
-		}*/
+		if (isCurrent) currentPlayer = pl;
 		
-		for (pugi::xml_attribute n = NodePlayerAuxiliar.child("Equipment").attribute("helmet"); n; n = n.next_attribute())
+		for (pugi::xml_attribute n = nodePlayer.child("Equipment").attribute("helmet"); n; n = n.next_attribute())
 		{
 			Armor* armor = nullptr;
 			switch ((ArmorType)n.as_int())
@@ -744,9 +715,8 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 				armor->Load();
 				break;
 			}
-			if(armor != nullptr) player->SetEquipment(armor);
+			if(armor != nullptr) pl->SetEquipment(armor);
 		}
-		NodePlayerAuxiliar = NodePlayerAuxiliar.next_sibling();
 	}
 
 	inventory->SetPlayersList(playerList);
@@ -762,6 +732,7 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 		enemyList.remove((*enemies));
 	}
 	enemyList.clear();
+
 	int enemyAmount = toLoadEntities.child("Enemies").attribute("amount").as_int();
 	pugi::xml_node NodeEnemy = toLoadEntities.child("Enemies");
 	pugi::xml_node NodeEnemyAuxiliar = NodeEnemy.child("Enemy");
@@ -825,23 +796,20 @@ bool SceneGameplay::SaveState(pugi::xml_node& save) const
 	int playerAmount = 0;
 	nodePlayers.append_attribute("amount").set_value(playerList.size());
 	nodePlayersAuxiliar = nodePlayers.append_child("player");
-	eastl::list<Player*>::iterator aux;
-	eastl::list<Player*>::iterator auxEnd;
-	aux = playerList.begin().mpNode;
-	auxEnd = playerList.end().mpNode;
-	for (aux; aux != auxEnd; ++aux)
+	eastl::list<Player*>::iterator aux = playerList.begin().mpNode;
+	eastl::list<Player*>::iterator auxEnd = playerList.end().mpNode;
+	for (aux; aux != auxEnd; ++aux, nodePlayersAuxiliar = nodePlayers.append_child("player"))
 	{
 		Player* pl = (*aux);
 		if (pl == currentPlayer)
 		{
-			nodePlayersAuxiliar.append_child("isCurrent").append_attribute("current").set_value("true");
+			nodePlayersAuxiliar.append_child("isCurrent").append_attribute("current").set_value(true);
 		}
 		else
 		{
-			nodePlayersAuxiliar.append_child("isCurrent").append_attribute("current").set_value("false");
+			nodePlayersAuxiliar.append_child("isCurrent").append_attribute("current").set_value(false);
 		}
 		pl->SaveState(nodePlayersAuxiliar);
-		nodePlayersAuxiliar = nodePlayers.append_child("player");
 	}
 
 	eastl::list<Item*>::iterator it = items.begin().mpNode;
@@ -952,7 +920,6 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						//entityManager->SetAllNpcActive();
 						iPoint position = { 97,520 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -986,7 +953,6 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						//entityManager->SetAllNpcActive();
 						iPoint position = { 70,765 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1020,7 +986,6 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						//entityManager->SetAllNpcActive();
 						iPoint position = { 380,1120 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1054,7 +1019,6 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						//entityManager->SetAllNpcActive();
 						iPoint position = { 97,1100 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1092,7 +1056,6 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						//entityManager->SetAllNpcActive();
 						iPoint position = { 770,710 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1128,7 +1091,6 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						//entityManager->SetAllNpcActive();
 						iPoint position = { 385,610 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1184,7 +1146,6 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					{
 						app->audio->PlayFx(channel, doorOpenedFx);
 						isTown = false;
-						//entityManager->SetAllNpcInactive();
 						entityManager->DeleteAllNpcActive();
 						iPoint position = { 650,480 };
 						currentPlayer->bounds.x = position.x;
@@ -1202,7 +1163,6 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						//entityManager->SetAllNpcActive();
 						iPoint position = { 380,136 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1239,7 +1199,6 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						//entityManager->SetAllNpcActive();
 						iPoint position = { 160,136 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1273,7 +1232,6 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						//entityManager->SetAllNpcActive();
 						iPoint position = { 898,152 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1308,7 +1266,6 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						//entityManager->SetAllNpcActive();
 						iPoint position = { 900,1250 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1343,7 +1300,6 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						//entityManager->SetAllNpcActive();
 						iPoint position = { 1350,390 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1375,7 +1331,6 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					{
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						//entityManager->SetAllNpcActive();
 						iPoint position = { 705,30 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1406,7 +1361,6 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					{
 						isTown = true;
 						entityManager->DeleteAllNpcActive();
-						//entityManager->SetAllNpcActive();
 						iPoint position = { 320, 384 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1564,8 +1518,6 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						iPoint position = { 1950,360 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
-						//map->CleanUp();
-						//map->Load("dungeon_map.tmx", app->tex);
 						isDungeon = true;
 						ChangeBlockBounds(2048, 320);
 						exit = true;
@@ -1575,11 +1527,9 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					{
 						isTown = false;
 						entityManager->SetAllNpcInactive();
-						//map->CleanUp();
 						whereMove = 6;
 						currentPlayer->canMove = false;
 						deleteDoor = false;
-						//map->Load("dungeon_map.tmx", app->tex);
 						isDungeon = true;
 						exit = true;
 						break;
@@ -1591,8 +1541,6 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						iPoint position = { 1950,1650 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
-						//map->CleanUp();
-						//map->Load("dungeon_map.tmx", app->tex);
 						isDungeon = true;
 						exit = true;
 						break;
@@ -1881,12 +1829,8 @@ void SceneGameplay::LoadItems(pugi::xml_node& n)
 
 void SceneGameplay::SetCameraMovement(int target_x, int target_y)
 {
-	if (app->render->camera.x < target_x)
-		app->render->camera.x += 10;
-	if (app->render->camera.x > target_x)
-		app->render->camera.x -= 10;
-	if (app->render->camera.y > target_y)
-		app->render->camera.y -= 10;
-	if (app->render->camera.y < target_y)
-		app->render->camera.y += 10;
+	if (app->render->camera.x < target_x) app->render->camera.x += 10;
+	if (app->render->camera.x > target_x) app->render->camera.x -= 10;
+	if (app->render->camera.y > target_y) app->render->camera.y -= 10;
+	if (app->render->camera.y < target_y) app->render->camera.y += 10;
 }
