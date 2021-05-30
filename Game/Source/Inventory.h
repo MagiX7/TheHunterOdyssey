@@ -130,6 +130,7 @@ private:
 
 	// Armor and weapons equiped slots
 	InventorySlot equipment[MAX_EQUIPMENT_SLOTS];
+	bool inEquipment;
 
 	// There will be 32 slots for items
 	InventorySlot slots[MAX_INVENTORY_SLOTS];

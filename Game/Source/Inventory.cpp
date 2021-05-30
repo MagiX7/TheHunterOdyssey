@@ -148,6 +148,7 @@ bool Inventory::Load(Font* font)
 
 	currentSlotId = 0;
 	currentArmorSlotId = 2;
+	inEquipment = false;
 
 	usingItem = false;
 
@@ -176,10 +177,34 @@ bool Inventory::Update(float dt)
 
 	case InventoryState::EQUIPMENT:
 		
-		if (armorSlots[currentSlotId].state != SlotState::SELECTED && app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_B) == KEY_UP)
+		if (!inEquipment && armorSlots[currentSlotId].state != SlotState::SELECTED && app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_B) == KEY_UP)
 		{
 			InventoryState tmp = state;
 			state = InventoryState::NONE;
+
+			currentSlotId = 0;
+			armorSlots[0].state = SlotState::NONE;
+
+			currentArmorSlotId = 2;
+			equipment[2].state = SlotState::NONE;
+
+			controls.clear();
+			controls.push_back(btnEquipment);
+			controls.push_back(btnItems);
+
+			if (tmp == InventoryState::EQUIPMENT) currentControl = btnEquipment;
+			else if (tmp == InventoryState::ITEMS) currentControl = btnItems;
+
+			currentControl->state = GuiControlState::FOCUSED;
+			lastControl = nullptr;
+		}
+		else if (inEquipment && equipment[currentArmorSlotId].state != SlotState::SELECTED && app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_B) == KEY_UP)
+		{
+			InventoryState tmp = state;
+			state = InventoryState::NONE;
+
+			currentArmorSlotId = 2;
+			equipment[2].state = SlotState::NONE;
 
 			currentSlotId = 0;
 			armorSlots[0].state = SlotState::NONE;
@@ -195,6 +220,7 @@ bool Inventory::Update(float dt)
 			lastControl = nullptr;
 		}
 		
+		
 		HandleObjects(armorSlots);
 		if (currentSlotId > -1) HandleSlot(armorSlots, dt);
 
@@ -204,7 +230,7 @@ bool Inventory::Update(float dt)
 
 	case InventoryState::ITEMS:
 		
-		if (slots[currentSlotId].state != SlotState::SELECTED && app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_B) == KEY_UP)
+		if (!inEquipment && slots[currentSlotId].state != SlotState::SELECTED && app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_B) == KEY_UP)
 		{
 			InventoryState tmp = state;
 			state = InventoryState::NONE;
@@ -262,21 +288,6 @@ void Inventory::Draw(Font* font, bool showColliders)
 	btnEquipment->Draw(app->render, showColliders, 36);
 	btnItems->Draw(app->render, showColliders, 36);
 
-	std::string iQuantity;
-	switch (state)
-	{
-	case InventoryState::EQUIPMENT:
-		DrawObjects(armorSlots, font, showColliders);
-		app->render->DrawRectangle(btnItems->bounds, 0, 0, 0, 150, true, false);
-		break;
-	case InventoryState::ITEMS:
-		DrawObjects(slots, font, showColliders);
-		app->render->DrawRectangle(btnEquipment->bounds, 0, 0, 0, 150, true, false);
-		break;
-	case InventoryState::STATS:
-		break;
-	}
-	
 	if (state != InventoryState::STATS)
 	{
 		// Shape where the stats should go
@@ -288,7 +299,7 @@ void Inventory::Draw(Font* font, bool showColliders)
 			app->render->DrawTexture(atlasTexture, equipment[i].bounds.x, equipment[i].bounds.y, &r, false);
 			if (equipment[i].item != nullptr && &equipment[i].item->atlasSection != NULL)
 				app->render->DrawTexture(atlasTexture, equipment[i].bounds.x + 4, equipment[i].bounds.y + 4, &equipment[i].item->atlasSection, false);
-		
+
 			if (equipment[currentArmorSlotId].state == SlotState::FOCUSED)
 			{
 				app->render->DrawRectangle(equipment[currentArmorSlotId].bounds, 200, 200, 200, 50, true, false);
@@ -375,7 +386,22 @@ void Inventory::Draw(Font* font, bool showColliders)
 		}
 	}
 
-	if (displayEquipmentMenu && state != InventoryState::STATS) DisplayMenuEquipment(showColliders);
+
+	std::string iQuantity;
+	switch (state)
+	{
+	case InventoryState::EQUIPMENT:
+		DrawObjects(armorSlots, font, showColliders);
+		app->render->DrawRectangle(btnItems->bounds, 0, 0, 0, 150, true, false);
+		break;
+	case InventoryState::ITEMS:
+		DrawObjects(slots, font, showColliders);
+		app->render->DrawRectangle(btnEquipment->bounds, 0, 0, 0, 150, true, false);
+		break;
+	case InventoryState::STATS:
+		break;
+	}
+	//if (displayEquipmentMenu && state != InventoryState::STATS) DisplayMenuEquipment(showColliders);
 }
 
 bool Inventory::UnLoad()
@@ -430,14 +456,41 @@ bool Inventory::OnGuiMouseClickEvent(GuiControl* control)
 			if (state == InventoryState::ITEMS)
 			{
 				//slots[currentSlotId].state = SlotState::USE;
-				UseObject(slots, currentPlayer);
-
+				if (!inEquipment)
+				{
+					UseObject(slots, currentPlayer);
+				}
+				else
+				{
+					AddItem(equipment[currentArmorSlotId].item);
+					currentPlayer->UnequipArmor((Armor*)equipment[currentArmorSlotId].item);
+					equipment[currentArmorSlotId].item = nullptr;
+					equipment[currentArmorSlotId].itemsAmount--;
+					equipment[currentArmorSlotId].filled = false;
+					equipment[currentArmorSlotId].state = SlotState::NONE;
+					displayEquipmentMenu = false;
+					isTextDisplayed = false;
+				}
 			}
 			else if (state == InventoryState::EQUIPMENT)
 			{
-				currentPlayer->SetEquipment((Armor*)armorSlots[currentSlotId].item);
-				GetEquipment(currentPlayer);
-				UseObject(armorSlots, currentPlayer);
+				if (!inEquipment)
+				{
+					currentPlayer->SetEquipment((Armor*)armorSlots[currentSlotId].item);
+					GetEquipment(currentPlayer);
+					UseObject(armorSlots, currentPlayer);
+				}
+				else
+				{
+					AddItem(equipment[currentArmorSlotId].item);
+					currentPlayer->UnequipArmor((Armor*)equipment[currentArmorSlotId].item);
+					equipment[currentArmorSlotId].item = nullptr;
+					equipment[currentArmorSlotId].itemsAmount--;
+					equipment[currentArmorSlotId].filled = false;
+					equipment[currentArmorSlotId].state = SlotState::NONE;
+					displayEquipmentMenu = false;
+					isTextDisplayed = false;
+				}
 			}
 			
 		}
@@ -1024,9 +1077,14 @@ void Inventory::DrawObjects(InventorySlot objects[], Font *font, bool showCollid
 			}*/
 		}
 	}
+
 	if (objects[currentSlotId].state == SlotState::FOCUSED)
 	{
 		app->render->DrawRectangle(objects[currentSlotId].bounds, 200, 200, 200, 50, true, false);
+	}
+	else if (equipment[currentArmorSlotId].state == SlotState::FOCUSED)
+	{
+		app->render->DrawRectangle(equipment[currentArmorSlotId].bounds, 200, 200, 200, 50, true, false);
 	}
 
 	// Draw the grabbed object
@@ -1039,34 +1097,13 @@ void Inventory::DrawObjects(InventorySlot objects[], Font *font, bool showCollid
 		if (showColliders) app->render->DrawRectangle(originSlot->item->bounds, 0, 255, 0, 120, true, false);
 	}
 
-	if (currentSlotId > -1)
+	if (currentSlotId > -1 || currentArmorSlotId > -1)
 	{
 		if (objects[currentSlotId].state == SlotState::SELECTED)
 			DisplayText(objects[currentSlotId].bounds, showColliders);
-		/*else if (objects[currentSlotId].state == SlotState::USE)
-		{
-			tmpBounds = objects[currentSlotId].bounds;
-			SDL_Rect r = { tmpBounds.x + 20, tmpBounds.y + 20, 128, 95 };
-			app->render->DrawRectangle(r, 0, 0, 0, 255, true, false);
 
-			btnHunter->bounds.x = r.x + 20;
-			btnHunter->bounds.y = r.y + 5;
-			btnHunter->Draw(app->render, showColliders);
-
-			btnWizard->bounds.x = r.x + 70;
-			btnWizard->bounds.y = r.y + 5;
-			btnWizard->Draw(app->render, showColliders);
-
-			btnThief->bounds.x = r.x + 20;
-			btnThief->bounds.y = btnWizard->bounds.y + btnWizard->bounds.h + 5;
-			btnThief->Draw(app->render, showColliders);
-
-			btnWarrior->bounds.x = r.x + 70;
-			btnWarrior->bounds.y = btnWizard->bounds.y + btnWizard->bounds.h + 5;
-			btnWarrior->Draw(app->render, showColliders);
-
-			tmpCharBounds = r;
-		}*/
+		if (equipment[currentArmorSlotId].state == SlotState::SELECTED)
+			DisplayText(equipment[currentArmorSlotId].bounds, showColliders);
 	}
 }
 
@@ -1075,46 +1112,68 @@ void Inventory::HandleSlot(InventorySlot objects[], float dt)
 	//objects[0].state = SlotState::FOCUSED;
 	if (objects[currentSlotId].state != SlotState::SELECTED)
 	{
-		if ((app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_UP) && currentSlotId - 1 >= 0)
+		if (!inEquipment)
 		{
-			objects[currentSlotId].state = SlotState::NONE;
-			--currentSlotId;
-			objects[currentSlotId].state = SlotState::FOCUSED;
-		}
-		else if ((app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_UP) && currentSlotId + 1 <= MAX_INVENTORY_SLOTS - 1)
-		{
-			objects[currentSlotId].state = SlotState::NONE;
-			++currentSlotId;
-			objects[currentSlotId].state = SlotState::FOCUSED;
-		}
-		else if (app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_UP)
-		{
-			if (currentSlotId >= 0 && currentSlotId <= 7 && currentArmorSlotId + 1 >= 0)
+			if ((app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_UP) && currentSlotId - 1 >= 0)
 			{
-				equipment[currentArmorSlotId].state = SlotState::NONE;
-				++currentArmorSlotId;
-				equipment[currentArmorSlotId].state = SlotState::FOCUSED;
+				objects[currentSlotId].state = SlotState::NONE;
+				--currentSlotId;
+				objects[currentSlotId].state = SlotState::FOCUSED;
 			}
-			else if (currentSlotId + 8 <= MAX_INVENTORY_SLOTS - 1)
+			else if ((app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_UP) && currentSlotId + 1 <= MAX_INVENTORY_SLOTS - 1)
+			{
+				objects[currentSlotId].state = SlotState::NONE;
+				++currentSlotId;
+				objects[currentSlotId].state = SlotState::FOCUSED;
+			}
+			else if (app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_UP && currentSlotId + 8 <= MAX_INVENTORY_SLOTS - 1)
 			{
 				objects[currentSlotId].state = SlotState::NONE;
 				currentSlotId += 8;
 				objects[currentSlotId].state = SlotState::FOCUSED;
 			}
+			else if (app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_UP)
+			{
+				if (currentSlotId >= 0 && currentSlotId <= 7)
+				{
+					inEquipment = true;
+					objects[currentSlotId].state = SlotState::NONE;
+					equipment[currentArmorSlotId].state = SlotState::FOCUSED;
+					/*equipment[currentArmorSlotId].state = SlotState::NONE;
+					--currentArmorSlotId;
+					equipment[currentArmorSlotId].state = SlotState::FOCUSED;*/
+				}
+				else if (currentSlotId - 8 >= 0)
+				{
+					objects[currentSlotId].state = SlotState::NONE;
+					currentSlotId -= 8;
+					objects[currentSlotId].state = SlotState::FOCUSED;
+				}
+			}
 		}
-		else if (app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_UP)
+		else
 		{
-			if (currentSlotId >= 0 && currentSlotId <= 7 && currentArmorSlotId - 1 >= 0)
+			if ((app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_UP) && !isTextDisplayed)
+			{
+				if (currentArmorSlotId >= 2)
+				{
+					equipment[currentArmorSlotId].state = SlotState::NONE;
+					objects[currentSlotId].state = SlotState::FOCUSED;
+					inEquipment = false;
+				}
+				else
+				{
+					equipment[currentArmorSlotId].state = SlotState::NONE;
+					++currentArmorSlotId;
+					equipment[currentArmorSlotId].state = SlotState::FOCUSED;
+				}
+			}
+			else if ((app->input->GetKey(SDL_SCANCODE_UP) == KEY_UP || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_UP) && currentArmorSlotId > 0)
 			{
 				equipment[currentArmorSlotId].state = SlotState::NONE;
 				--currentArmorSlotId;
 				equipment[currentArmorSlotId].state = SlotState::FOCUSED;
-			}
-			else if (currentSlotId - 8 >= 0)
-			{
-				objects[currentSlotId].state = SlotState::NONE;
-				currentSlotId -= 8;
-				objects[currentSlotId].state = SlotState::FOCUSED;
+			
 			}
 		}
 	}
@@ -1122,47 +1181,95 @@ void Inventory::HandleSlot(InventorySlot objects[], float dt)
 	int id = -1;
 	if (currentControl != nullptr) id = currentControl->id;
 
-	switch (objects[currentSlotId].state)
+	if (!inEquipment)
 	{
-	case SlotState::UNSELECTED:
-		break;
-
-	case SlotState::SELECTED:
-		if (app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_B) == KEY_UP)
+		switch (objects[currentSlotId].state)
 		{
-			controls.clear();
-			currentControl = nullptr;
-			lastControl = nullptr;
-			objects[currentSlotId].state = SlotState::FOCUSED;
-			isTextDisplayed = false;
-			usingItem = false;
-		}
-		btnUse->Update(app->input, dt, id);
-		btnDelete->Update(app->input, dt, id);
-		break;
+		case SlotState::UNSELECTED:
+			break;
 
-	case SlotState::FOCUSED:
-		if (app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_UP && objects[currentSlotId].filled)
+		case SlotState::SELECTED:
+			if (app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_B) == KEY_UP)
+			{
+				controls.clear();
+				currentControl = nullptr;
+				lastControl = nullptr;
+				objects[currentSlotId].state = SlotState::FOCUSED;
+				isTextDisplayed = false;
+				usingItem = false;
+			}
+			btnUse->Update(app->input, dt, id);
+			btnDelete->Update(app->input, dt, id);
+			break;
+
+		case SlotState::FOCUSED:
+			if (app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_UP && objects[currentSlotId].filled)
+			{
+				objects[currentSlotId].state = SlotState::SELECTED;
+
+				controls.clear();
+				controls.push_back(btnUse);
+				controls.push_back(btnDelete);
+				btnUse->text = "USE";
+				currentControl = (*controls.begin());
+				btnUse->state = GuiControlState::FOCUSED;
+				lastControl = nullptr;
+			}
+			/*btnUse->Update(app->input, dt, -1);
+			btnDelete->Update(app->input, dt, -1);*/
+
+			break;
+
+		case SlotState::USE:
+			break;
+
+		case SlotState::DELETE:
+			break;
+		}
+	}
+	else
+	{
+		switch (equipment[currentArmorSlotId].state)
 		{
-			objects[currentSlotId].state = SlotState::SELECTED;
+		case SlotState::UNSELECTED:
+			break;
 
-			controls.clear();
-			controls.push_back(btnUse);
-			controls.push_back(btnDelete);
-			currentControl = (*controls.begin());
-			btnUse->state = GuiControlState::FOCUSED;
-			lastControl = nullptr;
+		case SlotState::SELECTED:
+			if (app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_B) == KEY_UP)
+			{
+				controls.clear();
+				currentControl = nullptr;
+				lastControl = nullptr;
+				equipment[currentArmorSlotId].state = SlotState::FOCUSED;
+				isTextDisplayed = false;
+				usingItem = false;
+			}
+			btnUse->Update(app->input, dt, id);
+			btnDelete->Update(app->input, dt, id);
+			break;
+
+		case SlotState::FOCUSED:
+			if (app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_UP && equipment[currentArmorSlotId].filled)
+			{
+				equipment[currentArmorSlotId].state = SlotState::SELECTED;
+				isTextDisplayed = true;
+
+				controls.clear();
+				controls.push_back(btnUse);
+				controls.push_back(btnDelete);
+				btnUse->text = "UNEQUIP";
+				currentControl = (*controls.begin());
+				btnUse->state = GuiControlState::FOCUSED;
+				lastControl = nullptr;
+			}
+
+			break;
+		case SlotState::USE:
+			break;
+
+		case SlotState::DELETE:
+			break;
 		}
-		/*btnUse->Update(app->input, dt, -1);
-		btnDelete->Update(app->input, dt, -1);*/
-
-		break;
-
-	case SlotState::USE:
-		break;
-
-	case SlotState::DELETE:
-		break;
 	}
 }
 
