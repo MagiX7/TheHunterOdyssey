@@ -374,22 +374,6 @@ bool SceneGameplay::Update(float dt)
 									currentPlayer->canMove = true;
 								}
 								break;
-							case 5:
-								target_x = -794;
-								target_y = -2160;
-								SetCameraMovement(target_x, target_y);
-								if (app->render->camera.x <= target_x && app->render->camera.y <= target_y)
-								{
-									app->render->camera.x = target_x;
-									app->render->camera.y = target_y;
-									entityManager->DeleteEntity(EntityType::DOOR);
-									entityManager->DeleteEntity(EntityType::ICE_BLOCK);
-									entityManager->DeleteEntity(EntityType::STATUE);
-									app->audio->PlayFx(channel, puzzleCompletedFx);
-									currentPlayer->bounds.x += 10;
-									currentPlayer->canMove = true;
-								}
-								break;
 							case 6:
 								target_x = -1600;
 								target_y = -616;
@@ -400,7 +384,6 @@ bool SceneGameplay::Update(float dt)
 									app->render->camera.y = target_y;
 									entityManager->DeleteEntity(EntityType::DOOR, 1);
 									app->audio->PlayFx(channel, puzzleCompletedFx);
-									currentPlayer->bounds.x += 10;
 									currentPlayer->canMove = true;
 								}
 								break;
@@ -1568,8 +1551,9 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 						map->Load("graveyard.tmx", app->tex);
 						questManager->CheckQuests(map->name);
 						isDungeon = false;
-						currentPlayer->canMove = false;
-						whereMove = 5;
+						entityManager->DeleteEntity(EntityType::DOOR);
+						entityManager->DeleteEntity(EntityType::ICE_BLOCK);
+						entityManager->DeleteEntity(EntityType::STATUE);
 						loadObjects = true;
 						exit = true;
 						break;
