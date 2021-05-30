@@ -139,6 +139,7 @@ SceneGameplay::SceneGameplay()
 	isDungeon = false;
 	loadObjects = true;
 	deleteDoor = true;
+	cameraCounter = 120;
 
 	canSound1 = true;
 	canSound2 = true;
@@ -316,75 +317,116 @@ bool SceneGameplay::Update(float dt)
 						{
 							int target_x = 0;
 							int target_y = 0;
+
 							switch (whereMove)
 							{
 							case 1:
 								target_x = 0;
-								target_y = -1;
-								SetCameraMovement(target_x, target_y);
-								if (app->render->camera.x >= target_x && app->render->camera.y >= target_y)
+								target_y = 10;
+								SetCameraMovement(target_x, target_y, dt);
+								if (cameraCounter >= 0 && app->render->camera.x >= target_x && app->render->camera.y >= target_y)
 								{
+									cameraCounter--;
 									app->render->camera.x = target_x;
 									app->render->camera.y = target_y;
-									entityManager->DeleteEntity(EntityType::DOOR, 2);
-									app->audio->PlayFx(channel, puzzleCompletedFx);
-									currentPlayer->bounds.x += 10;
-									currentPlayer->canMove = true;
+									if (cameraCounter == 60)
+									{
+										entityManager->DeleteEntity(EntityType::DOOR, 2);
+										app->audio->PlayFx(channel, puzzleCompletedFx);
+									}
+									if (cameraCounter <= 0)
+									{
+										currentPlayer->bounds.x += 10;
+										currentPlayer->canMove = true;
+										cameraCounter = 120;
+									}
 								}
 								break;
 							case 2:
 								target_x = -1010;
 								target_y = -459;
-								SetCameraMovement(target_x, target_y);
-								if (app->render->camera.x <= target_x && app->render->camera.y >= target_y)
+								SetCameraMovement(target_x, target_y, dt);
+								if (cameraCounter >= 0 && app->render->camera.x <= target_x && app->render->camera.y >= target_y)
 								{
+									cameraCounter--;
 									app->render->camera.x = target_x;
 									app->render->camera.y = target_y;
-									entityManager->DeleteEntity(EntityType::STATUE, 4);
-									app->audio->PlayFx(channel, puzzleCompletedFx);
-									currentPlayer->bounds.x += 10;
-									currentPlayer->canMove = true;
+									if (cameraCounter == 60)
+									{
+										entityManager->DeleteEntity(EntityType::STATUE, 4);
+										app->audio->PlayFx(channel, puzzleCompletedFx);
+									}
+									if (cameraCounter <= 0)
+									{
+										currentPlayer->bounds.x += 10;
+										currentPlayer->canMove = true;
+										cameraCounter = 120;
+									}
 								}
 								break;
 							case 3:
 								target_x = -802;
 								target_y = -323;
-								SetCameraMovement(target_x, target_y);
-								if (app->render->camera.x <= target_x && app->render->camera.y >= target_y)
+								SetCameraMovement(target_x, target_y, dt);
+								if (cameraCounter >= 0 && app->render->camera.x <= target_x && app->render->camera.y >= target_y)
 								{
+									cameraCounter--;
 									app->render->camera.x = target_x;
 									app->render->camera.y = target_y;
-									entityManager->DeleteEntity(EntityType::DOOR, 4);
-									app->audio->PlayFx(channel, puzzleCompletedFx);
-									currentPlayer->bounds.x += 10;
-									currentPlayer->canMove = true;
+									if (cameraCounter == 60)
+									{
+										entityManager->DeleteEntity(EntityType::DOOR, 4);
+										app->audio->PlayFx(channel, puzzleCompletedFx);
+									}
+									if (cameraCounter <= 0)
+									{
+										currentPlayer->bounds.x += 10;
+										currentPlayer->canMove = true;
+										cameraCounter = 120;
+									}
 								}
 								break;
 							case 4:
 								target_x = -587;
 								target_y = -453;
-								SetCameraMovement(target_x, target_y);
-								if (app->render->camera.x = target_x && app->render->camera.y >= target_y)
+								SetCameraMovement(target_x, target_y, dt);
+								if (cameraCounter >= 0 && app->render->camera.x <= target_x && app->render->camera.y >= target_y)
 								{
+									cameraCounter--;
 									app->render->camera.x = target_x;
 									app->render->camera.y = target_y;
-									entityManager->DeleteEntity(EntityType::STATUE, 3);
-									app->audio->PlayFx(channel, puzzleCompletedFx);
-									currentPlayer->bounds.x += 10;
-									currentPlayer->canMove = true;
+									if (cameraCounter == 60)
+									{
+										entityManager->DeleteEntity(EntityType::STATUE, 3);
+										app->audio->PlayFx(channel, puzzleCompletedFx);
+									}
+									if (cameraCounter <= 0)
+									{
+										currentPlayer->bounds.x += 10;
+										currentPlayer->canMove = true;
+										cameraCounter = 120;
+									}
 								}
 								break;
 							case 6:
 								target_x = -1600;
 								target_y = -616;
-								SetCameraMovement(target_x, target_y);
-								if (app->render->camera.x >= target_x && app->render->camera.y >= target_y + 5)
+								SetCameraMovement(target_x, target_y, dt);
+								if (cameraCounter >= 0 && app->render->camera.x >= target_x - 10 && app->render->camera.y <= target_y + 15)
 								{
+									cameraCounter--;
 									app->render->camera.x = target_x;
 									app->render->camera.y = target_y;
-									entityManager->DeleteEntity(EntityType::DOOR, 1);
-									app->audio->PlayFx(channel, puzzleCompletedFx);
-									currentPlayer->canMove = true;
+									if (cameraCounter == 60)
+									{
+										entityManager->DeleteEntity(EntityType::DOOR, 1);
+										app->audio->PlayFx(channel, puzzleCompletedFx);
+									}
+									if (cameraCounter <= 0)
+									{
+										currentPlayer->canMove = true;
+										cameraCounter = 120;
+									}
 								}
 								break;
 							default:
@@ -1811,10 +1853,10 @@ void SceneGameplay::LoadItems(pugi::xml_node& n)
 	}
 }
 
-void SceneGameplay::SetCameraMovement(int target_x, int target_y)
+void SceneGameplay::SetCameraMovement(int target_x, int target_y, float dt)
 {
-	if (app->render->camera.x < target_x) app->render->camera.x += 10;
-	if (app->render->camera.x > target_x) app->render->camera.x -= 10;
-	if (app->render->camera.y > target_y) app->render->camera.y -= 10;
-	if (app->render->camera.y < target_y) app->render->camera.y += 10;
+	if (app->render->camera.x < target_x) app->render->camera.x += 700 * dt;
+	if (app->render->camera.x > target_x) app->render->camera.x -= 700 * dt;
+	if (app->render->camera.y > target_y) app->render->camera.y -= 700 * dt;
+	if (app->render->camera.y < target_y) app->render->camera.y += 700 * dt;
 }

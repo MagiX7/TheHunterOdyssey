@@ -77,7 +77,7 @@ private:
 	void CameraFollow(Render* render);
 	void Transitioning(float dt);
 	void ChangeBlockBounds(int bounds_x, int bounds_y);
-	void SetCameraMovement(int target_x, int target_y);
+	void SetCameraMovement(int target_x, int target_y, float dt);
 
 	void LoadNpc(SString mapName);
 	void LoadItems(pugi::xml_node& n);
@@ -140,6 +140,8 @@ private:
 	bool canSound4;
 	
 	int whereMove;
+	int cameraCounter;
+
 	eastl::list<Enemy*> enemyList;
 	Enemy* tmp;
 
