@@ -3,12 +3,6 @@
 #include "Menu.h"
 #include "GuiControl.h"
 
-enum class QuestState
-{
-	ACTIVE = 0,
-	FINISHED
-};
-
 class QuestManager;
 
 class QuestMenu : public Menu
@@ -28,13 +22,11 @@ public:
 
 	bool OnGuiMouseClickEvent(GuiControl* control);
 
+	void UpdatingButtons(Input* input);
+
 private:
 	SceneGameplay* scene;
 	QuestManager* questManager;
 
-	GuiButton* btnActive;
-	GuiButton* btnFinished;
 	GuiButton* btnBack;
-
-	QuestState state;
 };
