@@ -70,7 +70,7 @@ bool CharacterManager::Load(Font* font)
 	controls.push_back(btnExit);
 
 	//currentButton = (*buttons.begin().next());
-	currentControl = nullptr;
+	currentControl = (*controls.begin());
 	lastControl = nullptr;
 
 	return true;
@@ -81,23 +81,18 @@ bool CharacterManager::Update(float dt)
 	UpdatingButtons(app->input);
 
 	int id = -1;
-	if (lastUserInput == 0 && currentControl != nullptr)
-	{
-		id = currentControl->id;
-	}
+	if (lastUserInput == 0 && currentControl != nullptr) id = currentControl->id;
 
 	if (easing->easingsActivated)
 	{
 		btnHunter->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, easing->deltaPos, easing->totalIterations);
-		btnThief->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, 265, easing->totalIterations);
-		btnWarrior->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, 350, easing->totalIterations);
-		btnWizard->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, 435, easing->totalIterations);
+		btnWizard->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, 265, easing->totalIterations);
+		btnThief->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, 350, easing->totalIterations);
+		btnWarrior->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, 435, easing->totalIterations);
 		btnExit->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, 517, easing->totalIterations);
 
 		if (easing->currentIteration < easing->totalIterations)
-		{
 			easing->currentIteration++;
-		}
 		else
 		{
 			easing->currentIteration = 0;
