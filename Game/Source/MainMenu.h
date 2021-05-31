@@ -7,6 +7,7 @@
 #include "GuiSlider.h"
 
 class SceneTitle;
+class Easing;
 
 enum class MenuState
 {
@@ -66,6 +67,11 @@ private:
 	//Easings
 	Easing* easingUp;
 	Easing* easingDown;
+
+	Easing* easing;
+	Easing* easing2;
+	Easing* easing3;
+
 	float titlePosition;
 
 	bool playMusicOptions;

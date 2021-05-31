@@ -14,22 +14,14 @@ MainMenu::MainMenu(SceneTitle* s)
 	scene = s;
 
 	//Easings Initialized
-	easingUp = new Easing();
-	easingDown = new Easing();
+	easingUp = new Easing(true,0,588,-20,60);
+	easingDown = new Easing(false,0,568,20,60);
 
-	easingUp->currentIteration = 0;
-	easingUp->totalIterations = 60;
-	easingUp->initialPos = 588;
-	easingUp->deltaPos = -20;
-	easingUp->easingsActivated = true;
+	easing = new Easing(true, 0, 720, -395, 180);
+	easing2 = new Easing(true, 0, 323, 30, 60);
+	easing3 = new Easing(false, 0, 353, -30, 60);
 
-	easingDown->currentIteration = 0;
-	easingDown->totalIterations = 60;
-	easingDown->initialPos = 568;
-	easingDown->deltaPos = 20;
-	easingDown->easingsActivated = false;
-
-	titlePosition = 13;
+	titlePosition = 323;
 
 	playMusicOptions = true;
 }
@@ -45,27 +37,27 @@ bool MainMenu::Load(Font* font)
 	creditsTexture = app->tex->Load("Textures/Scenes/credits.png");
 
 	// Main menu =========================
-	btnNewGame = new GuiButton(1, { 510, 325, 260, 59 }, "New Game", this, font);
+	btnNewGame = new GuiButton(1, { 510, 720, 260, 59 }, "New Game", this, font);
 	btnNewGame->section = { 0,0,260,59 };
 	btnNewGame->texture = guiTex;
 	btnNewGame->alineation = 1;
 
-	btnContinue = new GuiButton(2, { 510, 393, 260, 59 }, "Continue", this, font);
+	btnContinue = new GuiButton(2, { 510, 720, 260, 59 }, "Continue", this, font);
 	btnContinue->section = { 0,0,260,59 };
 	btnContinue->texture = guiTex;
 	btnContinue->alineation = 1;
 
-	btnOptions = new GuiButton(3, { 510, 461, 260, 59 }, "Options", this, font);
+	btnOptions = new GuiButton(3, { 510, 720, 260, 59 }, "Options", this, font);
 	btnOptions->section = { 0,0,260,59 };
 	btnOptions->texture = guiTex;
 	btnOptions->alineation = 1;
 
-	btnCredits = new GuiButton(4, { 510, 529, 260, 59 }, "Credits", this, font);
+	btnCredits = new GuiButton(4, { 510, 720, 260, 59 }, "Credits", this, font);
 	btnCredits->section = { 0,0,260,59 };
 	btnCredits->texture = guiTex;
 	btnCredits->alineation = 1;
 
-	btnExit = new GuiButton(5, { 510, 597, 260, 59 }, "Exit", this, font);
+	btnExit = new GuiButton(5, { 510, 720, 260, 59 }, "Exit", this, font);
 	btnExit->section = { 0,0,260,59 };
 	btnExit->texture = guiTex;
 	btnExit->alineation = 1;
@@ -147,6 +139,59 @@ bool MainMenu::Update(float dt)
 		id = currentControl->id;
 	}
 
+	if (easing->easingsActivated)
+	{
+		btnNewGame->bounds.y = easing->elasticEaseOut(easing->currentIteration, easing->initialPos, easing->deltaPos, easing->totalIterations);
+		btnContinue->bounds.y = easing->elasticEaseOut(easing->currentIteration, easing->initialPos, -327, easing->totalIterations);
+		btnOptions->bounds.y = easing->elasticEaseOut(easing->currentIteration, easing->initialPos, -259, easing->totalIterations);
+		btnCredits->bounds.y = easing->elasticEaseOut(easing->currentIteration, easing->initialPos, -191, easing->totalIterations);
+		btnExit->bounds.y = easing->elasticEaseOut(easing->currentIteration, easing->initialPos, -123, easing->totalIterations);
+
+		if (easing->currentIteration < easing->totalIterations)
+		{
+			easing->currentIteration++;
+		}
+		else
+		{
+			easing->currentIteration = 0;
+			easing->easingsActivated = false;
+		}
+	}
+
+	if (easing2->easingsActivated)
+	{
+
+		titlePosition = easing2->sineEaseInOut(easing2->currentIteration, easing2->initialPos, easing2->deltaPos, easing2->totalIterations);
+
+		if (easing2->currentIteration < easing2->totalIterations)
+		{
+			easing2->currentIteration++;
+		}
+		else
+		{
+			easing2->currentIteration = 0;
+			easing2->easingsActivated = false;
+			easing3->easingsActivated = true;
+		}
+	}
+
+	if (easing3->easingsActivated)
+	{
+
+		titlePosition = easing3->sineEaseInOut(easing3->currentIteration, easing3->initialPos, easing3->deltaPos, easing3->totalIterations);
+
+		if (easing3->currentIteration < easing3->totalIterations)
+		{
+			easing3->currentIteration++;
+		}
+		else
+		{
+			easing3->currentIteration = 0;
+			easing3->easingsActivated = false;
+			easing2->easingsActivated = true;
+		}
+	}
+
 	switch (state)
 	{
 	case MenuState::NONE:
@@ -223,7 +268,7 @@ void MainMenu::Draw(Font* font, bool showColliders)
 		btnCredits->Draw(app->render, showColliders, 36, { 255,255,255,255 });
 		btnExit->Draw(app->render, showColliders, 36, { 255,255,255,255 });
 
-		app->render->DrawTexture(bg, 323, titlePosition, &section);
+		app->render->DrawTexture(bg, titlePosition, 13, &section);
 	}
 	break;
 
