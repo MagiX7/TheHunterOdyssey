@@ -13,27 +13,27 @@ CharacterManager::CharacterManager(SceneGameplay* s, PlayerType type, Font* font
 {
 	guiTex = app->tex->Load("Textures/UI/gui_character_swap_menu.png");
 
-	btnHunter = new GuiButton(1, { 0, 180, 270, 64 }, "Hunter", this, font);
+	btnHunter = new GuiButton(1, { 505, 0, 270, 64 }, "Hunter", this, font);
 	btnHunter->texture = guiTex;
 	btnHunter->section = { 0,656,270,64 };
 	btnHunter->alineation = 1;
 
-	btnWizard = new GuiButton(2, { 0, 265, 270, 64 }, "Wizard", this, font);
+	btnWizard = new GuiButton(2, { 505, 0, 270, 64 }, "Wizard", this, font);
 	btnWizard->texture = guiTex;
 	btnWizard->section = { 0,656,270,64 };
 	btnWizard->alineation = 1;
 
-	btnThief = new GuiButton(3, { 0, 350, 270, 64 }, "Thief", this, font);
+	btnThief = new GuiButton(3, { 505, 0, 270, 64 }, "Thief", this, font);
 	btnThief->texture = guiTex;
 	btnThief->section = { 0,656,270,64 };
 	btnThief->alineation = 1;
 
-	btnWarrior = new GuiButton(4, { 0, 435, 270, 64 }, "Warrior", this, font);
+	btnWarrior = new GuiButton(4, { 505, 0, 270, 64 }, "Warrior", this, font);
 	btnWarrior->texture = guiTex;
 	btnWarrior->section = { 0,656,270,64 };
 	btnWarrior->alineation = 1;
 
-	btnExit = new GuiButton(5, { 0, 517, 270, 64 }, "Return", this, font);
+	btnExit = new GuiButton(5, { 505, 0, 270, 64 }, "Return", this, font);
 	btnExit->texture = guiTex;
 	btnExit->section = { 0,656,270,64 };
 	btnExit->alineation = 1;
@@ -54,7 +54,7 @@ CharacterManager::CharacterManager(SceneGameplay* s, PlayerType type, Font* font
 		break;
 	}
 
-	easing = new Easing(true, 0, 0, 505, 120);
+	easing = new Easing(true, 0, 0, 180, 120);
 }
 
 CharacterManager::~CharacterManager()
@@ -88,11 +88,11 @@ bool CharacterManager::Update(float dt)
 
 	if (easing->easingsActivated)
 	{
-		btnHunter->bounds.x = easing->backEaseOut(easing->currentIteration, easing->initialPos, easing->deltaPos, easing->totalIterations);
-		btnThief->bounds.x = easing->backEaseOut(easing->currentIteration, easing->initialPos, easing->deltaPos, easing->totalIterations);
-		btnWarrior->bounds.x = easing->backEaseOut(easing->currentIteration, easing->initialPos, easing->deltaPos, easing->totalIterations);
-		btnWizard->bounds.x = easing->backEaseOut(easing->currentIteration, easing->initialPos, easing->deltaPos, easing->totalIterations);
-		btnExit->bounds.x = easing->backEaseOut(easing->currentIteration, easing->initialPos, easing->deltaPos, easing->totalIterations);
+		btnHunter->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, easing->deltaPos, easing->totalIterations);
+		btnThief->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, 265, easing->totalIterations);
+		btnWarrior->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, 350, easing->totalIterations);
+		btnWizard->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, 435, easing->totalIterations);
+		btnExit->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, 517, easing->totalIterations);
 
 		if (easing->currentIteration < easing->totalIterations)
 		{
@@ -120,7 +120,7 @@ void CharacterManager::Draw(Font* font, bool showColliders)
 	app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 150, true, false);
 
 	SDL_Rect section = { 0,0,430,650 };
-	app->render->DrawTexture(guiTex, (btnHunter->bounds.x - 80), 48, &section, false);
+	app->render->DrawTexture(guiTex, 425, btnHunter->bounds.y - 150, &section, false);
 
 	btnHunter->Draw(app->render, showColliders, 36, { 0,0,0,255 });
 	btnWizard->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
@@ -134,6 +134,7 @@ bool CharacterManager::UnLoad()
 	app->tex->UnLoad(guiTex);
 
 	RELEASE(easing);
+
 	RELEASE(btnHunter);
 	RELEASE(btnWizard);
 	RELEASE(btnThief);
@@ -207,11 +208,11 @@ bool CharacterManager::OnGuiMouseClickEvent(GuiControl* control)
 			controls.push_back(btnExit);
 			currentControl = (*controls.begin());
 
-			btnHunter->bounds.x = 0;
-			btnThief->bounds.x = 0;
-			btnWarrior->bounds.x = 0;
-			btnWizard->bounds.x = 0;
-			btnExit->bounds.x = 0;
+			btnHunter->bounds.y = 0;
+			btnThief->bounds.y = 0;
+			btnWarrior->bounds.y = 0;
+			btnWizard->bounds.y = 0;
+			btnExit->bounds.y = 0;
 			easing->easingsActivated = true;
 
 			scene->ChangeState(GameplayMenuState::NONE);

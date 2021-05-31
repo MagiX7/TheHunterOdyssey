@@ -12,7 +12,7 @@ PauseMenu::PauseMenu(SceneGameplay* s) : scene(s)
 {
 	playMusicOptions = true;
 
-	easing = new Easing(true, 0, 0, 505, 90);
+	easing = new Easing(true, 0, 1280, -775, 90);
 	easing2 = new Easing(false, 0, 505, 392, 60);
 }
 
@@ -25,32 +25,32 @@ bool PauseMenu::Load(Font* font)
 	guiTex = app->tex->Load("Textures/UI/gui_pause_menu.png");
 
 	// Main menu ========================
-	btnResume = new GuiButton(1, { 0, 223, 270, 64 }, "Resume Game", this, font);
+	btnResume = new GuiButton(1, { 1280, 223, 270, 64 }, "Resume Game", this, font);
 	btnResume->section = { 430,0,270,64 };
 	btnResume->texture = guiTex;
 	btnResume->alineation = 1;
 
-	btnSave = new GuiButton(2, { 0, 308, 130, 64 }, "Save", this, font);
+	btnSave = new GuiButton(2, { 1280, 308, 130, 64 }, "Save", this, font);
 	btnSave->section = { 430,245,130,64 };
 	btnSave->texture = guiTex;
 	btnSave->alineation = 1;
 
-	btnLoad = new GuiButton(3, { 140, 308, 130, 64 }, "Load", this, font);
+	btnLoad = new GuiButton(3, { 1280 + 140, 308, 130, 64 }, "Load", this, font);
 	btnLoad->section = { 430,245,130,64 };
 	btnLoad->texture = guiTex;
 	btnLoad->alineation = 1;
 
-	btnOptions = new GuiButton(4, { 0, 393, 270, 64 }, "Options", this, font);
+	btnOptions = new GuiButton(4, { 1280, 393, 270, 64 }, "Options", this, font);
 	btnOptions->section = { 430,0,270,64 };
 	btnOptions->texture = guiTex;
 	btnOptions->alineation = 1;
 
-	btnReturnTitle = new GuiButton(5, { 0, 478, 270, 64 }, "Return to Title", this, font);
+	btnReturnTitle = new GuiButton(5, { 1280, 478, 270, 64 }, "Return to Title", this, font);
 	btnReturnTitle->section = { 430,0,270,64 };
 	btnReturnTitle->texture = guiTex;
 	btnReturnTitle->alineation = 1;
 
-	btnExit = new GuiButton(6, { 0, 563, 270, 64 }, "Exit Game", this, font);
+	btnExit = new GuiButton(6, { 1280, 563, 270, 64 }, "Exit Game", this, font);
 	btnExit->section = { 430,0,270,64 };
 	btnExit->texture = guiTex;
 	btnExit->alineation = 1;
@@ -350,12 +350,12 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 			lastControl = nullptr;
 
 			easing->easingsActivated = true;
-			btnExit->bounds.x = 0;
-			btnLoad->bounds.x = 140;
-			btnOptions->bounds.x = 0;
-			btnResume->bounds.x = 0;
-			btnReturnTitle->bounds.x = 0;
-			btnSave->bounds.x = 0;
+			btnExit->bounds.x = 1280;
+			btnLoad->bounds.x = 1280 + 140;
+			btnOptions->bounds.x = 1280;
+			btnResume->bounds.x = 1280;
+			btnReturnTitle->bounds.x = 1280;
+			btnSave->bounds.x = 1280;
 
 			state = PauseState::DEFAULT;
 			scene->ChangeState(GameplayMenuState::NONE);
@@ -414,6 +414,12 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 			controls.push_back(btnOptions);
 			controls.push_back(btnReturnTitle);
 			controls.push_back(btnExit);
+
+			btnOptionsBack->bounds.x = 538;
+			checkFullscreen->bounds.x = 543;
+			checkVSync->bounds.x = 578;
+			slideFXVolume->bounds.x = 505;
+			slideMusicVolume->bounds.x = 505;
 
 			currentControl = lastControl;
 		}
