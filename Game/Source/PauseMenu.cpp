@@ -6,9 +6,14 @@
 #include "PauseMenu.h"
 #include "SceneGameplay.h"
 
+#include "Easings.h"
+
 PauseMenu::PauseMenu(SceneGameplay* s) : scene(s)
 {
 	playMusicOptions = true;
+
+	easing = new Easing(true, 0, 0, 505, 90);
+	easing2 = new Easing(false, 0, 505, 392, 60);
 }
 
 PauseMenu::~PauseMenu()
@@ -20,51 +25,51 @@ bool PauseMenu::Load(Font* font)
 	guiTex = app->tex->Load("Textures/UI/gui_pause_menu.png");
 
 	// Main menu ========================
-	btnResume = new GuiButton(1, { 505, 223, 270, 64 }, "Resume Game", this, font);
+	btnResume = new GuiButton(1, { 0, 223, 270, 64 }, "Resume Game", this, font);
 	btnResume->section = { 430,0,270,64 };
 	btnResume->texture = guiTex;
 	btnResume->alineation = 1;
 
-	btnSave = new GuiButton(2, { 505, 308, 130, 64 }, "Save", this, font);
+	btnSave = new GuiButton(2, { 0, 308, 130, 64 }, "Save", this, font);
 	btnSave->section = { 430,245,130,64 };
 	btnSave->texture = guiTex;
 	btnSave->alineation = 1;
 
-	btnLoad = new GuiButton(3, { 645, 308, 130, 64 }, "Load", this, font);
+	btnLoad = new GuiButton(3, { 140, 308, 130, 64 }, "Load", this, font);
 	btnLoad->section = { 430,245,130,64 };
 	btnLoad->texture = guiTex;
 	btnLoad->alineation = 1;
 
-	btnOptions = new GuiButton(4, { 505, 393, 270, 64 }, "Options", this, font);
+	btnOptions = new GuiButton(4, { 0, 393, 270, 64 }, "Options", this, font);
 	btnOptions->section = { 430,0,270,64 };
 	btnOptions->texture = guiTex;
 	btnOptions->alineation = 1;
 
-	btnReturnTitle = new GuiButton(5, { 505, 478, 270, 64 }, "Return to Title", this, font);
+	btnReturnTitle = new GuiButton(5, { 0, 478, 270, 64 }, "Return to Title", this, font);
 	btnReturnTitle->section = { 430,0,270,64 };
 	btnReturnTitle->texture = guiTex;
 	btnReturnTitle->alineation = 1;
 
-	btnExit = new GuiButton(6, { 505, 563, 270, 64 }, "Exit Game", this, font);
+	btnExit = new GuiButton(6, { 0, 563, 270, 64 }, "Exit Game", this, font);
 	btnExit->section = { 430,0,270,64 };
 	btnExit->texture = guiTex;
 	btnExit->alineation = 1;
 	// Main menu ========================
 
 	// Options menu ========================
-	slideMusicVolume = new GuiSlider(7, { 897,198,339,46 }, "Music volume", this, 0, 128, app->audio->GetMusicVolume());
+	slideMusicVolume = new GuiSlider(7, { 505,198,339,46 }, "Music volume", this, 0, 128, app->audio->GetMusicVolume());
 	slideMusicVolume->section = { 440,83,339,46 };
 	slideMusicVolume->texture = guiTex;
 
-	slideFXVolume = new GuiSlider(8, { 897,313,339,46 }, "FX volume", this, 0, 128, app->audio->GetFxVolume());
+	slideFXVolume = new GuiSlider(8, { 505,313,339,46 }, "FX volume", this, 0, 128, app->audio->GetFxVolume());
 	slideFXVolume->section = { 440,83,339,46 };
 	slideFXVolume->texture = guiTex;
 
-	checkFullscreen = new GuiCheckBox(9, { 935,385,250,35 }, "Fullscreen", this, app->win->fullscreenWindow);
+	checkFullscreen = new GuiCheckBox(9, { 543,385,250,35 }, "Fullscreen", this, app->win->fullscreenWindow);
 	checkFullscreen->section = { 440,192,32,32 };
 	checkFullscreen->texture = guiTex;
 
-	btnOptionsBack = new GuiButton(10, { 930, 561, 270, 64 }, "Back", this, font);
+	btnOptionsBack = new GuiButton(10, { 538, 561, 270, 64 }, "Back", this, font);
 	btnOptionsBack->section = { 430,0,270,64 };
 	btnOptionsBack->texture = guiTex;
 	btnOptionsBack->alineation = 1;
@@ -105,7 +110,7 @@ bool PauseMenu::Load(Font* font)
 	currentControl = nullptr;
 	lastControl = nullptr;
 
-	checkVSync = new GuiCheckBox(15, { 977,460,170,35 }, "VSync", this, true);
+	checkVSync = new GuiCheckBox(15, { 578,460,170,35 }, "VSync", this, true);
 	checkVSync->section = { 440,192,32,32 };
 	checkVSync->texture = guiTex;
 	checkVSync->state = GuiControlState::DISABLED;
@@ -127,14 +132,44 @@ bool PauseMenu::Update(float dt)
 		id = currentControl->id;
 	}
 
-	/*eastl::list<GuiControl*>::iterator it = controls.begin();
-	eastl::list<GuiControl*>::iterator itEnd = controls.end().prev();
-
-	for (; it != itEnd; ++it)
+	if (easing->easingsActivated)
 	{
-		(*it)->Update(app->input, dt, id);
-	}*/
+		btnExit->bounds.x = easing->backEaseOut(easing->currentIteration, easing->initialPos, easing->deltaPos, easing->totalIterations);
+		btnResume->bounds.x = easing->backEaseOut(easing->currentIteration, easing->initialPos, easing->deltaPos, easing->totalIterations);
+		btnSave->bounds.x = easing->backEaseOut(easing->currentIteration, easing->initialPos, easing->deltaPos, easing->totalIterations);
+		btnLoad->bounds.x = easing->backEaseOut(easing->currentIteration, easing->initialPos + 140, easing->deltaPos, easing->totalIterations);
+		btnReturnTitle->bounds.x = easing->backEaseOut(easing->currentIteration, easing->initialPos, easing->deltaPos, easing->totalIterations);
+		btnOptions->bounds.x = easing->backEaseOut(easing->currentIteration, easing->initialPos, easing->deltaPos, easing->totalIterations);
 
+		if (easing->currentIteration < easing->totalIterations)
+		{
+			easing->currentIteration++;
+		}
+		else
+		{
+			easing->currentIteration = 0;
+			easing->easingsActivated = false;
+		}
+	}
+
+	if (easing2->easingsActivated)
+	{
+		slideFXVolume->bounds.x = easing2->backEaseOut(easing2->currentIteration, easing2->initialPos, easing2->deltaPos, easing2->totalIterations);
+		slideMusicVolume->bounds.x = easing2->backEaseOut(easing2->currentIteration, easing2->initialPos, easing2->deltaPos, easing2->totalIterations);
+		checkFullscreen->bounds.x = easing2->backEaseOut(easing2->currentIteration, easing2->initialPos + 38, easing2->deltaPos, easing2->totalIterations);
+		btnOptionsBack->bounds.x = easing2->backEaseOut(easing2->currentIteration, easing2->initialPos + 33, easing2->deltaPos, easing2->totalIterations);
+		checkVSync->bounds.x = easing2->backEaseOut(easing2->currentIteration, easing2->initialPos + 73, easing2->deltaPos, easing2->totalIterations);
+
+		if (easing2->currentIteration < easing2->totalIterations)
+		{
+			easing2->currentIteration++;
+		}
+		else
+		{
+			easing2->currentIteration = 0;
+			easing2->easingsActivated = false;
+		}
+	}
 
 	switch (state)
 	{
@@ -195,7 +230,7 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 120, true, false);
 
 		section = { 0,0,430,650 };
-		app->render->DrawTexture(guiTex, 425, 48, &section, false);
+		app->render->DrawTexture(guiTex, (btnExit->bounds.x - 80), 48, &section, false);
 
 		btnResume->Draw(app->render, showColliders, 36, {0, 0, 0, 255});
 		btnSave->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
@@ -204,7 +239,7 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		btnReturnTitle->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
 		btnExit->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
 
-		app->render->DrawText(font, "PAUSE", 552, 121, 72, 5, { 255,255,255,255 });
+		app->render->DrawText(font, "PAUSE", (btnExit->bounds.x + 45), 121, 72, 5, { 255,255,255,255 });
 
 		break;
 	case PauseState::OPTIONS:
@@ -223,7 +258,7 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		// Black rectangle for the background
 		app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 120, true, false);
 
-		app->render->DrawTexture(guiTex, 850, 48, &section, false);
+		app->render->DrawTexture(guiTex, slideFXVolume->bounds.x - 45, 48, &section, false);
 
 		btnOptionsBack->Draw(app->render, showColliders, 36, { 0,0,0,225 });
 		slideMusicVolume->Draw(app->render, showColliders);
@@ -231,10 +266,10 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		checkFullscreen->Draw(app->render, showColliders);
 		checkVSync->Draw(app->render, showColliders);
 
-		app->render->DrawText(font, "Music volume", 954, 150, 36, 5, { 255,255,255,255 });
-		app->render->DrawText(font, "FX volume", 982, 264, 36, 5, { 255,255,255,255 });
-		app->render->DrawText(font, "Fullscreen", 944, 386, 36, 5, { 255,255,255,255 });
-		app->render->DrawText(font, "VSync", 985, 459, 36, 5, { 255,255,255,255 });
+		app->render->DrawText(font, "Music volume", slideMusicVolume->bounds.x + 65, 150, 36, 5, { 255,255,255,255 });
+		app->render->DrawText(font, "FX volume", slideFXVolume->bounds.x + 65, 264, 36, 5, { 255,255,255,255 });
+		app->render->DrawText(font, "Fullscreen", checkFullscreen->bounds.x, 386, 36, 5, { 255,255,255,255 });
+		app->render->DrawText(font, "VSync", checkVSync->bounds.x, 459, 36, 5, { 255,255,255,255 });
 		break;
 	case PauseState::RETURN_TITLE:
 		// Black rectangle for the background
@@ -287,6 +322,9 @@ bool PauseMenu::UnLoad()
 	RELEASE(checkFullscreen);
 	RELEASE(checkVSync);
 
+	RELEASE(easing);
+	RELEASE(easing2);
+
 	controls.clear();
 
 	return true;
@@ -311,6 +349,14 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 			currentControl = nullptr;
 			lastControl = nullptr;
 
+			easing->easingsActivated = true;
+			btnExit->bounds.x = 0;
+			btnLoad->bounds.x = 140;
+			btnOptions->bounds.x = 0;
+			btnResume->bounds.x = 0;
+			btnReturnTitle->bounds.x = 0;
+			btnSave->bounds.x = 0;
+
 			state = PauseState::DEFAULT;
 			scene->ChangeState(GameplayMenuState::NONE);
 		}
@@ -331,6 +377,9 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 			controls.push_back(slideMusicVolume);
 			controls.push_back(slideFXVolume);
 			controls.push_back(checkFullscreen);
+
+			easing2->easingsActivated = true;
+
 			lastControl = currentControl;
 			currentControl = (*controls.begin());
 		}

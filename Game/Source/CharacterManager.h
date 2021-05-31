@@ -4,6 +4,7 @@
 #include "Font.h"
 
 class Player;
+class Easing;
 class SceneGameplay;
 class GuiButton;
 enum class PlayerType;
@@ -40,4 +41,6 @@ private:
 	GuiButton* btnThief;
 	GuiButton* btnWarrior;
 	GuiButton* btnExit;
+
+	Easing* easing;
 };

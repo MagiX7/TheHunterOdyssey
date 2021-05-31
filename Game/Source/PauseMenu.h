@@ -7,6 +7,7 @@
 #include "GuiSlider.h"
 
 class SceneGameplay;
+class Easing;
 
 enum class PauseState
 {
@@ -57,6 +58,9 @@ private:
 	GuiCheckBox* checkFullscreen;
 	GuiCheckBox* checkVSync;
 	GuiButton* btnOptionsBack;
+
+	Easing* easing;
+	Easing* easing2;
 
 	bool playMusicOptions;
 };

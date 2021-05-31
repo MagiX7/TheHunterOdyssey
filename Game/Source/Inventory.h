@@ -15,6 +15,7 @@ class Input;
 class Player;
 class SDL_Texture;
 class Orb;
+class Easing;
 enum class PlayerType;
 
 enum class SlotState
@@ -167,6 +168,8 @@ private:
 	SDL_Rect tmpUsingBounds;
 	SDL_Rect tmpCharBounds;
 	SDL_Rect tmpEquipMenuBounds;
+
+	Easing* easing;
 
 	bool grabbed;
 	float toGrabCount;
