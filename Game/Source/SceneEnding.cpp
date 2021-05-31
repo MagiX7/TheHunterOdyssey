@@ -27,13 +27,13 @@ SceneEnding::SceneEnding(bool win)
 	easingUp->easingsActivated = true;
 	easingUp->currentIteration = 0;
 	easingUp->totalIterations = 75;
-	easingUp->initialPos = 300;
+	easingUp->initialPos = 200;
 	easingUp->deltaPos = 50;
 
 	easingDown->easingsActivated = false;
 	easingDown->currentIteration = 0;
 	easingDown->totalIterations = 75;
-	easingDown->initialPos = 350;
+	easingDown->initialPos = 250;
 	easingDown->deltaPos = -50;
 	
 	easingPosition = 300;
@@ -53,6 +53,8 @@ bool SceneEnding::Load()
 
 	if (hasWin) bg = app->tex->Load("Textures/Scenes/battle_bg3.png");
 	else bg = app->tex->Load("Textures/Scenes/battle_bg2.png");
+
+	menu->Load(font);
 
 	return ret;
 }
@@ -118,10 +120,12 @@ bool SceneEnding::UnLoad()
 
 	app->tex->UnLoad(bg);
 	font->UnLoad(app->tex);
+	menu->UnLoad();
 
 	RELEASE(font);
 	RELEASE(easingUp);
 	RELEASE(easingDown);
+	RELEASE(menu);
 
 	return ret;
 }

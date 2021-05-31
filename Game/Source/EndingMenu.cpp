@@ -1,19 +1,22 @@
 #include "App.h"
 #include "Input.h"
+#include "Textures.h"
 
 #include "EndingMenu.h"
 
 EndingMenu::EndingMenu(Font* font, Scene* scen)
 {
 	// Buttons
-	btnNewGame = new GuiButton(1, { 1000, 516, 250, 50 }, "New Game", this, font);
-	btnMainMenu = new GuiButton(2, { 1000, 576, 250, 50 }, "Main Menu", this, font);
+	btnNewGame = new GuiButton(1, { 936, 463, 260, 59 }, "New Game", this, font);
+	btnMainMenu = new GuiButton(2, { 936, 550, 260, 59 }, "Main Menu", this, font);
 
 	scene = scen;
 
 	buttons.push_back(btnNewGame);
 	buttons.push_back(btnMainMenu);
 	currentControl = btnNewGame;
+
+	bg = nullptr;
 }
 
 EndingMenu::~EndingMenu()
@@ -22,6 +25,15 @@ EndingMenu::~EndingMenu()
 
 bool EndingMenu::Load(Font* font)
 {
+	bg = app->tex->Load("Textures/UI/ending_menu.png");
+	btnNewGame->texture = bg;
+	btnNewGame->section = {0, 279, 260, 59};
+	btnNewGame->alineation = 1;
+
+	btnMainMenu->texture = bg;
+	btnMainMenu->section = { 0, 279, 260, 59 };
+	btnMainMenu->alineation = 1;
+
 	return true;
 }
 
@@ -43,8 +55,10 @@ bool EndingMenu::Update(float dt)
 
 void EndingMenu::Draw(Font* font, bool showColliders)
 {
-	btnNewGame->Draw(app->render, showColliders, 40);
-	btnMainMenu->Draw(app->render, showColliders, 40);
+	SDL_Rect rect = { 0, 0, 372, 279 };
+	app->render->DrawTexture(bg, 880, 400, &rect);
+	btnNewGame->Draw(app->render, showColliders, 36);
+	btnMainMenu->Draw(app->render, showColliders, 36);
 }
 
 bool EndingMenu::UnLoad()
