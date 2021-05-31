@@ -907,6 +907,8 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 	bool exit = false;
 	MapLayer* layer = (*map->data.layers.end().prev());
 
+	///////////
+	// 
 	// Only check adyacent tiles
 	for (int j = pos.y; j <= y; ++j)
 	{
@@ -925,225 +927,135 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 				{
 					if (isTown && (layer->Get(i, j) == 771) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorOpenedFx);
 						isTown = false;
-						entityManager->DeleteAllNpcActive();
-
-						iPoint position = { 625,480 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("house1.tmx", app->tex);
 						isDungeon = false;
-						questManager->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
+						
+						ChangeMap("house1.tmx", { 625,480 }, doorOpenedFx);
+						
 						exit = true;
 						break;
 					}
 					else if ((layer->Get(i, j) == 771) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorClosedFx);
 						isTown = true;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 97,520 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("town_map.tmx", app->tex);
+						ChangeMap("town_map.tmx", { 97,520 }, doorClosedFx);
 						LoadNpc(map->name);
 						isDungeon = false;
-						questManager->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
+
 						exit = true;
 						break;
 					}
 					if (isTown && (layer->Get(i, j) == 772) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorOpenedFx);
+						ChangeMap("house2.tmx", { 625,480 }, doorOpenedFx);
+						//app->audio->PlayFx(channel, doorOpenedFx);
 						isTown = false;
-						entityManager->DeleteAllNpcActive();
+						/*entityManager->DeleteAllNpcActive();
 						iPoint position = { 625,480 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
 						map->CleanUp();
-						map->Load("house2.tmx", app->tex);
+						map->Load("house2.tmx", app->tex);*/
 						isDungeon = false;
-						questManager->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
+						/*questManager->CheckQuests(map->name);
+						particles->SetAllParticlesDesactivated();*/
 						exit = true;
 						break;
 					}
 					else if ((layer->Get(i, j) == 772) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorClosedFx);
-						isTown = true;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 70,765 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("town_map.tmx", app->tex);
+						ChangeMap("town_map.tmx", { 70,765 }, doorClosedFx);
 						LoadNpc(map->name);
+						isTown = true;
 						isDungeon = false;
-						questManager->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
+
 						exit = true;
 						break;
 					}
 					if (isTown && (layer->Get(i, j) == 773) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorOpenedFx);
+						ChangeMap("house3.tmx", { 625,480 }, doorOpenedFx);
 						isTown = false;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 625,480 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("house3.tmx", app->tex);
 						isDungeon = false;
-						questManager->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
+
 						exit = true;
 						break;
 					}
 					else if ((layer->Get(i, j) == 773) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorClosedFx);
-						isTown = true;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 380,1120 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("town_map.tmx", app->tex);
+						ChangeMap("town_map.tmx", { 380,1120 }, doorClosedFx);
 						LoadNpc(map->name);
+						
+						isTown = true;
 						isDungeon = false;
-						questManager->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
+
 						exit = true;
 						break;
 					}
 					if (isTown && (layer->Get(i, j) == 774) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorOpenedFx);
+						ChangeMap("cave_house.tmx", { 625,430 }, doorOpenedFx);
 						isTown = false;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 625,430 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("cave_house.tmx", app->tex);
 						isDungeon = false;
-						questManager->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
+
 						exit = true;
 						break;
 					}
 					else if ((layer->Get(i, j) == 6) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorClosedFx);
+						ChangeMap("town_map.tmx", { 97,1100 }, doorClosedFx);
 						isTown = true;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 97,1100 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("town_map.tmx", app->tex);
 						isDungeon = false;
-						questManager->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
+
 						exit = true;
 						break;
 					}
 					if (isTown && (layer->Get(i, j) == 775) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorOpenedFx);
-						isTown = false;
-						entityManager->DeleteAllNpcActive();
-						iPoint position;
-
-						position = { 655,430 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("pub.tmx", app->tex);
-						isDungeon = false;
-						particles->SetAllParticlesDesactivated();
-
-						questManager->CheckQuests(map->name);
-
+						ChangeMap("pub.tmx", { 655,430 }, doorOpenedFx);
 						LoadNpc(map->name);
+						isTown = false;
+						isDungeon = false;
+
 						exit = true;
 						break;						
 					}
 					else if ((layer->Get(i, j) == 7) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorClosedFx);
-						isTown = true;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 770,710 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("town_map.tmx", app->tex);
+						ChangeMap("town_map.tmx", { 770,710 }, doorClosedFx);
 						LoadNpc(map->name);
+						isTown = true;
 						isDungeon = false;
-						questManager->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
+
 						exit = true;
 						break;
 					}
 					if (isTown && (layer->Get(i, j) == 776) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorOpenedFx);
-						isTown = false;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 630,450 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("adventurer_house.tmx", app->tex);
+						ChangeMap("adventurer_house.tmx", { 630,450 }, doorOpenedFx);
 						LoadNpc(map->name);
+						isTown = false;
 						isDungeon = false;
-						questManager->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
 					
 						exit = true;
 						break;
 					}
 					else if ((layer->Get(i, j) == 1544) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorClosedFx);
-						isTown = true;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 385,610 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("town_map.tmx", app->tex);
-
+						ChangeMap("town_map.tmx", { 385,610 }, doorClosedFx);
 						LoadNpc(map->name);
-
+						isTown = true;
 						isDungeon = false;
-						questManager->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
+
 						exit = true;
 						break;
 					}
 					if (isTown && (layer->Get(i, j) == 777) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorOpenedFx);
-						isTown = false;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 750,300 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("adventurer_house.tmx", app->tex);
+						ChangeMap("adventurer_house.tmx", { 750,300 }, doorOpenedFx);
 						LoadNpc(map->name);
+						isTown = false;
 						isDungeon = false;
-						questManager->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
 
 						exit = true;
 						break;
@@ -1151,322 +1063,192 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					else if ((layer->Get(i, j) == 1545) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorClosedFx);
-						isTown = true;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 448,465 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("town_map.tmx", app->tex);
+						ChangeMap("town_map.tmx", { 448,465 }, doorClosedFx);
 						LoadNpc(map->name);
-
+						isTown = true;
 						isDungeon = false;
-						questManager->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
+
 						exit = true;
 						break;
 					}
 					if (isTown && (layer->Get(i, j) == 778) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorOpenedFx);
+						ChangeMap("inn.tmx", { 650,480 }, doorOpenedFx);
 						isTown = false;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 650,480 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("inn.tmx", app->tex);
 						isDungeon = false;
-						questManager->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
+
 						exit = true;
 						break;
 					}
 					else if ((layer->Get(i, j) == 1546) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorClosedFx);
-						isTown = true;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 380,136 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("town_map.tmx", app->tex);
+						ChangeMap("town_map.tmx", { 380,136 }, doorClosedFx);
 						LoadNpc(map->name);
+						isTown = true;
 						isDungeon = false;
-						questManager->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
+
 						exit = true;
 						break;
 					}
 					if (isTown && (layer->Get(i, j) == 779) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorOpenedFx);
-						isTown = false;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 615,480 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						particles->SetAllParticlesDesactivated();
-						map->CleanUp();
-						map->Load("library.tmx", app->tex);
+						ChangeMap("library.tmx", { 615,480 }, doorOpenedFx);
 						LoadNpc(map->name);
-
+						isTown = false;
 						isDungeon = false;
-						questManager->CheckQuests(map->name);
 
 						exit = true;
 						break;
 					}
 					else if ((layer->Get(i, j) == 1547) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorClosedFx);
-						isTown = true;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 160,136 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("town_map.tmx", app->tex);
+						ChangeMap("town_map.tmx", { 160,136 }, doorClosedFx);
 						LoadNpc(map->name);
+						isTown = true;
 						isDungeon = false;
-						questManager->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
+						
 						exit = true;
 						break;
 					}
 					if (isTown && (layer->Get(i, j) == 780) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorOpenedFx);
+						ChangeMap("shop.tmx", { 615,480 }, doorOpenedFx);
 						isTown = false;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 615,480 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("shop.tmx", app->tex);
 						isDungeon = false;
-						questManager->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
+
 						exit = true;
 						break;
 					}
 					else if ((layer->Get(i, j) == 12) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorClosedFx);
-						isTown = true;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 898,152 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("town_map.tmx", app->tex);
+						ChangeMap("town_map.tmx", { 898,152 }, doorClosedFx);
 						LoadNpc(map->name);
-
+						isTown = true;
 						isDungeon = false;
-						questManager->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
+						
 						exit = true;
 						break;
 					}
 					if (isTown && (layer->Get(i, j) == 782) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorOpenedFx);
+						ChangeMap("shop2.tmx", { 615,480 }, doorOpenedFx);
 						isTown = false;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 615,480 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("shop2.tmx", app->tex);
 						isDungeon = false;
-						questManager->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
+
 						exit = true;
 						break;
 					}
 					else if ((layer->Get(i, j) == 14) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorClosedFx);
+						ChangeMap("town_map.tmx", { 900,1250 }, doorClosedFx);
 						isTown = true;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 900,1250 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("town_map.tmx", app->tex);
+						isDungeon = false;
 						LoadNpc(map->name);
 
-						isDungeon = false;
-						questManager->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
 						exit = true;
 						break;
 					}
 					if (isTown && (layer->Get(i, j) == 783) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorOpenedFx);
+						ChangeMap("red_house.tmx", { 615,480 }, doorOpenedFx);
 						isTown = false;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 615,480 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("red_house.tmx", app->tex);
 						isDungeon = false;
-						questManager->CheckQuests(map->name);
 
 						exit = true;
 						break;
 					}
 					else if ((layer->Get(i, j) == 1551) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						app->audio->PlayFx(channel, doorClosedFx);
-						isTown = true;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 1350,390 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("town_map.tmx", app->tex);
+						ChangeMap("town_map.tmx", { 1350,390 }, doorClosedFx);
 						LoadNpc(map->name);
-
+						isTown = true;
 						isDungeon = false;
-						questManager->CheckQuests(map->name);
-						particles->SetAllParticlesDesactivated();
+
 						exit = true;
 						break;
 					}
 					if ((layer->Get(i, j) == 784) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						ChangeMap("graveyard_path.tmx", { 705,950 });
 						isTown = false;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 705,950 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("graveyard_path.tmx", app->tex);
-						questManager->CheckQuests(map->name);
 						isDungeon = false;
+
 						exit = true;
 						break;
 					}
-					if ((layer->Get(i, j) == 786) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					else if ((layer->Get(i, j) == 786) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						isTown = true;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 705,30 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("town_map.tmx", app->tex);
-
+						ChangeMap("town_map.tmx", { 705,30 });
 						LoadNpc(map->name);
-						questManager->CheckQuests(map->name);
+						isTown = true;
 						isDungeon = false;
+
 						exit = true;
 						break;
 					}
 					if ((layer->Get(i, j) == 785) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						ChangeMap("bath_house.tmx", { 620,480 }, doorOpenedFx);
 						isTown = false;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 620,480 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("bath_house.tmx", app->tex);
-						questManager->CheckQuests(map->name);
 						isDungeon = false;
+
 						exit = true;
 						break;
 					}
 					else if ((layer->Get(i, j) == 1553) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						ChangeMap("graveyard_path.tmx", { 320, 384 }, doorClosedFx);
 						isTown = true;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 320, 384 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("graveyard_path.tmx", app->tex);
-
-						questManager->CheckQuests(map->name);
 						isDungeon = false;
+
 						exit = true;
 						break;
 					}
 					if ((layer->Get(i, j) == 3089) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						ChangeMap("graveyard_path.tmx", { 320,380 });
 						isTown = true;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 320,380 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("graveyard_path.tmx", app->tex);
-						questManager->CheckQuests(map->name);
 						isDungeon = false;
+
 						exit = true;
 						break;
 					}
-					if ((layer->Get(i, j) == 787) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					else if ((layer->Get(i, j) == 787) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						ChangeMap("graveyard.tmx", { 630,960 });
 						isTown = false;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 630,960 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("graveyard.tmx", app->tex);
-						questManager->CheckQuests(map->name);
 						isDungeon = false;
+
 						exit = true;
 						break;
 					}
 					if ((layer->Get(i, j) == 19) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						ChangeMap("graveyard_path.tmx", { 500,50 });
 						isTown = true;
-						entityManager->DeleteAllNpcActive();
-						iPoint position = { 500,50 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("graveyard_path.tmx", app->tex);
-						questManager->CheckQuests(map->name);
 						isDungeon = false;
+
 						exit = true;
 						break;
 					}
-					if ((layer->Get(i, j) == 20) && CheckCollision(map->GetTilemapRec(i, j), rect))
+					else if ((layer->Get(i, j) == 20) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						isTown = false;
-						entityManager->DeleteAllNpcActive();
 						iPoint position = { 1420,720 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("dungeon_map.tmx", app->tex);
-						questManager->CheckQuests(map->name);
+						ChangeMap("dungeon_map.tmx", position);
+						isTown = false;
 						isDungeon = true;
 						if (loadObjects)
 						{
-							IceBlock* iceBlock = nullptr;
 							position = { 2048,320 };
-							iceBlock = (IceBlock*)entityManager->CreateEntity2(EntityType::ICE_BLOCK, position, currentPlayer, 1);
-							Door* door = nullptr;
+							IceBlock* iceBlock = (IceBlock*)entityManager->CreateEntity2(EntityType::ICE_BLOCK, position, currentPlayer, 1);
 							position = { 2240,992 };
-							door = (Door*)entityManager->CreateEntity2(EntityType::DOOR, position, currentPlayer, 1);
-							Door* door2 = nullptr;
+							Door* door = (Door*)entityManager->CreateEntity2(EntityType::DOOR, position, currentPlayer, 1);
 							position = { 576,288 };
-							door2 = (Door*)entityManager->CreateEntity2(EntityType::DOOR, position, currentPlayer, 2);
-							Door* door3 = nullptr;
+							Door* door2 = (Door*)entityManager->CreateEntity2(EntityType::DOOR, position, currentPlayer, 2);
 							position = { 1408,2496 };
-							door3 = (Door*)entityManager->CreateEntity2(EntityType::DOOR, position, currentPlayer, 3);
-							Door* door4 = nullptr;
+							Door* door3 = (Door*)entityManager->CreateEntity2(EntityType::DOOR, position, currentPlayer, 3);
 							position = { 1408,608 };
-							door4 = (Door*)entityManager->CreateEntity2(EntityType::DOOR, position, currentPlayer, 4);
+							Door* door4 = (Door*)entityManager->CreateEntity2(EntityType::DOOR, position, currentPlayer, 4);
 
 							Item* item = new OrbFragment(iPoint(2144, 2496), atlas, "dungeon_map.tmx");
 							items.push_back(item);
@@ -1474,18 +1256,14 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 							item = new OrbFragment(iPoint(2368, 2496), atlas, "dungeon_map.tmx");
 							items.push_back(item);
 
-							Statue* statue = nullptr;
 							position = { 1184, 1937 };
-							statue = (Statue*)entityManager->CreateEntity2(EntityType::STATUE, position, currentPlayer, 1);
-							Statue* statue2 = nullptr;
+							Statue* statue = (Statue*)entityManager->CreateEntity2(EntityType::STATUE, position, currentPlayer, 1);
 							position = { 1184, 1990 };
-							statue2 = (Statue*)entityManager->CreateEntity2(EntityType::STATUE, position, currentPlayer, 2);
-							Statue* statue3 = nullptr;
+							Statue* statue2 = (Statue*)entityManager->CreateEntity2(EntityType::STATUE, position, currentPlayer, 2);
 							position = { 1184, 730 };
-							statue3 = (Statue*)entityManager->CreateEntity2(EntityType::STATUE, position, currentPlayer, 3);
-							Statue* statue4 = nullptr;
+							Statue* statue3 = (Statue*)entityManager->CreateEntity2(EntityType::STATUE, position, currentPlayer, 3);
 							position = { 1664, 730 };
-							statue4 = (Statue*)entityManager->CreateEntity2(EntityType::STATUE, position, currentPlayer, 4);
+							Statue* statue4 = (Statue*)entityManager->CreateEntity2(EntityType::STATUE, position, currentPlayer, 4);
 
 							interruptorBlock = new InterruptorBlock(iPoint(1024, 416), atlas, "dungeon_map.tmx");
 							items.push_back(interruptorBlock);
@@ -1538,42 +1316,42 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if ((layer->Get(i, j) == 9) && CheckCollision(map->GetTilemapRec(i, j), iceBlockRect))
 					{
-						isTown = false;
-						entityManager->SetAllNpcInactive();
+						//isTown = false;
+						//entityManager->SetAllNpcInactive();
 						iPoint position = { 1950,360 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
-						isDungeon = true;
+						//isDungeon = true;
 						ChangeBlockBounds(2048, 320);
 						exit = true;
 						break;
 					}
 					if (deleteDoor && (layer->Get(i, j) == 10) && CheckCollision(map->GetTilemapRec(i, j), iceBlockRect))
 					{
-						isTown = false;
-						entityManager->SetAllNpcInactive();
+						//isTown = false;
+						//entityManager->SetAllNpcInactive();
 						whereMove = 6;
 						currentPlayer->canMove = false;
 						deleteDoor = false;
-						isDungeon = true;
+						//isDungeon = true;
 						exit = true;
 						break;
 					}
 					if ((layer->Get(i, j) == 3) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
-						isTown = false;
-						entityManager->SetAllNpcInactive();
+						//isTown = false;
+						//entityManager->SetAllNpcInactive();
 						iPoint position = { 1950,1650 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
-						isDungeon = true;
+						//isDungeon = true;
 						exit = true;
 						break;
 					}
 					if ((layer->Get(i, j) == 4) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						isTown = false;
-						entityManager->SetAllNpcInactive();
+						entityManager->DeleteAllNpcActive();
 						iPoint position = { 2570,1650 };
 						currentPlayer->bounds.x = position.x;
 						currentPlayer->bounds.y = position.y;
@@ -1585,18 +1363,15 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					}
 					if ((layer->Get(i, j) == 13) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
+						ChangeMap("graveyard.tmx", { 630,360 });
 						isTown = true;
-						iPoint position = { 630,360 };
-						currentPlayer->bounds.x = position.x;
-						currentPlayer->bounds.y = position.y;
-						map->CleanUp();
-						map->Load("graveyard.tmx", app->tex);
-						questManager->CheckQuests(map->name);
 						isDungeon = false;
+
 						entityManager->DeleteEntity(EntityType::DOOR);
 						entityManager->DeleteEntity(EntityType::ICE_BLOCK);
 						entityManager->DeleteEntity(EntityType::STATUE);
 						loadObjects = true;
+						
 						exit = true;
 						break;
 					}
@@ -1859,4 +1634,18 @@ void SceneGameplay::SetCameraMovement(int target_x, int target_y, float dt)
 	if (app->render->camera.x > target_x) app->render->camera.x -= 700 * dt;
 	if (app->render->camera.y > target_y) app->render->camera.y -= 700 * dt;
 	if (app->render->camera.y < target_y) app->render->camera.y += 700 * dt;
+}
+
+void SceneGameplay::ChangeMap(const char* mapName, iPoint newPos, int doorFx)
+{
+	entityManager->DeleteAllNpcActive();
+	app->audio->PlayFx(channel, doorFx);
+
+	currentPlayer->bounds.x = newPos.x;
+	currentPlayer->bounds.y = newPos.y;
+	map->CleanUp();
+	map->Load(mapName, app->tex);
+
+	questManager->CheckQuests(map->name);
+	particles->SetAllParticlesDesactivated();
 }
