@@ -29,6 +29,7 @@ private:
 	GuiButton* btnNewGame;
 
 	eastl::list<GuiButton*> buttons;
+	SDL_Texture* bg;
 
 	Scene* scene;
 };
