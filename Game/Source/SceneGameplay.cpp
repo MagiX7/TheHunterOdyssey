@@ -324,7 +324,7 @@ bool SceneGameplay::Update(float dt)
 								target_x = 0;
 								target_y = 10;
 								SetCameraMovement(target_x, target_y, dt);
-								if (cameraCounter >= 0 && app->render->camera.x >= target_x && app->render->camera.y >= target_y)
+								if (cameraCounter >= 0 && app->render->camera.x >= target_x - 20 && app->render->camera.y >= target_y - 20)
 								{
 									cameraCounter--;
 									app->render->camera.x = target_x;
@@ -346,7 +346,7 @@ bool SceneGameplay::Update(float dt)
 								target_x = -1010;
 								target_y = -459;
 								SetCameraMovement(target_x, target_y, dt);
-								if (cameraCounter >= 0 && app->render->camera.x <= target_x && app->render->camera.y >= target_y)
+								if (cameraCounter >= 0 && app->render->camera.x <= target_x + 20 && app->render->camera.y >= target_y - 20)
 								{
 									cameraCounter--;
 									app->render->camera.x = target_x;
@@ -368,7 +368,7 @@ bool SceneGameplay::Update(float dt)
 								target_x = -802;
 								target_y = -323;
 								SetCameraMovement(target_x, target_y, dt);
-								if (cameraCounter >= 0 && app->render->camera.x <= target_x && app->render->camera.y >= target_y)
+								if (cameraCounter >= 0 && app->render->camera.x <= target_x + 20 && app->render->camera.y >= target_y - 20)
 								{
 									cameraCounter--;
 									app->render->camera.x = target_x;
@@ -390,7 +390,7 @@ bool SceneGameplay::Update(float dt)
 								target_x = -587;
 								target_y = -453;
 								SetCameraMovement(target_x, target_y, dt);
-								if (cameraCounter >= 0 && app->render->camera.x <= target_x && app->render->camera.y >= target_y)
+								if (cameraCounter >= 0 && app->render->camera.x <= target_x + 20 && app->render->camera.y >= target_y - 20)
 								{
 									cameraCounter--;
 									app->render->camera.x = target_x;
@@ -412,7 +412,7 @@ bool SceneGameplay::Update(float dt)
 								target_x = -1600;
 								target_y = -616;
 								SetCameraMovement(target_x, target_y, dt);
-								if (cameraCounter >= 0 && app->render->camera.x >= target_x - 10 && app->render->camera.y <= target_y + 15)
+								if (cameraCounter >= 0 && app->render->camera.x >= target_x - 20 && app->render->camera.y <= target_y + 20)
 								{
 									cameraCounter--;
 									app->render->camera.x = target_x;
