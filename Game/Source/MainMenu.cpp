@@ -333,8 +333,13 @@ bool MainMenu::UnLoad()
 	RELEASE(checkVSync);
 	RELEASE(slideMusicVolume);
 	RELEASE(slideFXVolume);
+
+	RELEASE(easing);
+	RELEASE(easing2);
+	RELEASE(easing3);
 	RELEASE(easingDown);
 	RELEASE(easingUp);
+
 	RELEASE(btnCreditsRoles);
 
 	controls.clear();
