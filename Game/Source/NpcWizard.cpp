@@ -5,7 +5,7 @@
 
 #include "NpcWizard.h"
 
-NpcWizard::NpcWizard(iPoint position, pugi::xml_node anim, int id):Npc(EntityType::NPC_WIZARD,position, id)
+NpcWizard::NpcWizard(iPoint position, pugi::xml_node anim, int id): Npc(EntityType::NPC_WIZARD,position, id)
 {
 	//bounds = { 0,0, 16,32 };
 	//type = EntityType::NPC_WIZARD;
@@ -48,7 +48,6 @@ NpcWizard::~NpcWizard()
 
 bool NpcWizard::Load()
 {
-	
 	return true;
 }
 

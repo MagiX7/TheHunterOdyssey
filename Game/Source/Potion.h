@@ -5,7 +5,7 @@
 class Potion : public Item
 {
 public:
-	Potion(iPoint pos, SDL_Texture* atlas, eastl::string map);
+	Potion(iPoint pos, SDL_Texture* atlas, eastl::string map = "");
 	virtual ~Potion();
 
 	bool Load() override;

@@ -204,6 +204,12 @@
     <ClCompile Include="Source\QuestMenu.cpp">
       <Filter>Menus</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Merchant.cpp">
+      <Filter>Entities\Npcs</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Shop.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
@@ -463,6 +469,12 @@
       <Filter>Menus</Filter>
     </ClInclude>
     <ClInclude Include="Source\QuestMenu.h">
+      <Filter>Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Merchant.h">
+      <Filter>Entities\Npcs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Shop.h">
       <Filter>Menus</Filter>
     </ClInclude>
   </ItemGroup>

@@ -42,6 +42,7 @@
 #include "PauseMenu.h"
 #include "Inventory.h"
 #include "QuestMenu.h"
+#include "Shop.h"
 
 #include "Log.h"
 
@@ -189,12 +190,15 @@ bool SceneGameplay::Load()
 
 	questManager->SetPlayer(currentPlayer);
 
-	dialogueManager = new DialogueManager(questManager);
+	dialogueManager = new DialogueManager(questManager, this);
 	dialogueManager->Start();
 
 	pause->Load(font);
 
 	inventory->Load(font);
+
+	shop = new Shop(this, inventory, atlas);
+	shop->Load(font);
 
 	eastl::list<Item*>::iterator item = items.begin();
 	for (; item != items.end(); ++item)
@@ -492,6 +496,9 @@ bool SceneGameplay::Update(float dt)
 			quests->Update(dt);
 			HandleInput(app->input, dt);
 			break;
+		case GameplayMenuState::SHOP:
+			shop->Update(dt);
+			break;
 		}
 		break;
 	case GameplayState::BATTLE:
@@ -521,11 +528,6 @@ void SceneGameplay::Draw()
 		//currentPlayer->Draw(showColliders);
 		
 		app->render->DrawTexture(goldTexture, 5, 60, NULL, false);
-		app->render->DrawTexture(guiTex, 1170, 608, &r, false);
-		app->render->DrawCenterText(font, "E", { 1207,675,28,27 }, 34, 5, SDL_Color({ 255,255,255,255 }));
-		r = { 0,0,100,100 };
-		app->render->DrawTexture(guiTex, 1060, 608, &r, false);
-		app->render->DrawCenterText(font, "Q", { 1096,675,28,27 }, 34, 5, SDL_Color({ 255,255,255,255 }));
 
 		char tmp[32];
 		sprintf_s(tmp, "%i", currentPlayer->gold);
@@ -556,7 +558,13 @@ void SceneGameplay::Draw()
 			}
 		}
 
-		if (dialogueManager->isDialogueActive)
+		app->render->DrawTexture(guiTex, 1170, 608, &r, false);
+		app->render->DrawCenterText(font, "E", { 1207,675,28,27 }, 34, 5, SDL_Color({ 255,255,255,255 }));
+		r = { 0,0,100,100 };
+		app->render->DrawTexture(guiTex, 1060, 608, &r, false);
+		app->render->DrawCenterText(font, "Q", { 1096,675,28,27 }, 34, 5, SDL_Color({ 255,255,255,255 }));
+
+		if (menuState != GameplayMenuState::SHOP && dialogueManager->isDialogueActive)
 		{
 			app->render->DrawRectangle({ 0, 0,1280, 720 }, 0, 0, 0, 150, true, false);
 			dialogueManager->Draw();
@@ -587,6 +595,9 @@ void SceneGameplay::Draw()
 			break;
 		case GameplayMenuState::QUESTS:
 			quests->Draw(font, showColliders);
+			break;
+		case GameplayMenuState::SHOP:
+			shop->Draw(font, showColliders);
 			break;
 		}
 		break;
@@ -1124,6 +1135,7 @@ bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
 					if (isTown && (layer->Get(i, j) == 780) && CheckCollision(map->GetTilemapRec(i, j), rect))
 					{
 						ChangeMap("shop.tmx", { 615,480 }, doorOpenedFx);
+						LoadNpc(map->name);
 						isTown = false;
 						isDungeon = false;
 
@@ -1577,6 +1589,11 @@ void SceneGameplay::LoadNpc(SString mapName)
 
 		position = { 600,450 };
 		entityManager->CreateEntity(EntityType::NPC_WIZARD, position, anims, 6);
+	}
+	else if (mapName == "shop.tmx")
+	{
+		iPoint position = { 608, 256 };
+		entityManager->CreateEntity(EntityType::MERCHANT, position, anims, 7);
 	}
 }
 

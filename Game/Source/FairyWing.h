@@ -5,7 +5,7 @@
 class FairyWing : public Item
 {
 public:
-	FairyWing(iPoint pos, SDL_Texture* atlas, eastl::string map);
+	FairyWing(iPoint pos, SDL_Texture* atlas, eastl::string map = "");
 	virtual ~FairyWing();
 
 	bool Load() override;

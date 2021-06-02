@@ -7,11 +7,12 @@
 
 class Easing;
 class QuestManager;
+class SceneGameplay;
 
 class DialogueManager
 {
 public:
-	DialogueManager(QuestManager* quest);
+	DialogueManager(QuestManager* quest, SceneGameplay* s);
 	virtual ~DialogueManager();
 	
 	bool Start();
@@ -32,6 +33,7 @@ public:
 private:
 	SDL_Texture* texture;
 	QuestManager* questManager;
+	SceneGameplay* scene;
 
 	// Pugi stuff to load dialogues
 	pugi::xml_document file;

@@ -2,16 +2,18 @@
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
-#include"AssetsManager.h"
+#include "AssetsManager.h"
+#include "SceneGameplay.h"
 #include "QuestManager.h"
 #include "DialogueManager.h"
 #include "Easings.h"
 
 #include "Log.h"
 
-DialogueManager::DialogueManager(QuestManager* quests)
+DialogueManager::DialogueManager(QuestManager* quests, SceneGameplay* s)
 {
 	questManager = quests;
+	scene = s;
 }
 
 DialogueManager::~DialogueManager()
@@ -142,7 +144,8 @@ bool DialogueManager::Update(float dt)
 				NpcNode* aux = GetNodeById(current->currentNode->currentOption->nextNodeId);
 				/*current->currentNode=current->currentNode.*/
 				if (current->currentNode->currentOption->missionId != -1) questManager->ActivateQuest(current->currentNode->currentOption->missionId);
-				
+				if (current->currentNode->currentOption->menu != -1) scene->ChangeState(GameplayMenuState::SHOP);
+
 				RELEASE(current->currentNode);
 				current->currentNode = aux;
 				current->currentNode->Reset();
@@ -240,6 +243,7 @@ NpcNode* DialogueManager::LoadNode(int id, pugi::xml_node node)
 		option->id = m.attribute("id").as_int();
 		option->nextNodeId = m.attribute("nextNodeId").as_int();
 		option->missionId = m.attribute("missionId").as_int();
+		option->menu = m.attribute("menu").as_int(-1);
 		option->bounds.x = 710;
 		option->bounds.y = 215 + i;
 		//option->bounds.w = 400;

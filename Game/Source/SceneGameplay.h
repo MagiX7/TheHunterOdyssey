@@ -21,6 +21,7 @@ class Item;
 class Inventory;
 class QuestManager;
 class QuestMenu;
+class Shop;
 
 class Font;
 
@@ -33,7 +34,8 @@ enum class GameplayMenuState
 	CHARACTER_SWAP,
 	INVENTORY,
 	PAUSE,
-	QUESTS
+	QUESTS,
+	SHOP
 };
 
 enum class GameplayState
@@ -116,6 +118,9 @@ private:
 
 	// Quest Menu
 	QuestMenu* quests;
+
+	// Shop Menu
+	Shop* shop;
 
 	// Interruptor block
 	Item* interruptorBlock;

@@ -4,6 +4,7 @@
 #include "Tabern.h"
 #include "Town.h"
 #include "Ray.h"
+#include "Merchant.h"
 
 #include "Hunter.h"
 #include "Wizard.h"
@@ -59,7 +60,8 @@ bool EntityManager::Update(float dt, Player* currentPlayer, bool& triggerDialogu
 	{
 		(*item)->Update(dt);
 		CheckEntityCollision(*item, scene);
-		if ((*item != nullptr) && ((*item)->type == EntityType::NPC_WIZARD || (*item)->type == EntityType::RAY || (*item)->type == EntityType::TOWN) && (*item)->CheckCollision(currentPlayer))
+		if ((*item != nullptr) && ((*item)->type == EntityType::NPC_WIZARD || (*item)->type == EntityType::RAY || 
+			(*item)->type == EntityType::TOWN || (*item)->type == EntityType::MERCHANT) && (*item)->CheckCollision(currentPlayer))
 		{
 			dialogueId = TriggerDialogue(triggerDialogue, (*item));
 		}
@@ -143,46 +145,17 @@ Entity* EntityManager::CreateEntity(EntityType type, iPoint pos, pugi::xml_node 
 		
 		//entity->scene = Scene;
 		break;
-	case EntityType::BAT:
-
-		//entity = new Bat(pos);
-
-		break;
-	case EntityType::GOLEM:
-
-		//entity = new Golem(pos);
-
-		break;
-	case EntityType::SKULL:
-
-		//entity = new Skull(pos);
-
-		break;
 	case EntityType::TOWN:
-		if(id > -1)
-			entity = new Town(pos, anim, id);
+		if(id > -1) entity = new Town(pos, anim, id);
 
-		//entity->scene = Scene;
 		break;
 	case EntityType::RAY:
-		if (id > -1)
-			entity = new Ray(pos, anim, id);
-
-		
-		//entity->scene = Scene;
-		break;
-	case EntityType::WARRIOR:
-
-		//entity = new Warrior(pos);
+		if (id > -1) entity = new Ray(pos, anim, id);
 
 		break;
-	case EntityType::THIEF:
-
-		//entity = new Thief(pos);
-
+	case EntityType::MERCHANT:
+		if (id > -1) entity = new Merchant(pos, anim, id);
 		break;
-	case EntityType::ITEM: break;
-	case EntityType::ENEMY: break;
 	}
 
 	// Created entities are added to the list

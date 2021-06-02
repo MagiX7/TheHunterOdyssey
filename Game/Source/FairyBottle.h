@@ -5,7 +5,7 @@
 class FairyBottle : public Item
 {
 public:
-	FairyBottle(iPoint pos, SDL_Texture* atlas, eastl::string map);
+	FairyBottle(iPoint pos, SDL_Texture* atlas, eastl::string map = "");
 	virtual ~FairyBottle();
 
 	bool Load() override;

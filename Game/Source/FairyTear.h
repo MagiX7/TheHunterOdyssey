@@ -5,7 +5,7 @@
 class FairyTear : public Item
 {
 public:
-	FairyTear(iPoint pos, SDL_Texture* atlas, eastl::string map);
+	FairyTear(iPoint pos, SDL_Texture* atlas, eastl::string map = "");
 	virtual ~FairyTear();
 
 	bool Load() override;

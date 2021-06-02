@@ -5,7 +5,7 @@
 class OmniPotion : public Item
 {
 public:
-	OmniPotion(iPoint pos, SDL_Texture* atlas, eastl::string map);
+	OmniPotion(iPoint pos, SDL_Texture* atlas, eastl::string map = "");
 	virtual ~OmniPotion();
 
 	bool Load() override;

@@ -1,6 +1,8 @@
 #pragma once
+
 #include "Entity.h"
 #include "Font.h"
+#include "Point.h"
 
 #define FIND_RADIOUS 10
 
@@ -10,6 +12,7 @@ enum class NpcType
 	TABERN,
 	WIZARD,
 	TOWN,
+	MERCHANT
 };
 
 class Npc : public Entity

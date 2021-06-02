@@ -41,6 +41,7 @@ enum class EntityType
 	NPC_WIZARD,
 	TOWN,
 	RAY,
+	MERCHANT,
 	ITEM,
 	ARMOR,
 	MAP,
