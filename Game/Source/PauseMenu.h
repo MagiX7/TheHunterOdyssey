@@ -38,6 +38,8 @@ public:
 	void UpdatingButtons(Input* input) override;
 
 private:
+	Font* savedTextFont;
+
 	PauseState state;
 	SceneGameplay* scene;
 
@@ -62,8 +64,11 @@ private:
 	Easing* easing;
 	Easing* easing2;
 
-	int count;
-	int time;
+	/*int count;
+	int time;*/
+	float timer;
+	float savedTextAlpha;
+	float toStartTimer;
 
 	bool savedGame;
 	bool playMusicOptions;

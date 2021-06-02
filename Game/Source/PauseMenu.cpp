@@ -24,7 +24,7 @@ bool PauseMenu::Load(Font* font)
 {
 	guiTex = app->tex->Load("Textures/UI/gui_pause_menu.png");
 
-	savedGame = false;
+	savedTextFont = new Font(app, "Font/font3.xml", app->tex);
 
 	// Main menu ========================
 	btnResume = new GuiButton(1, { 1280, 223, 270, 64 }, "Resume Game", this, font);
@@ -119,6 +119,10 @@ bool PauseMenu::Load(Font* font)
 
 	state = PauseState::DEFAULT;
 
+	savedGame = false;
+	savedTextAlpha = 1.0f;
+	toStartTimer = 1.0f;
+
 	return true;
 }
 
@@ -129,10 +133,7 @@ bool PauseMenu::Update(float dt)
 	UpdatingButtons(app->input);
 
 	int id = -1;
-	if (lastUserInput == 0 && currentControl != nullptr)
-	{
-		id = currentControl->id;
-	}
+	if (lastUserInput == 0 && currentControl != nullptr) id = currentControl->id;
 
 	if (easing->easingsActivated)
 	{
@@ -218,6 +219,24 @@ bool PauseMenu::Update(float dt)
 		break;
 	}
 
+	if (savedGame)
+	{
+		toStartTimer -= dt;
+		if (toStartTimer < -0.01)
+		{
+			savedTextAlpha -= dt;
+			if (savedTextAlpha < -0.01)
+			{
+				toStartTimer = 1.0f;
+				savedTextAlpha = 1.0f;
+				savedGame = false;
+			}
+		}
+	}
+
+	LOG("TO START  %f", toStartTimer);
+	LOG("ALPHA  %f", savedTextAlpha);
+
 	return ret;
 }
 
@@ -302,19 +321,7 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 
 	if (savedGame == true)
 	{
-		time++;
-		if (time % 60 == 0)
-		{
-			count++;
-			time = 0;
-			if (count == 3) savedGame = false;
-		}
-		app->render->DrawText(font, "The game has been saved", { 10,676,1000,500 }, 36, 5, { 255,255,255 });
-	}
-	else
-	{
-		time = 0;
-		count = 0;
+		app->render->DrawText(savedTextFont, "The game has been saved", { 10,676,1000,500 }, 36, 5, { 255,255,255,(unsigned char)(savedTextAlpha * 255) });
 	}
 }
 
@@ -382,8 +389,11 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 		}
 		else if (control->id == 2) // Save
 		{
-			savedGame = true;
-			app->SaveGameRequest();
+			if (savedGame == false)
+			{
+				savedGame = true;
+				app->SaveGameRequest();
+			}
 		}
 		else if (control->id == 3) // Load
 		{

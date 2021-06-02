@@ -71,8 +71,8 @@ bool Audio::Awake(pugi::xml_node& config)
 
 bool Audio::Update(float dt)
 {
-	LOG("MUSIC VOLUME E %f", musicVolume);
-	LOG("AUX VOLUME E %f", auxMusic);
+	/*LOG("MUSIC VOLUME E %f", musicVolume);
+	LOG("AUX VOLUME E %f", auxMusic);*/
 	if (transition)
 	{
 		if (fadeOut)

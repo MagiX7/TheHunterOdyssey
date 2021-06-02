@@ -313,6 +313,8 @@ bool Render::DrawText(Font* font, const char* text, SDL_Rect bounds, int size, i
 	float scale = (float)size / font->GetCharRec(32).h;
 
 	SDL_SetTextureColorMod(font->GetTextureAtlas(), tint.r, tint.g, tint.b);
+	SDL_SetTextureAlphaMod(font->GetTextureAtlas(), tint.a);
+	//SDL_SetRenderDrawColor(renderer, tint.r, tint.g, tint.b, tint.a);
 
 	eastl::string tmp;
 	int tmpLen = 0;
