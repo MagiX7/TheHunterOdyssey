@@ -158,6 +158,7 @@ bool SceneGameplay::Load()
 	bool ret = true;
 
 	goldTexture = app->tex->Load("Textures/UI/gold.png");
+	guiTex = app->tex->Load("Textures/UI/gui_gameplay_textures.png");
 
 	entityManager->Load();
 
@@ -489,6 +490,7 @@ bool SceneGameplay::Update(float dt)
 
 		case GameplayMenuState::QUESTS:
 			quests->Update(dt);
+			HandleInput(app->input, dt);
 			break;
 		}
 		break;
@@ -508,6 +510,8 @@ bool SceneGameplay::Update(float dt)
 
 void SceneGameplay::Draw()
 {
+	SDL_Rect r = { 110,0,100,100 };
+
 	switch (gameState)
 	{
 	case GameplayState::ROAMING:
@@ -517,6 +521,11 @@ void SceneGameplay::Draw()
 		//currentPlayer->Draw(showColliders);
 		
 		app->render->DrawTexture(goldTexture, 5, 60, NULL, false);
+		app->render->DrawTexture(guiTex, 1170, 608, &r, false);
+		app->render->DrawCenterText(font, "E", { 1207,675,28,27 }, 34, 5, SDL_Color({ 255,255,255,255 }));
+		r = { 0,0,100,100 };
+		app->render->DrawTexture(guiTex, 1060, 608, &r, false);
+		app->render->DrawCenterText(font, "Q", { 1096,675,28,27 }, 34, 5, SDL_Color({ 255,255,255,255 }));
 
 		char tmp[32];
 		sprintf_s(tmp, "%i", currentPlayer->gold);
@@ -653,6 +662,7 @@ bool SceneGameplay::UnLoad()
 
 	app->audio->UnLoadFxs();
 	app->tex->UnLoad(goldTexture);
+	app->tex->UnLoad(guiTex);
 
 	return ret;
 }
@@ -885,7 +895,8 @@ void SceneGameplay::HandleInput(Input* input, float dt)
 
 	if (input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
 	{
-		menuState = GameplayMenuState::QUESTS;
+		if (menuState == GameplayMenuState::QUESTS) menuState = GameplayMenuState::NONE;
+		else menuState = GameplayMenuState::QUESTS;
 	}
 }
 

@@ -121,6 +121,7 @@ private:
 	Item* interruptorBlock;
 
 	SDL_Texture* atlas;
+	SDL_Texture* guiTex;
 
 	eastl::list<Item*> items;
 

@@ -29,4 +29,5 @@ private:
 	QuestManager* questManager;
 
 	GuiButton* btnBack;
+	SDL_Texture* guiTex;
 };

@@ -11,8 +11,15 @@ QuestMenu::QuestMenu(SceneGameplay* s, QuestManager* qManager, Font* font)
 	questManager = qManager;
 	scene = s;
 
-	btnBack = new GuiButton(1, { 1040, 610, 100, 50 }, "Back", this, font);
+	guiTex = app->tex->Load("Textures/UI/gui_quests_menu.png");
+
+	btnBack = new GuiButton(1, { 944, 574, 130, 64 }, "Back", this, font);
 	btnBack->alineation = 1;
+	btnBack->texture = guiTex;
+	btnBack->section = { 1000,0,130,64 };
+
+	currentControl = nullptr;
+	lastControl = nullptr;
 
 	controls.push_back(btnBack);
 }
@@ -45,30 +52,33 @@ void QuestMenu::Draw(Font* font, bool showColliders)
 {
 	// Black rectangle for the background
 	app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 120, true, false);
-	app->render->DrawRectangle({ 140, 60, 1000, 600 }, 0, 0, 0, 200, true, false);
 
-	app->render->DrawCenterText(font, "Active Quests", { 140, 60, 500, 50 }, 34, 5, { 255, 255, 255, 255 });
-	app->render->DrawCenterText(font, "Finished Quests", { 640, 60, 500, 50 }, 34, 5, { 255, 255, 255, 255 });
-	btnBack->Draw(app->render, showColliders, 34, { 255, 255, 255, 255 });
+	SDL_Rect section = { 0,0,1000,699 };
+	app->render->DrawTexture(guiTex, 140, 10, &section, false);
+	
+	app->render->DrawCenterText(font, "Active Quests", { 266, 85, 300, 50 }, 45, 5, { 255, 255, 255, 255 });
+	app->render->DrawCenterText(font, "Finished Quests", { 708, 85, 300, 50 }, 45, 5, { 255, 255, 255, 255 });
+	btnBack->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
 	
 	eastl::list<Quest*>::iterator it = questManager->GetActiveList().begin();
 	eastl::list<Quest*>::iterator itEnd = questManager->GetActiveList().end();
 	for (int i = 0; it != itEnd; ++it, i += 50)
 	{
-		app->render->DrawText(font, (*it)->name.c_str(), 200, 150 + i, 40, 3, { 255, 255, 255, 255 });
+		app->render->DrawText(font, (*it)->name.c_str(), 220, 190 + i, 40, 3, { 255, 255, 255, 255 });
 	}
 
 	it = questManager->GetFinishedList().begin();
 	itEnd = questManager->GetFinishedList().end();
 	for (int i = 0; it != itEnd; ++it, i += 50)
 	{
-		app->render->DrawText(font, (*it)->name.c_str(), 700, 150 + i, 40, 3, { 255, 255, 255, 255 });
+		app->render->DrawText(font, (*it)->name.c_str(), 680, 190 + i, 40, 3, { 255, 255, 255, 255 });
 	}
 }
 
 bool QuestMenu::UnLoad()
 {
 	RELEASE(btnBack);
+	app->tex->UnLoad(guiTex);
 
 	return true;
 }

@@ -62,5 +62,9 @@ private:
 	Easing* easing;
 	Easing* easing2;
 
+	int count;
+	int time;
+
+	bool savedGame;
 	bool playMusicOptions;
 };

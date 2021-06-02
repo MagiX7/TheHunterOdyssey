@@ -10,22 +10,22 @@
       <entities>
         <NPCs amount="4">
           <NPC>
-            <bounds X="290" Y="287" W="30" H="32" />
+            <bounds X="278" Y="250" W="30" H="32" />
             <NpcType type="TOWN" />
             <Dialoge idDialoge="0" />
           </NPC>
           <NPC>
-            <bounds X="576" Y="1094" W="30" H="32" />
+            <bounds X="608" Y="1046" W="30" H="32" />
             <NpcType type="RAY" />
             <Dialoge idDialoge="3" />
           </NPC>
           <NPC>
-            <bounds X="784" Y="810" W="30" H="32" />
+            <bounds X="778" Y="810" W="30" H="32" />
             <NpcType type="TABERN" />
             <Dialoge idDialoge="2" />
           </NPC>
           <NPC>
-            <bounds X="465" Y="350" W="30" H="32" />
+            <bounds X="578" Y="350" W="30" H="32" />
             <NpcType type="NPC_WIZARD" />
             <Dialoge idDialoge="1" />
           </NPC>

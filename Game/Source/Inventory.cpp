@@ -156,6 +156,9 @@ bool Inventory::Load(Font* font)
 
 	usingItem = false;
 
+	currentControl = nullptr;
+	lastControl = nullptr;
+
 	return true;
 }
 

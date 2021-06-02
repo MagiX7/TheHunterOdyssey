@@ -24,6 +24,8 @@ bool PauseMenu::Load(Font* font)
 {
 	guiTex = app->tex->Load("Textures/UI/gui_pause_menu.png");
 
+	savedGame = false;
+
 	// Main menu ========================
 	btnResume = new GuiButton(1, { 1280, 223, 270, 64 }, "Resume Game", this, font);
 	btnResume->section = { 430,0,270,64 };
@@ -270,6 +272,7 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 		app->render->DrawText(font, "FX volume", slideFXVolume->bounds.x + 65, 264, 36, 5, { 255,255,255,255 });
 		app->render->DrawText(font, "Fullscreen", checkFullscreen->bounds.x, 386, 36, 5, { 255,255,255,255 });
 		app->render->DrawText(font, "VSync", checkVSync->bounds.x, 459, 36, 5, { 255,255,255,255 });
+
 		break;
 	case PauseState::RETURN_TITLE:
 		// Black rectangle for the background
@@ -295,6 +298,23 @@ void PauseMenu::Draw(Font* font, bool showColliders)
 
 		app->render->DrawText(font, "Are you sure?", 507, 147, 40, 5, { 255,255,255,255 });
 		break;
+	}
+
+	if (savedGame == true)
+	{
+		time++;
+		if (time % 60 == 0)
+		{
+			count++;
+			time = 0;
+			if (count == 3) savedGame = false;
+		}
+		app->render->DrawText(font, "The game has been saved", { 10,676,1000,500 }, 36, 5, { 255,255,255 });
+	}
+	else
+	{
+		time = 0;
+		count = 0;
 	}
 }
 
@@ -362,6 +382,7 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 		}
 		else if (control->id == 2) // Save
 		{
+			savedGame = true;
 			app->SaveGameRequest();
 		}
 		else if (control->id == 3) // Load
