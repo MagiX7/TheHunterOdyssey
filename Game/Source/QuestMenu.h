@@ -4,6 +4,7 @@
 #include "GuiControl.h"
 
 class QuestManager;
+class Easing;
 
 class QuestMenu : public Menu
 {
@@ -28,6 +29,8 @@ private:
 	SceneGameplay* scene;
 	QuestManager* questManager;
 
+	float pos;
+	Easing* easing;
 	GuiButton* btnBack;
 	SDL_Texture* guiTex;
 };

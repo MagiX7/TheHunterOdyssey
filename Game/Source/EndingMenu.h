@@ -8,6 +8,7 @@
 #include "EASTL/list.h"
 
 class Input;
+class Easing;
 
 class EndingMenu : public Menu
 {
@@ -32,4 +33,5 @@ private:
 	SDL_Texture* bg;
 
 	Scene* scene;
+	Easing* easing;
 };

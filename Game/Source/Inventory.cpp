@@ -1082,7 +1082,7 @@ void Inventory::DrawObjects(InventorySlot objects[], Font *font, bool showCollid
 	for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
 	{
 		r = { 163, 715, 40, 40 };
-		app->render->DrawTexture(atlasTexture, objects[i].bounds.x, objects[i].bounds.y, &r, false);
+		app->render->DrawTexture(atlasTexture, objects[i].bounds.x + btnEquipment->bounds.x - 160, objects[i].bounds.y, &r, false);
 		if (showColliders) app->render->DrawRectangle(objects[i].bounds, 255, 0, 0, 120, true, false);
 
 		if (objects[i].itemsAmount > 0)
@@ -1093,10 +1093,10 @@ void Inventory::DrawObjects(InventorySlot objects[], Font *font, bool showCollid
 			// Draw Item
 			if (objects[i].item != nullptr && !objects[i].item->isDragging)
 			{
-				app->render->DrawTexture(atlasTexture, objects[i].bounds.x + 4, objects[i].bounds.y + 4, &objects[i].item->atlasSection, false);
+				app->render->DrawTexture(atlasTexture, objects[i].bounds.x + btnEquipment->bounds.x - 156, objects[i].bounds.y + 4, &objects[i].item->atlasSection, false);
 
-				app->render->DrawText(font, iQuantity.c_str(), (objects[i].bounds.x + objects[i].bounds.w) - 13, (objects[i].bounds.y + objects[i].bounds.h) - 25 + 2, 25, 2, { 0,0,0 });
-				app->render->DrawText(font, iQuantity.c_str(), (objects[i].bounds.x + objects[i].bounds.w) - 15, (objects[i].bounds.y + objects[i].bounds.h) - 25, 25, 2, { 255,255,255 });
+				app->render->DrawText(font, iQuantity.c_str(), (objects[i].bounds.x + btnEquipment->bounds.x - 156 + objects[i].bounds.w) - 13, (objects[i].bounds.y + objects[i].bounds.h) - 25 + 2, 25, 2, { 0,0,0 });
+				app->render->DrawText(font, iQuantity.c_str(), (objects[i].bounds.x + btnEquipment->bounds.x - 156 + objects[i].bounds.w) - 15, (objects[i].bounds.y + objects[i].bounds.h) - 25, 25, 2, { 255,255,255 });
 				if (showColliders) app->render->DrawRectangle(objects[i].item->bounds, 0, 0, 255, 120, true, false);
 			}
 

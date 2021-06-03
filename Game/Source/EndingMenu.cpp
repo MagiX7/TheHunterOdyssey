@@ -2,6 +2,8 @@
 #include "Input.h"
 #include "Textures.h"
 
+#include "Easings.h"
+
 #include "EndingMenu.h"
 
 EndingMenu::EndingMenu(Font* font, Scene* scen)
@@ -9,6 +11,8 @@ EndingMenu::EndingMenu(Font* font, Scene* scen)
 	// Buttons
 	btnNewGame = new GuiButton(1, { 936, 463, 260, 59 }, "New Game", this, font);
 	btnMainMenu = new GuiButton(2, { 936, 550, 260, 59 }, "Main Menu", this, font);
+
+	easing = new Easing(true,0,0,450,180);
 
 	scene = scen;
 
@@ -47,6 +51,22 @@ bool EndingMenu::Update(float dt)
 		id = currentControl->id;
 	}
 
+	if (easing->easingsActivated)
+	{
+		btnNewGame->bounds.y = easing->elasticEaseOut(easing->currentIteration, easing->initialPos, easing->deltaPos, easing->totalIterations);
+		btnMainMenu->bounds.y = easing->elasticEaseOut(easing->currentIteration, easing->initialPos, easing->deltaPos + 100, easing->totalIterations);
+
+		if (easing->currentIteration < easing->totalIterations)
+		{
+			easing->currentIteration++;
+		}
+		else
+		{
+			easing->easingsActivated = false;
+			easing->currentIteration = 0;
+		}
+	}
+
 	btnNewGame->Update(app->input, dt, id);
 	btnMainMenu->Update(app->input, dt, id);
 
@@ -57,6 +77,7 @@ void EndingMenu::Draw(Font* font, bool showColliders)
 {
 	SDL_Rect rect = { 0, 0, 372, 279 };
 	app->render->DrawTexture(bg, 880, 400, &rect);
+
 	btnNewGame->Draw(app->render, showColliders, 36);
 	btnMainMenu->Draw(app->render, showColliders, 36);
 }
@@ -65,6 +86,7 @@ bool EndingMenu::UnLoad()
 {
 	RELEASE(btnNewGame);
 	RELEASE(btnMainMenu);
+	RELEASE(easing);
 
 	buttons.clear();
 

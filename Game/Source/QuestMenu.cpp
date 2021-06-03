@@ -4,6 +4,8 @@
 #include "QuestManager.h"
 #include "QuestMenu.h"
 
+#include "Easings.h"
+
 #include "GuiButton.h"
 
 QuestMenu::QuestMenu(SceneGameplay* s, QuestManager* qManager, Font* font)
@@ -17,6 +19,9 @@ QuestMenu::QuestMenu(SceneGameplay* s, QuestManager* qManager, Font* font)
 	btnBack->alineation = 1;
 	btnBack->texture = guiTex;
 	btnBack->section = { 1000,0,130,64 };
+
+	easing = new Easing(true, 0, 0, 570, 120);
+	pos = 0;
 
 	currentControl = nullptr;
 	lastControl = nullptr;
@@ -43,6 +48,22 @@ bool QuestMenu::Update(float dt)
 		id = currentControl->id;
 	}
 
+	if (easing->easingsActivated)
+	{
+		btnBack->bounds.y = easing->elasticEaseOut(easing->currentIteration, easing->initialPos, easing->deltaPos, easing->totalIterations);
+		pos = easing->backEaseOut(easing->currentIteration, easing->initialPos, 140, easing->totalIterations);
+
+		if (easing->currentIteration < easing->totalIterations)
+		{
+			easing->currentIteration++;
+		}
+		else
+		{
+			easing->easingsActivated = false;
+			easing->currentIteration = 0;
+		}
+	}
+
 	btnBack->Update(app->input, dt, id);
 
 	return true;
@@ -54,30 +75,32 @@ void QuestMenu::Draw(Font* font, bool showColliders)
 	app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 120, true, false);
 
 	SDL_Rect section = { 0,0,1000,699 };
-	app->render->DrawTexture(guiTex, 140, 10, &section, false);
+	app->render->DrawTexture(guiTex, pos, 10, &section, false);
 	
-	app->render->DrawCenterText(font, "Active Quests", { 266, 85, 300, 50 }, 45, 5, { 255, 255, 255, 255 });
-	app->render->DrawCenterText(font, "Finished Quests", { 708, 85, 300, 50 }, 45, 5, { 255, 255, 255, 255 });
+	app->render->DrawText(font, "Active Quests", pos + 120, 90, 45, 5, { 0, 255, 255, 255 });
+	app->render->DrawText(font, "Finished Quests", pos + 570, 90, 45, 5, { 0, 255, 255, 255 });
 	btnBack->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
 	
 	eastl::list<Quest*>::iterator it = questManager->GetActiveList().begin();
 	eastl::list<Quest*>::iterator itEnd = questManager->GetActiveList().end();
 	for (int i = 0; it != itEnd; ++it, i += 50)
 	{
-		app->render->DrawText(font, (*it)->name.c_str(), 220, 190 + i, 40, 3, { 255, 255, 255, 255 });
+		app->render->DrawText(font, (*it)->name.c_str(), pos + 80, 190 + i, 40, 3, { 255, 255, 255, 255 });
 	}
 
 	it = questManager->GetFinishedList().begin();
 	itEnd = questManager->GetFinishedList().end();
 	for (int i = 0; it != itEnd; ++it, i += 50)
 	{
-		app->render->DrawText(font, (*it)->name.c_str(), 680, 190 + i, 40, 3, { 255, 255, 255, 255 });
+		app->render->DrawText(font, (*it)->name.c_str(), pos + 540, 190 + i, 40, 3, { 255, 255, 255, 255 });
 	}
 }
 
 bool QuestMenu::UnLoad()
 {
 	RELEASE(btnBack);
+	RELEASE(easing);
+
 	app->tex->UnLoad(guiTex);
 
 	return true;
@@ -88,7 +111,13 @@ bool QuestMenu::OnGuiMouseClickEvent(GuiControl* control)
 	switch (control->type)
 	{
 	case GuiControlType::BUTTON:
-		if (control->id == 1) scene->ChangeState(GameplayMenuState::NONE);
+		if (control->id == 1)
+		{
+			scene->ChangeState(GameplayMenuState::NONE);
+			btnBack->bounds.y = 0;
+			easing->easingsActivated = true;
+			pos = 0;
+		}
 		break;
 	}
 	return false;

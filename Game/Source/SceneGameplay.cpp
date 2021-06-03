@@ -904,11 +904,7 @@ void SceneGameplay::HandleInput(Input* input, float dt)
 		}
 	}
 
-	if (input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
-	{
-		if (menuState == GameplayMenuState::QUESTS) menuState = GameplayMenuState::NONE;
-		else menuState = GameplayMenuState::QUESTS;
-	}
+	if (input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN) menuState = GameplayMenuState::QUESTS;
 }
 
 bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
