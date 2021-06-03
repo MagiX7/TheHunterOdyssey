@@ -1,0 +1,28 @@
+name: Release Gold
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+     - uses: actions/checkout@v2
+     - name: Zip Generator
+       uses: thedoctor0/zip-release@master
+       with:
+        filename: 'Full_Studios-The_Hunter_Odyssey_v1.0.zip'
+        path: './Output ./LICENSE ./README.md'
+        exclusions: '*.gitignore* *Development.sln* ./CONVENTIONS.md ./.github ./docs ./Game ./Build'
+     
+     - name: Create Release
+       uses: ncipollo/release-action@v1
+       with:
+        tag: v1.0
+        name: The Hunter Odyssey Alpha
+        bodyFile:
+         "./docs/gold_body.md"
+         
+        artifacts: "Full_Studios-The_Hunter_Odyssey_v1.0.zip"
+        token: ${{ secrets.GITHUB_TOKEN }}
