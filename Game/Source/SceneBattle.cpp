@@ -33,10 +33,19 @@ SceneBattle::~SceneBattle()
 
 bool SceneBattle::Load()
 {
+
+	if (scene->isDungeon == true)
+	{
+		map->Load("battle_map2.tmx", app->tex);
+	}
+	else
+	{
+		map->Load("battle_map.tmx", app->tex);
+	}
+
 	font = new Font(app, "Font/font3.xml", app->tex);
 
 	//backgroundTexture = app->tex->Load("Assets/Textures/Scenes/battle_bg.png");
-	map->Load("battle_map.tmx", app->tex);
 
 	// Start music
 	app->audio->PlayMusic("Audio/Music/fight_theme_2.ogg", true);
