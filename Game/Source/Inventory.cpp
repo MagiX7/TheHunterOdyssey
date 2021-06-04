@@ -380,9 +380,9 @@ void Inventory::Draw(Font* font, bool showColliders)
 		btnPrev->Draw(app->render, showColliders);
 		{
 			SDL_Rect r = { 0,5,40,30 };
-			app->render->DrawTexture(buttonTex, 648, 116, &r, false);
+			app->render->DrawTexture(buttonTex, btnNext->bounds.x, 116, &r, false);
 			r = { 41,5,40,30 };
-			app->render->DrawTexture(buttonTex, 472, 116, &r, false);
+			app->render->DrawTexture(buttonTex, btnPrev->bounds.x, 116, &r, false);
 		}
 
 		// Stats drawing
