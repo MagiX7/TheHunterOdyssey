@@ -20,6 +20,8 @@
 
 #include "Easings.h"
 
+#define SLOT_OFFSET 160
+
 Inventory::Inventory(eastl::list<Player*> pls, SDL_Texture* atlas)
 {
 	players = pls;
@@ -324,13 +326,13 @@ void Inventory::Draw(Font* font, bool showColliders)
 		for (int i = 0; i < MAX_EQUIPMENT_SLOTS; ++i)
 		{
 			app->render->DrawTexture(atlasTexture, btnEquipment->bounds.x + 600, equipment[i].bounds.y, &r, false);
+			
 			if (equipment[i].item != nullptr && &equipment[i].item->atlasSection != NULL)
 				app->render->DrawTexture(atlasTexture, btnEquipment->bounds.x + 603, equipment[i].bounds.y + 4, &equipment[i].item->atlasSection, false);
 
-			if (equipment[currentArmorSlotId].state == SlotState::FOCUSED)
-			{
-				app->render->DrawRectangle(equipment[currentArmorSlotId].bounds, 200, 200, 200, 50, true, false);
-			}
+			// Done in DrawObjects()
+			//if (equipment[currentArmorSlotId].state == SlotState::FOCUSED)
+				//app->render->DrawRectangle(equipment[currentArmorSlotId].bounds, 200, 200, 200, 50, true, false);
 		}
 
 		r = { btnEquipment->bounds.x + 740, 130, 196, 50 };
@@ -1082,9 +1084,15 @@ void Inventory::DrawObjects(InventorySlot objects[], Font *font, bool showCollid
 	for (int i = 0; i < MAX_INVENTORY_SLOTS; ++i)
 	{
 		r = { 163, 715, 40, 40 };
-		app->render->DrawTexture(atlasTexture, objects[i].bounds.x + btnEquipment->bounds.x - 160, objects[i].bounds.y, &r, false);
-		if (showColliders) app->render->DrawRectangle(objects[i].bounds, 255, 0, 0, 120, true, false);
+		app->render->DrawTexture(atlasTexture, objects[i].bounds.x + btnEquipment->bounds.x - SLOT_OFFSET, objects[i].bounds.y, &r, false);
+		if (showColliders)
+		{
+			r = objects[i].bounds;
+			r.x += btnEquipment->bounds.x - SLOT_OFFSET;
 
+			app->render->DrawRectangle(r, 255, 0, 0, 120, true, false);
+
+		}
 		if (objects[i].itemsAmount > 0)
 		{
 			SDL_Rect textureRect = { 226,289,32,32 };
@@ -1099,22 +1107,20 @@ void Inventory::DrawObjects(InventorySlot objects[], Font *font, bool showCollid
 				app->render->DrawText(font, iQuantity.c_str(), (objects[i].bounds.x + btnEquipment->bounds.x - 156 + objects[i].bounds.w) - 15, (objects[i].bounds.y + objects[i].bounds.h) - 25, 25, 2, { 255,255,255 });
 				if (showColliders) app->render->DrawRectangle(objects[i].item->bounds, 0, 0, 255, 120, true, false);
 			}
-
-			//if (IsMouseInside(objects[i].bounds) && !isTextDisplayed)
-			/*if(objects[currentSlotId].state == SlotState::FOCUSED)
-			{
-				app->render->DrawRectangle(objects[currentSlotId].bounds, 200, 200, 200, 50, true, false);
-			}*/
 		}
 	}
 
 	if (objects[currentSlotId].state == SlotState::FOCUSED)
 	{
-		app->render->DrawRectangle(objects[currentSlotId].bounds, 200, 200, 200, 50, true, false);
+		r = objects[currentSlotId].bounds;
+		r.x += btnEquipment->bounds.x - SLOT_OFFSET;
+		app->render->DrawRectangle(r, 200, 200, 200, 50, true, false);
 	}
 	else if (equipment[currentArmorSlotId].state == SlotState::FOCUSED)
 	{
-		app->render->DrawRectangle(equipment[currentArmorSlotId].bounds, 200, 200, 200, 50, true, false);
+		r = equipment[currentArmorSlotId].bounds;
+		r.x += btnEquipment->bounds.x - SLOT_OFFSET + 5;
+		app->render->DrawRectangle(r, 200, 200, 200, 50, true, false);
 	}
 
 	// Draw the grabbed object

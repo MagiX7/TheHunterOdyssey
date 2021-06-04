@@ -111,11 +111,12 @@ bool BattleMenu::Load(Font* font)
 	btnObjectSlot4 = new GuiButton(12, { 400, 630, 204, 43 }, "Ultra Eter", this, font);
 	btnObjectSlot4->texture = guiTex;
 	btnObjectSlot4->sectionFocused = { 0,260,204,43 };
-
+	
+	/*currentControl = (*controls.begin());
+	lastControl = nullptr;*/
+	lastControl = nullptr;
 	DefaultStateButtons();
 
-	currentControl = nullptr;
-	lastControl = nullptr;
 
 	currEnemy = (*sceneBattle->enemyList.begin());
 	currPlayer = (*sceneBattle->playerList.begin());
@@ -158,6 +159,7 @@ bool BattleMenu::Update(float dt)
 		
 		break;
 	case BattleState::ATTACKING:
+		lastControl = nullptr;
 		ret = HandleInput(app->input);
 		break;
 	case BattleState::ABILITY_SELECT:
@@ -446,7 +448,7 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 			btnAbilitySlot1->bounds.x = position_x2;
 			btnAbilitySlot1->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 			sprintf_s(tmp, 32, "%i", currPlayer->GetAbilityManaCost(0));
-			app->render->DrawText(font, tmp, { 650, 490, 80, 40 }, 25, 5, { 43, 142, 226 });
+			app->render->DrawText(font, tmp, { 650, 490, 80, 40 }, 25, 5, { 43, 142, 226, 255 });
 		}
 		else
 		{
@@ -454,7 +456,7 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 			btnAbilitySlot1->bounds.x = 400;
 			btnAbilitySlot1->Draw(app->render, showColliders, 25, { 255,255,255,225 });
 			sprintf_s(tmp, 32, "%i", currPlayer->GetAbilityManaCost(0));
-			app->render->DrawText(font, tmp, { 650, 490, 80, 40 }, 25, 5, { 43, 142, 226 });
+			app->render->DrawText(font, tmp, { 650, 490, 80, 40 }, 25, 5, { 43, 142, 226, 255 });
 		}
 		if (btnAbilitySlot2->state == GuiControlState::FOCUSED)
 		{
@@ -463,7 +465,7 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 			btnAbilitySlot2->bounds.x = position_x2;
 			btnAbilitySlot2->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 			sprintf_s(tmp, 32, "%i", currPlayer->GetAbilityManaCost(1));
-			app->render->DrawText(font, tmp, { 650, 540, 80, 40 }, 25, 5, { 43, 142, 226 });
+			app->render->DrawText(font, tmp, { 650, 540, 80, 40 }, 25, 5, { 43, 142, 226, 255 });
 		}
 		else
 		{
@@ -471,7 +473,7 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 			btnAbilitySlot2->bounds.x = 400;
 			btnAbilitySlot2->Draw(app->render, showColliders, 25, { 255,255,255,225 });
 			sprintf_s(tmp, 32, "%i", currPlayer->GetAbilityManaCost(1));
-			app->render->DrawText(font, tmp, { 650, 540, 80, 40 }, 25, 5, { 43, 142, 226 });
+			app->render->DrawText(font, tmp, { 650, 540, 80, 40 }, 25, 5, { 43, 142, 226, 255 });
 		}
 		if (btnAbilitySlot3->state == GuiControlState::FOCUSED)
 		{
@@ -480,7 +482,7 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 			btnAbilitySlot3->bounds.x = position_x2;
 			btnAbilitySlot3->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 			sprintf_s(tmp, 32, "%i", currPlayer->GetAbilityManaCost(2));
-			app->render->DrawText(font, tmp, { 650, 590, 80, 40 }, 25, 5, { 43, 142, 226 });
+			app->render->DrawText(font, tmp, { 650, 590, 80, 40 }, 25, 5, { 43, 142, 226, 255 });
 		}
 		else
 		{
@@ -488,7 +490,7 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 			btnAbilitySlot3->bounds.x = 400;
 			btnAbilitySlot3->Draw(app->render, showColliders, 25, { 255,255,255,225 });
 			sprintf_s(tmp, 32, "%i", currPlayer->GetAbilityManaCost(2));
-			app->render->DrawText(font, tmp, { 650, 590, 80, 40 }, 25, 5, { 43, 142, 226 });
+			app->render->DrawText(font, tmp, { 650, 590, 80, 40 }, 25, 5, { 43, 142, 226, 255 });
 		}
 		if (btnAbilitySlot4->state == GuiControlState::FOCUSED)
 		{
@@ -497,7 +499,7 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 			btnAbilitySlot4->bounds.x = position_x2;
 			btnAbilitySlot4->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 			sprintf_s(tmp, 32, "%i", currPlayer->GetAbilityManaCost(3));
-			app->render->DrawText(font, tmp, { 650, 640, 80, 40 }, 25, 5, { 43, 142, 226 });
+			app->render->DrawText(font, tmp, { 650, 640, 80, 40 }, 25, 5, { 43, 142, 226, 255 });
 		}
 		else
 		{
@@ -505,7 +507,7 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 			btnAbilitySlot4->bounds.x = 400;
 			btnAbilitySlot4->Draw(app->render, showColliders, 25, { 255,255,255,225 });
 			sprintf_s(tmp, 32, "%i", currPlayer->GetAbilityManaCost(3));
-			app->render->DrawText(font, tmp, { 650, 640, 80, 40 }, 25, 5, { 43, 142, 226 });
+			app->render->DrawText(font, tmp, { 650, 640, 80, 40 }, 25, 5, { 43, 142, 226, 255 });
 		}
 		app->render->DrawTexture(guiTex, playerPos, currPlayer->bounds.y, &gauntletPlayers);
 		break;
@@ -526,14 +528,14 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 			btnObjectSlot1->bounds.x = position_x2;
 			btnObjectSlot1->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 			sprintf_s(tmp, 32, "x%i", objectsQuantity[0]);
-			app->render->DrawText(font, tmp, { 650, 490, 80, 40 }, 25, 5, { 255,255,255 });
+			app->render->DrawText(font, tmp, { 650, 490, 80, 40 }, 25, 5, { 255,255,255,255 });
 		}
 		else
 		{
 			btnObjectSlot1->bounds.x = 400;
 			btnObjectSlot1->Draw(app->render, showColliders, 25, { 255,255,255,225 });
 			sprintf_s(tmp, 32, "x%i", objectsQuantity[0]);
-			app->render->DrawText(font, tmp, { 650, 490, 80, 40 }, 25, 5, { 255,255,255 });
+			app->render->DrawText(font, tmp, { 650, 490, 80, 40 }, 25, 5, { 255,255,255,255 });
 		}
 		if (btnObjectSlot2->state == GuiControlState::FOCUSED)
 		{
@@ -541,14 +543,14 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 			btnObjectSlot2->bounds.x = position_x2;
 			btnObjectSlot2->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 			sprintf_s(tmp, 32, "x%i", objectsQuantity[1]);
-			app->render->DrawText(font, tmp, { 650, 540, 80, 40 }, 25, 5, { 255,255,255 });
+			app->render->DrawText(font, tmp, { 650, 540, 80, 40 }, 25, 5, { 255,255,255,255 });
 		}
 		else
 		{
 			btnObjectSlot2->bounds.x = 400;
 			btnObjectSlot2->Draw(app->render, showColliders, 25, { 255,255,255,225 });
 			sprintf_s(tmp, 32, "x%i", objectsQuantity[1]);
-			app->render->DrawText(font, tmp, { 650, 540, 80, 40 }, 25, 5, { 255,255,255 });
+			app->render->DrawText(font, tmp, { 650, 540, 80, 40 }, 25, 5, { 255,255,255,255 });
 		}
 		if (btnObjectSlot3->state == GuiControlState::FOCUSED)
 		{
@@ -556,14 +558,14 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 			btnObjectSlot3->bounds.x = position_x2;
 			btnObjectSlot3->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 			sprintf_s(tmp, 32, "x%i", objectsQuantity[2]);
-			app->render->DrawText(font, tmp, { 650, 590, 80, 40 }, 25, 5, { 255,255,255 });
+			app->render->DrawText(font, tmp, { 650, 590, 80, 40 }, 25, 5, { 255,255,255,255 });
 		}
 		else
 		{
 			btnObjectSlot3->bounds.x = 400;
 			btnObjectSlot3->Draw(app->render, showColliders, 25, { 255,255,255,225 });
 			sprintf_s(tmp, 32, "x%i", objectsQuantity[2]);
-			app->render->DrawText(font, tmp, { 650, 590, 80, 40 }, 25, 5, { 255,255,255 });
+			app->render->DrawText(font, tmp, { 650, 590, 80, 40 }, 25, 5, { 255,255,255,255 });
 		}
 		if (btnObjectSlot4->state == GuiControlState::FOCUSED)
 		{
@@ -571,14 +573,14 @@ void BattleMenu::Draw(Font* font, bool showColliders)
 			btnObjectSlot4->bounds.x = position_x2;
 			btnObjectSlot4->Draw(app->render, showColliders, 25, { 225,alpha,alpha,225 });
 			sprintf_s(tmp, 32, "x%i", objectsQuantity[3]);
-			app->render->DrawText(font, tmp, { 650, 640, 80, 40 }, 25, 5, { 255,255,255 });
+			app->render->DrawText(font, tmp, { 650, 640, 80, 40 }, 25, 5, { 255,255,255,255 });
 		}
 		else
 		{
 			btnObjectSlot4->bounds.x = 400;
 			btnObjectSlot4->Draw(app->render, showColliders, 25, { 255,255,255,225 });
 			sprintf_s(tmp, 32, "x%i", objectsQuantity[3]);
-			app->render->DrawText(font, tmp, { 650, 640, 80, 40 }, 25, 5, { 255,255,255 });
+			app->render->DrawText(font, tmp, { 650, 640, 80, 40 }, 25, 5, { 255,255,255,255 });
 		}
 
 		app->render->DrawTexture(guiTex, playerPos, currPlayer->bounds.y, &gauntletPlayers);
@@ -629,14 +631,18 @@ bool BattleMenu::OnGuiMouseClickEvent(GuiControl* control)
 	switch (control->type)
 	{
 	case GuiControlType::BUTTON:
-		// TODO implement functionality for buttons
 		if (control->id == 1) type = BattleState::ATTACK;
 		else if (control->id == 2)
 		{
 			type = BattleState::ABILITY_SELECT;
 			AbilityStateButtons();
 		}
-		else if (control->id == 3) type = BattleState::DEFENSE;
+		else if (control->id == 3)
+		{
+			lastControl = nullptr;
+			DefaultStateButtons();
+			type = BattleState::DEFENSE;
+		}
 		else if (control->id == 4)
 		{
 			type = BattleState::OBJECT_SELECT;
@@ -1167,8 +1173,16 @@ void BattleMenu::DefaultStateButtons()
 	controls.push_back(btnDefense);
 	controls.push_back(btnObject);
 
-	lastControl = currentControl;
-	currentControl = (*controls.begin());
+	if (lastControl == nullptr)
+	{
+		lastControl = currentControl;
+		currentControl = btnAttack;
+	}
+	else
+	{
+		currentControl = lastControl;
+	}
+	currentControl->state = GuiControlState::FOCUSED;
 }
 
 void BattleMenu::AbilityStateButtons()
@@ -1181,6 +1195,7 @@ void BattleMenu::AbilityStateButtons()
 
 	lastControl = currentControl;
 	currentControl = (*controls.begin());
+	btnAbilitySlot1->state = GuiControlState::FOCUSED;
 }
 
 void BattleMenu::ObjectStateButtons()
@@ -1193,6 +1208,7 @@ void BattleMenu::ObjectStateButtons()
 
 	lastControl = currentControl;
 	currentControl = (*controls.begin());
+	btnObjectSlot1->state = GuiControlState::FOCUSED;
 }
 
 void BattleMenu::UpdatingButtons(Input* input)

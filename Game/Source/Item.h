@@ -30,7 +30,7 @@ class Item : public Entity
 {
 public:
 	Item() {};
-	Item(ObjectType type, iPoint pos, SDL_Texture* atlas , EntityType entType = EntityType::ITEM) : Entity(entType), objectType(type), texture(atlas) ,isDragging(false)
+	Item(ObjectType type, iPoint pos, SDL_Texture* atlas , EntityType entType = EntityType::ITEM) : Entity(entType), objectType(type), texture(atlas), isDragging(false)
 	{
 		bounds.x = pos.x;
 		bounds.y = pos.y;

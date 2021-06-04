@@ -19,6 +19,8 @@ EndingMenu::EndingMenu(Font* font, Scene* scen)
 	buttons.push_back(btnNewGame);
 	buttons.push_back(btnMainMenu);
 	currentControl = btnNewGame;
+	currentControl->state = GuiControlState::FOCUSED;
+	lastControl = nullptr;
 
 	bg = nullptr;
 }

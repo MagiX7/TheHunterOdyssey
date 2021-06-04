@@ -17,7 +17,7 @@ InterruptorBlock::~InterruptorBlock()
 
 bool InterruptorBlock::Load()
 {
-	texture = app->tex->Load("Textures/Items/items_atlas.png");
+	//texture = app->tex->Load("Textures/Items/items_atlas.png");
 	return true;
 }
 

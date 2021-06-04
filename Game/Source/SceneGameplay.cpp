@@ -726,14 +726,6 @@ bool SceneGameplay::LoadState(pugi::xml_node& load)
 
 	entityManager->LoadState(&toLoadEntities, &anims);
 
-	
-	//for (item; item != itEnd; ++item)
-	//{
-	//	(*item)->UnLoad();
-	//	RELEASE((*item));
-	//	playerList.erase(item);
-	//}
-
 	pugi::xml_node nodePlayer = toLoadEntities.child("players").child("player");
 	bool isCurrent = false;
 
@@ -1470,8 +1462,11 @@ void SceneGameplay::Transitioning(float dt)
 					if (tmp != nullptr && enemy == tmp)
 					{
 						questManager->CheckQuests(*en);
-						if (tmp->GetEnemyType() == EnemyType::GOLEM) 
+						if (tmp->GetEnemyType() == EnemyType::GOLEM)
+						{
 							win = true;
+						}
+
 						tmp = nullptr;
 						enemyList.erase(en);
 						break;
