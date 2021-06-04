@@ -37,6 +37,7 @@ Inventory::~Inventory()
 bool Inventory::Load(Font* font)
 {
 	guiTex = app->tex->Load("Textures/UI/gui_inventory.png");
+	buttonTex = app->tex->Load("Textures/UI/gui_pad_buttons.png");
 
 	btnEquipment = new GuiButton(1, { -200,116,274,78 }, "Equipment", this, font);
 	btnEquipment->alineation = 0;
@@ -160,6 +161,8 @@ bool Inventory::Load(Font* font)
 
 	currentControl = nullptr;
 	lastControl = nullptr;
+
+	lastUserInput = 0;
 
 	return true;
 }
@@ -375,6 +378,12 @@ void Inventory::Draw(Font* font, bool showColliders)
 
 		btnNext->Draw(app->render, showColliders);
 		btnPrev->Draw(app->render, showColliders);
+		{
+			SDL_Rect r = { 0,5,40,30 };
+			app->render->DrawTexture(buttonTex, 648, 116, &r, false);
+			r = { 41,5,40,30 };
+			app->render->DrawTexture(buttonTex, 472, 116, &r, false);
+		}
 
 		// Stats drawing
 

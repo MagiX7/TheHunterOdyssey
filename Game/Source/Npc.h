@@ -65,4 +65,6 @@ public:
 	bool talkStart;
 	bool drawPtext;
 	Font* font;
+
+	SDL_Texture* talkTex;
 };

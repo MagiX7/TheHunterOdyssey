@@ -21,6 +21,7 @@ Npc::Npc(EntityType type, iPoint position, int id) : Entity(type), dialogeId(id)
 	bounds.w = 30;
 	bounds.h = 32;
 	font = new Font(app, "Font/font3.xml", app->tex);
+	talkTex = app->tex->Load("Textures/UI/talk_npc_texture.png");
 	drawPtext = false;
 	stateTimer = 0;
 	srand(time(NULL));
@@ -31,6 +32,7 @@ Npc::Npc(EntityType type, iPoint position, int id) : Entity(type), dialogeId(id)
 Npc::~Npc()
 {
 	app->tex->UnLoad(texture);
+	app->tex->UnLoad(talkTex);
 	font->UnLoad(app->tex);
 	RELEASE(font);
 }
@@ -106,7 +108,7 @@ void Npc::NpcMove(bool move)
 
 void Npc::Draw(bool showColliders)
 {
-	if (drawPtext) app->render->DrawText(font, "Press O or A to talk", (bounds.x - 100) - (app->render->camera.x * (-1)), (bounds.y - 30) - (app->render->camera.y*(-1)), 20, 5, { 255,255,255 });
+	if (drawPtext) app->render->DrawTexture(talkTex, bounds.x + 15, bounds.y - 26, NULL, true);
 }
 
 bool Npc::UnLoad()

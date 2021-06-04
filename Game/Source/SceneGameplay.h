@@ -86,6 +86,8 @@ private:
 	void LoadNpc(SString mapName);
 	void LoadItems(pugi::xml_node& n);
 
+	void UpdatingButtons(Input* input);
+
 private:
 	Player* currentPlayer;
 	DialogueManager* dialogueManager;
@@ -127,6 +129,7 @@ private:
 
 	SDL_Texture* atlas;
 	SDL_Texture* guiTex;
+	SDL_Texture* guiPad;
 
 	eastl::list<Item*> items;
 
@@ -157,6 +160,8 @@ private:
 
 	float firstQuest;
 	bool firstQuestAdded;
+
+	int lastUserInput;
 };
 
 #endif //__SCENEGAMEPLAY_H__

@@ -151,6 +151,8 @@ SceneGameplay::SceneGameplay()
 	firstQuestAdded = false;
 	tmp = nullptr;
 	sceneBattle = nullptr;
+
+	lastUserInput = 0;
 }
 
 bool SceneGameplay::Load()
@@ -160,6 +162,7 @@ bool SceneGameplay::Load()
 
 	goldTexture = app->tex->Load("Textures/UI/gold.png");
 	guiTex = app->tex->Load("Textures/UI/gui_gameplay_textures.png");
+	guiPad = app->tex->Load("Textures/UI/gui_pad_buttons.png");
 
 	entityManager->Load();
 
@@ -213,6 +216,8 @@ bool SceneGameplay::Update(float dt)
 {
 	OPTICK_EVENT("Scene Gameplay Update");
 
+	UpdatingButtons(app->input);
+
 	bool ret = true;
 	switch (gameState)
 	{
@@ -220,8 +225,8 @@ bool SceneGameplay::Update(float dt)
 		switch (menuState)
 		{
 		case GameplayMenuState::NONE:
-			if(SDL_ShowCursor(-1) == SDL_DISABLE)
-				SDL_ShowCursor(SDL_ENABLE);
+			/*if(SDL_ShowCursor(-1) == SDL_DISABLE)
+				SDL_ShowCursor(SDL_ENABLE);*/
 
 			if (!firstQuestAdded)
 			{
@@ -559,10 +564,26 @@ void SceneGameplay::Draw()
 		}
 
 		app->render->DrawTexture(guiTex, 1170, 608, &r, false);
-		app->render->DrawCenterText(font, "E", { 1207,675,28,27 }, 34, 5, SDL_Color({ 255,255,255,255 }));
 		r = { 0,0,100,100 };
 		app->render->DrawTexture(guiTex, 1060, 608, &r, false);
-		app->render->DrawCenterText(font, "Q", { 1096,675,28,27 }, 34, 5, SDL_Color({ 255,255,255,255 }));
+		if (lastUserInput == 1)
+		{
+			r = { 0,100,70,40 };
+
+			app->render->DrawTexture(guiTex, 1170, 668, &r, false);
+			app->render->DrawCenterText(font, "E", { 1206,676,28,27 }, 34, 5, SDL_Color({ 255,255,255,255 }));
+
+			app->render->DrawTexture(guiTex, 1060, 668, &r, false);
+			app->render->DrawCenterText(font, "Q", { 1097,675,28,27 }, 34, 5, SDL_Color({ 255,255,255,255 }));
+		}
+		else if (lastUserInput == 0)
+		{
+			r = { 41,40,40,40 };
+			app->render->DrawTexture(guiPad, 1200, 668, &r, false);
+
+			r = { 203,40,40,40 };
+			app->render->DrawTexture(guiPad, 1090, 668, &r, false);
+		}
 
 		if (menuState != GameplayMenuState::SHOP && dialogueManager->isDialogueActive)
 		{
@@ -674,6 +695,7 @@ bool SceneGameplay::UnLoad()
 	app->audio->UnLoadFxs();
 	app->tex->UnLoad(goldTexture);
 	app->tex->UnLoad(guiTex);
+	app->tex->UnLoad(guiPad);
 
 	return ret;
 }
@@ -1667,4 +1689,21 @@ void SceneGameplay::ChangeMap(const char* mapName, iPoint newPos, int doorFx)
 
 	questManager->CheckQuests(map->name);
 	particles->SetAllParticlesDesactivated();
+}
+
+void SceneGameplay::UpdatingButtons(Input* input)
+{
+	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || 
+		app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	{
+		lastUserInput = 1;
+		SDL_ShowCursor(SDL_ENABLE);
+	}
+	else if (app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_REPEAT || app->input->pad->l_y < -0.5 || 
+		app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_REPEAT || app->input->pad->l_y > 0.5 ||
+		app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_REPEAT || app->input->pad->l_x < -0.5 || 
+		app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_REPEAT || app->input->pad->l_x > 0.5)
+	{
+		lastUserInput = 0;
+	}
 }

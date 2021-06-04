@@ -126,6 +126,7 @@ public:
 private:
 	SDL_Texture* atlasTexture;
 	SDL_Texture* guiTex;
+	SDL_Texture* buttonTex;
 
 	InventoryState state;
 
