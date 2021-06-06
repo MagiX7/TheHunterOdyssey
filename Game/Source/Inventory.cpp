@@ -172,14 +172,21 @@ bool Inventory::Update(float dt)
 	UpdatingButtons(app->input);
 
 	int id = -1;
-	if (currentControl != nullptr) id = currentControl->id;
+	if (currentControl != nullptr)
+	{
+		id = currentControl->id;
+	}
 
 	btnEquipment->Update(app->input, dt, id);
 	btnItems->Update(app->input, dt, id);
 
-	// Next and Prev character buttons update
-	btnNext->Update(app->input, dt, id);
-	btnPrev->Update(app->input, dt, id);
+	// Next and Prev character buttons update.
+	// Kinda weird, but works. Do not touch it
+	if (currentControl != nullptr && currentControl->id != 10 && currentControl->id != 11)
+	{
+		btnNext->Update(app->input, dt, id);
+		btnPrev->Update(app->input, dt, id);
+	}
 
 	if (easing->easingsActivated)
 	{
@@ -250,7 +257,6 @@ bool Inventory::Update(float dt)
 			currentControl->state = GuiControlState::FOCUSED;
 			lastControl = nullptr;
 		}
-		
 		
 		HandleObjects(armorSlots);
 		if (currentSlotId > -1) HandleSlot(armorSlots, dt);
@@ -332,10 +338,6 @@ void Inventory::Draw(Font* font, bool showColliders)
 			
 			if (equipment[i].item != nullptr && &equipment[i].item->atlasSection != NULL)
 				app->render->DrawTexture(atlasTexture, btnEquipment->bounds.x + 603, equipment[i].bounds.y + 4, &equipment[i].item->atlasSection, false);
-
-			// Done in DrawObjects()
-			//if (equipment[currentArmorSlotId].state == SlotState::FOCUSED)
-				//app->render->DrawRectangle(equipment[currentArmorSlotId].bounds, 200, 200, 200, 50, true, false);
 		}
 
 		r = { btnEquipment->bounds.x + 740, 130, 196, 50 };

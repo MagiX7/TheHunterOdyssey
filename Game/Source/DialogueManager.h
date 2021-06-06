@@ -51,4 +51,6 @@ private:
 	int letterCount;
 
 	int alpha;
+
+	bool currentPressed;
 };

@@ -295,7 +295,7 @@ void Shop::UpdatingButtons(Input* input)
 			currentControl = (*controls.begin());
 			SDL_ShowCursor(SDL_DISABLE);
 		}
-		else if (currentControl->id >= 5)
+		else if (currentControl->id >= 5 && currentControl->id < 9)
 		{
 			lastControl = currentControl;
 			currentControl = btnBack;
@@ -324,7 +324,6 @@ void Shop::UpdatingButtons(Input* input)
 		{
 			currentControl = lastControl;
 			lastControl = nullptr;
-			//currentControl = btnBack;
 		}
 		else
 		{
@@ -366,7 +365,7 @@ void Shop::UpdatingButtons(Input* input)
 			currentControl = (*controls.begin());
 			SDL_ShowCursor(SDL_DISABLE);
 		}
-		else
+		else if(currentControl->id + 1 < 9)
 		{
 			eastl::list<GuiControl*>::iterator it = controls.begin();
 			for (int i = 0; i < controls.size(); ++i, ++it)

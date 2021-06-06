@@ -42,6 +42,7 @@ bool DialogueManager::Start()
 		printText = false;
 		current = nullptr;
 		alpha = 150;
+		currentPressed = false;
 	}
 
 	//Easing Arrow
@@ -114,33 +115,42 @@ bool DialogueManager::Update(float dt)
 		{
 			if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_DOWN) == KEY_UP)
 			{
-				eastl::list<DialogueOption*>::iterator it = current->currentNode->options.begin();
-				for (int i = 0; i < current->currentNode->optionsNum; ++i, ++it)
+				if (!current->currentNode->currentOption->isPressed)
 				{
-					if ((*it)->id == current->currentNode->currentOption->id + 1)
+					eastl::list<DialogueOption*>::iterator it = current->currentNode->options.begin();
+					for (int i = 0; i < current->currentNode->optionsNum; ++i, ++it)
 					{
-						current->currentNode->currentOption = (*it);
-						break;
+						if ((*it)->id == current->currentNode->currentOption->id + 1)
+						{
+							current->currentNode->currentOption = (*it);
+							break;
+						}
 					}
 				}
 			}
 
 			if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_UP) == KEY_UP)
 			{
-				eastl::list<DialogueOption*>::iterator it = current->currentNode->options.begin();
-				for (int i = 0; i < current->currentNode->optionsNum; ++i, ++it)
+				if (!current->currentNode->currentOption->isPressed)
 				{
-					if ((*it)->id == current->currentNode->currentOption->id - 1)
+					eastl::list<DialogueOption*>::iterator it = current->currentNode->options.begin();
+					for (int i = 0; i < current->currentNode->optionsNum; ++i, ++it)
 					{
-						current->currentNode->currentOption = (*it);
-						break;
+						if ((*it)->id == current->currentNode->currentOption->id - 1)
+						{
+							current->currentNode->currentOption = (*it);
+							break;
+						}
 					}
 				}
 			}
 
+			if (app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_REPEAT) current->currentNode->currentOption->isPressed = true;
 			// If player presses enter, means he has chosen an option
 			if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_UP)
 			{
+				current->currentNode->currentOption->isPressed = true;
+
 				NpcNode* aux = GetNodeById(current->currentNode->currentOption->nextNodeId);
 				/*current->currentNode=current->currentNode.*/
 				if (current->currentNode->currentOption->missionId != -1) questManager->ActivateQuest(current->currentNode->currentOption->missionId);

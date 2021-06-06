@@ -21,6 +21,7 @@ public:
 	int nextNodeId;
 	int missionId;
 	int menu;
+	bool isPressed;
 
 	SDL_Rect bounds;
 };

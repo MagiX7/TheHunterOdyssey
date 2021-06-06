@@ -63,7 +63,6 @@ void Dialogue::Draw(int& count, Font* font)
 	}
 
 	app->render->DrawText(font, textToPrint.c_str(), 70, 115, 40, 5, { 0,0,0,255 }, 630);
-
 	
 	if (currentNode->dialogFinished)
 	{
@@ -77,14 +76,34 @@ void Dialogue::Draw(int& count, Font* font)
 			for (; optionsIterator != (*currentNode).options.end(); ++optionsIterator)
 			{
 				r.y += offsetY;
-				app->render->DrawText(font, (*optionsIterator)->text.c_str(), r, 30, 5, { 20,20,20,255 }, 1210);
-				//(*optionsIterator)->bounds.y += offsetY;
+				if ((*optionsIterator)->isPressed)
+				{
+					SDL_Rect tmp = r;
+					tmp.x += 10;
+					app->render->DrawText(font, (*optionsIterator)->text.c_str(), tmp, 30, 5, { 200,50,50,255 }, 1210);
+				}
+				else
+					app->render->DrawText(font, (*optionsIterator)->text.c_str(), r, 30, 5, { 20,20,20,255 }, 1210);
+
 				offsetY += 90;
 			}
 		}
 		else
 		{
-			app->render->DrawText(font, (*optionsIterator)->text.c_str(), (*optionsIterator)->bounds, 30, 5, { 20,20,20,255 }, 1210);
+			//if(isPressed)
+			//	app->render->DrawText(font, (*optionsIterator)->text.c_str(), (*optionsIterator)->bounds, 30, 5, { 70,70,70,255 }, 1210);
+			//else
+			//app->render->DrawText(font, (*optionsIterator)->text.c_str(), (*optionsIterator)->bounds, 30, 5, { 20,20,20,255 }, 1210);
+			
+			if ((*optionsIterator)->isPressed)
+			{
+				SDL_Rect tmp = (*optionsIterator)->bounds;
+				tmp.x += 10;
+				app->render->DrawText(font, (*optionsIterator)->text.c_str(), tmp, 30, 5, { 200,50,50,255 }, 1210);
+			}
+			else
+				app->render->DrawText(font, (*optionsIterator)->text.c_str(), (*optionsIterator)->bounds, 30, 5, { 20,20,20,255 }, 1210);
+
 		}
 
 	}
