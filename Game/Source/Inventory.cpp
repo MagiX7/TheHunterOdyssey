@@ -6,6 +6,7 @@
 #include "Player.h"
 
 #include "Inventory.h"
+#include "SceneGameplay.h"
 
 #include "Font.h"
 #include "Item.h"
@@ -22,12 +23,13 @@
 
 #define SLOT_OFFSET 160
 
-Inventory::Inventory(eastl::list<Player*> pls, SDL_Texture* atlas)
+Inventory::Inventory(eastl::list<Player*> pls, SDL_Texture* atlas, SceneGameplay* s) : scene(s)
 {
 	players = pls;
 	atlasTexture = atlas;
 
-	easing = new Easing(true, 0, -200, 350, 120);
+	easing = new Easing(true, 0, -200, 350, 90);
+	easing2 = new Easing(false, 0, 150, 1150, 90);
 }
 
 Inventory::~Inventory()
@@ -188,6 +190,19 @@ bool Inventory::Update(float dt)
 		btnPrev->Update(app->input, dt, id);
 	}
 
+	if (app->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+	{
+		easing2->easingsActivated = true;
+		counter = app->frameCount;
+	}
+
+	if (counter > 90 && app->frameCount - counter >= 90)
+	{
+		counter = 0;
+		scene->ChangeState(GameplayMenuState::NONE);
+		ResetStates();
+	}
+
 	if (easing->easingsActivated)
 	{
 		btnEquipment->bounds.x = easing->backEaseOut(easing->currentIteration, easing->initialPos, easing->deltaPos, easing->totalIterations);
@@ -204,6 +219,25 @@ bool Inventory::Update(float dt)
 		{
 			easing->currentIteration = 0;
 			easing->easingsActivated = false;
+		}
+	}
+
+	if (easing2->easingsActivated)
+	{
+		btnEquipment->bounds.x = easing2->backEaseIn(easing2->currentIteration, easing2->initialPos, easing2->deltaPos, easing2->totalIterations);
+		btnItems->bounds.x = easing2->backEaseIn(easing2->currentIteration, easing2->initialPos, easing2->deltaPos, easing2->totalIterations);
+		btnItems->bounds.x = easing2->backEaseIn(easing2->currentIteration, easing2->initialPos, easing2->deltaPos, easing2->totalIterations);
+		btnNext->bounds.x = easing2->backEaseIn(easing2->currentIteration, easing2->initialPos + 495, easing2->deltaPos, easing2->totalIterations);
+		btnPrev->bounds.x = easing2->backEaseIn(easing2->currentIteration, easing2->initialPos + 319, easing2->deltaPos, easing2->totalIterations);
+
+		if (easing2->currentIteration < easing2->totalIterations)
+		{
+			easing2->currentIteration++;
+		}
+		else
+		{
+			easing2->currentIteration = 0;
+			easing2->easingsActivated = false;
 		}
 	}
 

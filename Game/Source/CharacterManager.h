@@ -43,4 +43,6 @@ private:
 	GuiButton* btnExit;
 
 	Easing* easing;
+	Easing* easing2;
+	int counter;
 };

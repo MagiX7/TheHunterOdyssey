@@ -63,6 +63,8 @@ private:
 
 	Easing* easing;
 	Easing* easing2;
+	Easing* easing3;
+	int counter;
 
 	/*int count;
 	int time;*/

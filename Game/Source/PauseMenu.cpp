@@ -14,6 +14,8 @@ PauseMenu::PauseMenu(SceneGameplay* s) : scene(s)
 
 	easing = new Easing(true, 0, 1280, -775, 90);
 	easing2 = new Easing(false, 0, 505, 392, 60);
+	easing3 = new Easing(false, 0, 505, 1280, 90);
+	counter = 0;
 }
 
 PauseMenu::~PauseMenu()
@@ -152,6 +154,48 @@ bool PauseMenu::Update(float dt)
 		{
 			easing->currentIteration = 0;
 			easing->easingsActivated = false;
+		}
+	}
+
+
+	if (easing3->easingsActivated)
+	{
+		btnExit->bounds.x = easing3->backEaseIn(easing3->currentIteration, easing3->initialPos, easing3->deltaPos, easing3->totalIterations);
+		btnResume->bounds.x = easing3->backEaseIn(easing3->currentIteration, easing3->initialPos, easing3->deltaPos, easing3->totalIterations);
+		btnSave->bounds.x = easing3->backEaseIn(easing3->currentIteration, easing3->initialPos, easing3->deltaPos, easing3->totalIterations);
+		btnLoad->bounds.x = easing3->backEaseIn(easing3->currentIteration, easing3->initialPos + 140, easing3->deltaPos, easing3->totalIterations);
+		btnReturnTitle->bounds.x = easing3->backEaseIn(easing3->currentIteration, easing3->initialPos, easing3->deltaPos, easing3->totalIterations);
+		btnOptions->bounds.x = easing3->backEaseIn(easing3->currentIteration, easing3->initialPos, easing3->deltaPos, easing3->totalIterations);
+
+		if (easing3->currentIteration < easing3->totalIterations)
+		{
+			easing3->currentIteration++;
+		}
+		else
+		{
+			easing3->currentIteration = 0;
+			easing3->easingsActivated = false;
+
+			controls.clear();
+			controls.push_back(btnResume);
+			controls.push_back(btnSave);
+			controls.push_back(btnLoad);
+			controls.push_back(btnOptions);
+			controls.push_back(btnReturnTitle);
+			controls.push_back(btnExit);
+			currentControl = nullptr;
+			lastControl = nullptr;
+
+			easing->easingsActivated = true;
+			btnExit->bounds.x = 1280;
+			btnLoad->bounds.x = 1280 + 140;
+			btnOptions->bounds.x = 1280;
+			btnResume->bounds.x = 1280;
+			btnReturnTitle->bounds.x = 1280;
+			btnSave->bounds.x = 1280;
+
+			state = PauseState::DEFAULT;
+			scene->ChangeState(GameplayMenuState::NONE);
 		}
 	}
 
@@ -351,6 +395,7 @@ bool PauseMenu::UnLoad()
 
 	RELEASE(easing);
 	RELEASE(easing2);
+	RELEASE(easing3);
 
 	controls.clear();
 
@@ -366,26 +411,7 @@ bool PauseMenu::OnGuiMouseClickEvent(GuiControl* control)
 		if (control->id == 1) // Resume
 		{
 			// Reset all the buttons like if it was the first time user presses pause menu button
-			controls.clear();
-			controls.push_back(btnResume);
-			controls.push_back(btnSave);
-			controls.push_back(btnLoad);
-			controls.push_back(btnOptions);
-			controls.push_back(btnReturnTitle);
-			controls.push_back(btnExit);
-			currentControl = nullptr;
-			lastControl = nullptr;
-
-			easing->easingsActivated = true;
-			btnExit->bounds.x = 1280;
-			btnLoad->bounds.x = 1280 + 140;
-			btnOptions->bounds.x = 1280;
-			btnResume->bounds.x = 1280;
-			btnReturnTitle->bounds.x = 1280;
-			btnSave->bounds.x = 1280;
-
-			state = PauseState::DEFAULT;
-			scene->ChangeState(GameplayMenuState::NONE);
+			easing3->easingsActivated = true;
 		}
 		else if (control->id == 2) // Save
 		{

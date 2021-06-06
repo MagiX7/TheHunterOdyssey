@@ -16,6 +16,8 @@ class Player;
 class SDL_Texture;
 class Orb;
 class Easing;
+class SceneGameplay;
+
 enum class PlayerType;
 
 enum class SlotState
@@ -60,7 +62,7 @@ struct InventorySlot
 class Inventory : public Menu
 {
 public:
-	Inventory(eastl::list<Player*> pls, SDL_Texture* atlas);
+	Inventory(eastl::list<Player*> pls, SDL_Texture* atlas, SceneGameplay* s);
 	virtual ~Inventory();
 
 	bool Load(Font* font) override;
@@ -128,6 +130,8 @@ private:
 	SDL_Texture* guiTex;
 	SDL_Texture* buttonTex;
 
+	SceneGameplay* scene;
+
 	InventoryState state;
 
 	// Armor and weapons equiped slots
@@ -171,6 +175,8 @@ private:
 	SDL_Rect tmpEquipMenuBounds;
 
 	Easing* easing;
+	Easing* easing2;
+	int counter;
 
 	bool grabbed;
 	float toGrabCount;

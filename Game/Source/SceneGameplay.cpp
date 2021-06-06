@@ -108,7 +108,7 @@ SceneGameplay::SceneGameplay()
 
 	atlas = app->tex->Load("Textures/Items/items_atlas.png");
 
-	inventory = new Inventory(playerList, atlas);
+	inventory = new Inventory(playerList, atlas, this);
 
 	Item *item = new UltraPotion(iPoint(128,1248), atlas, "town_map.tmx");
 	items.push_back(item);
@@ -906,16 +906,16 @@ void SceneGameplay::HandleInput(Input* input, float dt)
 
 	if (input->GetKey(SDL_SCANCODE_E) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
 	{
-		if (menuState == GameplayMenuState::INVENTORY)
-		{
-			menuState = GameplayMenuState::NONE;
-			inventory->ResetStates();
-		}
-		else
-		{
+		//if (menuState == GameplayMenuState::INVENTORY)
+		//{
+		//	menuState = GameplayMenuState::NONE;
+		//	inventory->ResetStates();
+		//}
+		//else
+		//{
 			menuState = GameplayMenuState::INVENTORY;
 			inventory->GetEquipment(currentPlayer);
-		}
+		//}
 	}
 
 	if (input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_UP) menuState = GameplayMenuState::QUESTS;
