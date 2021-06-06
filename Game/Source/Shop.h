@@ -26,6 +26,8 @@ public:
 
 	bool OnGuiMouseClickEvent(GuiControl* control);
 
+	void UpdatingButtons(Input* input) override;
+
 	Item* CreateItem(ItemType type);
 	Item* CreateItem(ArmorType type);
 
@@ -37,13 +39,13 @@ private:
 	SDL_Texture* background;
 	Player* player;
 
-	GuiButton* helmet;
-	GuiButton* chest;
-	GuiButton* fairyBottle;
-	GuiButton* fairyTear;
-	GuiButton* fairyWing;
-	GuiButton* omniPotion;
-	GuiButton* potion;
-	GuiButton* ultraPotion;
-	GuiButton* back;
+	GuiButton* btnHelmet;
+	GuiButton* btnChest;
+	GuiButton* btnFairyBottle;
+	GuiButton* btnFairyTear;
+	GuiButton* btnFairyWing;
+	GuiButton* btnOmniPotion;
+	GuiButton* btnPotion;
+	GuiButton* btnUltraPotion;
+	GuiButton* btnBack;
 };

@@ -904,7 +904,7 @@ void SceneGameplay::HandleInput(Input* input, float dt)
 	
 	if (menuState != GameplayMenuState::INVENTORY && input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_START) == KEY_DOWN) ChangeState(GameplayMenuState::PAUSE);
 
-	if (input->GetKey(SDL_SCANCODE_E) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN)
+	if (input->GetKey(SDL_SCANCODE_E) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
 	{
 		if (menuState == GameplayMenuState::INVENTORY)
 		{
@@ -918,7 +918,7 @@ void SceneGameplay::HandleInput(Input* input, float dt)
 		}
 	}
 
-	if (input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN) menuState = GameplayMenuState::QUESTS;
+	if (input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_BACK) == KEY_UP) menuState = GameplayMenuState::QUESTS;
 }
 
 bool SceneGameplay::CollisionMapEntity(SDL_Rect rect, EntityType type)
