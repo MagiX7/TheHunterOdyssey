@@ -158,8 +158,9 @@ public:
 	PlayerStance stance;
 	iPoint battlePos;
 	Generator* generator;
-	int gold;
+	static int gold;
 	bool canMove;
+
 protected:
 	SDL_Texture* battlerTexture;
 	ParticlesManager* particles;
@@ -200,7 +201,6 @@ protected:
 	Animation death;
 	Animation attackAnim;
 	Animation damageTaken;
-
 
 	//Abilities data
 	const char* abilityName[4];

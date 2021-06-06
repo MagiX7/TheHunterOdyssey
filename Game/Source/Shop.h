@@ -12,7 +12,7 @@ enum class ArmorType;
 class Shop : public Menu
 {
 public:
-	Shop(SceneGameplay* s, Inventory* inven, SDL_Texture* at);
+	Shop(SceneGameplay* s, Inventory* inven, SDL_Texture* at, Player* current);
 
 	virtual ~Shop();
 
@@ -33,8 +33,10 @@ private:
 	SceneGameplay* scene;
 	Inventory* inventory;
 	SDL_Texture* atlas;
+	SDL_Texture* texture;
+	SDL_Texture* background;
+	Player* player;
 
-	int count;
 	GuiButton* helmet;
 	GuiButton* chest;
 	GuiButton* fairyBottle;

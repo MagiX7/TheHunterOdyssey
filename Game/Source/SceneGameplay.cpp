@@ -200,7 +200,7 @@ bool SceneGameplay::Load()
 
 	inventory->Load(font);
 
-	shop = new Shop(this, inventory, atlas);
+	shop = new Shop(this, inventory, atlas, currentPlayer);
 	shop->Load(font);
 
 	eastl::list<Item*>::iterator item = items.begin();

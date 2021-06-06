@@ -8,6 +8,8 @@
 #define SPEED_X 200.0f
 #define SPEED_Y 200.0f
 
+int Player::gold = 500;
+
 Player::Player(PlayerType t, EntityType type, iPoint position) : Entity(type), playerType(t)
 {
 	bounds.x= position.x;
@@ -15,7 +17,6 @@ Player::Player(PlayerType t, EntityType type, iPoint position) : Entity(type), p
 	bounds.w = 26;
 	bounds.h = 32;
 	currentAbilitySelected = 0;
-	gold = 500;
 	helmet = nullptr;
 	chest = nullptr;
 	boots = nullptr;
