@@ -52,47 +52,47 @@ bool Shop::Load(Font* font)
 	texture = app->tex->Load("Textures/UI/items_shop.png");
 	background = app->tex->Load("Textures/UI/shop_background.png");
 
-	btnHelmet = new GuiButton(1, { 375, 200, 80, 80 }, "", this, font);
+	btnHelmet = new GuiButton(1, { 375, 720, 80, 80 }, "", this, font);
 	btnHelmet->texture = texture;
 	btnHelmet->section = { 512, 0, 80, 80 };
 	btnHelmet->alineation = 1;
 
-	btnChest = new GuiButton(2, { 525, 200, 80, 80 }, "", this, font);
+	btnChest = new GuiButton(2, { 525, 720, 80, 80 }, "", this, font);
 	btnChest->texture = texture;
 	btnChest->section = { 512, 0, 80, 80 };
 	btnChest->alineation = 1;
 
-	btnFairyBottle = new GuiButton(3, { 675, 200, 80, 80 }, "", this, font);
+	btnFairyBottle = new GuiButton(3, { 675, 720, 80, 80 }, "", this, font);
 	btnFairyBottle->texture = texture;
 	btnFairyBottle->section = { 512, 0, 80, 80 };
 	btnFairyBottle->alineation = 1;
 
-	btnFairyTear = new GuiButton(4, { 825, 200, 80, 80 }, "", this, font);
+	btnFairyTear = new GuiButton(4, { 825, 720, 80, 80 }, "", this, font);
 	btnFairyTear->texture = texture;
 	btnFairyTear->section = { 512, 0, 80, 80 };
 	btnFairyTear->alineation = 1;
 
-	btnFairyWing = new GuiButton(5, { 375, 330, 80, 80 }, "", this, font);
+	btnFairyWing = new GuiButton(5, { 375, 720, 80, 80 }, "", this, font);
 	btnFairyWing->texture = texture;
 	btnFairyWing->section = { 512, 0, 80, 80 };
 	btnFairyWing->alineation = 1;
 
-	btnOmniPotion = new GuiButton(6, { 525, 330, 80, 80 }, "", this, font);
+	btnOmniPotion = new GuiButton(6, { 525, 720, 80, 80 }, "", this, font);
 	btnOmniPotion->texture = texture;
 	btnOmniPotion->section = { 512, 0, 80, 80 };
 	btnOmniPotion->alineation = 1;
 
-	btnPotion = new GuiButton(7, { 675, 330, 80, 80 }, "", this, font);
+	btnPotion = new GuiButton(7, { 675, 720, 80, 80 }, "", this, font);
 	btnPotion->texture = texture;
 	btnPotion->section = { 512, 0, 80, 80 };
 	btnPotion->alineation = 1;
 
-	btnUltraPotion = new GuiButton(8, { 825, 330, 80, 80 }, "", this, font);
+	btnUltraPotion = new GuiButton(8, { 825, 720, 80, 80 }, "", this, font);
 	btnUltraPotion->texture = texture;
 	btnUltraPotion->section = { 512, 0, 80, 80 };
 	btnUltraPotion->alineation = 1;
 
-	btnBack = new GuiButton(9, { 805, 508, 130, 64 }, "BACK", this, font);
+	btnBack = new GuiButton(9, { 805, 720, 130, 64 }, "BACK", this, font);
 	btnBack->texture = texture;
 	btnBack->section = { 622, 0, 130, 64 };
 	btnBack->alineation = 1;
@@ -121,6 +121,14 @@ bool Shop::Update(float dt)
 	if (easing->easingsActivated)
 	{
 		btnBack->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, easing->deltaPos, easing->totalIterations);
+		btnChest->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, -520, easing->totalIterations);
+		btnFairyBottle->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, -520, easing->totalIterations);
+		btnFairyTear->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, -520, easing->totalIterations);
+		btnFairyWing->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, -390, easing->totalIterations);
+		btnHelmet->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, -520, easing->totalIterations);
+		btnOmniPotion->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, -390, easing->totalIterations);
+		btnPotion->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, -390, easing->totalIterations);
+		btnUltraPotion->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, -390, easing->totalIterations);
 
 		if (easing->currentIteration < easing->totalIterations)
 		{
@@ -136,6 +144,14 @@ bool Shop::Update(float dt)
 	if (easing2->easingsActivated)
 	{
 		btnBack->bounds.y = easing2->backEaseIn(easing2->currentIteration, easing2->initialPos, easing2->deltaPos, easing2->totalIterations);
+		btnChest->bounds.y = easing->backEaseOut(easing->currentIteration, 200, easing->deltaPos, easing->totalIterations);
+		btnFairyBottle->bounds.y = easing->backEaseOut(easing->currentIteration, 200, easing->deltaPos, easing->totalIterations);
+		btnFairyTear->bounds.y = easing->backEaseOut(easing->currentIteration, 200, easing->deltaPos, easing->totalIterations);
+		btnFairyWing->bounds.y = easing->backEaseOut(easing->currentIteration, 330, easing->deltaPos, easing->totalIterations);
+		btnHelmet->bounds.y = easing->backEaseOut(easing->currentIteration, 200, easing->deltaPos, easing->totalIterations);
+		btnOmniPotion->bounds.y = easing->backEaseOut(easing->currentIteration, 330, easing->deltaPos, easing->totalIterations);
+		btnPotion->bounds.y = easing->backEaseOut(easing->currentIteration, 330, easing->deltaPos, easing->totalIterations);
+		btnUltraPotion->bounds.y = easing->backEaseOut(easing->currentIteration, 330, easing->deltaPos, easing->totalIterations);
 
 		if (easing2->currentIteration < easing2->totalIterations)
 		{
@@ -166,9 +182,6 @@ bool Shop::Update(float dt)
 	btnPotion->Update(app->input, dt, id);
 	btnUltraPotion->Update(app->input, dt, id);
 	btnBack->Update(app->input, dt, id);
-
-	if (app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_B) == KEY_UP)
-		scene->ChangeState(GameplayMenuState::NONE);
 
 	return true;
 }

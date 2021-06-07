@@ -190,7 +190,7 @@ bool Inventory::Update(float dt)
 		btnPrev->Update(app->input, dt, id);
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+	if (app->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_X) == KEY_DOWN)
 	{
 		easing2->easingsActivated = true;
 		counter = app->frameCount;
