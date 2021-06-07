@@ -31,6 +31,7 @@ private:
 
 	float pos;
 	Easing* easing;
+	Easing* easing2;
 	GuiButton* btnBack;
 	SDL_Texture* guiTex;
 };

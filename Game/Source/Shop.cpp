@@ -21,6 +21,8 @@
 #include "Potion.h"
 #include "UltraPotion.h"
 
+#include "Easings.h"
+
 Shop::Shop(SceneGameplay* s, Inventory* inven, SDL_Texture* at, Player* current)
 {
 	scene = s;
@@ -34,6 +36,9 @@ Shop::Shop(SceneGameplay* s, Inventory* inven, SDL_Texture* at, Player* current)
 	btnUltraPotion = nullptr;
 	btnBack = nullptr;
 	player = current;
+
+	easing = new Easing(true, 0, 720, -200, 90);
+	easing2 = new Easing(false, 0, 570, 800, 90);
 
 	atlas = at;
 }
@@ -113,6 +118,38 @@ bool Shop::Update(float dt)
 {
 	UpdatingButtons(app->input);
 
+	if (easing->easingsActivated)
+	{
+		btnBack->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, easing->deltaPos, easing->totalIterations);
+
+		if (easing->currentIteration < easing->totalIterations)
+		{
+			easing->currentIteration++;
+		}
+		else
+		{
+			easing->easingsActivated = false;
+			easing->currentIteration = 0;
+		}
+	}
+
+	if (easing2->easingsActivated)
+	{
+		btnBack->bounds.y = easing2->backEaseIn(easing2->currentIteration, easing2->initialPos, easing2->deltaPos, easing2->totalIterations);
+
+		if (easing2->currentIteration < easing2->totalIterations)
+		{
+			easing2->currentIteration++;
+		}
+		else
+		{
+			easing2->easingsActivated = false;
+			easing2->currentIteration = 0;
+			scene->ChangeState(GameplayMenuState::NONE);
+			easing->easingsActivated = true;
+		}
+	}
+
 	int id = -1;
 	if (currentControl != nullptr)
 	{
@@ -139,62 +176,65 @@ bool Shop::Update(float dt)
 void Shop::Draw(Font* font, bool showColliders)
 {
 	app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 120);
-	app->render->DrawTexture(background, 233, 56);
+	app->render->DrawTexture(background, 233, btnBack->bounds.y - 450);
 	
 	SDL_Rect itSection = { 0, 0, 64, 64 };
 	SDL_Rect goldSection = { 592, 0, 30, 30 };
 	btnHelmet->Draw(app->render, showColliders, 40, { 255, 255, 255, 255 });
-	app->render->DrawTexture(texture, btnHelmet->bounds.x + 8, btnHelmet->bounds.y + 8, &itSection);
-	app->render->DrawTexture(texture, btnHelmet->bounds.x + 3, btnHelmet->bounds.y + btnHelmet->bounds.h + 3, &goldSection);
-	app->render->DrawText(font, "250", btnHelmet->bounds.x + 37, btnHelmet->bounds.y + btnHelmet->bounds.h + 3, 30, 2, { 255, 255, 255, 255 });
+	app->render->DrawTexture(texture, btnHelmet->bounds.x + 8, btnHelmet->bounds.y + 8 + btnBack->bounds.y - 520, &itSection);
+	app->render->DrawTexture(texture, btnHelmet->bounds.x + 3, btnHelmet->bounds.y + btnHelmet->bounds.h + 3 + btnBack->bounds.y - 520, &goldSection);
+	app->render->DrawText(font, "250", btnHelmet->bounds.x + 37, btnHelmet->bounds.y + btnHelmet->bounds.h + 3 + btnBack->bounds.y - 520, 30, 2, { 255, 255, 255, 255 });
 
 	itSection = { 64, 0, 64, 64 };
 	btnChest->Draw(app->render, showColliders, 40, { 255, 255, 255, 255 });
-	app->render->DrawTexture(texture, btnChest->bounds.x + 8, btnChest->bounds.y + 8, &itSection);
-	app->render->DrawTexture(texture, btnChest->bounds.x + 3, btnChest->bounds.y + btnChest->bounds.h + 3, &goldSection);
-	app->render->DrawText(font, "250", btnChest->bounds.x + 37, btnChest->bounds.y + btnChest->bounds.h + 3, 30, 2, { 255, 255, 255, 255 });
+	app->render->DrawTexture(texture, btnChest->bounds.x + 8, btnChest->bounds.y + 8 + btnBack->bounds.y - 520, &itSection);
+	app->render->DrawTexture(texture, btnChest->bounds.x + 3, btnChest->bounds.y + btnChest->bounds.h + 3 + btnBack->bounds.y - 520, &goldSection);
+	app->render->DrawText(font, "250", btnChest->bounds.x + 37, btnChest->bounds.y + btnChest->bounds.h + 3 + btnBack->bounds.y - 520, 30, 2, { 255, 255, 255, 255 });
 
 	itSection = { 448, 0, 64, 64 };
 	btnFairyBottle->Draw(app->render, showColliders, 40, { 255, 255, 255, 255 });
-	app->render->DrawTexture(texture, btnFairyBottle->bounds.x + 8, btnFairyBottle->bounds.y + 8, &itSection);
-	app->render->DrawTexture(texture, btnFairyBottle->bounds.x + 3, btnFairyBottle->bounds.y + btnFairyBottle->bounds.h + 3, &goldSection);
-	app->render->DrawText(font, "200", btnFairyBottle->bounds.x + 37, btnFairyBottle->bounds.y + btnFairyBottle->bounds.h + 3, 30, 2, { 255, 255, 255, 255 });
+	app->render->DrawTexture(texture, btnFairyBottle->bounds.x + 8, btnFairyBottle->bounds.y + 8 + btnBack->bounds.y - 520, &itSection);
+	app->render->DrawTexture(texture, btnFairyBottle->bounds.x + 3, btnFairyBottle->bounds.y + btnFairyBottle->bounds.h + 3 + btnBack->bounds.y - 520, &goldSection);
+	app->render->DrawText(font, "200", btnFairyBottle->bounds.x + 37, btnFairyBottle->bounds.y + btnFairyBottle->bounds.h + 3 + btnBack->bounds.y - 520, 30, 2, { 255, 255, 255, 255 });
 
 	itSection = { 320, 0, 64, 64 };
 	btnFairyTear->Draw(app->render, showColliders, 40, { 255, 255, 255, 255 });
-	app->render->DrawTexture(texture, btnFairyTear->bounds.x + 8, btnFairyTear->bounds.y + 8, &itSection);
-	app->render->DrawTexture(texture, btnFairyTear->bounds.x + 3, btnFairyTear->bounds.y + btnFairyTear->bounds.h + 3, &goldSection);
-	app->render->DrawText(font, "100", btnFairyTear->bounds.x + 37, btnFairyTear->bounds.y + btnFairyTear->bounds.h + 3, 30, 2, { 255, 255, 255, 255 });
+	app->render->DrawTexture(texture, btnFairyTear->bounds.x + 8, btnFairyTear->bounds.y + 8 + btnBack->bounds.y - 520, &itSection);
+	app->render->DrawTexture(texture, btnFairyTear->bounds.x + 3, btnFairyTear->bounds.y + btnFairyTear->bounds.h + 3 + btnBack->bounds.y - 520, &goldSection);
+	app->render->DrawText(font, "100", btnFairyTear->bounds.x + 37, btnFairyTear->bounds.y + btnFairyTear->bounds.h + 3 + btnBack->bounds.y - 520, 30, 2, { 255, 255, 255, 255 });
 
 	itSection = { 384, 0, 64, 64 };
 	btnFairyWing->Draw(app->render, showColliders, 40, { 255, 255, 255, 255 });
-	app->render->DrawTexture(texture, btnFairyWing->bounds.x + 8, btnFairyWing->bounds.y + 8, &itSection);
-	app->render->DrawTexture(texture, btnFairyWing->bounds.x, btnFairyWing->bounds.y + btnFairyWing->bounds.h + 3, &goldSection);
-	app->render->DrawText(font, "150", btnFairyWing->bounds.x + 37, btnFairyWing->bounds.y + btnFairyWing->bounds.h + 3, 30, 2, { 255, 255, 255, 255 });
+	app->render->DrawTexture(texture, btnFairyWing->bounds.x + 8, btnFairyWing->bounds.y + 8 + btnBack->bounds.y - 520, &itSection);
+	app->render->DrawTexture(texture, btnFairyWing->bounds.x, btnFairyWing->bounds.y + btnFairyWing->bounds.h + 3 + btnBack->bounds.y - 520, &goldSection);
+	app->render->DrawText(font, "150", btnFairyWing->bounds.x + 37, btnFairyWing->bounds.y + btnFairyWing->bounds.h + 3 + btnBack->bounds.y - 520, 30, 2, { 255, 255, 255, 255 });
 
 	itSection = { 128, 0, 64, 64 };
 	btnOmniPotion->Draw(app->render, showColliders, 40, { 255, 255, 255, 255 });
-	app->render->DrawTexture(texture, btnOmniPotion->bounds.x + 8, btnOmniPotion->bounds.y + 8, &itSection);
-	app->render->DrawTexture(texture, btnOmniPotion->bounds.x + 3, btnOmniPotion->bounds.y + btnOmniPotion->bounds.h + 3, &goldSection);
-	app->render->DrawText(font, "200", btnOmniPotion->bounds.x + 37, btnOmniPotion->bounds.y + btnOmniPotion->bounds.h + 3, 30, 2, { 255, 255, 255, 255 });
+	app->render->DrawTexture(texture, btnOmniPotion->bounds.x + 8, btnOmniPotion->bounds.y + 8 + btnBack->bounds.y - 520, &itSection);
+	app->render->DrawTexture(texture, btnOmniPotion->bounds.x + 3, btnOmniPotion->bounds.y + btnOmniPotion->bounds.h + 3 + btnBack->bounds.y - 520, &goldSection);
+	app->render->DrawText(font, "200", btnOmniPotion->bounds.x + 37, btnOmniPotion->bounds.y + btnOmniPotion->bounds.h + 3 + btnBack->bounds.y - 520, 30, 2, { 255, 255, 255, 255 });
 
 	itSection = { 256, 0, 64, 64 };
 	btnPotion->Draw(app->render, showColliders, 40, { 255, 255, 255, 255 });
-	app->render->DrawTexture(texture, btnPotion->bounds.x + 8, btnPotion->bounds.y + 8, &itSection);
-	app->render->DrawTexture(texture, btnPotion->bounds.x + 3, btnPotion->bounds.y + btnPotion->bounds.h + 3, &goldSection);
-	app->render->DrawText(font, "100", btnPotion->bounds.x + 37, btnPotion->bounds.y + btnPotion->bounds.h + 3, 30, 2, { 255, 255, 255, 255 });
+	app->render->DrawTexture(texture, btnPotion->bounds.x + 8, btnPotion->bounds.y + 8 + btnBack->bounds.y - 520, &itSection);
+	app->render->DrawTexture(texture, btnPotion->bounds.x + 3, btnPotion->bounds.y + btnPotion->bounds.h + 3 + btnBack->bounds.y - 520, &goldSection);
+	app->render->DrawText(font, "100", btnPotion->bounds.x + 37, btnPotion->bounds.y + btnPotion->bounds.h + 3 + btnBack->bounds.y - 520, 30, 2, { 255, 255, 255, 255 });
 
 	itSection = { 192, 0, 64, 64 };
 	btnUltraPotion->Draw(app->render, showColliders, 40, { 255, 255, 255, 255 });
-	app->render->DrawTexture(texture, btnUltraPotion->bounds.x + 8, btnUltraPotion->bounds.y + 8, &itSection);
-	app->render->DrawTexture(texture, btnUltraPotion->bounds.x + 3, btnUltraPotion->bounds.y + btnUltraPotion->bounds.h + 3, &goldSection);
-	app->render->DrawText(font, "150", btnUltraPotion->bounds.x + 37, btnUltraPotion->bounds.y + btnUltraPotion->bounds.h + 3, 30, 2, { 255, 255, 255, 255 });
+	app->render->DrawTexture(texture, btnUltraPotion->bounds.x + 8, btnUltraPotion->bounds.y + 8 + btnBack->bounds.y - 520, &itSection);
+	app->render->DrawTexture(texture, btnUltraPotion->bounds.x + 3, btnUltraPotion->bounds.y + btnUltraPotion->bounds.h + 3 + btnBack->bounds.y - 520, &goldSection);
+	app->render->DrawText(font, "150", btnUltraPotion->bounds.x + 37, btnUltraPotion->bounds.y + btnUltraPotion->bounds.h + 3 + btnBack->bounds.y - 520, 30, 2, { 255, 255, 255, 255 });
 
 	btnBack->Draw(app->render, showColliders, 40, { 0, 0, 0, 255 });
 }
 
 bool Shop::UnLoad()
 {
+	RELEASE(easing);
+	RELEASE(easing2);
+
 	return true;
 }
 
@@ -267,7 +307,7 @@ bool Shop::OnGuiMouseClickEvent(GuiControl* control)
 				player->gold -= 150;
 			}
 		}
-		if (control->id == 9) scene->ChangeState(GameplayMenuState::NONE);
+		if (control->id == 9) easing2->easingsActivated = true;
 		break;
 	}
 	return false;

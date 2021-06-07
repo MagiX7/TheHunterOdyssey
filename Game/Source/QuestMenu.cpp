@@ -21,6 +21,7 @@ QuestMenu::QuestMenu(SceneGameplay* s, QuestManager* qManager, Font* font)
 	btnBack->section = { 1000,0,130,64 };
 
 	easing = new Easing(true, 0, 0, 570, 120);
+	easing2 = new Easing(false, 0, 570, -1070, 120);
 	pos = 0;
 
 	currentControl = nullptr;
@@ -64,6 +65,24 @@ bool QuestMenu::Update(float dt)
 		}
 	}
 
+	if (easing2->easingsActivated)
+	{
+		btnBack->bounds.y = easing2->backEaseIn(easing2->currentIteration, easing2->initialPos, easing2->deltaPos, easing2->totalIterations);
+		pos = easing2->backEaseIn(easing2->currentIteration, 140, -1140, easing2->totalIterations);
+
+		if (easing2->currentIteration < easing2->totalIterations)
+		{
+			easing2->currentIteration++;
+		}
+		else
+		{
+			easing2->easingsActivated = false;
+			easing2->currentIteration = 0;
+			easing->easingsActivated = true;
+			scene->ChangeState(GameplayMenuState::NONE);
+		}
+	}
+
 	btnBack->Update(app->input, dt, id);
 
 	return true;
@@ -100,6 +119,7 @@ bool QuestMenu::UnLoad()
 {
 	RELEASE(btnBack);
 	RELEASE(easing);
+	RELEASE(easing2);
 
 	app->tex->UnLoad(guiTex);
 
@@ -113,10 +133,7 @@ bool QuestMenu::OnGuiMouseClickEvent(GuiControl* control)
 	case GuiControlType::BUTTON:
 		if (control->id == 1)
 		{
-			scene->ChangeState(GameplayMenuState::NONE);
-			btnBack->bounds.y = 0;
-			easing->easingsActivated = true;
-			pos = 0;
+			easing2->easingsActivated = true;
 		}
 		break;
 	}

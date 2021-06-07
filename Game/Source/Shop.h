@@ -5,6 +5,7 @@
 
 class SceneGameplay;
 class Inventory;
+class Easing;
 
 enum class ItemType;
 enum class ArmorType;
@@ -38,6 +39,9 @@ private:
 	SDL_Texture* texture;
 	SDL_Texture* background;
 	Player* player;
+
+	Easing* easing;
+	Easing* easing2;
 
 	GuiButton* btnHelmet;
 	GuiButton* btnChest;
