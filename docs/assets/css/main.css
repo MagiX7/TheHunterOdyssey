@@ -284,6 +284,33 @@ input, select, textarea {
 		text-align: right;
 	}
 
+
+.zoom-within-container {
+	height: 300px; /* [1.1] Set it as per your need */
+	overflow: hidden; /* [1.2] Hide the overflowing of child elements */
+}
+
+	.zoom-within-container img {
+		transition: transform .5s ease;
+	}
+
+	.zoom-within-container:hover img {
+		transform: scale(1.5);
+	}
+
+.zoom-without-container {
+	transition: transform .2s; /* Animation */
+	margin: 0 auto;
+}
+
+	.zoom-without-container img {
+		
+	}
+
+	.zoom-without-container:hover {
+		transform: scale(1.5);
+		/* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+	}
 /* Row */
 
 	.row {
