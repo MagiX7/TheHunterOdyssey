@@ -144,14 +144,14 @@ bool Shop::Update(float dt)
 	if (easing2->easingsActivated)
 	{
 		btnBack->bounds.y = easing2->backEaseIn(easing2->currentIteration, easing2->initialPos, easing2->deltaPos, easing2->totalIterations);
-		btnChest->bounds.y = easing->backEaseOut(easing->currentIteration, 200, easing->deltaPos, easing->totalIterations);
-		btnFairyBottle->bounds.y = easing->backEaseOut(easing->currentIteration, 200, easing->deltaPos, easing->totalIterations);
-		btnFairyTear->bounds.y = easing->backEaseOut(easing->currentIteration, 200, easing->deltaPos, easing->totalIterations);
-		btnFairyWing->bounds.y = easing->backEaseOut(easing->currentIteration, 330, easing->deltaPos, easing->totalIterations);
-		btnHelmet->bounds.y = easing->backEaseOut(easing->currentIteration, 200, easing->deltaPos, easing->totalIterations);
-		btnOmniPotion->bounds.y = easing->backEaseOut(easing->currentIteration, 330, easing->deltaPos, easing->totalIterations);
-		btnPotion->bounds.y = easing->backEaseOut(easing->currentIteration, 330, easing->deltaPos, easing->totalIterations);
-		btnUltraPotion->bounds.y = easing->backEaseOut(easing->currentIteration, 330, easing->deltaPos, easing->totalIterations);
+		btnChest->bounds.y = easing2->backEaseIn(easing2->currentIteration, 200, easing2->deltaPos, easing2->totalIterations);
+		btnFairyBottle->bounds.y = easing2->backEaseIn(easing2->currentIteration, 200, easing2->deltaPos, easing2->totalIterations);
+		btnFairyTear->bounds.y = easing2->backEaseIn(easing2->currentIteration, 200, easing2->deltaPos, easing2->totalIterations);
+		btnFairyWing->bounds.y = easing2->backEaseIn(easing2->currentIteration, 330, easing2->deltaPos, easing2->totalIterations);
+		btnHelmet->bounds.y = easing2->backEaseIn(easing2->currentIteration, 200, easing2->deltaPos, easing2->totalIterations);
+		btnOmniPotion->bounds.y = easing2->backEaseIn(easing2->currentIteration, 330, easing2->deltaPos, easing2->totalIterations);
+		btnPotion->bounds.y = easing2->backEaseIn(easing2->currentIteration, 330, easing2->deltaPos, easing2->totalIterations);
+		btnUltraPotion->bounds.y = easing2->backEaseIn(easing2->currentIteration, 330, easing2->deltaPos, easing2->totalIterations);
 
 		if (easing2->currentIteration < easing2->totalIterations)
 		{
