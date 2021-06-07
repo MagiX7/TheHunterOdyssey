@@ -60,13 +60,13 @@ The Hunter Odyssey is our RPG turn-based video game based on the roots of the ge
    
    · "Y" to open the character swap menu.
    
-   · "A" to start a dialogue.
-
-   · "B" to accept a quest.
+   · "X" to open the inventory.
+   
+   · "A" to start a dialogue or accept a quest
    
    · "START" button to open the pause menu.
 
-   · "BUTTON BACK" to open and close the menu.
+   · "BUTTON BACK" to open and close the quests menu.
 
  - In Menu - inventory - combat:
  
@@ -83,9 +83,12 @@ The Hunter Odyssey is our RPG turn-based video game based on the roots of the ge
    
 - Debug keys:
    
-   · "BACK" button to enable god mode + view all colliders.
-   
-   · "X" to trigger battle scene.
+   · Press "RIGHTSTICK" joystick to enable god mode + view all colliders.
+
+   · To finish the battle earlier, with the Wizard use the Gravity ability; and with the Warrior, the hability Execute (kills the enemy with one hit).
+     With the Hunter attack, and with the Thief use his abilities.
+     
+
 
 ## Developers
 
