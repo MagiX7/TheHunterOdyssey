@@ -1,5 +1,6 @@
 #include "App.h"
 #include "Render.h"
+#include"ParticlesManager.h"
 #include "Textures.h"
 #include"AssetsManager.h"
 #include "SceneBattle.h"
@@ -19,6 +20,7 @@ SceneBattle::SceneBattle(eastl::list<Player*> list, Enemy* enemy, SceneGameplay*
 {
 	battleMenu = new BattleMenu(this, inventory);
 	map = new Map();
+	
 	if (enemy != nullptr)
 	{
 		enemy->SetCurrentState(EnemyState::NORMAL);
@@ -33,7 +35,7 @@ SceneBattle::~SceneBattle()
 
 bool SceneBattle::Load()
 {
-
+	particles = new ParticlesManager();
 	if (scene->isDungeon == true)
 	{
 		map->Load("battle_map2.tmx", app->tex);
@@ -58,6 +60,7 @@ bool SceneBattle::Load()
 		(*it)->bounds.x = 400;
 		(*it)->bounds.y = 150 + (i * 50);
 		(*it)->battlePos = iPoint((*it)->bounds.x, (*it)->bounds.y);
+		(*it)->generatorList(particles, 1);
 	}
 
 	pugi::xml_document animations;
@@ -73,6 +76,9 @@ bool SceneBattle::Load()
 		anims = animations.child("animations");
 
 	Enemy* enemy = nullptr;
+	particles->CreateGenerator({ 0,0 }, ParticleType::FIRE);
+	particles->CreateGenerator({ 0,0 }, ParticleType::MAGIC);
+	particles->CreateGenerator({ 0,0 }, ParticleType::GRAVITY);
 	for (int i = 0; i < 2; ++i)
 	{
 		int num = (rand() % 3) + 1;
@@ -88,11 +94,14 @@ bool SceneBattle::Load()
 			enemy = new Bat(iPoint(650, 230 + (i * 90)), anims);
 			break;
 		}
+		//(rand()%2)
+		enemy->generatorList(particles, 1);
+
 		if (enemy != nullptr) enemyList.push_back(enemy);
 	}
-
+	
 	battleMenu->Load(font);
-
+	
 	app->render->camera.x = 0;
 	app->render->camera.y = 0;
 
@@ -102,19 +111,21 @@ bool SceneBattle::Load()
 bool SceneBattle::Update(float dt)
 {
 	bool ret = true;
-
+	particles->PreUpdate();
 	eastl::list<Player*>::iterator item = playerList.begin();
 	for (; item != playerList.end(); ++item)
 	{
+		(*item)->generatorList(particles, (rand() % 3));
 		(*item)->Update(dt);
 	}
 
 	eastl::list<Enemy*>::iterator it = enemyList.begin();
 	for (; it != enemyList.end(); ++it)
 	{
+		(*it)->generatorList(particles, (rand() % 3));
 		(*it)->Update(dt);
 	}
-
+	particles->Update(dt);
 	if (battleMenu->Update(dt) == false) ret = false;
 
 	return ret;
@@ -136,7 +147,7 @@ void SceneBattle::Draw(bool colliders)
 	{
 		(*it)->Draw(colliders);
 	}
-
+	particles->PostUpdate();
 	battleMenu->Draw(font, colliders);
 }
 
@@ -156,7 +167,7 @@ bool SceneBattle::UnLoad()
 	}
 
 	playerList.clear();
-
+	particles->CleanUp();
 	enemyList.clear();
 
 	map->CleanUp();

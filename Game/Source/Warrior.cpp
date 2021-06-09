@@ -150,6 +150,7 @@ bool Warrior::Update(float dt)
 
 			if (bounds.x == target->bounds.x && bounds.y == target->bounds.y)
 			{
+				startPaarticles(iPoint(target->bounds.x, target->bounds.y), -1);
 				app->audio->PlayFx(channel, attackFx);
 				attack = true;
 				attackAnim.Reset();

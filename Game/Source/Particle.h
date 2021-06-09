@@ -6,6 +6,13 @@ enum class ParticleState {
 	STARTING,
 	TOELIM
 };
+class rect {
+public:
+	int x;
+	int y;
+	int w;
+	int h;
+};
 class Particle {
 public:
 	Particle(ParticleState State);
@@ -18,6 +25,8 @@ public:
 	Point<int> GetGoal();
 	void SetGoal(Point<int> goal);
 	void SetCurrentLive(float num);
+	float GetCurrentLive();
+	float GetMaxLive();
 	Point<float> GetVelocity();
 	Point<float>* GetVelocityPointer();
 	int GetAngle();
@@ -31,6 +40,8 @@ public:
 	bool IsDead();
 	int GetAlpha();
 	void SetAlpha(int Alpha);
+	void setBounds(rect rect);
+	rect getBounds();
 private:
 	int alpha;
 	Point<float> position;
@@ -41,6 +52,7 @@ private:
 	float maxLive;
 	float currentLive;
 	Point<int> Goal;
+	rect bounds;
 };
 
 

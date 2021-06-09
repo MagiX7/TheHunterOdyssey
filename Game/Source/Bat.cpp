@@ -3,7 +3,6 @@
 #include "Textures.h"
 #include "Font.h"
 #include "Audio.h"
-
 #include "Bat.h"
 #include "Player.h"
 
@@ -100,6 +99,11 @@ bool Bat::Update(float dt)
 			Travel(iPoint(target->bounds.x, target->bounds.y), dt);
 			if (bounds.x < (target->bounds.x + (target->bounds.w / 2)) && bounds.y == target->bounds.y)
 			{
+				startPaarticles(iPoint(target->bounds.x, target->bounds.y),-1);
+				//set generator state(start) 
+				//particlesBattle->setGeneratorState(particleNum, GeneratorState::STARTING);
+				//particlesBa->SetPosition({ target->bounds.x,target->bounds.y });
+				//set geneartor position
 				attack = true;
 				app->audio->PlayFx(channel, attackFx);
 				target->GetDamage(damage);

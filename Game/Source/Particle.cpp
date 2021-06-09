@@ -5,6 +5,15 @@ Particle::Particle(ParticleState State) {
 Particle::~Particle() {
 
 }
+rect Particle::getBounds() {
+	return bounds;
+}
+void Particle::setBounds(rect rect) {
+	bounds.x = rect.x;
+	bounds.y = rect.y;
+	bounds.w = rect.w;
+	bounds.h = rect.h;
+}
 ParticleState Particle::GetState() {
 	return state;
 }
@@ -13,6 +22,12 @@ void Particle::Draw() {
 }
 void Particle::SetRotation(int Rotation) {
 	rotation = Rotation;
+}
+float Particle::GetCurrentLive() {
+	return currentLive;
+}
+float Particle::GetMaxLive() {
+	return maxLive;
 }
 int Particle::GetAlpha() {
 	return alpha;

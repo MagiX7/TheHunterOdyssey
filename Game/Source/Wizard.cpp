@@ -151,6 +151,7 @@ bool Wizard::Update(float dt)
 
 			if (bounds.x == target->bounds.x && bounds.y == target->bounds.y)
 			{
+				startPaarticles(iPoint(target->bounds.x, target->bounds.y),-1);
 				app->audio->PlayFx(channel, attackFx);
 				attack = true;
 				attackAnim.Reset();
@@ -370,6 +371,7 @@ void Wizard::Ability(Enemy* enemy, int currentAbility)
 	case 4:
 		GetMana(-this->abilityCost[3]);
 		enemy->GetDamage(magicDamage * 2);
+		startPaarticles(iPoint(enemy->bounds.x, enemy->bounds.y), 2);
 		LOG("Casting GRAVITY");
 		break;
 	}

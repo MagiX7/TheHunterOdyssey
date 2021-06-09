@@ -91,6 +91,9 @@ bool Skull::Update(float dt)
 			Travel(iPoint(target->bounds.x, target->bounds.y), dt);
 			if (bounds.x == target->bounds.x && bounds.y == target->bounds.y)
 			{
+				startPaarticles(iPoint(target->bounds.x, target->bounds.y), -1);
+				//particlesBattle->setGeneratorState(particleNum, GeneratorState::STARTING);
+				//particlesBa->SetPosition({ target->bounds.x,target->bounds.y });
 				attack = true;
 				app->audio->PlayFx(channel, attackFx);
 				target->GetDamage(damage);

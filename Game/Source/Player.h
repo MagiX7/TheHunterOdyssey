@@ -40,7 +40,7 @@ public:
 	Player(PlayerType t, EntityType type, iPoint position);
 
 	virtual ~Player();
-
+	void startPaarticles(iPoint pos,int particle);
 	virtual bool Load() override;
 	
 	virtual bool Update(float dt) override;
@@ -154,6 +154,7 @@ protected:
 	virtual void Travel(iPoint destination, float dt) {}
 
 public:
+	//int particleNum;
 	PlayerType playerType;
 	PlayerStance stance;
 	iPoint battlePos;

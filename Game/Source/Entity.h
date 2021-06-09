@@ -4,9 +4,8 @@
 #include "SDL/include/SDL_rect.h"
 #include "PugiXml/src/pugixml.hpp"
 #include "SString.h"
-
 #include "Animation.h"
-
+#include"ParticlesManager.h"
 class Player;
 struct SDL_Texture;
 
@@ -54,53 +53,52 @@ enum class EntityType
 class Entity
 {
 public:
-	Entity() {}
-	Entity(EntityType type) : type(type) {}
+	Entity();
+	Entity(EntityType type);
 
-	virtual ~Entity(){}
-
-	virtual bool Load() { return true; }
+	virtual ~Entity();
+	virtual bool Load();
 	
-	virtual bool Update(float dt) { return true; }
+	virtual bool Update(float dt);
 
-	virtual bool CheckCollisions() { return true; }
+	virtual bool CheckCollisions();
 	
-	virtual void Draw(bool showColliders) {}
+	virtual void Draw(bool showColliders);
 
-	virtual bool UnLoad() { return true; }
+	virtual bool UnLoad();
 
-	virtual bool LoadState(pugi::xml_node& node) { return true; }
+	virtual bool LoadState(pugi::xml_node& node);
 
-	virtual bool SaveState(pugi::xml_node& node) { return true; } 
-	
-	virtual void OnCollision() {}
+	virtual bool SaveState(pugi::xml_node& node);
+	virtual void OnCollision();
 
-	virtual void SetInactive(){}
+	virtual void SetInactive();
 
-	virtual void SetActive() {}
+	virtual void SetActive();
+	void generatorList(ParticlesManager* Fire, int num);
+	virtual inline void SetState(EntityState myState);
+	virtual void SetBounds(SDL_Rect myBounds);
 
-	virtual inline void SetState(EntityState myState) { state = myState; }
-	virtual void SetBounds(SDL_Rect myBounds) {}
+	virtual EntityState GetState();
 
-	virtual EntityState GetState() { return EntityState::STOP_DOWN; }
+	virtual bool CheckCollision(Player* player);
 
-	virtual bool CheckCollision(Player* player) { return true; }
+	virtual inline int const GetDialogeId() const;
 
-	virtual inline int const GetDialogeId() const { return -1; }
-
-	virtual void SetDrawPtext(bool DrawPtext) {}
-	virtual void SetTalkStart(bool TalkStart) {}
-	
+	virtual void SetDrawPtext(bool DrawPtext);
+	virtual void SetTalkStart(bool TalkStart);
+	int getParticlesNum();
 public:
 	SDL_Rect bounds;
 	SString name;
 	EntityType type;
 	EntityState state;
 	SDL_Texture* texture;
-
+	ParticlesManager* particlesBattle;
 	Animation* currentAnim;
 	int channel;
 	int id;
+	int particleNum;
 };
 
 #endif //__ENTITY_H__

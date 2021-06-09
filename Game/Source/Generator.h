@@ -10,6 +10,9 @@
 #define metersToPixels(x) x*30
 enum class ParticleType {
 	DUST,
+	FIRE,
+	MAGIC,
+	GRAVITY,
 	NONE
 };
 enum class GeneratorState {
@@ -29,6 +32,7 @@ public:
 	void Restart();
 	void SetGoal(Point<int> Goal);
 	void SetPosition(Point<int> Position);
+	void SetGeneratorState(GeneratorState State);
 	void SetParameters(Point<int> Rang);
 	void SetParticlesDesactivated();
 	bool PreUpdate();
@@ -37,6 +41,11 @@ public:
 	bool IfHasFinished(Point<float> positionA, Point<int> positionB);
 	Point<float> Integrator(Point<float>*Velocity, float dt, Point<float>Acceleration);
 	void CleanUp();
+	void setGeneratorLive(float num);
+	float getCurrentLive();
+	void sumGeneratorLive(float num);
+	void setGeneratorMaxLive(float num);
+	float getMaxLive();
 private:
 	int maxParticles;
 	List<Particle*>particleList;
@@ -45,8 +54,11 @@ private:
 	Point<int> rang;
 	Point<int> temporalGoal;
 	Point<int> temporalPosition;
-	int timeCounter;
+	float generatorLive;
+	float maxGeneratorLive;
+	float timeCounter;
 	SDL_Texture* texture;
+	bool startFireLoop;
 };
 
 

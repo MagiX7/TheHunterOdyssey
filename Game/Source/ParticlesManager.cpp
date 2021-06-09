@@ -83,7 +83,32 @@ bool ParticlesManager::Update(float dt)
 	}
 	return true;
 }
-
+void ParticlesManager::setGeneratorState(int num, GeneratorState state) 
+{
+	int aux=0;
+	for (ListItem<Generator*>* auxiliar = generatorList.start; auxiliar != nullptr; auxiliar = auxiliar->next)
+	{
+		if (aux==num)
+		{
+			auxiliar->data->SetGeneratorState(state);
+			break;
+		}
+		aux++;
+	}
+}
+void ParticlesManager::setGeneratorPosition(int num,iPoint Position)
+{
+	int aux = 0;
+	for (ListItem<Generator*>* auxiliar = generatorList.start; auxiliar != nullptr; auxiliar = auxiliar->next)
+	{
+		if (aux == num)
+		{
+			auxiliar->data->SetPosition(Position);
+			break;
+		}
+		aux++;
+	}
+}
 bool ParticlesManager::PostUpdate()
 {
 	for (ListItem<Generator*>* auxiliar = generatorList.start; auxiliar != nullptr; auxiliar = auxiliar->next)
@@ -112,16 +137,7 @@ void ParticlesManager::UpdateGeneratorPosition(Generator* generator, Point<int> 
 Generator* ParticlesManager::CreateGenerator(Point<int> position, ParticleType type)
 {
 	Generator* generator = nullptr;
-	switch (type)
-	{
-	case ParticleType::DUST:
-		generator = new Generator(type);
-		break;
-	case ParticleType::NONE:
-		break;
-	default:
-		break;
-	}
+	generator = new Generator(type);
 	generator->SetPosition(position);
 	generatorList.Add(generator);
 	return generator;

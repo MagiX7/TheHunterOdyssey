@@ -34,7 +34,18 @@ bool Player::Load()
 
 	return ret;
 }
-
+void Player::startPaarticles(iPoint pos,int particle) {
+	if (particle == -1) {
+		particlesBattle->setGeneratorState(particleNum, GeneratorState::STARTING);
+		particlesBattle->setGeneratorPosition(particleNum, pos);
+	}
+	else {
+		particlesBattle->setGeneratorState(particle, GeneratorState::STARTING);
+		particlesBattle->setGeneratorPosition(particle, pos);
+	}
+	
+	//particleNum
+}
 bool Player::Update(float dt)
 {
 	bool ret = true;

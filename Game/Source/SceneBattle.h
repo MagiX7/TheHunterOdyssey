@@ -9,7 +9,7 @@ class BattleMenu;
 class SceneGameplay;
 class Map;
 class Inventory;
-
+class ParticlesManager;
 class SceneBattle : public Scene
 {
 public:
@@ -42,7 +42,7 @@ private:
 	// Reference for the scene
 	SceneGameplay* scene;
 	Font* font;
-
+	ParticlesManager* particles;
 	Map* map;
 	// Menu
 	BattleMenu* battleMenu;

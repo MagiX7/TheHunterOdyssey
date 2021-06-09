@@ -106,6 +106,8 @@
     <ClCompile Include="Source\Door.cpp" />
     <ClCompile Include="Source\Easings.cpp" />
     <ClCompile Include="Source\EndingMenu.cpp" />
+    <ClCompile Include="Source\Enemy.cpp" />
+    <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\EntityManager.cpp" />
     <ClCompile Include="Source\FairyBottle.cpp" />
     <ClCompile Include="Source\FairyTear.cpp" />
