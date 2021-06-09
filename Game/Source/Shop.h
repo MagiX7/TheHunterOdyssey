@@ -52,4 +52,7 @@ private:
 	GuiButton* btnPotion;
 	GuiButton* btnUltraPotion;
 	GuiButton* btnBack;
+
+	int purchaseFx;
+	int channel;
 };

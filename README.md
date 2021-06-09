@@ -142,6 +142,8 @@ Puzzle completed FX: https://creativecommons.org/publicdomain/zero/1.0/
 
 Characters footsteps and doors FX: https://creativecommons.org/publicdomain/zero/1.0/
 
+Shop purchase FX: https://www.youtube.com/watch?v=9970posS1OA
+
 ----
 Check our github repository [here](https://github.com/MagiX7/Project-II).
 

@@ -1,6 +1,7 @@
 #include "App.h"
 #include "Input.h"
 #include "Render.h"
+#include "Audio.h"
 
 #include "SceneGameplay.h"
 #include "Inventory.h"
@@ -41,6 +42,7 @@ Shop::Shop(SceneGameplay* s, Inventory* inven, SDL_Texture* at, Player* current)
 	easing2 = new Easing(false, 0, 570, 800, 90);
 
 	atlas = at;
+	channel = app->audio->SetChannel();
 }
 
 Shop::~Shop()
@@ -51,6 +53,7 @@ bool Shop::Load(Font* font)
 {
 	texture = app->tex->Load("Textures/UI/items_shop.png");
 	background = app->tex->Load("Textures/UI/shop_background.png");
+	purchaseFx = app->audio->LoadFx("Audio/Fx/Gameplay/shop_purchase.wav");
 
 	btnHelmet = new GuiButton(1, { 375, 720, 80, 80 }, "", this, font);
 	btnHelmet->texture = texture;
@@ -262,6 +265,7 @@ bool Shop::OnGuiMouseClickEvent(GuiControl* control)
 			{
 				inventory->AddItem(CreateItem(ArmorType::HELMET));
 				player->gold -= 250;
+				app->audio->PlayFx(channel, purchaseFx);
 			}
 		}
 		else if (control->id == 2)
@@ -270,6 +274,7 @@ bool Shop::OnGuiMouseClickEvent(GuiControl* control)
 			{
 				inventory->AddItem(CreateItem(ArmorType::CHEST));
 				player->gold -= 250;
+				app->audio->PlayFx(channel, purchaseFx);
 			}
 		}
 		else if (control->id == 3)
@@ -286,6 +291,7 @@ bool Shop::OnGuiMouseClickEvent(GuiControl* control)
 			{
 				inventory->AddItem(CreateItem(ItemType::FAIRY_TEAR));
 				player->gold -= 100;
+				app->audio->PlayFx(channel, purchaseFx);
 			}
 		}
 		else if (control->id == 5)
@@ -294,6 +300,7 @@ bool Shop::OnGuiMouseClickEvent(GuiControl* control)
 			{
 				inventory->AddItem(CreateItem(ItemType::FAIRY_WING));
 				player->gold -= 150;
+				app->audio->PlayFx(channel, purchaseFx);
 			}
 		}
 		else if (control->id == 6)
@@ -302,6 +309,7 @@ bool Shop::OnGuiMouseClickEvent(GuiControl* control)
 			{
 				inventory->AddItem(CreateItem(ItemType::OMNI_POTION));
 				player->gold -= 200;
+				app->audio->PlayFx(channel, purchaseFx);
 			}
 		}
 		else if (control->id == 7)
@@ -310,6 +318,7 @@ bool Shop::OnGuiMouseClickEvent(GuiControl* control)
 			{
 				inventory->AddItem(CreateItem(ItemType::POTION));
 				player->gold -= 100;
+				app->audio->PlayFx(channel, purchaseFx);
 			}
 		}
 		else if (control->id == 8)
@@ -318,6 +327,7 @@ bool Shop::OnGuiMouseClickEvent(GuiControl* control)
 			{
 				inventory->AddItem(CreateItem(ItemType::ULTRA_POTION));
 				player->gold -= 150;
+				app->audio->PlayFx(channel, purchaseFx);
 			}
 		}
 		if (control->id == 9) easing2->easingsActivated = true;
@@ -391,7 +401,7 @@ void Shop::UpdatingButtons(Input* input)
 			}
 		}
 	}
-	else if (input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_DOWN)
+	else if (input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KEY_DOWN)
 	{
 		if (currentControl == nullptr)
 		{
@@ -411,7 +421,7 @@ void Shop::UpdatingButtons(Input* input)
 			}
 		}
 	}
-	else if (input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN)
+	else if (input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || input->pad->GetButton(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KEY_DOWN)
 	{
 		if (currentControl == nullptr)
 		{

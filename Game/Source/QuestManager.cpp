@@ -387,7 +387,7 @@ void QuestManager::Draw(Render* render, Font* font)
 		else
 		{
 			render->DrawCenterText(font, "Quest Completed!", rect, 64, 5, { 255, 255, 255 });
-			render->DrawText(font, "Press ENTER to continue", 765, 560, 24, 3, { 255, 255, 255 });
+			render->DrawText(font, "Press A to continue", 765, 560, 24, 3, { 255, 255, 255 });
 		}
 	}
 
@@ -406,7 +406,7 @@ void QuestManager::Draw(Render* render, Font* font)
 			rect.h = 0;
 			render->DrawCenterText(font, questActive->name.c_str(), rect, 50, 5, { 255, 255, 255 });
 			render->DrawText(font, questActive->description.c_str(), 250, 270, 24, 3, { 255, 255, 255 }, 1050);
-			render->DrawText(font, "Press ENTER to continue", 765, 560, 24, 3, { 255, 255, 255 });
+			render->DrawText(font, "Press A to continue", 800, 560, 24, 3, { 255, 255, 255 });
 		}
 	}
 }
