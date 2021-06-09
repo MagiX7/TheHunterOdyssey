@@ -145,9 +145,10 @@ bool DialogueManager::Update(float dt)
 				}
 			}
 
-			if (app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_REPEAT) current->currentNode->currentOption->isPressed = true;
+			if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_REPEAT || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_REPEAT) 
+				current->currentNode->currentOption->isPressed = true;
 			// If player presses enter, means he has chosen an option
-			if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_UP)
+			if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_UP)
 			{
 				current->currentNode->currentOption->isPressed = true;
 
@@ -167,7 +168,7 @@ bool DialogueManager::Update(float dt)
 
 		if (current->currentNode->id == -1)
 		{
-			if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_UP)
+			if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_UP || app->input->pad->GetButton(SDL_CONTROLLER_BUTTON_A) == KEY_UP)
 			{
 				// Dialog finished
 				current->currentNode->dialogFinished = false;

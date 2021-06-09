@@ -387,7 +387,7 @@ void QuestManager::Draw(Render* render, Font* font)
 		else
 		{
 			render->DrawCenterText(font, "Quest Completed!", rect, 64, 5, { 255, 255, 255 });
-			render->DrawText(font, "Press A to continue", 765, 560, 24, 3, { 255, 255, 255 });
+			render->DrawText(font, "Press A to continue", 800, 560, 24, 3, { 255, 255, 255 });
 		}
 	}
 

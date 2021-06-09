@@ -9,7 +9,7 @@
 
 DialogueOption::DialogueOption()
 {
-	id = 0; nextNodeId = 0;
+	id = 0; nextNodeId = 0; isPressed = false; missionId = -1; menu = -1;
 }
 
 DialogueOption::~DialogueOption()

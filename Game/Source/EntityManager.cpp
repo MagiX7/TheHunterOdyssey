@@ -202,7 +202,7 @@ void EntityManager::DeleteAllNpcActive()
 		if (entity->GetState() != EntityState::INACTIVE) 
 		{
 			if (entity->type == EntityType::NPC_WIZARD || entity->type == EntityType::RAY ||
-				entity->type == EntityType::TOWN || entity->type == EntityType::TABERN)
+				entity->type == EntityType::TOWN || entity->type == EntityType::TABERN || entity->type == EntityType::MERCHANT)
 			{
 				entity->UnLoad();
 				RELEASE((*item));

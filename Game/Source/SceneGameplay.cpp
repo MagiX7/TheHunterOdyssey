@@ -1580,7 +1580,7 @@ void SceneGameplay::LoadNpc(SString mapName)
 	}
 	else if (mapName == "pub.tmx")
 	{
-		iPoint position = { 670,280 };
+		iPoint position = { 638,280 };
 		Npc* npc = (Npc*)entityManager->CreateEntity(EntityType::TOWN, position, anims, 4);
 		npc->NpcMove(false);
 
