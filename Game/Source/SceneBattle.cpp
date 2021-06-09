@@ -168,8 +168,9 @@ bool SceneBattle::UnLoad()
 
 	playerList.clear();
 	particles->CleanUp();
+	RELEASE(particles)
 	enemyList.clear();
-
+	
 	map->CleanUp();
 	RELEASE(map);
 
