@@ -54,9 +54,8 @@ CharacterManager::CharacterManager(SceneGameplay* s, PlayerType type, Font* font
 		break;
 	}
 
-	easing = new Easing(true, 0, 0, 180, 80);
-	easing2 = new Easing(false, 0, 180, -680, 90);
-	counter = 0;
+	easing = new Easing(true, 0, 0, 90, 80);
+	easing2 = new Easing(false, 0, 90, -750, 90);
 }
 
 CharacterManager::~CharacterManager()
@@ -88,10 +87,10 @@ bool CharacterManager::Update(float dt)
 	if (easing->easingsActivated)
 	{
 		btnHunter->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, easing->deltaPos, easing->totalIterations);
-		btnWizard->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, 265, easing->totalIterations);
-		btnThief->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, 350, easing->totalIterations);
-		btnWarrior->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, 435, easing->totalIterations);
-		btnExit->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, 517, easing->totalIterations);
+		btnWizard->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, 160, easing->totalIterations);
+		btnThief->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, 230, easing->totalIterations);
+		btnWarrior->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, 300, easing->totalIterations);
+		btnExit->bounds.y = easing->backEaseOut(easing->currentIteration, easing->initialPos, 500, easing->totalIterations);
 
 		if (easing->currentIteration < easing->totalIterations)
 			easing->currentIteration++;
@@ -105,10 +104,10 @@ bool CharacterManager::Update(float dt)
 	if (easing2->easingsActivated)
 	{
 		btnHunter->bounds.y = easing2->backEaseIn(easing2->currentIteration, easing2->initialPos, easing2->deltaPos, easing2->totalIterations);
-		btnWizard->bounds.y = easing2->backEaseIn(easing2->currentIteration, 265, -765, easing2->totalIterations);
-		btnThief->bounds.y = easing2->backEaseIn(easing2->currentIteration, 350, -850, easing2->totalIterations);
-		btnWarrior->bounds.y = easing2->backEaseIn(easing2->currentIteration, 435, -935, easing2->totalIterations);
-		btnExit->bounds.y = easing2->backEaseIn(easing2->currentIteration, 517, -1017, easing2->totalIterations);
+		btnWizard->bounds.y = easing2->backEaseIn(easing2->currentIteration, 160, -765, easing2->totalIterations);
+		btnThief->bounds.y = easing2->backEaseIn(easing2->currentIteration, 230, -850, easing2->totalIterations);
+		btnWarrior->bounds.y = easing2->backEaseIn(easing2->currentIteration, 300, -935, easing2->totalIterations);
+		btnExit->bounds.y = easing2->backEaseIn(easing2->currentIteration, 500, -1017, easing2->totalIterations);
 
 		if (easing2->currentIteration < easing2->totalIterations)
 			easing2->currentIteration++;
@@ -116,6 +115,24 @@ bool CharacterManager::Update(float dt)
 		{
 			easing2->currentIteration = 0;
 			easing2->easingsActivated = false;
+
+			controls.clear();
+			controls.push_back(btnHunter);
+			controls.push_back(btnWizard);
+			controls.push_back(btnThief);
+			controls.push_back(btnWarrior);
+			controls.push_back(btnExit);
+			currentControl = (*controls.begin());
+
+			btnHunter->bounds.y = 0;
+			btnThief->bounds.y = 0;
+			btnWarrior->bounds.y = 0;
+			btnWizard->bounds.y = 0;
+			btnExit->bounds.y = 0;
+			easing->easingsActivated = true;
+
+			scene->ChangeState(GameplayMenuState::NONE);
+			currentControl = (*controls.begin());
 		}
 	}
 
@@ -124,28 +141,6 @@ bool CharacterManager::Update(float dt)
 	btnThief->Update(app->input, dt, id);
 	btnWarrior->Update(app->input, dt, id);
 	btnExit->Update(app->input, dt, id);
-
-	if (counter > 100 && app->frameCount - counter >= 120)
-	{
-		controls.clear();
-		controls.push_back(btnHunter);
-		controls.push_back(btnWizard);
-		controls.push_back(btnThief);
-		controls.push_back(btnWarrior);
-		controls.push_back(btnExit);
-		currentControl = (*controls.begin());
-
-		btnHunter->bounds.y = 0;
-		btnThief->bounds.y = 0;
-		btnWarrior->bounds.y = 0;
-		btnWizard->bounds.y = 0;
-		btnExit->bounds.y = 0;
-		easing->easingsActivated = true;
-		counter = 0;
-
-		scene->ChangeState(GameplayMenuState::NONE);
-		currentControl = (*controls.begin());
-	}
 
 	return true;
 }
@@ -156,7 +151,7 @@ void CharacterManager::Draw(Font* font, bool showColliders)
 	app->render->DrawRectangle({ 0, 0, 1280, 720 }, 0, 0, 0, 150, true, false);
 
 	SDL_Rect section = { 0,0,430,650 };
-	app->render->DrawTexture(guiTex, 425, btnHunter->bounds.y - 150, &section, false);
+	app->render->DrawTexture(guiTex, 425, btnHunter->bounds.y - 150 + 90, &section, false);
 
 	btnHunter->Draw(app->render, showColliders, 36, { 0,0,0,255 });
 	btnWizard->Draw(app->render, showColliders, 36, { 0, 0, 0, 255 });
@@ -237,7 +232,6 @@ bool CharacterManager::OnGuiMouseClickEvent(GuiControl* control)
 		}
 		else if (control->id == 5) // Exit
 		{
-			counter = app->frameCount;
 			easing2->easingsActivated = true;
 		}
 

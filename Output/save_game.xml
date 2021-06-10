@@ -6,30 +6,9 @@
   <textures />
   <audio />
   <scenemanager>
-    <scenegameplay map_name="town_map.tmx" first_quest="true">
+    <scenegameplay map_name="graveyard_path.tmx" first_quest="true">
       <entities>
-        <NPCs amount="4">
-          <NPC>
-            <bounds X="278" Y="250" W="30" H="32" />
-            <NpcType type="TOWN" />
-            <Dialoge idDialoge="0" />
-          </NPC>
-          <NPC>
-            <bounds X="608" Y="1046" W="30" H="32" />
-            <NpcType type="RAY" />
-            <Dialoge idDialoge="3" />
-          </NPC>
-          <NPC>
-            <bounds X="778" Y="810" W="30" H="32" />
-            <NpcType type="TABERN" />
-            <Dialoge idDialoge="2" />
-          </NPC>
-          <NPC>
-            <bounds X="578" Y="350" W="30" H="32" />
-            <NpcType type="NPC_WIZARD" />
-            <Dialoge idDialoge="1" />
-          </NPC>
-        </NPCs>
+        <NPCs amount="0" />
         <Enemies amount="3">
           <Enemy>
             <bounds X="608" Y="352" W="74" H="74" />
@@ -53,7 +32,7 @@
         <players amount="4">
           <player>
             <isCurrent current="true" />
-            <bounds X="260" Y="290" W="26" H="32" />
+            <bounds X="525" Y="493" W="26" H="32" />
             <Equipment />
           </player>
           <player>
@@ -96,12 +75,6 @@
             <map_name value="town_map.tmx" />
           </item>
           <item>
-            <position x="512" y="800" />
-            <object_type value="1" />
-            <item_type value="6" />
-            <map_name value="town_map.tmx" />
-          </item>
-          <item>
             <position x="1376" y="1056" w="32" h="32" />
             <object_type value="2" />
             <armor_type value="1" />
@@ -117,7 +90,14 @@
       </entities>
       <inventory>
         <items>
-          <slot />
+          <slot amount="1" filled="true" id="0" state="1">
+            <item>
+              <position x="466" y="369" />
+              <object_type value="1" />
+              <item_type value="6" />
+              <map_name value="town_map.tmx" />
+            </item>
+          </slot>
           <slot />
           <slot />
           <slot />

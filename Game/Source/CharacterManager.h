@@ -44,5 +44,4 @@ private:
 
 	Easing* easing;
 	Easing* easing2;
-	int counter;
 };
