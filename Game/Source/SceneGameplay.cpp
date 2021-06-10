@@ -46,7 +46,6 @@
 
 #include "Log.h"
 
-#include "Optick/include/optick.h"
 
 #define NPC_RADIUS 10
 
@@ -214,8 +213,6 @@ bool SceneGameplay::Load()
 
 bool SceneGameplay::Update(float dt)
 {
-	OPTICK_EVENT("Scene Gameplay Update");
-
 	UpdatingButtons(app->input);
 
 	bool ret = true;

@@ -6,8 +6,6 @@
 // NOTE: SDL redefines main function
 #include "SDL/include/SDL.h"
 
-#include "Optick/include/optick.h"
-
 #include <stdlib.h>
 
 enum MainState
@@ -78,7 +76,6 @@ int main(int argc, char* args[])
 			// Loop all modules until we are asked to leave ---------------------
 			case LOOP:
 			{
-				OPTICK_FRAME("Main Loop");
 				if (app->Update() == false)
 					state = CLEAN;
 			}
