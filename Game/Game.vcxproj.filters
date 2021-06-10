@@ -483,6 +483,7 @@
     <ClInclude Include="Source\Shop.h">
       <Filter>Menus</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -539,5 +540,11 @@
     <Filter Include="Quests">
       <UniqueIdentifier>{d65c44b8-49d3-4da5-81a4-daa1654b653f}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon.ico" />
   </ItemGroup>
 </Project>
