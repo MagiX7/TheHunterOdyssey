@@ -1,0 +1,10 @@
+Date: 07/05/2021
+
+Start time: 10:10 am.
+
+End time: 10.45 pm.
+
+Topics discussed:
+	- FX for the gameplay scene
+	- Inventory redesign and textures to use
+	

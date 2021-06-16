@@ -1,0 +1,10 @@
+Date: 30/04/2021
+
+Start time: 10:15 am.
+
+End time: 10.45 pm.
+
+Topics discussed:
+	- Inventory functionalitites.
+	- Tasks assigned.
+	- Quest Manager first approach.
