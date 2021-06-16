@@ -74,6 +74,8 @@ The Hunter Odyssey is our RPG turn-based video game based on the roots of the ge
    
    · "B" to decline or going back.
    
+   · In inventory, "RB" or "LB" to switch between characters
+   
    · Left joystick and pad to move the selection.
 
 - Title scene:
