@@ -1,0 +1,10 @@
+Date: 14/05/2021
+
+Start time: 10:10 am.
+
+End time: 10.45 pm.
+
+Topics discussed:
+	- Puzzles implementation
+	- Automated builds
+	- Resolving bugs

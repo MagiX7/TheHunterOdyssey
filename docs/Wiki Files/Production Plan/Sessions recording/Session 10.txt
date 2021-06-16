@@ -1,0 +1,10 @@
+Date: 23/04/2021
+
+Start time: 16:15 pm.
+
+End time: 16:45 pm.
+
+Topics discussed:
+	- Inventory design + organization.
+	- Battle scene menu redesign.
+	- Main menu redesign.
